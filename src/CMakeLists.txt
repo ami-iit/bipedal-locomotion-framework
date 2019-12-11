@@ -2,4 +2,5 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+add_subdirectory(OptimalControlUtilities)
 add_subdirectory(BipedalLocomotionControllers)
