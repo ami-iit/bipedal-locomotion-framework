@@ -28,6 +28,30 @@ endif()
 # See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
 include(GNUInstallDirs)
 
+# Control where libraries and executables are placed during the build.
+# With the following settings executables are placed in <the top level of the
+# build tree>/bin and libraries/archives in <top level of the build tree>/lib.
+# This is particularly useful to run ctests on libraries built on Windows
+# machines: tests, which are executables, are placed in the same folders of
+# dlls, which are treated as executables as well, so that they can properly
+# find the libraries to run. This is a because of missing RPATH on Windows.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+
+# To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
+# See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
+# See https://blog.kitware.com/create-dlls-on-windows-without-declspec-using-new-cmake-export-all-feature/
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+# Under MSVC, we set CMAKE_DEBUG_POSTFIX to "d" to add a trailing "d" to library
+# built in debug mode. In this Windows user can compile, build and install the
+# library in both Release and Debug configuration avoiding naming clashes in the
+# installation directories.
+if(MSVC)
+    set(CMAKE_DEBUG_POSTFIX "d")
+endif()
+
 option(ENABLE_RPATH "Enable RPATH for this library" ON)
 mark_as_advanced(ENABLE_RPATH)
 include(AddInstallRPATHSupport)
