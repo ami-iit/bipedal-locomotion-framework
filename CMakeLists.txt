@@ -24,6 +24,10 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${ROBOTOLOGY_BUILD_TYPES})
 endif()
 
+# Defines the CMAKE_INSTALL_LIBDIR, CMAKE_INSTALL_BINDIR and many other useful macros.
+# See https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
+include(GNUInstallDirs)
+
 option(ENABLE_RPATH "Enable RPATH for this library" ON)
 mark_as_advanced(ENABLE_RPATH)
 include(AddInstallRPATHSupport)
