@@ -9,7 +9,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 // constraint
 

@@ -17,6 +17,8 @@
 
 namespace BipedalLocomotionControllers
 {
+namespace OptimalControlUtilities
+{
 /**
  * Constraints class handles the equality and inequality constraint for a QP
  * optimization problem. i.e. \f$ l \le A x \le u \f$ where
@@ -211,6 +213,7 @@ public:
     const std::unordered_map<std::string, CostFunction::CostFunctionElement>&
     getCostFunctions() const;
 };
+} // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_OPTIMIZATION_PROBLEM_ELEMENTS_H

@@ -26,6 +26,10 @@
 
 namespace BipedalLocomotionControllers
 {
+
+namespace OptimalControlUtilities
+{
+
 /**
  * The struct frame defines a Frame in a ControlProblemElement
  */
@@ -735,6 +739,7 @@ public:
      */
     virtual const iDynTree::VectorDynSize& getLowerBound() final;
 };
+} // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_CONTROL_PROBLEM_ELEMENTS_H

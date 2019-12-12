@@ -10,7 +10,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/PID.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 const iDynTree::Vector3& CartesianPID::getControllerOutput()
 {

@@ -9,7 +9,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 bool VariableHandler::addVariable(const std::string& name, const unsigned int& size) noexcept
 {

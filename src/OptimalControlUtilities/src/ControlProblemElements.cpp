@@ -12,7 +12,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 // Control Problem Element Function
 ControlProblemElement::ControlProblemElement(iDynTree::KinDynComputations& kinDyn)

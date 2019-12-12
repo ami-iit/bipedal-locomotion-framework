@@ -14,6 +14,8 @@
 
 namespace BipedalLocomotionControllers
 {
+namespace OptimalControlUtilities
+{
 /**
  * CartesianPID class is a virtual class that represents a generic Cartesian PID controller.
  */
@@ -198,5 +200,6 @@ public:
      */
     const double& getControllerOutput();
 };
+} // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_PID_H

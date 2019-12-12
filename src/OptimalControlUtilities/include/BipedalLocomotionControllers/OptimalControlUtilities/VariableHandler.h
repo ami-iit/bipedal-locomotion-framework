@@ -15,6 +15,8 @@
 
 namespace BipedalLocomotionControllers
 {
+namespace OptimalControlUtilities
+{
 /**
  * VariableHandler is useful to handle variables in an optimization problem, Their name, dimension
  * and position
@@ -49,5 +51,6 @@ public:
      */
     int getNumberOfVariables() const noexcept;
 };
+} // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_VARIABLE_HANDLER_H
