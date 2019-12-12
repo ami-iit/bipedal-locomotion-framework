@@ -10,10 +10,21 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
 
 # :orange_book: Exported components
+
 - `BipedalLocomotionControllers`: It is an _interface_ library that gathers all
   the exported components.
-# :page_facing_up: Dependencies
+- [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
+  constraints in a quadratic optimization problem (QP)
 
+>>>>>>> Update the README.md with the OptimalControlUtilities informations
+# :page_facing_up: Dependencies
+The **bipedal-locomotion-controllers** project is versatile and it can be used
+  to compile only some components. Each component has its own dependencies that
+  can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
+  file. Please note that the indicated version is the minimum required version.
+
+- `OptimalControlUtilities` requires:
+    - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
 
 # :hammer: Build the suite
 ## Linux/macOs
@@ -34,4 +45,15 @@ export PATH=$PATH:$BipedalLocomotionControllers_INSTALL_DIR/lib
 # :running: How to use the libraries
 bipedal-locomotion-controllers provides native CMake support which allows the library to be easily used in CMake projects.
 
-bipedal-locomotion-controllers exports the `CMake` targets presented in [Exported components](#orange_book-exported-components) section. The targets can be imported using the `find_package` CMake command and used by calling `target_link_libraries`.
+bipedal-locomotion-controllers exports the `CMake` targets presented in
+[Exported components](#orange_book-exported-components) section. The targets can
+be imported using the `find_package` CMake command and used by calling
+`target_link_libraries`.
+For instance, the `OptimalControlUtilities` component can be used as follows:
+```cmake
+cmake_minimum_required(VERSION 3.0)
+project(myproject)
+find_package(BipedalLocomotionControllers REQUIRED)
+add_executable(example example.cpp)
+target_link_libraries(example BipedalLocomotionControllers::OptimalControlUtilities)
+```
