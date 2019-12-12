@@ -1,0 +1,12 @@
+<map id="BipedalLocomotion::System::LinearTask" name="BipedalLocomotion::System::LinearTask">
+<area shape="rect" id="node1" title="LinearTask describes a Linear Task element." alt="" coords="5,267,160,308"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1IK_1_1CoMTask.html" title="SE3Task is a concrete implementation of the Task." alt="" coords="224,5,379,47"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1IK_1_1JointTrackingTask.html" title="JointsTrackingTask is a concrete implementation of the Task." alt="" coords="224,71,379,112"/>
+<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1IK_1_1SE3Task.html" title="SE3Task is a concrete implementation of the Task." alt="" coords="224,136,379,177"/>
+<area shape="rect" id="node5" href="$classBipedalLocomotion_1_1IK_1_1SO3Task.html" title="SO3Task is a concrete implementation of the IK::Task." alt="" coords="224,201,379,243"/>
+<area shape="rect" id="node6" href="$classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask.html" title="BaseDynamicsTask is a concrete implementation of the Task." alt="" coords="208,267,395,308"/>
+<area shape="rect" id="node7" href="$classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask.html" title="JointsDynamicsTask is a concrete implementation of the Task." alt="" coords="210,332,393,373"/>
+<area shape="rect" id="node8" href="$classBipedalLocomotion_1_1TSID_1_1JointTrackingTask.html" title="JointsTrackingTask is a concrete implementation of the Task." alt="" coords="215,397,387,439"/>
+<area shape="rect" id="node9" href="$classBipedalLocomotion_1_1TSID_1_1SE3Task.html" title="SE3Task is a concrete implementation of the OptimalControlElement." alt="" coords="224,463,379,504"/>
+<area shape="rect" id="node10" href="$classBipedalLocomotion_1_1TSID_1_1SO3Task.html" title="SO3Task is a concrete implementation of the System::LinearTask." alt="" coords="224,528,379,569"/>
+</map>

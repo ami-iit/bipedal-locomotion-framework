@@ -1,0 +1,4 @@
+<map id="BipedalLocomotion::TSID::JointTrackingTask" name="BipedalLocomotion::TSID::JointTrackingTask">
+<area shape="rect" id="node1" title="JointsTrackingTask is a concrete implementation of the Task." alt="" coords="5,95,177,136"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1LinearTask.html" title="LinearTask describes a Linear Task element." alt="" coords="14,5,169,47"/>
+</map>

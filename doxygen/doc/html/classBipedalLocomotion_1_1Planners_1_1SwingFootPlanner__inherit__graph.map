@@ -1,0 +1,8 @@
+<map id="BipedalLocomotion::Planners::SwingFootPlanner" name="BipedalLocomotion::Planners::SwingFootPlanner">
+<area shape="rect" id="node1" title="SwingFootPlanner implement a minimum jerk trajectory planner for the swing foot." alt="" coords="1605,44,1808,85"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1Source.html" title=" " alt="" coords="1301,37,1556,93"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="604,5,847,76"/>
+<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title="Basic class that represents a discrete system." alt="" coords="5,43,168,99"/>
+<area shape="rect" id="node6" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="393,77,580,133"/>
+<area shape="rect" id="node5" href="$classBipedalLocomotion_1_1System_1_1Source.html" title="Source is a template specialization of Advanceable and represents a block that does not contains inpu..." alt="" coords="871,80,1068,121"/>
+</map>

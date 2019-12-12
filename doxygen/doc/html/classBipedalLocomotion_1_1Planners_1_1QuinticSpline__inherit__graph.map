@@ -1,0 +1,8 @@
+<map id="BipedalLocomotion::Planners::QuinticSpline" name="BipedalLocomotion::Planners::QuinticSpline">
+<area shape="rect" id="node1" title="Quintic spline implement a 5&#45;th order polynomial spline in $f\mathbb{R}^n$f." alt="" coords="1533,44,1705,85"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1Source.html" title=" " alt="" coords="1260,37,1484,93"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="623,5,836,76"/>
+<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title="Basic class that represents a discrete system." alt="" coords="5,43,168,99"/>
+<area shape="rect" id="node6" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="412,77,599,133"/>
+<area shape="rect" id="node5" href="$classBipedalLocomotion_1_1System_1_1Source.html" title="Source is a template specialization of Advanceable and represents a block that does not contains inpu..." alt="" coords="860,80,1057,121"/>
+</map>

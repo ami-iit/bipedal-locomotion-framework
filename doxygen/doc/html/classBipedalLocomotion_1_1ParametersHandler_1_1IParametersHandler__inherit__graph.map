@@ -1,0 +1,5 @@
+<map id="BipedalLocomotion::ParametersHandler::IParametersHandler" name="BipedalLocomotion::ParametersHandler::IParametersHandler">
+<area shape="rect" id="node1" title="Parameters handler interface." alt="" coords="5,31,239,87"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation.html" title="Parameters handler interface." alt="" coords="290,5,570,47"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation.html" title="YarpImplementation Yarp implementation of the IParametersHandler interface." alt="" coords="287,71,573,112"/>
+</map>

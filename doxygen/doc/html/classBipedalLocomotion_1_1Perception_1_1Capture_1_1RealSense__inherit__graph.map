@@ -1,0 +1,5 @@
+<map id="BipedalLocomotion::Perception::Capture::RealSense" name="BipedalLocomotion::Perception::Capture::RealSense">
+<area shape="rect" id="node1" title="Realsense driver class." alt="" coords="276,35,431,91"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" title="Sensor bridge interface." alt="" coords="5,5,228,47"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge.html" title="Sensor bridge interface." alt="" coords="17,71,217,127"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="BipedalLocomotion::TSID::BaseDynamicsTask" name="BipedalLocomotion::TSID::BaseDynamicsTask">
+<area shape="rect" id="node1" title="BaseDynamicsTask is a concrete implementation of the Task." alt="" coords="5,95,192,136"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1LinearTask.html" title="LinearTask describes a Linear Task element." alt="" coords="21,5,176,47"/>
+</map>

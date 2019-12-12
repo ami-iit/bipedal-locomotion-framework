@@ -1,0 +1,9 @@
+<map id="BipedalLocomotion::IK::QPInverseKinematics" name="BipedalLocomotion::IK::QPInverseKinematics">
+<area shape="rect" id="node1" title="QPInverseKinematics is a concrete class and implements an integration base inverse kinematics." alt="" coords="1784,44,1967,85"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK.html" title="IntegrationBasedInverseKinematics implements the interface for the integration base inverse kinematic..." alt="" coords="1568,44,1735,85"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1System_1_1Source.html" title=" " alt="" coords="1309,37,1519,93"/>
+<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="608,5,847,76"/>
+<area shape="rect" id="node5" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title="Basic class that represents a discrete system." alt="" coords="5,43,168,99"/>
+<area shape="rect" id="node7" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="397,77,584,133"/>
+<area shape="rect" id="node6" href="$classBipedalLocomotion_1_1System_1_1Source.html" title="Source is a template specialization of Advanceable and represents a block that does not contains inpu..." alt="" coords="871,80,1068,121"/>
+</map>

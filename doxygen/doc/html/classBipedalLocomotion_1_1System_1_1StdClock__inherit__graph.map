@@ -1,0 +1,4 @@
+<map id="BipedalLocomotion::System::StdClock" name="BipedalLocomotion::System::StdClock">
+<area shape="rect" id="node1" title="StdClock implements the IClock interface using &lt;chrono&gt; from c++std library." alt="" coords="5,95,160,136"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1IClock.html" title="IClock is the interface to the clock." alt="" coords="5,5,160,47"/>
+</map>

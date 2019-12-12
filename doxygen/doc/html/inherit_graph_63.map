@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" title="Sensor bridge interface." alt="" coords="5,89,228,130"/>
+<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense.html" title="Realsense driver class." alt="" coords="301,5,455,61"/>
+<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" title="YarpCameraBridge Yarp implementation of the ICameraBridge interface Currently available interfaces." alt="" coords="276,85,480,141"/>
+<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge.html" title="Sensor bridge interface." alt="" coords="17,5,217,61"/>
+</map>
