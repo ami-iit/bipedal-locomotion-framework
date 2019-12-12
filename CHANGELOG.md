@@ -10,5 +10,6 @@ All notable changes to this project are documented in this file.
 - The `cmake/FindEigen3.cmake` file
 - The `cmake/InstallBasicPackageFiles.cmake` file
 - Implement the first version of the `BipedalLocomotionControllers` interface
+- Implement the first version of the `OptimalControlUtilities` library
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-controllers/
