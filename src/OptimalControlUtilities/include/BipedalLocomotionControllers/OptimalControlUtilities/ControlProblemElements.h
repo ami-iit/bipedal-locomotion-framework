@@ -33,13 +33,13 @@ namespace OptimalControlUtilities
 /**
  * The struct frame defines a Frame in a ControlProblemElement
  */
-typedef struct
+struct Frame
 {
     iDynTree::FrameIndex indexInModel; /**< Index of the frame in the Model */
 
     /** Index and size of the element in the ControlProblemElement */
     iDynTree::IndexRange indexRangeInElement{iDynTree::IndexRange::InvalidRange()};
-} Frame;
+};
 
 /**
  * ControlProblemElement describes a general control problem element. The

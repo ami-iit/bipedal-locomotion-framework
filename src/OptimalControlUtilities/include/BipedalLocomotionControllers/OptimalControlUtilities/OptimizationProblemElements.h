@@ -30,7 +30,7 @@ class Constraints
     /**
      * EqualityConstraint contains the equality constraints
      */
-    typedef struct EqualityConstraint
+    struct EqualityConstraint
     {
         CostFunctionOrEqualityConstraintElement* element; /**< Pointer to the constraint */
         iDynTree::IndexRange indexRange; /**< Size and offset of the constraint */
@@ -40,9 +40,9 @@ class Constraints
          */
         EqualityConstraint(CostFunctionOrEqualityConstraintElement* const element,
                            const iDynTree::IndexRange& indexRange);
-    } EqualityConstraint;
+    };
 
-    typedef struct InequalityConstraint
+    struct InequalityConstraint
     {
         InequalityConstraintElement* element; /**< Pointer to the constraint */
         iDynTree::IndexRange indexRange; /**< Size and offset of the constraint */
@@ -53,7 +53,7 @@ class Constraints
         InequalityConstraint(InequalityConstraintElement* const element,
                              const iDynTree::IndexRange& indexRange);
 
-    } InequalityConstraint;
+    };
 
     std::vector<EqualityConstraint> m_equalityConstrains; /**< Vector containing all the equality
                                                              constraints */
@@ -135,7 +135,7 @@ class CostFunction
     /**
      * CostFunctionElement contains an element of the cost function
      */
-    typedef struct CostFunctionElement
+    struct CostFunctionElement
     {
         CostFunctionOrEqualityConstraintElement* element; /**< Pointer to the element */
         iDynTree::VectorDynSize weight; /**< Weight */
@@ -152,7 +152,7 @@ class CostFunction
                             const double& weightScaling = 1,
                             const double& weightOffset = 0);
 
-    } CostFunctionElement;
+    };
 
     /** Unordered map containing all the cost function element */
     std::unordered_map<std::string, CostFunctionElement> m_costFunctionElements;
