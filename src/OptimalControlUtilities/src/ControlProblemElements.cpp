@@ -25,6 +25,11 @@ int ControlProblemElement::getSize() const
     return m_A.rows();
 }
 
+const iDynTree::MatrixDynSize& ControlProblemElement::getA()
+{
+    return m_A;
+}
+
 const std::string& ControlProblemElement::getName() const
 {
     return m_name;
@@ -35,6 +40,11 @@ CostFunctionOrEqualityConstraintElement::CostFunctionOrEqualityConstraintElement
     iDynTree::KinDynComputations& kinDyn)
     : ControlProblemElement(kinDyn)
 {
+}
+
+const iDynTree::VectorDynSize& CostFunctionOrEqualityConstraintElement::getB()
+{
+    return m_b;
 }
 
 // InequalityConstraintElement
@@ -634,11 +644,6 @@ void CentroidalLinearMomentumElement::setVRP(const iDynTree::Vector3& VRP)
     m_VRP = VRP;
 }
 
-const iDynTree::MatrixDynSize& CentroidalLinearMomentumElement::getA()
-{
-    return m_A;
-}
-
 const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 {
     iDynTree::Position com;
@@ -762,16 +767,6 @@ RegularizationElement::RegularizationElement(iDynTree::KinDynComputations& kinDy
         .setIdentity();
 }
 
-const iDynTree::MatrixDynSize& RegularizationElement::getA()
-{
-    return m_A;
-}
-
-const iDynTree::VectorDynSize& RegularizationElement::getB()
-{
-    return m_b;
-}
-
 // RegularizationWithControlElement
 RegularizationWithControlElement::RegularizationWithControlElement(
     iDynTree::KinDynComputations& kinDyn,
@@ -881,11 +876,6 @@ ZMPElement::ZMPElement(iDynTree::KinDynComputations& kinDyn,
 void ZMPElement::setDesiredZMP(const iDynTree::Vector2& ZMP)
 {
     m_ZMP = ZMP;
-}
-
-const iDynTree::VectorDynSize& ZMPElement::getB()
-{
-    return m_b;
 }
 
 const iDynTree::MatrixDynSize& ZMPElement::getA()
@@ -1093,11 +1083,6 @@ JointValuesFeasibilityElement::JointValuesFeasibilityElement(
 
     m_jointPositions.resize(m_jointAccelerationIndex.size);
     m_jointVelocities.resize(m_jointAccelerationIndex.size);
-}
-
-const iDynTree::MatrixDynSize& JointValuesFeasibilityElement::getA()
-{
-    return m_A;
 }
 
 const iDynTree::VectorDynSize& JointValuesFeasibilityElement::getUpperBound()

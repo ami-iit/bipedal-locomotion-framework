@@ -72,7 +72,7 @@ public:
      * Get the element matrix
      * @return the element matrix
      */
-    virtual const iDynTree::MatrixDynSize& getA() = 0;
+    virtual const iDynTree::MatrixDynSize& getA();
 
     /**
      * Get the name of the element
@@ -106,7 +106,7 @@ public:
      * Get the element vector
      * @return the element vector
      */
-    virtual const iDynTree::VectorDynSize& getB() = 0;
+    virtual const iDynTree::VectorDynSize& getB();
 };
 
 /**
@@ -421,12 +421,6 @@ public:
     void setVRP(const iDynTree::Vector3& VRP);
 
     /**
-     * Get (and compute) the element matrix
-     * @return the element matrix
-     */
-    virtual const iDynTree::MatrixDynSize& getA() final;
-
-    /**
      * Get (and compute) the element vector
      * @return the element vector
      */
@@ -503,18 +497,6 @@ public:
     RegularizationElement(iDynTree::KinDynComputations& kinDyn,
                           const VariableHandler& handler,
                           const std::string& variableName);
-
-    /**
-     * Get (and compute) the element matrix
-     * @return the element matrix
-     */
-    virtual const iDynTree::MatrixDynSize& getA() final;
-
-    /**
-     * Get (and compute) the element vector
-     * @return the element vector
-     */
-    virtual const iDynTree::VectorDynSize& getB() override;
 };
 
 /**
@@ -611,12 +593,6 @@ public:
      * @return the element matrix
      */
     virtual const iDynTree::MatrixDynSize& getA() final;
-
-    /**
-     * Get (and compute) the element vector
-     * @return the element vector
-     */
-    virtual const iDynTree::VectorDynSize& getB() final;
 };
 
 /**
@@ -721,12 +697,6 @@ public:
                                   const iDynTree::VectorDynSize& maxJointPositionsLimit,
                                   const iDynTree::VectorDynSize& minJointPositionsLimit,
                                   const double& samplingTime);
-
-    /**
-     * Get (and compute) the element matrix
-     * @return the element matrix
-     */
-    virtual const iDynTree::MatrixDynSize& getA() final;
 
     /**
      * Get the upper bound
