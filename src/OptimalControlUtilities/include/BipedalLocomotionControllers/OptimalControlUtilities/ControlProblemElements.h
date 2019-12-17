@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_CONTROL_PROBLEM_ELEMENTS_H
 
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
