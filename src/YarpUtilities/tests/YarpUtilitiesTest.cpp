@@ -123,6 +123,7 @@ TEST_CASE("Get bool vector from searchable", "[std::vector<bool>]")
 
     // instantiate the random number generator and a Bernoulli distribution
     std::default_random_engine generator;
+    generator.seed(42);
     std::bernoulli_distribution distribution(0.5);
 
     for (unsigned int i = 0; i < 10000; i++)
