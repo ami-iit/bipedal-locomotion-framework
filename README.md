@@ -12,8 +12,22 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 # :orange_book: Exported components
 - `BipedalLocomotionControllers`: It is an _interface_ library that gathers all
   the exported components.
-# :page_facing_up: Dependencies
+- [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
+  data and from YARP structures
 
+
+# :page_facing_up: Dependencies
+The **bipedal-locomotion-controllers** project is versatile and it can be used
+to compile only some components. Each component has its own dependencies that
+can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
+file. Please note that the indicated version is the the minimum required version.
+
+- `YarpUtilities` requires:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`YARP`](https://github.com/robotology/YARP)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
 
 # :hammer: Build the suite
 ## Linux/macOs
