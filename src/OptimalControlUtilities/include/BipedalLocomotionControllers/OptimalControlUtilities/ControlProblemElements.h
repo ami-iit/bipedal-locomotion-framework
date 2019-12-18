@@ -51,7 +51,7 @@ struct Frame
 class ControlProblemElement
 {
 protected:
-    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDyn pointer object */
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDynPtr; /**< KinDyn pointer object */
     iDynTree::MatrixDynSize m_A; /**< Element Matrix */
     std::string m_name; /**< Name of the element */
 

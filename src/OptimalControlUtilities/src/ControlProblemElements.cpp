@@ -16,7 +16,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 // Control Problem Element Function
 ControlProblemElement::ControlProblemElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
-    : m_kinDyn(kinDyn)
+    : m_kinDynPtr(kinDyn)
 {
 }
 
@@ -79,7 +79,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
 
     if (frameName != "CoM")
     {
-        m_frameIndex = m_kinDyn->model().getFrameIndex(frameName);
+        m_frameIndex = m_kinDynPtr->model().getFrameIndex(frameName);
 
         m_jacobian.resize(6, m_jointAccelerationIndex.size + m_baseAccelerationIndex.size);
 
@@ -258,19 +258,19 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
     if (m_type == Type::POSE)
     {
         // The CoM cannot be a contact element -- see the constructor
-        iDynTree::toEigen(m_b) = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
+        iDynTree::toEigen(m_b) = -iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex));
 
         if (!m_isInContact)
         {
             // the first three elements are positions
-            m_positionPID->setFeedback(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3(),
-                                       m_kinDyn->getWorldTransform(m_frameIndex).getPosition());
+            m_positionPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
+                                       m_kinDynPtr->getWorldTransform(m_frameIndex).getPosition());
             iDynTree::toEigen(m_b).head<3>()
                 += iDynTree::toEigen(m_positionPID->getControllerOutput());
 
             // the first three elements are orientation
-            m_orientationPID->setFeedback(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3(),
-                                          m_kinDyn->getWorldTransform(m_frameIndex).getRotation());
+            m_orientationPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
+                                          m_kinDynPtr->getWorldTransform(m_frameIndex).getRotation());
             iDynTree::toEigen(m_b).tail<3>()
                 += iDynTree::toEigen(m_orientationPID->getControllerOutput());
         }
@@ -281,16 +281,16 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
     {
         if (!m_isInContact)
         {
-            m_orientationPID->setFeedback(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3(),
-                                          m_kinDyn->getWorldTransform(m_frameIndex).getRotation());
+            m_orientationPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
+                                          m_kinDynPtr->getWorldTransform(m_frameIndex).getRotation());
 
             iDynTree::toEigen(m_b)
                 = iDynTree::toEigen(m_orientationPID->getControllerOutput())
-                  - iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).tail<3>();
+                  - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).tail<3>();
         } else
         {
             iDynTree::toEigen(m_b)
-                = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).tail<3>();
+                = -iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).tail<3>();
         }
     }
 
@@ -300,47 +300,47 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
         {
             if (!m_isInContact)
             {
-                m_positionPID->setFeedback(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3(),
-                                           m_kinDyn->getWorldTransform(m_frameIndex).getPosition());
+                m_positionPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
+                                           m_kinDynPtr->getWorldTransform(m_frameIndex).getPosition());
 
                 iDynTree::toEigen(m_b)
                     = iDynTree::toEigen(m_positionPID->getControllerOutput())
-                      - iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).head<3>();
+                      - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).head<3>();
             } else
             {
                 iDynTree::toEigen(m_b)
-                    = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).head<3>();
+                    = -iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).head<3>();
             }
 
         } else
         {
             // the CoM cannot be in contact or not
-            m_positionPID->setFeedback(m_kinDyn->getCenterOfMassVelocity(),
-                                       m_kinDyn->getCenterOfMassPosition());
+            m_positionPID->setFeedback(m_kinDynPtr->getCenterOfMassVelocity(),
+                                       m_kinDynPtr->getCenterOfMassPosition());
 
             iDynTree::toEigen(m_b) = iDynTree::toEigen(m_positionPID->getControllerOutput())
-                                     - iDynTree::toEigen(m_kinDyn->getCenterOfMassBiasAcc());
+                                     - iDynTree::toEigen(m_kinDynPtr->getCenterOfMassBiasAcc());
         }
     }
 
     else if (m_type == Type::ONE_DIMENSION)
     {
         if (m_frameIndex != -1)
-            m_oneDegreePID->setFeedback(m_kinDyn->getFrameVel(m_frameIndex)
+            m_oneDegreePID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex)
                                             .getLinearVec3()(m_typeIndex.offset),
-                                        m_kinDyn->getWorldTransform(m_frameIndex)
+                                        m_kinDynPtr->getWorldTransform(m_frameIndex)
                                             .getPosition()(m_typeIndex.offset));
         else
-            m_oneDegreePID->setFeedback(m_kinDyn->getCenterOfMassVelocity()(m_typeIndex.offset),
-                                        m_kinDyn->getCenterOfMassPosition()(m_typeIndex.offset));
+            m_oneDegreePID->setFeedback(m_kinDynPtr->getCenterOfMassVelocity()(m_typeIndex.offset),
+                                        m_kinDynPtr->getCenterOfMassPosition()(m_typeIndex.offset));
 
         // in this case b is only a number
         if (!m_isInContact)
         {
             m_b(0) = m_oneDegreePID->getControllerOutput()
-                     - m_kinDyn->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
+                     - m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
         } else
-            m_b(0) = -m_kinDyn->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
+            m_b(0) = -m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
     }
 
     return m_b;
@@ -351,9 +351,9 @@ const iDynTree::MatrixDynSize& CartesianElement::getA()
     // If the frameIndex is different from -1 means that the frame you are trying to control is not
     // the CoM
     if (m_frameIndex != -1)
-        m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian);
+        m_kinDynPtr->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian);
     else
-        m_kinDyn->getCenterOfMassJacobian(m_jacobian);
+        m_kinDynPtr->getCenterOfMassJacobian(m_jacobian);
 
     // copy the part related to the base
     iDynTree::toEigen(m_A).block(0,
@@ -408,7 +408,7 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
     {
         Frame frameInContact;
         frameInContact.indexRangeInElement = handler.getVariable(frame.first);
-        frameInContact.indexInModel = m_kinDyn->model().getFrameIndex(frame.second);
+        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.second);
 
         if (!frameInContact.indexRangeInElement.isValid())
             throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
@@ -436,7 +436,7 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
     m_b.zero();
 
     // resize generalizedBiasForces
-    m_generalizedBiasForces.resize(m_kinDyn->model());
+    m_generalizedBiasForces.resize(m_kinDynPtr->model());
 
     // set constant value of m_A
     // the part related to the joint torques is [0;I]
@@ -537,7 +537,7 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
 const iDynTree::MatrixDynSize& SystemDynamicsElement::getA()
 {
     // store the massMatrix
-    m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix);
+    m_kinDynPtr->getFreeFloatingMassMatrix(m_massMatrix);
 
     // M =  [M_bb   M_bs
     //       M_sb   M_ss]
@@ -585,7 +585,7 @@ const iDynTree::MatrixDynSize& SystemDynamicsElement::getA()
     // store the jacobians
     for (const auto& frame : m_framesInContact)
     {
-        m_kinDyn->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+        m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
         iDynTree::toEigen(m_A).block(0,
                                      frame.indexRangeInElement.offset,
                                      m_jointAccelerationIndex.size + m_baseAccelerationIndex.size,
@@ -598,7 +598,7 @@ const iDynTree::MatrixDynSize& SystemDynamicsElement::getA()
 
 const iDynTree::VectorDynSize& SystemDynamicsElement::getB()
 {
-    m_kinDyn->generalizedBiasForces(m_generalizedBiasForces);
+    m_kinDynPtr->generalizedBiasForces(m_generalizedBiasForces);
     iDynTree::toEigen(m_b).head(m_baseAccelerationIndex.size)
         = iDynTree::toEigen(m_generalizedBiasForces.baseWrench());
     iDynTree::toEigen(m_b).tail(m_jointAccelerationIndex.size)
@@ -615,7 +615,7 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
 {
     m_name = "Centroidal Linear Momentum Element";
 
-    m_robotMass = m_kinDyn->model().getTotalMass();
+    m_robotMass = m_kinDynPtr->model().getTotalMass();
 
     // resize and reset matrices
     m_A.resize(3, handler.getNumberOfVariables());
@@ -643,7 +643,7 @@ void CentroidalLinearMomentumElement::setVRP(const iDynTree::Vector3& VRP)
 const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 {
     iDynTree::Position com;
-    com = m_kinDyn->getCenterOfMassPosition();
+    com = m_kinDynPtr->getCenterOfMassPosition();
 
     double gravity = 9.81;
     double omegaSquare = gravity / com(2);
@@ -676,7 +676,7 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
     {
         Frame frameInContact;
         frameInContact.indexRangeInElement = handler.getVariable(frame.first);
-        frameInContact.indexInModel = m_kinDyn->model().getFrameIndex(frame.second);
+        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.second);
 
         if (!frameInContact.indexRangeInElement.isValid())
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
@@ -718,12 +718,12 @@ void CentroidalAngularMomentumElement::setDesiredCentroidalAngularMomentum(
 const iDynTree::MatrixDynSize& CentroidalAngularMomentumElement::getA()
 {
     iDynTree::Position com;
-    com = m_kinDyn->getCenterOfMassPosition();
+    com = m_kinDynPtr->getCenterOfMassPosition();
 
     for (const auto& frame : m_framesInContact)
     {
         iDynTree::toEigen(m_A).block(0, frame.indexRangeInElement.offset, 3, 3) = iDynTree::skew(
-            iDynTree::toEigen(m_kinDyn->getWorldTransform(frame.indexInModel).getPosition())
+            iDynTree::toEigen(m_kinDynPtr->getWorldTransform(frame.indexInModel).getPosition())
             - iDynTree::toEigen(com));
     }
     return m_A;
@@ -731,7 +731,7 @@ const iDynTree::MatrixDynSize& CentroidalAngularMomentumElement::getA()
 
 const iDynTree::VectorDynSize& CentroidalAngularMomentumElement::getB()
 {
-    m_pid->setFeedback(m_zero, m_kinDyn->getCentroidalTotalMomentum().getAngularVec3());
+    m_pid->setFeedback(m_zero, m_kinDynPtr->getCentroidalTotalMomentum().getAngularVec3());
     iDynTree::toEigen(m_b) = iDynTree::toEigen(m_pid->getControllerOutput());
     return m_b;
 }
@@ -845,7 +845,7 @@ ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     {
         Frame frame;
         frame.indexRangeInElement = handler.getVariable(frameInContact.first);
-        frame.indexInModel = m_kinDyn->model().getFrameIndex(frameInContact.second);
+        frame.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.second);
 
         m_framesInContact.push_back(frame);
 
@@ -876,7 +876,7 @@ const iDynTree::MatrixDynSize& ZMPElement::getA()
 {
     for (const auto& frame : m_framesInContact)
     {
-        m_contactFramePosition = m_kinDyn->getWorldTransform(frame.indexInModel).getPosition();
+        m_contactFramePosition = m_kinDynPtr->getWorldTransform(frame.indexInModel).getPosition();
 
         m_A(0, frame.indexRangeInElement.offset + 2) = m_ZMP(0) - m_contactFramePosition(0);
         m_A(1, frame.indexRangeInElement.offset + 2) = m_ZMP(1) - m_contactFramePosition(1);
@@ -904,7 +904,7 @@ ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr
              + ",  " + frameInContact.second + "])";
 
     m_frameInContact.indexRangeInElement = handler.getVariable(frameInContact.first);
-    m_frameInContact.indexInModel = m_kinDyn->model().getFrameIndex(frameInContact.second);
+    m_frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.second);
 
     if (!m_frameInContact.indexRangeInElement.isValid())
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
@@ -1013,7 +1013,7 @@ const iDynTree::MatrixDynSize& ContactWrenchFeasibilityElement::getA()
 {
     // get the rotation matrix
     m_rotationMatrix
-        = m_kinDyn->getWorldTransform(m_frameInContact.indexInModel).getRotation().inverse();
+        = m_kinDynPtr->getWorldTransform(m_frameInContact.indexInModel).getRotation().inverse();
 
     // linear force
     iDynTree::toEigen(m_A).block(0,
@@ -1079,8 +1079,8 @@ JointValuesFeasibilityElement::JointValuesFeasibilityElement(std::shared_ptr<iDy
 
 const iDynTree::VectorDynSize& JointValuesFeasibilityElement::getUpperBound()
 {
-    m_kinDyn->getJointPos(m_jointPositions);
-    m_kinDyn->getJointVel(m_jointVelocities);
+    m_kinDynPtr->getJointPos(m_jointPositions);
+    m_kinDynPtr->getJointVel(m_jointVelocities);
 
     iDynTree::toEigen(m_u) = iDynTree::toEigen(m_maxJointPositionsLimit)
                              - iDynTree::toEigen(m_jointPositions)
@@ -1091,8 +1091,8 @@ const iDynTree::VectorDynSize& JointValuesFeasibilityElement::getUpperBound()
 
 const iDynTree::VectorDynSize& JointValuesFeasibilityElement::getLowerBound()
 {
-    m_kinDyn->getJointPos(m_jointPositions);
-    m_kinDyn->getJointVel(m_jointVelocities);
+    m_kinDynPtr->getJointPos(m_jointPositions);
+    m_kinDynPtr->getJointVel(m_jointVelocities);
 
     iDynTree::toEigen(m_l) = iDynTree::toEigen(m_minJointPositionsLimit)
                              - iDynTree::toEigen(m_jointPositions)
