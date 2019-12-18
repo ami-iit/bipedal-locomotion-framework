@@ -15,8 +15,8 @@
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 // Control Problem Element Function
-ControlProblemElement::ControlProblemElement(iDynTree::KinDynComputations& kinDyn)
-    : m_kinDyn(&kinDyn)
+ControlProblemElement::ControlProblemElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+    : m_kinDyn(kinDyn)
 {
 }
 
@@ -36,8 +36,7 @@ const std::string& ControlProblemElement::getName() const
 }
 
 // CostFunctionOrEqualityConstraintElement
-CostFunctionOrEqualityConstraintElement::CostFunctionOrEqualityConstraintElement(
-    iDynTree::KinDynComputations& kinDyn)
+CostFunctionOrEqualityConstraintElement::CostFunctionOrEqualityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : ControlProblemElement(kinDyn)
 {
 }
@@ -48,13 +47,13 @@ const iDynTree::VectorDynSize& CostFunctionOrEqualityConstraintElement::getB()
 }
 
 // InequalityConstraintElement
-InequalityConstraintElement::InequalityConstraintElement(iDynTree::KinDynComputations& kinDyn)
+InequalityConstraintElement::InequalityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : ControlProblemElement(kinDyn)
 {
 }
 
 // CartesianElement
-CartesianElement::CartesianElement(iDynTree::KinDynComputations& kinDyn,
+CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                    const VariableHandler& handler,
                                    const Type& type,
                                    const std::string& frameName,
@@ -379,10 +378,9 @@ const iDynTree::MatrixDynSize& CartesianElement::getA()
 }
 
 // System Dynamics
-SystemDynamicsElement::SystemDynamicsElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::vector<std::pair<std::string, std::string>>& framesInContact)
+SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                             const VariableHandler& handler,
+                                             const std::vector<std::pair<std::string, std::string>>& framesInContact)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
 {
     // if this constructor is called the motor reflected inertia will not be used
@@ -447,16 +445,15 @@ SystemDynamicsElement::SystemDynamicsElement(
         .setIdentity();
 }
 
-SystemDynamicsElement::SystemDynamicsElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::vector<std::pair<std::string, std::string>>& framesInContact,
-    const iDynTree::VectorDynSize& gamma,
-    const iDynTree::VectorDynSize& motorsInertia,
-    const iDynTree::VectorDynSize& harmonicDriveInertia,
-    const double& r,
-    const double& R,
-    const double& t)
+SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                             const VariableHandler& handler,
+                                             const std::vector<std::pair<std::string, std::string>>& framesInContact,
+                                             const iDynTree::VectorDynSize& gamma,
+                                             const iDynTree::VectorDynSize& motorsInertia,
+                                             const iDynTree::VectorDynSize& harmonicDriveInertia,
+                                             const double& r,
+                                             const double& R,
+                                             const double& t)
     : SystemDynamicsElement(kinDyn, handler, framesInContact)
 {
     // if this Constructor is called the reflected inertia will be used
@@ -510,11 +507,10 @@ SystemDynamicsElement::SystemDynamicsElement(
           * (iDynTree::toEigen(couplingMatrix) * iDynTree::toEigen(gamma).asDiagonal()).inverse();
 }
 
-SystemDynamicsElement::SystemDynamicsElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::vector<std::pair<std::string, std::string>>& framesInContact,
-    const iDynTree::MatrixDynSize& regularizationMatrix)
+SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                             const VariableHandler& handler,
+                                             const std::vector<std::pair<std::string, std::string>>& framesInContact,
+                                             const iDynTree::MatrixDynSize& regularizationMatrix)
     : SystemDynamicsElement(kinDyn, handler, framesInContact)
 {
     m_useReflectedInertia = true;
@@ -612,7 +608,7 @@ const iDynTree::VectorDynSize& SystemDynamicsElement::getB()
 
 // Centroidal Linear Momentum
 CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
-    iDynTree::KinDynComputations& kinDyn,
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
     const std::vector<std::string>& framesInContact)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
@@ -659,10 +655,9 @@ const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 }
 
 // Centroidal Angular momentum
-CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::vector<std::pair<std::string, std::string>>& framesInContact)
+CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                                                   const VariableHandler& handler,
+                                                                   const std::vector<std::pair<std::string, std::string>>& framesInContact)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
 {
     m_name = "Centroidal Angular Momentum Element";
@@ -742,7 +737,7 @@ const iDynTree::VectorDynSize& CentroidalAngularMomentumElement::getB()
 }
 
 // RegularizationElement
-RegularizationElement::RegularizationElement(iDynTree::KinDynComputations& kinDyn,
+RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                              const VariableHandler& handler,
                                              const std::string& variableName)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
@@ -769,7 +764,7 @@ RegularizationElement::RegularizationElement(iDynTree::KinDynComputations& kinDy
 
 // RegularizationWithControlElement
 RegularizationWithControlElement::RegularizationWithControlElement(
-    iDynTree::KinDynComputations& kinDyn,
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
     const std::string& variableName)
     : RegularizationElement(kinDyn, handler, variableName)
@@ -795,10 +790,9 @@ RegularizationWithControlElement::RegularizationWithControlElement(
     m_velocity.resize(variableIndex.size);
 }
 
-void RegularizationWithControlElement::setDesiredTrajectory(
-    const iDynTree::VectorDynSize& acceleration,
-    const iDynTree::VectorDynSize& velocity,
-    const iDynTree::VectorDynSize& position)
+void RegularizationWithControlElement::setDesiredTrajectory(const iDynTree::VectorDynSize& acceleration,
+                                                            const iDynTree::VectorDynSize& velocity,
+                                                            const iDynTree::VectorDynSize& position)
 {
     m_desiredAcceleration = acceleration;
     m_desiredVelocity = velocity;
@@ -832,7 +826,7 @@ const iDynTree::VectorDynSize& RegularizationWithControlElement::getB()
 }
 
 // ZMP Element
-ZMPElement::ZMPElement(iDynTree::KinDynComputations& kinDyn,
+ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                        const VariableHandler& handler,
                        const std::vector<std::pair<std::string, std::string>>& framesInContact)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
@@ -892,20 +886,19 @@ const iDynTree::MatrixDynSize& ZMPElement::getA()
 
 // ContactWrenchFeasibilityElement
 
-ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::pair<std::string, std::string>& frameInContact,
-    const int& numberOfPoints,
-    const double& staticFrictionCoefficient,
-    const double& torsionalFrictionCoefficient,
-    const double& minimalNormalForce,
-    const iDynTree::Vector2& footLimitX,
-    const iDynTree::Vector2& footLimitY,
-    const double& infinity)
-    : InequalityConstraintElement(kinDyn)
-    , m_infinity(infinity)
-    , m_minimalNormalForce(minimalNormalForce)
+ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                                                 const VariableHandler& handler,
+                                                                 const std::pair<std::string, std::string>& frameInContact,
+                                                                 const int& numberOfPoints,
+                                                                 const double& staticFrictionCoefficient,
+                                                                 const double& torsionalFrictionCoefficient,
+                                                                 const double& minimalNormalForce,
+                                                                 const iDynTree::Vector2& footLimitX,
+                                                                 const iDynTree::Vector2& footLimitY,
+                                                                 const double& infinity)
+: InequalityConstraintElement(kinDyn)
+, m_infinity(infinity)
+, m_minimalNormalForce(minimalNormalForce)
 {
     m_name = "Contact Wrench Feasibility Element (Frame in contact: [" + frameInContact.first
              + ",  " + frameInContact.second + "])";
@@ -1049,17 +1042,16 @@ const iDynTree::VectorDynSize& ContactWrenchFeasibilityElement::getLowerBound()
 }
 
 // JointValuesFeasibilityElement
-JointValuesFeasibilityElement::JointValuesFeasibilityElement(
-    iDynTree::KinDynComputations& kinDyn,
-    const VariableHandler& handler,
-    const std::string& variableName,
-    const iDynTree::VectorDynSize& maxJointPositionsLimit,
-    const iDynTree::VectorDynSize& minJointPositionsLimit,
-    const double& samplingTime)
-    : InequalityConstraintElement(kinDyn)
-    , m_samplingTime(samplingTime)
-    , m_minJointPositionsLimit(minJointPositionsLimit)
-    , m_maxJointPositionsLimit(maxJointPositionsLimit)
+JointValuesFeasibilityElement::JointValuesFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                                             const VariableHandler& handler,
+                                                             const std::string& variableName,
+                                                             const iDynTree::VectorDynSize& maxJointPositionsLimit,
+                                                             const iDynTree::VectorDynSize& minJointPositionsLimit,
+                                                             const double& samplingTime)
+: InequalityConstraintElement(kinDyn)
+, m_samplingTime(samplingTime)
+, m_minJointPositionsLimit(minJointPositionsLimit)
+, m_maxJointPositionsLimit(maxJointPositionsLimit)
 {
     m_name = "Joint Values Feasibility Element";
 

@@ -51,7 +51,7 @@ struct Frame
 class ControlProblemElement
 {
 protected:
-    iDynTree::KinDynComputations* m_kinDyn; /**< KinDyn pointer object */
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDyn pointer object */
     iDynTree::MatrixDynSize m_A; /**< Element Matrix */
     std::string m_name; /**< Name of the element */
 
@@ -60,7 +60,7 @@ public:
      * Constructor
      * @param kinDyn KinDynComputations object
      */
-    ControlProblemElement(iDynTree::KinDynComputations& kinDyn);
+    ControlProblemElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Get the size of the element (i.e. the number of rows of the element matrix)
@@ -100,7 +100,7 @@ public:
      * Constructor
      * @param kinDyn KinDynComputations object
      */
-    CostFunctionOrEqualityConstraintElement(iDynTree::KinDynComputations& kinDyn);
+    CostFunctionOrEqualityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Get the element vector
@@ -126,7 +126,7 @@ public:
      * Constructor
      * @param kinDyn KinDynComputations object
      */
-    InequalityConstraintElement(iDynTree::KinDynComputations& kinDyn);
+    InequalityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Get the upper bound
@@ -198,7 +198,7 @@ public:
      * @param axisName X, Y or Z coordinate that will be controlled
      * @throw std::runtime_error in case of an undefined variable/frame
      */
-    CartesianElement(iDynTree::KinDynComputations& kinDyn,
+    CartesianElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                      const VariableHandler& handler,
                      const Type& type,
                      const std::string& frameName,
@@ -328,7 +328,7 @@ public:
      * a pair containing the name of the frame in the variableHandler and in the model.
      * @throw std::runtime_error if the frame is not defined
      */
-    SystemDynamicsElement(iDynTree::KinDynComputations& kinDyn,
+    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                           const VariableHandler& handler,
                           const std::vector<std::pair<std::string, std::string>>& framesInContact);
 
@@ -350,10 +350,10 @@ public:
     [[deprecated(
         "This function is iCub specific. In the next implementation will be removed. If "
         "you want to include regularization element for the mass matrix please call "
-        "SystemDynamicsElement(iDynTree::KinDynComputations&, const VariableHandler&, "
+        "SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations>, const VariableHandler&, "
         "const std::vector<std::pair<std::string, std::string>>&, const "
         "iDyntree::MatrixDynsize&)")]]
-    SystemDynamicsElement(iDynTree::KinDynComputations& kinDyn,
+    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                           const VariableHandler& handler,
                           const std::vector<std::pair<std::string, std::string>>& framesInContact,
                           const iDynTree::VectorDynSize& gamma,
@@ -374,7 +374,7 @@ public:
      * @throw std::runtime_error if the frame is not defined or the regularizationMatrix size is
      * no coherent with the number of joints
      */
-    SystemDynamicsElement(iDynTree::KinDynComputations& kinDyn,
+    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                           const VariableHandler& handler,
                           const std::vector<std::pair<std::string, std::string>>& framesInContact,
                           const iDynTree::MatrixDynSize& regularizationMatrix);
@@ -410,7 +410,7 @@ public:
      * the name of the frame in the variableHandler
      * @throw std::runtime_error if the frame is not defined
      */
-    CentroidalLinearMomentumElement(iDynTree::KinDynComputations& kinDyn,
+    CentroidalLinearMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                     const VariableHandler& handler,
                                     const std::vector<std::string>& framesInContact);
 
@@ -448,7 +448,7 @@ public:
      * @throw std::runtime_error if the frame is not defined
      */
     CentroidalAngularMomentumElement(
-        iDynTree::KinDynComputations& kinDyn,
+        std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
         const VariableHandler& handler,
         const std::vector<std::pair<std::string, std::string>>& framesInContact);
 
@@ -494,7 +494,7 @@ public:
      * @param variableName name of the unknown variable that should minimized
      * @throw std::runtime_error if the variableName is not defined in the handler
      */
-    RegularizationElement(iDynTree::KinDynComputations& kinDyn,
+    RegularizationElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                           const VariableHandler& handler,
                           const std::string& variableName);
 };
@@ -524,7 +524,7 @@ public:
      * @param variableName name of the unknown variable that should minimized
      * @throw std::runtime_error if the variableName is not defined in the handler
      */
-    RegularizationWithControlElement(iDynTree::KinDynComputations& kinDyn,
+    RegularizationWithControlElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                      const VariableHandler& handler,
                                      const std::string& variableName);
 
@@ -578,7 +578,7 @@ public:
      * a pair containing the name of the frame in the variableHandler and in the model.
      * @throw std::runtime_error if the frame is not defined
      */
-    ZMPElement(iDynTree::KinDynComputations& kinDyn,
+    ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                const VariableHandler& handler,
                const std::vector<std::pair<std::string, std::string>>& framesInContact);
 
@@ -628,7 +628,7 @@ public:
      * @param infinity double representing the infinity
      * @throw std::runtime_error if the frame is not defined
      */
-    ContactWrenchFeasibilityElement(iDynTree::KinDynComputations& kinDyn,
+    ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                     const VariableHandler& handler,
                                     const std::pair<std::string, std::string>& frameInContact,
                                     const int& numberOfPoints,
@@ -691,7 +691,7 @@ public:
      * @param samplingTime the controller rate in second
      * @throw std::runtime_error if variableName is not defined in the handler
      */
-    JointValuesFeasibilityElement(iDynTree::KinDynComputations& kinDyn,
+    JointValuesFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                   const VariableHandler& handler,
                                   const std::string& variableName,
                                   const iDynTree::VectorDynSize& maxJointPositionsLimit,
