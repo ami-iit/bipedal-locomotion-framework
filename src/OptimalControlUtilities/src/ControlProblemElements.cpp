@@ -448,68 +448,6 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
 SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                              const VariableHandler& handler,
                                              const std::vector<std::pair<std::string, std::string>>& framesInContact,
-                                             const iDynTree::VectorDynSize& gamma,
-                                             const iDynTree::VectorDynSize& motorsInertia,
-                                             const iDynTree::VectorDynSize& harmonicDriveInertia,
-                                             const double& r,
-                                             const double& R,
-                                             const double& t)
-    : SystemDynamicsElement(kinDyn, handler, framesInContact)
-{
-    // if this Constructor is called the reflected inertia will be used
-    m_useReflectedInertia = true;
-    m_name += " (with Reflected Inertia)";
-    unsigned int actuatedDoFs = m_jointTorqueIndex.size;
-
-    m_reflectedInertia.resize(actuatedDoFs, actuatedDoFs);
-
-    // check the size of the vectors
-    if (gamma.size() != actuatedDoFs)
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] The size of the "
-                                 "vector gamma is not equal to the actuatedDoFs. Expected: "
-                                 + std::to_string(actuatedDoFs)
-                                 + "retrieved: " + std::to_string(gamma.size()));
-
-    if (motorsInertia.size() != actuatedDoFs)
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] The size of the "
-                                 "vector motorsInertia is not equal to the actuatedDoFs. Expected: "
-                                 + std::to_string(actuatedDoFs)
-                                 + "retrieved: " + std::to_string(motorsInertia.size()));
-
-    if (harmonicDriveInertia.size() != actuatedDoFs)
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] The size of the "
-                                 "vector harmonicDriveInertia is not equal to the actuatedDoFs. "
-                                 "Expected: "
-                                 + std::to_string(actuatedDoFs)
-                                 + "retrieved: " + std::to_string(harmonicDriveInertia.size()));
-
-    iDynTree::VectorDynSize augmentedInertia(actuatedDoFs);
-
-    iDynTree::toEigen(augmentedInertia)
-        = iDynTree::toEigen(harmonicDriveInertia) + iDynTree::toEigen(motorsInertia);
-
-    iDynTree::MatrixDynSize couplingMatrix(actuatedDoFs, actuatedDoFs);
-    iDynTree::toEigen(couplingMatrix).setIdentity();
-
-    // TODO do in a better way (HARD CODED JOINTS)
-    iDynTree::toEigen(couplingMatrix).block(0, 0, 3, 3) << 0.5, -0.5, 0, 0.5, 0.5, 0, r / (2 * R),
-        r / (2 * R), r / R;
-
-    iDynTree::toEigen(couplingMatrix).block(3, 3, 3, 3) << -1, 0, 0, -1, -t, 0, 0, t, -t;
-
-    iDynTree::toEigen(couplingMatrix).block(7, 7, 3, 3) << 1, 0, 0, 1, t, 0, 0, -t, t;
-
-    iDynTree::toEigen(m_reflectedInertia)
-        = (iDynTree::toEigen(couplingMatrix) * iDynTree::toEigen(gamma).asDiagonal())
-              .inverse()
-              .transpose()
-          * iDynTree::toEigen(motorsInertia).asDiagonal()
-          * (iDynTree::toEigen(couplingMatrix) * iDynTree::toEigen(gamma).asDiagonal()).inverse();
-}
-
-SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                             const VariableHandler& handler,
-                                             const std::vector<std::pair<std::string, std::string>>& framesInContact,
                                              const iDynTree::MatrixDynSize& regularizationMatrix)
     : SystemDynamicsElement(kinDyn, handler, framesInContact)
 {

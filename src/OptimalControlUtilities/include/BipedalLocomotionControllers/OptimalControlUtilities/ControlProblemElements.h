@@ -338,37 +338,6 @@ public:
      * @param handler the variable handler object
      * @param framesInContact vector containing the frames in contact. Each element of the vector is
      * a pair containing the name of the frame in the variableHandler and in the model.
-     * @param gamma diagonal matrix containing the gear box ratios;
-     * @param motorsInertia vector containing the inertia of the motors
-     * @param harmonicDriveInertia vector containing the inertia of the harmonic drive
-     * @param r torso parameter http://wiki.icub.org/wiki/ICub_coupled_joints
-     * @param R torso parameter http://wiki.icub.org/wiki/ICub_coupled_joints
-     * @param t shoulder parameter http://wiki.icub.org/wiki/ICub_coupled_joints
-     * @throw std::runtime_error if the frame is not defined
-     * @note this is iCub specific. In the next version it will be removed
-     */
-    [[deprecated(
-        "This function is iCub specific. In the next implementation will be removed. If "
-        "you want to include regularization element for the mass matrix please call "
-        "SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations>, const VariableHandler&, "
-        "const std::vector<std::pair<std::string, std::string>>&, const "
-        "iDyntree::MatrixDynsize&)")]]
-    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                          const VariableHandler& handler,
-                          const std::vector<std::pair<std::string, std::string>>& framesInContact,
-                          const iDynTree::VectorDynSize& gamma,
-                          const iDynTree::VectorDynSize& motorsInertia,
-                          const iDynTree::VectorDynSize& harmonicDriveInertia,
-                          const double& r,
-                          const double& R,
-                          const double& t);
-
-    /**
-     * Constructor. If you call this constructor the motor reflected inertia is enable
-     * @param kinDyn an iDynTree kinDyn computation object
-     * @param handler the variable handler object
-     * @param framesInContact vector containing the frames in contact. Each element of the vector is
-     * a pair containing the name of the frame in the variableHandler and in the model.
      * @param regularizationMatrix joints regularization mass matrix. It can be used to handle
      * the motor reflected inertia
      * @throw std::runtime_error if the frame is not defined or the regularizationMatrix size is
