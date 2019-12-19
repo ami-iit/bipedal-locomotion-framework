@@ -9,7 +9,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
-    src/PID.cpp
+    src/PDController.cpp
     src/VariableHandler.cpp
     src/ControlProblemElements.cpp
     src/OptimizationProblemElements.cpp
@@ -17,7 +17,8 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
-    include/BipedalLocomotionControllers/OptimalControlUtilities/PID.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h
