@@ -294,10 +294,10 @@ public:
 };
 
 /**
- * SystemDynamicsElement describes the System Dynamics that will be embedded as
+ * FloatingBaseMultiBodyDynamicsElement describes the System Dynamics that will be embedded as
  * equality constraint or cost function.
  */
-class SystemDynamicsElement : public CostFunctionOrEqualityConstraintElement
+class FloatingBaseMultiBodyDynamicsElement : public CostFunctionOrEqualityConstraintElement
 {
     /** Index range of the base acceleration */
     iDynTree::IndexRange m_baseAccelerationIndex{iDynTree::IndexRange::InvalidRange()};
@@ -328,9 +328,9 @@ public:
      * a pair containing the name of the frame in the variableHandler and in the model.
      * @throw std::runtime_error if the frame is not defined
      */
-    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                          const VariableHandler& handler,
-                          const std::vector<std::pair<std::string, std::string>>& framesInContact);
+    FloatingBaseMultiBodyDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                         const VariableHandler& handler,
+                                         const std::vector<std::pair<std::string, std::string>>& framesInContact);
 
     /**
      * Constructor. If you call this constructor the motor reflected inertia is enable
@@ -343,10 +343,10 @@ public:
      * @throw std::runtime_error if the frame is not defined or the regularizationMatrix size is
      * no coherent with the number of joints
      */
-    SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                          const VariableHandler& handler,
-                          const std::vector<std::pair<std::string, std::string>>& framesInContact,
-                          const iDynTree::MatrixDynSize& regularizationMatrix);
+    FloatingBaseMultiBodyDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                         const VariableHandler& handler,
+                                         const std::vector<std::pair<std::string, std::string>>& framesInContact,
+                                         const iDynTree::MatrixDynSize& regularizationMatrix);
 
     /**
      * Get (and compute) the element matrix

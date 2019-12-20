@@ -377,9 +377,10 @@ const iDynTree::MatrixDynSize& CartesianElement::getA()
 }
 
 // System Dynamics
-SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                             const VariableHandler& handler,
-                                             const std::vector<std::pair<std::string, std::string>>& framesInContact)
+FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+    const VariableHandler& handler,
+    const std::vector<std::pair<std::string, std::string>>& framesInContact)
     : CostFunctionOrEqualityConstraintElement(kinDyn)
 {
     // if this constructor is called the motor reflected inertia will not be used
@@ -392,15 +393,18 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
     m_name = "System Dynamics Element";
 
     if (!m_baseAccelerationIndex.isValid())
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
+        throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                 "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                  "base_acceleration variable");
 
     if (!m_jointAccelerationIndex.isValid())
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
+        throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                 "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                  "joint_accelerations variable");
 
     if (!m_jointTorqueIndex.isValid())
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
+        throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                 "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                  "joint_torques variable");
 
     for (const auto& frame : framesInContact)
@@ -410,12 +414,14 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
         frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.second);
 
         if (!frameInContact.indexRangeInElement.isValid())
-            throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
+            throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                     "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                      "frame named "
                                      + frame.first + "in the variableHandler");
 
         if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
-            throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
+            throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                     "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                      "frame named "
                                      + frame.second + "in the model");
 
@@ -444,25 +450,28 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
         .setIdentity();
 }
 
-SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                             const VariableHandler& handler,
-                                             const std::vector<std::pair<std::string, std::string>>& framesInContact,
-                                             const iDynTree::MatrixDynSize& regularizationMatrix)
-    : SystemDynamicsElement(kinDyn, handler, framesInContact)
+FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+    const VariableHandler& handler,
+    const std::vector<std::pair<std::string, std::string>>& framesInContact,
+    const iDynTree::MatrixDynSize& regularizationMatrix)
+    : FloatingBaseMultiBodyDynamicsElement(kinDyn, handler, framesInContact)
 {
     m_useReflectedInertia = true;
     m_name += " (with regularization matrix)";
 
     unsigned int actuatedDoFs = m_jointTorqueIndex.size;
     if (regularizationMatrix.rows() != actuatedDoFs)
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] The number of "
+        throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                 "FloatingBaseMultiBodyDynamicsElement] The number of "
                                  "rows of the regularizationMatrix is not equal to the one "
                                  "expected.  Expected: "
                                  + std::to_string(actuatedDoFs)
                                  + "retrieved: " + std::to_string(regularizationMatrix.rows()));
 
     if (regularizationMatrix.cols() != actuatedDoFs)
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] The number of "
+        throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
+                                 "FloatingBaseMultiBodyDynamicsElement] The number of "
                                  "columns of the regularizationMatrix is not equal to the one "
                                  "expected.  Expected: "
                                  + std::to_string(actuatedDoFs)
@@ -471,7 +480,7 @@ SystemDynamicsElement::SystemDynamicsElement(std::shared_ptr<iDynTree::KinDynCom
     m_reflectedInertia = regularizationMatrix;
 }
 
-const iDynTree::MatrixDynSize& SystemDynamicsElement::getA()
+const iDynTree::MatrixDynSize& FloatingBaseMultiBodyDynamicsElement::getA()
 {
     // store the massMatrix
     m_kinDynPtr->getFreeFloatingMassMatrix(m_massMatrix);
@@ -533,7 +542,7 @@ const iDynTree::MatrixDynSize& SystemDynamicsElement::getA()
     return m_A;
 }
 
-const iDynTree::VectorDynSize& SystemDynamicsElement::getB()
+const iDynTree::VectorDynSize& FloatingBaseMultiBodyDynamicsElement::getB()
 {
     m_kinDynPtr->generalizedBiasForces(m_generalizedBiasForces);
     iDynTree::toEigen(m_b).head(m_baseAccelerationIndex.size)
@@ -976,8 +985,9 @@ JointValuesFeasibilityElement::JointValuesFeasibilityElement(std::shared_ptr<iDy
     m_jointAccelerationIndex = handler.getVariable(variableName);
 
     if (!m_jointAccelerationIndex.isValid())
-        throw std::runtime_error("[SystemDynamicsElement::SystemDynamicsElement] Undefined "
-                                 "variable named joint_accelerations in the variableHandler");
+        throw std::runtime_error("[JointValuesFeasibilityElement::JointValuesFeasibilityElement] "
+                                 "Undefined variable named joint_accelerations in the "
+                                 "variableHandler");
 
     // resize and initialize matrices
     m_A.resize(m_jointAccelerationIndex.size, handler.getNumberOfVariables());
