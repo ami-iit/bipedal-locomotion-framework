@@ -366,8 +366,8 @@ public:
  */
 class CentroidalLinearMomentumElement : public CostFunctionOrEqualityConstraintElement
 {
-private:
-    iDynTree::Vector3 m_VRP; /**< Position of the Virtual Repellent Point */
+    std::unique_ptr<LinearPD<iDynTree::Vector3>> m_pd; /**< Linear PD */
+    iDynTree::Vector3 m_zero; /**< Vector of zero elements */
     double m_robotMass; /**< Mass of the robot */
 
 public:
@@ -384,10 +384,21 @@ public:
                                     const std::vector<std::string>& framesInContact);
 
     /**
-     * Set the desired VRP
-     * @param VRP position of the virtual repellent point
+     * Set the desired centroidal linear momentum
+     * @param centroidalLinearMomentumDerivative desired linear momentum rate of change
+     * @param centroidalLinearMomentum desired linear momentum
      */
-    void setVRP(const iDynTree::Vector3& VRP);
+    void
+    setDesiredCentroidalLinearMomentum(const iDynTree::Vector3& centroidalLinearMomentumDerivative,
+                                       const iDynTree::Vector3& centroidalLinearMomentum);
+
+    /**
+     * Set the controller gain
+     * @param kp controller gain
+     */
+    void setGain(const iDynTree::Vector3& kp);
+
+
 
     /**
      * Get (and compute) the element vector
@@ -423,11 +434,11 @@ public:
 
     /**
      * Set the desired centroidal angular momentum
-     * @param centroidalAngularMomentumVelocity desired angular momentum rate of change
+     * @param centroidalAngularMomentumDerivative desired angular momentum rate of change
      * @param centroidalAngularMomentum desired angular momentum
      */
     void
-    setDesiredCentroidalAngularMomentum(const iDynTree::Vector3& centroidalAngularMomentumVelocity,
+    setDesiredCentroidalAngularMomentum(const iDynTree::Vector3& centroidalAngularMomentumDerivative,
                                         const iDynTree::Vector3& centroidalAngularMomentum);
 
     /**

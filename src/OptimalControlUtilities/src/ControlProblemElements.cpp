@@ -561,7 +561,12 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
 {
     m_name = "Centroidal Linear Momentum Element";
 
+    // get the robot mass
     m_robotMass = m_kinDynPtr->model().getTotalMass();
+
+    // initialize the PD
+    m_pd = std::make_unique<LinearPD<iDynTree::Vector3>>();
+    m_zero.zero();
 
     // resize and reset matrices
     m_A.resize(3, handler.getNumberOfVariables());
@@ -581,20 +586,29 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
     }
 }
 
-void CentroidalLinearMomentumElement::setVRP(const iDynTree::Vector3& VRP)
+void CentroidalLinearMomentumElement::setGain(const iDynTree::Vector3& kp)
 {
-    m_VRP = VRP;
+    m_pd->setGains(kp, m_zero);
+}
+
+void CentroidalLinearMomentumElement::setDesiredCentroidalLinearMomentum(
+    const iDynTree::Vector3& centroidalLinearMomentumDerivative,
+    const iDynTree::Vector3& centroidalLinearMomentum)
+{
+    // TODO probably it can be optimized
+    // u = centroidalLinearMomentumDerivative_des + kp (centroidalLinearMomentum_des -
+    // centroidalLinearMomentum)
+    m_pd->setDesiredTrajectory(centroidalLinearMomentumDerivative,
+                               m_zero,
+                               centroidalLinearMomentum);
 }
 
 const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 {
-    iDynTree::Position com;
-    com = m_kinDynPtr->getCenterOfMassPosition();
+    m_pd->setFeedback(m_zero, m_kinDynPtr->getCentroidalTotalMomentum().getLinearVec3());
 
     double gravity = 9.81;
-    double omegaSquare = gravity / com(2);
-    iDynTree::toEigen(m_b)
-        = omegaSquare * m_robotMass * (iDynTree::toEigen(com) - iDynTree::toEigen(m_VRP));
+    m_b = m_pd->getControllerOutput();
     m_b(2) += gravity * m_robotMass;
 
     return m_b;
@@ -650,15 +664,15 @@ void CentroidalAngularMomentumElement::setGain(const iDynTree::Vector3& kp)
 }
 
 void CentroidalAngularMomentumElement::setDesiredCentroidalAngularMomentum(
-    const iDynTree::Vector3& centroidalAngularMomentumVelocity,
+    const iDynTree::Vector3& centroidalAngularMomentumDerivative,
     const iDynTree::Vector3& centroidalAngularMomentum)
 {
     // TODO probably it can be optimized
-    // u = centroidalAngularMomentumVelocity_des + kp (centroidalAngularMomentum_des -
+    // u = centroidalAngularMomentumDerivative_des + kp (centroidalAngularMomentum_des -
     // centroidalAngularMomentum)
-    m_pd->setDesiredTrajectory(centroidalAngularMomentumVelocity,
-                                m_zero,
-                                centroidalAngularMomentum);
+    m_pd->setDesiredTrajectory(centroidalAngularMomentumDerivative,
+                               m_zero,
+                               centroidalAngularMomentum);
 }
 
 const iDynTree::MatrixDynSize& CentroidalAngularMomentumElement::getA()
