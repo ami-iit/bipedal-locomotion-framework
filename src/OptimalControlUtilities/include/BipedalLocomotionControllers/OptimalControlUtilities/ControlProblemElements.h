@@ -20,7 +20,7 @@
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingState.h>
 
-#include <BipedalLocomotionControllers/OptimalControlUtilities/PID.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/PDController.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 
 #include <exception>
@@ -175,9 +175,9 @@ private:
     /** Control type index */
     iDynTree::IndexRange m_typeIndex{iDynTree::IndexRange::InvalidRange()};
 
-    std::unique_ptr<PositionPID> m_positionPID; /**< 3D Position PID. */
-    std::unique_ptr<OrientationPID> m_orientationPID; /**< Orientation PID. */
-    std::unique_ptr<OneDegreePID> m_oneDegreePID; /**< One Degree of freedom PID. */
+    std::unique_ptr<LinearPD<iDynTree::Vector3>> m_positionPD; /**< 3D Position PD. */
+    std::unique_ptr<OrientationPD> m_orientationPD; /**< Orientation PD. */
+    std::unique_ptr<LinearPD<double>> m_oneDegreePD; /**< One Degree of freedom PD. */
 
     iDynTree::FrameIndex m_frameIndex; /**< Index of the frame. */
 
@@ -249,29 +249,29 @@ public:
                               const double& position);
 
     /**
-     * Set the linear PID gains
+     * Set the linear PD gains
      * @param kp proportional gain
      * @param kd derivative gain
      * @throw std::runtime_error if the Type is different from POSE and POSITION
      */
-    void setLinearPIDGains(const iDynTree::Vector3& kp, const iDynTree::Vector3& kd);
+    void setLinearPDGains(const iDynTree::Vector3& kp, const iDynTree::Vector3& kd);
 
     /**
-     * Set the orientation PID gains
+     * Set the orientation PD gains
      * @param c0 c0 gain
      * @param c1 derivative gain
      * @param c2 proportional gain
      * @throw std::runtime_error if the Type is different from ORIENTATION and POSITION
      */
-    void setOrientationPIDGains(const double& c0, const double& c1, const double& c2);
+    void setOrientationPDGains(const double& c0, const double& c1, const double& c2);
 
     /**
-     * Set the linear PID gains
+     * Set the linear PD gains
      * @param kp proportional gain
      * @param kd derivative gain
      * @throw std::runtime_error if the Type is different from ONE_DIMENSION
      */
-    void setOneDegreePIDGains(const double& kp, const double& kd);
+    void setOneDegreePDGains(const double& kp, const double& kd);
 
     /**
      * Get (and compute) the element matrix
@@ -402,7 +402,7 @@ public:
 class CentroidalAngularMomentumElement : public CostFunctionOrEqualityConstraintElement
 {
 private:
-    std::unique_ptr<PositionPID> m_pid; /**< Linear PID */
+    std::unique_ptr<LinearPD<iDynTree::Vector3>> m_pd; /**< Linear PD */
     std::vector<Frame> m_framesInContact; /**< Vectors containing the frames in contact with the
                                              environment */
     iDynTree::Vector3 m_zero; /**< Vector of zero elements */
@@ -434,7 +434,7 @@ public:
      * Set the controller gain
      * @param kp controller gain
      */
-    void setGain(const double& kp);
+    void setGain(const iDynTree::Vector3& kp);
 
     /**
      * Get (and compute) the element matrix

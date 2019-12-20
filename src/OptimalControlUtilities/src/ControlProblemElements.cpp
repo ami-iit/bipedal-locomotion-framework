@@ -98,8 +98,8 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
     switch (type)
     {
     case Type::POSE:
-        m_positionPID = std::make_unique<PositionPID>();
-        m_orientationPID = std::make_unique<OrientationPID>();
+        m_positionPD = std::make_unique<LinearPD<iDynTree::Vector3>>();
+        m_orientationPD = std::make_unique<OrientationPD>();
 
         // in this case the element of the jacobian matrix starts from index zero and the number of
         // rows are 6
@@ -111,7 +111,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
         break;
 
     case Type::POSITION:
-        m_positionPID = std::make_unique<PositionPID>();
+        m_positionPD = std::make_unique<LinearPD<iDynTree::Vector3>>();
 
         // in this case the element of the jacobian matrix starts from index zero and the number of
         // rows are 3
@@ -123,7 +123,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
         break;
 
     case Type::ORIENTATION:
-        m_orientationPID = std::make_unique<OrientationPID>();
+        m_orientationPD = std::make_unique<OrientationPD>();
 
         // in this case the element of the jacobian matrix starts from index 3 and the number of
         // rows are 3
@@ -135,8 +135,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
         break;
 
     case Type::ONE_DIMENSION:
-
-        m_oneDegreePID = std::make_unique<OneDegreePID>();
+        m_oneDegreePD = std::make_unique<LinearPD<double>>();
 
         // in this case the element of the jacobian matrix starts from index 3 and the number of
         // rows are 3
@@ -163,35 +162,35 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
     m_b.zero();
 }
 
-void CartesianElement::setLinearPIDGains(const iDynTree::Vector3& kp, const iDynTree::Vector3& kd)
+void CartesianElement::setLinearPDGains(const iDynTree::Vector3& kp, const iDynTree::Vector3& kd)
 {
     if (m_type != Type::POSITION && m_type != Type::POSE)
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "Cartesian element is neither POSITION nor POSE. This function "
                                  "will not set the gains you are expected.");
 
-    m_positionPID->setGains(kp, kd);
+    m_positionPD->setGains(kp, kd);
     return;
 }
 
-void CartesianElement::setOrientationPIDGains(const double& c0, const double& c1, const double& c2)
+void CartesianElement::setOrientationPDGains(const double& c0, const double& c1, const double& c2)
 {
     if (m_type != Type::ORIENTATION && m_type != Type::POSE)
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "Cartesian element is neither ORIENTATION nor POSE. This function "
                                  "will not set the gains you are expected.");
 
-    m_orientationPID->setGains(c0, c1, c2);
+    m_orientationPD->setGains(c0, c1, c2);
     return;
 }
 
-void CartesianElement::setOneDegreePIDGains(const double& kp, const double& kd)
+void CartesianElement::setOneDegreePDGains(const double& kp, const double& kd)
 {
     if (m_type != Type::ONE_DIMENSION)
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "cartesian element is not ONE_DIMENSION.");
 
-    m_oneDegreePID->setGains(kp, kd);
+    m_oneDegreePD->setGains(kp, kd);
     return;
 }
 
@@ -203,7 +202,7 @@ void CartesianElement::setDesiredTrajectory(const iDynTree::Vector3& acceleratio
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "cartesian element is neither POSITION or POSE.");
 
-    m_positionPID->setDesiredTrajectory(acceleration, velocity, position);
+    m_positionPD->setDesiredTrajectory(acceleration, velocity, position);
     return;
 }
 
@@ -215,7 +214,7 @@ void CartesianElement::setDesiredTrajectory(const iDynTree::Vector3& acceleratio
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "cartesian element is neither ORIENTATION or POSE.");
 
-    m_orientationPID->setDesiredTrajectory(acceleration, velocity, rotation);
+    m_orientationPD->setDesiredTrajectory(acceleration, velocity, rotation);
     return;
 }
 
@@ -227,10 +226,10 @@ void CartesianElement::setDesiredTrajectory(const iDynTree::SpatialAcc& accelera
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "cartesian element is not POSE.");
 
-    m_positionPID->setDesiredTrajectory(acceleration.getLinearVec3(),
+    m_positionPD->setDesiredTrajectory(acceleration.getLinearVec3(),
                                         velocity.getLinearVec3(),
                                         transform.getPosition());
-    m_orientationPID->setDesiredTrajectory(acceleration.getAngularVec3(),
+    m_orientationPD->setDesiredTrajectory(acceleration.getAngularVec3(),
                                            velocity.getAngularVec3(),
                                            transform.getRotation());
     return;
@@ -244,7 +243,7 @@ void CartesianElement::setDesiredTrajectory(const double& acceleration,
         throw std::runtime_error("[CartesianElement::setDesiredTrajectory] The type of the "
                                  "cartesian element is not in the ONE_DIMENSION");
 
-    m_oneDegreePID->setDesiredTrajectory(acceleration, velocity, position);
+    m_oneDegreePD->setDesiredTrajectory(acceleration, velocity, position);
     return;
 }
 
@@ -263,16 +262,16 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
         if (!m_isInContact)
         {
             // the first three elements are positions
-            m_positionPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
+            m_positionPD->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
                                        m_kinDynPtr->getWorldTransform(m_frameIndex).getPosition());
             iDynTree::toEigen(m_b).head<3>()
-                += iDynTree::toEigen(m_positionPID->getControllerOutput());
+                += iDynTree::toEigen(m_positionPD->getControllerOutput());
 
             // the first three elements are orientation
-            m_orientationPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
+            m_orientationPD->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
                                           m_kinDynPtr->getWorldTransform(m_frameIndex).getRotation());
             iDynTree::toEigen(m_b).tail<3>()
-                += iDynTree::toEigen(m_orientationPID->getControllerOutput());
+                += iDynTree::toEigen(m_orientationPD->getControllerOutput());
         }
 
     }
@@ -281,11 +280,11 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
     {
         if (!m_isInContact)
         {
-            m_orientationPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
+            m_orientationPD->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
                                           m_kinDynPtr->getWorldTransform(m_frameIndex).getRotation());
 
             iDynTree::toEigen(m_b)
-                = iDynTree::toEigen(m_orientationPID->getControllerOutput())
+                = iDynTree::toEigen(m_orientationPD->getControllerOutput())
                   - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).tail<3>();
         } else
         {
@@ -300,11 +299,11 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
         {
             if (!m_isInContact)
             {
-                m_positionPID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
+                m_positionPD->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
                                            m_kinDynPtr->getWorldTransform(m_frameIndex).getPosition());
 
                 iDynTree::toEigen(m_b)
-                    = iDynTree::toEigen(m_positionPID->getControllerOutput())
+                    = iDynTree::toEigen(m_positionPD->getControllerOutput())
                       - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).head<3>();
             } else
             {
@@ -315,10 +314,10 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
         } else
         {
             // the CoM cannot be in contact or not
-            m_positionPID->setFeedback(m_kinDynPtr->getCenterOfMassVelocity(),
+            m_positionPD->setFeedback(m_kinDynPtr->getCenterOfMassVelocity(),
                                        m_kinDynPtr->getCenterOfMassPosition());
 
-            iDynTree::toEigen(m_b) = iDynTree::toEigen(m_positionPID->getControllerOutput())
+            iDynTree::toEigen(m_b) = iDynTree::toEigen(m_positionPD->getControllerOutput())
                                      - iDynTree::toEigen(m_kinDynPtr->getCenterOfMassBiasAcc());
         }
     }
@@ -326,18 +325,18 @@ const iDynTree::VectorDynSize& CartesianElement::getB()
     else if (m_type == Type::ONE_DIMENSION)
     {
         if (m_frameIndex != -1)
-            m_oneDegreePID->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex)
+            m_oneDegreePD->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex)
                                             .getLinearVec3()(m_typeIndex.offset),
                                         m_kinDynPtr->getWorldTransform(m_frameIndex)
                                             .getPosition()(m_typeIndex.offset));
         else
-            m_oneDegreePID->setFeedback(m_kinDynPtr->getCenterOfMassVelocity()(m_typeIndex.offset),
+            m_oneDegreePD->setFeedback(m_kinDynPtr->getCenterOfMassVelocity()(m_typeIndex.offset),
                                         m_kinDynPtr->getCenterOfMassPosition()(m_typeIndex.offset));
 
         // in this case b is only a number
         if (!m_isInContact)
         {
-            m_b(0) = m_oneDegreePID->getControllerOutput()
+            m_b(0) = m_oneDegreePD->getControllerOutput()
                      - m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
         } else
             m_b(0) = -m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
@@ -606,8 +605,8 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
     m_b.resize(3);
     m_b.zero();
 
-    // initialize the PID
-    m_pid = std::make_unique<PositionPID>();
+    // initialize the PD
+    m_pd = std::make_unique<LinearPD<iDynTree::Vector3>>();
     m_zero.zero();
 
     for (const auto& frame : framesInContact)
@@ -636,9 +635,9 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
     }
 }
 
-void CentroidalAngularMomentumElement::setGain(const double& kp)
+void CentroidalAngularMomentumElement::setGain(const iDynTree::Vector3& kp)
 {
-    m_pid->setGains(kp, 0.0);
+    m_pd->setGains(kp, m_zero);
 }
 
 void CentroidalAngularMomentumElement::setDesiredCentroidalAngularMomentum(
@@ -648,7 +647,7 @@ void CentroidalAngularMomentumElement::setDesiredCentroidalAngularMomentum(
     // TODO probably it can be optimized
     // u = centroidalAngularMomentumVelocity_des + kp (centroidalAngularMomentum_des -
     // centroidalAngularMomentum)
-    m_pid->setDesiredTrajectory(centroidalAngularMomentumVelocity,
+    m_pd->setDesiredTrajectory(centroidalAngularMomentumVelocity,
                                 m_zero,
                                 centroidalAngularMomentum);
 }
@@ -669,8 +668,8 @@ const iDynTree::MatrixDynSize& CentroidalAngularMomentumElement::getA()
 
 const iDynTree::VectorDynSize& CentroidalAngularMomentumElement::getB()
 {
-    m_pid->setFeedback(m_zero, m_kinDynPtr->getCentroidalTotalMomentum().getAngularVec3());
-    iDynTree::toEigen(m_b) = iDynTree::toEigen(m_pid->getControllerOutput());
+    m_pd->setFeedback(m_zero, m_kinDynPtr->getCentroidalTotalMomentum().getAngularVec3());
+    iDynTree::toEigen(m_b) = iDynTree::toEigen(m_pd->getControllerOutput());
     return m_b;
 }
 
