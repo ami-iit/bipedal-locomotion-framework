@@ -475,15 +475,8 @@ public:
  */
 class RegularizationWithControlElement : public RegularizationElement
 {
-    iDynTree::VectorDynSize m_kp; /**< Proportional gain */
-    iDynTree::VectorDynSize m_kd; /**< Derivative gain */
-
-    iDynTree::VectorDynSize m_desiredPosition; /**< Desired position. */
-    iDynTree::VectorDynSize m_desiredVelocity; /**< Desired velocity. */
-    iDynTree::VectorDynSize m_desiredAcceleration; /**< Desired acceleration. */
-
-    iDynTree::VectorDynSize m_position; /**< Current position. */
-    iDynTree::VectorDynSize m_velocity; /**< Current velocity. */
+    /** PD controller */
+    std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> m_pd;
 
 public:
     /**
@@ -515,11 +508,11 @@ public:
     void setState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
 
     /**
-     * Set the PID gains
+     * Set the PD gains
      * @param kp proportional gain
      * @param kd derivative gain
      */
-    void setPIDGains(const iDynTree::VectorDynSize& kp, const iDynTree::VectorDynSize& kd);
+    void setPDGains(const iDynTree::VectorDynSize& kp, const iDynTree::VectorDynSize& kd);
 
     /**
      * Get (and compute) the element vector

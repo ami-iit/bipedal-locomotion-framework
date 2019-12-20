@@ -710,56 +710,37 @@ RegularizationWithControlElement::RegularizationWithControlElement(
 
     iDynTree::IndexRange variableIndex = handler.getVariable(variableName);
 
+    // instantiate controller
+    m_pd = std::make_unique<LinearPD<iDynTree::VectorDynSize>>();
+
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationWithControlElement::"
                                  "RegularizationWithControlElement] Undefined variable named "
                                  + variableName + "in the variableHandler");
-
-    // resize quantities
-    m_kp.resize(variableIndex.size);
-    m_kd.resize(variableIndex.size);
-
-    m_desiredPosition.resize(variableIndex.size);
-    m_desiredVelocity.resize(variableIndex.size);
-    m_desiredAcceleration.resize(variableIndex.size);
-
-    m_position.resize(variableIndex.size);
-    m_velocity.resize(variableIndex.size);
 }
 
 void RegularizationWithControlElement::setDesiredTrajectory(const iDynTree::VectorDynSize& acceleration,
                                                             const iDynTree::VectorDynSize& velocity,
                                                             const iDynTree::VectorDynSize& position)
 {
-    m_desiredAcceleration = acceleration;
-    m_desiredVelocity = velocity;
-    m_desiredPosition = position;
+    m_pd->setDesiredTrajectory(acceleration, velocity, position);
 }
 
 void RegularizationWithControlElement::setState(const iDynTree::VectorDynSize& velocity,
                                                 const iDynTree::VectorDynSize& position)
 {
-    m_velocity = velocity;
-    m_position = position;
+    m_pd->setFeedback(velocity, position);
 }
 
-void RegularizationWithControlElement::setPIDGains(const iDynTree::VectorDynSize& kp,
+void RegularizationWithControlElement::setPDGains(const iDynTree::VectorDynSize& kp,
                                                    const iDynTree::VectorDynSize& kd)
 {
-    m_kp = kp;
-    m_kd = kd;
+    m_pd->setGains(kp, kd);
 }
 
 const iDynTree::VectorDynSize& RegularizationWithControlElement::getB()
 {
-    iDynTree::toEigen(m_b)
-        = iDynTree::toEigen(m_desiredAcceleration)
-          + iDynTree::toEigen(m_kd).asDiagonal()
-                * (iDynTree::toEigen(m_desiredVelocity) - iDynTree::toEigen(m_velocity))
-          + iDynTree::toEigen(m_kp).asDiagonal()
-                * (iDynTree::toEigen(m_desiredPosition) - iDynTree::toEigen(m_position));
-
-    return m_b;
+    return m_pd->getControllerOutput();
 }
 
 // ZMP Element
