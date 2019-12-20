@@ -82,15 +82,14 @@ public:
 };
 
 /**
- * CostFunctionOrEqualityConstraintElement describes a control problem
- * element that will be embedded as cost function or as equality constraint.
- * The element is described by \f$ A \f$ and \f$ b \f$. \f$ A \f$ is the
+ * ControlTask describes a control problem element that will be embedded as cost function or as
+ * equality constraint. The element is described by \f$ A \f$ and \f$ b \f$. \f$ A \f$ is the
  * element matrix and \f$ x \f$ and \f$ b \f$ the element vector.
  * In case of cost function \f$ A \f$ and \f$ b \f$ represents:
  * \f$ \norm{Ax - b}^2 \f$. In case of equality constraint
  * \f$ Ax = b \f$
  */
-class CostFunctionOrEqualityConstraintElement : public ControlProblemElement
+class ControlTask : public ControlProblemElement
 {
 protected:
     iDynTree::VectorDynSize m_b; /**< Element Vector */
@@ -100,7 +99,7 @@ public:
      * Constructor
      * @param kinDyn KinDynComputations object
      */
-    CostFunctionOrEqualityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    ControlTask(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Get the element vector
@@ -147,7 +146,7 @@ public:
  * The Cartesian element in useful to control the position/orientation/pose of a frame/CoM of the
  * robot
  */
-class CartesianElement : public CostFunctionOrEqualityConstraintElement
+class CartesianElement : public ControlTask
 {
 public:
     /** Cartesian Element Type */
@@ -297,7 +296,7 @@ public:
  * FloatingBaseMultiBodyDynamicsElement describes the System Dynamics that will be embedded as
  * equality constraint or cost function.
  */
-class FloatingBaseMultiBodyDynamicsElement : public CostFunctionOrEqualityConstraintElement
+class FloatingBaseMultiBodyDynamicsElement : public ControlTask
 {
     /** Index range of the base acceleration */
     iDynTree::IndexRange m_baseAccelerationIndex{iDynTree::IndexRange::InvalidRange()};
@@ -364,7 +363,7 @@ public:
 /**
  * CentroidalLinearMomentumElement describes the Centroidal linear momentum
  */
-class CentroidalLinearMomentumElement : public CostFunctionOrEqualityConstraintElement
+class CentroidalLinearMomentumElement : public ControlTask
 {
     std::unique_ptr<LinearPD<iDynTree::Vector3>> m_pd; /**< Linear PD */
     iDynTree::Vector3 m_zero; /**< Vector of zero elements */
@@ -410,7 +409,7 @@ public:
 /**
  * CentroidalAngularMomentumElement describes the Centroidal angular momentum
  */
-class CentroidalAngularMomentumElement : public CostFunctionOrEqualityConstraintElement
+class CentroidalAngularMomentumElement : public ControlTask
 {
 private:
     std::unique_ptr<LinearPD<iDynTree::Vector3>> m_pd; /**< Linear PD */
@@ -464,7 +463,7 @@ public:
  * RegularizationElement describes an element used to regularize unknown variables
  * It is in general used as CostFunctionElement of the form  \f$ x^\top A^\top A x \f$
  */
-class RegularizationElement : public CostFunctionOrEqualityConstraintElement
+class RegularizationElement : public ControlTask
 {
 public:
     /**
@@ -535,7 +534,7 @@ public:
 /**
  * ZMPElement handles the tracking of the global Zero Moment Point (ZMP)
  */
-class ZMPElement : public CostFunctionOrEqualityConstraintElement
+class ZMPElement : public ControlTask
 {
     std::vector<Frame> m_framesInContact; /**< Vectors containing the frames in contact with the
                                              environment */

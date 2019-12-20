@@ -13,8 +13,8 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 // constraint
 
-Constraints::EqualityConstraint::EqualityConstraint(
-    CostFunctionOrEqualityConstraintElement* const element, const iDynTree::IndexRange& indexRange)
+Constraints::EqualityConstraint::EqualityConstraint(ControlTask* const element,
+                                                    const iDynTree::IndexRange& indexRange)
     : element(element)
     , indexRange(indexRange)
 {
@@ -50,7 +50,7 @@ int Constraints::getNextConstraintIndex() const
     return index;
 }
 
-void Constraints::addConstraint(CostFunctionOrEqualityConstraintElement* element)
+void Constraints::addConstraint(ControlTask* element)
 {
     iDynTree::IndexRange temp;
     temp.offset = m_numberOfConstraints;
@@ -151,11 +151,10 @@ const std::vector<Constraints::InequalityConstraint>& Constraints::getInequality
 }
 
 // CostFunction
-CostFunction::CostFunctionElement::CostFunctionElement(
-    CostFunctionOrEqualityConstraintElement* const element,
-    const iDynTree::VectorDynSize& weight,
-    const double& weightScaling,
-    const double& weightOffset)
+CostFunction::CostFunctionElement::CostFunctionElement(ControlTask* const element,
+                                                       const iDynTree::VectorDynSize& weight,
+                                                       const double& weightScaling,
+                                                       const double& weightOffset)
     : element(element)
     , weight(weight)
     , weightScaling(weightScaling)
@@ -177,7 +176,7 @@ CostFunction::CostFunction(const VariableHandler& handler)
     m_gradient.zero();
 }
 
-void CostFunction::addCostFunction(CostFunctionOrEqualityConstraintElement* const element,
+void CostFunction::addCostFunction(ControlTask* const element,
                                    const iDynTree::VectorDynSize& weight,
                                    const double& weightScaling,
                                    const double& weightOffset,

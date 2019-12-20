@@ -32,14 +32,13 @@ class Constraints
      */
     struct EqualityConstraint
     {
-        CostFunctionOrEqualityConstraintElement* element; /**< Pointer to the constraint */
+        ControlTask* element; /**< Pointer to the constraint */
         iDynTree::IndexRange indexRange; /**< Size and offset of the constraint */
 
         /**
          * Constructor
          */
-        EqualityConstraint(CostFunctionOrEqualityConstraintElement* const element,
-                           const iDynTree::IndexRange& indexRange);
+        EqualityConstraint(ControlTask* const element, const iDynTree::IndexRange& indexRange);
     };
 
     struct InequalityConstraint
@@ -52,7 +51,6 @@ class Constraints
          */
         InequalityConstraint(InequalityConstraintElement* const element,
                              const iDynTree::IndexRange& indexRange);
-
     };
 
     std::vector<EqualityConstraint> m_equalityConstrains; /**< Vector containing all the equality
@@ -84,7 +82,7 @@ public:
      * Add a new constraint. The constraint matrix and the bound vector are resized
      * @param element pointer to the constraint
      */
-    void addConstraint(CostFunctionOrEqualityConstraintElement* element);
+    void addConstraint(ControlTask* element);
 
     /**
      * Add a new constraint. The constraint matrix and the bound vector are resized
@@ -137,7 +135,7 @@ class CostFunction
      */
     struct CostFunctionElement
     {
-        CostFunctionOrEqualityConstraintElement* element; /**< Pointer to the element */
+        ControlTask* element; /**< Pointer to the element */
         iDynTree::VectorDynSize weight; /**< Weight */
         double weightOffset{0}; /**< Offset of the weight i.e. Weight = weightScaling * customWeight
                                    + weightOffset */
@@ -147,11 +145,10 @@ class CostFunction
         /**
          * Constructor
          */
-        CostFunctionElement(CostFunctionOrEqualityConstraintElement* const element,
+        CostFunctionElement(ControlTask* const element,
                             const iDynTree::VectorDynSize& weight,
                             const double& weightScaling = 1,
                             const double& weightOffset = 0);
-
     };
 
     /** Unordered map containing all the cost function element */
@@ -175,7 +172,7 @@ public:
      * @param weightOffset offset of the weight
      * @param name name associated to the element
      */
-    void addCostFunction(CostFunctionOrEqualityConstraintElement* element,
+    void addCostFunction(ControlTask* element,
                          const iDynTree::VectorDynSize& weight,
                          const double& weightScaling,
                          const double& weightOffset,

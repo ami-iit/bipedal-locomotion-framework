@@ -35,13 +35,13 @@ const std::string& ControlProblemElement::getName() const
     return m_name;
 }
 
-// CostFunctionOrEqualityConstraintElement
-CostFunctionOrEqualityConstraintElement::CostFunctionOrEqualityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+// ControlTask
+ControlTask::ControlTask(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : ControlProblemElement(kinDyn)
 {
 }
 
-const iDynTree::VectorDynSize& CostFunctionOrEqualityConstraintElement::getB()
+const iDynTree::VectorDynSize& ControlTask::getB()
 {
     return m_b;
 }
@@ -58,7 +58,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
                                    const Type& type,
                                    const std::string& frameName,
                                    const AxisName& axisName /* = AxisName::X */)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
     , m_type(type)
     , m_isInContact(false)
 {
@@ -381,7 +381,7 @@ FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
     const std::vector<std::pair<std::string, std::string>>& framesInContact)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
 {
     // if this constructor is called the motor reflected inertia will not be used
     m_useReflectedInertia = false;
@@ -557,7 +557,7 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
     const std::vector<std::string>& framesInContact)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
 {
     m_name = "Centroidal Linear Momentum Element";
 
@@ -618,7 +618,7 @@ const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                                                    const VariableHandler& handler,
                                                                    const std::vector<std::pair<std::string, std::string>>& framesInContact)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
 {
     m_name = "Centroidal Angular Momentum Element";
 
@@ -700,7 +700,7 @@ const iDynTree::VectorDynSize& CentroidalAngularMomentumElement::getB()
 RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                              const VariableHandler& handler,
                                              const std::string& variableName)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
 {
     m_name = "Regularization element (variable: " + variableName + ")";
 
@@ -770,7 +770,7 @@ const iDynTree::VectorDynSize& RegularizationWithControlElement::getB()
 ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                        const VariableHandler& handler,
                        const std::vector<std::pair<std::string, std::string>>& framesInContact)
-    : CostFunctionOrEqualityConstraintElement(kinDyn)
+    : ControlTask(kinDyn)
 {
     m_name = "ZMP element: (Frames in contact: ";
 
