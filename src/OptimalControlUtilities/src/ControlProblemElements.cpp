@@ -85,7 +85,7 @@ CartesianElement::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations>
 
         if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[CartesianElement::CartesianElement] Frame named " + frameName
-                                     + "is not defined in the model");
+                                     + " is not defined in the model");
     } else
     {
         m_frameIndex = -1;
@@ -417,13 +417,13 @@ FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
             throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
                                      "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                      "frame named "
-                                     + frame.first + "in the variableHandler");
+                                     + frame.first + " in the variableHandler");
 
         if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
                                      "FloatingBaseMultiBodyDynamicsElement] Undefined "
                                      "frame named "
-                                     + frame.second + "in the model");
+                                     + frame.second + " in the model");
 
         m_framesInContact.push_back(frameInContact);
     }
@@ -467,7 +467,7 @@ FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
                                  "rows of the regularizationMatrix is not equal to the one "
                                  "expected.  Expected: "
                                  + std::to_string(actuatedDoFs)
-                                 + "retrieved: " + std::to_string(regularizationMatrix.rows()));
+                                 + " retrieved: " + std::to_string(regularizationMatrix.rows()));
 
     if (regularizationMatrix.cols() != actuatedDoFs)
         throw std::runtime_error("[FloatingBaseMultiBodyDynamicsElement::"
@@ -475,7 +475,7 @@ FloatingBaseMultiBodyDynamicsElement::FloatingBaseMultiBodyDynamicsElement(
                                  "columns of the regularizationMatrix is not equal to the one "
                                  "expected.  Expected: "
                                  + std::to_string(actuatedDoFs)
-                                 + "retrieved: " + std::to_string(regularizationMatrix.cols()));
+                                 + " retrieved: " + std::to_string(regularizationMatrix.cols()));
 
     m_reflectedInertia = regularizationMatrix;
 }
@@ -580,7 +580,7 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
         if (!variableIndex.isValid())
             throw std::runtime_error("[CentroidalLinearMomentumElement::"
                                      "CentroidalLinearMomentumElement] Undefined frame named "
-                                     + frameName + "in the variableHandler");
+                                     + frameName + " in the variableHandler");
 
         iDynTree::toEigen(m_A).block(0, variableIndex.offset, 3, 3).setIdentity();
     }
@@ -641,12 +641,12 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
         if (!frameInContact.indexRangeInElement.isValid())
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.first + "in the variableHandler");
+                                     + frame.first + " in the variableHandler");
 
         if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.second + "in the model");
+                                     + frame.second + " in the model");
 
         m_framesInContact.push_back(frameInContact);
 
@@ -709,7 +709,7 @@ RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynCom
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationElement::RegularizationElement] Undefined "
                                  "variable named "
-                                 + variableName + "in the variableHandler");
+                                 + variableName + " in the variableHandler");
 
     // resize and set the matrices
     m_A.resize(variableIndex.size, handler.getNumberOfVariables());
@@ -739,7 +739,7 @@ RegularizationWithControlElement::RegularizationWithControlElement(
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationWithControlElement::"
                                  "RegularizationWithControlElement] Undefined variable named "
-                                 + variableName + "in the variableHandler");
+                                 + variableName + " in the variableHandler");
 }
 
 void RegularizationWithControlElement::setDesiredTrajectory(const iDynTree::VectorDynSize& acceleration,
@@ -792,11 +792,11 @@ ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
 
         if (!frame.indexRangeInElement.isValid())
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.first + "in the variableHandler");
+                                     + frameInContact.first + " in the variableHandler");
 
         if (frame.indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.second + "in the model");
+                                     + frameInContact.second + " in the model");
 
         // constant values
         m_A(0, frame.indexRangeInElement.offset + 4) = 1;
@@ -850,12 +850,12 @@ ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr
     if (!m_frameInContact.indexRangeInElement.isValid())
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.first + "in the variableHandler");
+                                 + frameInContact.first + " in the variableHandler");
 
     if (m_frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.second + "in the model");
+                                 + frameInContact.second + " in the model");
 
     // split the friction cone into slices
     double segmentAngle = iDynTree::deg2rad(90) / (numberOfPoints - 1);
