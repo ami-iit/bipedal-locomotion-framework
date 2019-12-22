@@ -14,4 +14,14 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
 
   add_test(NAME VariableHandlerTest COMMAND VariableHandlerTest)
 
+  ## Control problem elements
+  add_library(ControlProblemTestMain ControlProblemTestMain.cpp)
+  target_link_libraries(ControlProblemTestMain PRIVATE Catch2::Catch2)
+
+  add_executable(ControlProblemTest ControlProblemTest.cpp)
+  target_link_libraries(ControlProblemTest ControlProblemTestMain Catch2::Catch2 BipedalLocomotionControllers::OptimalControlUtilities)
+  target_compile_definitions(ControlProblemTest PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
+
+  add_test(NAME ControlProblemTest COMMAND ControlProblemTest)
+
 endif()
