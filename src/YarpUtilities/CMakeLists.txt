@@ -41,7 +41,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities)
     LIBRARY       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                               COMPONENT shlib
     ARCHIVE       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                               COMPONENT lib
     RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}"                                               COMPONENT bin
-    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotinControllers/YarpUtilities" COMPONENT dev)
+    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/YarpUtilities" COMPONENT dev)
 
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRARY_TARGET_NAME})
 
