@@ -67,4 +67,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
 
+  add_subdirectory(tests)
+
 endif()
