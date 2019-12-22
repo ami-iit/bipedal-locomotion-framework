@@ -73,6 +73,26 @@ class Constraints
 
 public:
     /**
+     * Bounds wraps an \code std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&> \encode.
+     * It contains the lower and the upper bounds
+     */
+    class Bounds : public std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>
+    {
+        // obscure first and second attribute
+        using std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>::first;
+        using std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>::second;
+
+    public:
+        // use the std::pair constructors
+        using std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>::pair;
+
+        iDynTree::VectorDynSize& lowerBound();
+        const iDynTree::VectorDynSize& lowerBound() const;
+        iDynTree::VectorDynSize& upperBound();
+        const iDynTree::VectorDynSize& upperBound() const;
+    };
+
+    /**
      * Constructor
      * @param handler variable handler object
      */
@@ -92,10 +112,9 @@ public:
 
     /**
      * Get (and compute) the lower and the upper bounds
-     * @return pair containing the bounds. The first element is the lower
-     * bound, the second one is the upper bound
+     * @return the lower and upper bounds
      */
-    std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&> getBounds();
+    Bounds getBounds();
 
     /**
      * Get (and compute) the constraint matrix
@@ -159,6 +178,26 @@ class CostFunction
 
 public:
     /**
+     * Elements wraps an \code std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>
+     * \encode. It contains the hessian matrix and the gradient vector
+     */
+    class Elements : public std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>
+    {
+        // obscure first and second attribute
+        using std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>::first;
+        using std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>::second;
+
+    public:
+        // use the std::pair constructors
+        using std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>::pair;
+
+        iDynTree::MatrixDynSize& hessian();
+        const iDynTree::MatrixDynSize& hessian() const;
+        iDynTree::VectorDynSize& gradient();
+        const iDynTree::VectorDynSize& gradient() const;
+    };
+
+    /**
      * Constructor
      * @param handler variable handler object
      */
@@ -198,10 +237,9 @@ public:
 
     /**
      * Get (and compute) the hessian and the gradient
-     * @return pair containing the hessian and the gradient. The first element is hessian
-     * the second one is the gradient
+     * @return the hessian matrix and the gradient vector
      */
-    std::pair<const iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&> getElements();
+    Elements getElements();
 
     /**
      * Get the cost functions

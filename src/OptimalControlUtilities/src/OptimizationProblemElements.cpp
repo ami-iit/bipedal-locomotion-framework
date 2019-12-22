@@ -27,6 +27,26 @@ Constraints::InequalityConstraint::InequalityConstraint(InequalityConstraintElem
 {
 }
 
+iDynTree::VectorDynSize& Constraints::Bounds::lowerBound()
+{
+    return this->first;
+}
+
+const iDynTree::VectorDynSize& Constraints::Bounds::lowerBound() const
+{
+    return this->first;
+}
+
+iDynTree::VectorDynSize& Constraints::Bounds::upperBound()
+{
+    return this->second;
+}
+
+const iDynTree::VectorDynSize& Constraints::Bounds::upperBound() const
+{
+    return this->second;
+}
+
 Constraints::Constraints(const VariableHandler& handler)
 {
     m_numberOfVariables = handler.getNumberOfVariables();
@@ -86,7 +106,7 @@ void Constraints::addConstraint(InequalityConstraintElement* element)
     m_constraintMatrix.resize(m_numberOfConstraints, m_numberOfVariables);
 }
 
-std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&> Constraints::getBounds()
+Constraints::Bounds Constraints::getBounds()
 {
     // equality constraint
     for (EqualityConstraint& constraint : m_equalityConstrains)
@@ -115,8 +135,7 @@ std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&> Constraints::getBo
             = iDynTree::toEigen(upperBound);
     }
 
-    return std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>(m_lowerBound,
-                                                                         m_upperBound);
+    return Constraints::Bounds(m_lowerBound, m_upperBound);
 }
 
 const iDynTree::MatrixDynSize& Constraints::getConstraintMatrix()
@@ -151,6 +170,27 @@ const std::vector<Constraints::InequalityConstraint>& Constraints::getInequality
 }
 
 // CostFunction
+
+iDynTree::MatrixDynSize& CostFunction::Elements::hessian()
+{
+    return this->first;
+}
+
+const iDynTree::MatrixDynSize& CostFunction::Elements::hessian() const
+{
+    return this->first;
+}
+
+iDynTree::VectorDynSize& CostFunction::Elements::gradient()
+{
+    return this->second;
+}
+
+const iDynTree::VectorDynSize& CostFunction::Elements::gradient() const
+{
+    return this->second;
+}
+
 CostFunction::CostFunctionElement::CostFunctionElement(ControlTask* const element,
                                                        const iDynTree::VectorDynSize& weight,
                                                        const double& weightScaling,
@@ -186,7 +226,7 @@ void CostFunction::addCostFunction(ControlTask* const element,
         {name, CostFunctionElement(element, weight, weightScaling, weightOffset)});
 }
 
-std::pair<const iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&> CostFunction::getElements()
+CostFunction::Elements CostFunction::getElements()
 {
 
     if (m_costFunctionElements.size() > 0)
@@ -218,8 +258,7 @@ std::pair<const iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&> CostFunction
         }
     }
 
-    return std::pair<const iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>(m_hessianMatrix,
-                                                                               m_gradient);
+    return CostFunction::Elements(m_hessianMatrix, m_gradient);
 }
 
 bool CostFunction::setWeight(const iDynTree::VectorDynSize& weight, const std::string& elementName)
