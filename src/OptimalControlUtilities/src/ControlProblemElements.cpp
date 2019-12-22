@@ -46,3 +46,13 @@ InequalityConstraintElement::InequalityConstraintElement(std::shared_ptr<iDynTre
     : ControlProblemElement(kinDyn)
 {
 }
+
+const iDynTree::VectorDynSize& InequalityConstraintElement::getUpperBound()
+{
+    return m_u;
+}
+
+const iDynTree::VectorDynSize& InequalityConstraintElement::getLowerBound()
+{
+    return m_l;
+}

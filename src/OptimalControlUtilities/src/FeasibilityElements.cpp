@@ -159,15 +159,6 @@ const iDynTree::MatrixDynSize& ContactWrenchFeasibilityElement::getA()
 
     return m_A;
 }
-const iDynTree::VectorDynSize& ContactWrenchFeasibilityElement::getUpperBound()
-{
-    return m_u;
-}
-
-const iDynTree::VectorDynSize& ContactWrenchFeasibilityElement::getLowerBound()
-{
-    return m_l;
-}
 
 // JointValuesFeasibilityElement
 JointValuesFeasibilityElement::JointValuesFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,

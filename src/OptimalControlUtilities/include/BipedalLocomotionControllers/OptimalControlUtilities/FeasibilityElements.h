@@ -73,18 +73,6 @@ public:
      * @return the element matrix
      */
     virtual const iDynTree::MatrixDynSize& getA() final;
-
-    /**
-     * Get the upper bound
-     * @return the upper bound
-     */
-    virtual const iDynTree::VectorDynSize& getUpperBound() final;
-
-    /**
-     * Get the lower bound
-     * @return the lower bound
-     */
-    virtual const iDynTree::VectorDynSize& getLowerBound() final;
 };
 
 /**

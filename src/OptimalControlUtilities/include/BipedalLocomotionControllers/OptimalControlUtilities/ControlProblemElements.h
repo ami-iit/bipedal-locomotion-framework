@@ -128,13 +128,13 @@ public:
      * Get the upper bound
      * @return the upper bound
      */
-    virtual const iDynTree::VectorDynSize& getUpperBound() = 0;
+    virtual const iDynTree::VectorDynSize& getUpperBound();
 
     /**
      * Get the lower bound
      * @return the lower bound
      */
-    virtual const iDynTree::VectorDynSize& getLowerBound() = 0;
+    virtual const iDynTree::VectorDynSize& getLowerBound();
 };
 
 } // namespace OptimalControlUtilities
