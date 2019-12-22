@@ -9,18 +9,30 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
-    src/PDController.cpp
-    src/VariableHandler.cpp
-    src/ControlProblemElements.cpp
+    src/CartesianElements.cpp
     src/OptimizationProblemElements.cpp
+    src/CentroidalMomentumElements.cpp
+    src/PDController.cpp
+    src/ControlProblemElements.cpp
+    src/RegularizationElements.cpp
+    src/FeasibilityElements.cpp
+    src/VariableHandler.cpp
+    src/FloatingBaseMultiBodyDynamicsElements.cpp
+    src/ZMPElements.cpp
     )
 
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.tpp
-    include/BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/RegularizationElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/FeasibilityElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/FloatingBaseMultiBodyDynamicsElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/ZMPElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h
     )
 
