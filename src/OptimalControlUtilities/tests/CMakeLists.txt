@@ -4,4 +4,14 @@
 
 if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
 
+  ## Variable Handler
+  add_library(VariableHandlerTestMain VariableHandlerTestMain.cpp)
+  target_link_libraries(VariableHandlerTestMain PRIVATE Catch2::Catch2)
+
+  add_executable(VariableHandlerTest VariableHandlerTest.cpp)
+  target_link_libraries(VariableHandlerTest VariableHandlerTestMain Catch2::Catch2 BipedalLocomotionControllers::OptimalControlUtilities)
+  target_compile_definitions(VariableHandlerTest PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
+
+  add_test(NAME VariableHandlerTest COMMAND VariableHandlerTest)
+
 endif()
