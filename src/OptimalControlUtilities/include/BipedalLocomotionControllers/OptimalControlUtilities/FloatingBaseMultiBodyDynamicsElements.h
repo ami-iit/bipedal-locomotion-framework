@@ -50,31 +50,27 @@ public:
      * Constructor. If you call this constructor the motor reflected inertia is disabled
      * @param kinDyn an iDynTree kinDyn computation object
      * @param handler the variable handler object
-     * @param framesInContact vector containing the frames in contact. Each element of the vector is
-     * a pair containing the name of the frame in the variableHandler and in the model.
+     * @param framesInContact vector containing the frames in contact.
      * @throw std::runtime_error if the frame is not defined
      */
-    FloatingBaseMultiBodyDynamicsElement(
-        std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-        const VariableHandler& handler,
-        const std::vector<std::pair<std::string, std::string>>& framesInContact);
+    FloatingBaseMultiBodyDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                         const VariableHandler& handler,
+                                         const std::vector<FrameNames>& framesInContact);
 
     /**
      * Constructor. If you call this constructor the motor reflected inertia is enable
      * @param kinDyn an iDynTree kinDyn computation object
      * @param handler the variable handler object
-     * @param framesInContact vector containing the frames in contact. Each element of the vector is
-     * a pair containing the name of the frame in the variableHandler and in the model.
+     * @param framesInContact vector containing the frames in contact.
      * @param regularizationMatrix joints regularization mass matrix. It can be used to handle
      * the motor reflected inertia
      * @throw std::runtime_error if the frame is not defined or the regularizationMatrix size is
      * no coherent with the number of joints
      */
-    FloatingBaseMultiBodyDynamicsElement(
-        std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-        const VariableHandler& handler,
-        const std::vector<std::pair<std::string, std::string>>& framesInContact,
-        const iDynTree::MatrixDynSize& regularizationMatrix);
+    FloatingBaseMultiBodyDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                         const VariableHandler& handler,
+                                         const std::vector<FrameNames>& framesInContact,
+                                         const iDynTree::MatrixDynSize& regularizationMatrix);
 
     /**
      * Get (and compute) the element matrix

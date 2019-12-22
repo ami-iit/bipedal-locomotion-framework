@@ -18,7 +18,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 // ZMP Element
 ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                        const VariableHandler& handler,
-                       const std::vector<std::pair<std::string, std::string>>& framesInContact)
+                       const std::vector<FrameNames>& framesInContact)
     : ControlTask(kinDyn)
 {
     m_name = "ZMP element: (Frames in contact: ";
@@ -34,24 +34,24 @@ ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     for (const auto& frameInContact : framesInContact)
     {
         Frame frame;
-        frame.indexRangeInElement = handler.getVariable(frameInContact.first);
-        frame.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.second);
+        frame.indexRangeInElement = handler.getVariable(frameInContact.label());
+        frame.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.nameInModel());
 
         m_framesInContact.push_back(frame);
 
         if (!frame.indexRangeInElement.isValid())
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.first + " in the variableHandler");
+                                     + frameInContact.label() + " in the variableHandler");
 
         if (frame.indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.second + " in the model");
+                                     + frameInContact.nameInModel() + " in the model");
 
         // constant values
         m_A(0, frame.indexRangeInElement.offset + 4) = 1;
         m_A(1, frame.indexRangeInElement.offset + 5) = -1;
 
-        m_name += "[" + frameInContact.first + ",  " + frameInContact.second + "] ";
+        m_name += "[" + frameInContact.label() + ",  " + frameInContact.nameInModel() + "] ";
     }
 
     m_name += ")";

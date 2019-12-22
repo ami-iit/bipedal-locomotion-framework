@@ -52,7 +52,7 @@ public:
      */
     ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                     const VariableHandler& handler,
-                                    const std::pair<std::string, std::string>& frameInContact,
+                                    const FrameNames& frameInContact,
                                     const int& numberOfPoints,
                                     const double& staticFrictionCoefficient,
                                     const double& torsionalFrictionCoefficient,

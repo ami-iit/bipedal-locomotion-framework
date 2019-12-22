@@ -77,7 +77,7 @@ const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 // Centroidal Angular momentum
 CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                                                    const VariableHandler& handler,
-                                                                   const std::vector<std::pair<std::string, std::string>>& framesInContact)
+                                                                   const std::vector<FrameNames>& framesInContact)
     : ControlTask(kinDyn)
 {
     m_name = "Centroidal Angular Momentum Element";
@@ -95,18 +95,18 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
     for (const auto& frame : framesInContact)
     {
         Frame frameInContact;
-        frameInContact.indexRangeInElement = handler.getVariable(frame.first);
-        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.second);
+        frameInContact.indexRangeInElement = handler.getVariable(frame.label());
+        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.nameInModel());
 
         if (!frameInContact.indexRangeInElement.isValid())
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.first + " in the variableHandler");
+                                     + frame.label() + " in the variableHandler");
 
         if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.second + " in the model");
+                                     + frame.nameInModel() + " in the model");
 
         m_framesInContact.push_back(frameInContact);
 

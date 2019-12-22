@@ -16,7 +16,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                                                  const VariableHandler& handler,
-                                                                 const std::pair<std::string, std::string>& frameInContact,
+                                                                 const FrameNames& frameInContact,
                                                                  const int& numberOfPoints,
                                                                  const double& staticFrictionCoefficient,
                                                                  const double& torsionalFrictionCoefficient,
@@ -28,21 +28,21 @@ ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr
 , m_infinity(infinity)
 , m_minimalNormalForce(minimalNormalForce)
 {
-    m_name = "Contact Wrench Feasibility Element (Frame in contact: [" + frameInContact.first
-             + ",  " + frameInContact.second + "])";
+    m_name = "Contact Wrench Feasibility Element (Frame in contact: [" + frameInContact.label()
+             + ", " + frameInContact.nameInModel() + "])";
 
-    m_frameInContact.indexRangeInElement = handler.getVariable(frameInContact.first);
-    m_frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.second);
+    m_frameInContact.indexRangeInElement = handler.getVariable(frameInContact.label());
+    m_frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.nameInModel());
 
     if (!m_frameInContact.indexRangeInElement.isValid())
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.first + " in the variableHandler");
+                                 + frameInContact.label() + " in the variableHandler");
 
     if (m_frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.second + " in the model");
+                                 + frameInContact.nameInModel() + " in the model");
 
     // split the friction cone into slices
     double segmentAngle = iDynTree::deg2rad(90) / (numberOfPoints - 1);

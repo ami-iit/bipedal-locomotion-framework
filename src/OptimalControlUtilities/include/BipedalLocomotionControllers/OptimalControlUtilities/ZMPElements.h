@@ -32,13 +32,12 @@ public:
      * Constructor.
      * @param kinDyn an iDynTree kinDyn computation object
      * @param handler the variable handler object
-     * @param framesInContact vector containing the frames in contact. Each element of the vector is
-     * a pair containing the name of the frame in the variableHandler and in the model.
+     * @param framesInContact vector containing the frames in contact.
      * @throw std::runtime_error if the frame is not defined
      */
     ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                const VariableHandler& handler,
-               const std::vector<std::pair<std::string, std::string>>& framesInContact);
+               const std::vector<FrameNames>& framesInContact);
 
     /**
      * Set the desired ZMP

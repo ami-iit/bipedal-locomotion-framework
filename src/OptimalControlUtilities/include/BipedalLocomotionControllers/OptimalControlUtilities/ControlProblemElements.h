@@ -40,6 +40,27 @@ struct Frame
 };
 
 /**
+ * FrameNames wraps an \code std::pair<std::string, std::string> \encode. It contains the label
+ * associated to the frame in the \code VariableHandler \endcode end the name of the frame in the model
+ */
+class FrameNames : public std::pair<std::string, std::string>
+{
+    // obscure first and second attribute
+    using std::pair<std::string, std::string>::first;
+    using std::pair<std::string, std::string>::second;
+
+public:
+
+    // use the std::pair constructors
+    using std::pair<std::string, std::string>::pair;
+
+    std::string& label();
+    const std::string& label() const;
+    std::string& nameInModel();
+    const std::string& nameInModel() const;
+};
+
+/**
  * ControlProblemElement describes a general control problem element. The
  * element is considered linear w.r.t the unknown variable.
  * i.e. \f$ A x \f$ where \f$ A \f$ is the element matrix and \f$ x \f$ the

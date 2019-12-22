@@ -9,6 +9,23 @@
 
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
+std::string& FrameNames::label()
+{
+    return this->first;
+}
+const std::string& FrameNames::label() const
+{
+    return this->first;
+}
+std::string& FrameNames::nameInModel()
+{
+    return this->second;
+}
+const std::string& FrameNames::nameInModel() const
+{
+    return this->second;
+}
+
 // Control Problem Element Function
 ControlProblemElement::ControlProblemElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : m_kinDynPtr(kinDyn)
