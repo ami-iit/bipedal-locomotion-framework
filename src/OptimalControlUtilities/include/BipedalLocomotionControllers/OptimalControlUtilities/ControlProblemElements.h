@@ -40,8 +40,8 @@ struct Frame
 };
 
 /**
- * FrameNames wraps an \code std::pair<std::string, std::string> \encode. It contains the label
- * associated to the frame in the \code VariableHandler \endcode end the name of the frame in the model
+ * FrameNames wraps a std::pair<std::string, std::string>. It contains the label
+ * associated to the frame in the VariableHandler end the name of the frame in the model
  */
 class FrameNames : public std::pair<std::string, std::string>
 {
@@ -104,7 +104,7 @@ public:
  * equality constraint. The element is described by \f$ A \f$ and \f$ b \f$. \f$ A \f$ is the
  * element matrix and \f$ x \f$ and \f$ b \f$ the element vector.
  * In case of cost function \f$ A \f$ and \f$ b \f$ represents:
- * \f$ \norm{Ax - b}^2 \f$. In case of equality constraint
+ * \f$ \|Ax - b\|^2 \f$. In case of equality constraint
  * \f$ Ax = b \f$
  */
 class ControlTask : public ControlProblemElement

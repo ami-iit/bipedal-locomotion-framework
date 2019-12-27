@@ -21,9 +21,9 @@ namespace OptimalControlUtilities
 {
 /**
  * Constraints class handles the equality and inequality constraint for a QP
- * optimization problem. i.e. \f$ l \le A x \le u \f$ where
- * \f$ A \f$ is the constraint matrix
- * \f$ l \f$ and \f$ u \f$ are the lower and upper bound respectively
+ * optimization problem. i.e. \f$l \le A x \le u\f$ where
+ * \f$A\f$ is the constraint matrix
+ * \f$l\f$ and \f$u\f$ are the lower and upper bound respectively
  */
 class Constraints
 {
@@ -73,7 +73,7 @@ class Constraints
 
 public:
     /**
-     * Bounds wraps an \code std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&> \encode.
+     * Bounds wraps an std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>.
      * It contains the lower and the upper bounds
      */
     class Bounds : public std::pair<iDynTree::VectorDynSize&, iDynTree::VectorDynSize&>
@@ -143,9 +143,9 @@ public:
 
 /**
  * CostFunction class handles the cost function for a QP
- * optimization problem. i.e. \f$ \frac{1}{2} (x ^ \top H x + g^\top x \f$ where
- * \f$ H \f$ is the hessian matrix
- * \f$ g \f$ is the gradient vector
+ * optimization problem. i.e. \f$\frac{1}{2} (x ^ \top H x + g^\top x)\f$ where
+ * \f$H\f$ is the hessian matrix
+ * \f$g\f$ is the gradient vector
  */
 class CostFunction
 {
@@ -178,8 +178,8 @@ class CostFunction
 
 public:
     /**
-     * Elements wraps an \code std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>
-     * \encode. It contains the hessian matrix and the gradient vector
+     * Elements wraps an std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>. It contains
+     * the hessian matrix and the gradient vector
      */
     class Elements : public std::pair<iDynTree::MatrixDynSize&, iDynTree::VectorDynSize&>
     {
