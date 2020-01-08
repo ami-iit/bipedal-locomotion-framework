@@ -288,40 +288,95 @@ TEST_CASE("Check System Dynamics element of the ControlProblemElementsTest",
     handler.addVariable("link_in_contact_1", 6);
     handler.addVariable("link_in_contact_2", 6);
 
-    // Instantiate the element
-    FloatingBaseMultiBodyDynamicsElement element(kinDyn,
-                                                 handler,
-                                                 {{"link_in_contact_1", linkInContact1},
-                                                  {"link_in_contact_2", linkInContact2}});
-
-    // check the matrix A
     iDynTree::MatrixDynSize massMatrix(numberDoFs + 6, numberDoFs + 6);
     REQUIRE(kinDyn->getFreeFloatingMassMatrix(massMatrix));
-    REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, numberDoFs + 6, numberDoFs + 6)
-            == -iDynTree::toEigen(massMatrix));
 
     iDynTree::MatrixDynSize identity(numberDoFs, numberDoFs);
     iDynTree::toEigen(identity).setIdentity();
-    REQUIRE(iDynTree::toEigen(element.getA()).block(6, numberDoFs + 6, numberDoFs, numberDoFs)
-            == iDynTree::toEigen(identity));
-    iDynTree::MatrixDynSize jacobian(6, numberDoFs + 6);
-    REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact1, jacobian));
-    REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6, 6 + numberDoFs, 6)
-            == iDynTree::toEigen(jacobian).transpose());
 
-    REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact2, jacobian));
-    REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6 + 6,
-                                                    6 + numberDoFs, 6) == iDynTree::toEigen(jacobian).transpose());
+    iDynTree::MatrixDynSize jacobianLink1(6, numberDoFs + 6);
+    iDynTree::MatrixDynSize jacobianLink2(6, numberDoFs + 6);
+    REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact1, jacobianLink1));
+    REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact2, jacobianLink2));
 
-    // check the vector b
     iDynTree::FreeFloatingGeneralizedTorques generalizedBiasForces;
     generalizedBiasForces.resize(kinDyn->model());
     kinDyn->generalizedBiasForces(generalizedBiasForces);
 
-    REQUIRE(iDynTree::toEigen(element.getB()).head(6)
-            == iDynTree::toEigen(generalizedBiasForces.baseWrench()));
-    REQUIRE(iDynTree::toEigen(element.getB()).tail(numberDoFs)
-            == iDynTree::toEigen(generalizedBiasForces.jointTorques()));
+    SECTION("Whole-Body Floating Base Dynamics Element")
+    {
+        // Instantiate the element
+        WholeBodyFloatingBaseDynamicsElement element(kinDyn,
+                                                 handler,
+                                                 {{"link_in_contact_1", linkInContact1},
+                                                  {"link_in_contact_2", linkInContact2}});
+
+        // check the matrix A
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, numberDoFs + 6, numberDoFs + 6)
+                == -iDynTree::toEigen(massMatrix));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(6, numberDoFs + 6, numberDoFs, numberDoFs)
+                == iDynTree::toEigen(identity));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6, 6 + numberDoFs, 6)
+                == iDynTree::toEigen(jacobianLink1).transpose());
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6 + 6, 6 + numberDoFs, 6)
+                == iDynTree::toEigen(jacobianLink2).transpose());
+
+        REQUIRE(iDynTree::toEigen(element.getB()).head(6)
+                == iDynTree::toEigen(generalizedBiasForces.baseWrench()));
+        REQUIRE(iDynTree::toEigen(element.getB()).tail(numberDoFs)
+                == iDynTree::toEigen(generalizedBiasForces.jointTorques()));
+    }
+
+    SECTION("Floating Base Dynamics Element")
+    {
+        // Instantiate the element
+        FloatingBaseDynamicsElement element(kinDyn,
+                                            handler,
+                                            {{"link_in_contact_1", linkInContact1},
+                                             {"link_in_contact_2", linkInContact2}});
+
+        // check the matrix A
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, 6, numberDoFs + 6)
+                == -iDynTree::toEigen(massMatrix).topRows(6));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6, 6, 6)
+                == iDynTree::toEigen(jacobianLink1).transpose().topRows(6));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6 + 6, 6, 6)
+                == iDynTree::toEigen(jacobianLink2).transpose().topRows(6));
+
+        REQUIRE(iDynTree::toEigen(element.getB())
+                == iDynTree::toEigen(generalizedBiasForces.baseWrench()));
+
+    }
+
+    SECTION("Joint space Dynamics Element")
+    {
+        // Instantiate the element
+        JointSpaceDynamicsElement element(kinDyn,
+                                          handler,
+                                          {{"link_in_contact_1", linkInContact1},
+                                           {"link_in_contact_2", linkInContact2}});
+
+        // check the matrix A
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, numberDoFs, numberDoFs + 6)
+                == -iDynTree::toEigen(massMatrix).bottomRows(numberDoFs));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, numberDoFs + 6, numberDoFs, numberDoFs)
+                == iDynTree::toEigen(identity));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6,  numberDoFs, 6)
+                == iDynTree::toEigen(jacobianLink1).transpose().bottomRows(numberDoFs));
+
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6 + 6, numberDoFs, 6)
+                == iDynTree::toEigen(jacobianLink2).transpose().bottomRows(numberDoFs));
+
+        REQUIRE(iDynTree::toEigen(element.getB())
+                == iDynTree::toEigen(generalizedBiasForces.jointTorques()));
+    }
 }
 
 TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
