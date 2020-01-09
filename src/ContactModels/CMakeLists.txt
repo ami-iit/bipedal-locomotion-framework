@@ -10,12 +10,14 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_ContactModels)
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
     src/ContactModel.cpp
+    src/ContinuousContactModel.cpp
     )
 
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
     include/BipedalLocomotionControllers/ContactModels/ContactModel.h
     include/BipedalLocomotionControllers/ContactModels/ContactModel.tpp
+    include/BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h
     )
 
   # add an executable to the project using the specified source files.
