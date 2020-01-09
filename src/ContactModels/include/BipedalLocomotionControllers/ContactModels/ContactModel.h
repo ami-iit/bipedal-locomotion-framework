@@ -8,6 +8,10 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
 
+#include <any>
+#include <unordered_map>
+#include <string>
+
 #include <iDynTree/Core/Wrench.h>
 
 namespace BipedalLocomotionControllers
@@ -30,14 +34,44 @@ protected:
      */
     virtual void computeContactWrench() = 0;
 
+    /**
+     * Get variable from a set of variables
+     * @param variables map containing variables
+     * @param variableName name of the variable
+     * @param variable variable
+     * @return true/false in case of success/failure
+     */
+    template <class T>
+    bool getVariable(const std::unordered_map<std::string, std::any>& variables,
+                     const std::string& variableName,
+                     T& variable);
+
+    /**
+     * Set the immutable parameters
+     */
+    virtual void setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
+
 public:
     /**
      * Get and compute (only if it is necessary) the contact wrench
      * @return the contact wrench expressed in mixed representation
      */
     const iDynTree::Wrench& getContactWrench();
+
+    /**
+     * Set the internal state of the model
+     */
+    virtual void setState(const std::unordered_map<std::string, std::any>& state) = 0;
+
+    /**
+     * Set the mutable parameters
+     */
+    virtual void setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 };
 } // namespace ContactModels
 } // namespace BipedalLocomotionControllers
+
+
+#include "ContactModel.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
