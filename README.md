@@ -1,4 +1,4 @@
-# bipedal-locomotion-controllers <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++14-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" /></a>  </a><a href="./LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" /></a>
+# bipedal-locomotion-controllers <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++17-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" /></a>  </a><a href="./LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" /></a>
 
 The **bipedal-locomotion-controllers** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 
