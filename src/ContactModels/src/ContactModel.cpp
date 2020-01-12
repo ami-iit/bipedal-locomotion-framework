@@ -11,6 +11,33 @@ using namespace BipedalLocomotionControllers::ContactModels;
 
 const iDynTree::Wrench& ContactModel::getContactWrench()
 {
-    computeContactWrench();
+    if (!m_isContactWrenchComputed)
+    {
+        computeContactWrench();
+        m_isContactWrenchComputed = true;
+    }
+
     return m_contactWrench;
+}
+
+const iDynTree::Vector6& ContactModel::getAutonomousDynamics()
+{
+    if (!m_isAutonomusDynamicsComputed)
+    {
+        computeAutonomousDynamics();
+        m_isAutonomusDynamicsComputed = true;
+    }
+
+    return m_autonomousDynamics;
+}
+
+const iDynTree::Matrix6x6& ContactModel::getControlMatrix()
+{
+    if (!m_isControlMatrixComputed)
+    {
+        computeControlMatrix();
+        m_isControlMatrixComputed = true;
+    }
+
+    return m_controlMatrix;
 }

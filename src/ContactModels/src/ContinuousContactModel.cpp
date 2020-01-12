@@ -25,7 +25,10 @@ void ContinuousContactModel::setState(const std::unordered_map<std::string, std:
         throw std::runtime_error("[ContinuousContactModel::setState] Unable to get the variable "
                                  "named null_force_transform");
 
+    // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomusDynamicsComputed = false;
 }
 
 void ContinuousContactModel::setMutableParameters(
@@ -39,7 +42,10 @@ void ContinuousContactModel::setMutableParameters(
         throw std::runtime_error("[ContinuousContactModel::setMutableParameters] Unable to get the "
                                  "variable named damper_coeff");
 
+    // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomusDynamicsComputed = false;
 }
 
 void ContinuousContactModel::setImmutableParameters(
@@ -53,7 +59,10 @@ void ContinuousContactModel::setImmutableParameters(
         throw std::runtime_error("[ContinuousContactModel::setImmutableParameters] Unable to get "
                                  "the variable named width");
 
+    // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomusDynamicsComputed = false;
 }
 
 ContinuousContactModel::ContinuousContactModel(
@@ -65,6 +74,10 @@ ContinuousContactModel::ContinuousContactModel(
 {
     setMutableParameters(mutableParameters);
     setImmutableParameters(immutableParameters);
+
+    // reset matrix and vectors
+    m_autonomousDynamics.zero();
+    m_controlMatrix.zero();
 }
 
 ContinuousContactModel::ContinuousContactModel(
@@ -75,13 +88,14 @@ ContinuousContactModel::ContinuousContactModel(
 {
     setMutableParameters(parameters);
     setImmutableParameters(parameters);
+
+    // reset matrix and vectors
+    m_autonomousDynamics.zero();
+    m_controlMatrix.zero();
 }
 
 void ContinuousContactModel::computeContactWrench()
 {
-    if (m_isContactWrenchComputed)
-        return;
-
     double area = m_length * m_width;
 
     auto force(iDynTree::toEigen(m_contactWrench.getLinearVec3()));
@@ -109,8 +123,69 @@ void ContinuousContactModel::computeContactWrench()
                                                      + m_width * m_width
                                                      * (m_damperCoeff * skewRe2 * skewRe2 * angularVelocity
                                                         + m_springCoeff * skewRe2 * nullForceRotation.col(1)));
+}
 
-    m_isContactWrenchComputed = true;
+void ContinuousContactModel::computeAutonomousDynamics()
+{
+    double area = m_length * m_width;
+
+    auto autonomousDynamics(iDynTree::toEigen(m_autonomousDynamics));
+
+    auto position(iDynTree::toEigen(m_frameTransform.getPosition()));
+    auto rotation(iDynTree::toEigen(m_frameTransform.getRotation()));
+
+    auto linearVelocity(iDynTree::toEigen(m_twist.getLinearVec3()));
+    auto angularVelocity(iDynTree::toEigen(m_twist.getAngularVec3()));
+
+    auto nullForcePosition(iDynTree::toEigen(m_nullForceTransform.getPosition()));
+    auto nullForceRotation(iDynTree::toEigen(m_nullForceTransform.getRotation()));
+
+    Eigen::Matrix3d rotationRateOfChange = iDynTree::skew(angularVelocity) * rotation;
+
+    autonomousDynamics.head(3) = area * (rotationRateOfChange(2,2)  * (m_springCoeff * (nullForcePosition - position)
+                                                                       - m_damperCoeff * linearVelocity)
+                                         - rotation(2,2) * m_springCoeff * linearVelocity);
+
+    auto skewRe1 = iDynTree::skew(rotation.col(0));
+    auto skewRe2 = iDynTree::skew(rotation.col(1));
+    auto skewDotRe1 = iDynTree::skew(rotationRateOfChange.col(0));
+    auto skewDotRe2 = iDynTree::skew(rotationRateOfChange.col(1));
+
+    autonomousDynamics.tail(3)
+        = area / 12 * (rotationRateOfChange(2, 2) * (m_length * m_length * (m_damperCoeff * skewRe1 * skewRe1 * angularVelocity
+                                                                            + m_springCoeff * skewRe1 * nullForceRotation.col(0))
+                                                     + m_width * m_width * (m_damperCoeff * skewRe2 * skewRe2 * angularVelocity
+                                                                            + m_springCoeff * skewRe2 * nullForceRotation.col(1)))
+                       + rotation(2, 2) * (m_length * m_length * (m_springCoeff * skewDotRe1 * nullForceRotation.col(0)
+                                                                  + m_damperCoeff * (skewDotRe1 * skewRe1 + skewRe1 * skewDotRe1) * angularVelocity)
+                                           + (m_width * m_width * (m_springCoeff * skewDotRe2 * nullForceRotation.col(1)
+                                                                   + m_damperCoeff * (skewDotRe2 * skewRe2 + skewRe2 * skewDotRe2) * angularVelocity))));
+
+}
+
+void ContinuousContactModel::computeControlMatrix()
+{
+    double area = m_length * m_width;
+
+    auto controlMatrix(iDynTree::toEigen(m_controlMatrix));
+
+    auto position(iDynTree::toEigen(m_frameTransform.getPosition()));
+    auto rotation(iDynTree::toEigen(m_frameTransform.getRotation()));
+
+    auto linearVelocity(iDynTree::toEigen(m_twist.getLinearVec3()));
+    auto angularVelocity(iDynTree::toEigen(m_twist.getAngularVec3()));
+
+    auto nullForcePosition(iDynTree::toEigen(m_nullForceTransform.getPosition()));
+    auto nullForceRotation(iDynTree::toEigen(m_nullForceTransform.getRotation()));
+
+    Eigen::Matrix3d  rotationRateOfChange = iDynTree::skew(angularVelocity) * rotation;
+
+    controlMatrix.topLeftCorner(3, 3).diagonal().array() = - area * m_damperCoeff * rotation(2,2);
+
+    auto skewRe1 = iDynTree::skew(rotation.col(0));
+    auto skewRe2 = iDynTree::skew(rotation.col(1));
+    controlMatrix.bottomRightCorner(3, 3) = area / 12 * rotation(2,2) * m_damperCoeff *
+        (m_length * m_length *  skewRe1 * skewRe1 + m_width * m_width *  skewRe2 * skewRe2);
 }
 
 iDynTree::Force ContinuousContactModel::getForceAtPoint(const double& x, const double& y)

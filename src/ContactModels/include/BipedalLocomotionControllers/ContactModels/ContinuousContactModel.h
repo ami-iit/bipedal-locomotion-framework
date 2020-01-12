@@ -53,6 +53,16 @@ class ContinuousContactModel final : public ContactModel
     void computeContactWrench() final;
 
     /**
+     * Evaluate the Autonomous System Dynamics of the derivative of a specific contact model
+     */
+    void computeAutonomousDynamics() final;
+
+    /**
+     * Evaluate the Control Matrix of the derivative of a specific contact model
+     */
+    void computeControlMatrix() final;
+
+    /**
      * Set the parameters cannot change
      * @param state std::unordered_map containing the mutable parameters of the system. To compute the contact
      * wrench between two system (i.e. a link of a robot and the environment) the following data has

@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <string>
 
+#include <iDynTree/Core/MatrixFixSize.h>
+#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/Wrench.h>
 
 namespace BipedalLocomotionControllers
@@ -27,12 +29,33 @@ class ContactModel
 protected:
     iDynTree::Wrench m_contactWrench; /**< Contact wrench between the robot and the environment
                                          expressed in mixed representation */
+
+    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
+     * \dot{x} = f + g u\f$ the autonomous is \a f */
+    iDynTree::Vector6 m_autonomousDynamics;
+
+    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
+     * \dot{x} = f + g u\f$ the autonomous is \a g */
+    iDynTree::Matrix6x6 m_controlMatrix;
+
     bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
+    bool m_isAutonomusDynamicsComputed; /**< If true the autonomous dynamics has been already computed */
+    bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
     /**
      * Evaluate the contact wrench given a specific contact model
      */
     virtual void computeContactWrench() = 0;
+
+    /**
+     * Evaluate the Autonomous System Dynamics of the derivative of a specific contact model
+     */
+    virtual void computeAutonomousDynamics() = 0;
+
+    /**
+     * Evaluate the Control Matrix of the derivative of a specific contact model
+     */
+    virtual void computeControlMatrix() = 0;
 
     /**
      * Get variable from a set of variables
@@ -57,6 +80,18 @@ public:
      * @return the contact wrench expressed in mixed representation
      */
     const iDynTree::Wrench& getContactWrench();
+
+    /**
+     * Get and compute (only if it is necessary) the autonomous system dynamics
+     * @return the autonomous system dynamics at a given state
+     */
+    const iDynTree::Vector6& getAutonomousDynamics();
+
+    /**
+     * Get and compute (only if it is necessary) the control matrix
+     * @return the control matrix at a given state
+     */
+    const iDynTree::Matrix6x6& getControlMatrix();
 
     /**
      * Set the internal state of the model
