@@ -64,6 +64,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${LIBRARY_TARGET_NAME}" COMPONENT dev)
 
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRARY_TARGET_NAME})
+  set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_INCLUDES ${${LIBRARY_TARGET_NAME}_HDR})
 
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
 
