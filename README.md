@@ -10,7 +10,8 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
 
 # :orange_book: Exported components
-
+- `BipedalLocomotionControllers`: It is an _interface_ library that gathers all
+  the exported components.
 # :page_facing_up: Dependencies
 
 
