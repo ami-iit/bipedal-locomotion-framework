@@ -241,9 +241,7 @@ template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
 template <typename T, typename... Args>
 void mergeSigVector(yarp::sig::Vector& vector, const T& t, const Args&... args)
 {
-    for (int i = 0; i < t.size(); i++)
-        vector.push_back(t(i));
-
+    mergeSigVector(vector, t);
     mergeSigVector(vector, args...);
 
     return;
