@@ -19,7 +19,7 @@
 
 using namespace BipedalLocomotionControllers::YarpUtilities;
 
-template <typename T> void checkEqualVector(const T& vector1, const T& vector2)
+template <typename T, typename U> void checkEqualVector(const T& vector1, const U& vector2)
 {
     // check the size of the two vectors
     REQUIRE(vector1.size() == vector2.size());
@@ -186,4 +186,30 @@ TEST_CASE("Get YARP vector from searchable", "[yarp::sig::Vector]")
     // test
     REQUIRE(getVectorFromSearchable(property, key, element));
     checkEqualVector(value, element);
+}
+
+TEST_CASE("Merge Vector to yarp::sig::Vector", "[Merge to yarp::sig::Vector]")
+{
+    yarp::sig::Vector vector;
+
+    // define geometric series
+    std::vector<double> geometricSeries;
+    for (unsigned int i = 0; i < 6; i++)
+    {
+        double seriesElement = 0.5 * std::pow(0.5, i);
+        geometricSeries.push_back(seriesElement);
+    }
+
+    // define harmonic series
+    iDynTree::VectorDynSize harmonicSeries(6);
+    for (unsigned int i = 1; i < 7; i++)
+    {
+        double seriesElement = 1.0 / i;
+        harmonicSeries[i - 1] = seriesElement;
+    }
+
+    mergeSigVector(vector, geometricSeries, harmonicSeries);
+
+    checkEqualVector(vector.subVector(0, 5), geometricSeries);
+    checkEqualVector(vector.subVector(6, 11), harmonicSeries);
 }
