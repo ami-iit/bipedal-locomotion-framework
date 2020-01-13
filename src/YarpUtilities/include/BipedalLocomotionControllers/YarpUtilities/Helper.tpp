@@ -8,6 +8,7 @@
 // std
 #include <iostream>
 #include <stdexcept>
+#include <type_traits>
 
 // clang-format off
 
@@ -234,6 +235,21 @@ template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
 {
     for (int i = 0; i < t.size(); i++)
         vector.push_back(t(i));
+
+    return;
+}
+
+template <typename T>
+void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t)
+{
+    using elementType = typename std::pointer_traits<decltype(t.data())>::element_type;
+
+    static_assert(std::is_convertible<elementType, double>::value,
+                  "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The element type "
+                  "of the std::vector cannot be converted in a double");
+
+    for (const auto& element : t)
+        vector.push_back(element);
 
     return;
 }

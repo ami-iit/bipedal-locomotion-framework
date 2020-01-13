@@ -93,6 +93,14 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
 template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t);
 
 /**
+ * Merge two vectors. vector = [vector, t]
+ * @param vector the original vector. The new elements will be add at the end of this vector;
+ * @param t std::vector containing the elements that will be merged with the original vector.
+ * @tparam T type contained in the std::vector
+ */
+template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t);
+
+/**
  * Variadic function used to merge several vectors.
  * @param vector the original vector. The new elements will be add at the end of this vector;
  * @param t vector containing the elements that will be merged with the original vector.
