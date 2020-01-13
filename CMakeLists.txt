@@ -11,6 +11,9 @@ project(BipedalLocomotionControllers
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+option(BUILD_TESTING "Create tests using CMake" OFF)
+include(CTest)
+
 # Check BipedalLocomotionControllers dependencies, find necessary libraries.
 include(BipedalLocomotionControllersFindDependencies)
 
