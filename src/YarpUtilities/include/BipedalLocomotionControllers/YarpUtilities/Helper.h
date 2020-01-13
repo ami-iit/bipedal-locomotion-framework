@@ -31,6 +31,56 @@ namespace YarpUtilities
 {
 
 /**
+ * dependent_false is a type-dependent expression that is always false. Please check
+ * https://en.cppreference.com/w/cpp/language/if for further details.
+ */
+template <class T> struct dependent_false : std::false_type
+{
+};
+
+/**
+ * is_iterable is used to build a type-dependent expression that check if an element is \a iterable
+ * (i.e. the element has the methods <code>T::begin()<\code> and <code>T::end()<\code>). This
+ * specific implementation is used when the the object is not iterable.
+ */
+template <typename T, typename = void> struct is_iterable : std::false_type
+{
+};
+
+/**
+ * is_iterable is used to build a type-dependent expression that check if an element is \a iterable
+ * (i.e. the element has the methods <code>T::begin()<\code> and <code>T::end()<\code>). This
+ * specific implementation is used when the the object is iterable, indeed
+ * <code>std::void_t<\endcode> is used to detect ill-formed types in SFINAE context.
+ */
+template <typename T>
+struct is_iterable<T, std::void_t<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>>
+    : std::true_type
+{
+};
+
+/**
+ * has_square_bracket_operator is used to build a type-dependent expression that check if an element
+ * has <em>square bracket operator</em> (i.e. operator[]()). This specific implementation is used
+ * when the the object does not have the square bracket operator
+ */
+template <typename T, typename = void> struct has_square_bracket_operator : std::false_type
+{
+};
+
+/**
+ * has_square_bracket_operator is used to build a type-dependent expression that check if an element
+ * has <em>square bracket operator</em> (i.e. operator[]()). This specific implementation is used
+ * when the the object has the square bracket operator, indeed <code>std::void_t<\endcode> is used
+ * to detect ill-formed types in SFINAE context.
+ */
+template <typename T>
+struct has_square_bracket_operator<T, std::void_t<decltype(std::declval<T>()[std::declval<int>()])>>
+    : std::true_type
+{
+};
+
+/**
  * Convert a value in a element of type T
  * @param value the value that will be converted
  * @tparam T return type
@@ -85,30 +135,26 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
                                                 std::vector<bool>& vector);
 
 /**
- * Merge two vectors. vector = [vector, t]
- * @param vector the original vector. The new elements will be add at the end of this vector;
- * @param t vector containing the elements that will be merged with the original vector.
- * @tparam T type of the vector
- * @warning This function is called if T is not a scalar value
- */
-template <typename T, std::enable_if_t<!std::is_arithmetic<T>::value, int> = 0>
-void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t);
-
-/**
  * Append a scalar to a vector. vector = [vector, t]
  * @param vector the original vector. The new elements will be add at the end of this vector;
- * @param t scalar
- * @tparam T type of the scalar
- * @warning This function is called if T is a scalar value
+ * @param t is a container or a scalar. If t is a container it has to be an iterable object (the
+ * element has the methods <code>T::begin()<\code> and <code>T::end()<\code>) or the operator[] has
+ * to be defined
+ * @warning If \a t does not satisfies the previous assumptions the compilation will fail with a
+ * static assertion
  */
-template <typename T, std::enable_if_t<std::is_arithmetic<T>::value, int> = 0>
+template <typename T>
 void mergeSigVector(yarp::sig::Vector& vector, const T& t);
 
 /**
  * Variadic function used to merge several vectors.
  * @param vector the original vector. The new elements will be add at the end of this vector;
- * @param t vector containing the elements that will be merged with the original vector.
+ * @param t is a container or a scalar. If t is a container it has to be an iterable object (the
+ * element has the methods <code>T::begin()<\code> and <code>T::end()<\code>) or the operator[] has
+ * to be defined
  * @param args list containing all the vector that will be merged.
+ * @warning If \a t does not satisfies the previous assumptions the compilation will fail with a
+ * static assertion
  */
 template <typename T, typename... Args>
 void mergeSigVector(yarp::sig::Vector& vector, const T& t, const Args&... args);

@@ -45,7 +45,7 @@ namespace YarpUtilities
 
 template <typename T> T convertValue(const yarp::os::Value& value)
 {
-    static_assert(true,
+    static_assert(dependent_false<T>::value,
                   "[BipedalLocomotionControllers::YarpUtilities::convertValue] The non specialized "
                   "version has not been implemented");
 
@@ -231,25 +231,42 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
     return true;
 }
 
-template <typename T, std::enable_if_t<!std::is_arithmetic<T>::value, int> = 0>
-void mergeSigVector(yarp::sig::Vector& vector, const T& t)
+template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
 {
-    using elementType = typename std::pointer_traits<decltype(t.data())>::element_type;
+    if constexpr (std::is_arithmetic<T>::value)
+        vector.push_back(t);
 
-    static_assert(std::is_convertible<elementType, double>::value,
-                  "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The element type "
-                  "cannot be converted in a double");
+    else if constexpr (!std::is_arithmetic<T>::value)
+    {
+        using elementType = typename std::pointer_traits<decltype(t.data())>::element_type;
+        static_assert(std::is_convertible<elementType, double>::value,
+                      "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The element "
+                      "contained in the vector cannot be converted in a double");
 
-    for (int i = 0; i < t.size(); i++)
-        vector.push_back(t[i]);
+        if constexpr (is_iterable<T>::value)
+        {
+            for (auto it = t.begin(); it != t.end(); it++)
+                vector.push_back(*it);
 
-    return;
-}
+        } else if constexpr (has_square_bracket_operator<T>::value)
+        {
+            for (int i = 0; i < t.size(); i++)
+                vector.push_back(t[i]);
 
-template <typename T, std::enable_if_t<std::is_arithmetic<T>::value, int> = 0>
-void mergeSigVector(yarp::sig::Vector& vector, const T& t)
-{
-    vector.push_back(t);
+        } else
+            static_assert(dependent_false<T>::value,
+                          "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The "
+                          "Vector type does not have square bracket operator nor begin()/end() "
+                          "methods");
+        return;
+    }
+
+    else
+    {
+        static_assert(dependent_false<T>::value,
+                      "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The type of "
+                      "the input element cannot be handled by the function");
+    }
 
     return;
 }

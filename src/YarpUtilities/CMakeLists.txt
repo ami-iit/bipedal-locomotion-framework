@@ -24,6 +24,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities)
   target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES})
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
   set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}${LIBRARY_TARGET_NAME}")
+  target_compile_features(${LIBRARY_TARGET_NAME} PUBLIC cxx_std_17)
 
   set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES VERSION ${BipedalLocomotionControllers_VERSION}
     PUBLIC_HEADER "${YARP_helper_HDR}")
