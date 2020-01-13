@@ -7,7 +7,6 @@
 
 // std
 #include <iostream>
-#include <stdexcept>
 #include <type_traits>
 
 // clang-format off
@@ -46,8 +45,9 @@ namespace YarpUtilities
 
 template <typename T> T convertValue(const yarp::os::Value& value)
 {
-    throw std::runtime_error("[BipedalLocomotionControllers::YarpUtilities::convertValue] The "
-                             "non specialized version has not been implemented");
+    static_assert(true,
+                  "[BipedalLocomotionControllers::YarpUtilities::convertValue] The non specialized "
+                  "version has not been implemented");
 
     return T();
 }
