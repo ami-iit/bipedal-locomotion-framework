@@ -20,30 +20,6 @@
 
 #include <iDynTree/Core/VectorDynSize.h>
 
-// clang-format off
-
-#define YARP_UTILITES_GET_ELEMENT_TYPE(type)                            \
-    ((std::is_same<type, double>::value) ? "double" :                   \
-    ((std::is_same<type, int>::value) ? "int" :                         \
-    ((std::is_same<type, std::string>::value) ? "string" :              \
-    ((std::is_same<type, bool>::value) ? "bool" :                       \
-     "undefined" ))))
-
-#define YARP_UTILITES_CHECK_ELEMENT_SUPPORT(type)                       \
-    ((std::is_same<type, double>::value) ? true :                       \
-    ((std::is_same<type, int>::value) ? true :                          \
-    ((std::is_same<type, std::string>::value) ? true :                  \
-    ((std::is_same<type, bool>::value) ? true :                         \
-     false ))))
-
-#define YARP_UTILITES_GET_CHECKER_NAME(type)                                                  \
-    ((std::is_same<type, int>::value) ? &yarp::os::Value::isInt :                             \
-    ((std::is_same<type, double>::value) ? &yarp::os::Value::isDouble :                       \
-    ((std::is_same<type, std::string>::value) ? &yarp::os::Value::isString :                  \
-    ((std::is_same<type, bool>::value) ? &yarp::os::Value::isBool :                           \
-     &yarp::os::Value::isDouble ))))
-
-// clang-format on
 
 namespace BipedalLocomotionControllers
 {
