@@ -275,3 +275,8 @@ void sendVariadicVector(yarp::os::BufferedPort<yarp::sig::Vector>& port, const A
 }
 } // namespace YarpUtilities
 } // namespace BipedalLocomotionControllers
+
+// remove the macro
+#undef YARP_UTILITES_GET_ELEMENT_TYPE
+#undef YARP_UTILITES_CHECK_ELEMENT_SUPPORT
+#undef YARP_UTILITES_GET_CHECKER_NAME
