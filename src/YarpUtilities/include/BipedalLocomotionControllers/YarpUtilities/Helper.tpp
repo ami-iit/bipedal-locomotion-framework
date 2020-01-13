@@ -231,25 +231,25 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
     return true;
 }
 
-template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
-{
-    for (int i = 0; i < t.size(); i++)
-        vector.push_back(t(i));
-
-    return;
-}
-
-template <typename T>
-void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t)
+template <typename T, std::enable_if_t<!std::is_arithmetic<T>::value, int> = 0>
+void mergeSigVector(yarp::sig::Vector& vector, const T& t)
 {
     using elementType = typename std::pointer_traits<decltype(t.data())>::element_type;
 
     static_assert(std::is_convertible<elementType, double>::value,
                   "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The element type "
-                  "of the std::vector cannot be converted in a double");
+                  "cannot be converted in a double");
 
-    for (const auto& element : t)
-        vector.push_back(element);
+    for (int i = 0; i < t.size(); i++)
+        vector.push_back(t[i]);
+
+    return;
+}
+
+template <typename T, std::enable_if_t<std::is_arithmetic<T>::value, int> = 0>
+void mergeSigVector(yarp::sig::Vector& vector, const T& t)
+{
+    vector.push_back(t);
 
     return;
 }
@@ -257,8 +257,8 @@ void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t)
 template <typename T, typename... Args>
 void mergeSigVector(yarp::sig::Vector& vector, const T& t, const Args&... args)
 {
-    mergeSigVector(vector, t);
-    mergeSigVector(vector, args...);
+    mergeSigVector<T>(vector, t);
+    mergeSigVector<Args...>(vector, args...);
 
     return;
 }

@@ -89,16 +89,20 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
  * @param vector the original vector. The new elements will be add at the end of this vector;
  * @param t vector containing the elements that will be merged with the original vector.
  * @tparam T type of the vector
+ * @warning This function is called if T is not a scalar value
  */
-template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t);
+template <typename T, std::enable_if_t<!std::is_arithmetic<T>::value, int> = 0>
+void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t);
 
 /**
- * Merge two vectors. vector = [vector, t]
+ * Append a scalar to a vector. vector = [vector, t]
  * @param vector the original vector. The new elements will be add at the end of this vector;
- * @param t std::vector containing the elements that will be merged with the original vector.
- * @tparam T type contained in the std::vector
+ * @param t scalar
+ * @tparam T type of the scalar
+ * @warning This function is called if T is a scalar value
  */
-template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const std::vector<T>& t);
+template <typename T, std::enable_if_t<std::is_arithmetic<T>::value, int> = 0>
+void mergeSigVector(yarp::sig::Vector& vector, const T& t);
 
 /**
  * Variadic function used to merge several vectors.
