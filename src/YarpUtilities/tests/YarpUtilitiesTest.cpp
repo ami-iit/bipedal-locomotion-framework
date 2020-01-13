@@ -208,8 +208,11 @@ TEST_CASE("Merge Vector to yarp::sig::Vector", "[Merge to yarp::sig::Vector]")
         harmonicSeries[i - 1] = seriesElement;
     }
 
-    mergeSigVector(vector, geometricSeries, harmonicSeries);
+    mergeSigVector(vector, geometricSeries, harmonicSeries, 42, 3.14);
 
     checkEqualVector(vector.subVector(0, 5), geometricSeries);
     checkEqualVector(vector.subVector(6, 11), harmonicSeries);
+    REQUIRE(vector(12) == 42);
+    REQUIRE(vector(13) == 3.14);
+
 }
