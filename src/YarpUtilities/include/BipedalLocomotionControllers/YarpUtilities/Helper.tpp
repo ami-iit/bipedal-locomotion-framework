@@ -52,26 +52,6 @@ template <typename T> T convertValue(const yarp::os::Value& value)
     return T();
 }
 
-template <> int convertValue<int>(const yarp::os::Value& value)
-{
-    return value.asInt();
-}
-
-template <> double convertValue<double>(const yarp::os::Value& value)
-{
-    return value.asDouble();
-}
-
-template <> std::string convertValue<std::string>(const yarp::os::Value& value)
-{
-    return value.asString();
-}
-
-template <> bool convertValue<bool>(const yarp::os::Value& value)
-{
-    return value.asBool();
-}
-
 template <typename T>
 bool getElementFromSearchable(const yarp::os::Searchable& config,
                               const std::string& key,

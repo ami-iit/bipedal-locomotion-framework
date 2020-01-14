@@ -89,6 +89,35 @@ struct has_square_bracket_operator<T, std::void_t<decltype(std::declval<T>()[std
 template <typename T> T convertValue(const yarp::os::Value& value);
 
 /**
+ * Convert a value in a element of type int
+ * @param value the value that will be converted
+ * @return an integer
+ */
+template <> int convertValue<int>(const yarp::os::Value& value);
+
+/**
+ * Convert a value in a element of type double
+ * @param value the value that will be converted
+ * @return a double
+ */
+template <> double convertValue<double>(const yarp::os::Value& value);
+
+/**
+ * Convert a value in a element of type string
+ * @param value the value that will be converted
+ * @return a string
+ */
+template <> std::string convertValue<std::string>(const yarp::os::Value& value);
+
+/**
+ * Convert a value in a element of type Boolean
+ * @param value the value that will be converted
+ * @return a Boolean
+ */
+template <> bool convertValue<bool>(const yarp::os::Value& value);
+
+
+/**
  * Add a vector of string to a property of a given name.
  * @param prop yarp property;
  * @param key is the key;
@@ -122,11 +151,11 @@ template <typename T>
 bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::string& key, T& vector);
 
 /**
- * Extract an std::vector<bool> from searchable. The specialization is required because \code{.cpp}
- * vector.data() \endcode is not defined when vector is an \code{.cpp} std::vector<bool> \endcode
+ * Extract an <code>std::vector<bool></code> from searchable. The specialization is required because
+ * vector.data() is not defined when vector is an <code>std::vector<bool></code>
  * @param config is the searchable object;
  * @param key the name to check for;
- * @param vector a std::vector<bool>
+ * @param vector a <code>std::vector<bool></code>
  * @return true/false in case of success/failure
  */
 template <>
@@ -138,9 +167,9 @@ bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& conf
  * Append a scalar to a vector. vector = [vector, t]
  * @param vector the original vector. The new elements will be add at the end of this vector;
  * @param t is a container or a scalar. If t is a container it has to be an iterable object (the
- * element has the methods <code>T::begin()<\code> and <code>T::end()<\code>) or the operator[] has
+ * element has the methods <code>T::begin()</code> and <code>T::end()</code> or the <code>operator[]</code> has
  * to be defined
- * @warning If \a t does not satisfies the previous assumptions the compilation will fail with a
+ * @warning If \at does not satisfies the previous assumptions the compilation will fail with a
  * static assertion
  */
 template <typename T>
@@ -150,7 +179,7 @@ void mergeSigVector(yarp::sig::Vector& vector, const T& t);
  * Variadic function used to merge several vectors.
  * @param vector the original vector. The new elements will be add at the end of this vector;
  * @param t is a container or a scalar. If t is a container it has to be an iterable object (the
- * element has the methods <code>T::begin()<\code> and <code>T::end()<\code>) or the operator[] has
+ * element has the methods <code>T::begin()</code> and <code>T::end()</code>) or the operator[] has
  * to be defined
  * @param args list containing all the vector that will be merged.
  * @warning If \a t does not satisfies the previous assumptions the compilation will fail with a

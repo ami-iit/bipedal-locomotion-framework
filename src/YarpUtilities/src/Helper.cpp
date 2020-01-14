@@ -34,3 +34,23 @@ void YarpUtilities::populateBottleWithStrings(yarp::os::Bottle& bottle,
     for (const auto& string : strings)
         bottle.addString(string);
 }
+
+template <> int YarpUtilities::convertValue<int>(const yarp::os::Value& value)
+{
+    return value.asInt();
+}
+
+template <> double YarpUtilities::convertValue<double>(const yarp::os::Value& value)
+{
+    return value.asDouble();
+}
+
+template <> std::string YarpUtilities::convertValue<std::string>(const yarp::os::Value& value)
+{
+    return value.asString();
+}
+
+template <> bool YarpUtilities::convertValue<bool>(const yarp::os::Value& value)
+{
+    return value.asBool();
+}
