@@ -117,7 +117,7 @@ endmacro()
 ################################################################################
 # Find all packages
 
-find_package(iDynTree 1.0.0 QUIET)
+find_package(iDynTree 0.11.105 QUIET)
 checkandset_dependency(iDynTree)
 
 find_package(Catch2 QUIET)
