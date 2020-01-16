@@ -84,7 +84,7 @@ public:
      * Get the size of the element (i.e. the number of rows of the element matrix)
      * @return the size of the element
      */
-    int getSize() const;
+    size_t getSize() const;
 
     /**
      * Get the element matrix

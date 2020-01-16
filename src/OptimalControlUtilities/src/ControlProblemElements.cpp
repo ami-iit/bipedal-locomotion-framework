@@ -32,7 +32,7 @@ ControlProblemElement::ControlProblemElement(std::shared_ptr<iDynTree::KinDynCom
 {
 }
 
-int ControlProblemElement::getSize() const
+size_t ControlProblemElement::getSize() const
 {
     return m_A.rows();
 }
