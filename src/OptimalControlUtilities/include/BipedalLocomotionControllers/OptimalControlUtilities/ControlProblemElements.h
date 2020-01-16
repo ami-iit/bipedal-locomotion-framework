@@ -73,13 +73,13 @@ protected:
     iDynTree::MatrixDynSize m_A; /**< Element Matrix */
     std::string m_name; /**< Name of the element */
 
-public:
     /**
      * Constructor
      * @param kinDyn KinDynComputations object
      */
     ControlProblemElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
+public:
     /**
      * Get the size of the element (i.e. the number of rows of the element matrix)
      * @return the size of the element
