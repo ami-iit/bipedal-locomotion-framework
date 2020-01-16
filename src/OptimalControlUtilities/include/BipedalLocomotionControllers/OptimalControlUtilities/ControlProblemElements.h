@@ -138,12 +138,13 @@ protected:
     iDynTree::VectorDynSize m_l; /**< Lower bound */
     iDynTree::VectorDynSize m_u; /**< Upper bound */
 
-public:
     /**
      * Constructor
      * @param kinDyn KinDynComputations object
      */
     InequalityConstraintElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+
+public:
 
     /**
      * Get the upper bound
