@@ -1,4 +1,4 @@
-# bipedal-locomotion-controllers <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++14-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" /></a>  </a><a href="./LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" /></a>
+# bipedal-locomotion-controllers <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++17-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" /></a>  </a><a href="./LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" /></a>
 
 The **bipedal-locomotion-controllers** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 
@@ -10,19 +10,26 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
 
 # :orange_book: Exported components
-
 - `BipedalLocomotionControllers`: It is an _interface_ library that gathers all
   the exported components.
+- [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
+  data and from YARP structures
 - [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
   constraints in a quadratic optimization problem (QP)
 
->>>>>>> Update the README.md with the OptimalControlUtilities informations
+
 # :page_facing_up: Dependencies
 The **bipedal-locomotion-controllers** project is versatile and it can be used
-  to compile only some components. Each component has its own dependencies that
-  can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
-  file. Please note that the indicated version is the minimum required version.
+to compile only some components. Each component has its own dependencies that
+can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
+file. Please note that the indicated version is the minimum required version.
 
+- `YarpUtilities` requires:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`YARP`](https://github.com/robotology/YARP)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
 - `OptimalControlUtilities` requires:
     - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
 
@@ -57,3 +64,6 @@ find_package(BipedalLocomotionControllers REQUIRED)
 add_executable(example example.cpp)
 target_link_libraries(example BipedalLocomotionControllers::OptimalControlUtilities)
 ```
+
+# :books: Doxigen documentation
+[Here](https://dic-iit.github.io/bipedal-locomotion-controllers) you can find the documentation.
