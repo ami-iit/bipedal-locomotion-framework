@@ -112,13 +112,13 @@ class ControlTask : public ControlProblemElement
 protected:
     iDynTree::VectorDynSize m_b; /**< Element Vector */
 
-public:
     /**
      * Constructor
      * @param kinDyn KinDynComputations object
      */
     ControlTask(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
+public:
     /**
      * Get the element vector
      * @return the element vector
