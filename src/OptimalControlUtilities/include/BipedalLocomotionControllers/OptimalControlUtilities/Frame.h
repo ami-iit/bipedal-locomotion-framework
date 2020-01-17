@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_FRAME_H
 
 #include <iDynTree/Core/Utils.h>
+#include <iDynTree/Core/Wrench.h>
 #include <iDynTree/Model/Indices.h>
 
 namespace BipedalLocomotionControllers
@@ -47,6 +48,20 @@ public:
     const std::string& label() const;
     std::string& nameInModel();
     const std::string& nameInModel() const;
+};
+
+/**
+ * FrameInContact describes a frame in contact with the environment
+ */
+struct FrameInContact : public Frame
+{
+    bool isCompliantContact{false}; /**< True if the contact between the link associated to the
+                                       frame and the environment is compliant */
+
+    /** Measured wrench expressed in Mixed representation associated to the frame in contact
+     * with the environment. It is used only in the contact between the link and the environment
+     * is modelled as a compliant contact */
+    iDynTree::Wrench wrench{iDynTree::Wrench::Zero()};
 };
 
 } // namespace OptimalControlUtilities
