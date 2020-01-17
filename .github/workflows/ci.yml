@@ -1,0 +1,182 @@
+name: C++ CI Workflow
+
+on:
+  push:
+  pull_request:
+  schedule:
+  # * is a special character in YAML so you have to quote this string
+  # Execute a "nightly" build at 2 AM UTC
+  - cron:  '0 2 * * *'
+
+
+jobs:
+  build:
+    name: '[${{ matrix.os }}@${{ matrix.build_type }}]'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build_type: [Release]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@master
+
+    # Print environment variables to simplify development and debugging
+    - name: Environment Variables
+      shell: bash
+      run: env
+
+    # ============
+    # DEPENDENCIES
+    # ============
+
+    - name: Dependencies [Windows]
+      if: matrix.os == 'windows-latest'
+      run: |
+        git clone https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports C:/robotology-vcpkg-binary-ports
+        vcpkg.exe --overlay-ports=C:/robotology-vcpkg-binary-ports install --triplet x64-windows ace libxml2 eigen3 ipopt-binary catch2
+
+    - name: Dependencies [macOS]
+      if: matrix.os == 'macOS-latest'
+      run: |
+        brew install ace boost eigen swig qt5 orocos-kdl catch2
+
+    - name: Dependencies [Ubuntu]
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
+                             libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind
+
+    - name: Source-based Dependencies [Windows]
+      if: matrix.os == 'windows-latest'
+      shell: bash
+      run: |
+        # YCM
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/ycm
+        cd ycm
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+
+
+        # YARP
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/yarp
+        cd yarp
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+        # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
+        export IPOPT_DIR=${VCPKG_INSTALLATION_ROOT}/installed/x64-windows
+
+        # iDynTree
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/iDynTree
+        cd iDynTree
+        git checkout devel
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Source-based Dependencies [Ubuntu/macOS]
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest'
+      shell: bash
+      run: |
+        # YCM
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/ycm
+        cd ycm
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # YARP
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/yarp
+        cd yarp
+        mkdir -p build
+        cd build
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # iDynTree
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/iDynTree
+        cd iDynTree
+        git checkout devel
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Source-based Dependencies [Ubuntu]
+      if: matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+         git clone https://github.com/catchorg/Catch2.git
+         cd Catch2
+         mkdir -p build
+         cd build
+         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+                -DBUILD_TESTING=OFF ..
+
+         cmake --build . --config ${{ matrix.build_type }} --target install
+
+    # ===================
+    # CMAKE-BASED PROJECT
+    # ===================
+
+    - name: Configure [Windows]
+      # Use bash also on Windows (otherwise cd, mkdir, ... do not work)
+      if: matrix.os == 'windows-latest'
+      shell: bash
+      run: |
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DBUILD_TESTING:BOOL=ON ..
+
+    - name: Configure [Ubuntu/macOS]
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest'
+      shell: bash
+      run: |
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DBUILD_TESTING:BOOL=ON ..
+
+    - name: Build
+      shell: bash
+      run: |
+        cd build
+        # Attempt of fix for using YARP idl generators (that link ACE) in Windows
+        # See https://github.com/robotology/idyntree/issues/569
+        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/c/vcpkg/installed/x64-windows/bin:/c/vcpkg/installed/x64-windows/debug/bin
+        cmake --build . --config ${{ matrix.build_type }}
+
+    - name: Test
+      shell: bash
+      run: |
+        cd build
+        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/c/vcpkg/installed/x64-windows/bin:/c/vcpkg/installed/x64-windows/debug/bin
+
+        ctest --output-on-failure -C ${{ matrix.build_type }} .
