@@ -155,8 +155,7 @@ const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
             // copy only the frame associated to the base (first 6 rows)
             iDynTree::toEigen(m_A).block(0,
                                          frame.indexRangeInElement.offset,
-                                         m_jointAccelerationIndex.size
-                                             + m_baseAccelerationIndex.size,
+                                         m_baseAccelerationIndex.size,
                                          frame.indexRangeInElement.size)
                 = iDynTree::toEigen(m_jacobianMatrix)
                       .leftCols(m_baseAccelerationIndex.size)
@@ -302,8 +301,7 @@ const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
             // copy only the frame associated to the joint (last "actuated DoFs" rows)
             iDynTree::toEigen(m_A).block(0,
                                          frame.indexRangeInElement.offset,
-                                         m_jointAccelerationIndex.size
-                                             + m_baseAccelerationIndex.size,
+                                         m_jointAccelerationIndex.size,
                                          frame.indexRangeInElement.size)
                 = iDynTree::toEigen(m_jacobianMatrix)
                       .rightCols(m_jointAccelerationIndex.size)
