@@ -207,7 +207,7 @@ class WholeBodyFloatingBaseDynamicsElement : public MultiBodyDynamicsElement
     iDynTree::IndexRange m_jointTorqueIndex{iDynTree::IndexRange::InvalidRange()};
 
     iDynTree::MatrixDynSize m_reflectedInertia; /**< Reflected inertia matrix  */
-    bool m_useReflectedInertia; /**< If true the reflected inertia will be used  */
+    bool m_useReflectedInertia{false}; /**< If true the reflected inertia will be used  */
 
 public:
     /**
