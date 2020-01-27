@@ -18,6 +18,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     src/VariableHandler.cpp
     src/FloatingBaseMultiBodyDynamicsElements.cpp
     src/ZMPElements.cpp
+    src/CentroidalMomentumElementsWithCompliantContacts.cpp
     )
 
   # set hpp files
@@ -38,6 +39,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/Frame.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.tpp
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h
     )
 
   # add an executable to the project using the specified source files.
@@ -46,7 +48,9 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
   set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}${LIBRARY_TARGET_NAME}")
   target_compile_features(${LIBRARY_TARGET_NAME} PUBLIC cxx_std_17)
 
-  target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${iDynTree_LIBRARIES})
+  target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
+    BipedalLocomotionControllers::ContactModels
+    ${iDynTree_LIBRARIES})
 
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
 
