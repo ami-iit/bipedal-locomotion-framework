@@ -71,5 +71,41 @@ iDynTree::Wrench& FrameInContactWithWrench<T, U>::contactWrench() noexcept
     return m_contactWrench;
 }
 
+template <typename T, typename U>
+FrameInContactWithContactModel<T, U>::FrameInContactWithContactModel(
+    const T& identifierInVariableHandler,
+    const U& identifierInModel,
+    const bool& isInCompliantContact,
+    std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept
+    : FrameInContact<T, U>(identifierInVariableHandler, identifierInModel, isInCompliantContact)
+    , m_contactModel(contactModel)
+{
+}
+
+template <typename T, typename U>
+FrameInContactWithContactModel<T, U>::FrameInContactWithContactModel(
+    const T& identifierInVariableHandler,
+    const U& identifierInModel,
+    std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept
+    : FrameInContact<T, U>(identifierInVariableHandler, identifierInModel)
+    , m_contactModel(contactModel)
+{
+
+}
+
+template <typename T, typename U>
+const std::shared_ptr<ContactModels::ContactModel>&
+FrameInContactWithContactModel<T, U>::contactModel() const noexcept
+{
+    return m_contactModel;
+}
+
+template <typename T, typename U>
+std::shared_ptr<ContactModels::ContactModel>&
+FrameInContactWithContactModel<T, U>::contactModel() noexcept
+{
+    return m_contactModel;
+}
+
 } // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers

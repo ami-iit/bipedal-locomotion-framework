@@ -8,9 +8,13 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_FRAME_H
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_FRAME_H
 
+#include <memory>
+
 #include <iDynTree/Core/Utils.h>
 #include <iDynTree/Core/Wrench.h>
 #include <iDynTree/Model/Indices.h>
+
+#include <BipedalLocomotionControllers/ContactModels/ContactModel.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -128,6 +132,36 @@ public:
      * @return a const reference to the parameter
      */
     const iDynTree::Wrench& contactWrench() const noexcept;
+};
+
+/**
+ * The class frame defines a Frame in contact with the environment and its associated contact model
+ * @tparam T type of the frame identifier in the variable handler
+ * @tparam U type of the frame identifier in the variable robot model
+ */
+template<typename T, typename U>
+class FrameInContactWithContactModel : public FrameInContact<T, U>
+{
+    /** The contact model sued to describe the interaction between the link and the environment */
+    std::shared_ptr<ContactModels::ContactModel> m_contactModel{nullptr};
+
+public:
+    using FrameInContact<T, U>::FrameInContact;
+
+    FrameInContactWithContactModel(
+        const T& identifierInVariableHandler,
+        const U& identifierInModel,
+        const bool& isInCompliantContact,
+        std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept;
+
+    FrameInContactWithContactModel(
+        const T& identifierInVariableHandler,
+        const U& identifierInModel,
+        std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept;
+
+
+    std::shared_ptr<ContactModels::ContactModel>& contactModel() noexcept;
+    const std::shared_ptr<ContactModels::ContactModel>& contactModel() const noexcept;
 };
 
 } // namespace OptimalControlUtilities
