@@ -24,6 +24,9 @@
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ZMPElements.h>
 
+#include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h>
+
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 template <typename T, typename U>
@@ -494,12 +497,105 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
         REQUIRE(iDynTree::toEigen(element.getB()) == iDynTree::toEigen(computedB));
     }
 
+    SECTION("Linear Momentum With Compliant contacts")
+    {
+        double springCoeff = 2000.0;
+        double damperCoeff = 100.0;
+
+        double length = 0.12;
+        double width = 0.09;
+
+        std::unordered_map<std::string, std::any> parameters({{"length", length},
+                                                              {"width", width},
+                                                              {"spring_coeff", springCoeff},
+                                                              {"damper_coeff", damperCoeff}});
+
+        using namespace BipedalLocomotionControllers::ContactModels;
+        std::shared_ptr<ContactModel> contactModel1
+            = std::make_shared<ContinuousContactModel>(parameters);
+
+        std::shared_ptr<ContactModel> contactModel2(contactModel1);
+
+        auto pd = std::make_unique<LinearPD<iDynTree::Vector3>>(gain, gain);
+        CentroidalLinearMomentumElementWithCompliantContact
+            element(kinDyn,
+                    std::move(pd),
+                    handler,
+                    {{"link_in_contact_1", linkInContact1, contactModel1},
+                     {"link_in_contact_2", linkInContact2, contactModel2}});
+
+        element.setContactState("link_in_contact_1", true, iDynTree::Transform::Identity());
+        element.setContactState("link_in_contact_2", true, iDynTree::Transform::Identity());
+
+        iDynTree::LinearForceVector3 force1, force2;
+        force1.zero();
+        force2.zero();
+
+        element.setMeasuredContactForces({force1, force2});
+        element.setDesiredCentroidalLinearMomentum(dummy, dummy, dummy);
+
+        // compute Jacobian matrices
+        iDynTree::MatrixDynSize jacobianLink1(6, numberDoFs + 6);
+        iDynTree::MatrixDynSize jacobianLink2(6, numberDoFs + 6);
+        REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact1, jacobianLink1));
+        REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact2, jacobianLink2));
+
+        // compute bias accelerations
+        auto biasAcceleration1 = kinDyn->getFrameBiasAcc(linkInContact1);
+        auto biasAcceleration2 = kinDyn->getFrameBiasAcc(linkInContact2);
+
+
+        // TEST  element A and b
+        // Compute A
+        iDynTree::MatrixDynSize computedA(3, numberDoFs + 6);
+        iDynTree::toEigen(computedA)
+            = iDynTree::toEigen(contactModel1->getControlMatrix()).topRows(3)
+              * iDynTree::toEigen(jacobianLink1);
+
+        iDynTree::toEigen(computedA)
+            += iDynTree::toEigen(contactModel2->getControlMatrix()).topRows(3)
+              * iDynTree::toEigen(jacobianLink2);
+
+        // Test A
+        REQUIRE(iDynTree::toEigen(computedA) == iDynTree::toEigen(element.getA()).leftCols(numberDoFs + 6));
+
+        // Compute b
+        // instantiate the PD controller
+        LinearPD<iDynTree::Vector3> pdTest;
+        pdTest.setGains(gain, gain);
+        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+
+        // compute the rate of change of the linear centroidal momentum (given by the sum of the external forces)
+        double weight = -9.81 * kinDyn->model().getTotalMass();
+        iDynTree::LinearForceVector3 linearCentroidalMomentumRateOfChange(0, 0, weight);
+        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force1;
+        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force2;
+
+        pdTest.setFeedback(linearCentroidalMomentumRateOfChange,
+                           kinDyn->getCentroidalTotalMomentum().getLinearVec3());
+
+        iDynTree::Vector3 computedB = pdTest.getControllerOutput();
+
+        iDynTree::toEigen(computedB)
+            -= iDynTree::toEigen(contactModel1->getAutonomousDynamics()).head(3)
+               + iDynTree::toEigen(contactModel1->getControlMatrix()).topRows(3)
+                     * iDynTree::toEigen(biasAcceleration1);
+
+        iDynTree::toEigen(computedB)
+            -= iDynTree::toEigen(contactModel2->getAutonomousDynamics()).head(3)
+               + iDynTree::toEigen(contactModel2->getControlMatrix()).topRows(3)
+                     * iDynTree::toEigen(biasAcceleration2);
+
+        // Test b
+        checkVectorsAreEqual(computedB, element.getB());
+    }
+
     SECTION("Angular Momentum")
     {
         CentroidalAngularMomentumElement element(kinDyn,
                                                  handler,
                                                  {{"link_in_contact_1", linkInContact1},
-                                                     {"link_in_contact_2", linkInContact2}});
+                                                  {"link_in_contact_2", linkInContact2}});
         element.setGain(gain);
         element.setDesiredCentroidalAngularMomentum(dummy, dummy);
 
