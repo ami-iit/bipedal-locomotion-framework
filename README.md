@@ -8,6 +8,7 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 - [:page_facing_up: Dependencies](#page_facing_up-dependencies)
 - [:hammer: Build the suite](#hammer-build-the-suite)
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
+- [:books: Doxigen documentation](#books-doxigen-documentation)
 
 # :orange_book: Exported components
 - `BipedalLocomotionControllers`: It is an _interface_ library that gathers all
