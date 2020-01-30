@@ -61,7 +61,7 @@ MultiBodyDynamicsElement::MultiBodyDynamicsElement(
                                      + " has been already added to the list of the frames in "
                                        "contact");
 
-        m_framesInContact.insert({frame.nameInModel(), frameInContact});
+        m_framesInContact.insert({frame.label(), frameInContact});
     }
 
     // resize quantities related to the system dynamics
@@ -185,7 +185,7 @@ const iDynTree::VectorDynSize& FloatingBaseDynamicsElement::getB()
 
             // copy only the frame associated to the base (first 6 rows)
             iDynTree::toEigen(m_b) -= iDynTree::toEigen(m_jacobianMatrix)
-                                          .rightCols(m_baseAccelerationIndex.size)
+                                          .leftCols(m_baseAccelerationIndex.size)
                                           .transpose()
                                       * iDynTree::toEigen(frame.wrench);
         }
