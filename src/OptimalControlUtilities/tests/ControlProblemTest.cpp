@@ -26,6 +26,19 @@
 
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
+template <typename T, typename U>
+void checkVectorsAreEqual(const T& vector1, const U& vector2, double tol = 0)
+{
+    // the tolerance has to be positive
+    REQUIRE(tol >= 0);
+
+    // the vectors must have the same size
+    REQUIRE(vector1.size() == vector2.size());
+
+    for (std::size_t i = 0; i < vector1.size(); i++)
+        REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
+}
+
 TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
           "[ControlProblemElementsTest-CartesianElement]")
 {
@@ -351,6 +364,42 @@ TEST_CASE("Check System Dynamics element of the ControlProblemElementsTest",
         REQUIRE(iDynTree::toEigen(element.getB())
                 == iDynTree::toEigen(generalizedBiasForces.baseWrench()));
 
+    }
+
+    SECTION("Floating Base Dynamics Element with compliant contacts")
+    {
+        // Instantiate the element
+        FloatingBaseDynamicsElement element(kinDyn,
+                                            handler,
+                                            {{"link_in_contact_1", linkInContact1},
+                                             {"link_in_contact_2", linkInContact2}});
+
+        element.setCompliantContact("link_in_contact_1", true);
+        element.setCompliantContact("link_in_contact_2", true);
+
+
+        iDynTree::Wrench wrench1, wrench2;
+        iDynTree::toEigen(wrench1.getLinearVec3()).setRandom();
+        iDynTree::toEigen(wrench1.getAngularVec3()).setRandom();
+
+        iDynTree::toEigen(wrench2.getLinearVec3()).setRandom();
+        iDynTree::toEigen(wrench2.getAngularVec3()).setRandom();
+
+        element.setExternalWrench("link_in_contact_1", wrench1);
+        element.setExternalWrench("link_in_contact_2", wrench2);
+
+
+        // check the matrix A
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, 6, numberDoFs + 6)
+                == -iDynTree::toEigen(massMatrix).topRows(6));
+
+        // check the vector B
+        iDynTree::Vector6 computedB;
+        iDynTree::toEigen(computedB) = iDynTree::toEigen(generalizedBiasForces.baseWrench());
+        iDynTree::toEigen(computedB) -= iDynTree::toEigen(jacobianLink1).transpose().topRows(6) * iDynTree::toEigen(wrench1);
+        iDynTree::toEigen(computedB) -= iDynTree::toEigen(jacobianLink2).transpose().topRows(6) * iDynTree::toEigen(wrench2);
+
+        checkVectorsAreEqual(element.getB(), computedB, 1e-4);
     }
 
     SECTION("Joint space Dynamics Element")
