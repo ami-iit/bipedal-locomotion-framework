@@ -19,7 +19,7 @@ using namespace iDynTree;
 using namespace BipedalLocomotionControllers::ContactModels;
 
 template <typename T, typename U>
-bool checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
+void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
 {
     REQUIRE(vector1.size() == vector2.size());
 
