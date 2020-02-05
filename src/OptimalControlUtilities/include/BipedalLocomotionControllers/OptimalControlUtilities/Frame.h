@@ -1,7 +1,7 @@
 /**
  * @file Frame.h
  * @authors Giulio Romualdi
- * @copyright 2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -19,52 +19,120 @@ namespace OptimalControlUtilities
 {
 
 /**
- * The struct frame defines a Frame in a ControlProblemElement
+ * The class frame defines a Frame in a ControlProblemElement
+ * @tparam T type of the frame identifier in the variable handler
+ * @tparam U type of the frame identifier in the variable robot model
  */
-struct Frame
+template <typename T, typename U> class Frame
 {
-    iDynTree::FrameIndex indexInModel; /**< Index of the frame in the Model */
+    /** Useful for identifying the variable in the handler (it can be also used as label) */
+    T m_identifierInVariableHandler;
 
-    /** Index and size of the element in the ControlProblemElement */
-    iDynTree::IndexRange indexRangeInElement{iDynTree::IndexRange::InvalidRange()};
-};
-
-/**
- * FrameNames wraps a std::pair<std::string, std::string>. It contains the label
- * associated to the frame in the VariableHandler end the name of the frame in the model
- */
-class FrameNames : public std::pair<std::string, std::string>
-{
-    // obscure first and second attribute
-    using std::pair<std::string, std::string>::first;
-    using std::pair<std::string, std::string>::second;
+    U m_identifierInModel; /**< Useful for identifying the variable in the Model */
 
 public:
+    /**
+     * Default constructor
+     */
+    Frame() = default;
 
-    // use the std::pair constructors
-    using std::pair<std::string, std::string>::pair;
+    /**
+     * Constructor
+     * @param identifierInVariableHandler parameter used to identify the variable in the handler
+     * @param identifierInModel parameter used to identify the variable in the model
+     */
+    Frame(const T& identifierInVariableHandler, const U& identifierInModel) noexcept;
 
-    std::string& label();
-    const std::string& label() const;
-    std::string& nameInModel();
-    const std::string& nameInModel() const;
+    /**
+     * Get the variable handler identifier
+     * @return a reference to the parameter
+     */
+    T& identifierInVariableHandler() noexcept;
+
+    /**
+     * Get the variable handler identifier
+     * @return a const reference to the parameter
+     */
+    const T& identifierInVariableHandler() const noexcept;
+
+    /**
+     * Get the model identifier
+     * @return a reference to the parameter
+     */
+    U& identifierInModel() noexcept;
+
+    /**
+     * Get the model identifier
+     * @return a const reference to the parameter
+     */
+    const U& identifierInModel() const noexcept;
 };
 
 /**
- * FrameInContact describes a frame in contact with the environment
+ * The class frame defines a Frame in contact with the environment
+ * @tparam T type of the frame identifier in the variable handler
+ * @tparam U type of the frame identifier in the variable robot model
  */
-struct FrameInContact : public Frame
+template <typename T, typename U> class FrameInContact : public Frame<T, U>
 {
-    bool isCompliantContact{false}; /**< True if the contact between the link associated to the
-                                       frame and the environment is compliant */
+    bool m_isInCompliantContact{false}; /** If the contact with the environment is described using a
+                                           compliant model the parameter is true */
 
-    /** Measured wrench expressed in Mixed representation associated to the frame in contact
-     * with the environment. It is used only in the contact between the link and the environment
-     * is modelled as a compliant contact */
-    iDynTree::Wrench wrench{iDynTree::Wrench::Zero()};
+public:
+    using Frame<T, U>::Frame;
+
+    /**
+     * Constructor
+     * @param identifierInVariableHandler parameter used to identify the variable in the handler
+     * @param identifierInModel parameter used to identify the variable in the model
+     * @param isInCompliantContact true if the contact is described using a compliant contact model
+     */
+    FrameInContact(const T& identifierInVariableHandler,
+                   const U& identifierInModel,
+                   const bool& isInCompliantContact) noexcept;
+
+    /**
+     * Get the compliant contact state
+     * @return a reference to the parameter
+     */
+    bool& isInCompliantContact() noexcept;
+
+    /**
+     * Get the compliant contact state
+     * @return a const reference to the parameter
+     */
+    const bool& isInCompliantContact() const noexcept;
+};
+
+/**
+ * The class frame defines a Frame in contact with the environment with the wrench value
+ * @tparam T type of the frame identifier in the variable handler
+ * @tparam U type of the frame identifier in the variable robot model
+ */
+template <typename T, typename U> class FrameInContactWithWrench : public FrameInContact<T, U>
+{
+    /** Contact wrench expressed in mixed representation */
+    iDynTree::Wrench m_contactWrench{iDynTree::Wrench::Zero()};
+
+public:
+    using FrameInContact<T, U>::FrameInContact;
+
+    /**
+     * Get the contact wrench
+     * @return a reference to the parameter
+     */
+    iDynTree::Wrench& contactWrench() noexcept;
+
+    /**
+     * Get the contact wrench
+     * @return a const reference to the parameter
+     */
+    const iDynTree::Wrench& contactWrench() const noexcept;
 };
 
 } // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
 
-#endif //BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_FRAME_H
+#include "Frame.tpp"
+
+#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_OPTIMAL_CONTROL_UTILITIES_FRAME_H

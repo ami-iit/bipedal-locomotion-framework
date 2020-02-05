@@ -19,7 +19,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     src/VariableHandler.cpp
     src/FloatingBaseMultiBodyDynamicsElements.cpp
     src/ZMPElements.cpp
-    src/Frame.cpp
     )
 
   # set hpp files
@@ -36,6 +35,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/ZMPElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Frame.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/Frame.tpp
     )
 
   # add an executable to the project using the specified source files.
