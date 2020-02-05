@@ -81,74 +81,80 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
 
     SECTION("Test Position Element")
     {
-        CartesianElement element(kinDyn, handler, CartesianElement::Type::POSITION, frame);
         iDynTree::Vector3 gains;
         gains(0) = 1;
         gains(1) = 1;
         gains(2) = 1;
-        element.setLinearPDGains(gains, gains);
-
+        auto pd = std::make_unique<LinearPD<iDynTree::Vector3>>(gains, gains);
+        CartesianElement<CartesianElementType::POSITION> element(kinDyn,
+                                                                 std::move(pd),
+                                                                 handler,
+                                                                 frame);
         iDynTree::Vector3 dummy;
         dummy.zero();
-        element.setDesiredTrajectory(dummy, dummy, dummy);
+        element.setReference(dummy, dummy, dummy);
+        element.isInContact(false);
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
             iDynTree::toEigen(element.getA()).block(0, baseAccelerationOffset, 3, numberDoFs + 6)
             == iDynTree::toEigen(jacobian).block(0, 0, 3, numberDoFs + 6));
 
-        LinearPD<iDynTree::Vector3> pd;
-        pd.setGains(gains, gains);
-        pd.setDesiredTrajectory(dummy, dummy, dummy);
-        pd.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3(),
-                        kinDyn->getWorldTransform(frame).getPosition());
+
+        auto pdTest = std::make_unique<LinearPD<iDynTree::Vector3>>(gains, gains);
+        pdTest->setDesiredTrajectory(dummy, dummy, dummy);
+        pdTest->setFeedback(kinDyn->getFrameVel(frame).getLinearVec3(),
+                            kinDyn->getWorldTransform(frame).getPosition());
 
         REQUIRE(iDynTree::toEigen(element.getB())
                 == -iDynTree::toEigen(kinDyn->getFrameBiasAcc(frame)).head(3)
-                       + iDynTree::toEigen(pd.getControllerOutput()));
+                       + iDynTree::toEigen(pdTest->getControllerOutput()));
     }
 
     SECTION("Test Orientation Element")
     {
-        CartesianElement element(kinDyn, handler, CartesianElement::Type::ORIENTATION, frame);
-        element.setOrientationPDGains(1, 1, 1);
+        auto pd = std::make_unique<OrientationPD>();
+        pd->setGains(1, 1, 1);
+        CartesianElement<CartesianElementType::ORIENTATION> element(kinDyn, std::move(pd),
+                                                                    handler, frame);
 
         iDynTree::Vector3 dummy;
         dummy.zero();
-        element.setDesiredTrajectory(dummy, dummy, iDynTree::Rotation::Identity());
-
-        REQUIRE_THROWS(element.setDesiredTrajectory(dummy, dummy, dummy));
+        element.setReference(dummy, dummy, iDynTree::Rotation::Identity());
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
             iDynTree::toEigen(element.getA()).block(0, baseAccelerationOffset, 3, numberDoFs + 6)
             == iDynTree::toEigen(jacobian).block(3, 0, 3, numberDoFs + 6));
 
-        OrientationPD pd;
-        pd.setGains(1, 1, 1);
-        pd.setDesiredTrajectory(dummy, dummy, iDynTree::Rotation::Identity());
-        pd.setFeedback(kinDyn->getFrameVel(frame).getAngularVec3(),
+        OrientationPD pdTest;
+        pdTest.setGains(1, 1, 1);
+        pdTest.setDesiredTrajectory(dummy, dummy, iDynTree::Rotation::Identity());
+        pdTest.setFeedback(kinDyn->getFrameVel(frame).getAngularVec3(),
                         kinDyn->getWorldTransform(frame).getRotation());
 
         REQUIRE(iDynTree::toEigen(element.getB())
                 == -iDynTree::toEigen(kinDyn->getFrameBiasAcc(frame)).tail(3)
-                       + iDynTree::toEigen(pd.getControllerOutput()));
+                       + iDynTree::toEigen(pdTest.getControllerOutput()));
     }
 
     SECTION("Test Pose Element")
     {
-        CartesianElement element(kinDyn, handler, CartesianElement::Type::POSE, frame);
         iDynTree::Vector3 gains;
         gains(0) = 1;
         gains(1) = 1;
         gains(2) = 1;
-        element.setLinearPDGains(gains, gains);
-        element.setOrientationPDGains(1, 1, 1);
+        double scalarGain = 1;
 
-        iDynTree::Vector3 dummy;
-        dummy.zero();
-        element.setDesiredTrajectory(dummy, dummy, dummy);
-        element.setDesiredTrajectory(dummy, dummy, iDynTree::Rotation::Identity());
+        auto pd = std::make_unique<PosePD>();
+        pd->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+        CartesianElement<CartesianElementType::POSE> element(kinDyn, std::move(pd), handler, frame);
+
+        iDynTree::Twist dummyTwist;
+        iDynTree::SpatialAcc dummySpatialAcc;
+        dummyTwist.zero();
+        dummySpatialAcc.zero();
+        element.setReference(dummySpatialAcc, dummyTwist, iDynTree::Transform::Identity());
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
@@ -156,104 +162,89 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
             == iDynTree::toEigen(jacobian));
 
         // Linear part
-        LinearPD<iDynTree::Vector3> positionPd;
-        positionPd.setGains(gains, gains);
-        positionPd.setDesiredTrajectory(dummy, dummy, dummy);
-        positionPd.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3(),
-                                kinDyn->getWorldTransform(frame).getPosition());
-        REQUIRE(iDynTree::toEigen(element.getB()).head(3)
-                == -iDynTree::toEigen(kinDyn->getFrameBiasAcc(frame)).head(3)
-                       + iDynTree::toEigen(positionPd.getControllerOutput()));
+        PosePD pdTest;
+        pdTest.setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+        pdTest.setDesiredTrajectory(dummySpatialAcc, dummyTwist, iDynTree::Transform::Identity());
 
-        OrientationPD orientationPd;
-        orientationPd.setGains(1, 1, 1);
-        orientationPd.setDesiredTrajectory(dummy, dummy, iDynTree::Rotation::Identity());
-        orientationPd.setFeedback(kinDyn->getFrameVel(frame).getAngularVec3(),
-                                   kinDyn->getWorldTransform(frame).getRotation());
-        REQUIRE(iDynTree::toEigen(element.getB()).tail(3)
-                == -iDynTree::toEigen(kinDyn->getFrameBiasAcc(frame)).tail(3)
-                       + iDynTree::toEigen(orientationPd.getControllerOutput()));
+        pdTest.setFeedback(kinDyn->getFrameVel(frame), kinDyn->getWorldTransform(frame));
+        REQUIRE(iDynTree::toEigen(element.getB())
+                == -iDynTree::toEigen(kinDyn->getFrameBiasAcc(frame))
+                       + iDynTree::toEigen(pdTest.getControllerOutput()));
     }
 
     SECTION("One Degree of Freedom - X")
     {
-        CartesianElement element(kinDyn,
-                                 handler,
-                                 CartesianElement::Type::ONE_DIMENSION,
-                                 frame,
-                                 CartesianElement::AxisName::X);
         double gain = 1;
-        element.setOneDegreePDGains(gain, gain);
+        auto pd = std::make_unique<LinearPD<double>>();
+        pd->setGains(gain, gain);
+        CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::X>
+            element(kinDyn, std::move(pd), handler, frame);
 
         double dummy = 0;
-        element.setDesiredTrajectory(dummy, dummy, dummy);
+        element.setReference(dummy, dummy, dummy);
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
             iDynTree::toEigen(element.getA()).block(0, baseAccelerationOffset, 1, numberDoFs + 6)
             == iDynTree::toEigen(jacobian).block(0, 0, 1, numberDoFs + 6));
 
-        LinearPD<double> pd;
-        pd.setGains(gain, gain);
-        pd.setDesiredTrajectory(dummy, dummy, dummy);
-        pd.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(0),
+        LinearPD<double> pdTest;
+        pdTest.setGains(gain, gain);
+        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+        pdTest.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(0),
                         kinDyn->getWorldTransform(frame).getPosition()(0));
         REQUIRE(element.getB()(0)
-                == -kinDyn->getFrameBiasAcc(frame)(0) + pd.getControllerOutput());
+                == -kinDyn->getFrameBiasAcc(frame)(0) + pdTest.getControllerOutput());
     }
 
     SECTION("One Degree of Freedom - Y")
     {
-        CartesianElement element(kinDyn,
-                                 handler,
-                                 CartesianElement::Type::ONE_DIMENSION,
-                                 frame,
-                                 CartesianElement::AxisName::Y);
         double gain = 1;
-        element.setOneDegreePDGains(gain, gain);
+        auto pd = std::make_unique<LinearPD<double>>();
+        pd->setGains(gain, gain);
+        CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::Y>
+            element(kinDyn, std::move(pd), handler, frame);
 
         double dummy = 0;
-        element.setDesiredTrajectory(dummy, dummy, dummy);
+        element.setReference(dummy, dummy, dummy);
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
             iDynTree::toEigen(element.getA()).block(0, baseAccelerationOffset, 1, numberDoFs + 6)
             == iDynTree::toEigen(jacobian).block(1, 0, 1, numberDoFs + 6));
 
-        LinearPD<double> pd;
-        pd.setGains(gain, gain);
-        pd.setDesiredTrajectory(dummy, dummy, dummy);
-        pd.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(1),
+        LinearPD<double> pdTest;
+        pdTest.setGains(gain, gain);
+        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+        pdTest.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(1),
                         kinDyn->getWorldTransform(frame).getPosition()(1));
         REQUIRE(element.getB()(0)
-                == -kinDyn->getFrameBiasAcc(frame)(1) + pd.getControllerOutput());
+                == -kinDyn->getFrameBiasAcc(frame)(1) + pdTest.getControllerOutput());
     }
 
     SECTION("One Degree of Freedom - Z")
     {
-        CartesianElement element(kinDyn,
-                                 handler,
-                                 CartesianElement::Type::ONE_DIMENSION,
-                                 frame,
-                                 CartesianElement::AxisName::Z);
         double gain = 1;
-        element.setOneDegreePDGains(gain, gain);
+        auto pd = std::make_unique<LinearPD<double>>();
+        pd->setGains(gain, gain);
+        CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::Z>
+            element(kinDyn, std::move(pd), handler, frame);
 
         double dummy = 0;
-        element.setDesiredTrajectory(dummy, dummy, dummy);
+        element.setReference(dummy, dummy, dummy);
 
         REQUIRE(kinDyn->getFrameFreeFloatingJacobian(frame, jacobian));
         REQUIRE(
             iDynTree::toEigen(element.getA()).block(0, baseAccelerationOffset, 1, numberDoFs + 6)
             == iDynTree::toEigen(jacobian).block(2, 0, 1, numberDoFs + 6));
 
-        LinearPD<double> pd;
-        pd.setGains(gain, gain);
-        pd.setDesiredTrajectory(dummy, dummy, dummy);
-        pd.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(2),
+        LinearPD<double> pdTest;
+        pdTest.setGains(gain, gain);
+        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+        pdTest.setFeedback(kinDyn->getFrameVel(frame).getLinearVec3()(2),
                         kinDyn->getWorldTransform(frame).getPosition()(2));
         REQUIRE(element.getB()(0)
-                == -kinDyn->getFrameBiasAcc(frame)(2) + pd.getControllerOutput());
+                == -kinDyn->getFrameBiasAcc(frame)(2) + pdTest.getControllerOutput());
     }
 }
 
@@ -595,17 +586,18 @@ TEST_CASE("Check Regularization element of the ControlProblemElementsTest",
 
     SECTION("Regularization With Control Element")
     {
-        RegularizationWithControlElement element(kinDyn, handler, "joint_accelerations");
+        iDynTree::VectorDynSize gains(numberDoFs);
+        iDynTree::toEigen(gains).setOnes();
+
+
+        auto controller = std::make_unique<LinearPD<iDynTree::VectorDynSize>>(gains, gains);
+        RegularizationWithControlElement element(kinDyn, std::move(controller), handler, "joint_accelerations");
 
         iDynTree::VectorDynSize dummyRef(numberDoFs);
         dummyRef.zero();
 
-        iDynTree::VectorDynSize gains(numberDoFs);
-        iDynTree::toEigen(gains).setOnes();
-
         element.setState(ds, s);
         element.setDesiredTrajectory(dummyRef, dummyRef, dummyRef);
-        element.setPDGains(gains, gains);
 
         REQUIRE(iDynTree::toEigen(element.getA()).block(0, 6, numberDoFs, numberDoFs)
                 == iDynTree::toEigen(identity));
