@@ -6,12 +6,11 @@
  */
 
 #include <iostream>
-
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
-bool VariableHandler::addVariable(const std::string& name, const unsigned int& size) noexcept
+bool VariableHandler::addVariable(const std::string& name, const std::size_t& size) noexcept
 {
     // if the variable already exist cannot be added again.
     if (m_variables.find(name) != m_variables.end())
@@ -21,10 +20,10 @@ bool VariableHandler::addVariable(const std::string& name, const unsigned int& s
         return false;
     }
 
-    iDynTree::IndexRange indexRange{};
+    iDynTree::IndexRange indexRange;
     indexRange.size = size;
     indexRange.offset = m_numberOfVariables;
-    m_variables.insert({name, indexRange});
+    m_variables.emplace(name, indexRange);
     m_numberOfVariables += size;
 
     return true;
@@ -43,7 +42,7 @@ iDynTree::IndexRange VariableHandler::getVariable(const std::string& name) const
         return iDynTree::IndexRange::InvalidRange();
 }
 
-int VariableHandler::getNumberOfVariables() const noexcept
+std::size_t VariableHandler::getNumberOfVariables() const noexcept
 {
     return m_numberOfVariables;
 }

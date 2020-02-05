@@ -27,7 +27,7 @@ class VariableHandler
     std::unordered_map<std::string, iDynTree::IndexRange> m_variables; /**< Map containing the name
                                                                           of a variable and its
                                                                           index range */
-    int m_numberOfVariables{0}; /**< Total number of Variable seen as scalar */
+    std::size_t m_numberOfVariables{0}; /**< Total number of Variable seen as scalar */
 
 public:
     /**
@@ -36,7 +36,7 @@ public:
      * @param size the size of the variable
      * @return true/false in case of success/failure
      */
-    bool addVariable(const std::string& name, const unsigned int& size) noexcept;
+    bool addVariable(const std::string& name, const std::size_t& size) noexcept;
 
     /**
      * Add a mew variable to the list
@@ -49,7 +49,7 @@ public:
      * Get the number of variables
      * @return the total number of variables
      */
-    int getNumberOfVariables() const noexcept;
+    std::size_t getNumberOfVariables() const noexcept;
 };
 } // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
