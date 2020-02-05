@@ -6,4 +6,5 @@
 add_subdirectory(YarpUtilities)
 add_subdirectory(OptimalControlUtilities)
 add_subdirectory(ContactModels)
+add_subdirectory(WholeBodyControllers)
 add_subdirectory(BipedalLocomotionControllers)
