@@ -71,8 +71,10 @@ class CentroidalAngularMomentumElement : public ControlTask
 {
 private:
     std::unique_ptr<LinearPD<iDynTree::Vector3>> m_pd; /**< Linear PD */
-    std::vector<Frame> m_framesInContact; /**< Vectors containing the frames in contact with the
-                                             environment */
+
+    /** Vectors containing the frames in contact with the environment */
+    std::vector<Frame<iDynTree::IndexRange, iDynTree::FrameIndex>> m_framesInContact;
+
     iDynTree::Vector3 m_zero; /**< Vector of zero elements */
 
 public:
@@ -85,7 +87,7 @@ public:
      */
     CentroidalAngularMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                      const VariableHandler& handler,
-                                     const std::vector<FrameNames>& framesInContact);
+                                     const std::vector<Frame<std::string, std::string>>& framesInContact);
 
     /**
      * Set the desired centroidal angular momentum

@@ -36,7 +36,7 @@ CentroidalLinearMomentumElement::CentroidalLinearMomentumElement(
 
     for (const std::string& frameName : framesInContact)
     {
-        iDynTree::IndexRange variableIndex = handler.getVariable(frameName);
+        const auto& variableIndex = handler.getVariable(frameName);
         if (!variableIndex.isValid())
             throw std::runtime_error("[CentroidalLinearMomentumElement::"
                                      "CentroidalLinearMomentumElement] Undefined frame named "
@@ -77,7 +77,7 @@ const iDynTree::VectorDynSize& CentroidalLinearMomentumElement::getB()
 // Centroidal Angular momentum
 CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                                                    const VariableHandler& handler,
-                                                                   const std::vector<FrameNames>& framesInContact)
+                                                                   const std::vector<Frame<std::string, std::string>>& framesInContact)
     : ControlTask(kinDyn)
 {
     m_name = "Centroidal Angular Momentum Element";
@@ -94,27 +94,24 @@ CentroidalAngularMomentumElement::CentroidalAngularMomentumElement(std::shared_p
 
     for (const auto& frame : framesInContact)
     {
-        Frame frameInContact;
-        frameInContact.indexRangeInElement = handler.getVariable(frame.label());
-        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.nameInModel());
+        const auto& indexRangeInElement = handler.getVariable(frame.identifierInVariableHandler());
+        const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frame.identifierInModel());
 
-        if (!frameInContact.indexRangeInElement.isValid())
+        if (!indexRangeInElement.isValid())
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.label() + " in the variableHandler");
+                                     + frame.identifierInVariableHandler() + " in the variableHandler");
 
-        if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
+        if (indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[CentroidalAngularMomentumElement::"
                                      "CentroidalAngularMomentumElement] Undefined frame named "
-                                     + frame.nameInModel() + " in the model");
+                                     + frame.identifierInModel() + " in the model");
 
-        m_framesInContact.push_back(frameInContact);
+        m_framesInContact.emplace_back(indexRangeInElement, indexInModel);
 
         // the matrix A relative to one contact is
         // A = [skew_symmetric; I]
-        iDynTree::toEigen(m_A)
-            .block(0, frameInContact.indexRangeInElement.offset + 3, 3, 3)
-            .setIdentity();
+        iDynTree::toEigen(m_A).block(0, indexRangeInElement.offset + 3, 3, 3).setIdentity();
     }
 }
 
@@ -142,8 +139,8 @@ const iDynTree::MatrixDynSize& CentroidalAngularMomentumElement::getA()
 
     for (const auto& frame : m_framesInContact)
     {
-        iDynTree::toEigen(m_A).block(0, frame.indexRangeInElement.offset, 3, 3) = iDynTree::skew(
-            iDynTree::toEigen(m_kinDynPtr->getWorldTransform(frame.indexInModel).getPosition())
+        iDynTree::toEigen(m_A).block(0, frame.identifierInVariableHandler().offset, 3, 3) = iDynTree::skew(
+            iDynTree::toEigen(m_kinDynPtr->getWorldTransform(frame.identifierInModel()).getPosition())
             - iDynTree::toEigen(com));
     }
     return m_A;
