@@ -15,13 +15,15 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
   the exported components.
 - [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
   data and from YARP structures
+- [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
+  constraints in a quadratic optimization problem (QP)
 
 
 # :page_facing_up: Dependencies
 The **bipedal-locomotion-controllers** project is versatile and it can be used
 to compile only some components. Each component has its own dependencies that
 can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
-file. Please note that the indicated version is the the minimum required version.
+file. Please note that the indicated version is the minimum required version.
 
 - `YarpUtilities` requires:
     - For using it:
@@ -29,6 +31,8 @@ file. Please note that the indicated version is the the minimum required version
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
+- `OptimalControlUtilities` requires:
+    - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
 
 # :hammer: Build the suite
 ## Linux/macOs
@@ -49,7 +53,18 @@ export PATH=$PATH:$BipedalLocomotionControllers_INSTALL_DIR/lib
 # :running: How to use the libraries
 bipedal-locomotion-controllers provides native CMake support which allows the library to be easily used in CMake projects.
 
-bipedal-locomotion-controllers exports the `CMake` targets presented in [Exported components](#orange_book-exported-components) section. The targets can be imported using the `find_package` CMake command and used by calling `target_link_libraries`.
+bipedal-locomotion-controllers exports the `CMake` targets presented in
+[Exported components](#orange_book-exported-components) section. The targets can
+be imported using the `find_package` CMake command and used by calling
+`target_link_libraries`.
+For instance, the `OptimalControlUtilities` component can be used as follows:
+```cmake
+cmake_minimum_required(VERSION 3.0)
+project(myproject)
+find_package(BipedalLocomotionControllers REQUIRED)
+add_executable(example example.cpp)
+target_link_libraries(example BipedalLocomotionControllers::OptimalControlUtilities)
+```
 
 # :books: Doxigen documentation
 [Here](https://dic-iit.github.io/bipedal-locomotion-controllers) you can find the documentation.

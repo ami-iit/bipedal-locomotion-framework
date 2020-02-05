@@ -134,6 +134,10 @@ bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_C
   "Compile ContactModels library?" ON
   BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree OFF)
 
+bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities
+  "Compile OptimalControlUtilities library?" ON 
+  BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree OFF)
+
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests
   "Compile tests?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_Catch2;BUILD_TESTING" OFF)
