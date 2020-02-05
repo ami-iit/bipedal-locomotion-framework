@@ -50,7 +50,14 @@ void LinearPD<T>::setGains(const T& kp, const T& kd)
 }
 
 template <class T>
-void LinearPD<T>::evaluateControl()
+LinearPD<T>::LinearPD(const T& kp, const T& kd)
+    : m_kp(kp)
+    , m_kd(kd)
+{
+    this->m_controllerOutputEvaluated = false;
+}
+
+template <class T> void LinearPD<T>::evaluateControl()
 {
     if (this->m_controllerOutputEvaluated)
         return;

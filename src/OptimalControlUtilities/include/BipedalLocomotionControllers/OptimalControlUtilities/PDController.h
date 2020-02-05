@@ -12,6 +12,9 @@
 #include <iDynTree/Core/Rotation.h>
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/Core/Twist.h>
+#include <iDynTree/Core/SpatialAcc.h>
+#include <iDynTree/Core/Transform.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -75,18 +78,20 @@ class OrientationPD : public PDController<iDynTree::Vector3, iDynTree::Vector3, 
     double m_c2; /**< Rotational PD Gain. */
 
     /**
-     * Transform a 3x3 matrix into a skew-symmetric matrix.
-     * @param input is a 3x3 matrix;
-     * @return a 3x3 skew-symmetric matrix
-     */
-    iDynTree::Matrix3x3 skewSymmetric(const iDynTree::Matrix3x3& input);
-
-    /**
      * Evaluate control
      */
     void evaluateControl() final;
 
 public:
+
+    /**
+     * Transform a 3x3 matrix into a skew-symmetric matrix.
+     * @param input is a 3x3 matrix;
+     * @return a 3x3 skew-symmetric matrix
+     */
+    static iDynTree::Matrix3x3 skewSymmetric(const iDynTree::Matrix3x3& input);
+
+
     /**
      * Set rotational PID Gains
      * @param c0 pid gain;
@@ -110,6 +115,11 @@ template <class T> class LinearPD : public PDController<T, T, T>
     virtual void evaluateControl() final;
 
 public:
+
+    LinearPD(const T& kp, const T& kd);
+
+    LinearPD() = default;
+
     /**
      * Set PID Gains
      * @param kp proportional gain (vector);
@@ -121,6 +131,33 @@ public:
 template <> void LinearPD<double>::evaluateControl();
 
 template <> void LinearPD<iDynTree::VectorDynSize>::evaluateControl();
+
+class PosePD : public PDController<iDynTree::SpatialAcc, iDynTree::Twist, iDynTree::Transform>
+{
+    double m_c0; /**< Rotational PD Gain. */
+    double m_c1; /**< Rotational PD Gain. */
+    double m_c2; /**< Rotational PD Gain. */
+
+    iDynTree::Vector3 m_kp; /**< Proportional gain */
+    iDynTree::Vector3 m_kd; /**< Derivative gain */
+
+    /**
+     * Evaluate control
+     */
+    void evaluateControl() final;
+
+public:
+    /**
+     * Set PID Gains
+     * @param kp proportional gain (vector);
+     * @param kd derivative gain (vector).
+     * @param c0 pid gain;
+     * @param c1 pid gain;
+     * @param c2 pid gain.
+     */
+    void setGains(const iDynTree::Vector3& kp, const iDynTree::Vector3& kd,
+                  const double& c0, const double& c1, const double& c2);
+};
 
 } // namespace OptimalControlUtilities
 } // namespace BipedalLocomotionControllers
