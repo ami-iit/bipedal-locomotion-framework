@@ -16,7 +16,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                                                  const VariableHandler& handler,
-                                                                 const FrameNames& frameInContact,
+                                                                 const Frame<std::string, std::string>& frameInContact,
                                                                  const int& numberOfPoints,
                                                                  const double& staticFrictionCoefficient,
                                                                  const double& torsionalFrictionCoefficient,
@@ -28,21 +28,24 @@ ContactWrenchFeasibilityElement::ContactWrenchFeasibilityElement(std::shared_ptr
 , m_infinity(infinity)
 , m_minimalNormalForce(minimalNormalForce)
 {
-    m_name = "Contact Wrench Feasibility Element (Frame in contact: [" + frameInContact.label()
-             + ", " + frameInContact.nameInModel() + "])";
+    m_name = "Contact Wrench Feasibility Element (Frame in contact: [" + frameInContact.identifierInVariableHandler()
+             + ", " + frameInContact.identifierInModel() + "])";
 
-    m_frameInContact.indexRangeInElement = handler.getVariable(frameInContact.label());
-    m_frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.nameInModel());
+    const auto& nameInVariableHandler = frameInContact.identifierInVariableHandler();
+    const auto& nameInModel = frameInContact.identifierInModel();
 
-    if (!m_frameInContact.indexRangeInElement.isValid())
+    m_frameInContact.identifierInVariableHandler() = handler.getVariable(nameInVariableHandler);
+    m_frameInContact.identifierInModel() = m_kinDynPtr->model().getFrameIndex(nameInModel);
+
+    if (!m_frameInContact.identifierInVariableHandler().isValid())
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.label() + " in the variableHandler");
+                                 + nameInVariableHandler + " in the variableHandler");
 
-    if (m_frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
+    if (m_frameInContact.identifierInModel() == iDynTree::FRAME_INVALID_INDEX)
         throw std::runtime_error("[ContactWrenchFeasibilityElement::"
                                  "ContactWrenchFeasibilityElement] Undefined frame named "
-                                 + frameInContact.nameInModel() + " in the model");
+                                 + nameInModel + " in the model");
 
     // split the friction cone into slices
     double segmentAngle = iDynTree::deg2rad(90) / (numberOfPoints - 1);
@@ -141,18 +144,18 @@ const iDynTree::MatrixDynSize& ContactWrenchFeasibilityElement::getA()
 {
     // get the rotation matrix
     m_rotationMatrix
-        = m_kinDynPtr->getWorldTransform(m_frameInContact.indexInModel).getRotation().inverse();
+        = m_kinDynPtr->getWorldTransform(m_frameInContact.identifierInModel()).getRotation().inverse();
 
     // linear force
     iDynTree::toEigen(m_A).block(0,
-                                 m_frameInContact.indexRangeInElement.offset,
+                                 m_frameInContact.identifierInVariableHandler().offset,
                                  m_AInBodyFrame.rows(),
                                  3)
         = iDynTree::toEigen(m_AInBodyFrame).leftCols(3) * iDynTree::toEigen(m_rotationMatrix);
 
     // torque
     iDynTree::toEigen(m_A).block(0,
-                                 m_frameInContact.indexRangeInElement.offset + 3,
+                                 m_frameInContact.identifierInVariableHandler().offset + 3,
                                  m_AInBodyFrame.rows(),
                                  3)
         = iDynTree::toEigen(m_AInBodyFrame).rightCols(3) * iDynTree::toEigen(m_rotationMatrix);

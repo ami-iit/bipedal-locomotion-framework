@@ -24,7 +24,7 @@ namespace OptimalControlUtilities
  */
 class ContactWrenchFeasibilityElement : public InequalityConstraintElement
 {
-    Frame m_frameInContact; /**< Frame in contact with the environment */
+    Frame<iDynTree::IndexRange, iDynTree::FrameIndex> m_frameInContact; /**< Frame in contact with the environment */
     iDynTree::Rotation m_rotationMatrix; /**< Frame rotation matrix */
     iDynTree::MatrixDynSize m_AInBodyFrame; /**< Constrain matrix written in body frame */
     double m_infinity; /**< Double representing the infinity */
@@ -52,7 +52,7 @@ public:
      */
     ContactWrenchFeasibilityElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                     const VariableHandler& handler,
-                                    const FrameNames& frameInContact,
+                                    const Frame<std::string, std::string>& frameInContact,
                                     const int& numberOfPoints,
                                     const double& staticFrictionCoefficient,
                                     const double& torsionalFrictionCoefficient,
