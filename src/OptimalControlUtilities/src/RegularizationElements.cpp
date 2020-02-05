@@ -22,7 +22,7 @@ RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynCom
 {
     m_name = "Regularization element (variable: " + variableName + ")";
 
-    iDynTree::IndexRange variableIndex = handler.getVariable(variableName);
+    const iDynTree::IndexRange& variableIndex = handler.getVariable(variableName);
 
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationElement::RegularizationElement] Undefined "
@@ -43,16 +43,17 @@ RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynCom
 // RegularizationWithControlElement
 RegularizationWithControlElement::RegularizationWithControlElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+    std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> controller,
     const VariableHandler& handler,
     const std::string& variableName)
     : RegularizationElement(kinDyn, handler, variableName)
 {
     m_name = "Regularization with control element (variable: " + variableName + ")";
 
-    iDynTree::IndexRange variableIndex = handler.getVariable(variableName);
+    const iDynTree::IndexRange& variableIndex = handler.getVariable(variableName);
 
     // instantiate controller
-    m_pd = std::make_unique<LinearPD<iDynTree::VectorDynSize>>();
+    m_pd = std::move(controller);
 
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationWithControlElement::"

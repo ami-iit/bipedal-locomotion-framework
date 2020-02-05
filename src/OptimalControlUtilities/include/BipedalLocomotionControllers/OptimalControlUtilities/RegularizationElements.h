@@ -52,10 +52,12 @@ public:
      * Constructor.
      * @param kinDyn an iDynTree kinDyn computation object
      * @param handler the variable handler object
+     * @param controller linear PD controller
      * @param variableName name of the unknown variable that should minimized
      * @throw std::runtime_error if the variableName is not defined in the handler
      */
     RegularizationWithControlElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                                     std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> controller,
                                      const VariableHandler& handler,
                                      const std::string& variableName);
 
