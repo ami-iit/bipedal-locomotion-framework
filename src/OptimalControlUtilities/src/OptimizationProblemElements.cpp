@@ -8,6 +8,7 @@
 #include <iDynTree/Core/EigenHelpers.h>
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/Weight.h>
 
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
@@ -77,7 +78,7 @@ void Constraints::addConstraint(ControlTask* element)
     temp.size = element->getSize();
 
     // add the equality constraint
-    m_equalityConstrains.push_back(EqualityConstraint(element, temp));
+    m_equalityConstrains.emplace_back(element, temp);
 
     // increase the number of constraint
     m_numberOfConstraints += temp.size;
@@ -95,7 +96,7 @@ void Constraints::addConstraint(InequalityConstraintElement* element)
     temp.size = element->getSize();
 
     // add the inequality constraint
-    m_inequalityConstrains.push_back(InequalityConstraint(element, temp));
+    m_inequalityConstrains.emplace_back(element, temp);
 
     // increase the number of constraint
     m_numberOfConstraints += temp.size;
@@ -192,17 +193,10 @@ const iDynTree::VectorDynSize& CostFunction::Elements::gradient() const
 }
 
 CostFunction::CostFunctionElement::CostFunctionElement(ControlTask* const element,
-                                                       const iDynTree::VectorDynSize& weight,
-                                                       const double& weightScaling,
-                                                       const double& weightOffset)
+                                                       const Weight<iDynTree::VectorDynSize>& weight)
     : element(element)
     , weight(weight)
-    , weightScaling(weightScaling)
-    , weightOffset(weightOffset)
 {
-    iDynTree::toEigen(this->weight) *= weightScaling;
-    for (int i = 0; i < this->weight.size(); i++)
-        this->weight(i) += weightOffset;
 }
 
 CostFunction::CostFunction(const VariableHandler& handler)
@@ -217,13 +211,11 @@ CostFunction::CostFunction(const VariableHandler& handler)
 }
 
 void CostFunction::addCostFunction(ControlTask* const element,
-                                   const iDynTree::VectorDynSize& weight,
-                                   const double& weightScaling,
-                                   const double& weightOffset,
+                                   const Weight<iDynTree::VectorDynSize>& weight,
                                    const std::string& name)
 {
     m_costFunctionElements.insert(
-        {name, CostFunctionElement(element, weight, weightScaling, weightOffset)});
+        {name, CostFunctionElement(element, weight)});
 }
 
 CostFunction::Elements CostFunction::getElements()
@@ -236,11 +228,11 @@ CostFunction::Elements CostFunction::getElements()
         const iDynTree::VectorDynSize& b = iter->second.element->getB();
 
         iDynTree::toEigen(m_hessianMatrix) = iDynTree::toEigen(A).transpose()
-                                             * iDynTree::toEigen(iter->second.weight).asDiagonal()
+                                             * iDynTree::toEigen(iter->second.weight.getWeight()).asDiagonal()
                                              * iDynTree::toEigen(A);
 
         iDynTree::toEigen(m_gradient) = -iDynTree::toEigen(A).transpose()
-                                        * iDynTree::toEigen(iter->second.weight).asDiagonal()
+                                        * iDynTree::toEigen(iter->second.weight.getWeight()).asDiagonal()
                                         * iDynTree::toEigen(b);
 
         for (std::advance(iter, 1); iter != m_costFunctionElements.end(); ++iter)
@@ -250,10 +242,10 @@ CostFunction::Elements CostFunction::getElements()
 
             iDynTree::toEigen(m_hessianMatrix)
                 += iDynTree::toEigen(A).transpose()
-                   * iDynTree::toEigen(iter->second.weight).asDiagonal() * iDynTree::toEigen(A);
+                   * iDynTree::toEigen(iter->second.weight.getWeight()).asDiagonal() * iDynTree::toEigen(A);
 
             iDynTree::toEigen(m_gradient) -= iDynTree::toEigen(A).transpose()
-                                             * iDynTree::toEigen(iter->second.weight).asDiagonal()
+                                             * iDynTree::toEigen(iter->second.weight.getWeight()).asDiagonal()
                                              * iDynTree::toEigen(b);
         }
     }
@@ -261,7 +253,7 @@ CostFunction::Elements CostFunction::getElements()
     return CostFunction::Elements(m_hessianMatrix, m_gradient);
 }
 
-bool CostFunction::setWeight(const iDynTree::VectorDynSize& weight, const std::string& elementName)
+bool CostFunction::setWeight(const Weight<iDynTree::VectorDynSize>& weight, const std::string& elementName)
 {
     auto element = m_costFunctionElements.find(elementName);
     if (element == m_costFunctionElements.end())
@@ -271,27 +263,7 @@ bool CostFunction::setWeight(const iDynTree::VectorDynSize& weight, const std::s
         return false;
     }
 
-    iDynTree::toEigen(element->second.weight)
-        = element->second.weightScaling * iDynTree::toEigen(weight).cwiseAbs();
-    for (int i = 0; i < element->second.weight.size(); i++)
-        element->second.weight(i) += element->second.weightOffset;
-
-    return true;
-}
-
-bool CostFunction::setWeight(const double& weight, const std::string& elementName)
-{
-    auto element = m_costFunctionElements.find(elementName);
-    if (element == m_costFunctionElements.end())
-    {
-        std::cerr << "[CostFunction::setWeight] Unable to find the CostFunction element named "
-                  << elementName << std::endl;
-        return false;
-    }
-
-    for (int i = 0; i < element->second.weight.size(); i++)
-        element->second.weight(i)
-            = element->second.weightScaling * std::abs(weight) + element->second.weightOffset;
+    element->second.weight = weight;
 
     return true;
 }

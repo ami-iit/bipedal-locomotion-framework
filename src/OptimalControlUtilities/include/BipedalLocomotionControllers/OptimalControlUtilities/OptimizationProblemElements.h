@@ -14,6 +14,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/Weight.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -155,19 +156,14 @@ class CostFunction
     struct CostFunctionElement
     {
         ControlTask* element; /**< Pointer to the element */
-        iDynTree::VectorDynSize weight; /**< Weight */
-        double weightOffset{0}; /**< Offset of the weight i.e. Weight = weightScaling * customWeight
-                                   + weightOffset */
-        double weightScaling{1}; /**< Scaling factor of the weight i.e. Weight = weightScaling *
-                                    customWeight + weightOffset */
+
+        Weight<iDynTree::VectorDynSize> weight;
 
         /**
          * Constructor
          */
         CostFunctionElement(ControlTask* const element,
-                            const iDynTree::VectorDynSize& weight,
-                            const double& weightScaling = 1,
-                            const double& weightOffset = 0);
+                            const Weight<iDynTree::VectorDynSize>& weight);
     };
 
     /** Unordered map containing all the cost function element */
@@ -212,9 +208,7 @@ public:
      * @param name name associated to the element
      */
     void addCostFunction(ControlTask* element,
-                         const iDynTree::VectorDynSize& weight,
-                         const double& weightScaling,
-                         const double& weightOffset,
+                         const Weight<iDynTree::VectorDynSize>& weight,
                          const std::string& name);
 
     /**
@@ -224,16 +218,7 @@ public:
      * @param name name associated to the element
      * @return true if the given name correspond to one of the element
      */
-    bool setWeight(const iDynTree::VectorDynSize& customWeight, const std::string& name);
-
-    /**
-     * Set the weight. The weight will be computed using
-     * weight = weightScaling * customWeight + weightOffset
-     * @param customWeight custom weight
-     * @param name name associated to the element
-     * @return true if the given name correspond to one of the element
-     */
-    bool setWeight(const double& weight, const std::string& name);
+    bool setWeight(const Weight<iDynTree::VectorDynSize>& weight, const std::string& name);
 
     /**
      * Get (and compute) the hessian and the gradient
