@@ -61,34 +61,43 @@ TEST_CASE("Optimization problem elements")
     handler.addVariable("link_in_contact_2", 6);
 
     Constraints constraints(handler);
+    iDynTree::Vector3 gains;
+    for (unsigned int i = 0; i < 3; i++)
+        gains(i) = 1;
 
-    auto comElement = std::make_unique<CartesianElement>(kinDyn,
-                                                         handler,
-                                                         CartesianElement::Type::POSITION,
-                                                         "CoM");
-    auto leftFootElement = std::make_unique<CartesianElement>(kinDyn,
-                                                              handler,
-                                                              CartesianElement::Type::POSE,
-                                                              linkInContact1);
-    auto rightFootElement = std::make_unique<CartesianElement>(kinDyn,
-                                                               handler,
-                                                               CartesianElement::Type::POSE,
-                                                               linkInContact2);
+    auto linearPD = std::make_unique<LinearPD<iDynTree::Vector3>>(gains, gains);
+    auto comElement
+        = std::make_unique<CartesianElement<CartesianElementType::POSITION>>(kinDyn,
+                                                                             std::move(linearPD),
+                                                                             handler,
+                                                                             "CoM");
+
+
+    double scalarGain = 0;
+    auto leftFootPD = std::make_unique<PosePD>();
+    leftFootPD->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+    auto leftFootElement
+        = std::make_unique<CartesianElement<CartesianElementType::POSE>>(kinDyn,
+                                                                         std::move(leftFootPD),
+                                                                         handler,
+                                                                         linkInContact1);
+    auto rightFootPD = std::make_unique<PosePD>();
+    rightFootPD->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+    auto rightFootElement
+        = std::make_unique<CartesianElement<CartesianElementType::POSE>>(kinDyn,
+                                                                         std::move(rightFootPD),
+                                                                         handler,
+                                                                         linkInContact2);
+
     constraints.addConstraint(comElement.get());
     constraints.addConstraint(leftFootElement.get());
     constraints.addConstraint(rightFootElement.get());
     REQUIRE(comElement);
 
-    iDynTree::Vector3 gains;
-    for (unsigned int i = 0; i < 3; i++)
-        gains(i) = 1;
-
-    comElement->setLinearPDGains(gains, gains);
-
     iDynTree::Vector3 dummy;
     dummy.zero();
 
-    comElement->setDesiredTrajectory(dummy, dummy, dummy);
+    comElement->setReference(dummy, dummy, dummy);
 
     Constraints::Bounds bounds = constraints.getBounds();
     std::cerr << "Lower bounds " << bounds.lowerBound().toString() << std::endl;
@@ -100,15 +109,14 @@ TEST_CASE("Optimization problem elements")
         = std::make_unique<RegularizationElement>(kinDyn, handler, "joint_torques");
 
     CostFunction costFunction(handler);
-    iDynTree::VectorDynSize weight(numberDoFs);
+    iDynTree::VectorDynSize tempWeight(numberDoFs);
+    for (auto& element: tempWeight)
+             element = 1;
 
-    for (int i = 0; i < weight.size(); i++)
-        weight(i) = 1;
+    Weight<iDynTree::VectorDynSize> weight(tempWeight);
 
     costFunction.addCostFunction(jointTorquesRegularization.get(),
                                  weight,
-                                 1,
-                                 0,
                                  "joint_regularization");
 
     CostFunction::Elements elements = costFunction.getElements();
