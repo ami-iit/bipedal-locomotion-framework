@@ -22,8 +22,8 @@ namespace OptimalControlUtilities
  */
 class ZMPElement : public ControlTask
 {
-    std::vector<Frame> m_framesInContact; /**< Vectors containing the frames in contact with the
-                                             environment */
+    /** Vectors containing the frames in contact with the environment */
+    std::vector<Frame<iDynTree::IndexRange, iDynTree::FrameIndex>> m_framesInContact;
     iDynTree::Vector2 m_ZMP; /**< Desired global Zero Moment Point position */
     iDynTree::Position m_contactFramePosition; /**< Position of the contact frame */
 
@@ -37,7 +37,7 @@ public:
      */
     ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                const VariableHandler& handler,
-               const std::vector<FrameNames>& framesInContact);
+               const std::vector<Frame<std::string, std::string>>& framesInContact);
 
     /**
      * Set the desired ZMP

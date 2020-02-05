@@ -18,7 +18,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 // ZMP Element
 ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                        const VariableHandler& handler,
-                       const std::vector<FrameNames>& framesInContact)
+                       const std::vector<Frame<std::string, std::string>>& framesInContact)
     : ControlTask(kinDyn)
 {
     m_name = "ZMP element: (Frames in contact: ";
@@ -33,25 +33,27 @@ ZMPElement::ZMPElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
 
     for (const auto& frameInContact : framesInContact)
     {
-        Frame frame;
-        frame.indexRangeInElement = handler.getVariable(frameInContact.label());
-        frame.indexInModel = m_kinDynPtr->model().getFrameIndex(frameInContact.nameInModel());
+        const std::string& nameInVariableHandler = frameInContact.identifierInVariableHandler();
+        const std::string& nameInModel = frameInContact.identifierInModel();
 
-        m_framesInContact.push_back(frame);
+        const iDynTree::IndexRange& indexRangeInElement = handler.getVariable(nameInVariableHandler);
+        const iDynTree::FrameIndex& indexInModel = m_kinDynPtr->model().getFrameIndex(nameInModel);
 
-        if (!frame.indexRangeInElement.isValid())
+        if (!indexRangeInElement.isValid())
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.label() + " in the variableHandler");
+                                     + nameInVariableHandler + " in the variableHandler");
 
-        if (frame.indexInModel == iDynTree::FRAME_INVALID_INDEX)
+        if (indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[ZMPElement::ZMPElement] Undefined frame named "
-                                     + frameInContact.nameInModel() + " in the model");
+                                     + nameInModel + " in the model");
 
         // constant values
-        m_A(0, frame.indexRangeInElement.offset + 4) = 1;
-        m_A(1, frame.indexRangeInElement.offset + 5) = -1;
+        m_A(0, indexRangeInElement.offset + 4) = 1;
+        m_A(1, indexRangeInElement.offset + 5) = -1;
 
-        m_name += "[" + frameInContact.label() + ",  " + frameInContact.nameInModel() + "] ";
+        m_framesInContact.emplace_back(indexRangeInElement, indexInModel);
+
+        m_name += "[" + nameInVariableHandler + ",  " + nameInModel + "] ";
     }
 
     m_name += ")";
@@ -66,10 +68,13 @@ const iDynTree::MatrixDynSize& ZMPElement::getA()
 {
     for (const auto& frame : m_framesInContact)
     {
-        m_contactFramePosition = m_kinDynPtr->getWorldTransform(frame.indexInModel).getPosition();
+        m_contactFramePosition
+            = m_kinDynPtr->getWorldTransform(frame.identifierInModel()).getPosition();
 
-        m_A(0, frame.indexRangeInElement.offset + 2) = m_ZMP(0) - m_contactFramePosition(0);
-        m_A(1, frame.indexRangeInElement.offset + 2) = m_ZMP(1) - m_contactFramePosition(1);
+        m_A(0, frame.identifierInVariableHandler().offset + 2)
+            = m_ZMP(0) - m_contactFramePosition(0);
+        m_A(1, frame.identifierInVariableHandler().offset + 2)
+            = m_ZMP(1) - m_contactFramePosition(1);
     }
     return m_A;
 }
