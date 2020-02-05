@@ -9,7 +9,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
-    src/CartesianElements.cpp
     src/OptimizationProblemElements.cpp
     src/CentroidalMomentumElements.cpp
     src/PDController.cpp
@@ -24,6 +23,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
     include/BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.tpp
