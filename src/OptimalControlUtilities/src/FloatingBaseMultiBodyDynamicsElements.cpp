@@ -18,7 +18,7 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 MultiBodyDynamicsElement::MultiBodyDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact)
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact)
     : ControlTask(kinDyn)
 {
     m_name = "Multi Body Dynamics Element";
@@ -40,28 +40,29 @@ MultiBodyDynamicsElement::MultiBodyDynamicsElement(
 
     for (const auto& frame : framesInContact)
     {
-        FrameInContact frameInContact;
-        frameInContact.indexRangeInElement = handler.getVariable(frame.label());
-        frameInContact.indexInModel = m_kinDynPtr->model().getFrameIndex(frame.nameInModel());
+        const auto& indexRangeInElement = handler.getVariable(frame.identifierInVariableHandler());
+        const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frame.identifierInModel());
+        bool isInCompliantContact = frame.isInCompliantContact();
 
-        if (!frameInContact.indexRangeInElement.isValid())
+        if (!indexRangeInElement.isValid())
             throw std::runtime_error("[MultiBodyDynamicsElement::MultiBodyDynamicsElement] "
                                      "Undefined frame named "
-                                     + frame.label() + " in the variableHandler");
+                                     + frame.identifierInVariableHandler() + " in the variableHandler");
 
-        if (frameInContact.indexInModel == iDynTree::FRAME_INVALID_INDEX)
+        if (indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[MultiBodyDynamicsElement::MultiBodyDynamicsElement] "
                                      "Undefined frame named "
-                                     + frame.nameInModel() + " in the model");
+                                     + frame.identifierInModel() + " in the model");
 
-        if (m_framesInContact.find(frame.nameInModel()) != m_framesInContact.end())
+        if (m_framesInContact.find(frame.identifierInModel()) != m_framesInContact.end())
             throw std::runtime_error("[MultiBodyDynamicsElement::MultiBodyDynamicsElement] "
                                      "The frame named "
-                                     + frame.nameInModel()
+                                     + frame.identifierInModel()
                                      + " has been already added to the list of the frames in "
-                                       "contact");
+                                     "contact");
 
-        m_framesInContact.insert({frame.label(), frameInContact});
+        m_framesInContact.insert({frame.identifierInVariableHandler(),
+                                  {indexRangeInElement, indexInModel, isInCompliantContact}});
     }
 
     // resize quantities related to the system dynamics
@@ -80,7 +81,7 @@ void MultiBodyDynamicsElement::setExternalWrench(const std::string& frameName,
         throw std::runtime_error("[ MultiBodyDynamicsElement::setExternalWrench] The frame named "
                                  + frameName + " is not one of the frame considered in contact");
 
-    frameInContact->second.wrench = wrench;
+    frameInContact->second.contactWrench() = wrench;
 }
 
 void MultiBodyDynamicsElement::setCompliantContact(const std::string& frameName, bool isCompliant)
@@ -90,14 +91,14 @@ void MultiBodyDynamicsElement::setCompliantContact(const std::string& frameName,
         throw std::runtime_error("[ MultiBodyDynamicsElement::setExternalWrench] The frame named "
                                  + frameName + " is not one of the frame considered in contact");
 
-    frameInContact->second.isCompliantContact = isCompliant;
+    frameInContact->second.isInCompliantContact() = isCompliant;
 }
 
 // Floating Base dynamical system
 FloatingBaseDynamicsElement::FloatingBaseDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact)
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact)
     : MultiBodyDynamicsElement(kinDyn, handler, framesInContact)
 {
     m_name += " [Base dynamics]";
@@ -148,15 +149,15 @@ const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
         // if the contact between the link associated to the frame and the environment is not
         // modelled as compliant (i.e. stiff contact) the desired contact wrench is an unknown
         // variable. So the Jacobian matrix is stored inside the matrix A
-        if (!frame.isCompliantContact)
+        if (!frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the base (first 6 rows)
             iDynTree::toEigen(m_A).block(0,
-                                         frame.indexRangeInElement.offset,
+                                         frame.identifierInVariableHandler().offset,
                                          m_baseAccelerationIndex.size,
-                                         frame.indexRangeInElement.size)
+                                         frame.identifierInVariableHandler().size)
                 = iDynTree::toEigen(m_jacobianMatrix)
                       .leftCols(m_baseAccelerationIndex.size)
                       .transpose();
@@ -179,15 +180,15 @@ const iDynTree::VectorDynSize& FloatingBaseDynamicsElement::getB()
         // if the contact between the link associated to the frame and the environment is
         // modelled as compliant the desired contact wrench is not an unknown
         // variable.
-        if (frame.isCompliantContact)
+        if (frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the base (first 6 rows)
             iDynTree::toEigen(m_b) -= iDynTree::toEigen(m_jacobianMatrix)
                                           .leftCols(m_baseAccelerationIndex.size)
                                           .transpose()
-                                      * iDynTree::toEigen(frame.wrench);
+                                      * iDynTree::toEigen(frame.contactWrench());
         }
     }
 
@@ -198,7 +199,7 @@ const iDynTree::VectorDynSize& FloatingBaseDynamicsElement::getB()
 JointSpaceDynamicsElement::JointSpaceDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact)
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact)
     : MultiBodyDynamicsElement(kinDyn, handler, framesInContact)
 {
     m_name += " [Joint dynamics]";
@@ -225,7 +226,7 @@ JointSpaceDynamicsElement::JointSpaceDynamicsElement(
 JointSpaceDynamicsElement::JointSpaceDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact,
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact,
     const iDynTree::MatrixDynSize& regularizationMatrix)
     : JointSpaceDynamicsElement(kinDyn, handler, framesInContact)
 {
@@ -294,15 +295,15 @@ const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
         // if the contact between the link associated to the frame and the environment is not
         // modelled as compliant (i.e. stiff contact) the desired contact wrench is an unknown
         // variable. So the Jacobian matrix is stored inside the matrix A
-        if (!frame.isCompliantContact)
+        if (!frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the joint (last "actuated DoFs" rows)
             iDynTree::toEigen(m_A).block(0,
-                                         frame.indexRangeInElement.offset,
+                                         frame.identifierInVariableHandler().offset,
                                          m_jointAccelerationIndex.size,
-                                         frame.indexRangeInElement.size)
+                                         frame.identifierInVariableHandler().size)
                 = iDynTree::toEigen(m_jacobianMatrix)
                       .rightCols(m_jointAccelerationIndex.size)
                       .transpose();
@@ -324,15 +325,15 @@ const iDynTree::VectorDynSize& JointSpaceDynamicsElement::getB()
         // if the contact between the link associated to the frame and the environment is
         // modelled as compliant the desired contact wrench is not an unknown
         // variable.
-        if (frame.isCompliantContact)
+        if (frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the joint (last "actuated DoFs" rows)
             iDynTree::toEigen(m_b) -= iDynTree::toEigen(m_jacobianMatrix)
                                           .rightCols(m_jointAccelerationIndex.size)
                                           .transpose()
-                                      * iDynTree::toEigen(frame.wrench);
+                                      * iDynTree::toEigen(frame.contactWrench());
         }
     }
 
@@ -343,7 +344,7 @@ const iDynTree::VectorDynSize& JointSpaceDynamicsElement::getB()
 WholeBodyFloatingBaseDynamicsElement::WholeBodyFloatingBaseDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact)
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact)
     : MultiBodyDynamicsElement(kinDyn, handler, framesInContact)
 {
     m_name += " [Whole body dynamics]";
@@ -370,7 +371,7 @@ WholeBodyFloatingBaseDynamicsElement::WholeBodyFloatingBaseDynamicsElement(
 WholeBodyFloatingBaseDynamicsElement::WholeBodyFloatingBaseDynamicsElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
     const VariableHandler& handler,
-    const std::vector<FrameNames>& framesInContact,
+    const std::vector<FrameInContact<std::string, std::string>>& framesInContact,
     const iDynTree::MatrixDynSize& regularizationMatrix)
     : WholeBodyFloatingBaseDynamicsElement(kinDyn, handler, framesInContact)
 {
@@ -451,14 +452,14 @@ const iDynTree::MatrixDynSize& WholeBodyFloatingBaseDynamicsElement::getA()
         // if the contact between the link associated to the frame and the environment is not
         // modelled as compliant (i.e. stiff contact) the desired contact wrench is an unknown
         // variable. So the Jacobian matrix is stored inside the matrix A
-        if (!frame.isCompliantContact)
+        if (!frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             iDynTree::toEigen(m_A).block(0,
-                                         frame.indexRangeInElement.offset,
+                                         frame.identifierInVariableHandler().offset,
                                          m_jointAccelerationIndex.size + m_baseAccelerationIndex.size,
-                                         frame.indexRangeInElement.size)
+                                         frame.identifierInVariableHandler().size)
                 = iDynTree::toEigen(m_jacobianMatrix).transpose();
         }
     }
@@ -482,11 +483,11 @@ const iDynTree::VectorDynSize& WholeBodyFloatingBaseDynamicsElement::getB()
         // if the contact between the link associated to the frame and the environment is
         // modelled as compliant the desired contact wrench is not an unknown
         // variable.
-        if (frame.isCompliantContact)
+        if (frame.isInCompliantContact())
         {
-            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.indexInModel, m_jacobianMatrix);
+            m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
             iDynTree::toEigen(m_b)
-                -= iDynTree::toEigen(m_jacobianMatrix).transpose() * iDynTree::toEigen(frame.wrench);
+                -= iDynTree::toEigen(m_jacobianMatrix).transpose() * iDynTree::toEigen(frame.contactWrench());
         }
     }
     return m_b;

@@ -74,7 +74,7 @@ protected:
 
     /** Map containing the frames in contact with the environment, the key is the name of the frame,
      * while the value is a structure describing a frame in contact with the  environment */
-    std::unordered_map<std::string, FrameInContact> m_framesInContact;
+    std::unordered_map<std::string, FrameInContactWithWrench<iDynTree::IndexRange, iDynTree::FrameIndex>> m_framesInContact;
 
 public:
     /**
@@ -86,7 +86,7 @@ public:
      */
     MultiBodyDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                              const VariableHandler& handler,
-                             const std::vector<FrameNames>& framesInContact);
+                             const std::vector<FrameInContact<std::string, std::string>>& framesInContact);
 
     /**
      * Set the external wrench acting on the link associated to a specific frame
@@ -125,7 +125,7 @@ public:
      */
     FloatingBaseDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                 const VariableHandler& handler,
-                                const std::vector<FrameNames>& framesInContact);
+                                const std::vector<FrameInContact<std::string, std::string>>& framesInContact);
 
     /**
      * Get (and compute) the element matrix
@@ -165,7 +165,7 @@ public:
      */
     JointSpaceDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                               const VariableHandler& handler,
-                              const std::vector<FrameNames>& framesInContact);
+                              const std::vector<FrameInContact<std::string, std::string>>& framesInContact);
 
     /**
      * Constructor. If you call this constructor the motor reflected inertia is enable
@@ -179,7 +179,7 @@ public:
      */
     JointSpaceDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                               const VariableHandler& handler,
-                              const std::vector<FrameNames>& framesInContact,
+                              const std::vector<FrameInContact<std::string, std::string>>& framesInContact,
                               const iDynTree::MatrixDynSize& regularizationMatrix);
 
     /**
@@ -219,7 +219,7 @@ public:
      */
     WholeBodyFloatingBaseDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                          const VariableHandler& handler,
-                                         const std::vector<FrameNames>& framesInContact);
+                                         const std::vector<FrameInContact<std::string, std::string>>& framesInContact);
 
     /**
      * Constructor. If you call this constructor the motor reflected inertia is enable
@@ -233,7 +233,7 @@ public:
      */
     WholeBodyFloatingBaseDynamicsElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                          const VariableHandler& handler,
-                                         const std::vector<FrameNames>& framesInContact,
+                                         const std::vector<FrameInContact<std::string, std::string>>& framesInContact,
                                          const iDynTree::MatrixDynSize& regularizationMatrix);
 
     /**
