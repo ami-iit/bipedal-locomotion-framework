@@ -36,6 +36,8 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Frame.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Frame.tpp
+    include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.tpp
     )
 
   # add an executable to the project using the specified source files.
