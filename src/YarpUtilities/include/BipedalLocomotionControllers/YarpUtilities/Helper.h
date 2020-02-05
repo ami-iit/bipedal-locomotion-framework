@@ -81,6 +81,26 @@ struct has_square_bracket_operator<T, std::void_t<decltype(std::declval<T>()[std
 };
 
 /**
+ * is_resizable is used to build a type-dependent expression that check if an element is \a
+ * resizable (i.e. the element has the methods <code>T::resize()<\code>). This specific
+ * implementation is used when the the object is not \a resizable.
+ */
+template <typename T, typename = void> struct is_resizable : std::false_type
+{
+};
+
+/**
+ * is_resizable is used to build a type-dependent expression that check if an element is \a
+ * resizable (i.e. the element has the methods <code>T::resize()<\code>). This specific
+ * implementation is used when the the object is not \a resizable. Indeed
+ * <code>std::void_t<\endcode> is used to detect ill-formed types in SFINAE context.
+ */
+template <typename T>
+struct is_resizable<T, std::void_t<decltype(std::declval<T>().resize(std::declval<int>()))>> : std::true_type
+{
+};
+
+/**
  * Convert a value in a element of type T
  * @param value the value that will be converted
  * @tparam T return type

@@ -129,8 +129,21 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         return false;
     }
 
-    // resize the vector
-    vector.resize(inputPtr->size());
+    // If the vector can be resize, let resize it. Otherwise it is a fix-size vector and the
+    // dimensions has to be the same of list
+    if constexpr (is_resizable<T>::value)
+        vector.resize(inputPtr->size());
+    else
+    {
+        if (vector.size() != inputPtr->size())
+        {
+            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+                         "The size of the vector does not match with the size of the list. List "
+                         "size: "
+                      << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
+            return false;
+        }
+    }
 
     for (int i = 0; i < inputPtr->size(); i++)
     {
