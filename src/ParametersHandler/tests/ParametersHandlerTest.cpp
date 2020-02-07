@@ -28,6 +28,13 @@ public:
         : m_map{map}
     {}
 
+    BasicImplementation() = default;
+
+    template <typename T> void setParameter(const std::string& parameterName, const T& parameter)
+    {
+        m_map.insert({parameterName, std::make_any<T>(parameter)});
+    }
+
     template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const
     {
         auto parameterAny = m_map.find(parameterName);
@@ -55,7 +62,7 @@ public:
     {
         auto group = m_map.find(name);
         if (group == m_map.end())
-            return nullptr;
+            return std::make_unique<BasicImplementation>();
 
         std::unordered_map<std::string, std::any> map;
         try
@@ -65,7 +72,7 @@ public:
         {
             std::cerr << "[BasicImplementation::getGroup] The element named " << name
                       << " is not a 'std::unordered_map<std::string, std::any>'" << std::endl;
-            return nullptr;
+            return std::make_unique<BasicImplementation>();
         }
 
         return std::make_unique<BasicImplementation>(map);
@@ -83,15 +90,11 @@ public:
 
 TEST_CASE("Get parameters")
 {
-
-    std::unordered_map<std::string, std::any> parameters{{"answer_to_the_ultimate_question_of_life", 42},
-                                                         {"pi", 3.14},
-                                                         {"John", std::string{"Smith"}},
-                                                         {"Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21}}};
-
-    parameters.insert({"CARTOONS", std::unordered_map<std::string, std::any>{{"Donald's nephews", std::vector<std::string>{"Huey", "Dewey", "Louie"}}}});
-
-    std::unique_ptr<IParametersHandler<BasicImplementation>> parameterHandler = std::make_unique<BasicImplementation>(parameters);
+    std::unique_ptr<IParametersHandler<BasicImplementation>> parameterHandler = std::make_unique<BasicImplementation>();
+    parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
+    parameterHandler->setParameter("pi", 3.14);
+    parameterHandler->setParameter("Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
+    parameterHandler->setParameter("John", std::string("Smith"));
 
     SECTION("Get integer")
     {
@@ -123,8 +126,8 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        std::unique_ptr<IParametersHandler<BasicImplementation>> groupHandler
-            = parameterHandler->getGroup("CARTOONS");
+        std::unique_ptr<IParametersHandler<BasicImplementation>> groupHandler = parameterHandler->getGroup("CARTOONS");
+        groupHandler->setParameter( "Donald's nephews", std::vector<std::string>{"Huey", "Dewey", "Louie"});
         std::vector<std::string> element;
         REQUIRE(groupHandler->getParameter("Donald's nephews", element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
