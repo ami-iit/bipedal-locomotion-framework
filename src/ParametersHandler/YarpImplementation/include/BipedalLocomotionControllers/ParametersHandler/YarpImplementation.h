@@ -53,6 +53,14 @@ public:
      * nullptr
      */
     std::unique_ptr<IParametersHandler<YarpImplementation>> getGroup(const std::string& name) const;
+
+    /**
+     * Operator << overloading
+     * @param os Output stream objects
+     * @param handler reference to the interface
+     * @return a reference to an Output stream objects
+     */
+    friend std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

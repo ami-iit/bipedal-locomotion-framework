@@ -23,5 +23,11 @@ IParametersHandler<Derived>::getGroup(const std::string& groupName) const
     return static_cast<const Derived*>(this)->getGroup(groupName);
 }
 
+template <class Derived>
+std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>&  handler)
+{
+    return operator<<(os, static_cast<const Derived&>(handler));
+}
+
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionController

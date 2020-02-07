@@ -22,3 +22,15 @@ std::unique_ptr<IParametersHandler<YarpImplementation>> YarpImplementation::getG
 
     return std::make_unique<YarpImplementation>(group);
 }
+
+namespace BipedalLocomotionControllers
+{
+namespace ParametersHandler
+{
+std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder)
+{
+    return os << hanlder.m_searchable.toString();
+}
+
+} // namespace ParametersHandler
+} // namespace BipedalLocomotionControllers

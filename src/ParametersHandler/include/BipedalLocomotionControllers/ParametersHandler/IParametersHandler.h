@@ -40,6 +40,16 @@ public:
      * nullptr
      */
     std::unique_ptr<IParametersHandler<Derived>> getGroup(const std::string& name) const;
+
+    /**
+     * Operator << overloading
+     * @param os Output stream objects
+     * @param handler reference to the interface
+     * @tparam U type of the derived class
+     * @return a reference to an Output stream objects
+     */
+    template <typename U>
+    friend std::ostream& operator<<(std::ostream& os, const IParametersHandler<U>& hanlder);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers
