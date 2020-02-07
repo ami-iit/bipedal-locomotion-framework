@@ -40,3 +40,4 @@ set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRA
 message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
 
 add_subdirectory(YarpImplementation)
+add_subdirectory(tests)
