@@ -17,6 +17,13 @@ bool IParametersHandler<Derived>::getParameter(const std::string& parameterName,
 }
 
 template <class Derived>
+template <typename T>
+void IParametersHandler<Derived>::setParameter(const std::string& parameterName, const T& parameter)
+{
+    return static_cast<Derived*>(this)->setParameter(parameterName, parameter);
+}
+
+template <class Derived>
 std::unique_ptr<IParametersHandler<Derived>>
 IParametersHandler<Derived>::getGroup(const std::string& groupName) const
 {

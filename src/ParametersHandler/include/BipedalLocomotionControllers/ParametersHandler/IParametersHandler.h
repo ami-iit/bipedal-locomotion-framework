@@ -34,6 +34,14 @@ public:
     template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const;
 
     /**
+     * Set a parameter in the handler.
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @tparam T type of the parameter
+     */
+    template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
+
+    /**
      * Get a Group from the handler.
      * @param name name of the group
      * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to
