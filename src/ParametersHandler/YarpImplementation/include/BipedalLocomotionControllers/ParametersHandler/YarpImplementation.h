@@ -13,6 +13,7 @@
 
 // YARP
 #include <yarp/os/Searchable.h>
+#include <yarp/os/Property.h>
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
@@ -20,6 +21,14 @@ namespace BipedalLocomotionControllers
 {
 namespace ParametersHandler
 {
+
+template <typename T>
+struct is_string : public std::disjunction<std::is_same<char*, typename std::decay<T>::type>,
+                                           std::is_same<const char*, typename std::decay<T>::type>,
+                                           std::is_same<std::string, typename std::decay<T>::type>>
+{
+};
+
 /**
  * Parameters handler interface. Yarp Implementation (Curiously recurring
  * template pattern)
@@ -27,15 +36,19 @@ namespace ParametersHandler
 class YarpImplementation : public IParametersHandler<YarpImplementation>
 {
 
-    const yarp::os::Searchable& m_searchable; /**< Reference to a searchable object */
+    yarp::os::Property m_container; /**< Bottle object */
 
 public:
     /**
      * Constructor.
-     * @param searchable reference to a searchable object. The object has to exist from the entire
-     * lifetime of YarpImplementation
+     * @param searchable reference to a searchable object. The object is copied inside the Handler
      */
     YarpImplementation(const yarp::os::Searchable& searchable);
+
+    /**
+     * Constructor.
+     */
+    YarpImplementation() = default;
 
     /**
      * Get a parameter from the handler.
@@ -47,10 +60,19 @@ public:
     template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const;
 
     /**
+     * Set a parameter in the handler.
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @tparam T type of the parameter
+     * @return true/false in case of success/failure
+     */
+    template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
+
+    /**
      * Get a Group from the handler.
      * @param name name of the group
-     * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to
-     * nullptr
+     * @return A pointer to IParametersHandler, If the group is not found a new empty object is
+     * created and returned
      */
     std::unique_ptr<IParametersHandler<YarpImplementation>> getGroup(const std::string& name) const;
 

@@ -13,15 +13,36 @@ namespace BipedalLocomotionControllers
 {
 namespace ParametersHandler
 {
+
 template <typename T>
 bool YarpImplementation::getParameter(const std::string& parameterName, T& parameter) const
 {
     // a scalar element and a strings is retrieved using getElementFromSearchable() function
-    if constexpr (std::is_scalar<T>::value || std::is_same<T, std::string>::value)
-        return YarpUtilities::getElementFromSearchable(m_searchable, parameterName, parameter);
+    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+        return YarpUtilities::getElementFromSearchable(m_container, parameterName, parameter);
     else
         // otherwise it is considered as a vector
-        return YarpUtilities::getVectorFromSearchable(m_searchable, parameterName, parameter);
+        return YarpUtilities::getVectorFromSearchable(m_container, parameterName, parameter);
 }
+
+template <typename T>
+void YarpImplementation::setParameter(const std::string& parameterName, const T& parameter)
+{
+    // a scalar element and a strings is retrieved using getElementFromSearchable() function
+    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    {
+        m_container.put(parameterName, parameter);
+    } else
+    {
+        yarp::os::Value yarpValue;
+        auto list = yarpValue.asList();
+
+        for (const auto& v : parameter)
+            list->add(yarp::os::Value(v));
+
+        m_container.put(parameterName, yarpValue);
+    }
+}
+
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

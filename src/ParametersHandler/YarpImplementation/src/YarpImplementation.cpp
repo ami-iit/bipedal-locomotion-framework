@@ -10,15 +10,16 @@
 using namespace BipedalLocomotionControllers::ParametersHandler;
 
 YarpImplementation::YarpImplementation(const yarp::os::Searchable& searchable)
-    : m_searchable(searchable)
 {
+    m_container.fromString(searchable.toString());
 }
 
-std::unique_ptr<IParametersHandler<YarpImplementation>> YarpImplementation::getGroup(const std::string& name) const
+std::unique_ptr<IParametersHandler<YarpImplementation>>
+YarpImplementation::getGroup(const std::string& name) const
 {
-    auto& group = m_searchable.findGroup(name);
+    auto& group = m_container.findGroup(name);
     if (group.isNull())
-        return nullptr;
+        return std::make_unique<YarpImplementation>();
 
     return std::make_unique<YarpImplementation>(group);
 }
@@ -29,7 +30,7 @@ namespace ParametersHandler
 {
 std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder)
 {
-    return os << hanlder.m_searchable.toString();
+    return os << hanlder.m_container.toString();
 }
 
 } // namespace ParametersHandler
