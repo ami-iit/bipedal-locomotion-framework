@@ -23,38 +23,16 @@ using namespace BipedalLocomotionControllers::ParametersHandler;
 
 TEST_CASE("Get parameters")
 {
-    yarp::os::Property property{{"answer_to_the_ultimate_question_of_life", yarp::os::Value(42)},
-                                {"pi", yarp::os::Value(3.14)},
-                                {"John", yarp::os::Value("Smith")}};
-
-
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
-
-    {
-        yarp::os::Value yarpValue;
-        auto list = yarpValue.asList();
-
-        for (const auto& v : fibonacciNumbers)
-            list->addInt(v);
-
-        property.put("Fibonacci Numbers", yarpValue);
-    }
-
-
-    auto& group = property.addGroup("CARTOONS");
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
-    {
-        yarp::os::Value yarpValue;
-        auto list = yarpValue.asList();
-
-        for (const auto& v : donaldsNephews)
-            list->addString(v);
-
-        group.put("Donald's nephews", yarpValue);
-    }
 
     std::unique_ptr<IParametersHandler<YarpImplementation>> parameterHandler
-        = std::make_unique<YarpImplementation>(property);
+        = std::make_unique<YarpImplementation>();
+
+    parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
+    parameterHandler->setParameter("pi", 3.14);
+    parameterHandler->setParameter("John", "Smith");
+    parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
 
     SECTION("Get integer")
     {
@@ -86,10 +64,15 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        std::unique_ptr<IParametersHandler<YarpImplementation>> groupHandler
-            = parameterHandler->getGroup("CARTOONS");
+        std::unique_ptr<IParametersHandler<YarpImplementation>> cartoonsGroup = parameterHandler->getGroup("CARTOONS");
+        cartoonsGroup->setParameter("Donald's nephews", donaldsNephews);
         std::vector<std::string> element;
-        REQUIRE(groupHandler->getParameter("Donald's nephews", element));
+        REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
         REQUIRE(element == donaldsNephews);
+    }
+
+    SECTION("Print content")
+    {
+        std::cout << "Parameters: " << *parameterHandler << std::endl;
     }
 }
