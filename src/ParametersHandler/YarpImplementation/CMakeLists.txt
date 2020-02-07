@@ -51,7 +51,5 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRARY_TARGET_NAME})
 
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
-    
-  add_subdirectory(tests)
 
 endif()
