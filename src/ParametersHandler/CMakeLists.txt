@@ -29,8 +29,11 @@ target_include_directories(${LIBRARY_TARGET_NAME} INTERFACE "$<BUILD_INTERFACE:$
 # Specify installation targets, typology and destination folders.
 install(TARGETS    ${LIBRARY_TARGET_NAME}
   EXPORT     ${PROJECT_NAME}
-  COMPONENT  runtime
-  PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/ParametersHandler" COMPONENT dev)
+  COMPONENT  runtime)
+
+install(FILES ${${LIBRARY_TARGET_NAME}_HDR}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/ParametersHandler")
+
 
 set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRARY_TARGET_NAME})
 
