@@ -21,7 +21,7 @@
 
 using namespace BipedalLocomotionControllers::ParametersHandler;
 
-TEST_CASE("Get paratemets")
+TEST_CASE("Get parameters")
 {
     yarp::os::Property property{{"answer_to_the_ultimate_question_of_life", yarp::os::Value(42)},
                                 {"pi", yarp::os::Value(3.14)},
