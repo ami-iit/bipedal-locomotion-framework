@@ -26,9 +26,7 @@ TEST_CASE("Get parameters")
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
 
-    std::unique_ptr<IParametersHandler<YarpImplementation>> parameterHandler
-        = std::make_unique<YarpImplementation>();
-
+    YarpImplementation::unique_ptr parameterHandler = std::make_unique<YarpImplementation>();
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
@@ -64,7 +62,7 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        std::unique_ptr<IParametersHandler<YarpImplementation>> cartoonsGroup = parameterHandler->getGroup("CARTOONS");
+        YarpImplementation::unique_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS");
         cartoonsGroup->setParameter("Donald's nephews", donaldsNephews);
         std::vector<std::string> element;
         REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));

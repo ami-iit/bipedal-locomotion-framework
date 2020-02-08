@@ -92,7 +92,7 @@ public:
 
 TEST_CASE("Get parameters")
 {
-    std::unique_ptr<IParametersHandler<BasicImplementation>> parameterHandler = std::make_unique<BasicImplementation>();
+    BasicImplementation::unique_ptr parameterHandler = std::make_unique<BasicImplementation>();
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
@@ -128,8 +128,9 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        std::unique_ptr<IParametersHandler<BasicImplementation>> groupHandler = parameterHandler->getGroup("CARTOONS");
-        groupHandler->setParameter( "Donald's nephews", std::vector<std::string>{"Huey", "Dewey", "Louie"});
+        BasicImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        groupHandler->setParameter("Donald's nephews",
+                                   std::vector<std::string>{"Huey", "Dewey", "Louie"});
         std::vector<std::string> element;
         REQUIRE(groupHandler->getParameter("Donald's nephews", element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
