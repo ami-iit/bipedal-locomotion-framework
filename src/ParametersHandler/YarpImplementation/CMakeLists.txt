@@ -19,7 +19,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
     )
 
   # add an executable to the project using the specified source files.
-  add_library(${LIBRARY_TARGET_NAME} SHARED ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
+  add_library(${LIBRARY_TARGET_NAME} ${${LIBRARY_TARGET_NAME}_SRC} ${${LIBRARY_TARGET_NAME}_HDR})
 
   target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
     BipedalLocomotionControllers::ParametersHandler
