@@ -11,6 +11,8 @@ project(BipedalLocomotionControllers
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+
 option(BUILD_TESTING "Create tests using CMake" OFF)
 include(CTest)
 
