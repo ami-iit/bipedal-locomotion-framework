@@ -83,6 +83,11 @@ public:
      * @return a reference to an Output stream objects
      */
     friend std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder);
+
+    /**
+     * Destructor
+     */
+    ~YarpImplementation() = default;
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

@@ -58,6 +58,11 @@ public:
      */
     template <typename U>
     friend std::ostream& operator<<(std::ostream& os, const IParametersHandler<U>& hanlder);
+
+    /**
+     * Destructor
+     */
+    virtual ~IParametersHandler() = default;
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

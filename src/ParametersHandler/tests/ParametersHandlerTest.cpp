@@ -86,6 +86,8 @@ public:
 
         return os << key;
     }
+
+    ~BasicImplementation() = default;
 };
 
 TEST_CASE("Get parameters")
