@@ -19,7 +19,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities)
     )
 
   # add an executable to the project using the specified source files.
-  add_library(${LIBRARY_TARGET_NAME} SHARED ${YARP_helper_SRC} ${YARP_helper_HDR})
+  add_library(${LIBRARY_TARGET_NAME} ${YARP_helper_SRC} ${YARP_helper_HDR})
 
   target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES})
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
