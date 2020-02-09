@@ -31,7 +31,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
   target_compile_features(${LIBRARY_TARGET_NAME} PUBLIC cxx_std_17)
 
   set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES VERSION ${BipedalLocomotionControllers_VERSION}
-    PUBLIC_HEADER "${${LIBRARY_TARGET_NAME}__HDR}")
+    PUBLIC_HEADER "${${LIBRARY_TARGET_NAME}_HDR}")
 
   # Specify include directories for both compilation and installation process.
   # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
