@@ -43,7 +43,7 @@ class MomentumBasedTorqueControl::Impl
 
     const std::shared_ptr<iDynTree::KinDynComputations> kinDyn; /**< KinDyn pointer object */
     std::unique_ptr<OsqpEigen::Solver> solver; /**< Quadratic programming solver */
-    std::unique_ptr<VariableHandler> variableHandler; /**< Variable handler */
+    VariableHandler variableHandler; /**< Variable handler */
     std::unique_ptr<Constraints> constraints; /**< Collection of all the constraints */
     std::unique_ptr<CostFunction> costFunction; /**< The cost function */
 
@@ -54,9 +54,11 @@ class MomentumBasedTorqueControl::Impl
     /** Dynamics of the floating base */
     std::unique_ptr<FloatingBaseDynamicsElement> floatingBaseDynamics;
 
+    /** Dynamics of the joint base */
+    std::unique_ptr<JointSpaceDynamicsElement> jointDynamics;
+
     /** Centroidal linear momentum in case of elastic contacts */
-    std::unique_ptr<CentroidalLinearMomentumElementWithCompliantContact>
-        centroidalLinearMomentumElement;
+    std::unique_ptr<CentroidalLinearMomentumElementWithCompliantContact> centroidalLinearMomentumElement;
 
     /** Dictionary containing regularization elements */
     dictionary<std::unique_ptr<RegularizationElement>> regularizationElements;
@@ -74,15 +76,14 @@ class MomentumBasedTorqueControl::Impl
         : kinDyn(kinDyn)
     {
         // instantiate variable handler and initialize the variables
-        variableHandler = std::make_unique<VariableHandler>();
-        variableHandler->addVariable("base_acceleration", 6);
-        variableHandler->addVariable("joint_accelerations", this->kinDyn->model().getNrOfDOFs());
+        variableHandler.addVariable("base_acceleration", 6);
+        variableHandler.addVariable("joint_accelerations", this->kinDyn->model().getNrOfDOFs());
 
         // initialize the constraints
-        constraints = std::make_unique<Constraints>(*variableHandler);
+        constraints = std::make_unique<Constraints>(variableHandler);
 
         // initialize the cost function
-        costFunction = std::make_unique<CostFunction>(*variableHandler);
+        costFunction = std::make_unique<CostFunction>(variableHandler);
 
         // resize the joint torques
         jointTorques.resize(this->kinDyn->model().getNrOfDOFs());
@@ -114,7 +115,7 @@ class MomentumBasedTorqueControl::Impl
     {
         // initialize the optimization problem
         solver = std::make_unique<OsqpEigen::Solver>();
-        solver->data()->setNumberOfVariables(variableHandler->getNumberOfVariables());
+        solver->data()->setNumberOfVariables(variableHandler.getNumberOfVariables());
         solver->data()->setNumberOfConstraints(constraints->getNumberOfConstraints());
 
         solver->settings()->setVerbosity(false);
@@ -219,7 +220,7 @@ void MomentumBasedTorqueControl::addCentroidalLinearMomentumElement(
     m_pimpl->centroidalLinearMomentumElement = std::make_unique<
         CentroidalLinearMomentumElementWithCompliantContact>(m_pimpl->kinDyn,
                                                              std::move(pdController),
-                                                             *(m_pimpl->variableHandler),
+                                                             m_pimpl->variableHandler,
                                                              framesInContact);
 
     // add to the constraint or to the cost function
@@ -247,7 +248,7 @@ void MomentumBasedTorqueControl::addOrientationElement(const Frame<std::string, 
     m_pimpl->cartesianElements.emplace(label,
                                        std::make_unique<CartesianElement<CartesianElementType::ORIENTATION>>(m_pimpl->kinDyn,
                                                                                                              std::move(pdController),
-                                                                                                             *(m_pimpl->variableHandler),
+                                                                                                             m_pimpl->variableHandler,
                                                                                                              frameInTheModel));
 
     if (isConstraint)
@@ -258,14 +259,14 @@ void MomentumBasedTorqueControl::addOrientationElement(const Frame<std::string, 
                                                label + "_cartesian_element");
 };
 
-void MomentumBasedTorqueControl::addSystemDynamicsElement(
+void MomentumBasedTorqueControl::addFloatingBaseDynamicsElement(
     const std::vector<FrameInContact<std::string, std::string>>& framesInContact,
     bool isConstraint,
     const Weight<iDynTree::VectorDynSize>& weight)
 {
     m_pimpl->floatingBaseDynamics
         = std::make_unique<FloatingBaseDynamicsElement>(m_pimpl->kinDyn,
-                                                        *(m_pimpl->variableHandler),
+                                                        m_pimpl->variableHandler,
                                                         framesInContact);
 
     // add to the constraint or to the cost function
@@ -275,6 +276,17 @@ void MomentumBasedTorqueControl::addSystemDynamicsElement(
         m_pimpl->costFunction->addCostFunction(m_pimpl->floatingBaseDynamics.get(),
                                                weight,
                                                "system_dynamics");
+};
+
+void MomentumBasedTorqueControl::addJointDynamicsElement(const std::vector<FrameInContact<std::string, std::string>>& framesInContact)
+{
+    VariableHandler tempVariableHandler(m_pimpl->variableHandler);
+    size_t jointAccelerationSize = m_pimpl->variableHandler.getVariable("joint_accelerations").size;
+    tempVariableHandler.addVariable("joint_torques", jointAccelerationSize);
+
+    m_pimpl->jointDynamics = std::make_unique<JointSpaceDynamicsElement>(m_pimpl->kinDyn,
+                                                                         tempVariableHandler,
+                                                                         framesInContact);
 };
 
 void MomentumBasedTorqueControl::addRegularizationWithControlElement(const std::string& label,
@@ -290,7 +302,7 @@ void MomentumBasedTorqueControl::addRegularizationWithControlElement(const std::
     m_pimpl->regularizationWithControlElements.emplace(label,
                                                        std::make_unique<RegularizationWithControlElement>(m_pimpl->kinDyn,
                                                                                                           std::move(pdController),
-                                                                                                          *(m_pimpl->variableHandler),
+                                                                                                          m_pimpl->variableHandler,
                                                                                                           label));
 
     if (isConstraint)
@@ -311,7 +323,7 @@ void MomentumBasedTorqueControl::addJointValuesFeasibilityElement(
 {
     m_pimpl->jointValuesFeasibilityElement
         = std::make_unique<JointValuesFeasibilityElement>(m_pimpl->kinDyn,
-                                                          *(m_pimpl->variableHandler),
+                                                          m_pimpl->variableHandler,
                                                           variableName,
                                                           maxJointPositionsLimit,
                                                           minJointPositionsLimit,
@@ -333,7 +345,7 @@ void MomentumBasedTorqueControl::solve()
 size_t MomentumBasedTorqueControl::variableSize(const std::string& name) const
 {
     size_t variableSize = 0;
-    const auto variable = m_pimpl->variableHandler->getVariable(name);
+    const auto variable = m_pimpl->variableHandler.getVariable(name);
     if (variable.isValid())
         variableSize = variable.size;
     else if(m_pimpl->isVerbose)
@@ -343,15 +355,20 @@ size_t MomentumBasedTorqueControl::variableSize(const std::string& name) const
     return variableSize;
 }
 
-// const iDynTree::VectorDynSize& TaskBasedTorqueControl::getDesiredTorques()
-// {
-//     auto jointIndex = m_pimpl->variableHandler->getVariable("joint_torques");
+iDynTree::VectorDynSize MomentumBasedTorqueControl::getDesiredTorques()
+{
+    iDynTree::VectorDynSize jointTorques(
+        m_pimpl->variableHandler.getVariable("joint_accelerations").size);
 
-//     iDynTree::toEigen(m_pimpl->jointTorques)
-//         = m_pimpl->solver->getSolution().segment(jointIndex.offset, jointIndex.size);
+    const size_t numberOfVariables = m_pimpl->variableHandler.getNumberOfVariables();
 
-//     return m_pimpl->jointTorques;
-// }
+    iDynTree::toEigen(jointTorques)
+        = iDynTree::toEigen(m_pimpl->jointDynamics->getB())
+          - iDynTree::toEigen(m_pimpl->jointDynamics->getA()).topRows(numberOfVariables)
+                * m_pimpl->solver->getSolution();
+
+    return jointTorques;
+}
 
 // iDynTree::Wrench TaskBasedTorqueControl::getDesiredWrench(const std::string& name)
 // {
@@ -424,6 +441,51 @@ void MomentumBasedTorqueControl::setDesiredLinearMomentumValue(
         ->setDesiredCentroidalLinearMomentum(centroidalLinearMomentumSecondDerivative,
                                              centroidalLinearMomentumDerivative,
                                              centroidalLinearMomentum);
+}
+
+void MomentumBasedTorqueControl::setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches)
+{
+
+    std::vector<iDynTree::LinearForceVector3> contactForces;
+
+    for (const auto& contactWrench : contactWrenches)
+    {
+        m_pimpl->jointDynamics->setExternalWrench(contactWrench.first, contactWrench.second);
+        m_pimpl->floatingBaseDynamics->setExternalWrench(contactWrench.first, contactWrench.second);
+
+        // stack all the contact forces
+        contactForces.push_back(contactWrench.second.getLinearVec3());
+
+    }
+
+
+    m_pimpl->centroidalLinearMomentumElement->setMeasuredContactForces(contactForces);
+}
+
+void MomentumBasedTorqueControl::setContactState(const std::string& name,
+                                                 bool isInContact,
+                                                 const iDynTree::Transform& desiredFootPose)
+{
+    m_pimpl->centroidalLinearMomentumElement->setContactState(name, isInContact, desiredFootPose);
+}
+
+void MomentumBasedTorqueControl::setDesiredRotationReference(const iDynTree::Vector3& acceleration,
+                                                             const iDynTree::Vector3& velocity,
+                                                             const iDynTree::Rotation& rotation,
+                                                             const std::string& name)
+{
+
+    auto element = m_pimpl->cartesianElements.find(name);
+    if (element == m_pimpl->cartesianElements.end())
+    {
+        if(m_pimpl->isVerbose)
+            std::cerr << "[MomentumBasedTorqueControl::setDesiredCartesianTrajectory] The "
+                         "cartesian element called "
+                      << name << " is not defined" << std::endl;
+        return;
+    }
+
+    element->second->setReference(acceleration, velocity, rotation);
 }
 
 // void TaskBasedTorqueControl::setDesiredAngularMomentum(

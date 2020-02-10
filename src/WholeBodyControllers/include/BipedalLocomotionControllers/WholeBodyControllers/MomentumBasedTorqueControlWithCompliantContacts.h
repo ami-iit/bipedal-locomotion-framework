@@ -1,3 +1,4 @@
+
 /**
  * @file MomentumBasedTorqueControlWithCompliantContacts.h
  * @authors Giulio Romualdi <giulio.romualdi@iit.it>
@@ -52,9 +53,9 @@ public:
                                bool isConstraint,
                                const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(6));
 
-    void addSystemDynamicsElement(const std::vector<OptimalControlUtilities::FrameInContact<std::string, std::string>>& framesInContact,
-                                  bool isConstraint,
-                                  const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(1));
+    void addFloatingBaseDynamicsElement(const std::vector<OptimalControlUtilities::FrameInContact<std::string, std::string>>& framesInContact,
+                                        bool isConstraint,
+                                        const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(1));
 
     void addRegularizationWithControlElement(const std::string& label,
                                              std::unique_ptr<OptimalControlUtilities::LinearPD<iDynTree::VectorDynSize>> pdController,
@@ -79,29 +80,23 @@ public:
                                   const iDynTree::Vector3& centroidalLinearMomentumDerivative,
                                   const iDynTree::Vector3& centroidalLinearMomentum);
 
+
+    void addJointDynamicsElement(const std::vector<OptimalControlUtilities::FrameInContact<std::string, std::string>>& framesInContact);
     /* bool getVerbosity() const; */
 
-    /* const iDynTree::VectorDynSize& getDesiredTorques(); */
+    void setMeasuredContactWrench(
+        const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
-    /* template <typename T, typename U, typename W> */
-    /* void setDesiredCartesianTrajectory(const T& acceleration, */
-    /*                                    const U& velocity, */
-    /*                                    const W& position, */
-    /*                                    const std::string& name) */
-    /* { */
+    iDynTree::VectorDynSize getDesiredTorques();
 
-    /*     CartesianElement* const element = cartesianElement(name); */
-    /*     if (element == nullptr) */
-    /*     { */
-    /*         if (getVerbosity()) */
-    /*             std::cerr << "[TaskBasedTorqueControl::setDesiredCartesianTrajectory] The " */
-    /*                          "cartesian element called " */
-    /*                       << name << " is not defined" << std::endl; */
-    /*         return; */
-    /*     } */
+    void setContactState(const std::string& name,
+                         bool isInContact,
+                         const iDynTree::Transform& desiredFootPose);
 
-    /*     element->setDesiredTrajectory(acceleration, velocity, position); */
-    /* } */
+    void setDesiredRotationReference(const iDynTree::Vector3& acceleration,
+                                     const iDynTree::Vector3& velocity,
+                                     const iDynTree::Rotation& rotation,
+                                     const std::string& name);
 
     void setDesiredRegularizationTrajectory(const iDynTree::VectorDynSize& acceleration,
                                             const iDynTree::VectorDynSize& velocity,
@@ -116,9 +111,6 @@ public:
     /* void setDesiredAngularMomentum(const iDynTree::Vector3& centroidalAngularMomentumVelocity, */
     /*                                const iDynTree::Vector3& centroidalAngularMomentum); */
 
-    /* void setWeight(const iDynTree::VectorDynSize& weight, const std::string& name); */
-
-    /* void setWeight(const double& weight, const std::string& name); */
 };
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers
