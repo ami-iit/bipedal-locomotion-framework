@@ -30,7 +30,9 @@ class MomentumBasedTorqueControl
 
     bool addOrientationElement(const yarp::os::Searchable& config, const std::string& label);
 
-    void addSystemDynamicsElement(const yarp::os::Searchable& config);
+    void addFloatingBaseDynamicsElement(const yarp::os::Searchable& config);
+
+    void addJointDynamicsElement(const yarp::os::Searchable& config);
 
     void addRegularizationWithControlElement(const yarp::os::Searchable& config,
                                              const std::string& label);

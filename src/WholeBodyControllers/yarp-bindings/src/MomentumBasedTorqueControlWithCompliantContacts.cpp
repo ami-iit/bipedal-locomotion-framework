@@ -149,7 +149,7 @@ bool MomentumBasedTorqueControl::addOrientationElement(const yarp::os::Searchabl
     return true;
 }
 
-void MomentumBasedTorqueControl::addSystemDynamicsElement(const yarp::os::Searchable& config)
+void MomentumBasedTorqueControl::addFloatingBaseDynamicsElement(const yarp::os::Searchable& config)
 {
     // get the frames in contact name
     std::vector<FrameInContact<std::string, std::string>> framesInContact;
@@ -181,9 +181,33 @@ void MomentumBasedTorqueControl::addSystemDynamicsElement(const yarp::os::Search
     }
     Weight<iDynTree::VectorDynSize> weight(rawWeight);
 
-    WholeBodyControllers::MomentumBasedTorqueControl::addSystemDynamicsElement(framesInContact,
-                                                                               asConstraint,
-                                                                               weight);
+    WholeBodyControllers::MomentumBasedTorqueControl::addFloatingBaseDynamicsElement(framesInContact,
+                                                                                     asConstraint,
+                                                                                     weight);
+}
+
+void MomentumBasedTorqueControl::addJointDynamicsElement(const yarp::os::Searchable& config)
+{
+    std::vector<FrameInContact<std::string, std::string>> framesInContact;
+    std::string frameName;
+    if(!YarpUtilities::getElementFromSearchable(config, "left_foot_frame", frameName))
+        throw std::runtime_error("[MomentumBasedTorqueControl::addSystemDynamicsElement] Unable to "
+                                 "find left_foot_frame");
+
+    // if not find the parameters the contact is considered stiff
+    bool isCompliantContact = config.check("is_left_foot_in_compliant_contact", yarp::os::Value(false)).asBool();
+    framesInContact.emplace_back("left_foot", frameName, isCompliantContact);
+
+    if(!YarpUtilities::getElementFromSearchable(config, "right_foot_frame", frameName))
+        throw std::runtime_error("[MomentumBasedTorqueControl::addSystemDynamicsElement] Unable to "
+                                 "find right_foot_frame");
+
+    // if not find the parameters the contact is considered stiff
+    isCompliantContact = config.check("is_right_foot_in_compliant_contact", yarp::os::Value(false)).asBool();
+    framesInContact.emplace_back("right_foot", frameName, isCompliantContact);
+
+
+    WholeBodyControllers::MomentumBasedTorqueControl::addJointDynamicsElement(framesInContact);
 }
 
 void MomentumBasedTorqueControl::addRegularizationWithControlElement(const yarp::os::Searchable& config,
