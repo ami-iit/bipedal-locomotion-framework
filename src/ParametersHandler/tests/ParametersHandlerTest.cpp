@@ -135,4 +135,9 @@ TEST_CASE("Get parameters")
         REQUIRE(groupHandler->getParameter("Donald's nephews", element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
     }
+
+    SECTION("Print content")
+    {
+        std::cout << "Parameters: " << *parameterHandler << std::endl;
+    }
 }
