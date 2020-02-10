@@ -32,7 +32,7 @@ public:
 
     template <typename T> void setParameter(const std::string& parameterName, const T& parameter)
     {
-        m_map.insert({parameterName, std::make_any<T>(parameter)});
+        m_map[parameterName] = std::make_any<T>(parameter);
     }
 
     template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const
