@@ -33,6 +33,8 @@ public:
      * @param parameter parameter
      * @tparam T type of the parameter
      * @return true/false in case of success/failure
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::getParameter
      */
     template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const;
 
@@ -41,6 +43,8 @@ public:
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @tparam T type of the parameter
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::setParameter
      */
     template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
 
@@ -49,6 +53,8 @@ public:
      * @param name name of the group
      * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to
      * nullptr
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::getGroup
      */
     std::unique_ptr<IParametersHandler<Derived>> getGroup(const std::string& name) const;
 
