@@ -10,6 +10,7 @@
 
 // std
 #include <memory>
+#include <string>
 
 // YARP
 #include <yarp/os/Searchable.h>
@@ -77,12 +78,10 @@ public:
     std::unique_ptr<IParametersHandler<YarpImplementation>> getGroup(const std::string& name) const;
 
     /**
-     * Operator << overloading
-     * @param os Output stream objects
-     * @param handler reference to the interface
-     * @return a reference to an Output stream objects
+     * Return a standard text representation of the content of the object.
+     * @return a string containing the standard text representation of the content of the object.
      */
-    friend std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder);
+    std::string toString() const;
 
     /**
      * Destructor

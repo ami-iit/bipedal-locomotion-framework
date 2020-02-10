@@ -53,6 +53,14 @@ public:
     std::unique_ptr<IParametersHandler<Derived>> getGroup(const std::string& name) const;
 
     /**
+     * Return a standard text representation of the content of the object.
+     * @return a string containing the standard text representation of the content of the object.
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::toString
+     */
+    std::string toString() const;
+
+    /**
      * Operator << overloading
      * @param os Output stream objects
      * @param handler reference to the interface

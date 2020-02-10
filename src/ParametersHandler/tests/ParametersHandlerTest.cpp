@@ -78,13 +78,13 @@ public:
         return std::make_unique<BasicImplementation>(map);
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const BasicImplementation& handler)
+    std::string toString() const
     {
         std::string key;
-        for (const auto parameters: handler.m_map)
+        for (const auto& parameters: m_map)
             key += parameters.first + " ";
 
-        return os << key;
+        return key;
     }
 
     ~BasicImplementation() = default;

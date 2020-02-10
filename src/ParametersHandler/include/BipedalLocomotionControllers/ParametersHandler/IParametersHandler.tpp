@@ -31,9 +31,15 @@ IParametersHandler<Derived>::getGroup(const std::string& groupName) const
 }
 
 template <class Derived>
+std::string IParametersHandler<Derived>::toString() const
+{
+    return static_cast<const Derived*>(this)->toString();
+}
+
+template <class Derived>
 std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>&  handler)
 {
-    return operator<<(os, static_cast<const Derived&>(handler));
+    return os << handler.toString();
 }
 
 } // namespace ParametersHandler

@@ -7,6 +7,8 @@
 
 #include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
 
+#include <string>
+
 using namespace BipedalLocomotionControllers::ParametersHandler;
 
 YarpImplementation::YarpImplementation(const yarp::os::Searchable& searchable)
@@ -24,14 +26,7 @@ YarpImplementation::getGroup(const std::string& name) const
     return std::make_unique<YarpImplementation>(group);
 }
 
-namespace BipedalLocomotionControllers
+std::string YarpImplementation::toString() const
 {
-namespace ParametersHandler
-{
-std::ostream& operator<<(std::ostream& os, const YarpImplementation& hanlder)
-{
-    return os << hanlder.m_container.toString();
+    return m_container.toString();
 }
-
-} // namespace ParametersHandler
-} // namespace BipedalLocomotionControllers
