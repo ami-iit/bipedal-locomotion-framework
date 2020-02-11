@@ -19,6 +19,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     src/FloatingBaseMultiBodyDynamicsElements.cpp
     src/ZMPElements.cpp
     src/CentroidalMomentumElementsWithCompliantContacts.cpp
+    src/CentroidalMomentumRateOfChangeElements.cpp
     src/ContactWrenchFeasibilityElement.cpp
     )
 
@@ -41,6 +42,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/ContactWrenchFeasibilityElement.h
     )
 
