@@ -15,6 +15,8 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
   the exported components.
 - [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
   data and from YARP structures
+- [**ParametersHandler**](./src/ParametersHandler): Library for
+  retrieving parameters from configuration files and not only
 - [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
   constraints in a quadratic optimization problem (QP)
 
@@ -31,6 +33,13 @@ file. Please note that the indicated version is the minimum required version.
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
+
+- `ParametersHandler` requires:
+    - For compiling the `YARP` specialization of the `ParametersHandler`:
+      - [`YARP`](https://github.com/robotology/YARP)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
+
 - `OptimalControlUtilities` requires:
     - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
 

@@ -4,6 +4,7 @@
 
 
 add_subdirectory(YarpUtilities)
+add_subdirectory(ParametersHandler)
 add_subdirectory(OptimalControlUtilities)
 add_subdirectory(ContactModels)
 add_subdirectory(WholeBodyControllers)
