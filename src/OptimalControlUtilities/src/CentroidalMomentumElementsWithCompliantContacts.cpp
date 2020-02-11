@@ -70,14 +70,7 @@ CentroidalLinearMomentumElementWithCompliantContact::
             continue;
         }
 
-        const auto& indexRangeInElement = handler.getVariable(frameNameInVariableHandler);
         const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frameNameInModel);
-
-        if (!indexRangeInElement.isValid())
-            throw std::runtime_error("[CentroidalLinearMomentumElementWithCompliantContact::"
-                                     "CentroidalLinearMomentumElementWithCompliantContact] "
-                                     "Undefined frame named "
-                                     + frameNameInVariableHandler + " in the variableHandler");
 
         if (indexInModel == iDynTree::FRAME_INVALID_INDEX)
             throw std::runtime_error("[CentroidalLinearMomentumElementWithCompliantContact::"
@@ -92,7 +85,7 @@ CentroidalLinearMomentumElementWithCompliantContact::
                                      + frameNameInVariableHandler + " in the model");
 
         m_framesInContact.insert(
-            {frameNameInVariableHandler, {indexRangeInElement, indexInModel, contactModel}});
+            {frameNameInVariableHandler, {iDynTree::IndexRange::InvalidRange(), indexInModel, contactModel}});
     }
 }
 
