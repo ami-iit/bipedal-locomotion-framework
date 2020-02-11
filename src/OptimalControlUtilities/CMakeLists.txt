@@ -19,6 +19,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     src/FloatingBaseMultiBodyDynamicsElements.cpp
     src/ZMPElements.cpp
     src/CentroidalMomentumElementsWithCompliantContacts.cpp
+    src/ContactWrenchFeasibilityElement.cpp
     )
 
   # set hpp files
@@ -40,6 +41,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/ContactWrenchFeasibilityElement.h
     )
 
   # add an executable to the project using the specified source files.
