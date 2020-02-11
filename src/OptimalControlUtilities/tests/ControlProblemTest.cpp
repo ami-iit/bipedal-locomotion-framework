@@ -16,6 +16,8 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/FeasibilityElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/FloatingBaseMultiBodyDynamicsElements.h>
@@ -23,9 +25,10 @@
 #include <BipedalLocomotionControllers/OptimalControlUtilities/RegularizationElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ZMPElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/ContactModelElement.h>
 
 #include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
-#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h>
+
 
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
@@ -40,6 +43,21 @@ void checkVectorsAreEqual(const T& vector1, const U& vector2, double tol = 0)
 
     for (std::size_t i = 0; i < vector1.size(); i++)
         REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
+}
+
+template <typename T, typename U>
+void checkMatricesAreEqual(const T& matrix1, const U& matrix2, double tol = 0)
+{
+    // the tolerance has to be positive
+    REQUIRE(tol >= 0);
+
+    // the matrices must have the same size
+    REQUIRE(matrix1.cols() == matrix2.cols());
+    REQUIRE(matrix1.rows() == matrix2.rows());
+
+    for (std::size_t i = 0; i < matrix1.rows(); i++)
+        for (std::size_t j = 0; i < matrix1.cols(); j++)
+            REQUIRE(std::abs(matrix1(i, j) - matrix2(i, j)) <= tol);
 }
 
 TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
@@ -497,6 +515,50 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
         REQUIRE(iDynTree::toEigen(element.getB()) == iDynTree::toEigen(computedB));
     }
 
+    SECTION("Linear Momentum Rate of change")
+    {
+        LinearPD<iDynTree::Vector3> pd(gain, gain);
+        CentroidalLinearMomentumRateOfChangeElement element(kinDyn,
+                                                            pd,
+                                                            handler,
+                                                            {{"link_in_contact_1", linkInContact1},
+                                                             {"link_in_contact_2",linkInContact2}});
+
+        iDynTree::LinearForceVector3 force1, force2;
+        force1.zero();
+        force2.zero();
+
+        element.setMeasuredContactForces({force1, force2});
+        element.setDesiredCentroidalLinearMomentum(dummy, dummy, dummy);
+
+        // Check A
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6, 3, 3)
+                == iDynTree::toEigen(identity));
+        REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6 + 6, 3, 3)
+                == iDynTree::toEigen(identity));
+
+        // Compute b
+        // instantiate the PD controller
+        LinearPD<iDynTree::Vector3> pdTest;
+        pdTest.setGains(gain, gain);
+        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+
+        // compute the rate of change of the linear centroidal momentum (given by the sum of the
+        // external forces)
+        double weight = -9.81 * kinDyn->model().getTotalMass();
+        iDynTree::LinearForceVector3 linearCentroidalMomentumRateOfChange(0, 0, weight);
+        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force1;
+        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force2;
+
+        pdTest.setFeedback(linearCentroidalMomentumRateOfChange,
+                           kinDyn->getCentroidalTotalMomentum().getLinearVec3());
+
+        iDynTree::Vector3 computedB = pdTest.getControllerOutput();
+
+        // Test b
+        checkVectorsAreEqual(computedB, element.getB());
+    }
+
     SECTION("Linear Momentum With Compliant contacts")
     {
         double springCoeff = 2000.0;
@@ -822,4 +884,89 @@ TEST_CASE("Check Joint Value Feasibility element of the ControlProblemElementsTe
     std::cerr << element.getA().toString() << std::endl;
     std::cerr << element.getUpperBound().toString() << std::endl;
     std::cerr << element.getLowerBound().toString() << std::endl;
+}
+
+TEST_CASE("Contact Model")
+{
+    unsigned int numberOfJoints = 30;
+
+    iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints, 10);
+    unsigned int numberDoFs = model.getNrOfDOFs();
+
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn;
+    kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+
+    kinDyn->loadRobotModel(model);
+    kinDyn->setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
+    REQUIRE(kinDyn->setFloatingBase("baseLink"));
+
+    iDynTree::Vector3 gravity;
+    gravity.zero();
+    gravity(2) = -9.81;
+    iDynTree::VectorDynSize s(numberDoFs);
+    iDynTree::toEigen(s).setRandom();
+
+    iDynTree::VectorDynSize ds(numberDoFs);
+    iDynTree::toEigen(ds).setRandom();
+
+    REQUIRE(kinDyn->setRobotState(iDynTree::Transform::Identity(),
+                                  s,
+                                  iDynTree::Twist::Zero(),
+                                  ds,
+                                  gravity));
+
+
+    std::string linkInContact1 = "link5";
+    std::string linkInContact2 = "link9";
+
+    VariableHandler handler;
+
+    handler.addVariable("base_acceleration", 6);
+    handler.addVariable("joint_accelerations", numberDoFs);
+    handler.addVariable("link_in_contact_1", 6);
+    handler.addVariable("link_in_contact_2", 6);
+
+    iDynTree::VectorDynSize identityVector(6);
+    for (auto& element : identityVector)
+        element = -1;
+    iDynTree::MatrixDynSize identity(6,6);
+    iDynTree::toEigen(identity) = iDynTree::toEigen(identityVector).asDiagonal();
+
+    double springCoeff = 2000.0;
+    double damperCoeff = 100.0;
+
+    double length = 0.12;
+    double width = 0.09;
+
+    std::unordered_map<std::string, std::any> parameters({{"length", length},
+                                                          {"width", width},
+                                                          {"spring_coeff", springCoeff},
+                                                          {"damper_coeff", damperCoeff}});
+
+    using namespace BipedalLocomotionControllers::ContactModels;
+    std::shared_ptr<ContactModel> contactModel
+        = std::make_shared<ContinuousContactModel>(parameters);
+
+    ContactModelElement element(kinDyn, handler,{"link_in_contact_1", linkInContact1, contactModel});
+
+    element.setContactState(true, iDynTree::Transform::Identity());
+
+    // compute A
+    iDynTree::MatrixDynSize jacobianLink(6, numberDoFs + 6);
+    REQUIRE(kinDyn->getFrameFreeFloatingJacobian(linkInContact1, jacobianLink));
+
+
+    // Check A
+    REQUIRE(iDynTree::toEigen(identity) == iDynTree::toEigen(element.getA()).block(0, numberDoFs + 6, 6, 6));
+    REQUIRE(iDynTree::toEigen(contactModel->getControlMatrix()) * iDynTree::toEigen(jacobianLink)
+            == iDynTree::toEigen(element.getA()).block(0, 0, 6, numberDoFs + 6));
+
+    // Compute b
+    iDynTree::Vector6 computedB;
+    auto biasAcceleration = kinDyn->getFrameBiasAcc(linkInContact1);
+    iDynTree::toEigen(computedB) = iDynTree::toEigen(contactModel->getAutonomousDynamics())
+                                   - iDynTree::toEigen(contactModel->getControlMatrix())
+                                         * iDynTree::toEigen(biasAcceleration);
+
+    checkVectorsAreEqual(element.getB(), computedB);
 }
