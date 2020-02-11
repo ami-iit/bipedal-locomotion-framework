@@ -44,7 +44,10 @@ MultiBodyDynamicsElement::MultiBodyDynamicsElement(
         const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frame.identifierInModel());
         bool isInCompliantContact = frame.isInCompliantContact();
 
-        if (!indexRangeInElement.isValid())
+        // If the contact between the environment and the robot is described using a compliant model
+        // the contact force is not one of the unknown parameters. So it will not be considered in
+        // the VariableHandler. If the variable is not defined an invalid IndexRange is provided
+        if (!isInCompliantContact && !indexRangeInElement.isValid())
             throw std::runtime_error("[MultiBodyDynamicsElement::MultiBodyDynamicsElement] "
                                      "Undefined frame named "
                                      + frame.identifierInVariableHandler() + " in the variableHandler");
