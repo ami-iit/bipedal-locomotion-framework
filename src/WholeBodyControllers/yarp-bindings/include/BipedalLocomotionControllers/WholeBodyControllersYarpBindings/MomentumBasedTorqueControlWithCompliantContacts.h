@@ -46,15 +46,15 @@ public:
 
     ~MomentumBasedTorqueControl() = default;
 
-    /* /\** */
-    /*  * Initialize the Task-based torque control problem. */
-    /*  * @param config config of the control problem solver */
-    /*  * @param minJointsPosition is a vector containing the min joints position limit */
-    /*  * @param minJointsPosition is a vector containing the max joints position limit */
-    /*  *\/ */
-    /* void initialize(const yarp::os::Searchable& config, */
-    /*                 const iDynTree::VectorDynSize& maxJointsPosition, */
-    /*                 const iDynTree::VectorDynSize& minJointsPosition); */
+    /**
+     * Initialize the Task-based torque control problem.
+     * @param config config of the control problem solver
+     * @param minJointsPosition is a vector containing the min joints position limit
+     * @param minJointsPosition is a vector containing the max joints position limit
+     */
+    bool initialize(const yarp::os::Searchable& config,
+                    const iDynTree::VectorDynSize& maxJointsPosition,
+                    const iDynTree::VectorDynSize& minJointsPosition);
 };
 } // namespace WholeBodyControllersYarpBindings
 } // namespace BipedalLocomotionControllers

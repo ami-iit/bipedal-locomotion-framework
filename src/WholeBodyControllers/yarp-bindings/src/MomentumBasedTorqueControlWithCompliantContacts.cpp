@@ -72,7 +72,8 @@ bool MomentumBasedTorqueControl::addCentroidalLinearMomentumElement(
         if (!getVectorFromSearchable(config, "weight", rawWeight))
         {
             std::cerr << "[MomentumBasedTorqueControl::"
-                         "addCentroidalLinearMomentumElement] Unable to get the Weight.";
+                         "addCentroidalLinearMomentumElement] Unable to get the Weight."
+                      << std::endl;
             return false;
         }
 
@@ -267,7 +268,47 @@ void MomentumBasedTorqueControl::addJointValuesFeasibilityElement(const yarp::os
                                                                                         samplingTime);
  }
 
-MomentumBasedTorqueControl::MomentumBasedTorqueControl(
+bool MomentumBasedTorqueControl::initialize(const yarp::os::Searchable &config,
+                                            const iDynTree::VectorDynSize& maxJointsPosition,
+                                            const iDynTree::VectorDynSize& minJointsPosition)
+{
+    bool isVerbose = config.check("verbosity", yarp::os::Value(false)).asBool();
+    MomentumBasedTorqueControl::setVerbosity(isVerbose);
+
+    bool ok = true;
+
+    yarp::os::Bottle& centroidalLinearMomentumOptions = config.findGroup("CENTROIDAL_LINEAR_MOMEMENTUM");
+    if(!centroidalLinearMomentumOptions.isNull())
+        ok &= addCentroidalLinearMomentumElement(centroidalLinearMomentumOptions);
+
+    yarp::os::Bottle& torsoOrientationOptions = config.findGroup("TORSO");
+    if(!torsoOrientationOptions.isNull())
+        ok &= addOrientationElement(torsoOrientationOptions, "torso");
+
+    yarp::os::Bottle& floatingBaseDynamicsOptions = config.findGroup("FLOATING_BASE_DYNAMICS");
+    if(!floatingBaseDynamicsOptions.isNull())
+    {
+        addFloatingBaseDynamicsElement(floatingBaseDynamicsOptions);
+        addJointDynamicsElement(floatingBaseDynamicsOptions);
+    }
+
+    yarp::os::Bottle& jointRegularizationOptions = config.findGroup("JOINT_REGULARIZATION");
+    if(!jointRegularizationOptions.isNull())
+        addRegularizationWithControlElement(jointRegularizationOptions, "joint_accelerations");
+
+    yarp::os::Bottle& jointValuesFeasibilityOptions = config.findGroup("JOINT_VALUES_FEASIBILITY");
+    if(!jointValuesFeasibilityOptions.isNull())
+        addJointValuesFeasibilityElement(jointValuesFeasibilityOptions, maxJointsPosition, minJointsPosition);
+
+
+    if (ok)
+        // initialize the optimization problem
+        WholeBodyControllers::MomentumBasedTorqueControl::initialize();
+
+    return ok;
+}
+
+BipedalLocomotionControllers::WholeBodyControllersYarpBindings::MomentumBasedTorqueControl::MomentumBasedTorqueControl(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : WholeBodyControllers::MomentumBasedTorqueControl(kinDyn)
 {
