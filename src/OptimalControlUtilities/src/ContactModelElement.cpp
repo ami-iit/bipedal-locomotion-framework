@@ -19,7 +19,11 @@ ContactModelElement::ContactModelElement(
     const FrameInContactWithContactModel<std::string, std::string>& frameInContact)
     : ControlTask(kinDyn)
 {
-    m_name = "Contact Model Element";
+    const auto& frameNameInVariableHandler = frameInContact.identifierInVariableHandler();
+    const auto& frameNameInModel = frameInContact.identifierInModel();
+
+    m_name = "Contact Model Element [Label " + frameNameInVariableHandler
+             + ", Frame: " + frameNameInModel + "]";
 
     // get the index
     m_jointAccelerationIndex = handler.getVariable("joint_accelerations");
@@ -41,11 +45,6 @@ ContactModelElement::ContactModelElement(
 
     // resize the jacobian matrix
     m_jacobianMatrix.resize(6, m_jointAccelerationIndex.size + m_baseAccelerationIndex.size);
-
-
-    const auto& frameNameInVariableHandler = frameInContact.identifierInVariableHandler();
-    const auto& frameNameInModel = frameInContact.identifierInModel();
-
 
     m_frameInContact.identifierInModel() = m_kinDynPtr->model().getFrameIndex(frameNameInModel);
     m_frameInContact.identifierInVariableHandler() = handler.getVariable(frameNameInVariableHandler);
