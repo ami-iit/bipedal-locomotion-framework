@@ -15,6 +15,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_WholeBodyControllers)
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
     include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedTorqueControlWithCompliantContacts.h
+    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedTorqueControl.tpp
     )
 
   # add an executable to the project using the specified source files.
@@ -24,10 +25,9 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_WholeBodyControllers)
 
   target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
     BipedalLocomotionControllers::OptimalControlUtilities
+    BipedalLocomotionControllers::ParametersHandler
+    OsqpEigen::OsqpEigen
     ${iDynTree_LIBRARIES})
-
-  target_link_libraries(${LIBRARY_TARGET_NAME} PRIVATE
-    OsqpEigen::OsqpEigen)
 
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
 
@@ -53,7 +53,5 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_WholeBodyControllers)
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_INCLUDES ${${LIBRARY_TARGET_NAME}_HDR})
 
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
-
-  add_subdirectory(yarp-bindings)
 
 endif()

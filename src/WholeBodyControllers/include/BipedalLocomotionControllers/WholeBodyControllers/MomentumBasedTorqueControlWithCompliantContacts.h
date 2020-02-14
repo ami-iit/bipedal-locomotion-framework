@@ -1,4 +1,3 @@
-
 /**
  * @file MomentumBasedTorqueControlWithCompliantContacts.h
  * @authors Giulio Romualdi <giulio.romualdi@iit.it>
@@ -12,14 +11,30 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
+#include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/Wrench.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/Model.h>
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/ContactModelElement.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/ContactWrenchFeasibilityElement.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/FeasibilityElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/FloatingBaseMultiBodyDynamicsElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/Frame.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/OptimizationProblemElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/RegularizationElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/Weight.h>
+#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+
+// osqp-eigen solver
+#include <OsqpEigen/OsqpEigen.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -27,67 +42,100 @@ namespace WholeBodyControllers
 {
 class MomentumBasedTorqueControl
 {
-private:
-    class Impl;
-    std::unique_ptr<Impl> m_pimpl;
+    template <typename T> using dictionary = std::unordered_map<std::string, T>;
+    template <typename T> using unique_ptr = std::unique_ptr<T>;
+
+
+    const std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDyn pointer object */
+    unique_ptr<OsqpEigen::Solver> m_solver; /**< Quadratic programming solver */
+    OptimalControlUtilities::VariableHandler m_variableHandler; /**< Variable handler */
+    unique_ptr<OptimalControlUtilities::Constraints> m_constraints; /**< Collection of all the constraints */
+    unique_ptr<OptimalControlUtilities::CostFunction> m_costFunction; /**< The cost function */
+
+    iDynTree::VectorDynSize m_jointTorques; /**< Desired joint torques */
+
+    bool m_isVerbose{true}; /**< If true the controller will be verbose */
+
+    /** Dynamics of the floating base */
+    unique_ptr<OptimalControlUtilities::FloatingBaseDynamicsElement> m_floatingBaseDynamics;
+
+    /** Dynamics of the joint base */
+    unique_ptr<OptimalControlUtilities::JointSpaceDynamicsElement> m_jointDynamics;
+
+    /** Centroidal linear momentum in case of elastic contacts */
+    unique_ptr<OptimalControlUtilities::CentroidalLinearMomentumRateOfChangeElement> m_centroidalLinearMomentumElement;
+
+    /** Dictionary containing regularization elements */
+    dictionary<unique_ptr<OptimalControlUtilities::RegularizationElement>> m_regularizationElements;
+
+    /** Dictionary containing regularization with control elements */
+    dictionary<unique_ptr<OptimalControlUtilities::RegularizationWithControlElement>>
+        m_regularizationWithControlElements;
+
+    /** Dictionary containing Cartesian elements */
+    dictionary<unique_ptr<OptimalControlUtilities::CartesianElement<
+        OptimalControlUtilities::CartesianElementType::ORIENTATION>>>
+        m_cartesianElements;
+
+    // Joint values element
+    unique_ptr<OptimalControlUtilities::JointValuesFeasibilityElement> m_jointValuesFeasibilityElement;
+
+    dictionary<unique_ptr<OptimalControlUtilities::ContactWrenchRateOfChangeFeasibilityElement>> m_contactWrenchFeasibilityElements;
+
+    dictionary<unique_ptr<OptimalControlUtilities::ContactModelElement>> m_contactModelElements;
+
+    template <class T>
+    bool addLinearMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+
+    template <class T>
+    bool addOrientationElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                               const std::string& label);
+
+    template <class T>
+    bool addSystemDynamicsElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+
+    template <class T>
+    bool addRegularizationWithControlElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                             const std::string& label);
+
+    template <class T>
+    bool addJointValuesFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                          const iDynTree::VectorDynSize& maxJointsPosition,
+                                          const iDynTree::VectorDynSize& minJointsPosition);
+
+    template <class T>
+    bool addContactWrenchFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                            const std::string& label);
+
+    template <class T>
+    bool addContactModelElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                const std::string& label);
+
+    void printElements() const;
+
+    void initialzeSolver();
 
 public:
     MomentumBasedTorqueControl(const std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
-    virtual ~MomentumBasedTorqueControl();
+    template <class T>
+    bool initialize(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                    const iDynTree::VectorDynSize& maxJointsPosition,
+                    const iDynTree::VectorDynSize& minJointsPosition);
 
-    /**
-     * Set the verbosity of the controller
-     * @param isVerbose if true the controller will prints all the warning
-     */
+    bool solve();
+
     void setVerbosity(bool isVerbose) noexcept;
 
-    void addCentroidalLinearMomentumElement(const std::vector<OptimalControlUtilities::FrameInContactWithContactModel<std::string, std::string>>& framesInContact,
-                                            std::unique_ptr<OptimalControlUtilities::LinearPD<iDynTree::Vector3>> pdController,
-                                            bool isConstraint,
-                                            const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(3));
+    void setDesiredLinearMomentumValue(const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
+                                       const iDynTree::Vector3& centroidalLinearMomentumDerivative,
+                                       const iDynTree::Vector3& centroidalLinearMomentum,
+                                       const iDynTree::Vector3& centerOfMass);
 
 
-    void addOrientationElement(const OptimalControlUtilities::Frame<std::string, std::string>& frameName,
-                               std::unique_ptr<OptimalControlUtilities::OrientationPD> pdController,
-                               bool isConstraint,
-                               const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(6));
-
-    void addFloatingBaseDynamicsElement(const std::vector<OptimalControlUtilities::FrameInContact<std::string, std::string>>& framesInContact,
-                                        bool isConstraint,
-                                        const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(1));
-
-    void addRegularizationWithControlElement(const std::string& label,
-                                             std::unique_ptr<OptimalControlUtilities::LinearPD<iDynTree::VectorDynSize>> pdController,
-                                             bool isConstraint,
-                                             const OptimalControlUtilities::Weight<iDynTree::VectorDynSize>& weight = OptimalControlUtilities::Weight<iDynTree::VectorDynSize>::Zero(1));
-
-    void addJointValuesFeasibilityElement(const std::string& variableName,
-                                          const iDynTree::VectorDynSize& maxJointPositionsLimit,
-                                          const iDynTree::VectorDynSize& minJointPositionsLimit,
-                                          const double& samplingTime);
+    void setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
 
-
-    void initialize();
-
-    void solve();
-
-    size_t variableSize(const std::string& name) const;
-
-    void
-    setDesiredLinearMomentumValue(const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
-                                  const iDynTree::Vector3& centroidalLinearMomentumDerivative,
-                                  const iDynTree::Vector3& centroidalLinearMomentum);
-
-
-    void addJointDynamicsElement(const std::vector<OptimalControlUtilities::FrameInContact<std::string, std::string>>& framesInContact);
-    /* bool getVerbosity() const; */
-
-    void setMeasuredContactWrench(
-        const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
-
-    iDynTree::VectorDynSize getDesiredTorques();
 
     void setContactState(const std::string& name,
                          bool isInContact,
@@ -103,16 +151,17 @@ public:
                                             const iDynTree::VectorDynSize& position,
                                             const std::string& name);
 
-    void
-    setJointState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
+    void setJointState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
 
-    /* void setDesiredVRP(const iDynTree::Vector3& VRP); */
+    iDynTree::VectorDynSize getDesiredTorques();
 
-    /* void setDesiredAngularMomentum(const iDynTree::Vector3& centroidalAngularMomentumVelocity, */
-    /*                                const iDynTree::Vector3& centroidalAngularMomentum); */
+    iDynTree::Vector6 getLeftFootWrenchRateOfChange() const;
 
+    iDynTree::Vector6 getRightFootWrenchRateOfChange() const;
 };
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers
+
+#include "MomentumBasedTorqueControl.tpp"
 
 #endif // BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_TORQUE_CONTROL_WITH_COMPLIANT_CONTACTS_H
