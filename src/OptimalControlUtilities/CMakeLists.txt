@@ -29,6 +29,8 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/PIDController.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/PIDController.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElements.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/PDController.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h
