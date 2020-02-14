@@ -15,19 +15,19 @@ using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
 CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChangeElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-    LinearPD<iDynTree::Vector3> controller,
+    PIDController<iDynTree::Vector3> controller,
     const VariableHandler& handler,
     const FramesInContact& framesInContact)
     : ControlTask(kinDyn)
-    , m_pd(controller)
+    , m_pid(controller)
 {
     m_name = "Centroidal Linear Momentum rate of change Element";
 
     // get the robot weight expressed in the inertial frame. (The z axis points upwards)
+    m_robotMass = m_kinDynPtr->model().getTotalMass();
     double gravity = 9.81;
     m_robotWeight.zero();
-    m_robotWeight(2) = -gravity * m_kinDynPtr->model().getTotalMass();
-
+    m_robotWeight(2) = -gravity * m_robotMass;
 
     // resize and reset matrices
     m_A.resize(3, handler.getNumberOfVariables());
@@ -56,22 +56,27 @@ CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChang
 const iDynTree::VectorDynSize& CentroidalLinearMomentumRateOfChangeElement::getB()
 {
     // Get the output of the PD controller
-    m_b = m_pd.getControllerOutput();
+    m_b = m_pid.getControllerOutput();
     return m_b;
 }
 
-void CentroidalLinearMomentumRateOfChangeElement::setDesiredCentroidalLinearMomentum(
+void CentroidalLinearMomentumRateOfChangeElement::setReference(
     const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
     const iDynTree::Vector3& centroidalLinearMomentumDerivative,
-    const iDynTree::Vector3& centroidalLinearMomentum) noexcept
+    const iDynTree::Vector3& centroidalLinearMomentum,
+    const iDynTree::Vector3& centerOfMass) noexcept
 {
     // u = centroidalLinearMomentumSecondDerivative_des
     //    + kd (centroidalLinearMomentumDerivative_des - centroidalLinearMomentumDerivative)
     //    + kp (centroidalLinearMomentum_des - centroidalLinearMomentum)
 
-    m_pd.setDesiredTrajectory(centroidalLinearMomentumSecondDerivative,
-                              centroidalLinearMomentumDerivative,
-                              centroidalLinearMomentum);
+    iDynTree::Vector3 comTimesMass;
+    iDynTree::toEigen(comTimesMass) = iDynTree::toEigen(centerOfMass) * m_robotMass;
+
+    m_pid.setReference(centroidalLinearMomentumSecondDerivative,
+                       centroidalLinearMomentumDerivative,
+                       centroidalLinearMomentum,
+                       comTimesMass);
 }
 
 void CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactForces(
@@ -87,16 +92,22 @@ void CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactForces(
     centroidalLinearMomentumDerivative = std::accumulate(contactForces.begin(),
                                                          contactForces.end(),
                                                          centroidalLinearMomentumDerivative);
-    m_pd.setFeedback(centroidalLinearMomentumDerivative,
-                     m_kinDynPtr->getCentroidalTotalMomentum().getLinearVec3());
+
+    iDynTree::Vector3 comTimesMass;
+    iDynTree::toEigen(comTimesMass) = iDynTree::toEigen(m_kinDynPtr->getCenterOfMassPosition()) * m_robotMass;
+
+    m_pid.setFeedback(centroidalLinearMomentumDerivative,
+                      m_kinDynPtr->getCentroidalTotalMomentum().getLinearVec3(),
+                      comTimesMass);
 }
 
-void CentroidalLinearMomentumRateOfChangeElement::setGains(const iDynTree::Vector3& kp,
-                                                           const iDynTree::Vector3& kd)
+void CentroidalLinearMomentumRateOfChangeElement::setGains(const iDynTree::Vector3& kd,
+                                                           const iDynTree::Vector3& kp,
+                                                           const iDynTree::Vector3& ki)
 {
     // u = centroidalLinearMomentumSecondDerivative_des
     //    + kd (centroidalLinearMomentumDerivative_des - centroidalLinearMomentumDerivative)
     //    + kp (centroidalLinearMomentum_des - centroidalLinearMomentum)
 
-    m_pd.setGains(kp, kd);
+    m_pid.setGains(kd, kp, ki);
 }

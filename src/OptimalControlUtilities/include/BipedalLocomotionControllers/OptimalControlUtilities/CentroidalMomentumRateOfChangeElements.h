@@ -11,7 +11,7 @@
 #include <iDynTree/Core/VectorFixSize.h>
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ControlProblemElements.h>
-#include <BipedalLocomotionControllers/OptimalControlUtilities/PDController.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/PIDController.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/Frame.h>
 
@@ -29,10 +29,11 @@ namespace OptimalControlUtilities
  */
 class CentroidalLinearMomentumRateOfChangeElement : public ControlTask
 {
-    LinearPD<iDynTree::Vector3> m_pd; /**< Linear PD */
+    PIDController<iDynTree::Vector3> m_pid; /**< Linear PID */
 
     iDynTree::LinearForceVector3 m_robotWeight; /**< Weight of the robot expressed in the inertial
                                                    frame (The z axis points upwards) */
+    double m_robotMass;
 
     using FramesInContact = std::vector<FrameInContact<std::string, std::string>>;
 
@@ -46,7 +47,7 @@ public:
      * @throw std::runtime_error if the frame is not defined
      */
     CentroidalLinearMomentumRateOfChangeElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                                LinearPD<iDynTree::Vector3> controller,
+                                                PIDController<iDynTree::Vector3> controller,
                                                 const VariableHandler& handler,
                                                 const FramesInContact& framesInContact);
 
@@ -56,10 +57,10 @@ public:
      * @param centroidalLinearMomentumDerivative desired derivative of the centroidal linear momentum
      * @param centroidalLinearMomentum desired centroidal linear momentum
      */
-    void setDesiredCentroidalLinearMomentum(
-        const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
-        const iDynTree::Vector3& centroidalLinearMomentumDerivative,
-        const iDynTree::Vector3& centroidalLinearMomentum) noexcept;
+    void setReference(const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
+                      const iDynTree::Vector3& centroidalLinearMomentumDerivative,
+                      const iDynTree::Vector3& centroidalLinearMomentum,
+                      const iDynTree::Vector3& centerOfMass) noexcept;
 
     void setMeasuredContactForces(const std::vector<iDynTree::LinearForceVector3>& contactForces);
 
@@ -68,7 +69,7 @@ public:
      * @param kp proportional gain
      * @param kd derivative gain
      */
-    void setGains(const iDynTree::Vector3& kp,  const iDynTree::Vector3& kd);
+    void setGains(const iDynTree::Vector3& kd,  const iDynTree::Vector3& kp, const iDynTree::Vector3& ki);
 
     /**
      * Get (and compute) the element vector
