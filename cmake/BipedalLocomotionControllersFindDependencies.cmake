@@ -134,6 +134,9 @@ bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_C
   "Compile All the YARP implementations?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities" OFF)
 
+bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Simulator
+  "Compile Simulator library?" ON
+  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree;BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_ContactModels" OFF)
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests
   "Compile tests?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_Catch2;BUILD_TESTING" OFF)

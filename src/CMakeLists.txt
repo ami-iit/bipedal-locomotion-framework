@@ -5,4 +5,5 @@
 
 add_subdirectory(YarpUtilities)
 add_subdirectory(ParametersHandler)
+add_subdirectory(Simulator)
 add_subdirectory(BipedalLocomotionControllers)
