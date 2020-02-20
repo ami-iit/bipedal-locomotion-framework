@@ -87,6 +87,11 @@ public:
         return key;
     }
 
+    bool isEmpty() const
+    {
+        return m_map.size() == 0;
+    }
+
     ~BasicImplementation() = default;
 };
 
@@ -134,6 +139,17 @@ TEST_CASE("Get parameters")
         std::vector<std::string> element;
         REQUIRE(groupHandler->getParameter("Donald's nephews", element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
+    }
+
+    SECTION("is Empty")
+    {
+        BasicImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        REQUIRE(groupHandler->isEmpty());
+
+        groupHandler->setParameter("Donald's nephews",
+                                   std::vector<std::string>{"Huey", "Dewey", "Louie"});
+
+        REQUIRE_FALSE(groupHandler->isEmpty());
     }
 
     SECTION("Print content")
