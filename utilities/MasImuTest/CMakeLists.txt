@@ -5,39 +5,45 @@
 # set target name
 if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_MasImuTest)
 
-  set(BINARY_TARGET_NAME MasImuTest)
+  set(EXE_TARGET_NAME MasImuTest)
 
   # set cpp files
-  set(MasImuTest_SRC
+  set(${EXE_TARGET_NAME}_SRC
        src/main.cpp
+       src/MasImuTest.cpp
      )
 
   # set hpp files
-  set(MasImuTest_HDR
-
-
+  set(${EXE_TARGET_NAME}_HDR
+        include/BipedalLocomotionControllers/MasImuTest.h
       )
 
-  add_executable(${BINARY_TARGET_NAME} ${MasImuTest_SRC} ${MasImuTest_HDR})
+  set(${EXE_TARGET_NAME}_THRIFT_HDR
+    thrifts/MasImuTestCommands.thrift
+    )
 
-  target_link_libraries(${BINARY_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES}
+  yarp_add_idl(${EXE_TARGET_NAME}_THRIFT_GEN_FILES ${${EXE_TARGET_NAME}_THRIFT_HDR})
+
+  add_executable(${EXE_TARGET_NAME} ${${EXE_TARGET_NAME}_SRC} ${${EXE_TARGET_NAME}_HDR} ${${EXE_TARGET_NAME}_THRIFT_GEN_FILES})
+
+  target_link_libraries(${EXE_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES}
       BipedalLocomotionControllers::YarpUtilities BipedalLocomotionControllers::ParametersHandlerYarpImplementation)
-  target_compile_features(${BINARY_TARGET_NAME} PUBLIC cxx_std_17)
+  target_compile_features(${EXE_TARGET_NAME} PUBLIC cxx_std_17)
 
   # Specify include directories for both compilation and installation process.
   # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
   # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-relocatable-packages
-  target_include_directories(${BINARY_TARGET_NAME} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  target_include_directories(${EXE_TARGET_NAME} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
 
   # Specify installation targets, typology and destination folders.
-  install(TARGETS    ${BINARY_TARGET_NAME}
+  install(TARGETS    ${EXE_TARGET_NAME}
     EXPORT     ${PROJECT_NAME}
     COMPONENT  runtime
     LIBRARY       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                               COMPONENT shlib
     ARCHIVE       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                               COMPONENT lib
     RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}"                                               COMPONENT bin)
 
-  message(STATUS "Created target ${BINARY_TARGET_NAME} for export ${PROJECT_NAME}.")
+  message(STATUS "Created target ${EXE_TARGET_NAME} for export ${PROJECT_NAME}.")
 
 endif()
