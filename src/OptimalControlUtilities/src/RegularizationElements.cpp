@@ -82,5 +82,6 @@ void RegularizationWithControlElement::setPDGains(const iDynTree::VectorDynSize&
 
 const iDynTree::VectorDynSize& RegularizationWithControlElement::getB()
 {
-    return m_pd->getControllerOutput();
+    m_b = m_pd->getControllerOutput();
+    return m_b;
 }
