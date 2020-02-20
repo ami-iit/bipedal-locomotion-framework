@@ -264,7 +264,6 @@ void MomentumBasedTorqueControl::setDesiredRotationReference(const iDynTree::Vec
                                                              const iDynTree::Rotation& rotation,
                                                              const std::string& name)
 {
-
     auto element = m_cartesianElements.find(name);
     if (element == m_cartesianElements.end())
     {
@@ -329,8 +328,7 @@ iDynTree::VectorDynSize MomentumBasedTorqueControl::getDesiredTorques()
     const size_t numberOfJoints = m_variableHandler.getVariable("joint_accelerations").size;
     iDynTree::VectorDynSize jointTorques(numberOfJoints);
 
-    iDynTree::toEigen(jointTorques)
-        = iDynTree::toEigen(m_jointDynamics->getB())
+    iDynTree::toEigen(jointTorques) = iDynTree::toEigen(m_jointDynamics->getB())
           - iDynTree::toEigen(m_jointDynamics->getA()).leftCols(numberOfJoints + 6)
                 * m_solver->getSolution().head(numberOfJoints + 6);
 
@@ -341,7 +339,7 @@ iDynTree::Vector6 MomentumBasedTorqueControl::getLeftFootWrenchRateOfChange() co
 {
     auto index = m_variableHandler.getVariable("left_foot");
     iDynTree::Vector6 forceRateOfChange;
-    iDynTree::toEigen(forceRateOfChange) =m_solver->getSolution().segment(index.offset, index.size);
+    iDynTree::toEigen(forceRateOfChange) = m_solver->getSolution().segment(index.offset, index.size);
 
     return forceRateOfChange;
 }
