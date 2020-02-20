@@ -23,7 +23,7 @@ PIDController<T>::PIDController(const T& kd, const T& kp, const T& ki)
 {
 }
 
-    template <class T>
+template <class T>
 void PIDController<T>::setReference(const T& feedforward,
                                     const T& referenceDerivative,
                                     const T& reference,
@@ -66,14 +66,16 @@ template <class T> void PIDController<T>::evaluateControl()
     if (this->m_controllerOutputEvaluated)
         return;
 
-    iDynTree::toEigen(this->m_controllerOutput)
-        = iDynTree::toEigen(this->m_feedforward)
-        + iDynTree::toEigen(m_kd).asDiagonal() * (iDynTree::toEigen(this->m_referenceDerivative) - iDynTree::toEigen(this->m_stateDerivative))
-        + iDynTree::toEigen(m_kp).asDiagonal() * (iDynTree::toEigen(this->m_reference) - iDynTree::toEigen(this->m_state))
+    using iDynTree::toEigen;
 
-        + iDynTree::toEigen(m_ki).asDiagonal() * (iDynTree::toEigen(this->m_referenceIntegral) - iDynTree::toEigen(this->m_stateIntegral));
+    toEigen(m_controllerOutput)
+        = toEigen(m_feedforward)
+          + toEigen(m_kd).asDiagonal()
+                * (toEigen(m_referenceDerivative) - toEigen(m_stateDerivative))
+          + toEigen(m_kp).asDiagonal() * (toEigen(m_reference) - toEigen(m_state))
+          + toEigen(m_ki).asDiagonal() * (toEigen(m_referenceIntegral) - toEigen(m_stateIntegral));
 
-    this->m_controllerOutputEvaluated = true;
+    m_controllerOutputEvaluated = true;
 }
 
 } // namespace OptimalControlUtilities
