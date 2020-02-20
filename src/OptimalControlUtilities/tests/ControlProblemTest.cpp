@@ -26,6 +26,7 @@
 #include <BipedalLocomotionControllers/OptimalControlUtilities/VariableHandler.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ZMPElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ContactModelElement.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/PIDController.h>
 
 #include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
 
@@ -360,8 +361,8 @@ TEST_CASE("Check System Dynamics element of the ControlProblemElementsTest",
         // Instantiate the element
         FloatingBaseDynamicsElement element(kinDyn,
                                             handler,
-                                            {{"link_in_contact_1", linkInContact1},
-                                             {"link_in_contact_2", linkInContact2}});
+                                            {{"link_in_contact_1", linkInContact1, false},
+                                             {"link_in_contact_2", linkInContact2, false}});
 
         // check the matrix A
         REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, 6, numberDoFs + 6)
@@ -517,9 +518,9 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
 
     SECTION("Linear Momentum Rate of change")
     {
-        LinearPD<iDynTree::Vector3> pd(gain, gain);
+        PIDController<iDynTree::Vector3> pid(gain, gain, gain);
         CentroidalLinearMomentumRateOfChangeElement element(kinDyn,
-                                                            pd,
+                                                            pid,
                                                             handler,
                                                             {{"link_in_contact_1", linkInContact1},
                                                              {"link_in_contact_2",linkInContact2}});
@@ -529,7 +530,7 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
         force2.zero();
 
         element.setMeasuredContactForces({force1, force2});
-        element.setDesiredCentroidalLinearMomentum(dummy, dummy, dummy);
+        element.setReference(dummy, dummy, dummy, dummy);
 
         // Check A
         REQUIRE(iDynTree::toEigen(element.getA()).block(0, 2 * numberDoFs + 6, 3, 3)
@@ -539,9 +540,8 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
 
         // Compute b
         // instantiate the PD controller
-        LinearPD<iDynTree::Vector3> pdTest;
-        pdTest.setGains(gain, gain);
-        pdTest.setDesiredTrajectory(dummy, dummy, dummy);
+        PIDController<iDynTree::Vector3> pidTest(gain, gain, gain);
+        pidTest.setReference(dummy, dummy, dummy, dummy);
 
         // compute the rate of change of the linear centroidal momentum (given by the sum of the
         // external forces)
@@ -550,10 +550,11 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
         linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force1;
         linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force2;
 
-        pdTest.setFeedback(linearCentroidalMomentumRateOfChange,
-                           kinDyn->getCentroidalTotalMomentum().getLinearVec3());
+        pidTest.setFeedback(linearCentroidalMomentumRateOfChange,
+                            kinDyn->getCentroidalTotalMomentum().getLinearVec3(),
+                            kinDyn->getCenterOfMassPosition());
 
-        iDynTree::Vector3 computedB = pdTest.getControllerOutput();
+        iDynTree::Vector3 computedB = pidTest.getControllerOutput();
 
         // Test b
         checkVectorsAreEqual(computedB, element.getB());
@@ -947,7 +948,7 @@ TEST_CASE("Contact Model")
     std::shared_ptr<ContactModel> contactModel
         = std::make_shared<ContinuousContactModel>(parameters);
 
-    ContactModelElement element(kinDyn, handler,{"link_in_contact_1", linkInContact1, contactModel});
+    ContactModelElement element(kinDyn, handler, {"link_in_contact_1", linkInContact1, contactModel});
 
     element.setContactState(true, iDynTree::Transform::Identity());
 
@@ -964,7 +965,7 @@ TEST_CASE("Contact Model")
     // Compute b
     iDynTree::Vector6 computedB;
     auto biasAcceleration = kinDyn->getFrameBiasAcc(linkInContact1);
-    iDynTree::toEigen(computedB) = iDynTree::toEigen(contactModel->getAutonomousDynamics())
+    iDynTree::toEigen(computedB) = - iDynTree::toEigen(contactModel->getAutonomousDynamics())
                                    - iDynTree::toEigen(contactModel->getControlMatrix())
                                          * iDynTree::toEigen(biasAcceleration);
 
