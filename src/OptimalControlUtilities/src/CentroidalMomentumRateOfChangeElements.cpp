@@ -48,7 +48,7 @@ CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChang
 
         // set constant elements in the A matrix
         // A = [ I O I O ...]
-        iDynTree::toEigen(m_A).block(0, indexInVariableHandler.offset, 3, 3).setIdentity();
+        iDynTree::toEigen(m_A).middleCols<3>(indexInVariableHandler.offset).setIdentity();
     }
 
 }
