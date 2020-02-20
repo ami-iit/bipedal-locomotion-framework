@@ -67,6 +67,14 @@ public:
     std::string toString() const;
 
     /**
+     * Check if the handler contains parameters
+     * @return true of the the handler does not contains any parameters, false otherwise
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::isEmpty
+     */
+    bool isEmpty() const;
+
+    /**
      * Operator << overloading
      * @param os Output stream objects
      * @param handler reference to the interface
