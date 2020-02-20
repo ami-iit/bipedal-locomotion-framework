@@ -116,10 +116,10 @@ FloatingBaseDynamicsElement::FloatingBaseDynamicsElement(
 
 const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
 {
+    using iDynTree::toEigen;
+
     // store the massMatrix
     m_kinDynPtr->getFreeFloatingMassMatrix(m_massMatrix);
-
-    unsigned int actiuatedDoFs = m_kinDynPtr->model().getNrOfDOFs();
 
     // M =  [M_bb   M_bs
     //       M_sb   M_ss]
@@ -128,21 +128,14 @@ const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
     // considered
 
     // M_bb
-    iDynTree::toEigen(m_A).block(0,
-                                 m_baseAccelerationIndex.offset,
-                                 m_baseAccelerationIndex.size,
-                                 m_baseAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).middleCols(m_baseAccelerationIndex.offset, m_baseAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .topLeftCorner(m_baseAccelerationIndex.size, m_baseAccelerationIndex.size);
 
     // M_bs
-    iDynTree::toEigen(m_A).block(0,
-                                 m_jointAccelerationIndex.offset,
-                                 m_baseAccelerationIndex.size,
-                                 m_jointAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).middleCols(m_jointAccelerationIndex.offset, m_jointAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .topRightCorner(m_baseAccelerationIndex.size, m_jointAccelerationIndex.size);
-
 
     // store the jacobians
     for (const auto& frameInContact : m_framesInContact)
@@ -157,13 +150,9 @@ const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the base (first 6 rows)
-            iDynTree::toEigen(m_A).block(0,
-                                         frame.identifierInVariableHandler().offset,
-                                         m_baseAccelerationIndex.size,
-                                         frame.identifierInVariableHandler().size)
-                = iDynTree::toEigen(m_jacobianMatrix)
-                      .leftCols(m_baseAccelerationIndex.size)
-                      .transpose();
+            toEigen(m_A).middleCols(frame.identifierInVariableHandler().offset,
+                                    frame.identifierInVariableHandler().size)
+                = toEigen(m_jacobianMatrix).leftCols(m_baseAccelerationIndex.size).transpose();
         }
     }
 
@@ -172,8 +161,10 @@ const iDynTree::MatrixDynSize& FloatingBaseDynamicsElement::getA()
 
 const iDynTree::VectorDynSize& FloatingBaseDynamicsElement::getB()
 {
+    using iDynTree::toEigen;
+
     m_kinDynPtr->generalizedBiasForces(m_generalizedBiasForces);
-    iDynTree::toEigen(m_b) = iDynTree::toEigen(m_generalizedBiasForces.baseWrench());
+    toEigen(m_b) = toEigen(m_generalizedBiasForces.baseWrench());
 
     // Compute the wrenches
     for (const auto& frameInContact : m_framesInContact)
@@ -188,10 +179,9 @@ const iDynTree::VectorDynSize& FloatingBaseDynamicsElement::getB()
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the base (first 6 rows)
-            iDynTree::toEigen(m_b) -= iDynTree::toEigen(m_jacobianMatrix)
-                                          .leftCols(m_baseAccelerationIndex.size)
-                                          .transpose()
-                                      * iDynTree::toEigen(frame.contactWrench());
+            toEigen(m_b)
+                -= toEigen(m_jacobianMatrix).leftCols(m_baseAccelerationIndex.size).transpose()
+                   * toEigen(frame.contactWrench());
         }
     }
 
@@ -256,6 +246,9 @@ JointSpaceDynamicsElement::JointSpaceDynamicsElement(
 
 const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
 {
+
+    using iDynTree::toEigen;
+
     // store the massMatrix
     m_kinDynPtr->getFreeFloatingMassMatrix(m_massMatrix);
 
@@ -266,29 +259,20 @@ const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
     // considered
 
     // M_sb
-    iDynTree::toEigen(m_A).block(0,
-                                 m_baseAccelerationIndex.offset,
-                                 m_jointAccelerationIndex.size,
-                                 m_baseAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).middleCols(m_baseAccelerationIndex.offset, m_baseAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .bottomLeftCorner(m_jointAccelerationIndex.size, m_baseAccelerationIndex.size);
 
     // M_ss
     if (!m_useReflectedInertia)
-        iDynTree::toEigen(m_A).block(0,
-                                     m_jointAccelerationIndex.offset,
-                                     m_jointAccelerationIndex.size,
-                                     m_jointAccelerationIndex.size)
-            = -iDynTree::toEigen(m_massMatrix)
+        toEigen(m_A).middleCols(m_jointAccelerationIndex.offset, m_jointAccelerationIndex.size)
+            = -toEigen(m_massMatrix)
                    .bottomRightCorner(m_jointAccelerationIndex.size, m_jointAccelerationIndex.size);
     else
-        iDynTree::toEigen(m_A).block(m_baseAccelerationIndex.size,
-                                     m_jointAccelerationIndex.offset,
-                                     m_jointAccelerationIndex.size,
-                                     m_jointAccelerationIndex.size)
-            = -(iDynTree::toEigen(m_massMatrix)
+        toEigen(m_A).middleCols(m_jointAccelerationIndex.offset, m_jointAccelerationIndex.size)
+            = -(toEigen(m_massMatrix)
                     .bottomRightCorner(m_jointAccelerationIndex.size, m_jointAccelerationIndex.size)
-                + iDynTree::toEigen(m_reflectedInertia));
+                + toEigen(m_reflectedInertia));
 
     // store the jacobians
     for (const auto& frameInContact : m_framesInContact)
@@ -303,13 +287,9 @@ const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the joint (last "actuated DoFs" rows)
-            iDynTree::toEigen(m_A).block(0,
-                                         frame.identifierInVariableHandler().offset,
-                                         m_jointAccelerationIndex.size,
-                                         frame.identifierInVariableHandler().size)
-                = iDynTree::toEigen(m_jacobianMatrix)
-                      .rightCols(m_jointAccelerationIndex.size)
-                      .transpose();
+            toEigen(m_A).middleCols(frame.identifierInVariableHandler().offset,
+                                    frame.identifierInVariableHandler().size)
+                = toEigen(m_jacobianMatrix).rightCols(m_jointAccelerationIndex.size).transpose();
         }
     }
     return m_A;
@@ -317,6 +297,8 @@ const iDynTree::MatrixDynSize& JointSpaceDynamicsElement::getA()
 
 const iDynTree::VectorDynSize& JointSpaceDynamicsElement::getB()
 {
+    using iDynTree::toEigen;
+
     m_kinDynPtr->generalizedBiasForces(m_generalizedBiasForces);
     m_b = m_generalizedBiasForces.jointTorques();
 
@@ -333,10 +315,9 @@ const iDynTree::VectorDynSize& JointSpaceDynamicsElement::getB()
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
             // copy only the frame associated to the joint (last "actuated DoFs" rows)
-            iDynTree::toEigen(m_b) -= iDynTree::toEigen(m_jacobianMatrix)
-                                          .rightCols(m_jointAccelerationIndex.size)
-                                          .transpose()
-                                      * iDynTree::toEigen(frame.contactWrench());
+            toEigen(m_b)
+                -= toEigen(m_jacobianMatrix).rightCols(m_jointAccelerationIndex.size).transpose()
+                   * toEigen(frame.contactWrench());
         }
     }
 
@@ -401,51 +382,53 @@ WholeBodyFloatingBaseDynamicsElement::WholeBodyFloatingBaseDynamicsElement(
 
 const iDynTree::MatrixDynSize& WholeBodyFloatingBaseDynamicsElement::getA()
 {
+    using iDynTree::toEigen;
+
     // store the massMatrix
     m_kinDynPtr->getFreeFloatingMassMatrix(m_massMatrix);
 
     // M =  [M_bb   M_bs
     //       M_sb   M_ss]
     // M_bb
-    iDynTree::toEigen(m_A).block(0,
-                                 m_baseAccelerationIndex.offset,
-                                 m_baseAccelerationIndex.size,
-                                 m_baseAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).block(0,
+                       m_baseAccelerationIndex.offset,
+                       m_baseAccelerationIndex.size,
+                       m_baseAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .topLeftCorner(m_baseAccelerationIndex.size, m_baseAccelerationIndex.size);
 
     // M_bs
-    iDynTree::toEigen(m_A).block(0,
-                                 m_jointAccelerationIndex.offset,
-                                 m_baseAccelerationIndex.size,
-                                 m_jointAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).block(0,
+                       m_jointAccelerationIndex.offset,
+                       m_baseAccelerationIndex.size,
+                       m_jointAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .topRightCorner(m_baseAccelerationIndex.size, m_jointAccelerationIndex.size);
 
     // M_sb
-    iDynTree::toEigen(m_A).block(m_baseAccelerationIndex.size,
-                                 m_baseAccelerationIndex.offset,
-                                 m_jointAccelerationIndex.size,
-                                 m_baseAccelerationIndex.size)
-        = -iDynTree::toEigen(m_massMatrix)
+    toEigen(m_A).block(m_baseAccelerationIndex.size,
+                       m_baseAccelerationIndex.offset,
+                       m_jointAccelerationIndex.size,
+                       m_baseAccelerationIndex.size)
+        = -toEigen(m_massMatrix)
                .bottomLeftCorner(m_jointAccelerationIndex.size, m_baseAccelerationIndex.size);
 
     // M_ss
     if (!m_useReflectedInertia)
-        iDynTree::toEigen(m_A).block(m_baseAccelerationIndex.size,
-                                     m_jointAccelerationIndex.offset,
-                                     m_jointAccelerationIndex.size,
-                                     m_jointAccelerationIndex.size)
-            = -iDynTree::toEigen(m_massMatrix)
+        toEigen(m_A).block(m_baseAccelerationIndex.size,
+                           m_jointAccelerationIndex.offset,
+                           m_jointAccelerationIndex.size,
+                           m_jointAccelerationIndex.size)
+            = -toEigen(m_massMatrix)
                    .bottomRightCorner(m_jointAccelerationIndex.size, m_jointAccelerationIndex.size);
     else
-        iDynTree::toEigen(m_A).block(m_baseAccelerationIndex.size,
-                                     m_jointAccelerationIndex.offset,
-                                     m_jointAccelerationIndex.size,
-                                     m_jointAccelerationIndex.size)
-            = -(iDynTree::toEigen(m_massMatrix)
+        toEigen(m_A).block(m_baseAccelerationIndex.size,
+                           m_jointAccelerationIndex.offset,
+                           m_jointAccelerationIndex.size,
+                           m_jointAccelerationIndex.size)
+            = -(toEigen(m_massMatrix)
                     .bottomRightCorner(m_jointAccelerationIndex.size, m_jointAccelerationIndex.size)
-                + iDynTree::toEigen(m_reflectedInertia));
+                + toEigen(m_reflectedInertia));
 
     // store the jacobians
     for (const auto& frameInContact : m_framesInContact)
@@ -459,11 +442,11 @@ const iDynTree::MatrixDynSize& WholeBodyFloatingBaseDynamicsElement::getA()
         {
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
 
-            iDynTree::toEigen(m_A).block(0,
-                                         frame.identifierInVariableHandler().offset,
-                                         m_jointAccelerationIndex.size + m_baseAccelerationIndex.size,
-                                         frame.identifierInVariableHandler().size)
-                = iDynTree::toEigen(m_jacobianMatrix).transpose();
+            toEigen(m_A).block(0,
+                               frame.identifierInVariableHandler().offset,
+                               m_jointAccelerationIndex.size + m_baseAccelerationIndex.size,
+                               frame.identifierInVariableHandler().size)
+                = toEigen(m_jacobianMatrix).transpose();
         }
     }
 
@@ -472,11 +455,11 @@ const iDynTree::MatrixDynSize& WholeBodyFloatingBaseDynamicsElement::getA()
 
 const iDynTree::VectorDynSize& WholeBodyFloatingBaseDynamicsElement::getB()
 {
+    using iDynTree::toEigen;
+
     m_kinDynPtr->generalizedBiasForces(m_generalizedBiasForces);
-    iDynTree::toEigen(m_b).head(m_baseAccelerationIndex.size)
-        = iDynTree::toEigen(m_generalizedBiasForces.baseWrench());
-    iDynTree::toEigen(m_b).tail(m_jointAccelerationIndex.size)
-        = iDynTree::toEigen(m_generalizedBiasForces.jointTorques());
+    toEigen(m_b).head(m_baseAccelerationIndex.size) = toEigen(m_generalizedBiasForces.baseWrench());
+    toEigen(m_b).tail(m_jointAccelerationIndex.size) = toEigen(m_generalizedBiasForces.jointTorques());
 
     // Compute the wrenches
     for (const auto& frameInContact : m_framesInContact)
@@ -489,8 +472,7 @@ const iDynTree::VectorDynSize& WholeBodyFloatingBaseDynamicsElement::getB()
         if (frame.isInCompliantContact())
         {
             m_kinDynPtr->getFrameFreeFloatingJacobian(frame.identifierInModel(), m_jacobianMatrix);
-            iDynTree::toEigen(m_b)
-                -= iDynTree::toEigen(m_jacobianMatrix).transpose() * iDynTree::toEigen(frame.contactWrench());
+            toEigen(m_b) -= toEigen(m_jacobianMatrix).transpose() * toEigen(frame.contactWrench());
         }
     }
     return m_b;
