@@ -70,13 +70,10 @@ void CentroidalLinearMomentumRateOfChangeElement::setReference(
     //    + kd (centroidalLinearMomentumDerivative_des - centroidalLinearMomentumDerivative)
     //    + kp (centroidalLinearMomentum_des - centroidalLinearMomentum)
 
-    iDynTree::Vector3 comTimesMass;
-    iDynTree::toEigen(comTimesMass) = iDynTree::toEigen(centerOfMass) * m_robotMass;
-
     m_pid.setReference(centroidalLinearMomentumSecondDerivative,
                        centroidalLinearMomentumDerivative,
                        centroidalLinearMomentum,
-                       comTimesMass);
+                       centerOfMass);
 }
 
 void CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactForces(
@@ -89,16 +86,12 @@ void CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactForces(
     // The centroidalLinearMomentumDerivative is equal to the sum of the contact forces and the
     // weight acting on the system
     auto centroidalLinearMomentumDerivative = m_robotWeight;
-    centroidalLinearMomentumDerivative = std::accumulate(contactForces.begin(),
-                                                         contactForces.end(),
-                                                         centroidalLinearMomentumDerivative);
-
-    iDynTree::Vector3 comTimesMass;
-    iDynTree::toEigen(comTimesMass) = iDynTree::toEigen(m_kinDynPtr->getCenterOfMassPosition()) * m_robotMass;
+    for (const auto& contactForce : contactForces)
+        iDynTree::toEigen(centroidalLinearMomentumDerivative) += iDynTree::toEigen(contactForce);
 
     m_pid.setFeedback(centroidalLinearMomentumDerivative,
                       m_kinDynPtr->getCentroidalTotalMomentum().getLinearVec3(),
-                      comTimesMass);
+                      m_kinDynPtr->getCenterOfMassPosition());
 }
 
 void CentroidalLinearMomentumRateOfChangeElement::setGains(const iDynTree::Vector3& kd,
