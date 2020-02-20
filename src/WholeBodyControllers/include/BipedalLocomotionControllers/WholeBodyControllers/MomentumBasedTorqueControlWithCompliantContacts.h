@@ -106,6 +106,11 @@ class MomentumBasedTorqueControl
                                              const std::string& label);
 
     template <class T>
+    bool addRegularizationElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                  const std::string& label);
+
+
+    template <class T>
     bool addJointValuesFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                           const iDynTree::VectorDynSize& maxJointsPosition,
                                           const iDynTree::VectorDynSize& minJointsPosition);

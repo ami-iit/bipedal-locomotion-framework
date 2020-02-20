@@ -328,6 +328,46 @@ bool MomentumBasedTorqueControl::addSystemDynamicsElement(unique_ptr<ParametersH
     return true;
 }
 
+
+template <class T>
+bool MomentumBasedTorqueControl::addRegularizationElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                                          const std::string& label)
+{
+    using namespace BipedalLocomotionControllers::OptimalControlUtilities;
+
+    if (m_regularizationElements.find(label) != m_regularizationElements.end())
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addRegularizationElement] The element named "
+                  << label << " has been already added" << std::endl;
+        return false;
+    }
+
+
+    m_regularizationElements.emplace(label,
+                                     std::make_unique<RegularizationElement>(m_kinDyn,
+                                                                             m_variableHandler,
+                                                                             label));
+    bool asConstraint = false;
+    handler->getParameter("as_constraint", asConstraint);
+    if (!asConstraint)
+    {
+        iDynTree::VectorDynSize rawWeight;
+        if (!handler->getParameter("weight", rawWeight))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+                         "to get the Weight."
+                      << std::endl;
+            return false;
+        }
+        m_costFunction->addCostFunction(m_regularizationElements.find(label)->second.get(),
+                                        Weight<iDynTree::VectorDynSize>(rawWeight),
+                                        label + "_regularization");
+    } else
+        m_constraints->addConstraint(m_regularizationElements.find(label)->second.get());
+
+    return true;
+}
+
 template <class T>
 bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                                       const std::string& label)
@@ -396,7 +436,7 @@ bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::uniqu
         }
         m_costFunction->addCostFunction(m_regularizationWithControlElements.find(label)->second.get(),
                                         Weight<iDynTree::VectorDynSize>(rawWeight),
-                                        label);
+                                        label + "_regularization_with_constraints");
     } else
         m_constraints->addConstraint(m_regularizationWithControlElements.find(label)->second.get());
 
