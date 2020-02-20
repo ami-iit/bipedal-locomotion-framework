@@ -314,6 +314,16 @@ void MomentumBasedTorqueControl::setJointState(
     element->second->setState(velocity, position);
 }
 
+iDynTree::VectorDynSize MomentumBasedTorqueControl::getDesiredAcceleration()
+{
+    const size_t numberOfJoints = m_variableHandler.getVariable("joint_accelerations").size;
+    iDynTree::VectorDynSize robotAcceleration(numberOfJoints + 6);
+
+    iDynTree::toEigen(robotAcceleration) = m_solver->getSolution().head(numberOfJoints + 6);
+
+    return robotAcceleration;
+}
+
 iDynTree::VectorDynSize MomentumBasedTorqueControl::getDesiredTorques()
 {
     const size_t numberOfJoints = m_variableHandler.getVariable("joint_accelerations").size;

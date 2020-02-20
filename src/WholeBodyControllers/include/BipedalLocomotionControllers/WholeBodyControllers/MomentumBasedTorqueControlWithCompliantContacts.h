@@ -165,6 +165,7 @@ public:
     void setJointState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
 
     iDynTree::VectorDynSize getDesiredTorques();
+    iDynTree::VectorDynSize getDesiredAcceleration();
 
     iDynTree::Vector6 getLeftFootWrenchRateOfChange() const;
 
