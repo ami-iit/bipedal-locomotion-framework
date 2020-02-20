@@ -74,7 +74,9 @@ ContactModelElement::ContactModelElement(
 
 const iDynTree::MatrixDynSize& ContactModelElement::getA()
 {
-    auto A(iDynTree::toEigen(m_A));
+    using iDynTree::toEigen;
+
+    auto A(toEigen(m_A));
 
     // retrieve the Jacobian matrix
     m_kinDynPtr->getFrameFreeFloatingJacobian(m_frameInContact.identifierInModel(),
@@ -84,25 +86,25 @@ const iDynTree::MatrixDynSize& ContactModelElement::getA()
     const iDynTree::Matrix6x6& controlMatrix = m_frameInContact.contactModel()->getControlMatrix();
 
     // add the part related to the base
-    A.block(0, m_baseAccelerationIndex.offset, 6, m_baseAccelerationIndex.size)
-        = iDynTree::toEigen(controlMatrix) * iDynTree::toEigen(m_jacobianMatrix).leftCols<6>();
+    A.middleCols(m_baseAccelerationIndex.offset, m_baseAccelerationIndex.size)
+        = toEigen(controlMatrix) * toEigen(m_jacobianMatrix).leftCols<6>();
 
     // add the part related to the joint
-    A.block(0, m_jointAccelerationIndex.offset, 6, m_jointAccelerationIndex.size)
-        = iDynTree::toEigen(controlMatrix)
-          * iDynTree::toEigen(m_jacobianMatrix).rightCols(m_jointAccelerationIndex.size);
+    A.middleCols(m_jointAccelerationIndex.offset, m_jointAccelerationIndex.size)
+        = toEigen(controlMatrix)
+          * toEigen(m_jacobianMatrix).rightCols(m_jointAccelerationIndex.size);
 
     return m_A;
 }
 
 const iDynTree::VectorDynSize& ContactModelElement::getB()
 {
-    // Get the output of the PD controller
-    auto b(iDynTree::toEigen(m_b));
+    using iDynTree::toEigen;
 
-    b = iDynTree::toEigen(m_frameInContact.contactModel()->getAutonomousDynamics())
-        - iDynTree::toEigen(m_frameInContact.contactModel()->getControlMatrix())
-              * iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameInContact.identifierInModel()));
+    auto b(toEigen(m_b));
+    b = -toEigen(m_frameInContact.contactModel()->getAutonomousDynamics())
+        - toEigen(m_frameInContact.contactModel()->getControlMatrix())
+              * toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameInContact.identifierInModel()));
     return m_b;
 }
 
