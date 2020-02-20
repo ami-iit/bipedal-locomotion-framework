@@ -58,6 +58,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC
     BipedalLocomotionControllers::ContactModels
+    BipedalLocomotionControllers::Simulator
     ${iDynTree_LIBRARIES})
 
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
