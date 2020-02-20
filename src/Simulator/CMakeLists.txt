@@ -10,6 +10,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Simulator)
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
     src/Simulator.cpp
+    src/Visualizer.cpp
     )
 
   # set hpp files
@@ -18,6 +19,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Simulator)
     include/BipedalLocomotionControllers/Simulator/Simulator.tpp
     include/BipedalLocomotionControllers/Simulator/Integrator.h
     include/BipedalLocomotionControllers/Simulator/Integrator.tpp
+    include/BipedalLocomotionControllers/Simulator/Visualizer.h
     )
 
   # add an executable to the project using the specified source files.
