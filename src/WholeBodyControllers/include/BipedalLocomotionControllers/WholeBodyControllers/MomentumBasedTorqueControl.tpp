@@ -661,16 +661,29 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
         return false;
     }
     addLinearMomentumElement(handler->getGroup("CENTROIDAL_LINEAR_MOMENTUM"));
+
+    auto angularMomentumOptions = handler->getGroup("CENTROIDAL_ANGULAR_MOMENTUM");
+    angularMomentumOptions->setParameter("sampling_time", samplingTime);
+    addAngularMomentumElement(std::move(angularMomentumOptions));
+
     addOrientationElement(handler->getGroup("TORSO"), "torso");
     addSystemDynamicsElement(handler->getGroup("SYSTEM_DYNAMICS"));
     addRegularizationWithControlElement(handler->getGroup("JOINT_REGULARIZATION"),
                                         "joint_accelerations");
 
-    auto jointFeasibilityOptions = handler->getGroup("JOINT_FEASIBILITY");
-    jointFeasibilityOptions->setParameter("sampling_time", samplingTime);
-    addJointValuesFeasibilityElement(std::move(jointFeasibilityOptions),
-                                     maxJointsPosition,
-                                     minJointsPosition);
+    addRegularizationElement(handler->getGroup("RIGHT_WRENCH_REGULARIZATION"), "right_foot");
+    addRegularizationElement(handler->getGroup("LEFT_WRENCH_REGULARIZATION"), "left_foot");
+
+    addRegularizationElement(handler->getGroup("JOINT_ACCELERATION_REGULARIZATION"), "joint_accelerations");
+
+    addRegularizationElement(handler->getGroup("BASE_ACCELERATION_REGULARIZATION"), "base_acceleration");
+
+
+    // auto jointFeasibilityOptions = handler->getGroup("JOINT_FEASIBILITY");
+    // jointFeasibilityOptions->setParameter("sampling_time", samplingTime);
+    // addJointValuesFeasibilityElement(std::move(jointFeasibilityOptions),
+    //                                  maxJointsPosition,
+    //                                  minJointsPosition);
 
     auto leftWrenchOptions = handler->getGroup("LEFT_WRENCH_FEASIBILITY");
     leftWrenchOptions->setParameter("sampling_time", samplingTime);
