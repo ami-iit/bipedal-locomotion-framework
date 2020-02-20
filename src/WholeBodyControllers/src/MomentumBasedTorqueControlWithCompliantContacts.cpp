@@ -204,31 +204,27 @@ bool MomentumBasedTorqueControl::solve()
     return true;
 }
 
-void MomentumBasedTorqueControl::setDesiredLinearMomentumValue(
-    const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
-    const iDynTree::Vector3& centroidalLinearMomentumDerivative,
-    const iDynTree::Vector3& centroidalLinearMomentum,
+void MomentumBasedTorqueControl::setCentroidalMomentumReference(
+    const iDynTree::SpatialForceVector& momentumSecondDerivative,
+    const iDynTree::SpatialForceVector& momentumDerivative,
+    const iDynTree::SpatialForceVector& momentum,
     const iDynTree::Vector3& centerOfMass)
 {
-    if (m_centroidalLinearMomentumElement == nullptr)
-    {
-        if (m_isVerbose)
-            std::cerr << "[MomentumBasedTorqueControl::"
-                         "setDesiredLinearMomentumValue] The centroidal linear momentum element "
-                         "angular momentum element does not exist."
-                      << std::endl;
-        return;
-    }
+    if (m_centroidalLinearMomentumElement != nullptr)
+        m_centroidalLinearMomentumElement->setReference(momentumSecondDerivative.getLinearVec3(),
+                                                        momentumDerivative.getLinearVec3(),
+                                                        momentum.getLinearVec3(),
+                                                        centerOfMass);
 
-    m_centroidalLinearMomentumElement->setReference(centroidalLinearMomentumSecondDerivative,
-                                                    centroidalLinearMomentumDerivative,
-                                                    centroidalLinearMomentum,
-                                                    centerOfMass);
+
+    if (m_centroidalAngularMomentumElement != nullptr)
+        m_centroidalAngularMomentumElement->setReference(momentumSecondDerivative.getAngularVec3(),
+                                                         momentumDerivative.getAngularVec3(),
+                                                         momentum.getAngularVec3());
 }
 
-void MomentumBasedTorqueControl::setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches)
+bool MomentumBasedTorqueControl::setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches)
 {
-
     std::vector<iDynTree::LinearForceVector3> contactForces;
 
     for (const auto& contactWrench : contactWrenches)
@@ -240,13 +236,19 @@ void MomentumBasedTorqueControl::setMeasuredContactWrench(const std::unordered_m
         contactForces.push_back(contactWrench.second.getLinearVec3());
 
         // TODO check if it exist
-        auto contatWrench = m_contactWrenchFeasibilityElements.find(contactWrench.first);
-        if(contatWrench != m_contactWrenchFeasibilityElements.end())
-            contatWrench->second->setContactWrench(contactWrench.second);
+        auto contactWrenchElement = m_contactWrenchFeasibilityElements.find(contactWrench.first);
+        if(contactWrenchElement != m_contactWrenchFeasibilityElements.end())
+            contactWrenchElement->second->setContactWrench(contactWrench.second);
     }
 
      // TODO check if it exist
-    m_centroidalLinearMomentumElement->setMeasuredContactForces(contactForces);
+    if (m_centroidalLinearMomentumElement != nullptr)
+        m_centroidalLinearMomentumElement->setMeasuredContactForces(contactForces);
+
+    if (m_centroidalAngularMomentumElement != nullptr)
+        return m_centroidalAngularMomentumElement->setMeasuredContactWrenches(contactWrenches);
+
+    return true;
 }
 
 void MomentumBasedTorqueControl::setContactState(const std::string& name,

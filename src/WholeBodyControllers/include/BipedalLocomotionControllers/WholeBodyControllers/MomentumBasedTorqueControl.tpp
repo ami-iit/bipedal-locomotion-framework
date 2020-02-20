@@ -91,14 +91,100 @@ bool MomentumBasedTorqueControl::addLinearMomentumElement(std::unique_ptr<Parame
     return true;
 }
 
+template <typename T>
+bool MomentumBasedTorqueControl::addAngularMomentumElement(
+    std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+{
+    // get all the required parameters
+    using namespace OptimalControlUtilities;
+    // the frame in contact are two (left and right foot)
+    std::vector<FrameInContact<std::string, std::string>> framesInContact(2);
+
+    bool outcome = true;
+
+    // left foot
+    framesInContact[0].identifierInVariableHandler() = "left_foot";
+
+    outcome = handler->getParameter("left_foot_frame", framesInContact[0].identifierInModel());
+    if(!outcome)
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addAngularMomentumElement] Unable to find the "
+                     "parameter left_foot_frame"
+                  << std::endl;
+        return outcome;
+    }
+    framesInContact[0].isInCompliantContact() = true;
+
+    framesInContact[1].identifierInVariableHandler() = "right_foot";
+    outcome = handler->getParameter("right_foot_frame", framesInContact[1].identifierInModel());
+    if(!outcome)
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addAngularMomentumElement] Unable to find the "
+                     "parameter right_foot_frame"
+                  << std::endl;
+        return outcome;
+    }
+    framesInContact[1].isInCompliantContact() = true;
+
+    // gains and weights
+    // Gain
+    iDynTree::Vector3 kp, kd, ki;
+    if (!handler->getParameter("kp", kp) || !handler->getParameter("kd", kd) || !handler->getParameter("ki", ki))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngulatMomentumElement] Unable to "
+                     "get the gains.";
+        return false;
+    }
+
+    // create the pid controller
+    PIDController<iDynTree::Vector3> pidController(kd, kp, ki);
+
+    double samplingTime;
+    if (!handler->getParameter("sampling_time", samplingTime))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngulatMomentumElement] Unable to "
+                     "find the sampling time"
+                  << std::endl;
+        return false;
+    }
+
+
+    m_centroidalAngularMomentumElement
+        = std::make_unique<CentroidalAngularMomentumRateOfChangeElement>(m_kinDyn,
+                                                                         pidController,
+                                                                         m_variableHandler,
+                                                                         framesInContact,
+                                                                         samplingTime);
+
+    bool asConstraint = false;
+    handler->getParameter("as_constraint", asConstraint);
+    if (!asConstraint)
+    {
+        iDynTree::VectorDynSize rawWeight(3);
+        if (!handler->getParameter("weight", rawWeight))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngularMomentumElement] Unable "
+                         "to get the Weight."
+                      << std::endl;
+            return false;
+        }
+
+        m_costFunction->addCostFunction(m_centroidalAngularMomentumElement.get(),
+                                        Weight<iDynTree::VectorDynSize>(rawWeight),
+                                        "centroidal_angular_momentum");
+
+    } else
+        m_constraints->addConstraint(m_centroidalAngularMomentumElement.get());
+
+    return true;
+}
+
 template <class T>
 bool MomentumBasedTorqueControl::addOrientationElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                        const std::string& label)
 {
-
     // get all the required parameters
     using namespace OptimalControlUtilities;
-
 
     auto type = CartesianElementType::ORIENTATION;
     auto axis = CartesianElementAxisName::ALL;

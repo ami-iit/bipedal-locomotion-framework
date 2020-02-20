@@ -16,6 +16,7 @@
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/SpatialVector.h>
 #include <iDynTree/Core/Wrench.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/Model.h>
@@ -65,6 +66,9 @@ class MomentumBasedTorqueControl
     /** Centroidal linear momentum in case of elastic contacts */
     unique_ptr<OptimalControlUtilities::CentroidalLinearMomentumRateOfChangeElement> m_centroidalLinearMomentumElement;
 
+    /** Centroidal angular momentum in case of elastic contacts */
+    unique_ptr<OptimalControlUtilities::CentroidalAngularMomentumRateOfChangeElement> m_centroidalAngularMomentumElement;
+
     /** Dictionary containing regularization elements */
     dictionary<unique_ptr<OptimalControlUtilities::RegularizationElement>> m_regularizationElements;
 
@@ -86,6 +90,9 @@ class MomentumBasedTorqueControl
 
     template <class T>
     bool addLinearMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+
+    template <class T>
+    bool addAngularMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <class T>
     bool addOrientationElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
@@ -127,15 +134,14 @@ public:
 
     void setVerbosity(bool isVerbose) noexcept;
 
-    void setDesiredLinearMomentumValue(const iDynTree::Vector3& centroidalLinearMomentumSecondDerivative,
-                                       const iDynTree::Vector3& centroidalLinearMomentumDerivative,
-                                       const iDynTree::Vector3& centroidalLinearMomentum,
-                                       const iDynTree::Vector3& centerOfMass);
+    void
+    setCentroidalMomentumReference(const iDynTree::SpatialForceVector& momentumSecondDerivative,
+                                   const iDynTree::SpatialForceVector& momentumDerivative,
+                                   const iDynTree::SpatialForceVector& momentum,
+                                   const iDynTree::Vector3& centerOfMass);
 
-
-    void setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
-
-
+    bool setMeasuredContactWrench(
+        const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
     void setContactState(const std::string& name,
                          bool isInContact,
