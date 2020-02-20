@@ -19,6 +19,8 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
   retrieving parameters from configuration files and not only
 - [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
   constraints in a quadratic optimization problem (QP)
+- [**Simulator**](./src/Simulator): Library for simulating a floating base
+  system in contact with the environment
 
 
 # :page_facing_up: Dependencies
@@ -42,6 +44,12 @@ file. Please note that the indicated version is the minimum required version.
 
 - `OptimalControlUtilities` requires:
     - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+
+- `Simulator` requires:
+  - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree)
+      - `ParametersHandler`
+      - `ContactModels`
 
 # :hammer: Build the suite
 ## Linux/macOs
