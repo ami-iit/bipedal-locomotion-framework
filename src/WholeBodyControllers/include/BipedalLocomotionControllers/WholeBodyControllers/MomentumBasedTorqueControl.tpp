@@ -39,7 +39,7 @@ bool MomentumBasedTorqueControl::addLinearMomentumElement(std::unique_ptr<Parame
     framesInContact[0].isInCompliantContact() = true;
 
     framesInContact[1].identifierInVariableHandler() = "right_foot";
-    outcome = handler->getParameter("right_foot_frame", framesInContact[0].identifierInModel());
+    outcome = handler->getParameter("right_foot_frame", framesInContact[1].identifierInModel());
     if(!outcome)
     {
         std::cerr << "[MomentumBasedTorqueControl::addLinearMomentumElement] Unable to find the "
