@@ -30,3 +30,9 @@ std::string YarpImplementation::toString() const
 {
     return m_container.toString();
 }
+
+bool YarpImplementation::isEmpty() const
+{
+    // if the toString method returns an empty string means that the handler is empty
+    return m_container.toString().empty();
+}

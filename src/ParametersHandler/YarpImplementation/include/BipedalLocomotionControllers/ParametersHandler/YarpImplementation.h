@@ -84,6 +84,12 @@ public:
     std::string toString() const;
 
     /**
+     * Check if the handler contains parameters
+     * @return true if the handler does not contain any parameters, false otherwise
+     */
+    bool isEmpty() const;
+
+    /**
      * Destructor
      */
     ~YarpImplementation() = default;
