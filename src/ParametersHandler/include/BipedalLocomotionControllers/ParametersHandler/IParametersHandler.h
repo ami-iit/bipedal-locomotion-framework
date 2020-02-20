@@ -68,7 +68,7 @@ public:
 
     /**
      * Check if the handler contains parameters
-     * @return true of the the handler does not contains any parameters, false otherwise
+     * @return true if the handler does not contain any parameters, false otherwise
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::isEmpty
      */
