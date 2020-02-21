@@ -25,7 +25,7 @@ template <class Derived> class IParametersHandler
 {
 public:
 
-    using unique_ptr = std::unique_ptr<IParametersHandler<Derived>>;
+    using unique_ptr = std::unique_ptr<Derived>;
 
     /**
      * Get a parameter from the handler.
@@ -65,7 +65,7 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */
-    std::unique_ptr<IParametersHandler<Derived>> getGroup(const std::string& name) const;
+    unique_ptr getGroup(const std::string& name) const;
 
     /**
      * Return a standard text representation of the content of the object.
@@ -97,6 +97,9 @@ public:
      * Destructor
      */
     virtual ~IParametersHandler() = default;
+
+    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
+    static unique_ptr make_unique(Args&&... args);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

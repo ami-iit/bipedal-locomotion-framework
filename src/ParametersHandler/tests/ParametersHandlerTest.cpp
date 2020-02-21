@@ -58,11 +58,11 @@ public:
         return true;
     }
 
-    std::unique_ptr<IParametersHandler<BasicImplementation>> getGroup(const std::string& name) const
+    BasicImplementation::unique_ptr getGroup(const std::string& name) const
     {
         auto group = m_map.find(name);
         if (group == m_map.end())
-            return std::make_unique<BasicImplementation>();
+            return BasicImplementation::make_unique();
 
         std::unordered_map<std::string, std::any> map;
         try
@@ -72,10 +72,10 @@ public:
         {
             std::cerr << "[BasicImplementation::getGroup] The element named " << name
                       << " is not a 'std::unordered_map<std::string, std::any>'" << std::endl;
-            return std::make_unique<BasicImplementation>();
+            return BasicImplementation::make_unique();
         }
 
-        return std::make_unique<BasicImplementation>(map);
+        return BasicImplementation::make_unique(map);
     }
 
     std::string toString() const
@@ -97,7 +97,7 @@ public:
 
 TEST_CASE("Get parameters")
 {
-    BasicImplementation::unique_ptr parameterHandler = std::make_unique<BasicImplementation>();
+    BasicImplementation::unique_ptr parameterHandler = BasicImplementation::make_unique();
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});

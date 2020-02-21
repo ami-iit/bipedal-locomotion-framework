@@ -81,7 +81,7 @@ public:
      * @return A pointer to IParametersHandler, If the group is not found a new empty object is
      * created and returned
      */
-    std::unique_ptr<IParametersHandler<YarpImplementation>> getGroup(const std::string& name) const;
+    unique_ptr getGroup(const std::string& name) const;
 
     /**
      * Return a standard text representation of the content of the object.

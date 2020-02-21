@@ -28,7 +28,7 @@ TEST_CASE("Get parameters")
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
 
-    YarpImplementation::unique_ptr parameterHandler = std::make_unique<YarpImplementation>();
+    YarpImplementation::unique_ptr parameterHandler = YarpImplementation::make_unique();
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");

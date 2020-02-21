@@ -21,14 +21,13 @@ void YarpImplementation::set(const yarp::os::Searchable &searchable)
     m_container.fromString(searchable.toString());
 }
 
-std::unique_ptr<IParametersHandler<YarpImplementation>>
-YarpImplementation::getGroup(const std::string& name) const
+YarpImplementation::unique_ptr YarpImplementation::getGroup(const std::string& name) const
 {
     auto& group = m_container.findGroup(name);
     if (group.isNull())
-        return std::make_unique<YarpImplementation>();
+        return YarpImplementation::make_unique();
 
-    return std::make_unique<YarpImplementation>(group);
+    return YarpImplementation::make_unique(group);
 }
 
 std::string YarpImplementation::toString() const

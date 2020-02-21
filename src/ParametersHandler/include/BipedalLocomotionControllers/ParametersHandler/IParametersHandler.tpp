@@ -31,7 +31,7 @@ void IParametersHandler<Derived>::set(const T& object)
 }
 
 template <class Derived>
-std::unique_ptr<IParametersHandler<Derived>>
+typename IParametersHandler<Derived>::unique_ptr
 IParametersHandler<Derived>::getGroup(const std::string& groupName) const
 {
     return static_cast<const Derived*>(this)->getGroup(groupName);
@@ -51,6 +51,13 @@ template <class Derived>
 std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>& handler)
 {
     return os << handler.toString();
+}
+
+template <class Derived>
+template<class... Args, typename>
+typename IParametersHandler<Derived>::unique_ptr IParametersHandler<Derived>::make_unique(Args&&... args)
+{
+    return std::make_unique<Derived>(std::forward<Args>(args)...);
 }
 
 } // namespace ParametersHandler
