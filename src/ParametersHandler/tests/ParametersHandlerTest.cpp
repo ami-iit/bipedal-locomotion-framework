@@ -78,6 +78,11 @@ public:
         return BasicImplementation::make_unique(map);
     }
 
+    void set(const std::unordered_map<std::string, std::any>& object)
+    {
+        m_map = object;
+    }
+
     std::string toString() const
     {
         std::string key;
@@ -155,5 +160,15 @@ TEST_CASE("Get parameters")
     SECTION("Print content")
     {
         std::cout << "Parameters: " << *parameterHandler << std::endl;
+    }
+
+    SECTION("Set from object")
+    {
+        std::unordered_map<std::string, std::any> object;
+        object["value"] = std::make_any<int>(10);
+        parameterHandler->set(object);
+        int expected;
+        REQUIRE(parameterHandler->getParameter("value", expected));
+        REQUIRE(expected == 10);
     }
 }
