@@ -24,6 +24,13 @@ void IParametersHandler<Derived>::setParameter(const std::string& parameterName,
 }
 
 template <class Derived>
+template <typename T>
+void IParametersHandler<Derived>::set(const T& object)
+{
+    return static_cast<Derived*>(this)->set(object);
+}
+
+template <class Derived>
 std::unique_ptr<IParametersHandler<Derived>>
 IParametersHandler<Derived>::getGroup(const std::string& groupName) const
 {

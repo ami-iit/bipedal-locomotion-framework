@@ -37,7 +37,7 @@ struct is_string : public std::disjunction<std::is_same<char*, typename std::dec
 class YarpImplementation : public IParametersHandler<YarpImplementation>
 {
 
-    yarp::os::Property m_container; /**< Bottle object */
+    yarp::os::Property m_container; /**< Property object */
 
 public:
     /**
@@ -65,9 +65,15 @@ public:
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @tparam T type of the parameter
-     * @return true/false in case of success/failure
      */
     template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
+
+    /**
+     * Set the handler from an object.
+     * @param object The object to copy
+     * @tparam T type of the object
+     */
+    void set(const yarp::os::Searchable& searchable);
 
     /**
      * Get a Group from the handler.

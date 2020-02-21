@@ -15,6 +15,8 @@
 #include <yarp/os/Property.h>
 #include <yarp/os/Searchable.h>
 #include <yarp/os/Value.h>
+#include <yarp/os/ResourceFinder.h>
+#include <yarp/os/Bottle.h>
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
@@ -82,5 +84,17 @@ TEST_CASE("Get parameters")
     SECTION("Print content")
     {
         std::cout << "Parameters: " << *parameterHandler << std::endl;
+    }
+
+    SECTION("Set from object")
+    {
+        yarp::os::ResourceFinder rf;
+        parameterHandler->set(rf);
+        yarp::os::Property property;
+        property.put("value", 10);
+        parameterHandler->set(property);
+        int expected;
+        REQUIRE(parameterHandler->getParameter("value", expected));
+        REQUIRE(expected == 10);
     }
 }

@@ -49,6 +49,15 @@ public:
     template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
 
     /**
+     * Set the handler from an object.
+     * @param object The object to copy
+     * @tparam T type of the object
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::setParameter
+     */
+    template <typename T> void set(const T& object);
+
+    /**
      * Get a Group from the handler.
      * @param name name of the group
      * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to

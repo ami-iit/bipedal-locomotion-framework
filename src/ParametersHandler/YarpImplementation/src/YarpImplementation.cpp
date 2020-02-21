@@ -16,6 +16,11 @@ YarpImplementation::YarpImplementation(const yarp::os::Searchable& searchable)
     m_container.fromString(searchable.toString());
 }
 
+void YarpImplementation::set(const yarp::os::Searchable &searchable)
+{
+    m_container.fromString(searchable.toString());
+}
+
 std::unique_ptr<IParametersHandler<YarpImplementation>>
 YarpImplementation::getGroup(const std::string& name) const
 {
