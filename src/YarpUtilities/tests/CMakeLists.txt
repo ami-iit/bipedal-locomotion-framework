@@ -11,4 +11,9 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
   target_compile_definitions(YarpUtilitiesTest PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
 
   add_test(NAME YarpUtilitiesTest COMMAND YarpUtilitiesTest)
+
+  if(BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests)
+    add_test(NAME memcheck_YarpUtilitiesTest COMMAND ${MEMCHECK_COMMAND_COMPLETE} $<TARGET_FILE:YarpUtilitiesTest>)
+  endif()
+
 endif()

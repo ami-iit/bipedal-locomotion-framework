@@ -126,6 +126,9 @@ checkandset_dependency(Catch2)
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
 
+find_package(VALGRIND QUIET)
+checkandset_dependency(VALGRIND)
+
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_YARP;BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree" OFF)
@@ -137,3 +140,21 @@ bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_C
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests
   "Compile tests?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_Catch2;BUILD_TESTING" OFF)
+
+bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests
+  "Run Valgrind tests?" OFF
+  "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests;VALGRIND_FOUND" OFF)
+
+if (BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests)
+    set(CTEST_MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
+    set(MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
+    if (APPLE)
+        set(MEMORYCHECK_SUPPRESSIONS "--suppressions=${PROJECT_SOURCE_DIR}/cmake/valgrind-macos.supp")
+    else ()
+        set(MEMORYCHECK_SUPPRESSIONS "")
+    endif ()
+    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --error-exitcode=1 ${MEMORYCHECK_SUPPRESSIONS}"  CACHE STRING "Options to pass to the memory checker")
+    mark_as_advanced(MEMORYCHECK_COMMAND_OPTIONS)
+    set(MEMCHECK_COMMAND_COMPLETE "${MEMORYCHECK_COMMAND} ${MEMORYCHECK_COMMAND_OPTIONS}")
+    separate_arguments(MEMCHECK_COMMAND_COMPLETE)
+endif()
