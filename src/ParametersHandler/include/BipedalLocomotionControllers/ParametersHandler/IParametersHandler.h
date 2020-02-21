@@ -25,7 +25,7 @@ template <class Derived> class IParametersHandler
 {
 public:
 
-    using unique_ptr = std::unique_ptr<Derived>;
+    using unique_ptr = std::unique_ptr<IParametersHandler<Derived>>;
 
     /**
      * Get a parameter from the handler.
