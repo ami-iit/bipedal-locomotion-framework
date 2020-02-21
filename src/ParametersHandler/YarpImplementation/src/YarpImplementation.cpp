@@ -13,7 +13,7 @@ using namespace BipedalLocomotionControllers::ParametersHandler;
 
 YarpImplementation::YarpImplementation(const yarp::os::Searchable& searchable)
 {
-    m_container.fromString(searchable.toString());
+    set(searchable);
 }
 
 void YarpImplementation::set(const yarp::os::Searchable &searchable)
