@@ -30,17 +30,21 @@ IParametersHandler<Derived>::getGroup(const std::string& groupName) const
     return static_cast<const Derived*>(this)->getGroup(groupName);
 }
 
-template <class Derived>
-std::string IParametersHandler<Derived>::toString() const
+template <class Derived> std::string IParametersHandler<Derived>::toString() const
 {
     return static_cast<const Derived*>(this)->toString();
 }
 
+template <class Derived> bool IParametersHandler<Derived>::isEmpty() const
+{
+    return static_cast<const Derived*>(this)->isEmpty();
+}
+
 template <class Derived>
-std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>&  handler)
+std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>& handler)
 {
     return os << handler.toString();
 }
 
 } // namespace ParametersHandler
-} // namespace BipedalLocomotionController
+} // namespace BipedalLocomotionControllers

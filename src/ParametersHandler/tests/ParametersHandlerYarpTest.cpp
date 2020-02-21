@@ -69,6 +69,16 @@ TEST_CASE("Get parameters")
         REQUIRE(element == donaldsNephews);
     }
 
+    SECTION("is Empty")
+    {
+        YarpImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        REQUIRE(groupHandler->isEmpty());
+
+        groupHandler->setParameter("Donald's nephews", donaldsNephews);
+        REQUIRE_FALSE(groupHandler->isEmpty());
+    }
+
+
     SECTION("Print content")
     {
         std::cout << "Parameters: " << *parameterHandler << std::endl;
