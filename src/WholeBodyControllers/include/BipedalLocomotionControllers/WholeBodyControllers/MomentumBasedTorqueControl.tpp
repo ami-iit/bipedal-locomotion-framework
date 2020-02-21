@@ -15,39 +15,89 @@ namespace BipedalLocomotionControllers
 {
 namespace WholeBodyControllers
 {
+
 template <class T>
-bool MomentumBasedTorqueControl::addLinearMomentumElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+bool MomentumBasedTorqueControl::addFeetTypeIdentifiers(ParametersHandler::IParametersHandler<T>* handler, const FootType& type)
 {
-    // get all the required parameters
+    bool isSwing = type == FootType::Swing;
+    const std::string feetType = isSwing ? "swing" : "stance";
+    auto& feetIdentifiers = isSwing ? m_swingFeetIdetrifiers : m_stanceFeetIdetrifiers;
+
+    std::vector<std::string> feetVariablesName;
+    if (!handler->getParameter(feetType + "_feet_name", feetVariablesName))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] Unable to find the "
+                  << feetType << "feet names" << std::endl;
+        return false;
+    }
+
+    std::vector<std::string> feetFramesName;
+    if (!handler->getParameter(feetType + "_feet_frame", feetFramesName))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] Unable to find the "
+                  << feetType << "feet names" << std::endl;
+        return false;
+    }
+
+    if (feetFramesName.size() != feetVariablesName.size())
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] The number of identifiers "
+                     "is different. For the "
+                  << feetType << " feet" << std::endl;
+        return false;
+    }
+
+    // add the identifiers
+    for (std::size_t i = 0; i < feetFramesName.size(); i++)
+        feetIdentifiers.emplace_back(feetVariablesName[i], feetFramesName[i]);
+
+    return true;
+}
+
+template <class T>
+bool MomentumBasedTorqueControl::addFeetIdentifiers(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+{
+    if(handler->isEmpty())
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] The handler is empty. "
+                     "Unable to retrieve the parameters related to stance and swing feet"
+                  << std::endl;
+        return false;
+    }
+
+    if (!addFeetTypeIdentifiers(handler.get(), FootType::Swing))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] Unable to add the Swing feet "
+                     "identifiers"
+                  << std::endl;
+        return false;
+    }
+
+    if (!addFeetTypeIdentifiers(handler.get(), FootType::Stance))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] Unable to add the Stance "
+                     "feet identifiers"
+                  << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+template <class T>
+bool MomentumBasedTorqueControl::addLinearMomentumElement(
+    std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+{
     using namespace OptimalControlUtilities;
+
     // the frame in contact are two (left and right foot)
-    std::vector<FrameInContact<std::string, std::string>> framesInContact(2);
+    std::vector<FrameInContact<std::string, std::string>> framesInContact;
 
-    bool outcome = true;
-
-    // left foot
-    framesInContact[0].identifierInVariableHandler() = "left_foot";
-
-    outcome = handler->getParameter("left_foot_frame", framesInContact[0].identifierInModel());
-    if(!outcome)
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addLinearMomentumElement] Unable to find the "
-                     "parameter left_foot_frame"
-                  << std::endl;
-        return outcome;
-    }
-    framesInContact[0].isInCompliantContact() = true;
-
-    framesInContact[1].identifierInVariableHandler() = "right_foot";
-    outcome = handler->getParameter("right_foot_frame", framesInContact[1].identifierInModel());
-    if(!outcome)
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addLinearMomentumElement] Unable to find the "
-                     "parameter right_foot_frame"
-                  << std::endl;
-        return outcome;
-    }
-    framesInContact[1].isInCompliantContact() = true;
+    bool isCompliantContact = true;
+    for (const auto& stanceFoot : m_stanceFeetIdetrifiers)
+        framesInContact.emplace_back(stanceFoot.identifierInVariableHandler(),
+                                     stanceFoot.identifierInModel(),
+                                     isCompliantContact);
 
     // gains and weights
     // Gain
@@ -97,34 +147,15 @@ bool MomentumBasedTorqueControl::addAngularMomentumElement(
 {
     // get all the required parameters
     using namespace OptimalControlUtilities;
+
     // the frame in contact are two (left and right foot)
-    std::vector<FrameInContact<std::string, std::string>> framesInContact(2);
+    std::vector<FrameInContact<std::string, std::string>> framesInContact;
 
-    bool outcome = true;
-
-    // left foot
-    framesInContact[0].identifierInVariableHandler() = "left_foot";
-
-    outcome = handler->getParameter("left_foot_frame", framesInContact[0].identifierInModel());
-    if(!outcome)
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addAngularMomentumElement] Unable to find the "
-                     "parameter left_foot_frame"
-                  << std::endl;
-        return outcome;
-    }
-    framesInContact[0].isInCompliantContact() = true;
-
-    framesInContact[1].identifierInVariableHandler() = "right_foot";
-    outcome = handler->getParameter("right_foot_frame", framesInContact[1].identifierInModel());
-    if(!outcome)
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addAngularMomentumElement] Unable to find the "
-                     "parameter right_foot_frame"
-                  << std::endl;
-        return outcome;
-    }
-    framesInContact[1].isInCompliantContact() = true;
+    bool isCompliantContact = true;
+    for (const auto& stanceFoot : m_stanceFeetIdetrifiers)
+        framesInContact.emplace_back(stanceFoot.identifierInVariableHandler(),
+                                     stanceFoot.identifierInModel(),
+                                     isCompliantContact);
 
     // gains and weights
     // Gain
@@ -273,26 +304,11 @@ bool MomentumBasedTorqueControl::addSystemDynamicsElement(unique_ptr<ParametersH
 
     // get the frames in contact name
     std::vector<FrameInContact<std::string, std::string>> framesInContact;
-    std::string frameName;
     bool isCompliantContact = true;
-
-    if (!handler->getParameter("left_foot_frame", frameName))
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addFloatingBaseDynamicsElement] Unable to find "
-                     "left_foot_frame"
-                  << std::endl;
-        return false;
-    }
-    framesInContact.emplace_back("left_foot", frameName, isCompliantContact);
-
-    if (!handler->getParameter("right_foot_frame", frameName))
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addFloatingBaseDynamicsElement] Unable to find "
-                     "right_foot_frame"
-                  << std::endl;
-        return false;
-    }
-    framesInContact.emplace_back("right_foot", frameName, isCompliantContact);
+    for (const auto& stanceFoot : m_stanceFeetIdetrifiers)
+        framesInContact.emplace_back(stanceFoot.identifierInVariableHandler(),
+                                     stanceFoot.identifierInModel(),
+                                     isCompliantContact);
 
     m_floatingBaseDynamics = std::make_unique<FloatingBaseDynamicsElement>(m_kinDyn,
                                                                            m_variableHandler,
@@ -473,9 +489,11 @@ bool MomentumBasedTorqueControl::addJointValuesFeasibilityElement(unique_ptr<Par
 
 template <class T>
 bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                                                    const std::string& label)
+                                                                    const OptimalControlUtilities::Frame<std::string, std::string>& frame)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
+
+    const auto& label = frame.identifierInVariableHandler();
 
     if (m_contactWrenchFeasibilityElements.find(label) != m_contactWrenchFeasibilityElements.end())
     {
@@ -485,22 +503,11 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
         return false;
     }
 
-    Frame<std::string, std::string> frameInContact;
-    frameInContact.identifierInVariableHandler() = label;
-
     double samplingTime;
     if (!handler->getParameter("sampling_time", samplingTime))
     {
         std::cerr << "[MomentumBasedTorqueControl::addJointValuesFeasibilityElement] Unable to "
                      "find the sampling time"
-                  << std::endl;
-        return false;
-    }
-
-    if (!handler->getParameter("frame_name", frameInContact.identifierInModel()))
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] The  cannot "
-                     "be found"
                   << std::endl;
         return false;
     }
@@ -565,7 +572,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
         {label,
          std::make_unique<ContactWrenchRateOfChangeFeasibilityElement>(m_kinDyn,
                                                                        m_variableHandler,
-                                                                       frameInContact,
+                                                                       frame,
                                                                        numberOfPoints,
                                                                        staticFrictionCoefficient,
                                                                        torsionalFrictionCoefficient,
@@ -582,10 +589,12 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
 
 template <class T>
 bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                                        const std::string& label)
+                                                        const OptimalControlUtilities::Frame<std::string, std::string>& frame)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
     using namespace BipedalLocomotionControllers::ContactModels;
+
+    const auto& label = frame.identifierInVariableHandler();
 
     if (m_contactModelElements.find(label) != m_contactModelElements.end())
     {
@@ -611,14 +620,7 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
 
     FrameInContactWithContactModel<std::string, std::string> frameInContact;
     frameInContact.identifierInVariableHandler() = label;
-
-    if (!handler->getParameter("frame_name", frameInContact.identifierInModel()))
-    {
-        std::cerr << "[MomentumBasedTorqueControl::addContactModelElement] Unable to get the "
-                     "frame name."
-                  << std::endl;
-        return false;
-    }
+    frameInContact.identifierInModel() = frame.identifierInModel();
     frameInContact.isInCompliantContact() = true;
     frameInContact.contactModel() = std::make_shared<ContinuousContactModel>(parameters);
 
@@ -650,9 +652,19 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
 
 template<class T>
 bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                            const std::string& controllerType,
                                             const iDynTree::VectorDynSize& maxJointsPosition,
                                             const iDynTree::VectorDynSize& minJointsPosition)
 {
+    if (!addFeetIdentifiers(handler->getGroup(controllerType)))
+    {
+        std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to load the feet identifiers"
+                  << std::endl;
+        return false;
+    }
+
+    initializeVariableHandler();
+
     double samplingTime;
     if(!handler->getParameter("sampling_time", samplingTime))
     {
@@ -660,19 +672,105 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
                   << std::endl;
         return false;
     }
-    addLinearMomentumElement(handler->getGroup("CENTROIDAL_LINEAR_MOMENTUM"));
+
+    auto linearMomentumOptions = handler->getGroup("CENTROIDAL_LINEAR_MOMENTUM");
+    if (!linearMomentumOptions->isEmpty())
+        if (!addLinearMomentumElement(std::move(linearMomentumOptions)))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the linear "
+                         "momentum element"
+                      << std::endl;
+            return false;
+        }
 
     auto angularMomentumOptions = handler->getGroup("CENTROIDAL_ANGULAR_MOMENTUM");
-    angularMomentumOptions->setParameter("sampling_time", samplingTime);
-    addAngularMomentumElement(std::move(angularMomentumOptions));
+    if(!angularMomentumOptions->isEmpty())
+    {
+        angularMomentumOptions->setParameter("sampling_time", samplingTime);
+        if(!addAngularMomentumElement(std::move(angularMomentumOptions)))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the angular "
+                         "momentum element"
+                      << std::endl;
+            return false;
+        }
+    }
 
-    addOrientationElement(handler->getGroup("TORSO"), "torso");
-    addSystemDynamicsElement(handler->getGroup("SYSTEM_DYNAMICS"));
-    addRegularizationWithControlElement(handler->getGroup("JOINT_REGULARIZATION"),
-                                        "joint_accelerations");
+    auto torsoOptions = handler->getGroup("TORSO");
+    if (!torsoOptions->isEmpty())
+        if (!addOrientationElement(std::move(torsoOptions), "torso"))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the torso element"
+                      << std::endl;
+            return false;
+        }
 
-    addRegularizationElement(handler->getGroup("RIGHT_WRENCH_REGULARIZATION"), "right_foot");
-    addRegularizationElement(handler->getGroup("LEFT_WRENCH_REGULARIZATION"), "left_foot");
+    auto systemDynamicsOptions = handler->getGroup("SYSTEM_DYNAMICS");
+    if (!systemDynamicsOptions->isEmpty())
+        if (!addSystemDynamicsElement(std::move(systemDynamicsOptions)))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the system dynamics"
+                      << std::endl;
+            return false;
+        }
+
+    auto jointRegularizationOptions = handler->getGroup("JOINT_REGULARIZATION");
+    if (!jointRegularizationOptions->isEmpty())
+        if (!addRegularizationWithControlElement(std::move(jointRegularizationOptions),
+                                                 "joint_accelerations"))
+        {
+            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the joint "
+                         "regularization element"
+                      << std::endl;
+            return false;
+        }
+
+    for (const auto& identifier : m_stanceFeetIdetrifiers)
+    {
+        std::string upperIdentifier = identifier.identifierInVariableHandler();
+        std::transform(upperIdentifier.begin(),
+                       upperIdentifier.end(),
+                       upperIdentifier.begin(),
+                       [](unsigned char c) { return std::toupper(c); });
+
+        // add the regularization element
+        auto stanceFootRegularizationOptions = handler->getGroup(upperIdentifier + "_WRENCH_REGULARIZATION");
+        if (!stanceFootRegularizationOptions->isEmpty())
+            if (!addRegularizationElement(std::move(stanceFootRegularizationOptions),
+                                          identifier.identifierInVariableHandler()))
+            {
+                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the wrench "
+                             "regularization element for the "
+                          << identifier.identifierInVariableHandler() << std::endl;
+                return false;
+            }
+
+        // add the wrench feasibility element
+        auto stanceFootWrenchOptions = handler->getGroup(upperIdentifier + "_WRENCH_FEASIBILITY");
+        if (!stanceFootWrenchOptions->isEmpty())
+        {
+            stanceFootWrenchOptions->setParameter("sampling_time", samplingTime);
+
+            if (!addContactWrenchFeasibilityElement(std::move(stanceFootWrenchOptions), identifier))
+            {
+                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the wrench "
+                             "feasibility element for the "
+                          << identifier.identifierInVariableHandler() << std::endl;
+                return false;
+            }
+        }
+
+        // add the contact model
+        auto stanceFootContactModelOptions = handler->getGroup(upperIdentifier + "_CONTACT_MODEL");
+        if (!stanceFootContactModelOptions->isEmpty())
+            if (!addContactModelElement(std::move(stanceFootContactModelOptions), identifier))
+            {
+                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the contact "
+                             "model for the "
+                          << identifier.identifierInVariableHandler() << std::endl;
+                return false;
+            }
+    }
 
     addRegularizationElement(handler->getGroup("JOINT_ACCELERATION_REGULARIZATION"), "joint_accelerations");
 
@@ -685,19 +783,9 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
     //                                  maxJointsPosition,
     //                                  minJointsPosition);
 
-    auto leftWrenchOptions = handler->getGroup("LEFT_WRENCH_FEASIBILITY");
-    leftWrenchOptions->setParameter("sampling_time", samplingTime);
-    addContactWrenchFeasibilityElement(std::move(leftWrenchOptions), "left_foot");
 
-    auto rightWrenchOptions = handler->getGroup("RIGHT_WRENCH_FEASIBILITY");
-    rightWrenchOptions->setParameter("sampling_time", samplingTime);
-    addContactWrenchFeasibilityElement(std::move(rightWrenchOptions), "right_foot");
-
-    addContactModelElement(handler->getGroup("LEFT_CONTACT_MODEL"), "left_foot");
-    addContactModelElement(handler->getGroup("RIGHT_CONTACT_MODEL"), "right_foot");
-
-    this->initialzeSolver();
-    this->printElements();
+    initialzeSolver();
+    printElements();
 
     return true;
 }

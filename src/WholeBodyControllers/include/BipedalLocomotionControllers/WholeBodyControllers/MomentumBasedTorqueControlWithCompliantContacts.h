@@ -46,14 +46,20 @@ class MomentumBasedTorqueControl
     template <typename T> using dictionary = std::unordered_map<std::string, T>;
     template <typename T> using unique_ptr = std::unique_ptr<T>;
 
+    enum class FootType
+    {
+        Swing,
+        Stance
+    };
+
+    std::vector<OptimalControlUtilities::Frame<std::string, std::string>> m_swingFeetIdetrifiers;
+    std::vector<OptimalControlUtilities::Frame<std::string, std::string>> m_stanceFeetIdetrifiers;
 
     const std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDyn pointer object */
     unique_ptr<OsqpEigen::Solver> m_solver; /**< Quadratic programming solver */
     OptimalControlUtilities::VariableHandler m_variableHandler; /**< Variable handler */
     unique_ptr<OptimalControlUtilities::Constraints> m_constraints; /**< Collection of all the constraints */
     unique_ptr<OptimalControlUtilities::CostFunction> m_costFunction; /**< The cost function */
-
-    iDynTree::VectorDynSize m_jointTorques; /**< Desired joint torques */
 
     bool m_isVerbose{true}; /**< If true the controller will be verbose */
 
@@ -76,10 +82,15 @@ class MomentumBasedTorqueControl
     dictionary<unique_ptr<OptimalControlUtilities::RegularizationWithControlElement>>
         m_regularizationWithControlElements;
 
-    /** Dictionary containing Cartesian elements */
+    /** Dictionary containing Orientation elements */
     dictionary<unique_ptr<OptimalControlUtilities::CartesianElement<
         OptimalControlUtilities::CartesianElementType::ORIENTATION>>>
         m_cartesianElements;
+
+    /* /\** Dictionary containing cartesian elements *\/ */
+    /* dictionary<unique_ptr<OptimalControlUtilities::CartesianElement< */
+    /*     OptimalControlUtilities::CartesianElementType::POSE>>> */
+    /*     m_cartesianElements; */
 
     // Joint values element
     unique_ptr<OptimalControlUtilities::JointValuesFeasibilityElement> m_jointValuesFeasibilityElement;
@@ -87,6 +98,12 @@ class MomentumBasedTorqueControl
     dictionary<unique_ptr<OptimalControlUtilities::ContactWrenchRateOfChangeFeasibilityElement>> m_contactWrenchFeasibilityElements;
 
     dictionary<unique_ptr<OptimalControlUtilities::ContactModelElement>> m_contactModelElements;
+
+    template <class T>
+    bool addFeetTypeIdentifiers(ParametersHandler::IParametersHandler<T>* handler, const FootType& type);
+
+    template <class T>
+    bool addFeetIdentifiers(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <class T>
     bool addLinearMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
@@ -117,21 +134,24 @@ class MomentumBasedTorqueControl
 
     template <class T>
     bool addContactWrenchFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                            const std::string& label);
+                                            const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     template <class T>
     bool addContactModelElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                const std::string& label);
+                                const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     void printElements() const;
 
     void initialzeSolver();
+
+    void initializeVariableHandler();
 
 public:
     MomentumBasedTorqueControl(const std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     template <class T>
     bool initialize(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                    const std::string& controllerType,
                     const iDynTree::VectorDynSize& maxJointsPosition,
                     const iDynTree::VectorDynSize& minJointsPosition);
 
@@ -139,14 +159,12 @@ public:
 
     void setVerbosity(bool isVerbose) noexcept;
 
-    void
-    setCentroidalMomentumReference(const iDynTree::SpatialForceVector& momentumSecondDerivative,
-                                   const iDynTree::SpatialForceVector& momentumDerivative,
-                                   const iDynTree::SpatialForceVector& momentum,
-                                   const iDynTree::Vector3& centerOfMass);
+    void setCentroidalMomentumReference(const iDynTree::SpatialForceVector& momentumSecondDerivative,
+                                        const iDynTree::SpatialForceVector& momentumDerivative,
+                                        const iDynTree::SpatialForceVector& momentum,
+                                        const iDynTree::Vector3& centerOfMass);
 
-    bool setMeasuredContactWrench(
-        const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
+    bool setMeasuredContactWrench(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
     void setContactState(const std::string& name,
                          bool isInContact,

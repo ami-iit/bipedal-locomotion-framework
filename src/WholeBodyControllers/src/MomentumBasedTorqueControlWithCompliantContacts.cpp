@@ -35,6 +35,23 @@
 using namespace BipedalLocomotionControllers::WholeBodyControllers;
 using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
+void MomentumBasedTorqueControl::initializeVariableHandler()
+{
+    // instantiate variable handler and initialize the variables
+    m_variableHandler.addVariable("base_acceleration", 6);
+    m_variableHandler.addVariable("joint_accelerations", m_kinDyn->model().getNrOfDOFs());
+
+    // add the stance feet in the optimization problem
+    for (const auto& stanceFoot : m_stanceFeetIdetrifiers)
+        m_variableHandler.addVariable(stanceFoot.identifierInVariableHandler(), 6);
+
+
+    // initialize the constraints
+    m_constraints = std::make_unique<Constraints>(m_variableHandler);
+
+    // initialize the cost function
+    m_costFunction = std::make_unique<CostFunction>(m_variableHandler);
+}
 
 void MomentumBasedTorqueControl::setVerbosity(bool isVerbose) noexcept
 {
@@ -45,20 +62,6 @@ MomentumBasedTorqueControl::MomentumBasedTorqueControl(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : m_kinDyn(kinDyn)
 {
-    // instantiate variable handler and initialize the variables
-    m_variableHandler.addVariable("base_acceleration", 6);
-    m_variableHandler.addVariable("joint_accelerations", m_kinDyn->model().getNrOfDOFs());
-    m_variableHandler.addVariable("left_foot", 6);
-    m_variableHandler.addVariable("right_foot", 6);
-
-    // initialize the constraints
-    m_constraints = std::make_unique<Constraints>(m_variableHandler);
-
-    // initialize the cost function
-    m_costFunction = std::make_unique<CostFunction>(m_variableHandler);
-
-    // resize the joint torques
-    m_jointTorques.resize(m_kinDyn->model().getNrOfDOFs());
 }
 
 void MomentumBasedTorqueControl::printElements() const
