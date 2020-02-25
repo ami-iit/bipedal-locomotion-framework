@@ -64,7 +64,8 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        YarpImplementation::unique_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS");
+        YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(cartoonsGroup);
         cartoonsGroup->setParameter("Donald's nephews", donaldsNephews);
         std::vector<std::string> element;
         REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
@@ -73,7 +74,8 @@ TEST_CASE("Get parameters")
 
     SECTION("is Empty")
     {
-        YarpImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        YarpImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
         groupHandler->setParameter("Donald's nephews", donaldsNephews);

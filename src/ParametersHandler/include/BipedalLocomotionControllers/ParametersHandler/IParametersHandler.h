@@ -27,6 +27,10 @@ public:
 
     using unique_ptr = std::unique_ptr<IParametersHandler<Derived>>;
 
+    using shared_ptr = std::shared_ptr<IParametersHandler<Derived>>;
+
+    using weak_ptr = std::weak_ptr<IParametersHandler<Derived>>;
+
     /**
      * Get a parameter from the handler.
      * @param parameterName name of the parameter
@@ -65,7 +69,7 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */
-    unique_ptr getGroup(const std::string& name) const;
+    weak_ptr getGroup(const std::string& name) const;
 
     /**
      * Return a standard text representation of the content of the object.
@@ -100,6 +104,9 @@ public:
 
     template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
     static unique_ptr make_unique(Args&&... args);
+
+    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
+    static shared_ptr make_shared(Args&&... args);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers

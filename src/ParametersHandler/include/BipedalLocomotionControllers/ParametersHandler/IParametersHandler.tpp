@@ -31,7 +31,7 @@ void IParametersHandler<Derived>::set(const T& object)
 }
 
 template <class Derived>
-typename IParametersHandler<Derived>::unique_ptr
+typename IParametersHandler<Derived>::weak_ptr
 IParametersHandler<Derived>::getGroup(const std::string& groupName) const
 {
     return static_cast<const Derived*>(this)->getGroup(groupName);
@@ -58,6 +58,13 @@ template<class... Args, typename>
 typename IParametersHandler<Derived>::unique_ptr IParametersHandler<Derived>::make_unique(Args&&... args)
 {
     return std::make_unique<Derived>(std::forward<Args>(args)...);
+}
+
+template <class Derived>
+template<class... Args, typename>
+typename IParametersHandler<Derived>::shared_ptr IParametersHandler<Derived>::make_shared(Args&&... args)
+{
+    return std::make_shared<Derived>(std::forward<Args>(args)...);
 }
 
 } // namespace ParametersHandler

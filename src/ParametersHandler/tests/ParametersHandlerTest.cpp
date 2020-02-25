@@ -58,11 +58,11 @@ public:
         return true;
     }
 
-    BasicImplementation::unique_ptr getGroup(const std::string& name) const
+    BasicImplementation::weak_ptr getGroup(const std::string& name) const
     {
         auto group = m_map.find(name);
         if (group == m_map.end())
-            return BasicImplementation::make_unique();
+            return BasicImplementation::make_shared();
 
         std::unordered_map<std::string, std::any> map;
         try
@@ -72,10 +72,10 @@ public:
         {
             std::cerr << "[BasicImplementation::getGroup] The element named " << name
                       << " is not a 'std::unordered_map<std::string, std::any>'" << std::endl;
-            return BasicImplementation::make_unique();
+            return BasicImplementation::make_shared();
         }
 
-        return BasicImplementation::make_unique(map);
+        return BasicImplementation::make_shared(map);
     }
 
     void set(const std::unordered_map<std::string, std::any>& object)
@@ -138,7 +138,8 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Group")
     {
-        BasicImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(groupHandler);
         groupHandler->setParameter("Donald's nephews",
                                    std::vector<std::string>{"Huey", "Dewey", "Louie"});
         std::vector<std::string> element;
@@ -148,7 +149,8 @@ TEST_CASE("Get parameters")
 
     SECTION("is Empty")
     {
-        BasicImplementation::unique_ptr groupHandler = parameterHandler->getGroup("CARTOONS");
+        BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
         groupHandler->setParameter("Donald's nephews",

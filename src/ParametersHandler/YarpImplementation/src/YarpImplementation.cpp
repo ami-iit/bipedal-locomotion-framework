@@ -21,13 +21,13 @@ void YarpImplementation::set(const yarp::os::Searchable &searchable)
     m_container.fromString(searchable.toString());
 }
 
-YarpImplementation::unique_ptr YarpImplementation::getGroup(const std::string& name) const
+YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& name) const
 {
     auto& group = m_container.findGroup(name);
     if (group.isNull())
-        return YarpImplementation::make_unique();
+        return YarpImplementation::make_shared();
 
-    return YarpImplementation::make_unique(group);
+    return YarpImplementation::make_shared(group);
 }
 
 std::string YarpImplementation::toString() const
