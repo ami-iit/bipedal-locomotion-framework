@@ -21,6 +21,8 @@
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
 
+#include <ConfigFolderPath.h>
+
 using namespace BipedalLocomotionControllers::ParametersHandler;
 
 TEST_CASE("Get parameters")
@@ -97,6 +99,13 @@ TEST_CASE("Get parameters")
 
     }
 
+    SECTION("Clear")
+    {
+        REQUIRE_FALSE(parameterHandler->isEmpty());
+        parameterHandler->clear();
+        REQUIRE(parameterHandler->isEmpty());
+    }
+
     SECTION("Set from object")
     {
         yarp::os::ResourceFinder rf;
@@ -110,11 +119,51 @@ TEST_CASE("Get parameters")
         REQUIRE(expected == 10);
     }
 
-    SECTION("Clear")
+    SECTION("Set from RF")
     {
-        REQUIRE_FALSE(parameterHandler->isEmpty());
+        yarp::os::ResourceFinder &rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
+        rf.setDefaultConfigFile("config.ini");
+
+        std::vector<std::string> arguments = {" ", "--from ", getConfigPath()};
+
+        std::vector<char*> argv;
+        for (const auto& arg : arguments)
+            argv.push_back((char*)arg.data());
+        argv.push_back(nullptr);
+
+        rf.configure(argv.size() - 1, argv.data());
+
+        REQUIRE_FALSE(rf.isNull());
         parameterHandler->clear();
         REQUIRE(parameterHandler->isEmpty());
+        parameterHandler->set(rf);
+
+        {
+            int element;
+            REQUIRE(parameterHandler->getParameter("answer_to_the_ultimate_question_of_life", element));
+            REQUIRE(element == 42);
+        }
+
+        {
+            double element;
+            REQUIRE(parameterHandler->getParameter("pi", element));
+            REQUIRE(element == 3.14);
+        }
+
+        {
+            std::string element;
+            REQUIRE(parameterHandler->getParameter("John", element));
+            REQUIRE(element == "Smith");
+        }
+
+        {
+            YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+            REQUIRE(cartoonsGroup);
+
+            std::vector<std::string> element;
+            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
+            REQUIRE(element == donaldsNephews);
+        }
     }
 
 }

@@ -3,6 +3,9 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
+  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
+
   add_library(ParametersHandlerTestMain ParametersHandlerTestMain.cpp)
   target_link_libraries(ParametersHandlerTestMain PRIVATE Catch2::Catch2)
 
