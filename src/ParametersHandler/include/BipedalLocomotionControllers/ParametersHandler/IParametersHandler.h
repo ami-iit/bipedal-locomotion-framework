@@ -72,6 +72,15 @@ public:
     weak_ptr getGroup(const std::string& name) const;
 
     /**
+     * Set a new group on the handler.
+     * @param name name of the group
+     * @param newGroup shared pointer to the new group
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::setGroup
+     */
+    void setGroup(const std::string& name, shared_ptr newGroup);
+
+    /**
      * Return a standard text representation of the content of the object.
      * @return a string containing the standard text representation of the content of the object.
      * @warning Please implement the specific version of this method in the Derived class. Please

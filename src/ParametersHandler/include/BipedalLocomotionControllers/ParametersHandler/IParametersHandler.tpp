@@ -37,6 +37,12 @@ IParametersHandler<Derived>::getGroup(const std::string& groupName) const
     return static_cast<const Derived*>(this)->getGroup(groupName);
 }
 
+template <class Derived>
+void IParametersHandler<Derived>::setGroup(const std::string& groupName, IParametersHandler<Derived>::shared_ptr newGroup)
+{
+    static_cast<Derived*>(this)->setGroup(groupName, newGroup);
+}
+
 template <class Derived> std::string IParametersHandler<Derived>::toString() const
 {
     return static_cast<const Derived*>(this)->toString();

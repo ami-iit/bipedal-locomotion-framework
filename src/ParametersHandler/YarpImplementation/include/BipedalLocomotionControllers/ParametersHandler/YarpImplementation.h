@@ -11,9 +11,11 @@
 // std
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 // YARP
 #include <yarp/os/Searchable.h>
+#include <yarp/os/Bottle.h>
 #include <yarp/os/Property.h>
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
@@ -37,7 +39,8 @@ struct is_string : public std::disjunction<std::is_same<char*, typename std::dec
 class YarpImplementation : public IParametersHandler<YarpImplementation>
 {
 
-    yarp::os::Property m_container; /**< Property object */
+    yarp::os::Bottle m_container; /**< Bottle object */
+    std::unordered_map<std::string, YarpImplementation::shared_ptr> m_lists; /**< Map containing pointers to the (asked) groups */
 
 public:
     /**
@@ -82,6 +85,13 @@ public:
      * created and returned
      */
     weak_ptr getGroup(const std::string& name) const;
+
+    /**
+     * Set a new group on the handler.
+     * @param name name of the group
+     * @param newGroup shared pointer to the new group
+     */
+    void setGroup(const std::string& name, shared_ptr newGroup);
 
     /**
      * Return a standard text representation of the content of the object.

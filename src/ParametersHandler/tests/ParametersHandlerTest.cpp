@@ -58,16 +58,22 @@ public:
         return true;
     }
 
+    void setGroup(const std::string& name, shared_ptr newGroup)
+    {
+        m_map[name] = std::make_any<shared_ptr>(newGroup);
+    }
+
+
     BasicImplementation::weak_ptr getGroup(const std::string& name) const
     {
         auto group = m_map.find(name);
         if (group == m_map.end())
             return BasicImplementation::make_shared();
 
-        std::unordered_map<std::string, std::any> map;
+        shared_ptr map;
         try
         {
-            map = std::any_cast<decltype(map)>(group->second);
+            map = std::any_cast<shared_ptr>(group->second);
         } catch (const std::bad_any_cast& exception)
         {
             std::cerr << "[BasicImplementation::getGroup] The element named " << name
@@ -75,7 +81,7 @@ public:
             return BasicImplementation::make_shared();
         }
 
-        return BasicImplementation::make_shared(map);
+        return map;
     }
 
     void set(const std::unordered_map<std::string, std::any>& object)
@@ -136,8 +142,10 @@ TEST_CASE("Get parameters")
         REQUIRE(element == std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
     }
 
-    SECTION("Get Group")
+    SECTION("Set/Get Group")
     {
+        BasicImplementation::shared_ptr newGroup = BasicImplementation::make_shared();
+        parameterHandler->setGroup("CARTOONS", newGroup);
         BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         groupHandler->setParameter("Donald's nephews",
@@ -149,6 +157,8 @@ TEST_CASE("Get parameters")
 
     SECTION("is Empty")
     {
+        BasicImplementation::shared_ptr newGroup = BasicImplementation::make_shared();
+        parameterHandler->setGroup("CARTOONS", newGroup);
         BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());

@@ -62,41 +62,52 @@ TEST_CASE("Get parameters")
         REQUIRE(element == fibonacciNumbers);
     }
 
-    SECTION("Get Group")
+    SECTION("Set/Get Group")
     {
+        YarpImplementation::shared_ptr setGroup = YarpImplementation::make_shared();
+        setGroup->setParameter("Donald's nephews", donaldsNephews);
+        parameterHandler->setGroup("CARTOONS", setGroup);
         YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
-        cartoonsGroup->setParameter("Donald's nephews", donaldsNephews);
+
         std::vector<std::string> element;
         REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
         REQUIRE(element == donaldsNephews);
     }
-
-    SECTION("is Empty")
-    {
-        YarpImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
-        REQUIRE(groupHandler);
-        REQUIRE(groupHandler->isEmpty());
-
-        groupHandler->setParameter("Donald's nephews", donaldsNephews);
-        REQUIRE_FALSE(groupHandler->isEmpty());
-    }
-
 
     SECTION("Print content")
     {
         std::cout << "Parameters: " << *parameterHandler << std::endl;
     }
 
+    SECTION("is Empty")
+    {
+        YarpImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE_FALSE(groupHandler);
+        YarpImplementation::shared_ptr setGroup = YarpImplementation::make_shared();
+        parameterHandler->setGroup("CARTOONS", setGroup);
+
+        groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
+        REQUIRE(groupHandler);
+        REQUIRE(groupHandler->isEmpty());
+
+        groupHandler->setParameter("Donald's nephews", donaldsNephews);
+        REQUIRE_FALSE(groupHandler->isEmpty());
+        std::cout << "Parameters: " << *parameterHandler << std::endl;
+
+    }
+
     SECTION("Set from object")
     {
         yarp::os::ResourceFinder rf;
         parameterHandler->set(rf);
+
         yarp::os::Property property;
         property.put("value", 10);
         parameterHandler->set(property);
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
+
     }
 }
