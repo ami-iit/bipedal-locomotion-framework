@@ -97,6 +97,13 @@ public:
     bool isEmpty() const;
 
     /**
+     * Clears the handler from all the parameters
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::clear
+     */
+    void clear();
+
+    /**
      * Operator << overloading
      * @param os Output stream objects
      * @param handler reference to the interface

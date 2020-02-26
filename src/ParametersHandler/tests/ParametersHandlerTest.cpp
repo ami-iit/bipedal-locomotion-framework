@@ -103,6 +103,11 @@ public:
         return m_map.size() == 0;
     }
 
+    void clear()
+    {
+        m_map.clear();
+    }
+
     ~BasicImplementation() = default;
 };
 
@@ -182,5 +187,12 @@ TEST_CASE("Get parameters")
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
+    }
+
+    SECTION("Clear")
+    {
+        REQUIRE_FALSE(parameterHandler->isEmpty());
+        parameterHandler->clear();
+        REQUIRE(parameterHandler->isEmpty());
     }
 }

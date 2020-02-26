@@ -53,6 +53,11 @@ template <class Derived> bool IParametersHandler<Derived>::isEmpty() const
     return static_cast<const Derived*>(this)->isEmpty();
 }
 
+template <class Derived> void IParametersHandler<Derived>::clear()
+{
+    return static_cast<Derived*>(this)->clear();
+}
+
 template <class Derived>
 std::ostream& operator<<(std::ostream& os, const IParametersHandler<Derived>& handler)
 {

@@ -106,6 +106,11 @@ public:
     bool isEmpty() const;
 
     /**
+     * Clears the handler from all the parameters
+     */
+    void clear();
+
+    /**
      * Destructor
      */
     ~YarpImplementation() = default;

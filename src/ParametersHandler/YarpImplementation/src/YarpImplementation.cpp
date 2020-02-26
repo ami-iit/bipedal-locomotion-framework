@@ -20,8 +20,7 @@ YarpImplementation::YarpImplementation(const yarp::os::Searchable& searchable)
 
 void YarpImplementation::set(const yarp::os::Searchable &searchable)
 {
-    m_container.clear();
-    m_lists.clear();
+    clear();
 
     yarp::os::Bottle bot;
     bot.fromString(searchable.toString());
@@ -86,4 +85,10 @@ bool YarpImplementation::isEmpty() const
 {
     // if the toString method returns an empty string means that the handler is empty
     return ((m_container.size() == 0 || (m_container.size() == 1 && m_container.get(0).isString())) && (m_lists.size() == 0));
+}
+
+void YarpImplementation::clear()
+{
+    m_container.clear();
+    m_lists.clear();
 }

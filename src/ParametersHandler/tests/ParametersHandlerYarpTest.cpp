@@ -108,6 +108,13 @@ TEST_CASE("Get parameters")
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
-
     }
+
+    SECTION("Clear")
+    {
+        REQUIRE_FALSE(parameterHandler->isEmpty());
+        parameterHandler->clear();
+        REQUIRE(parameterHandler->isEmpty());
+    }
+
 }
