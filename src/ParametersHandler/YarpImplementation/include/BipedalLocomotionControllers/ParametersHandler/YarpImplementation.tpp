@@ -17,7 +17,8 @@ namespace ParametersHandler
 template <typename T>
 bool YarpImplementation::getParameter(const std::string& parameterName, T& parameter) const
 {
-    if (m_lists.find(parameterName) != m_lists.end()){ // A list is called with the same name of the parameter we are searching
+    if (m_lists.find(parameterName) != m_lists.end()) // A list is called with the same name of the parameter we are searching
+    { 
         return m_lists.at(parameterName)->getParameter(parameterName, parameter);
     }
     else

@@ -25,11 +25,13 @@ void YarpImplementation::set(const yarp::os::Searchable &searchable)
     yarp::os::Bottle bot;
     bot.fromString(searchable.toString());
 
-    for (size_t i = 0; i < bot.size(); i++) { //all sublists are included in a new object
+    for (size_t i = 0; i < bot.size(); i++) //all sublists are included in a new object
+    {
         yarp::os::Value& bb = bot.get(i);
 
         yarp::os::Bottle* sub = bb.asList();
-        if ((sub) && (sub->size() > 1)) {
+        if ((sub) && (sub->size() > 1))
+        {
             std::string name = sub->get(0).toString();
             yarp::os::Bottle* subSub = sub->get(1).asList();
             if ((subSub) && (subSub->size() > 1))
@@ -83,7 +85,9 @@ std::string YarpImplementation::toString() const
 
 bool YarpImplementation::isEmpty() const
 {
-    // if the toString method returns an empty string means that the handler is empty
+    // We check if the container is null and there are no lists. 
+    // A special case is when the container has a single string element. 
+    // This is the case for newly created groups, where the container has only the name of the group itself.
     return ((m_container.size() == 0 || (m_container.size() == 1 && m_container.get(0).isString())) && (m_lists.size() == 0));
 }
 
