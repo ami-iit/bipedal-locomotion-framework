@@ -57,8 +57,25 @@ TEST_CASE("Get parameters")
         REQUIRE(element == "Smith");
     }
 
+    SECTION("Change String")
+    {
+        parameterHandler->setParameter("John", "Doe");
+        std::string element;
+        REQUIRE(parameterHandler->getParameter("John", element));
+        REQUIRE(element == "Doe");
+    }
+
     SECTION("Get Vector")
     {
+        std::vector<int> element;
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+        REQUIRE(element == fibonacciNumbers);
+    }
+
+    SECTION("Change Vector")
+    {
+        fibonacciNumbers.push_back(34);
+        parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
         std::vector<int> element;
         REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);

@@ -37,12 +37,21 @@ void YarpImplementation::setParameter(const std::string& parameterName, const T&
     // a scalar element and a strings is retrieved using getElementFromSearchable() function
     if constexpr (std::is_scalar<T>::value || is_string<T>::value)
     {
-        yarp::os::Value newVal;
-        yarp::os::Bottle* list = newVal.asList();
-        list->add(yarp::os::Value(parameterName));
-        list->add(yarp::os::Value(parameter));
-        m_container.add(newVal);
-    } else
+        yarp::os::Value& check = m_container.find(parameterName);
+        if (check.isNull())
+        {
+            yarp::os::Value newVal;
+            yarp::os::Bottle* list = newVal.asList();
+            list->add(yarp::os::Value(parameterName));
+            list->add(yarp::os::Value(parameter));
+            m_container.add(newVal);
+        }
+        else
+        {
+            check = yarp::os::Value(parameter);
+        }
+    }
+    else
     {
         yarp::os::Value yarpValue;
         auto property = yarpValue.asList();
