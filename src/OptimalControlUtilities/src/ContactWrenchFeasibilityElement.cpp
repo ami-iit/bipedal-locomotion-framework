@@ -245,6 +245,12 @@ void ContactWrenchRateOfChangeFeasibilityElement::isInContact(bool isInContact)
     m_lowerBoundNormalForce = isInContact ? -m_infinity : 0;
 }
 
+void ContactWrenchRateOfChangeFeasibilityElement::setUpperBoundNormalForce(const double& upperForce)
+{
+    m_upperBoundForce(m_nominalForceConstraintIndex) = 0;
+    m_lowerBoundNormalForce = -upperForce;
+}
+
 const iDynTree::MatrixDynSize& ContactWrenchRateOfChangeFeasibilityElement::getA()
 {
     // get the rotation matrix

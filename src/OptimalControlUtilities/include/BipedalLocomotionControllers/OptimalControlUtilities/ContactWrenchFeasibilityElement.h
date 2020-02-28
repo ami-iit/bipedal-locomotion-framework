@@ -133,6 +133,8 @@ public:
      */
     void isInContact(bool isInContact);
 
+    void setUpperBoundNormalForce(const double& upperForce);
+
     /**
      * Get (and compute) the element matrix
      * @return the element matrix
@@ -141,7 +143,7 @@ public:
 
     void setContactWrench(const iDynTree::Wrench& wrench);
 
-        /**
+    /**
      * Constructor.
      * @param kinDyn an iDynTree kinDyn computation object
      * @param handler the variable handler object
