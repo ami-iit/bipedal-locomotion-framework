@@ -31,6 +31,7 @@ class Simulator
         iDynTree::FrameIndex indexInTheModel;
         iDynTree::Transform frameNullForce;
         iDynTree::MatrixDynSize jacobian;
+        bool isInContact{true};
     };
 
     std::unordered_map<std::string, std::pair<const std::string, const iDynTree::Transform>> m_baseFrames;
@@ -244,14 +245,21 @@ public:
 
     bool advance(const double& seconds = 0);
 
-    const iDynTree::Wrench& leftWrench();
-    const iDynTree::Wrench& rightWrench();
+    iDynTree::Wrench leftWrench();
+    iDynTree::Wrench rightWrench();
 
     const iDynTree::VectorDynSize& jointPositions() const;
     const iDynTree::VectorDynSize& jointVelocities() const;
 
     const iDynTree::Transform& baseTransform() const;
     const iDynTree::Twist& baseVelocity() const;
+
+    void setLeftFootNullForceTransform(const iDynTree::Transform& transform);
+
+    void setRightFootNullForceTransform(const iDynTree::Transform& transform);
+
+    void setLeftFootState(bool isInContact);
+    void setRightFootState(bool isInContact);
 
     bool setTorqueReferences(const iDynTree::VectorDynSize& torques);
     bool setAccelerationReferences(const iDynTree::VectorDynSize& acceleration);
