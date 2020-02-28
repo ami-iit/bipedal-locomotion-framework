@@ -64,8 +64,8 @@ public:
     /**
      * Get a Group from the handler.
      * @param name name of the group
-     * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to
-     * nullptr
+     * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
+     * be locked
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */

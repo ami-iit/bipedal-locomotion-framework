@@ -81,8 +81,8 @@ public:
     /**
      * Get a Group from the handler.
      * @param name name of the group
-     * @return A pointer to IParametersHandler, If the group is not found a new empty object is
-     * created and returned
+     * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
+     * be locked
      */
     weak_ptr getGroup(const std::string& name) const;
 
