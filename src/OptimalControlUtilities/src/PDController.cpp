@@ -99,10 +99,10 @@ void PosePD::evaluateControl()
 
     toEigen(m_controllerOutput.getLinearVec3())
         = toEigen(m_feedforward.getLinearVec3())
-          + toEigen(m_kp).asDiagonal() * toEigen(m_reference.getPosition())
-          - toEigen(m_state.getPosition())
-          + toEigen(m_kd).asDiagonal() * toEigen(m_referenceDerivative.getLinearVec3())
-          - toEigen(m_stateDerivative.getLinearVec3());
+        + toEigen(m_kp).asDiagonal() * (toEigen(m_reference.getPosition())
+                                        - toEigen(m_state.getPosition()))
+        + toEigen(m_kd).asDiagonal() * (toEigen(m_referenceDerivative.getLinearVec3())
+                                        - toEigen(m_stateDerivative.getLinearVec3()));
 
 
     iDynTree::Matrix3x3 errorAttitude;
