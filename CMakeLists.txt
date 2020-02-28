@@ -19,9 +19,6 @@ include(CTest)
 # Check BipedalLocomotionControllers dependencies, find necessary libraries.
 include(BipedalLocomotionControllersFindDependencies)
 
-# Setup testing
-include(AddBipedalLocomotionControllersUnitTest)
-
 #set default build type to "Release" in single-config generators
 if(NOT CMAKE_CONFIGURATION_TYPES)
     if(NOT CMAKE_BUILD_TYPE)
@@ -68,6 +65,9 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
   INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}"
   DEPENDS ENABLE_RPATH
   USE_LINK_PATH)
+
+# Setup testing
+include(AddBipedalLocomotionControllersUnitTest)
 
 add_subdirectory(src)
 
