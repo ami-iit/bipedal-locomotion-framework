@@ -36,7 +36,7 @@ void YarpImplementation::set(const yarp::os::Searchable &searchable)
             yarp::os::Bottle* subSub = sub->get(1).asList();
             if ((subSub) && (subSub->size() > 1))
             {
-                m_lists.emplace(name, make_shared(*subSub));
+                m_lists.emplace(name, make_shared(*sub));
             }
             else
             {

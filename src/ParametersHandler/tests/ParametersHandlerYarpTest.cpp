@@ -174,12 +174,31 @@ TEST_CASE("Get parameters")
         }
 
         {
-            YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
-            REQUIRE(cartoonsGroup);
+            std::vector<int> element;
+            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
 
+        YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(cartoonsGroup);
+
+        {
             std::vector<std::string> element;
             REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
             REQUIRE(element == donaldsNephews);
+
+        }
+
+        {
+            std::vector<int> element;
+            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        {
+            std::string element;
+            REQUIRE(cartoonsGroup->getParameter("John", element));
+            REQUIRE(element == "Doe");
         }
     }
 
