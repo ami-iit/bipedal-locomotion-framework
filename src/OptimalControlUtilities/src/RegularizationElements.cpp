@@ -43,17 +43,15 @@ RegularizationElement::RegularizationElement(std::shared_ptr<iDynTree::KinDynCom
 // RegularizationWithControlElement
 RegularizationWithControlElement::RegularizationWithControlElement(
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-    std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> controller,
+    const LinearPD<iDynTree::VectorDynSize>& controller,
     const VariableHandler& handler,
     const std::string& variableName)
     : RegularizationElement(kinDyn, handler, variableName)
+    , m_pd(controller)
 {
     m_name = "Regularization with control element (variable: " + variableName + ")";
 
     const iDynTree::IndexRange& variableIndex = handler.getVariable(variableName);
-
-    // instantiate controller
-    m_pd = std::move(controller);
 
     if (!variableIndex.isValid())
         throw std::runtime_error("[RegularizationWithControlElement::"
@@ -61,27 +59,27 @@ RegularizationWithControlElement::RegularizationWithControlElement(
                                  + variableName + " in the variableHandler");
 }
 
-void RegularizationWithControlElement::setDesiredTrajectory(const iDynTree::VectorDynSize& acceleration,
-                                                            const iDynTree::VectorDynSize& velocity,
-                                                            const iDynTree::VectorDynSize& position)
+void RegularizationWithControlElement::setReference(const iDynTree::VectorDynSize& feedforward,
+                                                    const iDynTree::VectorDynSize& stateDerivative,
+                                                    const iDynTree::VectorDynSize& state)
 {
-    m_pd->setDesiredTrajectory(acceleration, velocity, position);
+    m_pd.setDesiredTrajectory(feedforward, stateDerivative, state);
 }
 
-void RegularizationWithControlElement::setState(const iDynTree::VectorDynSize& velocity,
-                                                const iDynTree::VectorDynSize& position)
+void RegularizationWithControlElement::setState(const iDynTree::VectorDynSize& stateDerivative,
+                                                const iDynTree::VectorDynSize& state)
 {
-    m_pd->setFeedback(velocity, position);
+    m_pd.setFeedback(stateDerivative, state);
 }
 
 void RegularizationWithControlElement::setPDGains(const iDynTree::VectorDynSize& kp,
-                                                   const iDynTree::VectorDynSize& kd)
+                                                  const iDynTree::VectorDynSize& kd)
 {
-    m_pd->setGains(kp, kd);
+    m_pd.setGains(kp, kd);
 }
 
 const iDynTree::VectorDynSize& RegularizationWithControlElement::getB()
 {
-    m_b = m_pd->getControllerOutput();
+    m_b = m_pd.getControllerOutput();
     return m_b;
 }

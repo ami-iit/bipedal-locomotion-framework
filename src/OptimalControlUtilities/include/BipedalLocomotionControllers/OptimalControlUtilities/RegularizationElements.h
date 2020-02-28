@@ -45,7 +45,7 @@ public:
 class RegularizationWithControlElement : public RegularizationElement
 {
     /** PD controller */
-    std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> m_pd;
+    LinearPD<iDynTree::VectorDynSize> m_pd;
 
 public:
     /**
@@ -57,7 +57,7 @@ public:
      * @throw std::runtime_error if the variableName is not defined in the handler
      */
     RegularizationWithControlElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                     std::unique_ptr<LinearPD<iDynTree::VectorDynSize>> controller,
+                                     const LinearPD<iDynTree::VectorDynSize>& controller,
                                      const VariableHandler& handler,
                                      const std::string& variableName);
 
@@ -67,16 +67,16 @@ public:
      * @param velocity  desired velocity
      * @param position desired position
      */
-    void setDesiredTrajectory(const iDynTree::VectorDynSize& acceleration,
-                              const iDynTree::VectorDynSize& velocity,
-                              const iDynTree::VectorDynSize& position);
+    void setReference(const iDynTree::VectorDynSize& feedforward,
+                      const iDynTree::VectorDynSize& stateDerivative,
+                      const iDynTree::VectorDynSize& state);
 
     /**
      * Set the state
      * @param velocity current velocity
      * @param position current position
      */
-    void setState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
+    void setState(const iDynTree::VectorDynSize& stateDerivative, const iDynTree::VectorDynSize& state);
 
     /**
      * Set the PD gains
