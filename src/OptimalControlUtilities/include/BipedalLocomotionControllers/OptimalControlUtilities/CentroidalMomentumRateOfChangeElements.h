@@ -39,6 +39,9 @@ class CentroidalLinearMomentumRateOfChangeElement : public ControlTask
 
     using FramesInContact = std::vector<FrameInContact<std::string, std::string>>;
 
+    /** Vectors containing the frames in contact with the environment */
+    std::unordered_map<std::string, FrameInContact<iDynTree::IndexRange, iDynTree::FrameIndex>> m_framesInContact;
+
 public:
     /**
      * Constructor.
@@ -64,7 +67,7 @@ public:
                       const iDynTree::Vector3& centroidalLinearMomentum,
                       const iDynTree::Vector3& centerOfMass) noexcept;
 
-    void setMeasuredContactForces(const std::vector<iDynTree::LinearForceVector3>& contactForces);
+    bool setMeasuredContactWrenches(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
     /**
      * Set the controller gains

@@ -21,7 +21,7 @@ CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChang
     : ControlTask(kinDyn)
     , m_pid(controller)
 {
-    m_name = "Centroidal Linear Momentum rate of change Element";
+    m_name = "Centroidal Linear Momentum rate of change Element [ ";
 
     // get the robot weight expressed in the inertial frame. (The z axis points upwards)
     m_robotMass = m_kinDynPtr->model().getTotalMass();
@@ -38,7 +38,11 @@ CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChang
     for (const auto& frame : framesInContact)
     {
         const auto& frameNameInVariableHandler = frame.identifierInVariableHandler();
+        const auto& frameNameInModel = frame.identifierInModel();
         const auto& indexInVariableHandler = handler.getVariable(frameNameInVariableHandler);
+        const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frameNameInModel);
+
+        m_name += "( Label: " + frameNameInVariableHandler + " ) ";
 
         if (!indexInVariableHandler.isValid())
             throw std::runtime_error("[CentroidalLinearMomentumElementWithCompliantContact::"
@@ -49,8 +53,13 @@ CentroidalLinearMomentumRateOfChangeElement::CentroidalLinearMomentumRateOfChang
         // set constant elements in the A matrix
         // A = [ I O I O ...]
         iDynTree::toEigen(m_A).middleCols<3>(indexInVariableHandler.offset).setIdentity();
+
+        m_framesInContact.insert(
+            {frameNameInVariableHandler,
+             {indexInVariableHandler, indexInModel, /*compliant contact = */ true}});
     }
 
+    m_name += "]";
 }
 
 const iDynTree::VectorDynSize& CentroidalLinearMomentumRateOfChangeElement::getB()
@@ -76,22 +85,45 @@ void CentroidalLinearMomentumRateOfChangeElement::setReference(
                        centerOfMass);
 }
 
-void CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactForces(
-    const std::vector<iDynTree::LinearForceVector3>& contactForces)
+bool CentroidalLinearMomentumRateOfChangeElement::setMeasuredContactWrenches(
+    const std::unordered_map<std::string ,iDynTree::Wrench>& contactWrenches)
 {
     // u = centroidalLinearMomentumSecondDerivative_des
     //    + kd (centroidalLinearMomentumDerivative_des - centroidalLinearMomentumDerivative)
     //    + kp (centroidalLinearMomentum_des - centroidalLinearMomentum)
+    //    + ki (com_des - com)
 
     // The centroidalLinearMomentumDerivative is equal to the sum of the contact forces and the
     // weight acting on the system
     auto centroidalLinearMomentumDerivative = m_robotWeight;
-    for (const auto& contactForce : contactForces)
-        iDynTree::toEigen(centroidalLinearMomentumDerivative) += iDynTree::toEigen(contactForce);
+
+    // check for all frame in contact the corresponding contact wrench. If the frame is not
+    // associated to any contact wrenches, the function will return an error
+    for(auto& frameInContact : m_framesInContact)
+    {
+        const std::string& key = frameInContact.first;
+        auto& frame = frameInContact.second;
+
+        // check if the key is associated to a frame
+        const auto& contactWrench = contactWrenches.find(key);
+        if (contactWrench == contactWrenches.end())
+        {
+            std::cerr << "[CentroidalLinearMomentumRateOfChangeElement::"
+                         "setMeasuredContactWrenches] The label "
+                      << key << " is not associated to any contact wrench" << std::endl;
+            return false;
+        }
+        const iDynTree::Wrench& wrench = contactWrench->second;
+
+        iDynTree::toEigen(centroidalLinearMomentumDerivative)
+            += iDynTree::toEigen(wrench.getLinearVec3());
+    }
 
     m_pid.setFeedback(centroidalLinearMomentumDerivative,
                       m_kinDynPtr->getCentroidalTotalMomentum().getLinearVec3(),
                       m_kinDynPtr->getCenterOfMassPosition());
+
+    return true;
 }
 
 void CentroidalLinearMomentumRateOfChangeElement::setGains(const iDynTree::Vector3& kd,
