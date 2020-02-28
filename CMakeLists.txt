@@ -66,6 +66,9 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
   DEPENDS ENABLE_RPATH
   USE_LINK_PATH)
 
+# Setup testing
+include(AddBipedalLocomotionControllersUnitTest)
+
 add_subdirectory(src)
 
 include(InstallBasicPackageFiles)

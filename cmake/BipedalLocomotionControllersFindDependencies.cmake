@@ -120,9 +120,6 @@ endmacro()
 find_package(iDynTree 0.11.105 QUIET)
 checkandset_dependency(iDynTree)
 
-find_package(Catch2 QUIET)
-checkandset_dependency(Catch2)
-
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
 
@@ -133,7 +130,3 @@ bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_C
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities" OFF)
-
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests
-  "Compile tests?" ON
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_Catch2;BUILD_TESTING" OFF)
