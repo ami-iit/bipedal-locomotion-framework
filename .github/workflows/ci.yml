@@ -30,8 +30,8 @@ jobs:
     # DEPENDENCIES
     # ============
 
-    # Remove apt repos that are known to break from time to time 
-    # See https://github.com/actions/virtual-environments/issues/323  
+    # Remove apt repos that are known to break from time to time
+    # See https://github.com/actions/virtual-environments/issues/323
     - name: Remove broken apt repos [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -46,7 +46,7 @@ jobs:
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 valgrind
+        brew install ace boost eigen swig qt5 orocos-kdl catch2
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
