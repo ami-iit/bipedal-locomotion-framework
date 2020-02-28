@@ -76,15 +76,27 @@ MultiBodyDynamicsElement::MultiBodyDynamicsElement(
     m_generalizedBiasForces.resize(m_kinDynPtr->model());
 }
 
-void MultiBodyDynamicsElement::setExternalWrench(const std::string& frameName,
-                                                 const iDynTree::Wrench& wrench)
+bool MultiBodyDynamicsElement::setMeasuredContactWrenches(
+    const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches)
 {
-    auto frameInContact = m_framesInContact.find(frameName);
-    if (frameInContact == m_framesInContact.end())
-        throw std::runtime_error("[ MultiBodyDynamicsElement::setExternalWrench] The frame named "
-                                 + frameName + " is not one of the frame considered in contact");
+    for(auto& frameInContact : m_framesInContact)
+    {
+        const auto& key = frameInContact.first;
+        auto& frame = frameInContact.second;
 
-    frameInContact->second.contactWrench() = wrench;
+        // check if the key is associated to a frame
+        const auto& contactWrench = contactWrenches.find(key);
+        if (contactWrench == contactWrenches.end())
+        {
+            std::cerr << "[MultiBodyDynamicsElement::setMeasuredContactWrenches] The label " << key
+                      << " is not associated to any contact wrench" << std::endl;
+            return false;
+        }
+        frame.contactWrench() = contactWrench->second;
+
+    }
+
+    return true;
 }
 
 void MultiBodyDynamicsElement::setCompliantContact(const std::string& frameName, bool isCompliant)

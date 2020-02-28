@@ -89,13 +89,8 @@ public:
                              const std::vector<FrameInContact<std::string, std::string>>& framesInContact);
 
     /**
-     * Set the external wrench acting on the link associated to a specific frame
-     * @param frameName name of the frame associated to the link
-     * @param wrench wrench expressed in mixed representation
-     * @note The value of the wrench is taken into account only if the contact between the link and
-     * the environment is considered as compliant
      */
-    void setExternalWrench(const std::string& frameName, const iDynTree::Wrench& wrench);
+    bool setMeasuredContactWrenches(const std::unordered_map<std::string, iDynTree::Wrench>& contactWrenches);
 
     /**
      * Set the model used to describe the contact. The current version of the library considers
