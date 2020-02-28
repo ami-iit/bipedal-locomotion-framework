@@ -16,8 +16,16 @@ namespace Simulator
 {
 
 template <class Derived>
-bool Simulator::initialize(std::unique_ptr<ParametersHandler::IParametersHandler<Derived>> handler)
+bool Simulator::initialize(std::weak_ptr<ParametersHandler::IParametersHandler<Derived>> handlerWeak)
 {
+    auto handler = handlerWeak.lock();
+    if(handler == nullptr)
+    {
+        std::cerr << "[Simulator::initialize] The parameter handler is not valid."
+                  << std::endl;
+        return false;
+    }
+
     if(m_state != State::NotInitialized)
     {
         std::cerr << "[Simulator::initialize] The simulator has been already initialized."
