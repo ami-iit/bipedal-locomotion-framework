@@ -50,7 +50,7 @@ template <
     CartesianElementAxisName axisName = CartesianElementAxisName::ALL>
 class CartesianElement : public ControlTask
 {
-private:
+public:
      using ControllerType = typename std::conditional_t<type == CartesianElementType::ORIENTATION,
                                                         OrientationPD,
                                                         std::conditional_t<type == CartesianElementType::POSITION && axisName == CartesianElementAxisName::ALL,
@@ -60,6 +60,8 @@ private:
                                                                                               PosePD>>>;
 
 
+
+private:
     /** Base acceleration index */
     iDynTree::IndexRange m_baseAccelerationIndex{iDynTree::IndexRange::InvalidRange()};
     /** Joint acceleration index */
@@ -67,7 +69,7 @@ private:
     /** Control type index */
     iDynTree::IndexRange m_typeIndex{iDynTree::IndexRange::InvalidRange()};
 
-    std::unique_ptr<ControllerType> m_controller; /**< Controller. */
+    ControllerType m_controller; /**< Controller. */
 
     iDynTree::FrameIndex m_frameIndex; /**< Index of the frame. */
 
@@ -76,9 +78,6 @@ private:
     bool m_isInContact; /**< True if the frame if the link associated to the frame is in contact
                            with the environment. */
 public:
-    /* /\** type of the controller used in the CartesianElement *\/ */
-    /* using ; */
-
     /**
      * Constructor
      * @param kinDyn KinDynComputations object
@@ -88,7 +87,7 @@ public:
      * @throw std::runtime_error in case of an undefined variable/frame
      */
     CartesianElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                     std::unique_ptr<ControllerType> controller,
+                     const ControllerType& controller,
                      const VariableHandler& handler,
                      const std::string& frameName);
 

@@ -19,11 +19,12 @@ namespace OptimalControlUtilities
 
 template <CartesianElementType type, CartesianElementAxisName axisName>
 CartesianElement<type, axisName>::CartesianElement(std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                                   std::unique_ptr<ControllerType> controller,
+                                                   const ControllerType& controller,
                                                    const VariableHandler& handler,
                                                    const std::string& frameName)
     : ControlTask(kinDyn)
     , m_isInContact(false)
+    , m_controller(controller)
 {
 
     m_name = "CartesianElement (frame name: " + frameName + " Type: ";
@@ -60,9 +61,6 @@ CartesianElement<type, axisName>::CartesianElement(std::shared_ptr<iDynTree::Kin
                                      "be "
                                      "only POSITION or ONE_DIMENSION type");
     }
-
-    // get the controller
-    m_controller = std::move(controller);
 
     // in this case the element of the jacobian matrix starts from index zero and the number of
     // rows are 6
@@ -112,7 +110,7 @@ void CartesianElement<type, axisName>::setReference(const T& feedforward,
                                                     const U& referenceDerivative,
                                                     const W& reference)
 {
-    m_controller->setDesiredTrajectory(feedforward, referenceDerivative, reference);
+    m_controller.setDesiredTrajectory(feedforward, referenceDerivative, reference);
     return;
 }
 
@@ -132,10 +130,14 @@ const iDynTree::VectorDynSize& CartesianElement<type, axisName>::getB()
 
         if (!m_isInContact)
         {
-            m_controller->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex),
-                                       m_kinDynPtr->getWorldTransform(m_frameIndex));
+            std::cerr << "sono cartesian " << std::endl;
+            std::cerr << m_kinDynPtr->getFrameVel(m_frameIndex).toString() << std::endl;
+            std::cerr << m_kinDynPtr->getWorldTransform(m_frameIndex).toString() << std::endl;
 
-            iDynTree::toEigen(m_b) += iDynTree::toEigen(m_controller->getControllerOutput());
+            m_controller.setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex),
+                                     m_kinDynPtr->getWorldTransform(m_frameIndex));
+
+            iDynTree::toEigen(m_b) += iDynTree::toEigen(m_controller.getControllerOutput());
         }
 
     }
@@ -144,11 +146,11 @@ const iDynTree::VectorDynSize& CartesianElement<type, axisName>::getB()
     {
         if (!m_isInContact)
         {
-            m_controller->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
+            m_controller.setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getAngularVec3(),
                                       m_kinDynPtr->getWorldTransform(m_frameIndex).getRotation());
 
             iDynTree::toEigen(m_b)
-                = iDynTree::toEigen(m_controller->getControllerOutput())
+                = iDynTree::toEigen(m_controller.getControllerOutput())
                   - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex)).template tail<3>();
         } else
         {
@@ -164,11 +166,11 @@ const iDynTree::VectorDynSize& CartesianElement<type, axisName>::getB()
         {
             if (!m_isInContact)
             {
-                m_controller->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
+                m_controller.setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex).getLinearVec3(),
                                           m_kinDynPtr->getWorldTransform(m_frameIndex).getPosition());
 
                 iDynTree::toEigen(m_b)
-                    = iDynTree::toEigen(m_controller->getControllerOutput())
+                    = iDynTree::toEigen(m_controller.getControllerOutput())
                       - iDynTree::toEigen(m_kinDynPtr->getFrameBiasAcc(m_frameIndex))
                             .template head<3>();
             } else
@@ -181,27 +183,27 @@ const iDynTree::VectorDynSize& CartesianElement<type, axisName>::getB()
         } else
         {
             // the CoM cannot be in contact or not
-            m_controller->setFeedback(m_kinDynPtr->getCenterOfMassVelocity(),
+            m_controller.setFeedback(m_kinDynPtr->getCenterOfMassVelocity(),
                                       m_kinDynPtr->getCenterOfMassPosition());
 
-            iDynTree::toEigen(m_b) = iDynTree::toEigen(m_controller->getControllerOutput())
+            iDynTree::toEigen(m_b) = iDynTree::toEigen(m_controller.getControllerOutput())
                                      - iDynTree::toEigen(m_kinDynPtr->getCenterOfMassBiasAcc());
         }
     } else
     {
         if (m_frameIndex != -1)
-            m_controller->setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex)
+            m_controller.setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex)
                                           .getLinearVec3()(m_typeIndex.offset),
                                       m_kinDynPtr->getWorldTransform(m_frameIndex)
                                           .getPosition()(m_typeIndex.offset));
         else
-            m_controller->setFeedback(m_kinDynPtr->getCenterOfMassVelocity()(m_typeIndex.offset),
+            m_controller.setFeedback(m_kinDynPtr->getCenterOfMassVelocity()(m_typeIndex.offset),
                                       m_kinDynPtr->getCenterOfMassPosition()(m_typeIndex.offset));
 
         // in this case b is only a number
         if (!m_isInContact)
         {
-            m_b(0) = m_controller->getControllerOutput()
+            m_b(0) = m_controller.getControllerOutput()
                      - m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
         } else
             m_b(0) = -m_kinDynPtr->getFrameBiasAcc(m_frameIndex)(m_typeIndex.offset);
