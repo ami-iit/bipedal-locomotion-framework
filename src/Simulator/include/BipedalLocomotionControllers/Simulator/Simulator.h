@@ -237,7 +237,7 @@ public:
     /* } */
 
     template <class Derived>
-    bool initialize(std::unique_ptr<ParametersHandler::IParametersHandler<Derived>> handler);
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler<Derived>> handler);
 
     bool reset(const iDynTree::VectorDynSize& initialJointValues,
                const iDynTree::Transform& leftFootTransform,
