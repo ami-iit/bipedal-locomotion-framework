@@ -65,27 +65,24 @@ TEST_CASE("Optimization problem elements")
     for (unsigned int i = 0; i < 3; i++)
         gains(i) = 1;
 
-    auto linearPD = std::make_unique<LinearPD<iDynTree::Vector3>>(gains, gains);
-    auto comElement
-        = std::make_unique<CartesianElement<CartesianElementType::POSITION>>(kinDyn,
-                                                                             std::move(linearPD),
-                                                                             handler,
-                                                                             "CoM");
-
+    LinearPD<iDynTree::Vector3> linearPD(gains, gains);
+    auto comElement = std::make_unique<CartesianElement<CartesianElementType::POSITION>>(kinDyn,
+                                                                                         linearPD,
+                                                                                         handler,
+                                                                                         "CoM");
 
     double scalarGain = 0;
-    auto leftFootPD = std::make_unique<PosePD>();
-    leftFootPD->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+    PosePD leftFootPD;
+    leftFootPD.setGains(gains, gains, scalarGain, scalarGain, scalarGain);
     auto leftFootElement
         = std::make_unique<CartesianElement<CartesianElementType::POSE>>(kinDyn,
-                                                                         std::move(leftFootPD),
+                                                                         leftFootPD,
                                                                          handler,
                                                                          linkInContact1);
-    auto rightFootPD = std::make_unique<PosePD>();
-    rightFootPD->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+    auto rightFootPD(leftFootPD);
     auto rightFootElement
         = std::make_unique<CartesianElement<CartesianElementType::POSE>>(kinDyn,
-                                                                         std::move(rightFootPD),
+                                                                         rightFootPD,
                                                                          handler,
                                                                          linkInContact2);
 

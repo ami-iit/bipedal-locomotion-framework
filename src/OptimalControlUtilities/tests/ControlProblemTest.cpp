@@ -107,9 +107,9 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
         gains(0) = 1;
         gains(1) = 1;
         gains(2) = 1;
-        auto pd = std::make_unique<LinearPD<iDynTree::Vector3>>(gains, gains);
+        LinearPD<iDynTree::Vector3>pd(gains, gains);
         CartesianElement<CartesianElementType::POSITION> element(kinDyn,
-                                                                 std::move(pd),
+                                                                 pd,
                                                                  handler,
                                                                  frame);
         iDynTree::Vector3 dummy;
@@ -135,10 +135,9 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
 
     SECTION("Test Orientation Element")
     {
-        auto pd = std::make_unique<OrientationPD>();
-        pd->setGains(1, 1, 1);
-        CartesianElement<CartesianElementType::ORIENTATION> element(kinDyn, std::move(pd),
-                                                                    handler, frame);
+        OrientationPD pd;
+        pd.setGains(1, 1, 1);
+        CartesianElement<CartesianElementType::ORIENTATION> element(kinDyn, pd, handler, frame);
 
         iDynTree::Vector3 dummy;
         dummy.zero();
@@ -168,9 +167,9 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
         gains(2) = 1;
         double scalarGain = 1;
 
-        auto pd = std::make_unique<PosePD>();
-        pd->setGains(gains, gains, scalarGain, scalarGain, scalarGain);
-        CartesianElement<CartesianElementType::POSE> element(kinDyn, std::move(pd), handler, frame);
+        PosePD pd;
+        pd.setGains(gains, gains, scalarGain, scalarGain, scalarGain);
+        CartesianElement<CartesianElementType::POSE> element(kinDyn, pd, handler, frame);
 
         iDynTree::Twist dummyTwist;
         iDynTree::SpatialAcc dummySpatialAcc;
@@ -197,10 +196,10 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
     SECTION("One Degree of Freedom - X")
     {
         double gain = 1;
-        auto pd = std::make_unique<LinearPD<double>>();
-        pd->setGains(gain, gain);
+        LinearPD<double> pd;
+        pd.setGains(gain, gain);
         CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::X>
-            element(kinDyn, std::move(pd), handler, frame);
+            element(kinDyn, pd, handler, frame);
 
         double dummy = 0;
         element.setReference(dummy, dummy, dummy);
@@ -222,10 +221,10 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
     SECTION("One Degree of Freedom - Y")
     {
         double gain = 1;
-        auto pd = std::make_unique<LinearPD<double>>();
-        pd->setGains(gain, gain);
+        LinearPD<double> pd;
+        pd.setGains(gain, gain);
         CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::Y>
-            element(kinDyn, std::move(pd), handler, frame);
+            element(kinDyn, pd, handler, frame);
 
         double dummy = 0;
         element.setReference(dummy, dummy, dummy);
@@ -247,10 +246,10 @@ TEST_CASE("Check Cartesian element of the ControlProblemElementsTest",
     SECTION("One Degree of Freedom - Z")
     {
         double gain = 1;
-        auto pd = std::make_unique<LinearPD<double>>();
-        pd->setGains(gain, gain);
+        LinearPD<double> pd;
+        pd.setGains(gain, gain);
         CartesianElement<CartesianElementType::POSITION, CartesianElementAxisName::Z>
-            element(kinDyn, std::move(pd), handler, frame);
+            element(kinDyn, pd, handler, frame);
 
         double dummy = 0;
         element.setReference(dummy, dummy, dummy);
@@ -398,9 +397,8 @@ TEST_CASE("Check System Dynamics element of the ControlProblemElementsTest",
         iDynTree::toEigen(wrench2.getLinearVec3()).setRandom();
         iDynTree::toEigen(wrench2.getAngularVec3()).setRandom();
 
-        element.setExternalWrench("link_in_contact_1", wrench1);
-        element.setExternalWrench("link_in_contact_2", wrench2);
-
+        element.setMeasuredContactWrenches(
+            {{"link_in_contact_1", wrench1}, {"link_in_contact_2", wrench2}});
 
         // check the matrix A
         REQUIRE(iDynTree::toEigen(element.getA()).block(0, 0, 6, numberDoFs + 6)
@@ -525,11 +523,12 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
                                                             {{"link_in_contact_1", linkInContact1},
                                                              {"link_in_contact_2",linkInContact2}});
 
-        iDynTree::LinearForceVector3 force1, force2;
-        force1.zero();
-        force2.zero();
+        iDynTree::Wrench wrench1, wrench2;
+        wrench1.zero();
+        wrench2.zero();
 
-        element.setMeasuredContactForces({force1, force2});
+        element.setMeasuredContactWrenches(
+            {{"link_in_contact_1", wrench1}, {"link_in_contact_2", wrench2}});
         element.setReference(dummy, dummy, dummy, dummy);
 
         // Check A
@@ -547,8 +546,10 @@ TEST_CASE("Check CentroidalMomentum element of the ControlProblemElementsTest",
         // external forces)
         double weight = -9.81 * kinDyn->model().getTotalMass();
         iDynTree::LinearForceVector3 linearCentroidalMomentumRateOfChange(0, 0, weight);
-        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force1;
-        linearCentroidalMomentumRateOfChange = linearCentroidalMomentumRateOfChange + force2;
+        linearCentroidalMomentumRateOfChange
+            = linearCentroidalMomentumRateOfChange + wrench1.getLinearVec3();
+        linearCentroidalMomentumRateOfChange
+            = linearCentroidalMomentumRateOfChange + wrench2.getLinearVec3();
 
         pidTest.setFeedback(linearCentroidalMomentumRateOfChange,
                             kinDyn->getCentroidalTotalMomentum().getLinearVec3(),
