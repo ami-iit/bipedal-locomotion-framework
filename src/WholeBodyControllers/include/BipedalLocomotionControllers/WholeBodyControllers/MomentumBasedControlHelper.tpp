@@ -7,7 +7,7 @@
  */
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedTorqueControlWithCompliantContacts.h>
+#include <BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControlHelper.h>
 #include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
 
 
@@ -17,7 +17,8 @@ namespace WholeBodyControllers
 {
 
 template <class T>
-bool MomentumBasedTorqueControl::addFeetTypeIdentifiers(ParametersHandler::IParametersHandler<T>* handler, const FootType& type)
+bool MomentumBasedControlHelper::addFeetTypeIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                                        const FootType& type)
 {
     bool isSwing = type == FootType::Swing;
     const std::string feetType = isSwing ? "swing" : "stance";
@@ -26,7 +27,7 @@ bool MomentumBasedTorqueControl::addFeetTypeIdentifiers(ParametersHandler::IPara
     std::vector<std::string> feetVariablesName;
     if (!handler->getParameter(feetType + "_feet_name", feetVariablesName))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] Unable to find the "
+        std::cerr << "[MomentumBasedControlHelper::addFeetTypeIdentifiers] Unable to find the "
                   << feetType << "feet names" << std::endl;
         return false;
     }
@@ -34,14 +35,14 @@ bool MomentumBasedTorqueControl::addFeetTypeIdentifiers(ParametersHandler::IPara
     std::vector<std::string> feetFramesName;
     if (!handler->getParameter(feetType + "_feet_frame", feetFramesName))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] Unable to find the "
+        std::cerr << "[MomentumBasedControlHelper::addFeetTypeIdentifiers] Unable to find the "
                   << feetType << "feet names" << std::endl;
         return false;
     }
 
     if (feetFramesName.size() != feetVariablesName.size())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetTypeIdentifiers] The number of identifiers "
+        std::cerr << "[MomentumBasedControlHelper::addFeetTypeIdentifiers] The number of identifiers "
                      "is different. For the "
                   << feetType << " feet" << std::endl;
         return false;
@@ -55,27 +56,27 @@ bool MomentumBasedTorqueControl::addFeetTypeIdentifiers(ParametersHandler::IPara
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addFeetIdentifiers(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+bool MomentumBasedControlHelper::addFeetIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler)
 {
     if(handler->isEmpty())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] The handler is empty. "
+        std::cerr << "[MomentumBasedControlHelper::addFeetIdentifiers] The handler is empty. "
                      "Unable to retrieve the parameters related to stance and swing feet"
                   << std::endl;
         return false;
     }
 
-    if (!addFeetTypeIdentifiers(handler.get(), FootType::Swing))
+    if (!addFeetTypeIdentifiers(handler, FootType::Swing))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] Unable to add the Swing feet "
+        std::cerr << "[MomentumBasedControlHelper::addFeetIdentifiers] Unable to add the Swing feet "
                      "identifiers"
                   << std::endl;
         return false;
     }
 
-    if (!addFeetTypeIdentifiers(handler.get(), FootType::Stance))
+    if (!addFeetTypeIdentifiers(handler, FootType::Stance))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addFeetIdentifiers] Unable to add the Stance "
+        std::cerr << "[MomentumBasedControlHelper::addFeetIdentifiers] Unable to add the Stance "
                      "feet identifiers"
                   << std::endl;
         return false;
@@ -85,8 +86,8 @@ bool MomentumBasedTorqueControl::addFeetIdentifiers(std::unique_ptr<ParametersHa
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addLinearMomentumElement(
-    std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+bool MomentumBasedControlHelper::addLinearMomentumElement(
+    std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler)
 {
     using namespace OptimalControlUtilities;
 
@@ -104,7 +105,7 @@ bool MomentumBasedTorqueControl::addLinearMomentumElement(
     iDynTree::Vector3 kp, kd, ki;
     if (!handler->getParameter("kp", kp) || !handler->getParameter("kd", kd) || !handler->getParameter("ki", ki))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable to "
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable to "
                      "get the gains.";
         return false;
     }
@@ -125,7 +126,7 @@ bool MomentumBasedTorqueControl::addLinearMomentumElement(
         iDynTree::VectorDynSize rawWeight(3);
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
@@ -142,8 +143,8 @@ bool MomentumBasedTorqueControl::addLinearMomentumElement(
 }
 
 template <typename T>
-bool MomentumBasedTorqueControl::addAngularMomentumElement(
-    std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+bool MomentumBasedControlHelper::addAngularMomentumElement(
+    std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler)
 {
     // get all the required parameters
     using namespace OptimalControlUtilities;
@@ -162,7 +163,7 @@ bool MomentumBasedTorqueControl::addAngularMomentumElement(
     iDynTree::Vector3 kp, kd, ki;
     if (!handler->getParameter("kp", kp) || !handler->getParameter("kd", kd) || !handler->getParameter("ki", ki))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngulatMomentumElement] Unable to "
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalAngulatMomentumElement] Unable to "
                      "get the gains.";
         return false;
     }
@@ -173,7 +174,7 @@ bool MomentumBasedTorqueControl::addAngularMomentumElement(
     double samplingTime;
     if (!handler->getParameter("sampling_time", samplingTime))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngulatMomentumElement] Unable to "
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalAngulatMomentumElement] Unable to "
                      "find the sampling time"
                   << std::endl;
         return false;
@@ -194,7 +195,7 @@ bool MomentumBasedTorqueControl::addAngularMomentumElement(
         iDynTree::VectorDynSize rawWeight(3);
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalAngularMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalAngularMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
@@ -210,71 +211,133 @@ bool MomentumBasedTorqueControl::addAngularMomentumElement(
     return true;
 }
 
-template <class T>
-bool MomentumBasedTorqueControl::addOrientationElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                                       const std::string& label)
+template <OptimalControlUtilities::CartesianElementType type,
+          class T>
+bool MomentumBasedControlHelper::addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler, const OptimalControlUtilities::Frame<std::string, std::string>& frame)
 {
     // get all the required parameters
     using namespace OptimalControlUtilities;
 
-    auto type = CartesianElementType::ORIENTATION;
-    auto axis = CartesianElementAxisName::ALL;
+    const auto& label = frame.identifierInVariableHandler();
 
-    std::string frameInModel;
-    if (!handler->getParameter("frame_name", frameInModel))
+    if (m_cartesianElements.find(label) != m_cartesianElements.end()
+        || m_orientationElements.find(label) != m_orientationElements.end())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCartesianElement] The frame_name cannot be "
-                     "found"
-                  << std::endl;
+        std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The element named " << label
+                  << " has been already added." << std::endl;
         return false;
     }
 
-    double kp, kd, c0;
-    if (!handler->getParameter("kp", kp))
+    // initialize the PD controller
+    typename CartesianElement<type>::ControllerType pdController;
+
+    // if the type is Pose or orientation
+    double kpRotational, kdRotational, c0;
+    if constexpr (type == CartesianElementType::ORIENTATION || type == CartesianElementType::POSE)
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCartesianElement] The kp cannot be "
-                     "found"
-                  << std::endl;
-        return false;
-    }
-    bool useDefaultKp = false;
-    handler->getParameter("use_default_kd", useDefaultKp);
-    if (useDefaultKp)
-    {
-        double scaling = 1.0;
-        handler->getParameter("scaling", scaling);
-        kd = 2 / scaling * std::sqrt(kp);
-    } else
-    {
-        if (!handler->getParameter("kd", kd))
+        if (!handler->getParameter("kp_rotational", kpRotational))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCartesianElement] The kd cannot be "
-                     "found"
-                  << std::endl;
+            std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The kp cannot be "
+                         "found"
+                      << std::endl;
+            return false;
+        }
+        bool useDefaultKp = false;
+        handler->getParameter("use_default_kd_rotational", useDefaultKp);
+        if (useDefaultKp)
+        {
+            double scaling = 1.0;
+            handler->getParameter("scaling_rotational", scaling);
+            kdRotational = 2 / scaling * std::sqrt(kpRotational);
+        } else
+        {
+            if (!handler->getParameter("kd_rotational", kdRotational))
+            {
+                std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The kd cannot be "
+                             "found"
+                          << std::endl;
+                return false;
+            }
+        }
+
+        if (!handler->getParameter("c0", c0))
+        {
+            std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The c0 cannot be "
+                         "found"
+                      << std::endl;
             return false;
         }
     }
 
-    if (!handler->getParameter("c0", c0))
+    // if the type is position or pose
+    iDynTree::Vector3 kpPosition, kdPosition;
+    if constexpr (type == CartesianElementType::POSITION || type == CartesianElementType::POSE)
     {
-        std::cerr << "[MomentumBasedTorqueControl::addCartesianElement] The c0 cannot be "
-                     "found"
-                  << std::endl;
-        return false;
+        if (!handler->getParameter("kp_position", kpPosition))
+        {
+            std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The kp cannot be "
+                         "found"
+                      << std::endl;
+            return false;
+        }
+        bool useDefaultKp = false;
+        handler->getParameter("use_default_kd_position", useDefaultKp);
+        if (useDefaultKp)
+        {
+            double scaling = 1.0;
+            handler->getParameter("scaling_linear", scaling);
+            iDynTree::toEigen(kdPosition) = 2 / scaling * iDynTree::toEigen(kpPosition).array().sqrt();
+        } else
+        {
+            if (!handler->getParameter("kd_position", kdPosition))
+            {
+                std::cerr << "[MomentumBasedControlHelper::addCartesianElement] The kd cannot be "
+                             "found"
+                          << std::endl;
+                return false;
+            }
+        }
     }
 
-    auto pdController = std::make_unique<OrientationPD>();
-    pdController->setGains(c0, kd, kp);
+    // set the gains for each type of PD
+    if constexpr (type == CartesianElementType::POSITION)
+        pdController.setGains(kpPosition, kdPosition);
 
-    if (m_cartesianElements.find(label) != m_cartesianElements.end())
-        throw std::runtime_error("[TaskBasedTorqueControl::addCartesianElement] The element named "
-                                 + label + " has been already added.");
+    if constexpr (type == CartesianElementType::ORIENTATION)
+        pdController.setGains(c0, kdRotational, kpRotational);
 
-    m_cartesianElements.emplace(label,
-                                std::make_unique<CartesianElement<CartesianElementType::ORIENTATION>>(m_kinDyn,
-                                                                                                      std::move(pdController),
-                                                                                                      m_variableHandler,
-                                                                                                      frameInModel));
+    if constexpr (type == CartesianElementType::POSE)
+        pdController.setGains(kpPosition, kdPosition, c0, kdRotational, kpRotational);
+
+
+    typename dictionary<unique_ptr<CartesianElement<type>>>::iterator element;
+
+    // initialize the element
+    if constexpr (type == CartesianElementType::ORIENTATION)
+    {
+        std::cerr << "labellllllllll orientation" << label << std::endl;
+        m_orientationElements
+            .emplace(label,
+                     std::make_unique<CartesianElement<type>>(m_kinDyn,
+                                                              pdController,
+                                                              m_variableHandler,
+                                                              frame.identifierInModel()));
+        element = m_orientationElements.find(label);
+    }
+    else if constexpr (type == CartesianElementType::POSE)
+    {
+
+        std::cerr << "labellllllllll pose" << label << std::endl;
+
+        m_cartesianElements
+            .emplace(label,
+                     std::make_unique<CartesianElement<type>>(m_kinDyn,
+                                                              pdController,
+                                                              m_variableHandler,
+                                                              frame.identifierInModel()));
+
+        element = m_cartesianElements.find(label);
+    }
 
     bool asConstraint = false;
     handler->getParameter("as_constraint", asConstraint);
@@ -283,22 +346,22 @@ bool MomentumBasedTorqueControl::addOrientationElement(unique_ptr<ParametersHand
         iDynTree::VectorDynSize rawWeight;
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
         }
-        m_costFunction->addCostFunction(m_cartesianElements.find(label)->second.get(),
+        m_costFunction->addCostFunction(element->second.get(),
                                         Weight<iDynTree::VectorDynSize>(rawWeight),
                                         label + "_cartesian_element");
     } else
-        m_constraints->addConstraint(m_cartesianElements.find(label)->second.get());
+        m_constraints->addConstraint(element->second.get());
 
     return true;
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addSystemDynamicsElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler)
+bool MomentumBasedControlHelper::addSystemDynamicsElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler)
 {
     using namespace OptimalControlUtilities;
 
@@ -330,7 +393,7 @@ bool MomentumBasedTorqueControl::addSystemDynamicsElement(unique_ptr<ParametersH
         iDynTree::VectorDynSize rawWeight;
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
@@ -346,14 +409,14 @@ bool MomentumBasedTorqueControl::addSystemDynamicsElement(unique_ptr<ParametersH
 
 
 template <class T>
-bool MomentumBasedTorqueControl::addRegularizationElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::addRegularizationElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                           const std::string& label)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
     if (m_regularizationElements.find(label) != m_regularizationElements.end())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addRegularizationElement] The element named "
+        std::cerr << "[MomentumBasedControlHelper::addRegularizationElement] The element named "
                   << label << " has been already added" << std::endl;
         return false;
     }
@@ -370,7 +433,7 @@ bool MomentumBasedTorqueControl::addRegularizationElement(std::unique_ptr<Parame
         iDynTree::VectorDynSize rawWeight;
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
@@ -385,14 +448,14 @@ bool MomentumBasedTorqueControl::addRegularizationElement(std::unique_ptr<Parame
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::addRegularizationWithControlElement( std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                                       const std::string& label)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
 
     if (m_regularizationWithControlElements.find(label) != m_regularizationWithControlElements.end())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addRegularizationWithControlElement] The "
+        std::cerr << "[MomentumBasedControlHelper::addRegularizationWithControlElement] The "
                      "element named "
                   << label << " has been already added" << std::endl;
         return false;
@@ -405,7 +468,7 @@ bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::uniqu
 
     if (!outcome)
     {
-        std::cerr << "[MomentumBasedTorqueControl::addRegularizationWithControlElement] The Kp of "
+        std::cerr << "[MomentumBasedControlHelper::addRegularizationWithControlElement] The Kp of "
                      "the "
                   << label << " cannot be found" << std::endl;
         return outcome;
@@ -425,17 +488,17 @@ bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::uniqu
         outcome = handler->getParameter("kd", kd);
         if (!outcome)
         {
-            std::cerr << "[MomentumBasedTorqueControl::addRegularizationWithControlElement] The kd "
+            std::cerr << "[MomentumBasedControlHelper::addRegularizationWithControlElement] The kd "
                          "cannot be found"
                       << std::endl;
             return outcome;
         }
     }
-    auto pdController = std::make_unique<LinearPD<iDynTree::VectorDynSize>>(kp, kd);
+    LinearPD<iDynTree::VectorDynSize> pdController(kp, kd);
 
     m_regularizationWithControlElements.emplace(label,
                                                 std::make_unique<RegularizationWithControlElement>(m_kinDyn,
-                                                                                                   std::move(pdController),
+                                                                                                   pdController,
                                                                                                    m_variableHandler,
                                                                                                    label));
     bool asConstraint = false;
@@ -445,7 +508,7 @@ bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::uniqu
         iDynTree::VectorDynSize rawWeight;
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addCentroidalLinearMomentumElement] Unable "
+            std::cerr << "[MomentumBasedControlHelper::addCentroidalLinearMomentumElement] Unable "
                          "to get the Weight."
                       << std::endl;
             return false;
@@ -460,7 +523,7 @@ bool MomentumBasedTorqueControl::addRegularizationWithControlElement( std::uniqu
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addJointValuesFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::addJointValuesFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                                   const iDynTree::VectorDynSize& maxJointsPosition,
                                                                   const iDynTree::VectorDynSize& minJointsPosition)
 {
@@ -469,7 +532,7 @@ bool MomentumBasedTorqueControl::addJointValuesFeasibilityElement(unique_ptr<Par
     double samplingTime;
     if (!handler->getParameter("sampling_time", samplingTime))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addJointValuesFeasibilityElement] Unable to "
+        std::cerr << "[MomentumBasedControlHelper::addJointValuesFeasibilityElement] Unable to "
                      "find the sampling time"
                   << std::endl;
         return false;
@@ -488,7 +551,7 @@ bool MomentumBasedTorqueControl::addJointValuesFeasibilityElement(unique_ptr<Par
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::addContactWrenchFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                                     const OptimalControlUtilities::Frame<std::string, std::string>& frame)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
@@ -497,7 +560,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
 
     if (m_contactWrenchFeasibilityElements.find(label) != m_contactWrenchFeasibilityElements.end())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] This "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] This "
                      "element named "
                   << label << "has been already added" << std::endl;
         return false;
@@ -506,7 +569,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     double samplingTime;
     if (!handler->getParameter("sampling_time", samplingTime))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addJointValuesFeasibilityElement] Unable to "
+        std::cerr << "[MomentumBasedControlHelper::addJointValuesFeasibilityElement] Unable to "
                      "find the sampling time"
                   << std::endl;
         return false;
@@ -515,7 +578,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     double staticFrictionCoefficient;
     if (!handler->getParameter("static_friction_coefficient", staticFrictionCoefficient))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "static_friction_coefficient of "
                          + label + " cannot be found"
                   << std::endl;
@@ -525,7 +588,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     int numberOfPoints;
     if (!handler->getParameter("number_of_points", numberOfPoints))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "static_friction_coefficient of "
                          + label + " cannot be found"
                   << std::endl;
@@ -535,7 +598,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     double torsionalFrictionCoefficient;
     if (!handler->getParameter("torsional_friction_coefficient", torsionalFrictionCoefficient))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "torsional_friction_coefficient of "
                   << label << " cannot be found" << std::endl;
         return false;
@@ -544,7 +607,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     iDynTree::Vector2 footLimitsX;
     if (!handler->getParameter("foot_limits_x", footLimitsX))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "foot_limits_x of "
                   << label << " cannot be found" << std::endl;
         return false;
@@ -553,7 +616,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     iDynTree::Vector2 footLimitsY;
     if (!handler->getParameter("foot_limits_y", footLimitsY))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "foot_limits_y of "
                   << label << " cannot be found" << std::endl;
         return false;
@@ -562,7 +625,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
     double minimalNormalForce;
     if (!handler->getParameter("minimal_normal_force", minimalNormalForce))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactWrenchFeasibilityElement] "
+        std::cerr << "[MomentumBasedControlHelper::addContactWrenchFeasibilityElement] "
                      "foot_limits_y of "
                   << label << " cannot be found" << std::endl;
         return false;
@@ -588,7 +651,7 @@ bool MomentumBasedTorqueControl::addContactWrenchFeasibilityElement(unique_ptr<P
 }
 
 template <class T>
-bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::addContactModelElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                                         const OptimalControlUtilities::Frame<std::string, std::string>& frame)
 {
     using namespace BipedalLocomotionControllers::OptimalControlUtilities;
@@ -598,7 +661,7 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
 
     if (m_contactModelElements.find(label) != m_contactModelElements.end())
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactModelElement] This element named "
+        std::cerr << "[MomentumBasedControlHelper::addContactModelElement] This element named "
                   << label << "has been already added" << std::endl;
         return false;
     }
@@ -609,7 +672,7 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
         || !handler->getParameter("spring_coeff", springCoeff)
         || !handler->getParameter("damper_coeff", damperCoeff))
     {
-        std::cerr << "[MomentumBasedTorqueControl::addContactModelElement] Unable to get the "
+        std::cerr << "[MomentumBasedControlHelper::addContactModelElement] Unable to get the "
             "contact parameters." << std::endl;
         return false;
     }
@@ -635,7 +698,7 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
         iDynTree::VectorDynSize rawWeight;
         if (!handler->getParameter("weight", rawWeight))
         {
-            std::cerr << "[MomentumBasedTorqueControl::addContactModelElement] Unable to get the "
+            std::cerr << "[MomentumBasedControlHelper::addContactModelElement] Unable to get the "
                          "Weight."
                       << std::endl;
             return false;
@@ -651,14 +714,33 @@ bool MomentumBasedTorqueControl::addContactModelElement(unique_ptr<ParametersHan
 }
 
 template<class T>
-bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+bool MomentumBasedControlHelper::initialize(std::weak_ptr<ParametersHandler::IParametersHandler<T>> handlerWeak,
                                             const std::string& controllerType,
                                             const iDynTree::VectorDynSize& maxJointsPosition,
                                             const iDynTree::VectorDynSize& minJointsPosition)
 {
-    if (!addFeetIdentifiers(handler->getGroup(controllerType)))
+
+    auto handler = handlerWeak.lock();
+    if (handler == nullptr)
     {
-        std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to load the feet identifiers"
+        std::cerr << "[MomentumBasedControlHelper::initialize] The handler has expired"
+                  << std::endl;
+        return false;
+    }
+
+    m_description = controllerType;
+
+    auto feetIdentifiersOptions = handler->getGroup(controllerType).lock();
+    if (feetIdentifiersOptions == nullptr)
+    {
+        std::cerr << "[MomentumBasedControlHelper::initialize] The feet identifiers options named "
+                  << controllerType << " has been expired" << std::endl;
+        return false;
+    }
+
+    if (!addFeetIdentifiers(feetIdentifiersOptions))
+    {
+        std::cerr << "[MomentumBasedControlHelper::initialize] Unable to load the feet identifiers"
                   << std::endl;
         return false;
     }
@@ -668,28 +750,28 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
     double samplingTime;
     if(!handler->getParameter("sampling_time", samplingTime))
     {
-        std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to find the sampling time"
+        std::cerr << "[MomentumBasedControlHelper::initialize] Unable to find the sampling time"
                   << std::endl;
         return false;
     }
 
     auto linearMomentumOptions = handler->getGroup("CENTROIDAL_LINEAR_MOMENTUM");
-    if (!linearMomentumOptions->isEmpty())
-        if (!addLinearMomentumElement(std::move(linearMomentumOptions)))
+    if (auto ptr = linearMomentumOptions.lock())
+        if (!addLinearMomentumElement(ptr))
         {
-            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the linear "
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the linear "
                          "momentum element"
                       << std::endl;
             return false;
         }
 
     auto angularMomentumOptions = handler->getGroup("CENTROIDAL_ANGULAR_MOMENTUM");
-    if(!angularMomentumOptions->isEmpty())
+    if(auto ptr = angularMomentumOptions.lock())
     {
-        angularMomentumOptions->setParameter("sampling_time", samplingTime);
-        if(!addAngularMomentumElement(std::move(angularMomentumOptions)))
+        ptr->setParameter("sampling_time", samplingTime);
+        if(!addAngularMomentumElement(ptr))
         {
-            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the angular "
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the angular "
                          "momentum element"
                       << std::endl;
             return false;
@@ -697,29 +779,38 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
     }
 
     auto torsoOptions = handler->getGroup("TORSO");
-    if (!torsoOptions->isEmpty())
-        if (!addOrientationElement(std::move(torsoOptions), "torso"))
+    if (auto ptr = torsoOptions.lock())
+    {
+        OptimalControlUtilities::Frame<std::string, std::string> torsoIdentifiers;
+        torsoIdentifiers.identifierInVariableHandler() = "torso";
+        if(!ptr->getParameter("frame_name", torsoIdentifiers.identifierInModel()))
         {
-            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the torso element"
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the find the torso frame name"
                       << std::endl;
             return false;
         }
 
-    auto systemDynamicsOptions = handler->getGroup("SYSTEM_DYNAMICS");
-    if (!systemDynamicsOptions->isEmpty())
-        if (!addSystemDynamicsElement(std::move(systemDynamicsOptions)))
+        if (!addCartesianElement<OptimalControlUtilities::CartesianElementType::ORIENTATION,T>(ptr, torsoIdentifiers))
         {
-            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the system dynamics"
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the torso element"
+                      << std::endl;
+            return false;
+        }
+    }
+    auto systemDynamicsOptions = handler->getGroup("SYSTEM_DYNAMICS");
+    if (auto ptr = systemDynamicsOptions.lock())
+        if (!addSystemDynamicsElement(ptr))
+        {
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the system dynamics"
                       << std::endl;
             return false;
         }
 
     auto jointRegularizationOptions = handler->getGroup("JOINT_REGULARIZATION");
-    if (!jointRegularizationOptions->isEmpty())
-        if (!addRegularizationWithControlElement(std::move(jointRegularizationOptions),
-                                                 "joint_accelerations"))
+    if (auto ptr = jointRegularizationOptions.lock())
+        if (!addRegularizationWithControlElement(ptr, "joint_accelerations"))
         {
-            std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the joint "
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the joint "
                          "regularization element"
                       << std::endl;
             return false;
@@ -734,26 +825,47 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
                        [](unsigned char c) { return std::toupper(c); });
 
         // add the regularization element
-        auto stanceFootRegularizationOptions = handler->getGroup(upperIdentifier + "_WRENCH_REGULARIZATION");
-        if (!stanceFootRegularizationOptions->isEmpty())
-            if (!addRegularizationElement(std::move(stanceFootRegularizationOptions),
-                                          identifier.identifierInVariableHandler()))
+        auto stanceFootRegularizationRateOptions = handler->getGroup(upperIdentifier + "_WRENCH_RATE_REGULARIZATION");
+        if (auto ptr = stanceFootRegularizationRateOptions.lock())
+            if (!addRegularizationElement(ptr, identifier.identifierInVariableHandler()))
             {
-                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the wrench "
+                std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the wrench "
+                             "regularization rate of change element for the "
+                          << identifier.identifierInVariableHandler() << std::endl;
+                return false;
+            }
+
+        // add the regularization element
+        auto stanceFootRegularizationOptions = handler->getGroup(upperIdentifier + "_WRENCH_REGULARIZATION");
+        if (auto ptr = stanceFootRegularizationOptions.lock())
+        {
+            if (!addRegularizationWithControlElement(ptr, identifier.identifierInVariableHandler()))
+            {
+                std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the wrench "
                              "regularization element for the "
                           << identifier.identifierInVariableHandler() << std::endl;
                 return false;
             }
 
+            // set the setpoint
+            iDynTree::VectorDynSize dummyZero(6);
+            iDynTree::VectorDynSize weight(6);
+            dummyZero.zero();
+            weight.zero();
+            weight(2) = 9.81 * m_kinDyn->model().getTotalMass() / 2;
+            m_regularizationWithControlElements[identifier.identifierInVariableHandler()]
+                ->setReference(dummyZero, dummyZero, weight);
+        }
+
         // add the wrench feasibility element
         auto stanceFootWrenchOptions = handler->getGroup(upperIdentifier + "_WRENCH_FEASIBILITY");
-        if (!stanceFootWrenchOptions->isEmpty())
+        if (auto ptr = stanceFootWrenchOptions.lock())
         {
-            stanceFootWrenchOptions->setParameter("sampling_time", samplingTime);
+            ptr->setParameter("sampling_time", samplingTime);
 
-            if (!addContactWrenchFeasibilityElement(std::move(stanceFootWrenchOptions), identifier))
+            if (!addContactWrenchFeasibilityElement(ptr, identifier))
             {
-                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the wrench "
+                std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the wrench "
                              "feasibility element for the "
                           << identifier.identifierInVariableHandler() << std::endl;
                 return false;
@@ -762,27 +874,69 @@ bool MomentumBasedTorqueControl::initialize(std::unique_ptr<ParametersHandler::I
 
         // add the contact model
         auto stanceFootContactModelOptions = handler->getGroup(upperIdentifier + "_CONTACT_MODEL");
-        if (!stanceFootContactModelOptions->isEmpty())
-            if (!addContactModelElement(std::move(stanceFootContactModelOptions), identifier))
+        if (auto ptr = stanceFootContactModelOptions.lock())
+            if (!addContactModelElement(ptr, identifier))
             {
-                std::cerr << "[MomentumBasedTorqueControl::initialize] Unable to add the contact "
+                std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the contact "
                              "model for the "
                           << identifier.identifierInVariableHandler() << std::endl;
                 return false;
             }
     }
 
-    addRegularizationElement(handler->getGroup("JOINT_ACCELERATION_REGULARIZATION"), "joint_accelerations");
+    for (const auto& identifier : m_swingFeetIdetrifiers)
+    {
+        std::string upperIdentifier = identifier.identifierInVariableHandler();
+        std::transform(upperIdentifier.begin(),
+                       upperIdentifier.end(),
+                       upperIdentifier.begin(),
+                       [](unsigned char c) { return std::toupper(c); });
 
-    addRegularizationElement(handler->getGroup("BASE_ACCELERATION_REGULARIZATION"), "base_acceleration");
+        // add the wrench feasibility element
+        auto footControlTask = handler->getGroup(upperIdentifier + "_CONTROL_TASK");
+        if (auto ptr = footControlTask.lock())
+            if (!addCartesianElement<OptimalControlUtilities::CartesianElementType::POSE>(ptr,
+                                                                                          identifier))
+            {
+                std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the control "
+                             "task for the "
+                          << identifier.identifierInVariableHandler() << std::endl;
+                return false;
+            }
+    }
 
+    auto jointAccelerationRegularization = handler->getGroup("JOINT_ACCELERATION_REGULARIZATION");
+    if (auto ptr = jointAccelerationRegularization.lock())
+        if (!addRegularizationElement(ptr, "joint_accelerations"))
+        {
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to load the joint "
+                         "regularization element"
+                      << std::endl;
+            return false;
+        }
 
-    // auto jointFeasibilityOptions = handler->getGroup("JOINT_FEASIBILITY");
-    // jointFeasibilityOptions->setParameter("sampling_time", samplingTime);
-    // addJointValuesFeasibilityElement(std::move(jointFeasibilityOptions),
-    //                                  maxJointsPosition,
-    //                                  minJointsPosition);
+    auto baseAccelerationRegularization = handler->getGroup("BASE_ACCELERATION_REGULARIZATION");
+    if (auto ptr = baseAccelerationRegularization.lock())
+        if (!addRegularizationElement(ptr, "base_acceleration"))
+        {
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to load the base "
+                         "regularization element"
+                      << std::endl;
+            return false;
+        }
 
+    auto jointFeasibilityOptions = handler->getGroup("JOINT_VALUES_FEASIBILITY");
+    if (auto ptr = jointFeasibilityOptions.lock())
+    {
+        ptr->setParameter("sampling_time", samplingTime);
+        if (!addJointValuesFeasibilityElement(ptr, maxJointsPosition, minJointsPosition))
+        {
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to load the joint values "
+                         "feasibility element"
+                      << std::endl;
+            return false;
+        }
+    }
 
     initialzeSolver();
     printElements();

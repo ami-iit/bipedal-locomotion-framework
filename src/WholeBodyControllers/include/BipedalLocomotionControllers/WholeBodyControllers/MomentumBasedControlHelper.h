@@ -1,17 +1,18 @@
 /**
- * @file MomentumBasedTorqueControlWithCompliantContacts.h
+ * @file MomentumBasedControlHelper.h
  * @authors Giulio Romualdi <giulio.romualdi@iit.it>
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  * @date 2020
  */
 
-#ifndef BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_TORQUE_CONTROL_WITH_COMPLIANT_CONTACTS_H
-#define BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_TORQUE_CONTROL_WITH_COMPLIANT_CONTACTS_H
+#ifndef BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_CONTROL_HELPER_H
+#define BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_CONTROL_HELPER_H
 
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 #include <iDynTree/Core/EigenHelpers.h>
@@ -41,9 +42,9 @@ namespace BipedalLocomotionControllers
 {
 namespace WholeBodyControllers
 {
-class MomentumBasedTorqueControl
+class MomentumBasedControlHelper
 {
-    template <typename T> using dictionary = std::unordered_map<std::string, T>;
+    template <typename T> using dictionary = std::map<std::string, T>;
     template <typename T> using unique_ptr = std::unique_ptr<T>;
 
     enum class FootType
@@ -62,6 +63,8 @@ class MomentumBasedTorqueControl
     unique_ptr<OptimalControlUtilities::CostFunction> m_costFunction; /**< The cost function */
 
     bool m_isVerbose{true}; /**< If true the controller will be verbose */
+
+    std::string m_description;
 
     /** Dynamics of the floating base */
     unique_ptr<OptimalControlUtilities::FloatingBaseDynamicsElement> m_floatingBaseDynamics;
@@ -84,13 +87,12 @@ class MomentumBasedTorqueControl
 
     /** Dictionary containing Orientation elements */
     dictionary<unique_ptr<OptimalControlUtilities::CartesianElement<
-        OptimalControlUtilities::CartesianElementType::ORIENTATION>>>
+        OptimalControlUtilities::CartesianElementType::POSE>>>
         m_cartesianElements;
 
-    /* /\** Dictionary containing cartesian elements *\/ */
-    /* dictionary<unique_ptr<OptimalControlUtilities::CartesianElement< */
-    /*     OptimalControlUtilities::CartesianElementType::POSE>>> */
-    /*     m_cartesianElements; */
+    dictionary<unique_ptr<OptimalControlUtilities::CartesianElement<
+        OptimalControlUtilities::CartesianElementType::ORIENTATION>>>
+        m_orientationElements;
 
     // Joint values element
     unique_ptr<OptimalControlUtilities::JointValuesFeasibilityElement> m_jointValuesFeasibilityElement;
@@ -100,44 +102,45 @@ class MomentumBasedTorqueControl
     dictionary<unique_ptr<OptimalControlUtilities::ContactModelElement>> m_contactModelElements;
 
     template <class T>
-    bool addFeetTypeIdentifiers(ParametersHandler::IParametersHandler<T>* handler, const FootType& type);
+    bool addFeetTypeIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                                const FootType& type);
 
     template <class T>
-    bool addFeetIdentifiers(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addFeetIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <class T>
-    bool addLinearMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addLinearMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <class T>
-    bool addAngularMomentumElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addAngularMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+
+    template <OptimalControlUtilities::CartesianElementType type, class T>
+    bool addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+                             const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     template <class T>
-    bool addOrientationElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                               const std::string& label);
+    bool addSystemDynamicsElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <class T>
-    bool addSystemDynamicsElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler);
-
-    template <class T>
-    bool addRegularizationWithControlElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addRegularizationWithControlElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                              const std::string& label);
 
     template <class T>
-    bool addRegularizationElement(std::unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addRegularizationElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                   const std::string& label);
 
 
     template <class T>
-    bool addJointValuesFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addJointValuesFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                           const iDynTree::VectorDynSize& maxJointsPosition,
                                           const iDynTree::VectorDynSize& minJointsPosition);
 
     template <class T>
-    bool addContactWrenchFeasibilityElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addContactWrenchFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                             const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     template <class T>
-    bool addContactModelElement(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addContactModelElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
                                 const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     void printElements() const;
@@ -147,10 +150,10 @@ class MomentumBasedTorqueControl
     void initializeVariableHandler();
 
 public:
-    MomentumBasedTorqueControl(const std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    MomentumBasedControlHelper(const std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     template <class T>
-    bool initialize(unique_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler<T>> handlerWeak,
                     const std::string& controllerType,
                     const iDynTree::VectorDynSize& maxJointsPosition,
                     const iDynTree::VectorDynSize& minJointsPosition);
@@ -170,17 +173,24 @@ public:
                          bool isInContact,
                          const iDynTree::Transform& desiredFootPose);
 
-    void setDesiredRotationReference(const iDynTree::Vector3& acceleration,
-                                     const iDynTree::Vector3& velocity,
-                                     const iDynTree::Rotation& rotation,
-                                     const std::string& name);
+    void setRotationReference(const iDynTree::Vector3& acceleration,
+                              const iDynTree::Vector3& velocity,
+                              const iDynTree::Rotation& rotation,
+                              const std::string& name);
 
-    void setDesiredRegularizationTrajectory(const iDynTree::VectorDynSize& acceleration,
-                                            const iDynTree::VectorDynSize& velocity,
-                                            const iDynTree::VectorDynSize& position,
-                                            const std::string& name);
+    void setTransformationReference(const iDynTree::SpatialAcc& acceleration,
+                                    const iDynTree::Twist& twist,
+                                    const iDynTree::Transform& transform,
+                                    const std::string& name);
+
+    void setRegularizationReference(const iDynTree::VectorDynSize& acceleration,
+                                    const iDynTree::VectorDynSize& velocity,
+                                    const iDynTree::VectorDynSize& position,
+                                    const std::string& name);
 
     void setJointState(const iDynTree::VectorDynSize& velocity, const iDynTree::VectorDynSize& position);
+
+    void setFootUpperBoundNormalForce(const std::string& name, const double& force);
 
     iDynTree::VectorDynSize getDesiredTorques();
     iDynTree::VectorDynSize getDesiredAcceleration();
@@ -192,6 +202,6 @@ public:
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers
 
-#include "MomentumBasedTorqueControl.tpp"
+#include "MomentumBasedControlHelper.tpp"
 
-#endif // BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_TORQUE_CONTROL_WITH_COMPLIANT_CONTACTS_H
+#endif // BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_CONTROL_HELPER_H

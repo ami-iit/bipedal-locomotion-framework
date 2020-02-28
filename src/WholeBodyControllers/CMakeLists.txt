@@ -9,13 +9,16 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_WholeBodyControllers)
 
   # set cpp files
   set(${LIBRARY_TARGET_NAME}_SRC
-    src/MomentumBasedTorqueControlWithCompliantContacts.cpp
+    src/MomentumBasedControlHelper.cpp
+    src/MomentumBasedControl.cpp
     )
 
   # set hpp files
   set(${LIBRARY_TARGET_NAME}_HDR
-    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedTorqueControlWithCompliantContacts.h
-    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedTorqueControl.tpp
+    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControlHelper.h
+    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControlHelper.tpp
+    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControl.h
+    include/BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControl.tpp
     )
 
   # add an executable to the project using the specified source files.
