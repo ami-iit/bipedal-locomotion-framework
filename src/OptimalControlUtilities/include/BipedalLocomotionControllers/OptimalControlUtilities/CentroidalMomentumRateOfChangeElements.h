@@ -101,6 +101,7 @@ class CentroidalAngularMomentumRateOfChangeElement : public ControlTask
     using FramesInContact = std::vector<FrameInContact<std::string, std::string>>;
 
     std::unique_ptr<Simulator::Integrator<iDynTree::Vector3>> m_angularMomentumIntegrator;
+    std::unique_ptr<Simulator::Integrator<iDynTree::Vector3>> m_desiredAngularMomentumIntegrator;
 
 public:
     /**

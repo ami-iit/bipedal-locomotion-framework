@@ -150,12 +150,13 @@ CentroidalAngularMomentumRateOfChangeElement::CentroidalAngularMomentumRateOfCha
     // required for the integrator
     using namespace BipedalLocomotionControllers::Simulator;
 
-    m_name = "Centroidal Angular Momentum rate of change Element";
+    m_name = "Centroidal Angular Momentum rate of change Element [ ";
 
 
     iDynTree::Vector3 zero;
     zero.zero();
     m_angularMomentumIntegrator = std::make_unique<Integrator<iDynTree::Vector3>>(dT, zero);
+    m_desiredAngularMomentumIntegrator = std::make_unique<Integrator<iDynTree::Vector3>>(dT, zero);
 
     // resize and reset matrices
     m_A.resize(3, handler.getNumberOfVariables());
@@ -169,6 +170,8 @@ CentroidalAngularMomentumRateOfChangeElement::CentroidalAngularMomentumRateOfCha
         const auto& frameNameInModel = frame.identifierInModel();
         const auto& indexInVariableHandler = handler.getVariable(frameNameInVariableHandler);
         const auto& indexInModel = m_kinDynPtr->model().getFrameIndex(frameNameInModel);
+
+        m_name += "( Label: " + frameNameInVariableHandler + ", Frame: " + frameNameInModel + " ) ";
 
         if (!indexInVariableHandler.isValid())
             throw std::runtime_error("[CentroidalAngularMomentumElementWithCompliantContact::"
@@ -190,6 +193,8 @@ CentroidalAngularMomentumRateOfChangeElement::CentroidalAngularMomentumRateOfCha
             {frameNameInVariableHandler,
              {indexInVariableHandler, indexInModel, /*compliant contact = */ true}});
     }
+
+    m_name += "]";
 }
 
 const iDynTree::VectorDynSize& CentroidalAngularMomentumRateOfChangeElement::getB()
@@ -241,13 +246,13 @@ void CentroidalAngularMomentumRateOfChangeElement::setReference(
     //    + kd (centroidalLinearMomentumDerivative_des - centroidalLinearMomentumDerivative)
     //    + kp (centroidalLinearMomentum_des - centroidalLinearMomentum)
 
-    iDynTree::Vector3 zero;
-    zero.zero();
+    iDynTree::Vector3 angularMomentumIntegral = m_desiredAngularMomentumIntegrator->integrate(centroidalAngularMomentum);
+
 
     m_pid.setReference(centroidalAngularMomentumSecondDerivative,
                        centroidalAngularMomentumDerivative,
                        centroidalAngularMomentum,
-                       zero);
+                       angularMomentumIntegral);
 }
 
 bool CentroidalAngularMomentumRateOfChangeElement::setMeasuredContactWrenches(
@@ -263,21 +268,22 @@ bool CentroidalAngularMomentumRateOfChangeElement::setMeasuredContactWrenches(
     iDynTree::Position com;
     com = m_kinDynPtr->getCenterOfMassPosition();
 
-    for(const auto& contactWrench : contactWrenches)
+    // check for all frame in contact the corresponding contact wrench
+    for(auto& frameInContact : m_framesInContact)
     {
-        const std::string& key = contactWrench.first;
-        const iDynTree::Wrench& wrench = contactWrench.second;
+        const std::string& key = frameInContact.first;
+        auto& frame = frameInContact.second;
 
         // check if the key is associated to a frame
-        if (m_framesInContact.find(key) == m_framesInContact.end())
+        const auto& contactWrench = contactWrenches.find(key);
+        if (contactWrench == contactWrenches.end())
         {
             std::cerr << "[CentroidalAngularMomentumRateOfChangeElement::"
                          "setMeasuredContactWrenches] The label "
-                      << key << " is not associated to any frame in contact" << std::endl;
+                      << key << " is not associated to any contact wrench" << std::endl;
             return false;
         }
-
-        auto& frame = m_framesInContact[key];
+        const iDynTree::Wrench& wrench = contactWrench->second;
 
         // store wrench
         frame.contactWrench() = wrench;
@@ -285,8 +291,9 @@ bool CentroidalAngularMomentumRateOfChangeElement::setMeasuredContactWrenches(
         // compute angular momentum derivative
         iDynTree::toEigen(angularMomentumDerivative)
             += iDynTree::toEigen(wrench.getAngularVec3())
-               + iDynTree::skew(
-                   toEigen(m_kinDynPtr->getWorldTransform(frame.identifierInModel()).getPosition() - com)) * iDynTree::toEigen(wrench.getLinearVec3());
+               + iDynTree::skew(toEigen(
+                     m_kinDynPtr->getWorldTransform(frame.identifierInModel()).getPosition() - com))
+                     * iDynTree::toEigen(wrench.getLinearVec3());
     }
 
     iDynTree::Vector3 angularMomentumIntegral = m_angularMomentumIntegrator->integrate(
