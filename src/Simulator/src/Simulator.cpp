@@ -333,14 +333,50 @@ bool Simulator::setTorqueReferences(const iDynTree::VectorDynSize& torques)
     return true;
 }
 
-const iDynTree::Wrench& Simulator::leftWrench()
+void Simulator::setLeftFootNullForceTransform(const iDynTree::Transform& transform)
 {
+    m_leftContact.frameNullForce = transform;
+
+    m_leftContact.model->setState(
+        {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
+            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
+            {"null_force_transform", m_leftContact.frameNullForce}});
+}
+
+void Simulator::setRightFootNullForceTransform(const iDynTree::Transform& transform)
+{
+    m_rightContact.frameNullForce = transform;
+
+    m_rightContact.model->setState(
+        {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
+            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
+            {"null_force_transform", m_rightContact.frameNullForce}});
+}
+
+iDynTree::Wrench Simulator::leftWrench()
+{
+    if(!m_leftContact.isInContact)
+        return iDynTree::Wrench::Zero();
+
     return m_leftContact.model->getContactWrench();
 }
 
-const iDynTree::Wrench& Simulator::rightWrench()
+iDynTree::Wrench Simulator::rightWrench()
 {
+    if(!m_rightContact.isInContact)
+        return iDynTree::Wrench::Zero();
+
     return m_rightContact.model->getContactWrench();
+}
+
+void Simulator::setLeftFootState(bool isInContact)
+{
+    m_leftContact.isInContact = isInContact;
+}
+
+void Simulator::setRightFootState(bool isInContact)
+{
+    m_rightContact.isInContact = isInContact;
 }
 
 const iDynTree::VectorDynSize& Simulator::jointPositions() const
