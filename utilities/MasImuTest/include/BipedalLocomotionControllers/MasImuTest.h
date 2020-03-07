@@ -25,6 +25,8 @@
 #include <iDynTree/Model/Traversal.h>
 #include <iDynTree/Core/Rotation.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/Core/Transform.h>
 
 //Thrifts
 #include <thrifts/MasImuTestCommands.h>
@@ -44,8 +46,9 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         std::string prefix;
         iDynTree::Model fullModel;
         iDynTree::Traversal traversal;
-        iDynTree::Rotation baseRotation;
+        iDynTree::Transform baseTransform;
         bool filterYaw;
+        int maxSamples;
     };
 
     class MasImuData
@@ -62,6 +65,15 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         yarp::dev::IOrientationSensors* m_orientationInterface;
         yarp::dev::IEncodersTimed* m_encodersInterface;
         size_t m_sensorIndex;
+        std::vector<iDynTree::Rotation> m_data;
+        yarp::sig::Vector m_positionFeedbackDeg; /**< Current joint position [deg]. */
+        yarp::sig::Vector m_rpyInDeg;
+        iDynTree::VectorDynSize m_positionFeedbackInRad;
+        iDynTree::VectorDynSize m_dummyVelocity;
+        iDynTree::Rotation m_rotationFeedback;
+        iDynTree::Rotation m_rotationFromEncoders;
+        iDynTree::Rotation m_imuWorld; //i_R_imuworld
+
 
         bool setupModel();
 
@@ -69,10 +81,16 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
 
         bool setupEncoders();
 
+        bool getFeedback();
+
+        bool updateRotationFromEncoders();
+
     public:
 
         bool setup(BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
                    std::shared_ptr<CommonData> commonDataPtr);
+
+        bool setImuWorld();
 
         void reset();
 

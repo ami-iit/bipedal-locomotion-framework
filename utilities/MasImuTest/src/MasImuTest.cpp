@@ -10,6 +10,7 @@
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/yarp/YARPConfigurationsLoader.h>
 #include <iDynTree/Model/IJoint.h>
+#include <iDynTree/Core/SO3Utils.h>
 #include <yarp/os/LogStream.h>
 #include <iostream>
 #include <cassert>
@@ -124,6 +125,8 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
         return false;
     }
 
+    m_rpyInDeg.resize(3);
+
     return true;
 }
 
@@ -165,6 +168,88 @@ bool MasImuTest::MasImuData::setupEncoders()
         return false;
     }
 
+    m_positionFeedbackDeg.resize(m_consideredJointNames.size());
+    m_positionFeedbackInRad.resize(m_consideredJointNames.size());
+    m_dummyVelocity.resize(m_consideredJointNames.size());
+    m_dummyVelocity.zero();
+
+    return true;
+}
+
+bool MasImuTest::MasImuData::getFeedback()
+{
+    size_t maxAttempts = 100;
+
+    size_t attempt = 0;
+    bool okEncoders = false;
+    bool okIMU = false;
+
+    do
+    {
+        if (!okEncoders)
+            okEncoders = m_encodersInterface->getEncoders(m_positionFeedbackDeg.data());
+
+        if (!okIMU)
+        {
+            yarp::dev::MAS_status status = m_orientationInterface->getOrientationSensorStatus(m_sensorIndex);
+            if (status == yarp::dev::MAS_status::MAS_OK)
+            {
+                double timestamp;
+                okIMU = m_orientationInterface->getOrientationSensorMeasureAsRollPitchYaw(m_sensorIndex, m_rpyInDeg, timestamp);
+            }
+        }
+
+        if (okEncoders && okIMU)
+        {
+            for(unsigned j = 0 ; j < m_positionFeedbackDeg.size(); j++)
+            {
+                m_positionFeedbackInRad(j) = iDynTree::deg2rad(m_positionFeedbackDeg(j));
+            }
+
+            m_rotationFeedback = iDynTree::Rotation::RPY(iDynTree::deg2rad(m_rpyInDeg[0]),
+                                                         iDynTree::deg2rad(m_rpyInDeg[1]),
+                                                         iDynTree::deg2rad(m_rpyInDeg[2]));
+
+            return true;
+        }
+
+        yarp::os::Time::delay(0.001);
+        attempt++;
+    }
+    while(attempt < maxAttempts);
+
+    yError() << "[MasImuTest::MasImuData::getFeedback] The following readings failed:";
+    if(!okEncoders)
+        yError() << "\t - Position encoders";
+
+    if (!okIMU)
+        yError() << "\t - IMU";
+
+    return false;
+}
+
+bool MasImuTest::MasImuData::updateRotationFromEncoders()
+{
+
+    iDynTree::Twist dummy;
+    dummy.zero();
+
+    iDynTree::Vector3 gravity;
+    gravity(0) = 0.0;
+    gravity(1) = 0.0;
+    gravity(2) = -9.81;
+
+    bool ok = m_kinDyn.setRobotState(m_commonDataPtr->baseTransform, m_positionFeedbackInRad, dummy, m_dummyVelocity, gravity);
+
+    if (!ok)
+    {
+        yError() << "[MasImuTest::MasImuData::updateRotationFromEncoders] Failed to set the state in kinDyn object.";
+        return false;
+    }
+
+    iDynTree::Transform frameTransform = m_kinDyn.getWorldTransform(m_frame);
+    m_rotationFromEncoders = frameTransform.getRotation();
+
     return true;
 }
 
@@ -174,6 +259,8 @@ bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared
 
     m_commonDataPtr = commonDataPtr;
     m_group = group;
+
+    m_data.reserve(m_commonDataPtr->maxSamples);
 
     bool ok = setupModel();
     if (!ok)
@@ -199,9 +286,24 @@ bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared
     return true;
 }
 
+bool MasImuTest::MasImuData::setImuWorld()
+{
+    bool ok = getFeedback();
+    if (!ok)
+        return false;
+
+    ok = updateRotationFromEncoders();
+    if (!ok)
+        return false;
+
+    m_imuWorld = m_rotationFromEncoders * m_rotationFeedback.inverse();
+
+    return true;
+}
+
 void MasImuTest::MasImuData::reset()
 {
-
+    m_data.clear();
 }
 
 bool MasImuTest::MasImuData::close()
@@ -244,7 +346,20 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::FIRST_RUN)
     {
+        bool ok = m_leftIMU.setImuWorld();
 
+        if (!ok)
+        {
+            yError() << "Failed to set left IMU world.";
+            return false;
+        }
+
+        ok = m_rightIMU.setImuWorld();
+        if (!ok)
+        {
+            yError() << "Failed to set right IMU world.";
+            return false;
+        }
         m_state = State::RUNNING;
     }
 
@@ -325,16 +440,34 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    if(!iDynTree::parseRotationMatrix(rf, "base_rotation", m_commonDataPtr->baseRotation))
+    iDynTree::Rotation baseRotation;
+    if(!iDynTree::parseRotationMatrix(rf, "base_rotation", baseRotation))
     {
-        m_commonDataPtr->baseRotation = iDynTree::Rotation::Identity();
+        baseRotation = iDynTree::Rotation::Identity();
         yInfo() << "Using the identity as desired rotation for the additional frame";
     }
+
+    ok = iDynTree::isValidRotationMatrix(baseRotation);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::configure] The specified base rotation is not a rotation matrix.";
+        return false;
+    }
+
+    m_commonDataPtr->baseTransform = iDynTree::Transform::Identity();
+    m_commonDataPtr->baseTransform.setRotation(baseRotation);
 
     ok = m_parametersPtr->getParameter("filter_yaw", m_commonDataPtr->filterYaw);
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
+
+    ok = m_parametersPtr->getParameter("max_samples", m_commonDataPtr->maxSamples);
+    if (!ok || m_commonDataPtr->maxSamples < 0)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"max_samples\".";
         return false;
     }
 
