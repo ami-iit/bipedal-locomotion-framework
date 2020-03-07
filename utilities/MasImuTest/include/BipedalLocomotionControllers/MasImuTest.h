@@ -8,8 +8,23 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_MASIMUTEST_H
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_MASIMUTEST_H
 
+// STD
+#include <string>
+#include <vector>
+#include <mutex>
+
 // YARP
 #include <yarp/os/RFModule.h>
+#include <yarp/dev/PolyDriver.h>
+#include <yarp/os/Property.h>
+#include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
+#include <yarp/dev/IEncodersTimed.h>
+
+// iDynTree
+#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model/Traversal.h>
+#include <iDynTree/Core/Rotation.h>
+#include <iDynTree/KinDynComputations.h>
 
 //Thrifts
 #include <thrifts/MasImuTestCommands.h>
@@ -21,18 +36,73 @@ namespace BipedalLocomotionControllers
     class MasImuTest;
 }
 
-
 class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, public MasImuTestCommands {
 
-    BipedalLocomotionControllers::ParametersHandler::YarpImplementation::unique_ptr m_parametersPtr;
+    struct CommonData
+    {
+        std::string robotName;
+        std::string prefix;
+        iDynTree::Model fullModel;
+        iDynTree::Traversal traversal;
+        iDynTree::Rotation baseRotation;
+        bool filterYaw;
+    };
 
-    bool configureRobot();
+    class MasImuData
+    {
+        std::shared_ptr<CommonData> m_commonDataPtr;
+        BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr m_group;
+        iDynTree::FrameIndex m_frame;
+        std::string m_frameName;
+        iDynTree::LinkIndex m_link;
+        std::vector<iDynTree::LinkIndex> m_consideredJointIndexes;
+        std::vector<std::string> m_consideredJointNames;
+        iDynTree::KinDynComputations m_kinDyn;
+        yarp::dev::PolyDriver m_orientationDriver, m_robotDriver;
+        yarp::dev::IOrientationSensors* m_orientationInterface;
+        yarp::dev::IEncodersTimed* m_encodersInterface;
+        size_t m_sensorIndex;
+
+        bool setupModel();
+
+        bool setupOrientationSensors();
+
+        bool setupEncoders();
+
+    public:
+
+        bool setup(BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
+                   std::shared_ptr<CommonData> commonDataPtr);
+
+        void reset();
+
+        bool close();
+    };
+
+    enum class State
+    {
+        STARTED,
+        PREPARED,
+        FIRST_RUN,
+        RUNNING
+    };
+
+    BipedalLocomotionControllers::ParametersHandler::YarpImplementation::unique_ptr m_parametersPtr;
+    std::shared_ptr<CommonData> m_commonDataPtr;
+    double m_period;
+    MasImuData m_leftIMU, m_rightIMU;
+    State m_state{State::STARTED};
+    std::mutex m_mutex;
+    yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
+
+
+    void reset();
 
 public:
 
     /**
      * Get the period of the RFModule.
-     * @return the period of the module.
+     * @return the period of the module in seconds.
      */
     double getPeriod() override;
 
