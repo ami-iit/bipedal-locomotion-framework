@@ -14,6 +14,7 @@
 #include <yarp/os/LogStream.h>
 #include <iostream>
 #include <cassert>
+#include <cmath>
 
 using namespace BipedalLocomotionControllers;
 
@@ -170,6 +171,7 @@ bool MasImuTest::MasImuData::setupEncoders()
 
     m_positionFeedbackDeg.resize(m_consideredJointNames.size());
     m_positionFeedbackInRad.resize(m_consideredJointNames.size());
+    m_previousPositionFeedbackInRad.resize(m_consideredJointNames.size());
     m_dummyVelocity.resize(m_consideredJointNames.size());
     m_dummyVelocity.zero();
 
@@ -253,6 +255,24 @@ bool MasImuTest::MasImuData::updateRotationFromEncoders()
     return true;
 }
 
+double MasImuTest::MasImuData::maxVariation()
+{
+    // clear the std::pair
+    double maxVariation = 0;
+    double jointVariation;
+
+    for (unsigned int i = 0; i < m_positionFeedbackInRad.size(); i++)
+    {
+        jointVariation = std::fabs(m_positionFeedbackInRad(i) - m_previousPositionFeedbackInRad(i));
+        if (jointVariation > maxVariation)
+        {
+            maxVariation = jointVariation;
+        }
+    }
+
+    return maxVariation;
+}
+
 bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared_ptr group,
                                    std::shared_ptr<CommonData> commonDataPtr)
 {
@@ -286,7 +306,7 @@ bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared
     return true;
 }
 
-bool MasImuTest::MasImuData::setImuWorld()
+bool MasImuTest::MasImuData::firstRun()
 {
     bool ok = getFeedback();
     if (!ok)
@@ -298,7 +318,58 @@ bool MasImuTest::MasImuData::setImuWorld()
 
     m_imuWorld = m_rotationFromEncoders * m_rotationFeedback.inverse();
 
+    m_previousPositionFeedbackInRad = m_positionFeedbackInRad;
+
     return true;
+}
+
+bool MasImuTest::MasImuData::addSample(bool& maxSamplesReached)
+{
+    bool ok = getFeedback();
+    if (!ok)
+        return false;
+
+    if (maxVariation() < m_commonDataPtr->minJointVariationRad)
+    {
+        return true;
+    }
+
+    if (static_cast<int>(addedSamples()) >= m_commonDataPtr->maxSamples)
+    {
+        maxSamplesReached = true;
+        return true;
+    }
+    maxSamplesReached = false;
+
+    ok = updateRotationFromEncoders();
+    if (!ok)
+        return false;
+
+    iDynTree::Rotation measuredImu = m_imuWorld * m_rotationFeedback;
+
+    if (m_commonDataPtr->filterYaw)
+    {
+        double measuredRoll, measuredPitch, measuredYaw;
+        measuredImu.getRPY(measuredRoll, measuredPitch, measuredYaw);
+
+        double estimatedRoll, estimatedPitch, estimatedYaw;
+        m_rotationFromEncoders.getRPY(estimatedRoll, estimatedPitch, estimatedYaw);
+
+        measuredImu = iDynTree::Rotation::RPY(measuredRoll, measuredPitch, estimatedYaw);
+    }
+
+    iDynTree::Rotation error = m_rotationFromEncoders.inverse() * measuredImu;
+
+    m_data.push_back(error);
+
+    m_previousPositionFeedbackInRad = m_positionFeedbackInRad;
+
+    return true;
+}
+
+size_t MasImuTest::MasImuData::addedSamples() const
+{
+    return m_data.size();
 }
 
 void MasImuTest::MasImuData::reset()
@@ -341,12 +412,42 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::RUNNING)
     {
+        bool maxSampleReachedLeft, maxSampleReachedRight;
+
+        bool ok = m_leftIMU.addSample(maxSampleReachedLeft);
+        if (!ok)
+        {
+            yError() << "[MasImuTest::updateModule] Failed to add data for left IMU.";
+            return false;
+        }
+
+        if (maxSampleReachedLeft)
+        {
+            yWarning() << "[MasImuTest::updateModule] Data limit reached for the left leg.";
+        }
+
+        ok = m_rightIMU.addSample(maxSampleReachedRight);
+        if (!ok)
+        {
+            yError() << "[MasImuTest::updateModule] Failed to add data for right IMU.";
+            return false;
+        }
+
+        if (maxSampleReachedRight)
+        {
+            yWarning() << "[MasImuTest::updateModule] Data limit reached for the right leg.";
+        }
+
+        if (maxSampleReachedLeft && maxSampleReachedRight)
+        {
+            //DO something to print the results.
+        }
 
     }
 
     if (m_state == State::FIRST_RUN)
     {
-        bool ok = m_leftIMU.setImuWorld();
+        bool ok = m_leftIMU.firstRun();
 
         if (!ok)
         {
@@ -354,12 +455,13 @@ bool MasImuTest::updateModule()
             return false;
         }
 
-        ok = m_rightIMU.setImuWorld();
+        ok = m_rightIMU.firstRun();
         if (!ok)
         {
             yError() << "Failed to set right IMU world.";
             return false;
         }
+
         m_state = State::RUNNING;
     }
 
@@ -463,6 +565,15 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         yError() << "[MasImuTest::configure] Configuration failed.";
         return false;
     }
+
+    double minJointVariationInDeg;
+    ok = m_parametersPtr->getParameter("min_joint_variation_deg", minJointVariationInDeg);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
+    m_commonDataPtr->minJointVariationRad = iDynTree::deg2rad(minJointVariationInDeg);
 
     ok = m_parametersPtr->getParameter("max_samples", m_commonDataPtr->maxSamples);
     if (!ok || m_commonDataPtr->maxSamples < 0)

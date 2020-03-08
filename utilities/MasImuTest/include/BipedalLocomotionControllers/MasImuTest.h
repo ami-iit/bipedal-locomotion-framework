@@ -49,6 +49,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         iDynTree::Transform baseTransform;
         bool filterYaw;
         int maxSamples;
+        double minJointVariationRad;
     };
 
     class MasImuData
@@ -69,6 +70,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         yarp::sig::Vector m_positionFeedbackDeg; /**< Current joint position [deg]. */
         yarp::sig::Vector m_rpyInDeg;
         iDynTree::VectorDynSize m_positionFeedbackInRad;
+        iDynTree::VectorDynSize m_previousPositionFeedbackInRad;
         iDynTree::VectorDynSize m_dummyVelocity;
         iDynTree::Rotation m_rotationFeedback;
         iDynTree::Rotation m_rotationFromEncoders;
@@ -85,12 +87,18 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
 
         bool updateRotationFromEncoders();
 
+        double maxVariation();
+
     public:
 
         bool setup(BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
                    std::shared_ptr<CommonData> commonDataPtr);
 
-        bool setImuWorld();
+        bool firstRun();
+
+        bool addSample(bool &maxSamplesReached);
+
+        size_t addedSamples() const;
 
         void reset();
 
