@@ -20,10 +20,12 @@ using namespace BipedalLocomotionControllers;
 
 bool MasImuTest::MasImuData::setupModel()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupModel](" + m_testName +") ";
+
     bool ok = m_group->getParameter("imu_frame", m_frameName);
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setupModel] Setup failed.";
+        yError() << errorPrefix << "Setup failed.";
         return false;
     }
 
@@ -31,7 +33,7 @@ bool MasImuTest::MasImuData::setupModel()
 
     if (m_frame == iDynTree::FRAME_INVALID_INDEX)
     {
-        yError() << "[MasImuTest::MasImuData::setupModel] The frame " << m_frameName << " does not exists in the robot model."
+        yError() << errorPrefix << "The frame " << m_frameName << " does not exists in the robot model."
                  << ". Configuration failed.";
         return false;
     }
@@ -57,7 +59,7 @@ bool MasImuTest::MasImuData::setupModel()
 
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setupModel] Failed to build the reduced model. Configuration failed.";
+        yError() << errorPrefix << "Failed to build the reduced model. Configuration failed.";
         return false;
     }
 
@@ -65,7 +67,7 @@ bool MasImuTest::MasImuData::setupModel()
 
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setupModel] Failed to load the reduced model. Configuration failed.";
+        yError() << errorPrefix << "Failed to load the reduced model. Configuration failed.";
         return false;
     }
 
@@ -74,11 +76,12 @@ bool MasImuTest::MasImuData::setupModel()
 
 bool MasImuTest::MasImuData::setupOrientationSensors()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupOrientationSensors](" + m_testName +") ";
     std::string remote;
     bool ok = m_group->getParameter("remote",remote);
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setupOrientationSensors] Setup failed.";
+        yError() << errorPrefix << "Setup failed.";
         return false;
     }
 
@@ -89,14 +92,14 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
 
     if (!m_orientationDriver.open(inertialClientProperty))
     {
-        yError() << "[MasImuTest::MasImuData::setupOrientationSensors] Failed to open multipleanalogsensorsclient on remote "
+        yError() << errorPrefix << "Failed to open multipleanalogsensorsclient on remote "
                  << remote << ". Setup failed.";
         return false;
     }
 
     if (!m_orientationDriver.view(m_orientationInterface) || !m_orientationInterface)
     {
-        yError() << "[MasImuTest::MasImuData::setupOrientationSensors] Failed to open multipleanalogsensorsclient on remote "
+        yError() << errorPrefix << "Failed to open multipleanalogsensorsclient on remote "
                  << remote << ". Setup failed.";
         return false;
     }
@@ -121,7 +124,7 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
 
     if (!found)
     {
-        yError() << "[MasImuTest::MasImuData::setupOrientationSensors] The interface contains no orientation sensors on frame "
+        yError() << errorPrefix << "The interface contains no orientation sensors on frame "
                  << m_frameName << ". Setup failed.";
         return false;
     }
@@ -133,11 +136,13 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
 
 bool MasImuTest::MasImuData::setupEncoders()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupEncoders](" + m_testName +") ";
+
     std::vector<std::string> inputControlBoards;
     bool ok = m_group->getParameter("remote_control_boards", inputControlBoards);
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setupEncoders] Setup failed.";
+        yError() << errorPrefix << "Setup failed.";
         return false;
     }
 
@@ -159,13 +164,13 @@ bool MasImuTest::MasImuData::setupEncoders()
     // open the device
     if (!m_robotDriver.open(remapperOptions))
     {
-        yError() << "[MasImuTest::MasImuData::setupEncoders] Could not open remotecontrolboardremapper object. Setup failed.";
+        yError() << errorPrefix << "Could not open remotecontrolboardremapper object. Setup failed.";
         return false;
     }
 
     if(!m_robotDriver.view(m_encodersInterface) || !m_encodersInterface)
     {
-        yError() << "[MasImuTest::MasImuData::setupEncoders] Cannot obtain IEncoders interface. Setup failed.";
+        yError() << errorPrefix << "Cannot obtain IEncoders interface. Setup failed.";
         return false;
     }
 
@@ -180,6 +185,8 @@ bool MasImuTest::MasImuData::setupEncoders()
 
 bool MasImuTest::MasImuData::getFeedback()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::getFeedback](" + m_testName +") ";
+
     size_t maxAttempts = 100;
 
     size_t attempt = 0;
@@ -220,7 +227,7 @@ bool MasImuTest::MasImuData::getFeedback()
     }
     while(attempt < maxAttempts);
 
-    yError() << "[MasImuTest::MasImuData::getFeedback] The following readings failed:";
+    yError() << errorPrefix << "The following readings failed:";
     if(!okEncoders)
         yError() << "\t - Position encoders";
 
@@ -232,6 +239,7 @@ bool MasImuTest::MasImuData::getFeedback()
 
 bool MasImuTest::MasImuData::updateRotationFromEncoders()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::updateRotationFromEncoders](" + m_testName +") ";
 
     iDynTree::Twist dummy;
     dummy.zero();
@@ -245,7 +253,7 @@ bool MasImuTest::MasImuData::updateRotationFromEncoders()
 
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::updateRotationFromEncoders] Failed to set the state in kinDyn object.";
+        yError() << errorPrefix << "Failed to set the state in kinDyn object.";
         return false;
     }
 
@@ -273,33 +281,35 @@ double MasImuTest::MasImuData::maxVariation()
     return maxVariation;
 }
 
-bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared_ptr group,
+bool MasImuTest::MasImuData::setup(const std::string &testName, ParametersHandler::YarpImplementation::shared_ptr group,
                                    std::shared_ptr<CommonData> commonDataPtr)
 {
-
+    m_testName = testName;
     m_commonDataPtr = commonDataPtr;
     m_group = group;
 
     m_data.reserve(m_commonDataPtr->maxSamples);
 
+    std::string errorPrefix = "[MasImuTest::MasImuData::setup](" + m_testName +") ";
+
     bool ok = setupModel();
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setup] setupModel failed.";
+        yError() << errorPrefix << "setupModel failed.";
         return false;
     }
 
     ok = setupOrientationSensors();
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setup] setupOrientationSensors failed.";
+        yError() << errorPrefix << "setupOrientationSensors failed.";
         return false;
     }
 
     ok = setupEncoders();
     if (!ok)
     {
-        yError() << "[MasImuTest::MasImuData::setup] setupEncoders failed.";
+        yError() << errorPrefix << "setupEncoders failed.";
         return false;
     }
 
@@ -308,13 +318,21 @@ bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared
 
 bool MasImuTest::MasImuData::firstRun()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::firstRun](" + m_testName +") ";
+
     bool ok = getFeedback();
     if (!ok)
+    {
+        yError() << errorPrefix << "Failed to get feedbacks.";
         return false;
+    }
 
     ok = updateRotationFromEncoders();
     if (!ok)
+    {
+        yError() << errorPrefix << "updateRotationFromEncoders() failed.";
         return false;
+    }
 
     m_imuWorld = m_rotationFromEncoders * m_rotationFeedback.inverse();
 
@@ -323,27 +341,33 @@ bool MasImuTest::MasImuData::firstRun()
     return true;
 }
 
-bool MasImuTest::MasImuData::addSample(bool& maxSamplesReached)
+bool MasImuTest::MasImuData::addSample()
 {
+    if (isCompleted())
+    {
+        return true;
+    }
+
+    std::string errorPrefix = "[MasImuTest::MasImuData::addSample](" + m_testName +") ";
+
     bool ok = getFeedback();
     if (!ok)
+    {
+        yError() << errorPrefix << "Failed to get feedbacks.";
         return false;
+    }
 
     if (maxVariation() < m_commonDataPtr->minJointVariationRad)
     {
         return true;
     }
 
-    if (static_cast<int>(addedSamples()) >= m_commonDataPtr->maxSamples)
-    {
-        maxSamplesReached = true;
-        return true;
-    }
-    maxSamplesReached = false;
-
     ok = updateRotationFromEncoders();
     if (!ok)
+    {
+        yError() << errorPrefix << "updateRotationFromEncoders() failed.";
         return false;
+    }
 
     iDynTree::Rotation measuredImu = m_imuWorld * m_rotationFeedback;
 
@@ -364,6 +388,13 @@ bool MasImuTest::MasImuData::addSample(bool& maxSamplesReached)
 
     m_previousPositionFeedbackInRad = m_positionFeedbackInRad;
 
+    yInfo() << errorPrefix << "Sample " << addedSamples() << "/" << m_commonDataPtr->maxSamples;
+
+    if (static_cast<int>(addedSamples()) >= m_commonDataPtr->maxSamples)
+    {
+        setCompleted();
+    }
+
     return true;
 }
 
@@ -372,22 +403,57 @@ size_t MasImuTest::MasImuData::addedSamples() const
     return m_data.size();
 }
 
+bool MasImuTest::MasImuData::isCompleted() const
+{
+    return m_completed;
+}
+
+void MasImuTest::MasImuData::setCompleted()
+{
+    m_completed = true;
+}
+
+void MasImuTest::MasImuData::printResults() const
+{
+    std::string errorPrefix = "[MasImuTest::MasImuData::printResults](" + m_testName +") ";
+
+    iDynTree::Rotation meanError;
+
+    iDynTree::GeodesicL2MeanOptions options;
+    options.maxIterations = 1000; //If it takes so many steps to converge, it is probably in a loop. Hence, this parameter can be safely hardcoded.
+
+    bool ok = iDynTree::geodesicL2MeanRotation(m_data, meanError, options);
+    if (!ok)
+    {
+        yError() << errorPrefix << "Failed to compute the mean rotation.";
+        return;
+    }
+
+    yInfo() << errorPrefix << " Mean rotation error ("<<m_data.size() << " samples) :\n"
+            << "--------------------------------------\n"
+            << meanError.toString()
+            << "--------------------------------------\n";
+}
+
 void MasImuTest::MasImuData::reset()
 {
     m_data.clear();
+    m_completed = false;
 }
 
 bool MasImuTest::MasImuData::close()
 {
+    std::string errorPrefix = "[MasImuTest::MasImuData::close](" + m_testName +") ";
+
     if(!m_orientationDriver.close())
     {
-        yError() << "[MasImuTest::MasImuData::close] Unable to close the orientation driver.";
+        yError() << errorPrefix << "Unable to close the orientation driver.";
         return false;
     }
 
     if(!m_robotDriver.close())
     {
-        yError() << "[MasImuTest::MasImuData::close] Unable to close the robot driver.";
+        yError() << errorPrefix << "Unable to close the robot driver.";
         return false;
     }
 }
@@ -398,6 +464,12 @@ void MasImuTest::reset()
     m_state = State::PREPARED;
     m_leftIMU.reset();
     m_rightIMU.reset();
+}
+
+void MasImuTest::printResultsPrivate() const
+{
+    m_leftIMU.printResults();
+    m_leftIMU.printResults();
 }
 
 double MasImuTest::getPeriod()
@@ -412,54 +484,38 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::RUNNING)
     {
-        bool maxSampleReachedLeft, maxSampleReachedRight;
 
-        bool ok = m_leftIMU.addSample(maxSampleReachedLeft);
+        bool ok = m_leftIMU.addSample();
         if (!ok)
         {
-            yError() << "[MasImuTest::updateModule] Failed to add data for left IMU.";
-            return false;
+            yError() << "[MasImuTest::updateModule] Failed to add data. Marking it as completed.";
+            m_leftIMU.setCompleted();
         }
 
-        if (maxSampleReachedLeft)
-        {
-            yWarning() << "[MasImuTest::updateModule] Data limit reached for the left leg.";
-        }
-
-        ok = m_rightIMU.addSample(maxSampleReachedRight);
+        ok = m_rightIMU.addSample();
         if (!ok)
         {
-            yError() << "[MasImuTest::updateModule] Failed to add data for right IMU.";
-            return false;
+            yError() << "[MasImuTest::updateModule] Failed to add data. Marking it as completed.";
+            m_rightIMU.setCompleted();
         }
 
-        if (maxSampleReachedRight)
+        if (m_leftIMU.isCompleted() && m_rightIMU.isCompleted())
         {
-            yWarning() << "[MasImuTest::updateModule] Data limit reached for the right leg.";
-        }
-
-        if (maxSampleReachedLeft && maxSampleReachedRight)
-        {
-            //DO something to print the results.
+            printResultsPrivate();
+            m_state = State::PREPARED;
         }
 
     }
 
     if (m_state == State::FIRST_RUN)
     {
-        bool ok = m_leftIMU.firstRun();
+        bool okL = m_leftIMU.firstRun();
+        bool okR = m_rightIMU.firstRun();
 
-        if (!ok)
+        if (!okL || !okR)
         {
-            yError() << "Failed to set left IMU world.";
-            return false;
-        }
-
-        ok = m_rightIMU.firstRun();
-        if (!ok)
-        {
-            yError() << "Failed to set right IMU world.";
-            return false;
+            yError() << "[MasImuTest::updateModule] Failed to perform first run.";
+            m_state = State::PREPARED;
         }
 
         m_state = State::RUNNING;
@@ -546,7 +602,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     if(!iDynTree::parseRotationMatrix(rf, "base_rotation", baseRotation))
     {
         baseRotation = iDynTree::Rotation::Identity();
-        yInfo() << "Using the identity as desired rotation for the additional frame";
+        yInfo() << "[MasImuTest::configure] Using the identity as desired rotation for the additional frame";
     }
 
     ok = iDynTree::isValidRotationMatrix(baseRotation);
@@ -589,7 +645,12 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    m_leftIMU.setup(leftLegGroup, m_commonDataPtr);
+    ok = m_leftIMU.setup("Left IMU Test", leftLegGroup, m_commonDataPtr);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
 
     auto rightLegGroup = m_parametersPtr->getGroup("RIGHT_LEG").lock();
     if (!leftLegGroup)
@@ -598,7 +659,12 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    m_rightIMU.setup(rightLegGroup, m_commonDataPtr);
+    ok = m_rightIMU.setup("Right IMU Test", rightLegGroup, m_commonDataPtr);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
 
     // open RPC port for external command
     std::string rpcPortName = "/" + m_commonDataPtr->prefix + "/rpc";
@@ -617,15 +683,18 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 bool MasImuTest::close()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_rpcPort.close();
+
     bool okL = m_leftIMU.close();
     if (!okL)
     {
-        yError() << "Failed to close left leg part.";
+        yError() << "[MasImuTest::close] Failed to close left leg part.";
     }
     bool okR = m_rightIMU.close();
     if (!okR)
     {
-        yError() << "Failed to close right leg part.";
+        yError() << "[MasImuTest::close] Failed to close right leg part.";
     }
 
     return okL && okR;
@@ -642,13 +711,38 @@ bool MasImuTest::startTest()
         return true;
     }
 
+    yError() << "[MasImuTest::startTest] The module is not ready yet.";
+
     return false;
 
 }
 
-void MasImuTest::stopTest()
+bool MasImuTest::stopTest()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_state = State::PREPARED;
+    if (m_state == State::RUNNING)
+    {
+        printResultsPrivate();
+        m_state = State::PREPARED;
+        return true;
+    }
+
+    yError() << "[MasImuTest::startTest] The test is not ready yet.";
+
+    return false;
+}
+
+bool MasImuTest::printResults()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_state == State::PREPARED)
+    {
+        printResultsPrivate();
+        return true;
+    }
+
+    yError() << "[MasImuTest::startTest] The results can be printed only after stopping the test.";
+
+    return false;
 }
 

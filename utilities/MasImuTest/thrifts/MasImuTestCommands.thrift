@@ -16,5 +16,10 @@ service MasImuTestCommands
     /**
      * Stop the test
      */
-    void stopTest();
+    bool stopTest();
+
+    /**
+     * Print the results. This works only if the test has already been stopped.
+     */
+    bool printResults();
 }

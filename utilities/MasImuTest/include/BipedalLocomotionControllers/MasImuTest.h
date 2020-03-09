@@ -54,6 +54,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
 
     class MasImuData
     {
+        std::string m_testName;
         std::shared_ptr<CommonData> m_commonDataPtr;
         BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr m_group;
         iDynTree::FrameIndex m_frame;
@@ -75,6 +76,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         iDynTree::Rotation m_rotationFeedback;
         iDynTree::Rotation m_rotationFromEncoders;
         iDynTree::Rotation m_imuWorld; //i_R_imuworld
+        bool m_completed{false};
 
 
         bool setupModel();
@@ -91,14 +93,21 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
 
     public:
 
-        bool setup(BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
+        bool setup(const std::string& testName,
+                   BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
                    std::shared_ptr<CommonData> commonDataPtr);
 
         bool firstRun();
 
-        bool addSample(bool &maxSamplesReached);
+        bool addSample();
 
         size_t addedSamples() const;
+
+        bool isCompleted() const;
+
+        void setCompleted();
+
+        void printResults() const;
 
         void reset();
 
@@ -123,6 +132,8 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
 
 
     void reset();
+
+    void printResultsPrivate() const;
 
 public:
 
@@ -160,7 +171,12 @@ public:
     /**
      * Stop the test
      */
-    void stopTest() override;
+    bool stopTest() override;
+
+    /**
+     * Print the results. This works only if the test has already been stopped.
+     */
+    bool printResults() override;
 };
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_MASIMUTEST_H
