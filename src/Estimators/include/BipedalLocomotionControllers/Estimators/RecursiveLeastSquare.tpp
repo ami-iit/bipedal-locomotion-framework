@@ -83,8 +83,8 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<ParametersHandler::IParamete
     iDynTree::toEigen(m_stateCovarianceMatrix) = iDynTree::toEigen(stateCovariance).asDiagonal();
 
     // resize the vector containing the measuraments
-    m_measuraments.resize(measurementCovariance.size());
-    m_measuraments.zero();
+    m_measurements.resize(measurementCovariance.size());
+    m_measurements.zero();
 
     // resize the matrix containing the kalman gain
     m_kalmanGain.resize(m_state.size(), measurementCovariance.size());
