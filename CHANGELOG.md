@@ -12,5 +12,6 @@ All notable changes to this project are documented in this file.
 - Implement the first version of the `BipedalLocomotionControllers` interface
 - Implement the  first version of the `YarpUtilities` library
 - Implement `ParametersHandler` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/13)
+- Implement `Estimators` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/23)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-controllers/
