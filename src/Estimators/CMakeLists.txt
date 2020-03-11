@@ -49,6 +49,8 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Estimators)
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${LIBRARY_TARGET_NAME})
   set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_INCLUDES ${${LIBRARY_TARGET_NAME}_HDR})
 
+  add_subdirectory(tests)
+
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
 
 endif()
