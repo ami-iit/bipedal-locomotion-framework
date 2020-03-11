@@ -41,8 +41,8 @@ class RecursiveLeastSquare
 
     iDynTree::MatrixDynSize m_kalmanGain; /**< Gain of the Kalman filter */
 
-    double m_lambda; /**< Filter gain. The recursive least square filter is equivalent to a kalman
-                        filter if lambda is equal to 1 */
+    double m_lambda{1}; /**< Filter gain. The recursive least square filter is equivalent to a
+                        kalman filter if lambda is equal to 1 */
 
     std::function<iDynTree::MatrixDynSize(void)> m_regressor; /**< Function containing the regressor
                                                                  of the system */
