@@ -22,7 +22,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Estimators)
 
   set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}${LIBRARY_TARGET_NAME}")
 
-  target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${iDynTree_LIBRARIES})
+  target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC ${iDynTree_LIBRARIES} BipedalLocomotionControllers::ParametersHandler)
 
   add_library(BipedalLocomotionControllers::${LIBRARY_TARGET_NAME} ALIAS ${LIBRARY_TARGET_NAME})
 
