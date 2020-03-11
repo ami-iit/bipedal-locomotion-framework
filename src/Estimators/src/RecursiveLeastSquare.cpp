@@ -46,7 +46,7 @@ bool RecursiveLeastSquare::advance()
                                   * toEigen(regressor).transpose())).inverse();
 
     toEigen(m_state) = toEigen(m_state) + toEigen(m_kalmanGain)
-                * (toEigen(m_measuraments) - toEigen(regressor) * toEigen(m_state));
+                * (toEigen(m_measurements) - toEigen(regressor) * toEigen(m_state));
 
     toEigen(m_stateCovarianceMatrix) = (toEigen(m_stateCovarianceMatrix)
                                         - toEigen(m_kalmanGain) * toEigen(regressor)
@@ -55,10 +55,10 @@ bool RecursiveLeastSquare::advance()
     return true;
 }
 
-void RecursiveLeastSquare::setMeasuraments(const iDynTree::VectorDynSize& measuraments)
+void RecursiveLeastSquare::setMeasurements(const iDynTree::VectorDynSize& measurements)
 {
-    assert(m_measuraments.size() == measuraments.size());
-    m_measuraments = measuraments;
+    assert(m_measurements.size() == measurements.size());
+    m_measurements = measurements;
 }
 
 const iDynTree::VectorDynSize& RecursiveLeastSquare::parametersExpectedValue() const

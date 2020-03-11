@@ -29,11 +29,11 @@ class RecursiveLeastSquare
 {
     iDynTree::VectorDynSize m_state; /**< Vector containing the expected value of the estimated
                                         state */
-    iDynTree::VectorDynSize m_measuraments; /**< Vector containing the measurements */
+    iDynTree::VectorDynSize m_measurements; /**< Vector containing the measurements */
 
     iDynTree::MatrixDynSize m_stateCovarianceMatrix; /**< Covariance matrix of the state */
 
-    /** Covariance matrix of the measuraments we assume that the measuraments are uncorrelated
+    /** Covariance matrix of the measurements we assume that the measurements are uncorrelated
      (furthermore since the model of the noise is Gaussian the random variable are also independent)
      Since the variable are independent we are interested only on the element in the diagonal
      of the matrix */
@@ -64,8 +64,8 @@ public:
     /**
      * Initialize the filter
      * @note The following parameter are required by the filter:
-     * - "measurement_covariance" vector containing the covariance of the measuraments. We assume
-     that the measuraments are uncorrelated (furthermore since the model of the noise is Gaussian
+     * - "measurement_covariance" vector containing the covariance of the measurements. We assume
+     that the measurements are uncorrelated (furthermore since the model of the noise is Gaussian
      the random variable are also independent) Since the variable are independent we are interested
      only on the element in the diagonal of the matrix
      * - "lambda" double containing the filter gain. (The recursive least square filter is
@@ -87,10 +87,10 @@ public:
     void setRegressorFunction(std::function<iDynTree::MatrixDynSize(void)> regressor);
 
     /**
-     * Set the measuraments
-     * @parameter measurements vector containing all the measuraments
+     * Set the measurements
+     * @parameter measurements vector containing all the measurements
      */
-    void setMeasuraments(const iDynTree::VectorDynSize& measuraments);
+    void setMeasurements(const iDynTree::VectorDynSize& measurements);
 
     /**
      * Compute one step of the filter

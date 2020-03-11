@@ -117,7 +117,7 @@ TEST_CASE("Recursive Least Square")
     for(int i = 0; i < 10000; i++)
     {
         model.setX(std::cos(i / 10.0));
-        estimator.setMeasuraments(model.getOutput());
+        estimator.setMeasurements(model.getOutput());
 
         REQUIRE(estimator.advance());
     }
