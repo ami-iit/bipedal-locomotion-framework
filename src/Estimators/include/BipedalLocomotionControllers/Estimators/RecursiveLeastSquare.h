@@ -52,8 +52,8 @@ class RecursiveLeastSquare
      */
     enum class State
     {
-        NotInitialized, /**< The filter is not initialized yet please class
-                           RecursiveLeastSquare::initialze */
+        NotInitialized, /**< The filter is not initialized yet call RecursiveLeastSquare::initialze
+                           method to initialize it*/
         Initialized, /**< The filter is initialized and ready to be used */
         Running /**< The filter is running */
     };
