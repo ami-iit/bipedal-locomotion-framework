@@ -116,3 +116,18 @@ bool Visualizer::setLightDirection(const iDynTree::Direction& lightDirection)
 
     return true;
 }
+
+bool Visualizer::saveFrame()
+{
+    if (!(m_pimpl->viz.getNrOfVisualizedModels()))
+    {
+        std::cerr << "[Visualizer::saveFrame] First you have to load a model." << std::endl;
+        return false;
+    }
+
+    bool ok = m_pimpl->viz.drawToFile("./img/simulation_img_" + std::to_string(m_pimpl->indexFrame)
+                                      + ".png");
+
+    m_pimpl->indexFrame++;
+    return ok;
+}

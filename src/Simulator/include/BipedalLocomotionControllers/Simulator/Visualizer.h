@@ -40,6 +40,8 @@ public:
     bool setCameraTarget(const iDynTree::Position& cameraTarget);
 
     bool setLightDirection(const iDynTree::Direction& lightDirection);
+
+    bool saveFrame();
 };
 } // namespace Simulator
 } // namespace BipedalLocomotionControllers
