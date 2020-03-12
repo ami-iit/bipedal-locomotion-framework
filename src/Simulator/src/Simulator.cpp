@@ -234,10 +234,8 @@ bool Simulator::advance(const double& seconds /*= 0 */)
             toEigen(m_baseAcceleration.getAngularVec3()) = robotAcceleration.segment(3, 3);
         }
 
-        // integrate the position and the velocity. The order matters
+        // integrate the position.
         m_jointPosition = m_jointPositionIntegrator->integrate(m_jointVelocity);
-        m_jointVelocity = m_jointVelocityIntegrator->integrate(m_jointAcceleration);
-
         iDynTree::Position basePosition;
         toEigen(basePosition) = toEigen(m_basePositionIntegrator->integrate(m_baseTwist.getLinearVec3()));
         m_baseTransform.setPosition(basePosition);
@@ -254,8 +252,12 @@ bool Simulator::advance(const double& seconds /*= 0 */)
         iDynTree::toEigen(baseRotation) = svd.matrixU() * svd.matrixV().transpose();
         m_baseTransform.setRotation(baseRotation);
 
-        m_baseTwist.getLinearVec3() = m_baseLinearVelocityIntegrator->integrate(m_baseAcceleration.getLinearVec3());
-        m_baseTwist.getAngularVec3() = m_baseAngularVelocityIntegrator->integrate(m_baseAcceleration.getAngularVec3());
+        if(m_controlMode == ControlMode::Acceleration || m_controlMode == ControlMode::Torque)
+        {
+            m_jointVelocity = m_jointVelocityIntegrator->integrate(m_jointAcceleration);
+            m_baseTwist.getLinearVec3() = m_baseLinearVelocityIntegrator->integrate(m_baseAcceleration.getLinearVec3());
+            m_baseTwist.getAngularVec3() = m_baseAngularVelocityIntegrator->integrate(m_baseAcceleration.getAngularVec3());
+        }
 
         // update kindyn
         if (!m_kinDyn.setRobotState(m_baseTransform * m_baseFrames["root"].second,
@@ -279,6 +281,32 @@ bool Simulator::advance(const double& seconds /*= 0 */)
         {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
             {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
             {"null_force_transform", m_rightContact.frameNullForce}});
+
+    return true;
+}
+
+bool Simulator::setVelocityReferences(const iDynTree::VectorDynSize& velocity)
+{
+    if (m_controlMode != ControlMode::Velocity)
+    {
+        std::cerr << "[Simulator::setVelocityReferences] The set control mode is not "
+                     "velocity."
+                  << std::endl;
+        return false;
+    }
+
+    if (velocity.size() != m_numberOfDoF + 6)
+    {
+        std::cerr << "[Simulator::setVelocityReferences] The number of desired velocity is "
+                     "different from the number of DoFs + 6. Number of DoF + 6"
+                  << m_numberOfDoF + 6 << " size of desired torque vector " << velocity.size()
+                  << std::endl;
+        return false;
+    }
+
+    iDynTree::toEigen(m_jointVelocity) = iDynTree::toEigen(velocity).tail(m_numberOfDoF);
+    iDynTree::toEigen(m_baseTwist.getLinearVec3()) = iDynTree::toEigen(velocity).head(3);
+    iDynTree::toEigen(m_baseTwist.getAngularVec3()) = iDynTree::toEigen(velocity).segment(3,3);
 
     return true;
 }

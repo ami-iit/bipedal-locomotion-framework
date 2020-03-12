@@ -78,6 +78,7 @@ class Simulator
 
     enum class ControlMode
     {
+        Velocity,
         Acceleration,
         Torque
     };
@@ -263,6 +264,7 @@ public:
 
     bool setTorqueReferences(const iDynTree::VectorDynSize& torques);
     bool setAccelerationReferences(const iDynTree::VectorDynSize& acceleration);
+    bool setVelocityReferences(const iDynTree::VectorDynSize& velocity);
 };
 } // namespace Simulator
 } // namespace BipedalLocmotionControllers
