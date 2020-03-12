@@ -23,12 +23,6 @@ class Visualizer
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;
 
-    bool setCameraPosition(const iDynTree::Position& cameraPosition);
-
-    bool setCameraTarget(const iDynTree::Position& cameraTarget);
-
-    bool setLightDirection(const iDynTree::Direction& lightDirection);
-
 public:
     Visualizer();
 
@@ -37,7 +31,15 @@ public:
     bool addModel(const iDynTree::Model& model, const std::string& modelName);
 
     bool visualizeState(const iDynTree::Transform& world_T_Base,
-                        const iDynTree::VectorDynSize& jointsPosition);
+                        const iDynTree::VectorDynSize& jointsPosition,
+                        const std::vector<std::pair<iDynTree::Transform, iDynTree::Wrench>>& contactWrenches);
+
+
+    bool setCameraPosition(const iDynTree::Position& cameraPosition);
+
+    bool setCameraTarget(const iDynTree::Position& cameraTarget);
+
+    bool setLightDirection(const iDynTree::Direction& lightDirection);
 };
 } // namespace Simulator
 } // namespace BipedalLocomotionControllers

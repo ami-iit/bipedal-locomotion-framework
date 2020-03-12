@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 
+#include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Visualizer.h>
 
 #include <BipedalLocomotionControllers/Simulator/Visualizer.h>
@@ -19,17 +20,23 @@ struct Visualizer::Impl
 {
     iDynTree::Visualizer viz;
     iDynTree::Position defaultCameraPosition, defaultCameraTarget;
+    double scaling = 0.4;
+    bool followModel = true;
+
+    size_t indexFrame{0};
 };
 
 Visualizer::Visualizer()
     : m_pimpl(std::make_unique<Impl>())
 {
     iDynTree::VisualizerOptions options;
-    options.winWidth = 800;
-    options.winHeight = 600;
+    options.winWidth = 1366;
+    options.winHeight = 768;
     m_pimpl->viz.init(options);
-    setCameraPosition(iDynTree::Position(2.0, 0.0, 0.5));
-    setCameraTarget(iDynTree::Position(0.4, 0.0, 0.5));
+    m_pimpl->defaultCameraPosition = iDynTree::Position(1.6, 0.8, 0.8);
+    m_pimpl->defaultCameraTarget = iDynTree::Position(0.4, 0.0, 0.5);
+    m_pimpl->viz.camera().setPosition(m_pimpl->defaultCameraPosition);
+    m_pimpl->viz.camera().setTarget(m_pimpl->defaultCameraTarget);
     double sqrt2 = std::sqrt(2.0);
     setLightDirection(iDynTree::Direction(-0.5 / sqrt2, 0, -0.5 / sqrt2));
     m_pimpl->viz.vectors().setVectorsAspect(0.01, 0.0, 0.01);
@@ -46,7 +53,8 @@ Visualizer::~Visualizer()
 }
 
 bool Visualizer::visualizeState(const iDynTree::Transform& world_H_base,
-                                const iDynTree::VectorDynSize& jointsPosition)
+                                const iDynTree::VectorDynSize& jointsPosition,
+                                const std::vector<std::pair<iDynTree::Transform, iDynTree::Wrench>>& contactWrenches)
 {
     if (m_pimpl->viz.getNrOfVisualizedModels() == 0)
     {
@@ -60,6 +68,21 @@ bool Visualizer::visualizeState(const iDynTree::Transform& world_H_base,
         return false;
     }
 
+    iDynTree::IVectorsVisualization& forcesViz = m_pimpl->viz.vectors();
+    std::size_t vectorIndex = 0;
+    for (const auto& contatWrench : contactWrenches)
+    {
+        iDynTree::Vector3 scaledForces;
+        iDynTree::toEigen(scaledForces)
+            = m_pimpl->scaling * iDynTree::toEigen(contatWrench.second.getLinearVec3());
+
+        if (vectorIndex < forcesViz.getNrOfVectors())
+            forcesViz.updateVector(vectorIndex, contatWrench.first.getPosition(), scaledForces);
+        else
+            forcesViz.addVector(contatWrench.first.getPosition(), scaledForces);
+        vectorIndex++;
+    }
+
     m_pimpl->viz.draw();
 
     return true;
@@ -68,14 +91,22 @@ bool Visualizer::visualizeState(const iDynTree::Transform& world_H_base,
 bool Visualizer::setCameraPosition(const iDynTree::Position& cameraPosition)
 {
     m_pimpl->viz.camera().setPosition(cameraPosition);
-    m_pimpl->defaultCameraPosition = cameraPosition;
     return true;
 }
 
 bool Visualizer::setCameraTarget(const iDynTree::Position& cameraTarget)
 {
     m_pimpl->viz.camera().setTarget(cameraTarget);
-    m_pimpl->defaultCameraTarget = cameraTarget;
+    if (m_pimpl->followModel)
+    {
+        iDynTree::Position newCameraPosition = m_pimpl->defaultCameraPosition;
+        newCameraPosition(0)
+            = cameraTarget(0) + m_pimpl->defaultCameraPosition(0) - m_pimpl->defaultCameraTarget(0);
+        newCameraPosition(1)
+            = cameraTarget(1) + m_pimpl->defaultCameraPosition(1) - m_pimpl->defaultCameraTarget(1);
+
+        m_pimpl->viz.camera().setPosition(newCameraPosition);
+    }
     return true;
 }
 
