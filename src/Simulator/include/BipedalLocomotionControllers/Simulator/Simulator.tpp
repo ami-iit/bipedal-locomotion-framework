@@ -123,6 +123,8 @@ bool Simulator::initialize(std::weak_ptr<ParametersHandler::IParametersHandler<D
         m_controlMode = ControlMode::Torque;
     else if (controlMode == "acceleration")
         m_controlMode = ControlMode::Acceleration;
+    else if (controlMode == "velocity")
+        m_controlMode = ControlMode::Velocity;
     else
     {
         std::cerr << "[Simulator::initialize]  The control mode selected is not supported"
