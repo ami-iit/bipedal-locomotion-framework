@@ -27,6 +27,10 @@ public:
 
     using unique_ptr = std::unique_ptr<IParametersHandler<Derived>>;
 
+    using shared_ptr = std::shared_ptr<IParametersHandler<Derived>>;
+
+    using weak_ptr = std::weak_ptr<IParametersHandler<Derived>>;
+
     /**
      * Get a parameter from the handler.
      * @param parameterName name of the parameter
@@ -49,14 +53,32 @@ public:
     template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
 
     /**
+     * Set the handler from an object.
+     * @param object The object to copy
+     * @tparam T type of the object
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::setParameter
+     */
+    template <typename T> void set(const T& object);
+
+    /**
      * Get a Group from the handler.
      * @param name name of the group
-     * @return A pointer to IParametersHandler, If the group is not found the pointer is equal to
-     * nullptr
+     * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
+     * be locked
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */
-    std::unique_ptr<IParametersHandler<Derived>> getGroup(const std::string& name) const;
+    weak_ptr getGroup(const std::string& name) const;
+
+    /**
+     * Set a new group on the handler.
+     * @param name name of the group
+     * @param newGroup shared pointer to the new group
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::setGroup
+     */
+    void setGroup(const std::string& name, shared_ptr newGroup);
 
     /**
      * Return a standard text representation of the content of the object.
@@ -65,6 +87,21 @@ public:
      * check YarpImplementation::toString
      */
     std::string toString() const;
+
+    /**
+     * Check if the handler contains parameters
+     * @return true if the handler does not contain any parameters, false otherwise
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::isEmpty
+     */
+    bool isEmpty() const;
+
+    /**
+     * Clears the handler from all the parameters
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::clear
+     */
+    void clear();
 
     /**
      * Operator << overloading
@@ -80,6 +117,12 @@ public:
      * Destructor
      */
     virtual ~IParametersHandler() = default;
+
+    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
+    static unique_ptr make_unique(Args&&... args);
+
+    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
+    static shared_ptr make_shared(Args&&... args);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers
