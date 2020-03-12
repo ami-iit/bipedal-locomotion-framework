@@ -68,6 +68,7 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
 
 # Setup testing
 include(AddBipedalLocomotionControllersUnitTest)
+include(AddBipedalLocomotionControllersComponent)
 
 add_subdirectory(src)
 
