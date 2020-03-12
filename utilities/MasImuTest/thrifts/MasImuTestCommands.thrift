@@ -8,6 +8,11 @@
 service MasImuTestCommands
 {
     /**
+     * Quits the module.
+     */
+    oneway void quit();
+
+    /**
      * Call this method to start the test.
      * @return true/false in case of success/failure (for example if the preparation phase was not successfull);
      */

@@ -49,8 +49,11 @@ bool MasImuTest::MasImuData::setupModel()
     while (currentLink != baseLinkIndex) {
         const iDynTree::IJoint* joint = m_commonDataPtr->traversal.getParentJointFromLinkIndex(currentLink);
         assert(joint);
-        m_consideredJointIndexes.push_back(joint->getIndex());
-        m_consideredJointNames.push_back(m_commonDataPtr->fullModel.getJointName(m_consideredJointIndexes.back()));
+        if (joint->getNrOfDOFs() > 0)
+        {
+            m_consideredJointIndexes.push_back(joint->getIndex());
+            m_consideredJointNames.push_back(m_commonDataPtr->fullModel.getJointName(m_consideredJointIndexes.back()));
+        }
         currentLink = m_commonDataPtr->traversal.getParentLinkFromLinkIndex(currentLink)->getIndex();
     }
 
@@ -456,6 +459,8 @@ bool MasImuTest::MasImuData::close()
         yError() << errorPrefix << "Unable to close the robot driver.";
         return false;
     }
+
+    return true;
 }
 
 
@@ -469,7 +474,7 @@ void MasImuTest::reset()
 void MasImuTest::printResultsPrivate() const
 {
     m_leftIMU.printResults();
-    m_leftIMU.printResults();
+    m_rightIMU.printResults();
 }
 
 double MasImuTest::getPeriod()
@@ -530,7 +535,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 
     m_parametersPtr = BipedalLocomotionControllers::ParametersHandler::YarpImplementation::make_unique(rf);
     m_commonDataPtr = std::make_shared<CommonData>();
-
+    
     bool ok = m_parametersPtr->getParameter("name", m_commonDataPtr->prefix);
     if (!ok)
     {
@@ -565,6 +570,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
     std::string pathToModel = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName(robotModelName);
+    yInfo() << "[MasImuTest::configure] Robot model path: " << pathToModel;
     iDynTree::ModelLoader modelLoader;
     if (!modelLoader.loadModelFromFile(pathToModel))
     {
@@ -744,5 +750,11 @@ bool MasImuTest::printResults()
     yError() << "[MasImuTest::startTest] The results can be printed only after stopping the test.";
 
     return false;
+}
+
+void MasImuTest::quit()
+{
+    std::lock_guard<std::mutex> guard(m_mutex);
+    stopModule();
 }
 

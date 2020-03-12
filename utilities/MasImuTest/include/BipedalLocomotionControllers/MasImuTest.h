@@ -177,6 +177,11 @@ public:
      * Print the results. This works only if the test has already been stopped.
      */
     bool printResults() override;
+
+    /**
+     * Quits the module
+     */
+    void quit() override;
 };
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_MASIMUTEST_H
