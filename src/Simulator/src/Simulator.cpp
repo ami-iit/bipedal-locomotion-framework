@@ -5,8 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotionControllers/Simulator/Simulator.h>
 #include <iDynTree/Core/EigenHelpers.h>
+
+#include <BipedalLocomotionControllers/Simulator/Simulator.h>
 
 using namespace BipedalLocomotionControllers::Simulator;
 
@@ -25,7 +26,6 @@ Simulator::Simulator(const iDynTree::Model& model)
     m_generalizedJointTorques.resize(m_numberOfDoF + 6);
 
     m_massMatrix.resize(m_numberOfDoF + 6, m_numberOfDoF + 6);
-    m_massMatrixInverse.resize(m_numberOfDoF + 6, m_numberOfDoF + 6);
 
     m_generalizedBiasForces.resize(model);
 
@@ -199,13 +199,13 @@ bool Simulator::advance(const double& seconds /*= 0 */)
 
             m_leftContact.model->setState(
                 {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-                    {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-                    {"null_force_transform", m_leftContact.frameNullForce}});
+                 {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
+                 {"null_force_transform", m_leftContact.frameNullForce}});
 
             m_rightContact.model->setState(
                 {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-                    {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-                    {"null_force_transform", m_rightContact.frameNullForce}});
+                 {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
+                 {"null_force_transform", m_rightContact.frameNullForce}});
 
             const iDynTree::Wrench& leftWrench = m_leftContact.model->getContactWrench();
             const iDynTree::Wrench& rightWrench = m_rightContact.model->getContactWrench();
@@ -223,7 +223,8 @@ bool Simulator::advance(const double& seconds /*= 0 */)
                 = toEigen(m_generalizedBiasForces.jointTorques());
 
             Eigen::VectorXd robotAcceleration
-                = toEigen(m_massMatrix).ldlt()
+                = toEigen(m_massMatrix)
+                      .ldlt()
                       .solve(-toEigen(generalizedBiasForcesVector)
                              + toEigen(m_leftContact.jacobian).transpose() * toEigen(leftWrench)
                              + toEigen(m_rightContact.jacobian).transpose() * toEigen(rightWrench)
@@ -240,23 +241,28 @@ bool Simulator::advance(const double& seconds /*= 0 */)
         toEigen(basePosition) = toEigen(m_basePositionIntegrator->integrate(m_baseTwist.getLinearVec3()));
         m_baseTransform.setPosition(basePosition);
 
-        A = gain * (toEigen((m_baseTransform.getRotation().inverse() * m_baseTransform.getRotation()).inverse())
-               - Eigen::Matrix3d::Identity());
+        A = gain * (toEigen((m_baseTransform.getRotation().inverse() * m_baseTransform.getRotation()).inverse()) - Eigen::Matrix3d::Identity());
 
-        toEigen(rotationMatrixRateOfChange) = (iDynTree::skew(toEigen(m_baseTwist.getAngularVec3())) + A) * toEigen(m_baseTransform.getRotation());
+        toEigen(rotationMatrixRateOfChange)
+            = (iDynTree::skew(toEigen(m_baseTwist.getAngularVec3())) + A)
+              * toEigen(m_baseTransform.getRotation());
 
-        Eigen::Matrix3d baseRotationEigen = toEigen(m_baseRotationIntegrator->integrate(rotationMatrixRateOfChange));
-        Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseRotationEigen, Eigen::ComputeFullU | Eigen::ComputeFullV);
+        Eigen::Matrix3d baseRotationEigen
+            = toEigen(m_baseRotationIntegrator->integrate(rotationMatrixRateOfChange));
+        Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseRotationEigen,
+                                              Eigen::ComputeFullU | Eigen::ComputeFullV);
 
         iDynTree::Rotation baseRotation;
         iDynTree::toEigen(baseRotation) = svd.matrixU() * svd.matrixV().transpose();
         m_baseTransform.setRotation(baseRotation);
 
-        if(m_controlMode == ControlMode::Acceleration || m_controlMode == ControlMode::Torque)
+        if (m_controlMode == ControlMode::Acceleration || m_controlMode == ControlMode::Torque)
         {
             m_jointVelocity = m_jointVelocityIntegrator->integrate(m_jointAcceleration);
-            m_baseTwist.getLinearVec3() = m_baseLinearVelocityIntegrator->integrate(m_baseAcceleration.getLinearVec3());
-            m_baseTwist.getAngularVec3() = m_baseAngularVelocityIntegrator->integrate(m_baseAcceleration.getAngularVec3());
+            m_baseTwist.getLinearVec3()
+                = m_baseLinearVelocityIntegrator->integrate(m_baseAcceleration.getLinearVec3());
+            m_baseTwist.getAngularVec3()
+                = m_baseAngularVelocityIntegrator->integrate(m_baseAcceleration.getAngularVec3());
         }
 
         // update kindyn
@@ -274,13 +280,13 @@ bool Simulator::advance(const double& seconds /*= 0 */)
 
     m_leftContact.model->setState(
         {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-            {"null_force_transform", m_leftContact.frameNullForce}});
+         {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
+         {"null_force_transform", m_leftContact.frameNullForce}});
 
     m_rightContact.model->setState(
         {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-            {"null_force_transform", m_rightContact.frameNullForce}});
+         {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
+         {"null_force_transform", m_rightContact.frameNullForce}});
 
     return true;
 }
@@ -306,7 +312,7 @@ bool Simulator::setVelocityReferences(const iDynTree::VectorDynSize& velocity)
 
     iDynTree::toEigen(m_jointVelocity) = iDynTree::toEigen(velocity).tail(m_numberOfDoF);
     iDynTree::toEigen(m_baseTwist.getLinearVec3()) = iDynTree::toEigen(velocity).head(3);
-    iDynTree::toEigen(m_baseTwist.getAngularVec3()) = iDynTree::toEigen(velocity).segment(3,3);
+    iDynTree::toEigen(m_baseTwist.getAngularVec3()) = iDynTree::toEigen(velocity).segment(3, 3);
 
     return true;
 }
@@ -332,7 +338,8 @@ bool Simulator::setAccelerationReferences(const iDynTree::VectorDynSize& acceler
 
     iDynTree::toEigen(m_jointAcceleration) = iDynTree::toEigen(acceleration).tail(m_numberOfDoF);
     iDynTree::toEigen(m_baseAcceleration.getLinearVec3()) = iDynTree::toEigen(acceleration).head(3);
-    iDynTree::toEigen(m_baseAcceleration.getAngularVec3()) = iDynTree::toEigen(acceleration).segment(3,3);
+    iDynTree::toEigen(m_baseAcceleration.getAngularVec3())
+        = iDynTree::toEigen(acceleration).segment(3, 3);
 
     return true;
 }
@@ -367,8 +374,8 @@ void Simulator::setLeftFootNullForceTransform(const iDynTree::Transform& transfo
 
     m_leftContact.model->setState(
         {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-            {"null_force_transform", m_leftContact.frameNullForce}});
+         {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
+         {"null_force_transform", m_leftContact.frameNullForce}});
 }
 
 void Simulator::setRightFootNullForceTransform(const iDynTree::Transform& transform)
@@ -377,13 +384,13 @@ void Simulator::setRightFootNullForceTransform(const iDynTree::Transform& transf
 
     m_rightContact.model->setState(
         {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-            {"null_force_transform", m_rightContact.frameNullForce}});
+         {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
+         {"null_force_transform", m_rightContact.frameNullForce}});
 }
 
 iDynTree::Wrench Simulator::leftWrench()
 {
-    if(!m_leftContact.isInContact)
+    if (!m_leftContact.isInContact)
         return iDynTree::Wrench::Zero();
 
     return m_leftContact.model->getContactWrench();
@@ -391,7 +398,7 @@ iDynTree::Wrench Simulator::leftWrench()
 
 iDynTree::Wrench Simulator::rightWrench()
 {
-    if(!m_rightContact.isInContact)
+    if (!m_rightContact.isInContact)
         return iDynTree::Wrench::Zero();
 
     return m_rightContact.model->getContactWrench();

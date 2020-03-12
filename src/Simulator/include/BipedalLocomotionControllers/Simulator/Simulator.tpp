@@ -19,14 +19,13 @@ template <class Derived>
 bool Simulator::initialize(std::weak_ptr<ParametersHandler::IParametersHandler<Derived>> handlerWeak)
 {
     auto handler = handlerWeak.lock();
-    if(handler == nullptr)
+    if (handler == nullptr)
     {
-        std::cerr << "[Simulator::initialize] The parameter handler is not valid."
-                  << std::endl;
+        std::cerr << "[Simulator::initialize] The parameter handler is not valid." << std::endl;
         return false;
     }
 
-    if(m_state != State::NotInitialized)
+    if (m_state != State::NotInitialized)
     {
         std::cerr << "[Simulator::initialize] The simulator has been already initialized."
                   << std::endl;
@@ -127,7 +126,8 @@ bool Simulator::initialize(std::weak_ptr<ParametersHandler::IParametersHandler<D
         m_controlMode = ControlMode::Velocity;
     else
     {
-        std::cerr << "[Simulator::initialize]  The control mode selected is not supported"
+        std::cerr << "[Simulator::initialize]  The control mode selected is not supported. The "
+                     "supported control mode are: \"torque\", \"acceleration\" and \"velocity\" "
                   << std::endl;
         return false;
     }
