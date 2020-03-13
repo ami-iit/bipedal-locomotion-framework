@@ -31,11 +31,11 @@ protected:
                                          expressed in mixed representation */
 
     /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous is \a f */
+     * \dot{x} = f + g u\f$ the autonomous dynamics is \a f */
     iDynTree::Vector6 m_autonomousDynamics;
 
-    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous is \a g */
+    /** Control matrix of the contact model rate of change (i.e. given a non linear system\f$
+     * \dot{x} = f + g u\f$ the control matrix is \a g */
     iDynTree::Matrix6x6 m_controlMatrix;
 
     bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
