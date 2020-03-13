@@ -71,8 +71,9 @@ protected:
 
     /**
      * Set the immutable parameters
+     * @retun true/false in case of success/failure
      */
-    virtual void setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
+    virtual bool setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 
 public:
     /**
@@ -95,13 +96,15 @@ public:
 
     /**
      * Set the internal state of the model
+     * @retun true/false in case of success/failure
      */
-    virtual void setState(const std::unordered_map<std::string, std::any>& state) = 0;
+    virtual bool setState(const std::unordered_map<std::string, std::any>& state) = 0;
 
     /**
      * Set the mutable parameters
+     * @retun true/false in case of success/failure
      */
-    virtual void setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
+    virtual bool setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 };
 } // namespace ContactModels
 } // namespace BipedalLocomotionControllers

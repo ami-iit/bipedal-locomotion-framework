@@ -11,58 +11,90 @@
 
 using namespace BipedalLocomotionControllers::ContactModels;
 
-void ContinuousContactModel::setState(const std::unordered_map<std::string, std::any>& state)
+bool ContinuousContactModel::setState(const std::unordered_map<std::string, std::any>& state)
 {
     if (!getVariable(state, "twist", m_twist))
-        throw std::runtime_error("[ContinuousContactModel::setState] Unable to get the variable "
-                                 "named twist");
+    {
+        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named twist"
+                  << std::endl;
+        return false;
+    }
 
     if (!getVariable(state, "frame_transform", m_frameTransform))
-        throw std::runtime_error("[ContinuousContactModel::setState] Unable to get the variable "
-                                 "named frame_transform");
+    {
+        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named "
+                     "frame_transform"
+                  << std::endl;
+        return false;
+    }
 
     if (!getVariable(state, "null_force_transform", m_nullForceTransform))
-        throw std::runtime_error("[ContinuousContactModel::setState] Unable to get the variable "
-                                 "named null_force_transform");
+    {
+        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named "
+                     "null_force_transform."
+                  << std::endl;
+        return false;
+    }
 
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
     m_isAutonomusDynamicsComputed = false;
+
+    return true;
 }
 
-void ContinuousContactModel::setMutableParameters(
-    const std::unordered_map<std::string, std::any>& parameters)
+bool ContinuousContactModel::setMutableParameters(const std::unordered_map<std::string, std::any>& parameters)
 {
     if (!getVariable(parameters, "spring_coeff", m_springCoeff))
-        throw std::runtime_error("[ContinuousContactModel::setMutableParameters] Unable to get the "
-                                 "variable named spring_coeff");
+    {
+        std::cerr << "[ContinuousContactModel::setMutableParameters] Unable to get the variable "
+                     "named spring_coeff."
+                  << std::endl;
+        return false;
+    }
 
     if (!getVariable(parameters, "damper_coeff", m_damperCoeff))
-        throw std::runtime_error("[ContinuousContactModel::setMutableParameters] Unable to get the "
-                                 "variable named damper_coeff");
+    {
+        std::cerr << "[ContinuousContactModel::setMutableParameters] Unable to get the variable "
+                     "named damper_coeff."
+                  << std::endl;
+        return false;
+    }
 
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
     m_isAutonomusDynamicsComputed = false;
+
+    return true;
 }
 
-void ContinuousContactModel::setImmutableParameters(
+bool ContinuousContactModel::setImmutableParameters(
     const std::unordered_map<std::string, std::any>& parameters)
 {
     if (!getVariable(parameters, "length", m_length))
-        throw std::runtime_error("[ContinuousContactModel::setImmutableParameters] Unable to get "
-                                 "the variable named length");
+    {
+        std::cerr << "[ContinuousContactModel::setImmutableParameters] Unable to get the variable "
+                     "named length."
+                  << std::endl;
+        return false;
+    }
 
     if (!getVariable(parameters, "width", m_width))
-        throw std::runtime_error("[ContinuousContactModel::setImmutableParameters] Unable to get "
-                                 "the variable named width");
+    {
+        std::cerr << "[ContinuousContactModel::setImmutableParameters] Unable to get the variable "
+                     "named width."
+                  << std::endl;
+        return false;
+    }
 
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
     m_isAutonomusDynamicsComputed = false;
+
+    return true;
 }
 
 ContinuousContactModel::ContinuousContactModel(

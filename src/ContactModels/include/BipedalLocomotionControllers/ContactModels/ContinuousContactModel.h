@@ -69,8 +69,9 @@ class ContinuousContactModel final : public ContactModel
      * to be available. If not an std::runtime_error is thrown.
      *   - \a length (double): length in meters associated to the model
      *   - \a width (double): width in meters associated to the model
+     * @retun true/false in case of success/failure
      */
-    void setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) final;
+    bool setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) final;
 
 public:
 
@@ -103,8 +104,9 @@ public:
      *   - \a frame_transform (iDynTree::Transform): transformation between the link and the inertial frame;
      *   - \a null_force_transform (iDynTree::Transform): transformation corresponding to a null force;
      *   - \a twist (iDynTree::Twist): twist (expressed in mixed representation) of the link
+     * @retun true/false in case of success/failure
      */
-    void setState(const std::unordered_map<std::string, std::any>& state) final;
+    bool setState(const std::unordered_map<std::string, std::any>& state) final;
 
     /**
      * Set the parameters may depends on time/state (i.e. they are not considered constant)
@@ -113,8 +115,9 @@ public:
      * to be available. If not an std::runtime_error is thrown.
      *   - \a spring_coeff (double): spring coefficient associated to the model
      *   - \a damper_coeff (double): damper coefficient associated to the model
+     * @retun true/false in case of success/failure
      */
-    void setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) final;
+    bool setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) final;
 
     /**
      * Compute the force in a particular point in the contact surface.
