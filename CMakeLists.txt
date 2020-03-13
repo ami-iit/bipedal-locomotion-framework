@@ -11,6 +11,8 @@ project(BipedalLocomotionControllers
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+
 option(BUILD_TESTING "Create tests using CMake" OFF)
 include(CTest)
 
@@ -63,6 +65,10 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
   INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}"
   DEPENDS ENABLE_RPATH
   USE_LINK_PATH)
+
+# Setup testing
+include(AddBipedalLocomotionControllersUnitTest)
+include(AddBipedalLocomotionControllersComponent)
 
 add_subdirectory(src)
 

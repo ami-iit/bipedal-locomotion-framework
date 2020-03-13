@@ -129,8 +129,21 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         return false;
     }
 
-    // resize the vector
-    vector.resize(inputPtr->size());
+    // If the vector can be resize, let resize it. Otherwise it is a fix-size vector and the
+    // dimensions has to be the same of list
+    if constexpr (is_resizable<T>::value)
+        vector.resize(inputPtr->size());
+    else
+    {
+        if (vector.size() != inputPtr->size())
+        {
+            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+                         "The size of the vector does not match with the size of the list. List "
+                         "size: "
+                      << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
+            return false;
+        }
+    }
 
     for (int i = 0; i < inputPtr->size(); i++)
     {
@@ -144,69 +157,6 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         }
 
         vector[i] = convertValue<elementType>(inputPtr->get(i));
-    }
-    return true;
-}
-
-template <>
-bool getVectorFromSearchable<std::vector<bool>>(const yarp::os::Searchable& config,
-                                                const std::string& key,
-                                                std::vector<bool>& vector)
-{
-
-    static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(bool),
-                  "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
-                  "function getElementFromSearchable() cannot be called with the desired "
-                  "element type");
-
-    yarp::os::Value* value;
-    if (!config.check(key, value))
-    {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
-                     "Missing field "
-                  << key << std::endl;
-        return false;
-    }
-
-    if (value->isNull())
-    {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] Empty "
-                     "input value named "
-                  << key << std::endl;
-        return false;
-    }
-
-    if (!value->isList())
-    {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
-                     "value named "
-                  << key << "is not associated to a list." << std::endl;
-        return false;
-    }
-
-    yarp::os::Bottle* inputPtr = value->asList();
-    if (inputPtr == nullptr)
-    {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
-                     "list associated to the value named "
-                  << key << " is empty." << std::endl;
-        return false;
-    }
-
-    // resize the vector
-    vector.resize(inputPtr->size());
-
-    for (int i = 0; i < inputPtr->size(); i++)
-    {
-        if (!(inputPtr->get(i).isBool()) && !(inputPtr->get(i).isInt()))
-        {
-            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
-                         "The element of the list associated to the value named "
-                      << key << " is not a boolean ." << std::endl;
-            return false;
-        }
-
-        vector[i] = convertValue<bool>(inputPtr->get(i));
     }
     return true;
 }
