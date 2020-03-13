@@ -39,7 +39,7 @@ bool ContinuousContactModel::setState(const std::unordered_map<std::string, std:
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
-    m_isAutonomusDynamicsComputed = false;
+    m_isAutonomousDynamicsComputed = false;
 
     return true;
 }
@@ -65,7 +65,7 @@ bool ContinuousContactModel::setMutableParameters(const std::unordered_map<std::
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
-    m_isAutonomusDynamicsComputed = false;
+    m_isAutonomousDynamicsComputed = false;
 
     return true;
 }
@@ -92,7 +92,7 @@ bool ContinuousContactModel::setImmutableParameters(
     // the parameters has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
-    m_isAutonomusDynamicsComputed = false;
+    m_isAutonomousDynamicsComputed = false;
 
     return true;
 }

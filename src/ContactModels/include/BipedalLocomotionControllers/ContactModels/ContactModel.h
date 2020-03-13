@@ -39,7 +39,8 @@ protected:
     iDynTree::Matrix6x6 m_controlMatrix;
 
     bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
-    bool m_isAutonomusDynamicsComputed; /**< If true the autonomous dynamics has been already computed */
+    bool m_isAutonomousDynamicsComputed; /**< If true the autonomous dynamics has been already
+                                            computed */
     bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
     /**

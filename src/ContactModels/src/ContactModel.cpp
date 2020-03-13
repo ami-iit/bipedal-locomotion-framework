@@ -22,10 +22,10 @@ const iDynTree::Wrench& ContactModel::getContactWrench()
 
 const iDynTree::Vector6& ContactModel::getAutonomousDynamics()
 {
-    if (!m_isAutonomusDynamicsComputed)
+    if (!m_isAutonomousDynamicsComputed)
     {
         computeAutonomousDynamics();
-        m_isAutonomusDynamicsComputed = true;
+        m_isAutonomousDynamicsComputed = true;
     }
 
     return m_autonomousDynamics;
