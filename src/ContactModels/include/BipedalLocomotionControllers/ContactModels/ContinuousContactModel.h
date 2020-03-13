@@ -63,9 +63,9 @@ class ContinuousContactModel final : public ContactModel
     void computeControlMatrix() final;
 
     /**
-     * Set the parameters cannot change
+     * Set the parameters that cannot change
      * @param state std::unordered_map containing the mutable parameters of the system. To compute the contact
-     * wrench between two system (i.e. a link of a robot and the environment) the following data has
+     * wrench between two systems (i.e. a link of a robot and the environment) the following data have
      * to be available. If not an std::runtime_error is thrown.
      *   - \a length (double): length in meters associated to the model
      *   - \a width (double): width in meters associated to the model
@@ -76,7 +76,7 @@ class ContinuousContactModel final : public ContactModel
 public:
 
     /**
-     * Constructor. It instantiate the value of the mutable parameters and the immutable parameters.
+     * Constructor. It instantiates the value of the mutable parameters and the immutable parameters.
      * @param immutableParameters std::unordered_map containing the immutable parameters of the
      * system. The list of the required parameters could be found in @ref
      * BipedalLocomotionController::ContactModels::setImmutableparameters
@@ -99,7 +99,7 @@ public:
     /**
      * Set the internal state of the model.
      * @param state std::unordered_map containing the state of the system. To compute the contact
-     * wrench between two system (i.e. a link of a robot and the environment) the following data has
+     * wrench between two systems (i.e. a link of a robot and the environment) the following data have
      * to be available. If not an std::runtime_error is thrown.
      *   - \a frame_transform (iDynTree::Transform): transformation between the link and the inertial frame;
      *   - \a null_force_transform (iDynTree::Transform): transformation corresponding to a null force;
@@ -109,9 +109,9 @@ public:
     bool setState(const std::unordered_map<std::string, std::any>& state) final;
 
     /**
-     * Set the parameters may depends on time/state (i.e. they are not considered constant)
+     * Set the parameters that may depend on time/state (i.e. they are not considered constant)
      * @param state std::unordered_map containing the mutable parameters of the system. To compute the contact
-     * wrench between two system (i.e. a link of a robot and the environment) the following data has
+     * wrench between two systems (i.e. a link of a robot and the environment) the following data have
      * to be available. If not an std::runtime_error is thrown.
      *   - \a spring_coeff (double): spring coefficient associated to the model
      *   - \a damper_coeff (double): damper coefficient associated to the model
