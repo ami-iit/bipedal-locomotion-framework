@@ -50,6 +50,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         bool filterYaw;
         int maxSamples;
         double minJointVariationRad;
+        double masTimeout;
     };
 
     class MasImuData

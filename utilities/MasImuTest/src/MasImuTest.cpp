@@ -91,6 +91,7 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
     yarp::os::Property inertialClientProperty;
     inertialClientProperty.put("remote", "/" + m_commonDataPtr->robotName + "/" + remote);
     inertialClientProperty.put("local", "/" + m_commonDataPtr->prefix + "/" + remote);
+    inertialClientProperty.put("timeout", m_commonDataPtr->masTimeout);
     inertialClientProperty.put("device","multipleanalogsensorsclient");
 
     if (!m_orientationDriver.open(inertialClientProperty))
@@ -420,6 +421,14 @@ void MasImuTest::MasImuData::printResults() const
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::printResults](" + m_testName +") ";
 
+    if (!m_data.size())
+    {
+        yInfo() << errorPrefix << "Results ("<<m_data.size() << " samples) :\n"
+                << "--------------------------------------\n"
+                << "--------------------------------------\n";
+        return;
+    }
+
     iDynTree::Rotation meanError;
 
     iDynTree::GeodesicL2MeanOptions options;
@@ -432,9 +441,48 @@ void MasImuTest::MasImuData::printResults() const
         return;
     }
 
-    yInfo() << errorPrefix << " Mean rotation error ("<<m_data.size() << " samples) :\n"
+    double minError = - 1;
+    double maxError = -1;
+    size_t minIndex, maxIndex;
+
+    for (size_t i = 0; i < m_data.size(); ++i)
+    {
+        double error = iDynTree::geodesicL2Distance(iDynTree::Rotation::Identity(), m_data[i]);
+        if ((i > 0) && ((minError < 0) || (error < minError))) //Avoiding to pick the very first data point as it may be too close to the initialization
+        {
+            minError = error;
+            minIndex = i;
+        }
+
+        if ((maxError < 0) || (error > maxError))
+        {
+            maxError = error;
+            maxIndex = i;
+        }
+    }
+
+    auto rpyPrinter = [](const iDynTree::Rotation& rot)->std::string
+    {
+        std::string output;
+        iDynTree::Vector3 rpy = rot.asRPY();
+
+        output = "RPY: (" + std::to_string(rpy[0]) + ", " + std::to_string(rpy[1]) + ", " + std::to_string(rpy[2]) + ")\n";
+        return output;
+    };
+
+    yInfo() << errorPrefix << "Results ("<<m_data.size() << " samples) :\n"
             << "--------------------------------------\n"
+            << "--------------Mean Rotation-----------\n"
             << meanError.toString()
+            << rpyPrinter(meanError)
+            << "----------------Min Error-------------\n"
+            << "Index: " << minIndex << "\n"
+            << m_data[minIndex].toString()
+            << rpyPrinter(m_data[minIndex])
+            << "----------------Max Error-------------\n"
+            << "Index: " << maxIndex << "\n"
+            << m_data[maxIndex].toString()
+            << rpyPrinter(m_data[maxIndex])
             << "--------------------------------------\n";
 }
 
@@ -644,6 +692,13 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
+    ok = m_parametersPtr->getParameter("mas_timeout", m_commonDataPtr->masTimeout);
+    if (!ok || m_commonDataPtr->masTimeout < 0)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"mas_timeout\".";
+        return false;
+    }
+
     auto leftLegGroup = m_parametersPtr->getGroup("LEFT_LEG").lock();
     if (!leftLegGroup)
     {
@@ -683,6 +738,8 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 
     m_state = State::PREPARED;
 
+    yInfo() << "[MasImuTest::configure] Ready!";
+
     return true;
 }
 
@@ -714,6 +771,9 @@ bool MasImuTest::startTest()
     {
         reset();
         m_state = State::FIRST_RUN;
+
+        yInfo() << "[MasImuTest::startTest] Started!";
+
         return true;
     }
 
