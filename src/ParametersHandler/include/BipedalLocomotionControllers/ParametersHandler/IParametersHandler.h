@@ -8,58 +8,170 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
 
+#include <iDynTree/Core/Span.h>
+
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace BipedalLocomotionControllers
 {
 namespace ParametersHandler
 {
 
+
+template <typename T>
+struct is_string : public std::disjunction<std::is_same<char*, typename std::decay<T>::type>,
+                                           std::is_same<const char*, typename std::decay<T>::type>,
+                                           std::is_same<std::string, typename std::decay<T>::type>>
+{
+};
+
+
 /**
  * Parameters handler interface.
  * @tparam Derived type of the Derived class. Necessary to implement the Curiously recurring
  * template pattern
  */
-template <class Derived> class IParametersHandler
+class IParametersHandler
 {
 public:
 
-    using unique_ptr = std::unique_ptr<IParametersHandler<Derived>>;
+    using unique_ptr = std::unique_ptr<IParametersHandler>;
 
-    using shared_ptr = std::shared_ptr<IParametersHandler<Derived>>;
+    using shared_ptr = std::shared_ptr<IParametersHandler>;
 
-    using weak_ptr = std::weak_ptr<IParametersHandler<Derived>>;
+    using weak_ptr = std::weak_ptr<IParametersHandler>;
 
     /**
-     * Get a parameter from the handler.
+     * Get a parameter [int]
      * @param parameterName name of the parameter
      * @param parameter parameter
-     * @tparam T type of the parameter
      * @return true/false in case of success/failure
-     * @warning Please implement the specific version of this method in the Derived class. Please
-     * check YarpImplementation::getParameter
      */
-    template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const;
+    virtual bool getParameter(const std::string& parameterName, int& parameter) const = 0;
 
     /**
-     * Set a parameter in the handler.
+     * Get a parameter [double]
      * @param parameterName name of the parameter
      * @param parameter parameter
-     * @tparam T type of the parameter
-     * @warning Please implement the specific version of this method in the Derived class. Please
-     * check YarpImplementation::setParameter
+     * @return true/false in case of success/failure
      */
-    template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
+    virtual bool getParameter(const std::string& parameterName, double& parameter) const = 0;
 
     /**
-     * Set the handler from an object.
-     * @param object The object to copy
-     * @tparam T type of the object
-     * @warning Please implement the specific version of this method in the Derived class. Please
-     * check YarpImplementation::setParameter
+     * Get a parameter [std::string]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
      */
-    template <typename T> void set(const T& object);
+    virtual bool getParameter(const std::string& parameterName, std::string& parameter) const = 0;
+
+    /**
+     * Get a parameter [bool]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+
+    virtual bool getParameter(const std::string& parameterName, bool& parameter) const = 0;
+
+    /**
+     * Get a parameter [std::span<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<int>& parameter) const = 0;
+
+    /**
+     * Get a parameter [std::span<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<double>& parameter) const = 0;
+
+    /**
+     * Get a parameter [std::span<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<std::string>& parameter) const = 0;
+
+    /**
+     * Get a parameter [std::vector<bool>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, std::vector<bool>& parameter) const = 0;
+
+    /**
+     * Set a parameter [int]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const int& parameter) = 0;
+
+    /**
+     * Set a parameter [double]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const double& parameter) = 0;
+
+    /**
+     * Set a parameter [std::string]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const std::string& parameter) = 0;
+
+    /**
+     * Set a parameter [const char*]
+     * @note this is required because of
+     * https://www.bfilipek.com/2019/07/surprising-conversions-char-bool.html
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const char* parameter) = 0;
+
+    /**
+     * Set a parameter [bool]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const bool& parameter) = 0;
+
+    /**
+     * Set a parameter [std::span<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const int>& parameter) = 0;
+
+    /**
+     * Set a parameter [std::span<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const double>& parameter) = 0;
+
+    /**
+     * Set a parameter [std::span<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const std::string>& parameter) = 0;
+
+    /**
+     * Set a parameter [std::vector<bool>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) = 0;
 
     /**
      * Get a Group from the handler.
@@ -69,7 +181,7 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */
-    weak_ptr getGroup(const std::string& name) const;
+    virtual weak_ptr getGroup(const std::string& name) const = 0;
 
     /**
      * Set a new group on the handler.
@@ -78,7 +190,7 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::setGroup
      */
-    void setGroup(const std::string& name, shared_ptr newGroup);
+    virtual void setGroup(const std::string& name, shared_ptr newGroup) = 0;
 
     /**
      * Return a standard text representation of the content of the object.
@@ -86,7 +198,7 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::toString
      */
-    std::string toString() const;
+    virtual std::string toString() const = 0;
 
     /**
      * Check if the handler contains parameters
@@ -94,39 +206,22 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::isEmpty
      */
-    bool isEmpty() const;
+    virtual bool isEmpty() const = 0;
 
     /**
      * Clears the handler from all the parameters
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::clear
      */
-    void clear();
-
-    /**
-     * Operator << overloading
-     * @param os Output stream objects
-     * @param handler reference to the interface
-     * @tparam U type of the derived class
-     * @return a reference to an Output stream objects
-     */
-    template <typename U>
-    friend std::ostream& operator<<(std::ostream& os, const IParametersHandler<U>& hanlder);
+    virtual void clear() = 0;
 
     /**
      * Destructor
      */
     virtual ~IParametersHandler() = default;
 
-    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
-    static unique_ptr make_unique(Args&&... args);
-
-    template<class... Args, typename = typename std::enable_if<std::is_constructible<Derived, Args...>::value>::type>
-    static shared_ptr make_shared(Args&&... args);
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers
-
-#include "IParametersHandler.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
