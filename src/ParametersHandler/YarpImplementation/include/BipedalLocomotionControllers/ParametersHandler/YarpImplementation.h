@@ -217,7 +217,7 @@ public:
      * @param name name of the group
      * @param newGroup shared pointer to the new group
      */
-    void setGroup(const std::string& name, shared_ptr newGroup) final;
+    bool setGroup(const std::string& name, shared_ptr newGroup) final;
 
     /**
      * Return a standard text representation of the content of the object.

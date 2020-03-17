@@ -189,8 +189,9 @@ public:
      * @param newGroup shared pointer to the new group
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::setGroup
+     * @return true/false in case of success/failure
      */
-    virtual void setGroup(const std::string& name, shared_ptr newGroup) = 0;
+    virtual bool setGroup(const std::string& name, shared_ptr newGroup) = 0;
 
     /**
      * Return a standard text representation of the content of the object.

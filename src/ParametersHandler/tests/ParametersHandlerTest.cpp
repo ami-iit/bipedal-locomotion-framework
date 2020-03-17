@@ -185,11 +185,21 @@ public:
         return setParameterPrivate(parameterName, parameter);
     }
 
-    void setGroup(const std::string& name, shared_ptr newGroup)
+    bool setGroup(const std::string& name, shared_ptr newGroup)
     {
-        m_map[name] = std::make_any<shared_ptr>(newGroup);
-    }
+        auto downcastedPtr = std::dynamic_pointer_cast<BasicImplementation>(newGroup);
+        if (downcastedPtr == nullptr)
+        {
+            std::cerr << "[YarpImplementation::setGroup] Unable to downcast the pointer to "
+                         "BasicImplementation."
+                      << std::endl;
+            return false;
+        }
 
+        m_map[name] = std::make_any<shared_ptr>(downcastedPtr);
+
+        return true;
+    }
 
     IParametersHandler::weak_ptr getGroup(const std::string& name) const final
     {
@@ -277,7 +287,7 @@ TEST_CASE("Get parameters")
     SECTION("Set/Get Group")
     {
         BasicImplementation::shared_ptr newGroup = std::make_shared<BasicImplementation>();
-        parameterHandler->setGroup("CARTOONS", newGroup);
+        REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
         BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         groupHandler->setParameter("Donald's nephews",
@@ -290,7 +300,7 @@ TEST_CASE("Get parameters")
     SECTION("is Empty")
     {
         BasicImplementation::shared_ptr newGroup = std::make_shared<BasicImplementation>();
-        parameterHandler->setGroup("CARTOONS", newGroup);
+        REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
         BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());

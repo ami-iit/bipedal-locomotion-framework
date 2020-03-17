@@ -85,7 +85,7 @@ TEST_CASE("Get parameters")
     {
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         setGroup->setParameter("Donald's nephews", donaldsNephews);
-        parameterHandler->setGroup("CARTOONS", setGroup);
+        REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
         YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
@@ -104,7 +104,7 @@ TEST_CASE("Get parameters")
         IParametersHandler::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE_FALSE(groupHandler);
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
-        parameterHandler->setGroup("CARTOONS", setGroup);
+        REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
 
         groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
         REQUIRE(groupHandler);

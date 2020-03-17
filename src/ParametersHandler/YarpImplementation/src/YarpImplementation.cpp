@@ -153,11 +153,18 @@ YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& nam
     return std::make_shared<YarpImplementation>();
 }
 
-void YarpImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
+bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
 {
-    auto downcastedPtr = std::static_pointer_cast<YarpImplementation>(newGroup); // to access
-                                                                                 // m_container
-    assert(downcastedPtr);
+    auto downcastedPtr = std::dynamic_pointer_cast<YarpImplementation>(newGroup); // to access
+                                                                                  // m_container
+    if (downcastedPtr == nullptr)
+    {
+        std::cerr << "[YarpImplementation::setGroup] Unable to downcast the pointer to "
+                     "YarpImplementation."
+                  << std::endl;
+        return false;
+    }
+
     yarp::os::Bottle backup = downcastedPtr->m_container;
     yarp::os::Bottle nameAdded;
     nameAdded.add(yarp::os::Value(name));
@@ -165,6 +172,8 @@ void YarpImplementation::setGroup(const std::string& name, IParametersHandler::s
     downcastedPtr->m_container = nameAdded; // This is all to add the name at the beginning of the
                                             // bottle
     m_lists[name] = newGroup;
+
+    return true;
 }
 
 std::string YarpImplementation::toString() const
