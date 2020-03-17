@@ -155,8 +155,8 @@ YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& nam
 
 void YarpImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
 {
-    auto downcastedPtr = std::dynamic_pointer_cast<YarpImplementation>(newGroup); // to access
-                                                                                  // m_container
+    auto downcastedPtr = std::static_pointer_cast<YarpImplementation>(newGroup); // to access
+                                                                                 // m_container
     assert(downcastedPtr);
     yarp::os::Bottle backup = downcastedPtr->m_container;
     yarp::os::Bottle nameAdded;
