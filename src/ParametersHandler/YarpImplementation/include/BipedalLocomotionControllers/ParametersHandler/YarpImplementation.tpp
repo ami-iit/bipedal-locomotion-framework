@@ -15,10 +15,10 @@ namespace ParametersHandler
 {
 
 template <typename T>
-bool YarpImplementation::getParameter(const std::string& parameterName, T& parameter) const
+bool YarpImplementation::getParameterPrivate(const std::string& parameterName, T& parameter) const
 {
     if (m_lists.find(parameterName) != m_lists.end()) // A list is called with the same name of the parameter we are searching
-    { 
+    {
         return m_lists.at(parameterName)->getParameter(parameterName, parameter);
     }
     else
@@ -33,7 +33,7 @@ bool YarpImplementation::getParameter(const std::string& parameterName, T& param
 }
 
 template <typename T>
-void YarpImplementation::setParameter(const std::string& parameterName, const T& parameter)
+void YarpImplementation::setParameterPrivate(const std::string& parameterName, const T& parameter)
 {
     // a scalar element and a strings is retrieved using getElementFromSearchable() function
     if constexpr (std::is_scalar<T>::value || is_string<T>::value)
@@ -66,7 +66,7 @@ void YarpImplementation::setParameter(const std::string& parameterName, const T&
 
         property->add(yarpNewList);
 
-        m_lists[parameterName] = make_shared(yarpValue);
+        m_lists[parameterName] = std::make_shared<YarpImplementation>(yarpValue);
     }
 }
 

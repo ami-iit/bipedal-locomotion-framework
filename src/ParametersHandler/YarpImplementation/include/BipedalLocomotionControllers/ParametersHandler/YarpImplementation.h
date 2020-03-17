@@ -14,9 +14,9 @@
 #include <unordered_map>
 
 // YARP
-#include <yarp/os/Searchable.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Property.h>
+#include <yarp/os/Searchable.h>
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
@@ -25,27 +25,41 @@ namespace BipedalLocomotionControllers
 namespace ParametersHandler
 {
 
-template <typename T>
-struct is_string : public std::disjunction<std::is_same<char*, typename std::decay<T>::type>,
-                                           std::is_same<const char*, typename std::decay<T>::type>,
-                                           std::is_same<std::string, typename std::decay<T>::type>>
-{
-};
-
 /**
- * Parameters handler interface. Yarp Implementation (Curiously recurring
- * template pattern)
+ * YarpImplementation Yarp implementation of the IParametersHandler interface
  */
-class YarpImplementation : public IParametersHandler<YarpImplementation>
+class YarpImplementation : public IParametersHandler
 {
 
     yarp::os::Bottle m_container; /**< Bottle object */
-    std::unordered_map<std::string, YarpImplementation::shared_ptr> m_lists; /**< Map containing pointers to the (asked) groups */
+    std::unordered_map<std::string, YarpImplementation::shared_ptr> m_lists; /**< Map containing
+                                                                                pointers to the
+                                                                                (asked) groups */
+
+    /**
+     * Private implementation of getParameter
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @tparam T type of the parameter
+     * @return true/false in case of success/failure
+     */
+    template <typename T>
+    bool getParameterPrivate(const std::string& parameterName, T& parameter) const;
+
+    /**
+     * Private implementation of setParameter
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @tparam T type of the parameter
+     */
+    template <typename T>
+    void setParameterPrivate(const std::string& parameterName, const T& parameter);
 
 public:
     /**
      * Constructor.
-     * @param searchable reference to a searchable object. The object is copied inside the Handler
+     * @param searchable reference to a searchable object. The object is copied inside the
+     * Handler
      */
     YarpImplementation(const yarp::os::Searchable& searchable);
 
@@ -55,28 +69,140 @@ public:
     YarpImplementation() = default;
 
     /**
-     * Get a parameter from the handler.
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @tparam T type of the parameter
-     * @return true/false in case of success/failure
-     */
-    template <typename T> bool getParameter(const std::string& parameterName, T& parameter) const;
-
-    /**
-     * Set a parameter in the handler.
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @tparam T type of the parameter
-     */
-    template <typename T> void setParameter(const std::string& parameterName, const T& parameter);
-
-    /**
      * Set the handler from an object.
      * @param object The object to copy
-     * @tparam T type of the object
      */
     void set(const yarp::os::Searchable& searchable);
+
+    /**
+     * Get a parameter [int]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, int& parameter) const final;
+
+    /**
+     * Get a parameter [double]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, double& parameter) const final;
+
+    /**
+     * Get a parameter [std::string]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, std::string& parameter) const final;
+
+    /**
+     * Get a parameter [bool]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+
+    bool getParameter(const std::string& parameterName, bool& parameter) const final;
+
+    /**
+     * Get a parameter [std::span<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, const iDynTree::Span<int>& parameter) const final;
+
+    /**
+     * Get a parameter [std::span<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, const iDynTree::Span<double>& parameter) const final;
+
+    /**
+     * Get a parameter [std::span<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, const iDynTree::Span<std::string>& parameter) const final;
+
+    /**
+     * Get a parameter [std::vector<bool>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, std::vector<bool>& parameter) const final;
+
+    /**
+     * Set a parameter [int]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const int& parameter) final;
+
+    /**
+     * Set a parameter [double]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const double& parameter) final;
+
+    /**
+     * Set a parameter [std::string]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const std::string& parameter) final;
+
+    /**
+     * Set a parameter [const char*]
+     * @note this is required because of
+     * https://www.bfilipek.com/2019/07/surprising-conversions-char-bool.html
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const char* parameter) final;
+
+    /**
+     * Set a parameter [bool]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const bool& parameter) final;
+
+    /**
+     * Set a parameter [std::span<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const iDynTree::Span<const int>& parameter) final;
+
+    /**
+     * Set a parameter [std::span<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const iDynTree::Span<const double>& parameter) final;
+
+    /**
+     * Set a parameter [std::span<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const iDynTree::Span<const std::string>& parameter) final;
+
+    /**
+     * Set a parameter [std::vector<bool>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) final;
 
     /**
      * Get a Group from the handler.
@@ -84,31 +210,31 @@ public:
      * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
      * be locked
      */
-    weak_ptr getGroup(const std::string& name) const;
+    weak_ptr getGroup(const std::string& name) const final;
 
     /**
      * Set a new group on the handler.
      * @param name name of the group
      * @param newGroup shared pointer to the new group
      */
-    void setGroup(const std::string& name, shared_ptr newGroup);
+    void setGroup(const std::string& name, shared_ptr newGroup) final;
 
     /**
      * Return a standard text representation of the content of the object.
      * @return a string containing the standard text representation of the content of the object.
      */
-    std::string toString() const;
+    std::string toString() const final;
 
     /**
      * Check if the handler contains parameters
      * @return true if the handler does not contain any parameters, false otherwise
      */
-    bool isEmpty() const;
+    bool isEmpty() const final;
 
     /**
      * Clears the handler from all the parameters
      */
-    void clear();
+    void clear() final;
 
     /**
      * Destructor
