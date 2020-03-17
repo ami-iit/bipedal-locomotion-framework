@@ -30,7 +30,7 @@ TEST_CASE("Get parameters")
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
 
-    YarpImplementation::unique_ptr parameterHandler = YarpImplementation::make_unique();
+    IParametersHandler::unique_ptr parameterHandler = std::make_unique<YarpImplementation>();
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
@@ -67,7 +67,7 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Vector")
     {
-        std::vector<int> element;
+        std::vector<int> element(fibonacciNumbers.size());
         REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);
     }
@@ -76,34 +76,34 @@ TEST_CASE("Get parameters")
     {
         fibonacciNumbers.push_back(34);
         parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
-        std::vector<int> element;
+        std::vector<int> element(fibonacciNumbers.size());
         REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);
     }
 
     SECTION("Set/Get Group")
     {
-        YarpImplementation::shared_ptr setGroup = YarpImplementation::make_shared();
+        IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         setGroup->setParameter("Donald's nephews", donaldsNephews);
         parameterHandler->setGroup("CARTOONS", setGroup);
         YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
-        std::vector<std::string> element;
+        std::vector<std::string> element(3);
         REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
         REQUIRE(element == donaldsNephews);
     }
 
     SECTION("Print content")
     {
-        std::cout << "Parameters: " << *parameterHandler << std::endl;
+        std::cout << "Parameters: " << parameterHandler->toString() << std::endl;
     }
 
     SECTION("is Empty")
     {
-        YarpImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        IParametersHandler::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE_FALSE(groupHandler);
-        YarpImplementation::shared_ptr setGroup = YarpImplementation::make_shared();
+        IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         parameterHandler->setGroup("CARTOONS", setGroup);
 
         groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
@@ -112,7 +112,7 @@ TEST_CASE("Get parameters")
 
         groupHandler->setParameter("Donald's nephews", donaldsNephews);
         REQUIRE_FALSE(groupHandler->isEmpty());
-        std::cout << "Parameters: " << *parameterHandler << std::endl;
+        std::cout << "Parameters: " << parameterHandler->toString() << std::endl;
 
     }
 
@@ -126,11 +126,11 @@ TEST_CASE("Get parameters")
     SECTION("Set from object")
     {
         yarp::os::ResourceFinder rf;
-        parameterHandler->set(rf);
+        static_cast<YarpImplementation*>(parameterHandler.get())->set(rf);
 
         yarp::os::Property property;
         property.put("value", 10);
-        parameterHandler->set(property);
+        static_cast<YarpImplementation*>(parameterHandler.get())->set(property);
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
@@ -153,7 +153,7 @@ TEST_CASE("Get parameters")
         REQUIRE_FALSE(rf.isNull());
         parameterHandler->clear();
         REQUIRE(parameterHandler->isEmpty());
-        parameterHandler->set(rf);
+        static_cast<YarpImplementation*>(parameterHandler.get())->set(rf);
 
         {
             int element;
@@ -174,23 +174,23 @@ TEST_CASE("Get parameters")
         }
 
         {
-            std::vector<int> element;
+            std::vector<int> element(fibonacciNumbers.size());
             REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
             REQUIRE(element == fibonacciNumbers);
         }
 
-        YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        IParametersHandler::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
         {
-            std::vector<std::string> element;
+            std::vector<std::string> element(3);
             REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
             REQUIRE(element == donaldsNephews);
 
         }
 
         {
-            std::vector<int> element;
+            std::vector<int> element(fibonacciNumbers.size());
             REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
             REQUIRE(element == fibonacciNumbers);
         }
