@@ -99,7 +99,7 @@ public:
 
     index_type size() const
     {
-        m_span.size();
+        return m_span.size();
     }
 
     bool empty() const {
