@@ -5,4 +5,5 @@
 
 add_subdirectory(YarpUtilities)
 add_subdirectory(ParametersHandler)
+add_subdirectory(GenericContainer)
 add_subdirectory(BipedalLocomotionControllers)
