@@ -53,24 +53,22 @@ public:
 
     ~GenericContainer() = default;
 
-    GenericContainer(const GenericContainer<T>& other)
-    {
-        operator=(other);
-    }
+    GenericContainer(const GenericContainer<T>& other) = delete;
 
     GenericContainer(GenericContainer<T>&& other)
     {
-        operator=(other);
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
     }
 
-    void operator=(const GenericContainer<T>& other)
+    bool clone(const GenericContainer<T>& other)
     {
         if (size() != other.size())
         {
             if (!resize(other.size()))
             {
                 std::cerr << "[Generic container] Failed to resize. Copy aborted" << std::endl;
-                return;
+                return false;
             }
         }
 
@@ -78,12 +76,18 @@ public:
         {
             this->operator[](i) = other[i];
         }
+
+        return true;
+    }
+
+    void operator=(const GenericContainer<T>& other)
+    {
+        clone(other);
     }
 
     void operator=(GenericContainer<T>&& other)
     {
-        m_span = other.m_span;
-        m_resizeLambda = other.m_resizeLambda;
+        clone(other);
     }
 
 
