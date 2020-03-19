@@ -111,7 +111,7 @@ struct has_type_member<T, std::void_t<typename T::value_type>> : std::true_type 
 template <typename T>
 struct container_data
 {
-    static_assert (has_type_member<T>::value && is_data_available<T>::value, "no data() method found.");
+    static_assert (has_type_member<T>::value || is_data_available<T>::value, "no data() method found.");
     using type = typename std::remove_pointer<decltype(std::declval<T>().data())>::type;
 };
 

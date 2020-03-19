@@ -10,8 +10,10 @@
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/TestUtils.h>
+
+#include <yarp/sig/Vector.h>
+
 #include <memory>
-#include <vector>
 
 #include <BipedalLocomotionControllers/GenericContainer.h>
 
@@ -25,9 +27,9 @@ TEST_CASE("Generic Container")
         iDynTree::getRandomVector(vector);
         GenericContainer container(iDynTree::make_span(vector));
 
-        std::vector<double> copiedIn;
+        yarp::sig::Vector copiedIn;
         copiedIn.resize(5);
-        GenericContainer containerToBeCopied(iDynTree::make_span(copiedIn));
+        GenericContainer containerToBeCopied = makeGenericContainer(copiedIn);
 
         containerToBeCopied = container;
 
@@ -50,7 +52,7 @@ TEST_CASE("Generic Container")
 
     SECTION("Resize")
     {
-        iDynTree::VectorDynSize vector;
+        yarp::sig::Vector vector;
 
         GenericContainer container = makeGenericContainer(vector, GenericContainerMode::Resizable);
         REQUIRE(container.resize(5));
@@ -64,7 +66,7 @@ TEST_CASE("Generic Container")
         iDynTree::getRandomVector(vector);
         GenericContainer container(iDynTree::make_span(vector));
 
-        std::vector<double> copiedIn;
+        yarp::sig::Vector copiedIn;
 
         GenericContainer containerToBeCopied = makeGenericContainer(copiedIn, GenericContainerMode::Resizable);
 

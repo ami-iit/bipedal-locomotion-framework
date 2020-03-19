@@ -6,3 +6,10 @@ add_bipedal_test(
   NAME GenericContainer
   SOURCES GenericContainerTest.cpp
   LINKS BipedalLocomotionControllers::GenericContainer ${iDynTree_LIBRARIES})
+
+if (BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_YARP)
+    add_bipedal_test(
+      NAME GenericContainerPlusYarp
+      SOURCES GenericContainerTestPlusYarp.cpp
+      LINKS BipedalLocomotionControllers::GenericContainer ${iDynTree_LIBRARIES} YARP::YARP_os YARP::YARP_sig)
+endif()
