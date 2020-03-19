@@ -39,7 +39,7 @@ TEST_CASE("Generic Container")
     SECTION("Impossible to resize")
     {
         iDynTree::VectorDynSize vector(5);
-        GenericContainer container(iDynTree::make_span(vector));
+        GenericContainer container = makeGenericContainer(vector);
         REQUIRE_FALSE(container.resize(2));
     }
 
@@ -47,7 +47,7 @@ TEST_CASE("Generic Container")
     {
         iDynTree::VectorDynSize vector;
 
-        GenericContainer container = makeResizableGenericContainer(vector);
+        GenericContainer container = makeGenericContainer(vector, GenericContainerMode::Resizable);
         REQUIRE(container.resize(5));
         REQUIRE(vector.size() == 5);
 
@@ -61,7 +61,7 @@ TEST_CASE("Generic Container")
 
         std::vector<double> copiedIn;
 
-        GenericContainer containerToBeCopied = makeResizableGenericContainer(copiedIn);
+        GenericContainer containerToBeCopied = makeGenericContainer(copiedIn, GenericContainerMode::Resizable);
 
         containerToBeCopied = container;
 

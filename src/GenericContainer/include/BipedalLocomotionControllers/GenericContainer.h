@@ -9,6 +9,9 @@
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_GENERICCONTAINER_H
 
 #include <iDynTree/Core/Span.h>
+
+#include <BipedalLocomotionControllers/TemplateHelpers.h>
+
 #include <functional>
 #include <cassert>
 #include <iostream>
@@ -21,9 +24,6 @@ namespace BipedalLocomotionControllers {
 template <typename T>
 class BipedalLocomotionControllers::GenericContainer
 {
-    iDynTree::Span<T> m_span;
-    std::function<iDynTree::Span<T>(size_t)> m_resizeLambda;
-
 public:
 
     using element_type = typename iDynTree::Span<T>::element_type;
@@ -38,8 +38,17 @@ public:
     using const_reverse_iterator = typename iDynTree::Span<T>::const_reverse_iterator;
 
     using size_type = typename iDynTree::Span<T>::size_type;
+    using resize_function_type = std::function<iDynTree::Span<T>(index_type)>;
 
-    GenericContainer(iDynTree::Span<T> span, std::function<iDynTree::Span<T>(size_t)> resizeLambda)
+private:
+    iDynTree::Span<T> m_span;
+    resize_function_type m_resizeLambda;
+
+public:
+
+    GenericContainer() = delete; //Since the = copies the content, there would be no possibility to set it.
+
+    GenericContainer(iDynTree::Span<T> span, resize_function_type resizeLambda)
     {
         m_span = span;
         m_resizeLambda = resizeLambda;
@@ -48,12 +57,12 @@ public:
     GenericContainer(iDynTree::Span<T> span)
     {
         m_span = span;
-        m_resizeLambda = [span](size_type size){return span;};
+        m_resizeLambda = [span](index_type size){return span;};
     }
 
     ~GenericContainer() = default;
 
-    GenericContainer(const GenericContainer<T>& other) = delete;
+    GenericContainer(const GenericContainer<T>& other) = delete; //It would not be clear if you are copy the pointers or the content.
 
     GenericContainer(GenericContainer<T>&& other)
     {
@@ -184,18 +193,116 @@ public:
 };
 
 namespace BipedalLocomotionControllers {
-    template<typename Class>
-    GenericContainer<typename Class::value_type> makeResizableGenericContainer(Class& input)
-    {
-        Class* inputPtr = &input;
-        std::function<iDynTree::Span<typename Class::value_type>(size_t)> resizeLambda =
-            [inputPtr](size_t newSize) -> iDynTree::Span<typename Class::value_type>
-        {
-            inputPtr->resize(newSize);
-            return iDynTree::make_span(*inputPtr);
-        };
 
-        return GenericContainer(iDynTree::make_span(input), resizeLambda);
+    enum class GenericContainerMode
+    {
+        Resizable,
+        Fixed
+    };
+
+    template<typename Class, typename = typename container_data<Class>::type>
+    typename GenericContainer<typename container_data<Class>::type>::resize_function_type GenericContainerDefaultResizer(Class& input)
+    {
+        static_assert (is_resizable<Class>::value, "Class type is not resizable.");
+        static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
+                      "Cannot create a span given the provided class.");
+
+        using value_type = typename container_data<Class>::type;
+
+        if constexpr (is_span_constructible<Class>::value)
+        {
+            using index_type = typename GenericContainer<value_type>::index_type;
+            using resize_function = typename GenericContainer<value_type>::resize_function_type;
+
+            Class* inputPtr = &input;
+            resize_function resizeLambda =
+                [inputPtr](index_type newSize) -> iDynTree::Span<typename Class::value_type>
+            {
+                inputPtr->resize(newSize);
+                return iDynTree::make_span(*inputPtr);
+            };
+
+            return resizeLambda;
+        }
+        else
+        {
+            using index_type = decltype(std::declval<Class>().size());
+            using resize_function = typename GenericContainer<value_type>::resize_function_type;
+
+            Class* inputPtr = &input;
+            resize_function resizeLambda =
+                [inputPtr](index_type newSize) -> iDynTree::Span<value_type>
+            {
+                inputPtr->resize(newSize);
+                return iDynTree::make_span(inputPtr->data(), inputPtr->size());
+            };
+
+            return resizeLambda;
+        }
+    }
+
+    template<typename Class, typename = typename container_data<Class>::type>
+    GenericContainer<typename container_data<Class>::type> makeGenericContainer(Class& input, GenericContainerMode mode)
+    {
+        static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
+                      "Cannot create a span given the provided class.");
+
+        using value_type = typename container_data<Class>::type;
+
+        iDynTree::Span<value_type> span;
+
+        if constexpr (is_span_constructible<Class>::value)
+        {
+            span = iDynTree::make_span(input);
+        }
+        else
+        {
+            span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        if constexpr (is_resizable<Class>::value)
+        {
+            if (mode == GenericContainerMode::Resizable)
+            {
+                return GenericContainer(span, GenericContainerDefaultResizer(input));
+            }
+            else
+            {
+                return GenericContainer(span);
+            }
+        }
+        else
+        {
+            if (mode == GenericContainerMode::Resizable)
+            {
+                std::cerr << "[GenericContainer] " << type_name<Class>()
+                          << " is not resizable. Returning a non-resizable container." << std::endl;
+            }
+
+            return GenericContainer(span);
+        }
+    }
+
+    template<typename Class, typename = typename container_data<Class>::type>
+    GenericContainer<typename container_data<Class>::type> makeGenericContainer(Class& input)
+    {
+        static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
+                      "Cannot create a span given the provided class.");
+
+        using value_type = typename container_data<Class>::type;
+
+        iDynTree::Span<value_type> span;
+
+        if constexpr (is_span_constructible<Class>::value)
+        {
+            span = iDynTree::make_span(input);
+        }
+        else
+        {
+            span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        return GenericContainer(span);
     }
 }
 
