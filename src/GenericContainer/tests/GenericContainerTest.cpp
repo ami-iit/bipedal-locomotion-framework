@@ -41,11 +41,11 @@ TEST_CASE("Generic Container")
     {
         iDynTree::VectorDynSize vector(5);
         GenericContainer container = makeGenericContainer(vector);
-        REQUIRE_FALSE(container.resize(2));
+        REQUIRE_FALSE(container.resizeContainer(2));
 
         iDynTree::VectorFixSize<3> fixedVector;
         GenericContainer container2 = makeGenericContainer(fixedVector, GenericContainerMode::Resizable);
-        REQUIRE_FALSE(container.resize(2));
+        REQUIRE_FALSE(container.resizeContainer(2));
     }
 
     SECTION("Resize")
@@ -53,7 +53,7 @@ TEST_CASE("Generic Container")
         iDynTree::VectorDynSize vector;
 
         GenericContainer container = makeGenericContainer(vector, GenericContainerMode::Resizable);
-        REQUIRE(container.resize(5));
+        REQUIRE(container.resizeContainer(5));
         REQUIRE(vector.size() == 5);
 
     }

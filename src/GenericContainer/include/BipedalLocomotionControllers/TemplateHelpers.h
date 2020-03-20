@@ -13,6 +13,8 @@
 
 namespace BipedalLocomotionControllers {
 
+template <typename... Args> inline void unused(Args&&...) {}
+
 /**
  * dependent_false is a type-dependent expression that is always false. Please check
  * https://en.cppreference.com/w/cpp/language/if for further details.

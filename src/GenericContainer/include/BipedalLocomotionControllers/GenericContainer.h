@@ -27,10 +27,11 @@ class BipedalLocomotionControllers::GenericContainer
 public:
 
     using element_type = typename iDynTree::Span<T>::element_type;
-    using value_type = typename iDynTree::Span<T>::value_type;
+    using value_type = typename iDynTree::Span<T>::value_type; //like element_type, but without an eventual const
     using index_type = typename iDynTree::Span<T>::index_type;
     using pointer = typename iDynTree::Span<T>::pointer;
     using reference = typename iDynTree::Span<T>::reference;
+    using const_reference = const value_type&;
 
     using iterator = typename iDynTree::Span<T>::iterator;
     using const_iterator = typename iDynTree::Span<T>::const_iterator;
@@ -57,7 +58,7 @@ public:
     GenericContainer(iDynTree::Span<T> span)
     {
         m_span = span;
-        m_resizeLambda = [span](index_type size){return span;};
+        m_resizeLambda = [span](index_type size){unused(size); return span;};
     }
 
     ~GenericContainer() = default;
@@ -74,7 +75,7 @@ public:
     {
         if (size() != other.size())
         {
-            if (!resize(other.size()))
+            if (!resizeContainer(other.size()))
             {
                 std::cerr << "[Generic container] Failed to resize. Copy aborted" << std::endl;
                 return false;
@@ -100,10 +101,17 @@ public:
     }
 
 
-    bool resize(index_type newSize)
+    bool resizeContainer(index_type newSize)
     {
         m_span = m_resizeLambda(newSize);
         return m_span.size() == newSize;
+    }
+
+    void resize(index_type newSize)
+    {
+        bool ok = resizeContainer(newSize);
+        assert(ok);
+        unused(ok);
     }
 
     index_type size() const
@@ -115,17 +123,22 @@ public:
         return m_span.empty();
     }
 
-    reference operator[](index_type idx) const
+    const_reference operator[](index_type idx) const
     {
         return m_span[idx];
     }
 
-    double getVal(index_type idx) const
+    reference operator[](index_type idx)
+    {
+        return m_span[idx];
+    }
+
+    element_type getVal(index_type idx) const
     {
         return this->operator[](idx);
     }
 
-    bool setVal(index_type idx, double val)
+    bool setVal(index_type idx, element_type val)
     {
         if (idx >= 0 && idx < size())
         {
@@ -135,12 +148,22 @@ public:
         return false;
     }
 
-    reference at(index_type idx) const
+    const_reference at(index_type idx) const
     {
         return this->operator[](idx);
     }
 
-    reference operator()(index_type idx) const
+    reference at(index_type idx)
+    {
+        return this->operator[](idx);
+    }
+
+    const_reference operator()(index_type idx) const
+    {
+        return this->operator[](idx);
+    }
+
+    reference operator()(index_type idx)
     {
         return this->operator[](idx);
     }
@@ -151,11 +174,11 @@ public:
     }
 
     // [span.iter], span iterator support
-    iterator begin() const
+    iterator begin()
     {
         return m_span.begin();
     }
-    iterator end() const
+    iterator end()
     {
         return m_span.end();
     }
@@ -170,12 +193,12 @@ public:
         return m_span.cend();
     }
 
-    reverse_iterator rbegin() const
+    reverse_iterator rbegin()
     {
         return m_span.rbegin();
     }
 
-    reverse_iterator rend() const
+    reverse_iterator rend()
     {
         return m_span.rend();
     }
@@ -242,8 +265,8 @@ namespace BipedalLocomotionControllers {
     }
 
     template<typename Class, typename = typename container_data<Class>::type>
-    GenericContainer<typename container_data<Class>::type> makeGenericContainer(Class& input,
-                                                                                GenericContainerMode mode = GenericContainerMode::Fixed)
+    GenericContainer<typename container_data<Class>::type>
+    makeGenericContainer(Class& input, GenericContainerMode mode = GenericContainerMode::Fixed)
     {
         static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
                       "Cannot create a span given the provided class.");
@@ -282,6 +305,34 @@ namespace BipedalLocomotionControllers {
 
             return GenericContainer(span);
         }
+    }
+
+    template <typename Class, typename = const typename container_data<Class>::type>
+    GenericContainer<const typename container_data<Class>::type>
+    makeGenericContainer(const Class& input, GenericContainerMode mode = GenericContainerMode::Fixed)
+    {
+        static_assert(is_span_constructible<Class>::value
+                          || (is_data_available<Class>::value && is_size_available<Class>::value),
+                      "Cannot create a span given the provided class.");
+
+        using value_type = typename container_data<decltype(input)>::type;
+
+        iDynTree::Span<value_type> span;
+
+        if constexpr (is_span_constructible<Class>::value)
+        {
+            span = iDynTree::make_span(input);
+        } else
+        {
+            span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        if (mode == GenericContainerMode::Resizable)
+        {
+            std::cerr << "[GenericContainer] The input type is const. Returning a non-resizable container." << std::endl;
+        }
+
+        return GenericContainer(span);
     }
 }
 
