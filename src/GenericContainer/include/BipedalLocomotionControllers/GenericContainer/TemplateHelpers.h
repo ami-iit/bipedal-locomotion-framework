@@ -136,6 +136,18 @@ struct is_size_available<T, void_t<decltype(std::declval<T>().size())>> : std::t
 {
 };
 
+template <typename T, typename = void>
+struct size_type
+{
+    using type = std::ptrdiff_t;
+};
+
+template <typename T>
+struct size_type<T, typename std::enable_if<is_size_available<T>::value>::type>
+{
+    using type = decltype(std::declval<T>().size());
+};
+
 }
 
 //Taken from https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variables-type-in-standard-c
