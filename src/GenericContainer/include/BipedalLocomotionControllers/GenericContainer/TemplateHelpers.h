@@ -13,6 +13,9 @@
 
 namespace BipedalLocomotionControllers {
 
+template<typename... Ts> struct make_void { typedef void type;};
+template<typename... Ts> using void_t = typename make_void<Ts...>::type;
+
 template <typename... Args> inline void unused(Args&&...) {}
 
 /**
@@ -39,7 +42,7 @@ template <typename T, typename = void> struct is_iterable : std::false_type
  * <code>std::void_t<\endcode> is used to detect ill-formed types in SFINAE context.
  */
 template <typename T>
-struct is_iterable<T, std::void_t<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>>
+struct is_iterable<T, void_t<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>>
     : std::true_type
 {
 };
@@ -60,7 +63,7 @@ template <typename T, typename = void> struct has_square_bracket_operator : std:
  * to detect ill-formed types in SFINAE context.
  */
 template <typename T>
-struct has_square_bracket_operator<T, std::void_t<decltype(std::declval<T>()[std::declval<int>()])>>
+struct has_square_bracket_operator<T, void_t<decltype(std::declval<T>()[std::declval<int>()])>>
     : std::true_type
 {
 };
@@ -81,40 +84,47 @@ template <typename T, typename = void> struct is_resizable : std::false_type
  * <code>std::void_t<\endcode> is used to detect ill-formed types in SFINAE context.
  */
 template <typename T>
-struct is_resizable<T, std::void_t<decltype(std::declval<T>().resize(std::declval<int>()))>> : std::true_type
+struct is_resizable<T, void_t<decltype(std::declval<T>().resize(std::declval<int>()))>> : std::true_type
 {
 };
-
-template <typename Class, typename = void>
-struct is_span_constructible : std::false_type
-{};
-
-template <typename Class>
-struct is_span_constructible<Class,
-                             typename std::enable_if<std::is_constructible<iDynTree::Span<typename Class::value_type>, Class&>::value>::type>
-    : std::true_type
-{};
 
 template <typename T, typename = void> struct is_data_available : std::false_type
 {
 };
 
 template <typename T>
-struct is_data_available<T, std::void_t<decltype(std::declval<T>().data())>> : std::true_type
+struct is_data_available<T, void_t<decltype(std::declval<T>().data())>> : std::true_type
 {
 };
 
-template< class, class = std::void_t<> >
+template< class, typename = void >
 struct has_type_member : std::false_type { };
 
 template< class T >
-struct has_type_member<T, std::void_t<typename T::value_type>> : std::true_type { };
+struct has_type_member<T, void_t<typename T::value_type>> : std::true_type { };
 
-template <typename T>
+template <typename T, typename = void>
 struct vector_data
 {
-    static_assert (has_type_member<T>::value || is_data_available<T>::value, "no data() method found.");
+    static_assert(dependent_false<T>::value, "Unable to detect type of data in the vector.");
+};
+
+template <typename T>
+struct vector_data<T, typename std::enable_if<has_type_member<T>::value>::type>
+{
+    using type = typename T::value_type;
+};
+
+template <typename T>
+struct vector_data<T, typename std::enable_if<!has_type_member<T>::value && is_data_available<T>::value>::type>
+{
     using type = typename std::remove_pointer<decltype(std::declval<T>().data())>::type;
+};
+
+template <typename T>
+struct vector_data<T, typename std::enable_if<std::is_array<T>::value>::type>
+{
+    using type = typename std::remove_all_extents_t<T>;
 };
 
 template <typename T, typename = void> struct is_size_available : std::false_type
@@ -122,7 +132,7 @@ template <typename T, typename = void> struct is_size_available : std::false_typ
 };
 
 template <typename T>
-struct is_size_available<T, std::void_t<decltype(std::declval<T>().size())>> : std::true_type
+struct is_size_available<T, void_t<decltype(std::declval<T>().size())>> : std::true_type
 {
 };
 

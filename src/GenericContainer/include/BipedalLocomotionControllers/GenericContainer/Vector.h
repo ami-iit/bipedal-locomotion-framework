@@ -30,7 +30,7 @@ class BipedalLocomotionControllers::GenericContainer::Vector
 {
 public:
 
-    using element_type = typename iDynTree::Span<T>::element_type;
+    using vector_element_type = typename iDynTree::Span<T>::element_type; //had to rename this otherwise make_span(GenericContainer::Vector) does not compile
     using value_type = typename iDynTree::Span<T>::value_type; //like element_type, but without an eventual const
     using index_type = typename iDynTree::Span<T>::index_type;
     using pointer = typename iDynTree::Span<T>::pointer;
@@ -113,7 +113,7 @@ public:
 
     void resize(index_type newSize)
     {
-        bool ok = resizeContainer(newSize);
+        bool ok = resizeVector(newSize);
         assert(ok);
         unused(ok);
     }
@@ -137,12 +137,12 @@ public:
         return m_span[idx];
     }
 
-    element_type getVal(index_type idx) const
+    vector_element_type getVal(index_type idx) const
     {
         return this->operator[](idx);
     }
 
-    bool setVal(index_type idx, element_type val)
+    bool setVal(index_type idx, vector_element_type val)
     {
         if (idx >= 0 && idx < size())
         {
@@ -187,6 +187,15 @@ public:
         return m_span.end();
     }
 
+    const_iterator begin() const
+    {
+        return m_span.cbegin();
+    }
+    const_iterator end() const
+    {
+        return m_span.cend();
+    }
+
     const_iterator cbegin() const
     {
         return m_span.cbegin();
@@ -205,6 +214,16 @@ public:
     reverse_iterator rend()
     {
         return m_span.rend();
+    }
+
+    const_reverse_iterator rbegin() const
+    {
+        return m_span.crbegin();
+    }
+
+    const_reverse_iterator rend() const
+    {
+        return m_span.crend();
     }
 
     const_reverse_iterator crbegin() const
@@ -231,13 +250,24 @@ struct is_vector<Vector<T>> : std::true_type
 {
 };
 
+template <typename Class, typename = void>
+struct is_span_constructible : std::false_type
+{};
+
+template <typename Class>
+struct is_span_constructible<Class,
+                             typename std::enable_if<
+                                 std::is_constructible<iDynTree::Span<typename vector_data<Class>::type>, Class&>::value>::type>
+    : std::true_type
+{};
+
 enum class VectorResizeMode
 {
     Resizable,
     Fixed
 };
 
-template<typename Class, typename = typename vector_data<Class>::type>
+template<typename Class>
 typename Vector<typename vector_data<Class>::type>::resize_function_type DefaultVectorResizer(Class& input)
 {
     static_assert (is_resizable<Class>::value, "Class type is not resizable.");
@@ -278,7 +308,7 @@ typename Vector<typename vector_data<Class>::type>::resize_function_type Default
     }
 }
 
-template<typename Class, typename = typename vector_data<Class>::type>
+template<typename Class>
 Vector<typename vector_data<Class>::type>
 make_vector(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
@@ -321,7 +351,7 @@ make_vector(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
     }
 }
 
-template <typename Class, typename = const typename vector_data<Class>::type>
+template <typename Class>
 Vector<const typename vector_data<Class>::type>
 make_vector(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {

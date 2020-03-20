@@ -39,17 +39,6 @@ TEST_CASE("GenericContainer::Vector + Yarp")
         }
     }
 
-    SECTION("Impossible to resize")
-    {
-        iDynTree::VectorDynSize vector(5);
-        GenericContainer::Vector container = GenericContainer::make_vector(vector);
-        REQUIRE_FALSE(container.resizeVector(2));
-
-        iDynTree::VectorFixSize<3> fixedVector;
-        GenericContainer::Vector container2 = make_vector(fixedVector, GenericContainer::VectorResizeMode::Resizable);
-        REQUIRE_FALSE(container.resizeVector(2));
-    }
-
     SECTION("Resize")
     {
         yarp::sig::Vector vector;
