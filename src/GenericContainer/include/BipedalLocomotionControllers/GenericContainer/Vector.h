@@ -15,12 +15,16 @@
 #include <functional>
 #include <cassert>
 #include <iostream>
+#include <memory>
 
 namespace BipedalLocomotionControllers {
 namespace GenericContainer {
 
 template <typename T>
 class Vector;
+
+template <typename T>
+using Vector_ptr = std::shared_ptr<Vector<T>>;
 
 }
 }
@@ -378,6 +382,35 @@ make_vector(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 
     return Vector(span);
 }
+
+template<typename Class>
+Vector_ptr<typename vector_data<Class>::type>
+make_vector_ptr(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
+{
+    return std::make_shared<Vector<typename vector_data<Class>::type>>(make_vector(input,mode));
+}
+
+template<typename Class>
+Vector_ptr<const typename vector_data<Class>::type>
+make_vector_ptr(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
+{
+    return std::make_shared<Vector<const typename vector_data<Class>::type>>(make_vector(input,mode));
+}
+
+template<typename T>
+Vector_ptr<T>
+make_vector_ptr(iDynTree::Span<T> span)
+{
+    return std::make_shared<Vector<T>>(span);
+}
+
+template<typename T>
+Vector_ptr<T>
+make_vector_ptr(iDynTree::Span<T> span, typename Vector<T>::resize_function_type resizeLambda)
+{
+    return std::make_shared<Vector<T>>(span, resizeLambda);
+}
+
 }
 
 

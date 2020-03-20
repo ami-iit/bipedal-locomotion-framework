@@ -121,6 +121,45 @@ TEST_CASE("GenericContainer::Vector")
         REQUIRE(vector.size() == 6);
     }
 
+    SECTION("Create pointer")
+    {
+        iDynTree::VectorDynSize vector(5);
+        iDynTree::getRandomVector(vector);
+        GenericContainer::Vector_ptr<double> container_ptr = GenericContainer::make_vector_ptr(vector,
+                                                                                       GenericContainer::VectorResizeMode::Resizable);
+        REQUIRE(container_ptr);
+
+        const iDynTree::VectorDynSize constVector = vector;
+        GenericContainer::Vector_ptr<const double> const_container_ptr = GenericContainer::make_vector_ptr(constVector);
+        REQUIRE(const_container_ptr);
+
+        std::vector<double> copiedIn;
+        copiedIn.resize(5);
+        container_ptr = GenericContainer::make_vector_ptr(iDynTree::make_span(copiedIn));
+        REQUIRE(container_ptr);
+
+
+        GenericContainer::Vector container = GenericContainer::make_vector(vector,
+                                                                           GenericContainer::VectorResizeMode::Resizable);
+
+        using resize_function = GenericContainer::Vector<double>::resize_function_type;
+        using index_type = GenericContainer::Vector<double>::index_type;
+
+        GenericContainer::Vector<double>* inputPtr = &container;
+        resize_function resizeLambda =
+            [inputPtr](index_type newSize) -> iDynTree::Span<double>
+        {
+            inputPtr->resizeVector(newSize);
+            std::cerr << "I am resizing again!" << std::endl;
+            return iDynTree::make_span(*inputPtr);
+        };
+
+        container_ptr = GenericContainer::make_vector_ptr(iDynTree::make_span(container), resizeLambda);
+        REQUIRE(container_ptr->resizeVector(6));
+        REQUIRE(vector.size() == 6);
+
+    }
+
 
     SECTION("at_call")
     {
