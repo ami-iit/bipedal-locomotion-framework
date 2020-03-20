@@ -181,15 +181,20 @@ TEST_CASE("GenericContainer::Vector")
 
         auto it = s.begin();
         auto cit = s.cbegin();
+        bool ok;
 
-        REQUIRE(it == cit);
-        REQUIRE(cit == it);
+        ok = (it == cit);
+        REQUIRE(ok);
+        ok = (cit == it);
+        REQUIRE(ok);
 
         GenericContainer::Vector<int>::const_iterator cit2 = it;
-        REQUIRE(cit2 == cit);
+        ok = (cit2 == cit);
+        REQUIRE(ok);
 
         GenericContainer::Vector<int>::const_iterator cit3 = it + 4;
-        REQUIRE(cit3 == s.cend());
+        ok = (cit3 == s.cend());
+        REQUIRE(ok);
     }
 
     SECTION("iterator_comparisons")
@@ -200,42 +205,75 @@ TEST_CASE("GenericContainer::Vector")
             GenericContainer::Vector<int>::iterator it = s.begin();
             auto it2 = it + 1;
             GenericContainer::Vector<int>::const_iterator cit = s.cbegin();
+            bool ok;
 
-            REQUIRE(it == cit);
-            REQUIRE(cit == it);
-            REQUIRE(it == it);
-            REQUIRE(cit == cit);
-            REQUIRE(cit == s.begin());
-            REQUIRE(s.begin() == cit);
-            REQUIRE(s.cbegin() == cit);
-            REQUIRE(it == s.begin());
-            REQUIRE(s.begin() == it);
+            ok = (it == cit);
+            REQUIRE(ok);
+            ok = (cit == it);
+            REQUIRE(ok);
+            ok = (it == it);
+            REQUIRE(ok);
+            ok = (cit == cit);
+            REQUIRE(ok);
+            ok = (cit == s.begin());
+            REQUIRE(ok);
+            ok = (s.begin() == cit);
+            REQUIRE(ok);
+            ok = (s.cbegin() == cit);
+            REQUIRE(ok);
+            ok = (it == s.begin());
+            REQUIRE(ok);
+            ok = (s.begin() == it);
+            REQUIRE(ok);
 
-            REQUIRE(it != it2);
-            REQUIRE(it2 != it);
-            REQUIRE(it != s.end());
-            REQUIRE(it2 != s.end());
-            REQUIRE(s.end() != it);
-            REQUIRE(it2 != cit);
-            REQUIRE(cit != it2);
+            ok = (it != it2);
+            REQUIRE(ok);
+            ok = (it2 != it);
+            REQUIRE(ok);
+            ok = (it != s.end());
+            REQUIRE(ok);
+            ok = (it2 != s.end());
+            REQUIRE(ok);
+            ok = (s.end() != it);
+            REQUIRE(ok);
+            ok = (it2 != cit);
+            REQUIRE(ok);
+            ok = (cit != it2);
+            REQUIRE(ok);
 
-            REQUIRE(it < it2);
-            REQUIRE(it <= it2);
-            REQUIRE(it2 <= s.end());
-            REQUIRE(it < s.end());
-            REQUIRE(it <= cit);
-            REQUIRE(cit <= it);
-            REQUIRE(cit < it2);
-            REQUIRE(cit <= it2);
-            REQUIRE(cit < s.end());
-            REQUIRE(cit <= s.end());
+            ok = (it < it2);
+            REQUIRE(ok);
+            ok = (it <= it2);
+            REQUIRE(ok);
+            ok = (it2 <= s.end());
+            REQUIRE(ok);
+            ok = (it < s.end());
+            REQUIRE(ok);
+            ok = (it <= cit);
+            REQUIRE(ok);
+            ok = (cit <= it);
+            REQUIRE(ok);
+            ok = (cit < it2);
+            REQUIRE(ok);
+            ok = (cit <= it2);
+            REQUIRE(ok);
+            ok = (cit < s.end());
+            REQUIRE(ok);
+            ok = (cit <= s.end());
+            REQUIRE(ok);
 
-            REQUIRE(it2 > it);
-            REQUIRE(it2 >= it);
-            REQUIRE(s.end() > it2);
-            REQUIRE(s.end() >= it2);
-            REQUIRE(it2 > cit);
-            REQUIRE(it2 >= cit);
+            ok = (it2 > it);
+            REQUIRE(ok);
+            ok = (it2 >= it);
+            REQUIRE(ok);
+            ok = (s.end() > it2);
+            REQUIRE(ok);
+            ok = (s.end() >= it2);
+            REQUIRE(ok);
+            ok = (it2 > cit);
+            REQUIRE(ok);
+            ok = (it2 >= cit);
+            REQUIRE(ok);
         }
     }
 
@@ -247,11 +285,14 @@ TEST_CASE("GenericContainer::Vector")
 
             GenericContainer::Vector<int>::iterator it = s.begin();
             GenericContainer::Vector<int>::iterator it2 = std::begin(s);
-            REQUIRE(it == it2);
+            bool ok;
+            ok = (it == it2);
+            REQUIRE(ok);
 
             it = s.end();
             it2 = std::end(s);
-            REQUIRE(it == it2);
+            ok = (it == it2);
+            REQUIRE(ok);
         }
 
         {
@@ -260,35 +301,51 @@ TEST_CASE("GenericContainer::Vector")
 
             auto it = s.begin();
             auto first = it;
-            REQUIRE(it == first);
-            REQUIRE(*it == 1);
+            bool ok;
+
+            ok = (it == first);
+            REQUIRE(ok);
+            ok = (*it == 1);
+            REQUIRE(ok);
 
             auto beyond = s.end();
-            REQUIRE(it != beyond);
+            ok = (it != beyond);
+            REQUIRE(ok);
 
-            REQUIRE(beyond - first == 4);
-            REQUIRE(first - first == 0);
-            REQUIRE(beyond - beyond == 0);
+            ok = (beyond - first == 4);
+            REQUIRE(ok);
+            ok = (first - first == 0);
+            REQUIRE(ok);
+            ok = (beyond - beyond == 0);
+            REQUIRE(ok);
 
             ++it;
-            REQUIRE(it - first == 1);
-            REQUIRE(*it == 2);
+            ok = (it - first == 1);
+            REQUIRE(ok);
+            ok = (*it == 2);
+            REQUIRE(ok);
             *it = 22;
-            REQUIRE(*it == 22);
-            REQUIRE(beyond - it == 3);
+            ok = (*it == 22);
+            REQUIRE(ok);
+            ok = (beyond - it == 3);
+            REQUIRE(ok);
 
             it = first;
-            REQUIRE(it == first);
+            ok = (it == first);
+            REQUIRE(ok);
             while (it != s.end()) {
                 *it = 5;
                 ++it;
             }
 
-            REQUIRE(it == beyond);
-            REQUIRE(it - beyond == 0);
+            ok = (it == beyond);
+            REQUIRE(ok);
+            ok = (it - beyond == 0);
+            REQUIRE(ok);
 
             for (const auto& n : s) {
-                REQUIRE(n == 5);
+                ok = (n == 5);
+                REQUIRE(ok);
             }
         }
     }
@@ -301,11 +358,14 @@ TEST_CASE("GenericContainer::Vector")
 
             GenericContainer::Vector<int>::const_iterator cit = s.cbegin();
             GenericContainer::Vector<int>::const_iterator cit2 = std::cbegin(s);
-            REQUIRE(cit == cit2);
+            bool ok;
+            ok = (cit == cit2);
+            REQUIRE(ok);
 
             cit = s.cend();
             cit2 = std::cend(s);
-            REQUIRE(cit == cit2);
+            ok = (cit == cit2);
+            REQUIRE(ok);
         }
 
         {
@@ -314,33 +374,47 @@ TEST_CASE("GenericContainer::Vector")
 
             auto it = s.cbegin();
             auto first = it;
-            REQUIRE(it == first);
-            REQUIRE(*it == 1);
+            bool ok;
+            ok = (it == first);
+            REQUIRE(ok);
+            ok = (*it == 1);
+            REQUIRE(ok);
 
             auto beyond = s.cend();
-            REQUIRE(it != beyond);
+            ok = (it != beyond);
+            REQUIRE(ok);
 
-            REQUIRE(beyond - first == 4);
-            REQUIRE(first - first == 0);
-            REQUIRE(beyond - beyond == 0);
+            ok = (beyond - first == 4);
+            REQUIRE(ok);
+            ok = (first - first == 0);
+            REQUIRE(ok);
+            ok = (beyond - beyond == 0);
+            REQUIRE(ok);
 
             ++it;
-            REQUIRE(it - first == 1);
-            REQUIRE(*it == 2);
-            REQUIRE(beyond - it == 3);
+            ok = (it - first == 1);
+            REQUIRE(ok);
+            ok = (*it == 2);
+            REQUIRE(ok);
+            ok = (beyond - it == 3);
+            REQUIRE(ok);
 
             int last = 0;
             it = first;
-            REQUIRE(it == first);
+            ok = (it == first);
+            REQUIRE(ok);
             while (it != s.cend()) {
-                REQUIRE(*it == last + 1);
+                ok = (*it == last + 1);
+                REQUIRE(ok);
 
                 last = *it;
                 ++it;
             }
 
-            REQUIRE(it == beyond);
-            REQUIRE(it - beyond == 0);
+            ok = (it == beyond);
+            REQUIRE(ok);
+            ok = (it - beyond == 0);
+            REQUIRE(ok);
         }
     }
 
