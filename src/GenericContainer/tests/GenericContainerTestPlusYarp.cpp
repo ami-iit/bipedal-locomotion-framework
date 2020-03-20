@@ -15,21 +15,21 @@
 
 #include <memory>
 
-#include <BipedalLocomotionControllers/GenericContainer.h>
+#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
 
 using namespace BipedalLocomotionControllers;
 
-TEST_CASE("Generic Container")
+TEST_CASE("GenericContainer::Vector + Yarp")
 {
     SECTION("Copy")
     {
         iDynTree::VectorDynSize vector(5);
         iDynTree::getRandomVector(vector);
-        GenericContainer container(iDynTree::make_span(vector));
+        GenericContainer::Vector container(iDynTree::make_span(vector));
 
         yarp::sig::Vector copiedIn;
         copiedIn.resize(5);
-        GenericContainer containerToBeCopied = makeGenericContainer(copiedIn);
+        GenericContainer::Vector containerToBeCopied = GenericContainer::make_vector(copiedIn);
 
         containerToBeCopied = container;
 
@@ -42,11 +42,11 @@ TEST_CASE("Generic Container")
     SECTION("Impossible to resize")
     {
         iDynTree::VectorDynSize vector(5);
-        GenericContainer container = makeGenericContainer(vector);
+        GenericContainer::Vector container = GenericContainer::make_vector(vector);
         REQUIRE_FALSE(container.resizeContainer(2));
 
         iDynTree::VectorFixSize<3> fixedVector;
-        GenericContainer container2 = makeGenericContainer(fixedVector, GenericContainerMode::Resizable);
+        GenericContainer::Vector container2 = make_vector(fixedVector, GenericContainer::VectorResizeMode::Resizable);
         REQUIRE_FALSE(container.resizeContainer(2));
     }
 
@@ -54,7 +54,7 @@ TEST_CASE("Generic Container")
     {
         yarp::sig::Vector vector;
 
-        GenericContainer container = makeGenericContainer(vector, GenericContainerMode::Resizable);
+        GenericContainer::Vector container = make_vector(vector, GenericContainer::VectorResizeMode::Resizable);
         REQUIRE(container.resizeContainer(5));
         REQUIRE(vector.size() == 5);
 
@@ -64,11 +64,11 @@ TEST_CASE("Generic Container")
     {
         iDynTree::VectorDynSize vector(5);
         iDynTree::getRandomVector(vector);
-        GenericContainer container(iDynTree::make_span(vector));
+        GenericContainer::Vector container(iDynTree::make_span(vector));
 
         yarp::sig::Vector copiedIn;
 
-        GenericContainer containerToBeCopied = makeGenericContainer(copiedIn, GenericContainerMode::Resizable);
+        GenericContainer::Vector containerToBeCopied = make_vector(copiedIn, GenericContainer::VectorResizeMode::Resizable);
 
         containerToBeCopied = container;
 

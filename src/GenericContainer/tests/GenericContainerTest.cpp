@@ -13,21 +13,21 @@
 #include <memory>
 #include <vector>
 
-#include <BipedalLocomotionControllers/GenericContainer.h>
+#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
 
 using namespace BipedalLocomotionControllers;
 
-TEST_CASE("Generic Container")
+TEST_CASE("GenericContainer::Vector")
 {
     SECTION("Copy")
     {
         iDynTree::VectorDynSize vector(5);
         iDynTree::getRandomVector(vector);
-        GenericContainer container(iDynTree::make_span(vector));
+        GenericContainer::Vector container(iDynTree::make_span(vector));
 
         std::vector<double> copiedIn;
         copiedIn.resize(5);
-        GenericContainer containerToBeCopied(iDynTree::make_span(copiedIn));
+        GenericContainer::Vector containerToBeCopied(iDynTree::make_span(copiedIn));
 
         containerToBeCopied = container;
 
@@ -40,11 +40,11 @@ TEST_CASE("Generic Container")
     SECTION("Impossible to resize")
     {
         iDynTree::VectorDynSize vector(5);
-        GenericContainer container = makeGenericContainer(vector);
+        GenericContainer::Vector container = GenericContainer::make_vector(vector);
         REQUIRE_FALSE(container.resizeContainer(2));
 
         iDynTree::VectorFixSize<3> fixedVector;
-        GenericContainer container2 = makeGenericContainer(fixedVector, GenericContainerMode::Resizable);
+        GenericContainer::Vector container2 = GenericContainer::make_vector(fixedVector, GenericContainer::VectorResizeMode::Resizable);
         REQUIRE_FALSE(container.resizeContainer(2));
     }
 
@@ -52,7 +52,7 @@ TEST_CASE("Generic Container")
     {
         iDynTree::VectorDynSize vector;
 
-        GenericContainer container = makeGenericContainer(vector, GenericContainerMode::Resizable);
+        GenericContainer::Vector container = GenericContainer::make_vector(vector, GenericContainer::VectorResizeMode::Resizable);
         REQUIRE(container.resizeContainer(5));
         REQUIRE(vector.size() == 5);
 
@@ -62,11 +62,12 @@ TEST_CASE("Generic Container")
     {
         iDynTree::VectorDynSize vector(5);
         iDynTree::getRandomVector(vector);
-        GenericContainer container(iDynTree::make_span(vector));
+        GenericContainer::Vector container(iDynTree::make_span(vector));
 
         std::vector<double> copiedIn;
 
-        GenericContainer containerToBeCopied = makeGenericContainer(copiedIn, GenericContainerMode::Resizable);
+        GenericContainer::Vector containerToBeCopied = GenericContainer::make_vector(copiedIn,
+                                                                                     GenericContainer::VectorResizeMode::Resizable);
 
         containerToBeCopied = container;
 
