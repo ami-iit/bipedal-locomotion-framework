@@ -160,28 +160,32 @@ TEST_CASE("GenericContainer::Vector")
     {
         GenericContainer::Vector<int>::iterator it1;
         GenericContainer::Vector<int>::iterator it2;
-        REQUIRE(it1 == it2);
+        bool ok = (it1 == it2);
+        REQUIRE(ok);
     }
 
     SECTION("const_iterator_default_init")
     {
         GenericContainer::Vector<int>::const_iterator it1;
         GenericContainer::Vector<int>::const_iterator it2;
-        REQUIRE(it1 == it2);
+        bool ok = (it1 == it2);
+        REQUIRE(ok);
     }
 
     SECTION("iterator_conversions")
     {
+        bool ok;
+
         GenericContainer::Vector<int>::iterator badIt;
         GenericContainer::Vector<int>::const_iterator badConstIt;
-        REQUIRE(badIt == badConstIt);
+        ok = (badIt == badConstIt);
+        REQUIRE(ok);
 
         int a[] = {1, 2, 3, 4};
         GenericContainer::Vector s = GenericContainer::make_vector(a);
 
         auto it = s.begin();
         auto cit = s.cbegin();
-        bool ok;
 
         ok = (it == cit);
         REQUIRE(ok);
