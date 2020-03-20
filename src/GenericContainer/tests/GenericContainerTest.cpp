@@ -352,35 +352,50 @@ TEST_CASE("GenericContainer::Vector")
 
             auto it = s.rbegin();
             auto first = it;
-            REQUIRE(bool(it == first));
-            REQUIRE(bool(*it == 4));
+            bool ok;
+            ok = (it == first);
+            REQUIRE(ok);
+            ok = (*it == 4);
+            REQUIRE(ok);
 
             auto beyond = s.rend();
-            REQUIRE(bool(it != beyond));
+            ok = (it != beyond);
+            REQUIRE(ok);
 
-            REQUIRE(bool(beyond - first == 4));
-            REQUIRE(bool(first - first == 0));
-            REQUIRE(bool(beyond - beyond == 0));
+            ok = (beyond - first == 4);
+            REQUIRE(ok);
+            ok = (first - first == 0);
+            REQUIRE(ok);
+            ok = (beyond - beyond == 0);
+            REQUIRE(ok);
 
             ++it;
-            REQUIRE(bool(it - first == 1));
-            REQUIRE(bool(*it == 3));
+            ok = (it - first == 1);
+            REQUIRE(ok);
+            ok = (*it == 3);
+            REQUIRE(ok);
             *it = 22;
-            REQUIRE(bool(*it == 22));
-            REQUIRE(bool(beyond - it == 3));
+            ok = (*it == 22);
+            REQUIRE(ok);
+            ok = (beyond - it == 3);
+            REQUIRE(ok);
 
             it = first;
-            REQUIRE(bool(it == first));
+            ok = (it == first);
+            REQUIRE(ok);
             while (it != s.rend()) {
                 *it = 5;
                 ++it;
             }
 
-            REQUIRE(bool(it == beyond));
-            REQUIRE(bool(it - beyond == 0));
+            ok = (it == beyond);
+            REQUIRE(ok);
+            ok = (it - beyond == 0);
+            REQUIRE(ok);
 
             for (const auto& n : s) {
-                REQUIRE(bool(n == 5));
+                ok = (n == 5);
+                REQUIRE(ok);
             }
         }
     }
@@ -393,33 +408,46 @@ TEST_CASE("GenericContainer::Vector")
 
             auto it = s.crbegin();
             auto first = it;
-            REQUIRE(bool(it == first));
-            REQUIRE(bool(*it == 4));
+            bool ok;
+            ok = (it == first);
+            REQUIRE(ok);
+            ok = (*it == 4);
+            REQUIRE(ok);
 
             auto beyond = s.crend();
-            REQUIRE(bool(it != beyond));
-
-            REQUIRE(bool(beyond - first == 4));
-            REQUIRE(bool(first - first == 0));
-            REQUIRE(bool(beyond - beyond == 0));
+            ok = (it != beyond);
+            REQUIRE(ok);
+            ok = (beyond - first == 4);
+            REQUIRE(ok);
+            ok = (first - first == 0);
+            REQUIRE(ok);
+            ok = (beyond - beyond == 0);
+            REQUIRE(ok);
 
             ++it;
-            REQUIRE(bool(it - first == 1));
-            REQUIRE(bool(*it == 3));
-            REQUIRE(bool(beyond - it == 3));
+            ok = (it - first == 1);
+            REQUIRE(ok);
+            ok = (*it == 3);
+            REQUIRE(ok);
+            ok = (beyond - it == 3);
+            REQUIRE(ok);
 
             it = first;
-            REQUIRE(bool(it == first));
+            ok = (it == first);
+            REQUIRE(ok);
             int last = 5;
             while (it != s.crend()) {
-                REQUIRE(bool(*it == last - 1));
+                ok = (*it == last - 1);
+                REQUIRE(ok);
                 last = *it;
 
                 ++it;
             }
 
-            REQUIRE(bool(it == beyond));
-            REQUIRE(bool(it - beyond == 0));
+            ok = (it == beyond);
+            REQUIRE(ok);
+            ok = (it - beyond == 0);
+            REQUIRE(ok);
         }
     }
 
