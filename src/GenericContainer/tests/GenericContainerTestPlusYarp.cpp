@@ -43,11 +43,11 @@ TEST_CASE("GenericContainer::Vector + Yarp")
     {
         iDynTree::VectorDynSize vector(5);
         GenericContainer::Vector container = GenericContainer::make_vector(vector);
-        REQUIRE_FALSE(container.resizeContainer(2));
+        REQUIRE_FALSE(container.resizeVector(2));
 
         iDynTree::VectorFixSize<3> fixedVector;
         GenericContainer::Vector container2 = make_vector(fixedVector, GenericContainer::VectorResizeMode::Resizable);
-        REQUIRE_FALSE(container.resizeContainer(2));
+        REQUIRE_FALSE(container.resizeVector(2));
     }
 
     SECTION("Resize")
@@ -55,7 +55,7 @@ TEST_CASE("GenericContainer::Vector + Yarp")
         yarp::sig::Vector vector;
 
         GenericContainer::Vector container = make_vector(vector, GenericContainer::VectorResizeMode::Resizable);
-        REQUIRE(container.resizeContainer(5));
+        REQUIRE(container.resizeVector(5));
         REQUIRE(vector.size() == 5);
 
     }

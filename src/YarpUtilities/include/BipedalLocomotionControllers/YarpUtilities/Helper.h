@@ -20,9 +20,6 @@
 
 #include <iDynTree/Core/VectorDynSize.h>
 
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
-
-
 namespace BipedalLocomotionControllers
 {
 

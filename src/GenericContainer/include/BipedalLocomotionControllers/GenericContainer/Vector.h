@@ -79,7 +79,7 @@ public:
     {
         if (size() != other.size())
         {
-            if (!resizeContainer(other.size()))
+            if (!resizeVector(other.size()))
             {
                 std::cerr << "[GenericContainer::Vector] Failed to resize. Copy aborted" << std::endl;
                 return false;
@@ -105,7 +105,7 @@ public:
     }
 
 
-    bool resizeContainer(index_type newSize)
+    bool resizeVector(index_type newSize)
     {
         m_span = m_resizeLambda(newSize);
         return m_span.size() == newSize;
@@ -220,6 +220,16 @@ public:
 };
 
 namespace BipedalLocomotionControllers::GenericContainer {
+
+template <typename T>
+struct is_vector : std::false_type
+{
+};
+
+template <typename T>
+struct is_vector<Vector<T>> : std::true_type
+{
+};
 
 enum class VectorResizeMode
 {
