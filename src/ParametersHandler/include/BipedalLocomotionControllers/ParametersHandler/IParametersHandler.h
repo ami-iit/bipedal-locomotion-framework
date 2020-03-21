@@ -8,11 +8,11 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
 
-#include <iDynTree/Core/Span.h>
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -77,28 +77,28 @@ public:
     virtual bool getParameter(const std::string& parameterName, bool& parameter) const = 0;
 
     /**
-     * Get a parameter [std::span<int>]
+     * Get a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<int>& parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const = 0;
 
     /**
-     * Get a parameter [std::span<double>]
+     * Get a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<double>& parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const = 0;
 
     /**
-     * Get a parameter [std::span<std::string>]
+     * Get a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, const iDynTree::Span<std::string>& parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const = 0;
 
     /**
      * Get a parameter [std::vector<bool>]
@@ -146,25 +146,25 @@ public:
     virtual void setParameter(const std::string& parameterName, const bool& parameter) = 0;
 
     /**
-     * Set a parameter [std::span<int>]
+     * Set a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const int>& parameter) = 0;
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) = 0;
 
     /**
-     * Set a parameter [std::span<double>]
+     * Set a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const double>& parameter) = 0;
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) = 0;
 
     /**
-     * Set a parameter [std::span<std::string>]
+     * Set a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const iDynTree::Span<const std::string>& parameter) = 0;
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) = 0;
 
     /**
      * Set a parameter [std::vector<bool>]
