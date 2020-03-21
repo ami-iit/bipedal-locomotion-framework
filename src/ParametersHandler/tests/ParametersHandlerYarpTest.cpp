@@ -18,12 +18,14 @@
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/Bottle.h>
 
+#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
 
 #include <ConfigFolderPath.h>
 
 using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotionControllers::GenericContainer;
 
 TEST_CASE("Get parameters")
 {
@@ -34,7 +36,7 @@ TEST_CASE("Get parameters")
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
-    parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
+    parameterHandler->setParameter("Fibonacci Numbers", make_vector<const std::vector<int>>(fibonacciNumbers));
 
     SECTION("Get integer")
     {
@@ -67,30 +69,33 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Vector")
     {
-        std::vector<int> element(fibonacciNumbers.size());
-        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+        std::vector<int> element;
+        auto container = make_vector(element, VectorResizeMode::Resizable);
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", container));
         REQUIRE(element == fibonacciNumbers);
     }
 
     SECTION("Change Vector")
     {
         fibonacciNumbers.push_back(34);
-        parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
-        std::vector<int> element(fibonacciNumbers.size());
-        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+        parameterHandler->setParameter("Fibonacci Numbers", make_vector<const std::vector<int>>(fibonacciNumbers));
+        std::vector<int> element;
+        auto container = make_vector(element, VectorResizeMode::Resizable);
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", container));
         REQUIRE(element == fibonacciNumbers);
     }
 
     SECTION("Set/Get Group")
     {
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
-        setGroup->setParameter("Donald's nephews", donaldsNephews);
+        setGroup->setParameter("Donald's nephews", make_vector<const std::vector<std::string>>(donaldsNephews));
         REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
         YarpImplementation::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
-        std::vector<std::string> element(3);
-        REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
+        std::vector<std::string> element;
+        auto container = make_vector(element, VectorResizeMode::Resizable);
+        REQUIRE(cartoonsGroup->getParameter("Donald's nephews", container));
         REQUIRE(element == donaldsNephews);
     }
 
@@ -110,10 +115,9 @@ TEST_CASE("Get parameters")
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
-        groupHandler->setParameter("Donald's nephews", donaldsNephews);
+        groupHandler->setParameter("Donald's nephews", make_vector<const std::vector<std::string>>(donaldsNephews));
         REQUIRE_FALSE(groupHandler->isEmpty());
         std::cout << "Parameters: " << parameterHandler->toString() << std::endl;
-
     }
 
     SECTION("Clear")
@@ -174,8 +178,9 @@ TEST_CASE("Get parameters")
         }
 
         {
-            std::vector<int> element(fibonacciNumbers.size());
-            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+            std::vector<int> element;
+            auto container = make_vector(element, VectorResizeMode::Resizable);
+            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", container));
             REQUIRE(element == fibonacciNumbers);
         }
 
@@ -183,15 +188,17 @@ TEST_CASE("Get parameters")
         REQUIRE(cartoonsGroup);
 
         {
-            std::vector<std::string> element(3);
-            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
+            std::vector<std::string> element;
+            auto container = make_vector(element, VectorResizeMode::Resizable);
+            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", container));
             REQUIRE(element == donaldsNephews);
 
         }
 
         {
             std::vector<int> element(fibonacciNumbers.size());
-            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
+            auto container = make_vector(element, VectorResizeMode::Resizable);
+            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", container));
             REQUIRE(element == fibonacciNumbers);
         }
 
