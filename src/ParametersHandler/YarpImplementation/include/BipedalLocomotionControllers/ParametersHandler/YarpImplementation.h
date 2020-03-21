@@ -108,28 +108,28 @@ public:
     bool getParameter(const std::string& parameterName, bool& parameter) const final;
 
     /**
-     * Get a parameter [std::span<int>]
+     * Get a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    bool getParameter(const std::string& parameterName, const iDynTree::Span<int>& parameter) const final;
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const final;
 
     /**
-     * Get a parameter [std::span<double>]
+     * Get a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    bool getParameter(const std::string& parameterName, const iDynTree::Span<double>& parameter) const final;
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const final;
 
     /**
-     * Get a parameter [std::span<std::string>]
+     * Get a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    bool getParameter(const std::string& parameterName, const iDynTree::Span<std::string>& parameter) const final;
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const final;
 
     /**
      * Get a parameter [std::vector<bool>]
@@ -177,25 +177,25 @@ public:
     void setParameter(const std::string& parameterName, const bool& parameter) final;
 
     /**
-     * Set a parameter [std::span<int>]
+     * Set a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const iDynTree::Span<const int>& parameter) final;
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) final;
 
     /**
-     * Set a parameter [std::span<double>]
+     * Set a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const iDynTree::Span<const double>& parameter) final;
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) final;
 
     /**
-     * Set a parameter [std::span<std::string>]
+     * Set a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const iDynTree::Span<const std::string>& parameter) final;
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) final;
 
     /**
      * Set a parameter [std::vector<bool>]

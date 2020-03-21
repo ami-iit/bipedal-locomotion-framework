@@ -36,19 +36,19 @@ bool YarpImplementation::getParameter(const std::string& parameterName, bool& pa
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      const iDynTree::Span<int>& parameter) const
+                                      GenericContainer::Vector<int>& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      const iDynTree::Span<double>& parameter) const
+                                      GenericContainer::Vector<double>& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      const iDynTree::Span<std::string>& parameter) const
+                                      GenericContainer::Vector<std::string>& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -86,17 +86,17 @@ void YarpImplementation::setParameter(const std::string& parameterName, const bo
 }
 
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const iDynTree::Span<const int>& parameter)
+                                      const GenericContainer::Vector<const int>& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const iDynTree::Span<const double>& parameter)
+                                      const GenericContainer::Vector<const double>& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const iDynTree::Span<const std::string>& parameter)
+                                      const GenericContainer::Vector<const std::string>& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
