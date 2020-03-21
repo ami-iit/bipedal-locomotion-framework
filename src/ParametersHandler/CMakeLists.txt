@@ -5,6 +5,6 @@
 add_bipedal_component(
   NAME                  ParametersHandler
   PUBLIC_HEADERS        include/BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h
-  PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
+  PUBLIC_LINK_LIBRARIES BipedalLocomotionControllers::GenericContainer
   SUBDIRECTORIES        tests YarpImplementation
   IS_INTERFACE          ON)
