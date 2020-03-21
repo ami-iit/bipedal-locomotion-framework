@@ -21,6 +21,13 @@ using namespace BipedalLocomotionControllers;
 
 TEST_CASE("GenericContainer::Vector + Yarp")
 {
+    SECTION("Constructible")
+    {
+        REQUIRE(GenericContainer::is_vector_constructible<yarp::sig::Vector>::value);
+        REQUIRE(GenericContainer::is_vector_constructible<yarp::sig::VectorOf<int>>::value);
+        REQUIRE(GenericContainer::is_vector_constructible<yarp::sig::VectorOf<char>>::value);
+    }
+
     SECTION("Copy")
     {
         iDynTree::VectorDynSize vector(5);

@@ -265,6 +265,19 @@ struct is_span_constructible<Class,
     : std::true_type
 {};
 
+template <typename T, typename = void, typename = void>
+struct is_vector_constructible : std::false_type
+{
+};
+
+template <typename T>
+    struct is_vector_constructible<T,
+    typename std::enable_if<(std::is_array<T>::value || has_type_member<T>::value || is_data_available<T>::value)>::type,
+    typename std::enable_if<(is_span_constructible<T>::value ||(is_data_available<T>::value && is_size_available<T>::value)) &&
+                             !std::is_same<typename vector_data<T>::type, bool>::value>::type> : std::true_type
+{
+};
+
 enum class VectorResizeMode
 {
     Resizable,
@@ -316,6 +329,8 @@ template<typename Class>
 Vector<typename vector_data<Class>::type>
 make_vector(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
+    static_assert (!std::is_same<typename vector_data<Class>::type, bool>::value,
+                  "Cannot create a Vector of bool type. Memory is not contiguos." );
     static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
                   "Cannot create a span given the provided class.");
 
@@ -359,6 +374,8 @@ template <typename Class>
 Vector<const typename vector_data<Class>::type>
 make_vector(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
+    static_assert (!std::is_same<typename vector_data<Class>::type, bool>::value,
+                  "Cannot create a Vector of bool type. Memory is not contiguos." );
     static_assert(is_span_constructible<Class>::value
                       || (is_data_available<Class>::value && is_size_available<Class>::value),
                   "Cannot create a span given the provided class.");
