@@ -2,10 +2,10 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-add_bipedal_test(
-  NAME ParametersHandler
-  SOURCES ParametersHandlerTest.cpp
-  LINKS BipedalLocomotionControllers::ParametersHandler)
+# add_bipedal_test(
+#   NAME ParametersHandler
+#   SOURCES ParametersHandlerTest.cpp
+#   LINKS BipedalLocomotionControllers::ParametersHandler)
 
 if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
 
