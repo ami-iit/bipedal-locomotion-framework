@@ -33,6 +33,7 @@ TEST_CASE("GenericContainer::Vector")
         REQUIRE(GenericContainer::is_vector_constructible<std::vector<std::string>>::value);
         REQUIRE(GenericContainer::is_vector_constructible<double[5]>::value);
         REQUIRE(GenericContainer::is_vector_constructible<const double[5]>::value);
+        REQUIRE(GenericContainer::is_vector_constructible<std::string>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<std::vector<bool>>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<double>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<int>::value);
@@ -98,6 +99,17 @@ TEST_CASE("GenericContainer::Vector")
         }
     }
 
+    SECTION("Set/get value")
+    {
+        iDynTree::VectorDynSize vector(1);
+        vector[0] = 0.0;
+        GenericContainer::Vector container = GenericContainer::make_vector(vector);
+        container[0] = 1.0;
+
+        REQUIRE(vector[0] == 1.0);
+        REQUIRE(container[0] == 1.0);
+    }
+
     SECTION("Create const")
     {
         iDynTree::VectorDynSize vector(5);
@@ -140,6 +152,16 @@ TEST_CASE("GenericContainer::Vector")
         GenericContainer::Vector inception(iDynTree::make_span(container), resizeLambda);
         REQUIRE(inception.resizeVector(6));
         REQUIRE(vector.size() == 6);
+    }
+
+    SECTION("String")
+    {
+        std::string test = "Test";
+        GenericContainer::Vector container = GenericContainer::make_vector(test, GenericContainer::VectorResizeMode::Resizable);
+
+        container.resize(3);
+
+        REQUIRE(test == "Tes");
     }
 
     SECTION("Create pointer")
