@@ -171,7 +171,7 @@ bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::s
     nameAdded.append(backup);
     downcastedPtr->m_container = nameAdded; // This is all to add the name at the beginning of the
                                             // bottle
-    m_lists[name] = newGroup;
+    m_lists[name] = downcastedPtr;
 
     return true;
 }

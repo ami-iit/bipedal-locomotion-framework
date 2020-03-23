@@ -32,9 +32,55 @@ class YarpImplementation : public IParametersHandler
 {
 
     yarp::os::Bottle m_container; /**< Bottle object */
-    std::unordered_map<std::string, YarpImplementation::shared_ptr> m_lists; /**< Map containing
-                                                                                pointers to the
-                                                                                (asked) groups */
+    std::unordered_map<std::string, std::shared_ptr<YarpImplementation>> m_lists; /**< Map containing
+                                                                                     pointers to the
+                                                                                     (asked) groups */
+
+    /**
+     * Get a parameter [GenericContainer::Vector<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) final;
+
 
     /**
      * Private implementation of getParameter
@@ -54,7 +100,6 @@ class YarpImplementation : public IParametersHandler
      */
     template <typename T>
     void setParameterPrivate(const std::string& parameterName, const T& parameter);
-
 public:
     /**
      * Constructor.
@@ -108,30 +153,6 @@ public:
     bool getParameter(const std::string& parameterName, bool& parameter) const final;
 
     /**
-     * Get a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const final;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const final;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const final;
-
-    /**
      * Get a parameter [std::vector<bool>]
      * @param parameterName name of the parameter
      * @param parameter parameter
@@ -175,27 +196,6 @@ public:
      * @param parameter parameter
      */
     void setParameter(const std::string& parameterName, const bool& parameter) final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) final;
 
     /**
      * Set a parameter [std::vector<bool>]

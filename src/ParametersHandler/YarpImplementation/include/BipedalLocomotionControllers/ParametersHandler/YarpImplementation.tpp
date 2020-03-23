@@ -5,9 +5,13 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_TPP
+#define BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_TPP
+
 #include <type_traits>
 
 #include <BipedalLocomotionControllers/YarpUtilities/Helper.h>
+#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -72,3 +76,5 @@ void YarpImplementation::setParameterPrivate(const std::string& parameterName, c
 
 } // namespace ParametersHandler
 } // namespace BipedalLocomotionControllers
+
+#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_TPP
