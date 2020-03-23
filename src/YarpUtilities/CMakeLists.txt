@@ -9,7 +9,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities)
     NAME                   YarpUtilities
     SOURCES                src/Helper.cpp
     PUBLIC_HEADERS         include/BipedalLocomotionControllers/YarpUtilities/Helper.h include/BipedalLocomotionControllers/YarpUtilities/Helper.tpp
-    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES}
+    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotionControllers::GenericContainer
     SUBDIRECTORIES         tests)
 
 endif()
