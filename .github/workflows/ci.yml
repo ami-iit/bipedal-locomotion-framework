@@ -41,6 +41,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         git clone https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports C:/robotology-vcpkg-binary-ports
+        vcpkg.exe update
         vcpkg.exe --overlay-ports=C:/robotology-vcpkg-binary-ports install --triplet x64-windows ace libxml2 eigen3 ipopt-binary catch2
 
     - name: Dependencies [macOS]
