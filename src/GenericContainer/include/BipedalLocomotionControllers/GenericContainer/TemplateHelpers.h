@@ -202,6 +202,17 @@ struct size_type<T, typename std::enable_if<is_size_available<T>::value>::type>
 };
 
 /**
+ * is_string is an utility metafunction to detect the if a given type is a std::string or it can be
+ * trivially converted in a std::string.
+ */
+template <typename T>
+struct is_string : public std::disjunction<std::is_same<char*, typename std::decay<T>::type>,
+                                           std::is_same<const char*, typename std::decay<T>::type>,
+                                           std::is_same<std::string, typename std::decay<T>::type>>
+{
+};
+
+/**
  * Utility function used to print the typename T.
  * It has been taken from
  * <a href="https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variables-type-in-standard-c">here</a>.

@@ -20,15 +20,6 @@ namespace BipedalLocomotionControllers
 namespace ParametersHandler
 {
 
-
-template <typename T>
-struct is_string : public std::disjunction<std::is_same<char*, typename std::decay<T>::type>,
-                                           std::is_same<const char*, typename std::decay<T>::type>,
-                                           std::is_same<std::string, typename std::decay<T>::type>>
-{
-};
-
-
 /**
  * Parameters handler interface.
  * @tparam Derived type of the Derived class. Necessary to implement the Curiously recurring
