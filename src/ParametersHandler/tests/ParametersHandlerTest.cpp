@@ -14,16 +14,20 @@
 // Catch2
 #include <catch2/catch.hpp>
 
+#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
 using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotionControllers;
 
 // example of parameters handler
 class BasicImplementation : public IParametersHandler
 {
     std::unordered_map<std::string, std::any> m_map;
 
-    template <typename T> void setParameterPrivate(const std::string& parameterName, const T& parameter)
+    template <typename T>
+    void setParameterPrivate(const std::string& parameterName, const T& parameter)
     {
         // a scalar element and a strings is retrieved using getElementFromSearchable() function
         if constexpr (std::is_scalar<T>::value || is_string<T>::value)
@@ -33,21 +37,21 @@ class BasicImplementation : public IParametersHandler
             using elementType = typename T::value_type;
             std::vector<elementType> tempParameter(parameter.size());
 
-            for(std::size_t index = 0; index < parameter.size(); index++)
+            for (std::size_t index = 0; index < parameter.size(); index++)
                 tempParameter[index] = parameter[index];
-
 
             m_map[parameterName] = std::make_any<std::vector<elementType>>(tempParameter);
         }
     }
 
-    template <typename T> bool getParameterPrivate(const std::string& parameterName, T& parameter) const
+    template <typename T>
+    bool getParameterPrivate(const std::string& parameterName, T& parameter) const
     {
         auto parameterAny = m_map.find(parameterName);
         if (parameterAny == m_map.end())
         {
-            std::cerr << "[BasicImplementation::getParameterPrivate] Parameter named " << parameterName
-                      << " not found." << std::endl;
+            std::cerr << "[BasicImplementation::getParameterPrivate] Parameter named "
+                      << parameterName << " not found." << std::endl;
             return false;
         }
 
@@ -80,11 +84,27 @@ class BasicImplementation : public IParametersHandler
 
             if (castedParameter.size() != parameter.size())
             {
-                std::cerr << "[BasicImplementation::getParameterPrivate] The size of the vector "
-                             "does not match with the size of the list. List size: "
-                          << castedParameter.size() << ". Vector size: " << parameter.size()
-                          << std::endl;
-                return false;
+                // If the vector can be resize, let resize it. Otherwise it is a fix-size vector and
+                // the dimensions has to be the same of list
+                if constexpr (GenericContainer::is_vector<T>::value)
+                {
+                    if (!parameter.resizeVector(castedParameter.size()))
+                    {
+                        std::cerr << "[BasicImplementation::getParameterPrivate] Unable to resize "
+                                  << type_name<T>() << "List size: " << castedParameter.size()
+                                  << ". Vector size: " << parameter.size() << std::endl;
+                        return false;
+                    }
+                } else if constexpr (is_resizable<T>::value)
+                    parameter.resize(castedParameter.size());
+                else
+                {
+                    std::cerr << "[BasicImplementation::getParameterPrivate] The size of the "
+                                 "vector does not match with the size of the list. List size: "
+                              << castedParameter.size() << ". Vector size: " << parameter.size()
+                              << std::endl;
+                    return false;
+                }
             }
 
             for (std::size_t index = 0; index < parameter.size(); index++)
@@ -93,10 +113,46 @@ class BasicImplementation : public IParametersHandler
         return true;
     }
 
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const int>& parameter) final
+    {
+        return setParameterPrivate(parameterName, parameter);
+    }
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const double>& parameter) final
+    {
+        return setParameterPrivate(parameterName, parameter);
+    }
+
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const std::string>& parameter) final
+    {
+        return setParameterPrivate(parameterName, parameter);
+    }
+
+    bool getParameter(const std::string& parameterName,
+                      GenericContainer::Vector<int>& parameter) const final
+    {
+        return getParameterPrivate(parameterName, parameter);
+    }
+
+    bool getParameter(const std::string& parameterName,
+                      GenericContainer::Vector<double>& parameter) const final
+    {
+        return getParameterPrivate(parameterName, parameter);
+    }
+
+    bool getParameter(const std::string& parameterName,
+                      GenericContainer::Vector<std::string>& parameter) const final
+    {
+        return getParameterPrivate(parameterName, parameter);
+    }
+
 public:
     BasicImplementation(const std::unordered_map<std::string, std::any>& map)
         : m_map{map}
-    {}
+    {
+    }
 
     BasicImplementation() = default;
 
@@ -116,22 +172,6 @@ public:
     }
 
     bool getParameter(const std::string& parameterName, bool& parameter) const final
-    {
-        return getParameterPrivate(parameterName, parameter);
-    }
-
-    bool getParameter(const std::string& parameterName, const iDynTree::Span<int>& parameter) const final
-    {
-        return getParameterPrivate(parameterName, parameter);
-    }
-
-    bool getParameter(const std::string& parameterName, const iDynTree::Span<double>& parameter) const final
-    {
-        return getParameterPrivate(parameterName, parameter);
-    }
-
-    bool
-    getParameter(const std::string& parameterName, const iDynTree::Span<std::string>& parameter) const final
     {
         return getParameterPrivate(parameterName, parameter);
     }
@@ -166,20 +206,6 @@ public:
         return setParameterPrivate(parameterName, parameter);
     }
 
-    void setParameter(const std::string& parameterName, const iDynTree::Span<const int>& parameter) final
-    {
-        return setParameterPrivate(parameterName, parameter);
-    }
-    void setParameter(const std::string& parameterName, const iDynTree::Span<const double>& parameter) final
-    {
-        return setParameterPrivate(parameterName, parameter);
-    }
-    void
-    setParameter(const std::string& parameterName, const iDynTree::Span<const std::string>& parameter) final
-    {
-        return setParameterPrivate(parameterName, parameter);
-    }
-
     void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) final
     {
         return setParameterPrivate(parameterName, parameter);
@@ -190,7 +216,7 @@ public:
         auto downcastedPtr = std::dynamic_pointer_cast<BasicImplementation>(newGroup);
         if (downcastedPtr == nullptr)
         {
-            std::cerr << "[YarpImplementation::setGroup] Unable to downcast the pointer to "
+            std::cerr << "[BasicImplementation::setGroup] Unable to downcast the pointer to "
                          "BasicImplementation."
                       << std::endl;
             return false;
@@ -229,7 +255,7 @@ public:
     std::string toString() const final
     {
         std::string key;
-        for (const auto& parameters: m_map)
+        for (const auto& parameters : m_map)
             key += parameters.first + " ";
 
         return key;
@@ -254,7 +280,7 @@ TEST_CASE("Get parameters")
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
-    parameterHandler->setParameter("John", std::string("Smith"));
+    parameterHandler->setParameter("John", "Smith");
 
     SECTION("Get integer")
     {
@@ -279,8 +305,10 @@ TEST_CASE("Get parameters")
 
     SECTION("Get Vector")
     {
-        std::vector<int> element(8);
-        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+        std::vector<int> element;
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers",
+                                               element,
+                                               GenericContainer::VectorResizeMode::Resizable));
         REQUIRE(element == std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
     }
 
@@ -288,12 +316,15 @@ TEST_CASE("Get parameters")
     {
         BasicImplementation::shared_ptr newGroup = std::make_shared<BasicImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
-        BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        BasicImplementation::shared_ptr groupHandler
+            = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         groupHandler->setParameter("Donald's nephews",
                                    std::vector<std::string>{"Huey", "Dewey", "Louie"});
-        std::vector<std::string> element(3);
-        REQUIRE(groupHandler->getParameter("Donald's nephews", element));
+        std::vector<std::string> element;
+        REQUIRE(groupHandler->getParameter("Donald's nephews",
+                                           element,
+                                           GenericContainer::VectorResizeMode::Resizable));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
     }
 
@@ -301,7 +332,8 @@ TEST_CASE("Get parameters")
     {
         BasicImplementation::shared_ptr newGroup = std::make_shared<BasicImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
-        BasicImplementation::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
+        BasicImplementation::shared_ptr groupHandler
+            = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
