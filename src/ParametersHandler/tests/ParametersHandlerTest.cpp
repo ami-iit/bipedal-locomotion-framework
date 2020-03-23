@@ -211,7 +211,7 @@ public:
         return setParameterPrivate(parameterName, parameter);
     }
 
-    bool setGroup(const std::string& name, shared_ptr newGroup)
+    bool setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
     {
         auto downcastedPtr = std::dynamic_pointer_cast<BasicImplementation>(newGroup);
         if (downcastedPtr == nullptr)
@@ -276,7 +276,9 @@ public:
 
 TEST_CASE("Get parameters")
 {
-    IParametersHandler::unique_ptr parameterHandler = std::make_unique<BasicImplementation>();
+    std::shared_ptr<BasicImplementation> originalHandler = std::make_shared<BasicImplementation>();
+    IParametersHandler::shared_ptr parameterHandler = originalHandler;
+
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("Fibonacci Numbers", std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
@@ -352,7 +354,7 @@ TEST_CASE("Get parameters")
     {
         std::unordered_map<std::string, std::any> object;
         object["value"] = std::make_any<int>(10);
-        static_cast<BasicImplementation*>(parameterHandler.get())->set(object);
+        originalHandler->set(object);
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
