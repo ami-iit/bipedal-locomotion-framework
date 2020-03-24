@@ -10,6 +10,10 @@ on:
 
 env:
   vcpkg_robotology_TAG: v0.0.3
+  YCM_TAG: v0.11.0
+  YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
+  iDynTree_TAG: 0ee5f759a6fb3a6b6cfa9064779a9428440f8fc2
+  Catch2_TAG: v2.11.3
 
 jobs:
   build:
@@ -71,18 +75,26 @@ jobs:
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind
 
+    - name: Cache Source-based Dependencies
+      id: cache-source-deps
+      uses: actions/cache@v1
+      with:
+        path: ${{ github.workspace }}/install/deps
+        key: source-deps-${{ runner.os }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}
+
+
     - name: Source-based Dependencies [Windows]
-      if: matrix.os == 'windows-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
       shell: bash
       run: |
         # YCM
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology/ycm
+        git clone -b ${YCM_TAG} https://github.com/robotology/ycm
         cd ycm
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL
 
@@ -91,10 +103,11 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/yarp
         cd yarp
+        git checkout ${YARP_TAG}
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL
         # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
         export IPOPT_DIR=${VCPKG_INSTALLATION_ROOT}/installed/x64-windows
@@ -103,59 +116,60 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/iDynTree
         cd iDynTree
-        git checkout devel
+        git checkout ${iDynTree_TAG}
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu/macOS]
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest')
       shell: bash
       run: |
         # YCM
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology/ycm
+        git clone -b ${YCM_TAG} https://github.com/robotology/ycm
         cd ycm
         mkdir -p build
         cd build
-        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # YARP
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/yarp
         cd yarp
+        git checkout ${YARP_TAG}
         mkdir -p build
         cd build
-        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # iDynTree
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/iDynTree
         cd iDynTree
-        git checkout devel
+        git checkout ${iDynTree_TAG}
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
-         git clone https://github.com/catchorg/Catch2.git
+         git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
          cd Catch2
          mkdir -p build
          cd build
-         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
-                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                 -DBUILD_TESTING=OFF ..
 
          cmake --build . --config ${{ matrix.build_type }} --target install
@@ -172,7 +186,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON ..
 
@@ -182,7 +196,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
               -DBIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests:BOOL=ON ..
@@ -193,7 +207,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install \
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON ..
 
