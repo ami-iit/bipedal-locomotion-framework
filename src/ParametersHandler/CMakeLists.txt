@@ -3,7 +3,8 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 add_bipedal_component(
-  NAME             ParametersHandler
-  PUBLIC_HEADERS   include/BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h include/BipedalLocomotionControllers/ParametersHandler/IParametersHandler.tpp
-  SUBDIRECTORIES   tests YarpImplementation
-  IS_INTERFACE     ON)
+  NAME                  ParametersHandler
+  PUBLIC_HEADERS        include/BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h
+  PUBLIC_LINK_LIBRARIES BipedalLocomotionControllers::GenericContainer
+  SUBDIRECTORIES        tests YarpImplementation
+  IS_INTERFACE          ON)
