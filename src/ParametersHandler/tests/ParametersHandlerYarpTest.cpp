@@ -32,7 +32,8 @@ TEST_CASE("Get parameters")
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
 
-    IParametersHandler::unique_ptr parameterHandler = std::make_unique<YarpImplementation>();
+    std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
+    IParametersHandler::shared_ptr parameterHandler = originalHandler;
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
@@ -127,11 +128,11 @@ TEST_CASE("Get parameters")
     SECTION("Set from object")
     {
         yarp::os::ResourceFinder rf;
-        static_cast<YarpImplementation*>(parameterHandler.get())->set(rf);
+        originalHandler->set(rf);
 
         yarp::os::Property property;
         property.put("value", 10);
-        static_cast<YarpImplementation*>(parameterHandler.get())->set(property);
+        originalHandler->set(property);
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
@@ -154,7 +155,7 @@ TEST_CASE("Get parameters")
         REQUIRE_FALSE(rf.isNull());
         parameterHandler->clear();
         REQUIRE(parameterHandler->isEmpty());
-        static_cast<YarpImplementation*>(parameterHandler.get())->set(rf);
+        originalHandler->set(rf);
 
         {
             int element;
