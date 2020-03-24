@@ -23,6 +23,7 @@ jobs:
       matrix:
         build_type: [Release]
         os: [ubuntu-latest, windows-latest, macOS-latest]
+      fail-fast: false
 
     steps:
     - uses: actions/checkout@master
