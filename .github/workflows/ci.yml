@@ -217,13 +217,12 @@ jobs:
         cd build
         # Attempt of fix for using YARP idl generators (that link ACE) in Windows
         # See https://github.com/robotology/idyntree/issues/569
-        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/c/vcpkg/installed/x64-windows/bin:/c/vcpkg/installed/x64-windows/debug/bin
+        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         cmake --build . --config ${{ matrix.build_type }}
 
     - name: Test
       shell: bash
       run: |
         cd build
-        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/c/vcpkg/installed/x64-windows/bin:/c/vcpkg/installed/x64-windows/debug/bin
-
+        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         ctest --output-on-failure -C ${{ matrix.build_type }} .
