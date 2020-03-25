@@ -39,6 +39,8 @@ function(add_bipedal_component)
     # Add C++17 features
     target_compile_features(${name} INTERFACE cxx_std_17)
 
+    target_link_libraries(${name} INTERFACE ${public_link_libraries})
+
     # Specify include directories for both compilation and installation process.
     # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
     # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
