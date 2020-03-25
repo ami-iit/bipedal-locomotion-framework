@@ -100,16 +100,14 @@ TEST_CASE("Recursive Least Square")
 
     rf.configure(argv.size() - 1, argv.data());
 
-    YarpImplementation::unique_ptr parameterHandler = YarpImplementation::make_unique();
+    auto parameterHandler = std::make_shared<YarpImplementation>();
 
     REQUIRE_FALSE(rf.isNull());
     parameterHandler->set(rf);
     REQUIRE_FALSE(parameterHandler->isEmpty());
 
-    auto estimatorParameters = parameterHandler->getGroup("RLS");
     RecursiveLeastSquare estimator;
-    REQUIRE(estimator.initialize(estimatorParameters));
-
+    REQUIRE(estimator.initialize(parameterHandler));
 
     auto regressor = std::bind(&Model::regressor, &model);
     estimator.setRegressorFunction(regressor);
