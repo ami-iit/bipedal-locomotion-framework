@@ -76,8 +76,7 @@ public:
      * @tparameter Derived particular implementation of the IParameterHandler
      * @return true in case of success, false otherwise
      */
-    template <class Derived>
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler<Derived>> handlerWeak);
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak);
 
     /**
      * Set the regressor
@@ -112,7 +111,5 @@ public:
 };
 } // namespace Estimators
 } // namespace BipedalLocomotionControllers
-
-#include "RecursiveLeastSquare.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_ESTIMATORS_RLS_H
