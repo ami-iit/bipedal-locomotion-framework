@@ -8,122 +8,78 @@
 #include <iDynTree/Core/EigenHelpers.h>
 
 #include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
+#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
 using namespace BipedalLocomotionControllers::ContactModels;
+using namespace BipedalLocomotionControllers::ParametersHandler;
 
-bool ContinuousContactModel::setState(const std::unordered_map<std::string, std::any>& state)
+ContinuousContactModel::ContinuousContactModel()
 {
-    if (!getVariable(state, "twist", m_twist))
-    {
-        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named twist"
-                  << std::endl;
-        return false;
-    }
-
-    if (!getVariable(state, "frame_transform", m_frameTransform))
-    {
-        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named "
-                     "frame_transform"
-                  << std::endl;
-        return false;
-    }
-
-    if (!getVariable(state, "null_force_transform", m_nullForceTransform))
-    {
-        std::cerr << "[ContinuousContactModel::setState] Unable to get the variable named "
-                     "null_force_transform."
-                  << std::endl;
-        return false;
-    }
-
-    // the parameters has been update the previous quantities has to be evaluated again
-    m_isContactWrenchComputed = false;
-    m_isControlMatrixComputed = false;
-    m_isAutonomousDynamicsComputed = false;
-
-    return true;
-}
-
-bool ContinuousContactModel::setMutableParameters(const std::unordered_map<std::string, std::any>& parameters)
-{
-    if (!getVariable(parameters, "spring_coeff", m_springCoeff))
-    {
-        std::cerr << "[ContinuousContactModel::setMutableParameters] Unable to get the variable "
-                     "named spring_coeff."
-                  << std::endl;
-        return false;
-    }
-
-    if (!getVariable(parameters, "damper_coeff", m_damperCoeff))
-    {
-        std::cerr << "[ContinuousContactModel::setMutableParameters] Unable to get the variable "
-                     "named damper_coeff."
-                  << std::endl;
-        return false;
-    }
-
-    // the parameters has been update the previous quantities has to be evaluated again
-    m_isContactWrenchComputed = false;
-    m_isControlMatrixComputed = false;
-    m_isAutonomousDynamicsComputed = false;
-
-    return true;
-}
-
-bool ContinuousContactModel::setImmutableParameters(
-    const std::unordered_map<std::string, std::any>& parameters)
-{
-    if (!getVariable(parameters, "length", m_length))
-    {
-        std::cerr << "[ContinuousContactModel::setImmutableParameters] Unable to get the variable "
-                     "named length."
-                  << std::endl;
-        return false;
-    }
-
-    if (!getVariable(parameters, "width", m_width))
-    {
-        std::cerr << "[ContinuousContactModel::setImmutableParameters] Unable to get the variable "
-                     "named width."
-                  << std::endl;
-        return false;
-    }
-
-    // the parameters has been update the previous quantities has to be evaluated again
-    m_isContactWrenchComputed = false;
-    m_isControlMatrixComputed = false;
-    m_isAutonomousDynamicsComputed = false;
-
-    return true;
-}
-
-ContinuousContactModel::ContinuousContactModel(
-    const std::unordered_map<std::string, std::any>& immutableParameters,
-    const std::unordered_map<std::string, std::any>& mutableParameters)
-    : m_twist(iDynTree::Twist::Zero())
-    , m_frameTransform(iDynTree::Transform::Identity())
-    , m_nullForceTransform(iDynTree::Transform::Identity())
-{
-    setMutableParameters(mutableParameters);
-    setImmutableParameters(immutableParameters);
-
-    // reset matrix and vectors
-    m_autonomousDynamics.zero();
     m_controlMatrix.zero();
+    m_autonomousDynamics.zero();
 }
 
-ContinuousContactModel::ContinuousContactModel(
-    const std::unordered_map<std::string, std::any>& parameters)
-    : m_twist(iDynTree::Twist::Zero())
-    , m_frameTransform(iDynTree::Transform::Identity())
-    , m_nullForceTransform(iDynTree::Transform::Identity())
+bool ContinuousContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> weakHandler)
 {
-    setMutableParameters(parameters);
-    setImmutableParameters(parameters);
+    auto handler = weakHandler.lock();
+    if(handler == nullptr)
+    {
+        std::cerr << "[ContinuousContactModel::initialize] The parameter handler is corrupted. "
+                     "Please make sure that the handler exists."
+                  << std::endl;
+        return false;
+    }
 
-    // reset matrix and vectors
-    m_autonomousDynamics.zero();
-    m_controlMatrix.zero();
+    if (!handler->getParameter("length", m_length))
+    {
+        std::cerr << "[ContinuousContactModel::initialize] Unable to get the variable named length."
+                  << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("width", m_width))
+    {
+        std::cerr << "[ContinuousContactModel::initialize] Unable to get the variable named width."
+                  << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("spring_coeff", m_springCoeff))
+    {
+        std::cerr << "[ContinuousContactModel::initialize] Unable to get the variable named "
+                     "spring_coeff."
+                  << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("damper_coeff", m_damperCoeff))
+    {
+        std::cerr << "[ContinuousContactModel::initialize] Unable to get the variable named "
+                     "damper_coeff."
+                  << std::endl;
+        return false;
+    }
+
+    // the parameters has been update the previous quantities has to be evaluated again
+    m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomousDynamicsComputed = false;
+
+    return true;
+}
+
+void ContinuousContactModel::setState(const iDynTree::Twist& twist,
+                                      const iDynTree::Transform& transform,
+                                      const iDynTree::Transform& nullForceTransform)
+{
+    m_twist = twist;
+    m_frameTransform = transform;
+    m_nullForceTransform = nullForceTransform;
+
+    // the parameters has been update the previous quantities has to be evaluated again
+    m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomousDynamicsComputed = false;
 }
 
 void ContinuousContactModel::computeContactWrench()

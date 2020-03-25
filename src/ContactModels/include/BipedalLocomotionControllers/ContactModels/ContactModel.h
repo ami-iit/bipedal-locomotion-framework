@@ -9,12 +9,17 @@
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
 
 #include <any>
-#include <unordered_map>
+#include <memory>
 #include <string>
+#include <unordered_map>
 
 #include <iDynTree/Core/MatrixFixSize.h>
+#include <iDynTree/Core/Transform.h>
+#include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/Wrench.h>
+
+#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -58,25 +63,20 @@ protected:
      */
     virtual void computeControlMatrix() = 0;
 
-    /**
-     * Get variable from a set of variables
-     * @param variables map containing variables
-     * @param variableName name of the variable
-     * @param variable variable
-     * @return true/false in case of success/failure
-     */
-    template <class T>
-    bool getVariable(const std::unordered_map<std::string, std::any>& variables,
-                     const std::string& variableName,
-                     T& variable);
-
-    /**
-     * Set the immutable parameters
-     * @retun true/false in case of success/failure
-     */
-    virtual bool setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 
 public:
+    /**
+     * Initialization of the class. Please call this method before evaluating any other function
+     * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
+     * of the container.
+     * @warning std::weak_ptr models temporary ownership: when the handler is accessed only if it
+     * exists, the std::weak_ptr is converted in a std::shared_ptr.
+     * @note the required parameters may depends on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initialize
+     * @return true/false in case of success/failure
+     */
+    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) = 0;
+
     /**
      * Get and compute (only if it is necessary) the contact wrench
      * @return the contact wrench expressed in mixed representation
@@ -96,21 +96,17 @@ public:
     const iDynTree::Matrix6x6& getControlMatrix();
 
     /**
-     * Set the internal state of the model
+     * Set the internal state of the model.
+     * @note the meaning of the parameters may depend on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState
      * @retun true/false in case of success/failure
      */
-    virtual bool setState(const std::unordered_map<std::string, std::any>& state) = 0;
+    virtual void setState(const iDynTree::Twist& twist,
+                          const iDynTree::Transform& transform,
+                          const iDynTree::Transform& nullForceTransform) = 0;
 
-    /**
-     * Set the mutable parameters
-     * @retun true/false in case of success/failure
-     */
-    virtual bool setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 };
 } // namespace ContactModels
 } // namespace BipedalLocomotionControllers
-
-
-#include "ContactModel.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H

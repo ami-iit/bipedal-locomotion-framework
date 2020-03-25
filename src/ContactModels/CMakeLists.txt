@@ -6,10 +6,10 @@
 if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_ContactModels)
 
     add_bipedal_component(
-    NAME                   ContactModels
-    SOURCES                src/ContactModel.cpp src/ContinuousContactModel.cpp
-    PUBLIC_HEADERS             include/BipedalLocomotionControllers/ContactModels/ContactModel.h include/BipedalLocomotionControllers/ContactModels/ContactModel.tpp include/BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h
-    PUBLIC_LINK_LIBRARIES  ${iDynTree_LIBRARIES}
-    SUBDIRECTORIES         tests)
+      NAME                   ContactModels
+      SOURCES                src/ContactModel.cpp src/ContinuousContactModel.cpp
+      PUBLIC_HEADERS         include/BipedalLocomotionControllers/ContactModels/ContactModel.h include/BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h
+      PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core BipedalLocomotionControllers::ParametersHandler
+      SUBDIRECTORIES         tests)
 
 endif()
