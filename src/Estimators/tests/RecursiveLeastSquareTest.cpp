@@ -6,21 +6,21 @@
  */
 
 #include <cmath>
-#include <random>
 #include <functional>
+#include <random>
 
 // Catch2
 #include <catch2/catch.hpp>
 
 // YARP
+#include <yarp/os/Bottle.h>
 #include <yarp/os/Property.h>
+#include <yarp/os/ResourceFinder.h>
 #include <yarp/os/Searchable.h>
 #include <yarp/os/Value.h>
-#include <yarp/os/ResourceFinder.h>
-#include <yarp/os/Bottle.h>
 
-#include <iDynTree/Core/MatrixDynSize.h>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/MatrixDynSize.h>
 
 #include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
@@ -32,6 +32,12 @@
 using namespace BipedalLocomotionControllers::Estimators;
 using namespace BipedalLocomotionControllers::ParametersHandler;
 
+/**
+ * The model class implement a simple model used for testing the Recursive Least Square algorithm
+ * |y1|   |x      x * x |   |p1|   |noise_1 |
+ * |  | = |             | * |  | + |        |
+ * |y2|   |sin(x) cos(x)|   |p2|   |noise_2 |
+ */
 class Model
 {
     iDynTree::Vector2 params;
@@ -40,8 +46,9 @@ class Model
     std::random_device rd{};
     std::mt19937 gen;
 
-    std::normal_distribution<> noise1{0,0.5};
-    std::normal_distribution<> noise2{0,0.5};
+    /** The noise is modelled as Gaussian vector with zero mean and diagonal covariance matrix */
+    std::normal_distribution<> noise1{0, 0.5};
+    std::normal_distribution<> noise2{0, 0.5};
 
 public:
     Model(const iDynTree::Vector2& params)
@@ -69,15 +76,16 @@ public:
 
     iDynTree::VectorDynSize getOutput()
     {
-
         iDynTree::VectorDynSize output(2);
+        // compute the output assuming zero error
         iDynTree::toEigen(output) = iDynTree::toEigen(regressor()) * iDynTree::toEigen(params);
+
+        // add the noise to the output
         output(0) += noise1(gen);
         output(1) += noise2(gen);
 
         return output;
     };
-
 };
 
 TEST_CASE("Recursive Least Square")
@@ -88,6 +96,7 @@ TEST_CASE("Recursive Least Square")
     parameters(1) = 12.2;
     Model model(parameters);
 
+    // Load the RLS parameters from configuration file
     yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
     rf.setDefaultConfigFile("config.ini");
 
@@ -104,15 +113,16 @@ TEST_CASE("Recursive Least Square")
 
     REQUIRE_FALSE(rf.isNull());
     parameterHandler->set(rf);
-    REQUIRE_FALSE(parameterHandler->isEmpty());
 
+    // Instantiate the estimator
     RecursiveLeastSquare estimator;
     REQUIRE(estimator.initialize(parameterHandler));
 
     auto regressor = std::bind(&Model::regressor, &model);
     estimator.setRegressorFunction(regressor);
 
-    for(int i = 0; i < 10000; i++)
+    // estimate the parameters
+    for (int i = 0; i < 10000; i++)
     {
         model.setX(std::cos(i / 10.0));
         estimator.setMeasurements(model.getOutput());
@@ -121,9 +131,10 @@ TEST_CASE("Recursive Least Square")
     }
 
     // the admissible error is 0.1%
-    double admissibleError = 0.1/100.0;
-    double relativeError1 = abs((estimator.parametersExpectedValue()(0) - parameters(0)) / parameters(0));
+    double admissibleError = 0.1 / 100.0;
 
+    // compute the relative error of the parameters
+    double relativeError1 = abs((estimator.parametersExpectedValue()(0) - parameters(0)) / parameters(0));
     double relativeError2 = abs((estimator.parametersExpectedValue()(1) - parameters(1)) / parameters(1));
 
     REQUIRE(relativeError1 < admissibleError);
