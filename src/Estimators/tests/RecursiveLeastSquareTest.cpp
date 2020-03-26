@@ -55,6 +55,7 @@ public:
         : gen{rd()}
         , params(params)
     {
+        gen.seed(42);
     }
 
     iDynTree::MatrixDynSize regressor()
