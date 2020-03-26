@@ -43,7 +43,7 @@ class Model
     iDynTree::Vector2 params;
     double x;
 
-    std::random_device rd{};
+    /** pseudo random number generator */
     std::mt19937 gen;
 
     /** The noise is modelled as Gaussian vector with zero mean and diagonal covariance matrix */
@@ -52,10 +52,9 @@ class Model
 
 public:
     Model(const iDynTree::Vector2& params)
-        : gen{rd()}
+        : gen{42}
         , params(params)
     {
-        gen.seed(42);
     }
 
     iDynTree::MatrixDynSize regressor()
