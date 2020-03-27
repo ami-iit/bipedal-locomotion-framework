@@ -20,6 +20,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     src/ZMPElements.cpp
     src/CentroidalMomentumElementsWithCompliantContacts.cpp
     src/CentroidalMomentumRateOfChangeElements.cpp
+    src/CentroidalMomentumRateOfChangeBounds.cpp
     src/ContactModelElement.cpp
     src/ContactWrenchFeasibilityElement.cpp
     )
@@ -46,6 +47,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
     include/BipedalLocomotionControllers/OptimalControlUtilities/Weight.tpp
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumElementsWithCompliantContacts.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeElements.h
+    include/BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeBounds.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/ContactModelElement.h
     include/BipedalLocomotionControllers/OptimalControlUtilities/ContactWrenchFeasibilityElement.h
     )
@@ -86,6 +88,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_OptimalControlUtilities)
 
   message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
 
-  add_subdirectory(tests)
+  # add_subdirectory(tests)
 
 endif()
