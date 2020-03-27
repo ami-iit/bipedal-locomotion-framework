@@ -211,6 +211,60 @@ bool MomentumBasedControlHelper::addAngularMomentumElement(
     return true;
 }
 
+template <typename T>
+bool MomentumBasedControlHelper::addAngularMomentumBounds(
+    std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler)
+{
+    // get all the required parameters
+    using namespace OptimalControlUtilities;
+
+    // the frame in contact are two (left and right foot)
+    std::vector<FrameInContact<std::string, std::string>> framesInContact;
+
+    bool isCompliantContact = true;
+    for (const auto& stanceFoot : m_stanceFeetIdetrifiers)
+        framesInContact.emplace_back(stanceFoot.identifierInVariableHandler(),
+                                     stanceFoot.identifierInModel(),
+                                     isCompliantContact);
+
+    double samplingTime;
+    if (!handler->getParameter("sampling_time", samplingTime))
+    {
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalAngulatMomentumBounds] Unable to "
+                     "find the sampling time"
+                  << std::endl;
+        return false;
+    }
+
+    iDynTree::Vector3 upperBound, lowerBound;
+    if (!handler->getParameter("upper_bound", upperBound))
+    {
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalAngulatMomentumBounds] Unable to "
+                     "find the angular momentum upperbound"
+                  << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("lower_bound", lowerBound))
+    {
+        std::cerr << "[MomentumBasedControlHelper::addCentroidalAngulatMomentumBounds] Unable to "
+                     "find the angular momentum lowerbound"
+                  << std::endl;
+        return false;
+    }
+
+    m_centroidalAngularMomentumBound
+        = std::make_unique<CentroidalAngularMomentumRateOfChangeBounds>(m_kinDyn,
+                                                                        m_variableHandler,
+                                                                        framesInContact,
+                                                                        upperBound,
+                                                                        lowerBound,
+                                                                        samplingTime);
+
+    m_constraints->addConstraint(m_centroidalAngularMomentumBound.get());
+    return true;
+}
+
 template <OptimalControlUtilities::CartesianElementType type,
           class T>
 bool MomentumBasedControlHelper::addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler, const OptimalControlUtilities::Frame<std::string, std::string>& frame)
@@ -315,7 +369,6 @@ bool MomentumBasedControlHelper::addCartesianElement(std::shared_ptr<ParametersH
     // initialize the element
     if constexpr (type == CartesianElementType::ORIENTATION)
     {
-        std::cerr << "labellllllllll orientation" << label << std::endl;
         m_orientationElements
             .emplace(label,
                      std::make_unique<CartesianElement<type>>(m_kinDyn,
@@ -326,9 +379,6 @@ bool MomentumBasedControlHelper::addCartesianElement(std::shared_ptr<ParametersH
     }
     else if constexpr (type == CartesianElementType::POSE)
     {
-
-        std::cerr << "labellllllllll pose" << label << std::endl;
-
         m_cartesianElements
             .emplace(label,
                      std::make_unique<CartesianElement<type>>(m_kinDyn,
@@ -773,6 +823,19 @@ bool MomentumBasedControlHelper::initialize(std::weak_ptr<ParametersHandler::IPa
         {
             std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the angular "
                          "momentum element"
+                      << std::endl;
+            return false;
+        }
+    }
+
+    auto angularMomentumBoundsOptions = handler->getGroup("CENTROIDAL_ANGULAR_MOMENTUM_BOUNDS");
+    if(auto ptr = angularMomentumBoundsOptions.lock())
+    {
+        ptr->setParameter("sampling_time", samplingTime);
+        if(!addAngularMomentumBounds(ptr))
+        {
+            std::cerr << "[MomentumBasedControlHelper::initialize] Unable to add the angular "
+                         "momentum bounds"
                       << std::endl;
             return false;
         }

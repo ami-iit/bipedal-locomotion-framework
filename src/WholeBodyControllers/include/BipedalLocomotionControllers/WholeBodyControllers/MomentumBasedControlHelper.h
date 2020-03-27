@@ -24,6 +24,7 @@
 
 #include <BipedalLocomotionControllers/OptimalControlUtilities/CartesianElements.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeElements.h>
+#include <BipedalLocomotionControllers/OptimalControlUtilities/CentroidalMomentumRateOfChangeBounds.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ContactModelElement.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/ContactWrenchFeasibilityElement.h>
 #include <BipedalLocomotionControllers/OptimalControlUtilities/FeasibilityElements.h>
@@ -78,6 +79,9 @@ class MomentumBasedControlHelper
     /** Centroidal angular momentum in case of elastic contacts */
     unique_ptr<OptimalControlUtilities::CentroidalAngularMomentumRateOfChangeElement> m_centroidalAngularMomentumElement;
 
+    /** Centroidal angular momentum in case of elastic contacts */
+    unique_ptr<OptimalControlUtilities::CentroidalAngularMomentumRateOfChangeBounds> m_centroidalAngularMomentumBound;
+
     /** Dictionary containing regularization elements */
     dictionary<unique_ptr<OptimalControlUtilities::RegularizationElement>> m_regularizationElements;
 
@@ -113,6 +117,9 @@ class MomentumBasedControlHelper
 
     template <class T>
     bool addAngularMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+
+    template <class T>
+    bool addAngularMomentumBounds(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
 
     template <OptimalControlUtilities::CartesianElementType type, class T>
     bool addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
