@@ -282,6 +282,15 @@ bool MomentumBasedControlHelper::setMeasuredContactWrench(const std::unordered_m
             return false;
         }
 
+    if (m_centroidalAngularMomentumBound != nullptr)
+        if (!m_centroidalAngularMomentumBound->setMeasuredContactWrenches(contactWrenches))
+        {
+            std::cerr << "[MomentumBasedControlHelper::setMeasuredContactWrench] Unable to set the "
+                         "measured contact wrench in the angular momentum bounds"
+                      << std::endl;
+            return false;
+        }
+
     return true;
 }
 
