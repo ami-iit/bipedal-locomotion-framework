@@ -130,3 +130,7 @@ bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_C
 bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
   "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities" OFF)
+
+bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Estimators
+  "Compile Estimators library?" ON
+  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree" OFF)
