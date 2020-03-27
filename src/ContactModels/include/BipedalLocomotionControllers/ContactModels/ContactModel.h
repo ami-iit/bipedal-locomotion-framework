@@ -27,10 +27,15 @@ namespace ContactModels
 {
 /**
  * ContactModel is a generic implementation of a contact model. It computes the contact wrench
- * between the robot and the environments
+ * between the robot and the environments.
  */
 class ContactModel
 {
+    bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
+    bool m_isAutonomousDynamicsComputed; /**< If true the autonomous dynamics has been already
+                                            computed */
+    bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
+
 protected:
     iDynTree::Wrench m_contactWrench; /**< Contact wrench between the robot and the environment
                                          expressed in mixed representation */
@@ -42,11 +47,6 @@ protected:
     /** Control matrix of the contact model rate of change (i.e. given a non linear system\f$
      * \dot{x} = f + g u\f$ the control matrix is \a g */
     iDynTree::Matrix6x6 m_controlMatrix;
-
-    bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
-    bool m_isAutonomousDynamicsComputed; /**< If true the autonomous dynamics has been already
-                                            computed */
-    bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
     /**
      * Evaluate the contact wrench given a specific contact model
@@ -63,6 +63,22 @@ protected:
      */
     virtual void computeControlMatrix() = 0;
 
+    /**
+     * Initialization of the class.
+     * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
+     * of the container.
+     * @note the required parameters may depends on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate
+     * @return true/false in case of success/failure
+     */
+    virtual bool initializePrivate(std::weak_ptr<ParametersHandler::IParametersHandler> handler) = 0;
+
+    /**
+     * Set the internal state of the model.
+     */
+    virtual void setStatePrivate(const iDynTree::Twist& twist,
+                                 const iDynTree::Transform& transform,
+                                 const iDynTree::Transform& nullForceTransform) = 0;
 
 public:
     /**
@@ -72,10 +88,10 @@ public:
      * @warning std::weak_ptr models temporary ownership: when the handler is accessed only if it
      * exists, the std::weak_ptr is converted in a std::shared_ptr.
      * @note the required parameters may depends on the particular implementation. An example
-     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initialize
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate
      * @return true/false in case of success/failure
      */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) = 0;
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Get and compute (only if it is necessary) the contact wrench
@@ -99,11 +115,10 @@ public:
      * Set the internal state of the model.
      * @note the meaning of the parameters may depend on the particular implementation. An example
      * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState
-     * @retun true/false in case of success/failure
      */
-    virtual void setState(const iDynTree::Twist& twist,
-                          const iDynTree::Transform& transform,
-                          const iDynTree::Transform& nullForceTransform) = 0;
+    void setState(const iDynTree::Twist& twist,
+                  const iDynTree::Transform& transform,
+                  const iDynTree::Transform& nullForceTransform);
 
 };
 } // namespace ContactModels

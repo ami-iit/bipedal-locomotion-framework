@@ -19,10 +19,10 @@ ContinuousContactModel::ContinuousContactModel()
     m_autonomousDynamics.zero();
 }
 
-bool ContinuousContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> weakHandler)
+bool ContinuousContactModel::initializePrivate(std::weak_ptr<ParametersHandler::IParametersHandler> weakHandler)
 {
     auto handler = weakHandler.lock();
-    if(handler == nullptr)
+    if (handler == nullptr)
     {
         std::cerr << "[ContinuousContactModel::initialize] The parameter handler is corrupted. "
                      "Please make sure that the handler exists."
@@ -59,27 +59,16 @@ bool ContinuousContactModel::initialize(std::weak_ptr<ParametersHandler::IParame
                   << std::endl;
         return false;
     }
-
-    // the parameters has been update the previous quantities has to be evaluated again
-    m_isContactWrenchComputed = false;
-    m_isControlMatrixComputed = false;
-    m_isAutonomousDynamicsComputed = false;
-
     return true;
 }
 
-void ContinuousContactModel::setState(const iDynTree::Twist& twist,
-                                      const iDynTree::Transform& transform,
-                                      const iDynTree::Transform& nullForceTransform)
+void ContinuousContactModel::setStatePrivate(const iDynTree::Twist& twist,
+                                             const iDynTree::Transform& transform,
+                                             const iDynTree::Transform& nullForceTransform)
 {
     m_twist = twist;
     m_frameTransform = transform;
     m_nullForceTransform = nullForceTransform;
-
-    // the parameters has been update the previous quantities has to be evaluated again
-    m_isContactWrenchComputed = false;
-    m_isControlMatrixComputed = false;
-    m_isAutonomousDynamicsComputed = false;
 }
 
 void ContinuousContactModel::computeContactWrench()

@@ -66,14 +66,7 @@ class ContinuousContactModel final : public ContactModel
      */
     void computeControlMatrix() final;
 
-public:
-
-    /**
-     * Constructor
-     */
-    ContinuousContactModel();
-
-    /**
+        /**
      * Initialization of the class. Please call this method before evaluating any other function
      * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
      * of the container.
@@ -84,7 +77,7 @@ public:
      *   - \a damper_coeff (double): damper coefficient associated to the model
      * @return true/false in case of success/failure
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
+    bool initializePrivate(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the internal state of the model.
@@ -93,9 +86,16 @@ public:
      * @param nullForceTransform transformation corresponding to a null force expressed w.r.t. the
      * inertial frame
      */
-    void setState(const iDynTree::Twist& twist,
-                  const iDynTree::Transform& transform,
-                  const iDynTree::Transform& nullForceTransform) final;
+    void setStatePrivate(const iDynTree::Twist& twist,
+                         const iDynTree::Transform& transform,
+                         const iDynTree::Transform& nullForceTransform) final;
+
+public:
+
+    /**
+     * Constructor
+     */
+    ContinuousContactModel();
 
     /**
      * Compute the contact force applied by the environment on the system in a particular point of
