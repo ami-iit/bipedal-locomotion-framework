@@ -25,22 +25,12 @@ MomentumBasedControl::MomentumBasedControl(std::shared_ptr<iDynTree::KinDynCompu
 void MomentumBasedControl::setFeetState(bool isLeftInContact, bool isRightInContact)
 {
     if (isLeftInContact && isRightInContact)
-    {
-        std::cerr << "double" << std::endl;
         m_currentWalkingState = WalkingState::DoubleSupport;
-    }
-
     else if (isLeftInContact)
-    {
-        std::cerr << "left" << std::endl;
         m_currentWalkingState = WalkingState::SingleSupportLeft;
-    }
-
     else if (isRightInContact)
-    {
-        std::cerr << "right" << std::endl;
         m_currentWalkingState = WalkingState::SingleSupportRight;
-    } else
+    else
         assert(false);
 }
 

@@ -112,13 +112,6 @@ bool MomentumBasedControlHelper::solve()
         = iDynTree::toEigen(m_constraints->getConstraintMatrix()).sparseView();
 
     iDynTree::VectorDynSize& gradient = costElements.gradient();
-    // if(m_description == "DOUBLE_SUPPORT")
-    // {
-    //     std::cerr << "hessian = [" << costElements.hessian().toString() << "];"<< std::endl;
-    //     std::cerr << "A = [" << m_constraints->getConstraintMatrix().toString() << "];"<< std::endl;
-    //     std::cerr << "lower = [" <<bounds.lowerBound().toString() << "];"<< std::endl;
-    //     std::cerr << "upper = [" <<bounds.upperBound().toString() << "];"<< std::endl;
-    // }
     if (m_solver->isInitialized())
     {
         // update matrices hessian matrix
@@ -239,9 +232,6 @@ bool MomentumBasedControlHelper::setMeasuredContactWrench(const std::unordered_m
 
     iDynTree::VectorDynSize dummy(6);
     dummy.zero();
-
-    for (const auto& v : contactWrenches)
-        std::cerr << v.first << " " << v.second.toString() << std::endl;
 
     for (const auto& contactWrench : contactWrenches)
     {
