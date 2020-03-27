@@ -17,6 +17,7 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
   data and from YARP structures
 - [**ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
+- [**Estimators**](./src/Estimators): Library containing observers
 
 
 # :page_facing_up: Dependencies
@@ -37,6 +38,14 @@ file. Please note that the indicated version is the the minimum required version
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
+
+- `Estimators` requires:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`ParametersHandler`](./src/ParametersHandler)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
+      - [`YARP`](https://github.com/robotology/YARP)
 
 # :hammer: Build the suite
 ## Linux/macOs
