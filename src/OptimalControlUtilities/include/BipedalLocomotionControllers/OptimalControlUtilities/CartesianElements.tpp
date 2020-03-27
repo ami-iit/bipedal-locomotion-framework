@@ -130,10 +130,6 @@ const iDynTree::VectorDynSize& CartesianElement<type, axisName>::getB()
 
         if (!m_isInContact)
         {
-            std::cerr << "sono cartesian " << std::endl;
-            std::cerr << m_kinDynPtr->getFrameVel(m_frameIndex).toString() << std::endl;
-            std::cerr << m_kinDynPtr->getWorldTransform(m_frameIndex).toString() << std::endl;
-
             m_controller.setFeedback(m_kinDynPtr->getFrameVel(m_frameIndex),
                                      m_kinDynPtr->getWorldTransform(m_frameIndex));
 
