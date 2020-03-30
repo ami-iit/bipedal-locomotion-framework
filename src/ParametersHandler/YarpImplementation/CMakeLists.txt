@@ -9,6 +9,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
     NAME                   ParametersHandlerYarpImplementation
     SOURCES                src/YarpImplementation.cpp
     PUBLIC_HEADERS         include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.tpp
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotionControllers::ParametersHandler BipedalLocomotionControllers::YarpUtilities YARP::YARP_os)
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotionControllers::ParametersHandler BipedalLocomotionControllers::YarpUtilities YARP::YARP_os
+    INSTALLATION_FOLDER ParametersHandler)
 
 endif()

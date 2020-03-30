@@ -5,7 +5,7 @@
 function(add_bipedal_component)
 
   set(options IS_INTERFACE)
-  set(oneValueArgs NAME)
+  set(oneValueArgs NAME INSTALLATION_FOLDER)
   set(multiValueArgs
     SOURCES
     PUBLIC_HEADERS
@@ -23,6 +23,7 @@ function(add_bipedal_component)
     ${ARGN})
 
   set(name ${${prefix}_NAME})
+  set(installation_folder ${${prefix}_INSTALLATION_FOLDER})
   set(is_interface ${${prefix}_IS_INTERFACE})
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
@@ -30,6 +31,10 @@ function(add_bipedal_component)
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
   set(private_link_libraries ${${prefix}_PRIVATE_LINK_LIBRARIES})
   set(subdirectories ${${prefix}_SUBDIRECTORIES})
+
+  if(NOT installation_folder)
+    set(installation_folder ${name})
+  endif()
 
   # The building process is different if the component is an INTERFACE
   if(is_interface)
@@ -53,8 +58,8 @@ function(add_bipedal_component)
       EXPORT               ${PROJECT_NAME}
       COMPONENT            runtime)
 
-    install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${name}")
-    install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${name}/impl")
+    install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}")
+    install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}/impl")
 
   else()
 
@@ -83,11 +88,11 @@ function(add_bipedal_component)
     install(TARGETS    ${name}
       EXPORT           ${PROJECT_NAME}
       COMPONENT        runtime
-      LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                COMPONENT shlib
-      ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                COMPONENT lib
-      RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                COMPONENT bin
-      PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${name}"       COMPONENT dev
-      PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${name}/impl"  COMPONENT dev)
+      LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                               COMPONENT shlib
+      ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                               COMPONENT lib
+      RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                               COMPONENT bin
+      PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}"       COMPONENT dev
+      PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}/impl"  COMPONENT dev)
 
   endif()
 
