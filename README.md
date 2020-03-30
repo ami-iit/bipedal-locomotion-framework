@@ -17,6 +17,7 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
   data and from YARP structures
 - [**ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
+- [**Estimators**](./src/Estimators): Library containing observers
 - [**OptimalControlUtilities**](./src/OptimalControlUtilities): Utilities library for handling cost and
   constraints in a quadratic optimization problem (QP)
 - [**Simulator**](./src/Simulator): Library for simulating a floating base
@@ -27,7 +28,7 @@ The **bipedal-locomotion-controllers** project is a _suite_ of libraries for ach
 The **bipedal-locomotion-controllers** project is versatile and it can be used
 to compile only some components. Each component has its own dependencies that
 can be found in [`BipedalLocomotionControllersFindDependencies.cmake`](./cmake/BipedalLocomotionControllersFindDependencies.cmake)
-file. Please note that the indicated version is the minimum required version.
+file. Please note that the indicated version is the the minimum required version.
 
 - `YarpUtilities` requires:
     - For using it:
@@ -41,6 +42,14 @@ file. Please note that the indicated version is the minimum required version.
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
+
+- `Estimators` requires:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`ParametersHandler`](./src/ParametersHandler)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
+      - [`YARP`](https://github.com/robotology/YARP)
 
 - `OptimalControlUtilities` requires:
     - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
