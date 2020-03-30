@@ -9,6 +9,30 @@
 
 using namespace BipedalLocomotionControllers::ContactModels;
 
+bool ContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+{
+    // the parameters has been update the previous quantities has to be evaluated again
+    m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomousDynamicsComputed = false;
+
+    return initializePrivate(handler);
+}
+
+void ContactModel::setState(const iDynTree::Twist& twist,
+                            const iDynTree::Transform& transform,
+                            const iDynTree::Transform& nullForceTransform)
+{
+    // the state has been update the previous quantities has to be evaluated again
+    m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomousDynamicsComputed = false;
+
+    setStatePrivate(twist, transform, nullForceTransform);
+
+    return;
+}
+
 const iDynTree::Wrench& ContactModel::getContactWrench()
 {
     if (!m_isContactWrenchComputed)
@@ -22,10 +46,10 @@ const iDynTree::Wrench& ContactModel::getContactWrench()
 
 const iDynTree::Vector6& ContactModel::getAutonomousDynamics()
 {
-    if (!m_isAutonomusDynamicsComputed)
+    if (!m_isAutonomousDynamicsComputed)
     {
         computeAutonomousDynamics();
-        m_isAutonomusDynamicsComputed = true;
+        m_isAutonomousDynamicsComputed = true;
     }
 
     return m_autonomousDynamics;

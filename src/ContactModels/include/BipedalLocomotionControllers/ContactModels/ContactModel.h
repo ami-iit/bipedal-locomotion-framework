@@ -9,12 +9,17 @@
 #define BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
 
 #include <any>
-#include <unordered_map>
+#include <memory>
 #include <string>
+#include <unordered_map>
 
 #include <iDynTree/Core/MatrixFixSize.h>
+#include <iDynTree/Core/Transform.h>
+#include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/Wrench.h>
+
+#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -22,25 +27,26 @@ namespace ContactModels
 {
 /**
  * ContactModel is a generic implementation of a contact model. It computes the contact wrench
- * between the robot and the environments
+ * between the robot and the environments.
  */
 class ContactModel
 {
+    bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
+    bool m_isAutonomousDynamicsComputed; /**< If true the autonomous dynamics has been already
+                                            computed */
+    bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
+
 protected:
     iDynTree::Wrench m_contactWrench; /**< Contact wrench between the robot and the environment
                                          expressed in mixed representation */
 
     /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous is \a f */
+     * \dot{x} = f + g u\f$ the autonomous dynamics is \a f */
     iDynTree::Vector6 m_autonomousDynamics;
 
-    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous is \a g */
+    /** Control matrix of the contact model rate of change (i.e. given a non linear system\f$
+     * \dot{x} = f + g u\f$ the control matrix is \a g */
     iDynTree::Matrix6x6 m_controlMatrix;
-
-    bool m_isContactWrenchComputed; /**< If true the contact wrench has been already computed */
-    bool m_isAutonomusDynamicsComputed; /**< If true the autonomous dynamics has been already computed */
-    bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
     /**
      * Evaluate the contact wrench given a specific contact model
@@ -58,23 +64,35 @@ protected:
     virtual void computeControlMatrix() = 0;
 
     /**
-     * Get variable from a set of variables
-     * @param variables map containing variables
-     * @param variableName name of the variable
-     * @param variable variable
+     * Initialization of the class.
+     * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
+     * of the container.
+     * @note the required parameters may depends on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate
      * @return true/false in case of success/failure
      */
-    template <class T>
-    bool getVariable(const std::unordered_map<std::string, std::any>& variables,
-                     const std::string& variableName,
-                     T& variable);
+    virtual bool initializePrivate(std::weak_ptr<ParametersHandler::IParametersHandler> handler) = 0;
 
     /**
-     * Set the immutable parameters
+     * Set the internal state of the model.
      */
-    virtual void setImmutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
+    virtual void setStatePrivate(const iDynTree::Twist& twist,
+                                 const iDynTree::Transform& transform,
+                                 const iDynTree::Transform& nullForceTransform) = 0;
 
 public:
+    /**
+     * Initialization of the class. Please call this method before evaluating any other function
+     * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
+     * of the container.
+     * @warning std::weak_ptr models temporary ownership: when the handler is accessed only if it
+     * exists, the std::weak_ptr is converted in a std::shared_ptr.
+     * @note the required parameters may depends on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate
+     * @return true/false in case of success/failure
+     */
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+
     /**
      * Get and compute (only if it is necessary) the contact wrench
      * @return the contact wrench expressed in mixed representation
@@ -94,19 +112,16 @@ public:
     const iDynTree::Matrix6x6& getControlMatrix();
 
     /**
-     * Set the internal state of the model
+     * Set the internal state of the model.
+     * @note the meaning of the parameters may depend on the particular implementation. An example
+     * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState
      */
-    virtual void setState(const std::unordered_map<std::string, std::any>& state) = 0;
+    void setState(const iDynTree::Twist& twist,
+                  const iDynTree::Transform& transform,
+                  const iDynTree::Transform& nullForceTransform);
 
-    /**
-     * Set the mutable parameters
-     */
-    virtual void setMutableParameters(const std::unordered_map<std::string, std::any>& parameters) = 0;
 };
 } // namespace ContactModels
 } // namespace BipedalLocomotionControllers
-
-
-#include "ContactModel.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H

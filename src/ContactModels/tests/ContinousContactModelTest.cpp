@@ -14,9 +14,11 @@
 #include <iDynTree/Core/SpatialAcc.h>
 
 #include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
+#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
 
 using namespace iDynTree;
 using namespace BipedalLocomotionControllers::ContactModels;
+using namespace BipedalLocomotionControllers::ParametersHandler;
 
 template <typename T, typename U>
 void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
@@ -24,7 +26,7 @@ void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
     REQUIRE(vector1.size() == vector2.size());
 
     for (unsigned int i = 0; i < vector1.size(); i++)
-        REQUIRE(std::fabs(vector1[i] - vector2[i]) <= tol);
+        REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
 }
 
 TEST_CASE("Continuous Contact")
@@ -44,12 +46,15 @@ TEST_CASE("Continuous Contact")
     double length = 0.12;
     double width = 0.09;
 
-    ContinuousContactModel model({{"length", length}, {"width", width}},
-                                 {{"spring_coeff", springCoeff}, {"damper_coeff", damperCoeff}});
+    std::shared_ptr<IParametersHandler> handler = std::make_shared<YarpImplementation>();
+    handler->setParameter("spring_coeff", springCoeff);
+    handler->setParameter("damper_coeff", damperCoeff);
+    handler->setParameter("length", length);
+    handler->setParameter("width", width);
 
-    model.setState({{"frame_transform", world_T_link},
-                    {"null_force_transform", nullForceTransform},
-                    {"twist", linkVelocity}});
+    ContinuousContactModel model;
+    REQUIRE(model.initialize(handler));
+    model.setState(linkVelocity, world_T_link, nullForceTransform);
 
     SECTION("Test contact wrench")
     {
@@ -165,14 +170,10 @@ TEST_CASE("Continuous Contact")
         toEigen(contactWrenchRate) = toEigen(model.getAutonomousDynamics())
                                      + toEigen(model.getControlMatrix()) * toEigen(acceleration);
 
-        model.setState({{"frame_transform", world_T_link_prev},
-                        {"null_force_transform", nullForceTransform},
-                        {"twist", linkVelocity_prev}});
+        model.setState(linkVelocity_prev, world_T_link_prev, nullForceTransform);
         Wrench contactWrench_prev = model.getContactWrench();
 
-        model.setState({{"frame_transform", world_T_link_next},
-                        {"null_force_transform", nullForceTransform},
-                        {"twist", linkVelocity_next}});
+        model.setState(linkVelocity_next, world_T_link_next, nullForceTransform);
         Wrench contactWrench_next = model.getContactWrench();
 
 
