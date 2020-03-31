@@ -161,10 +161,9 @@ void CentroidalLinearMomentumElementWithCompliantContact::setContactState(
     if (frame->second.isInCompliantContact())
     {
         const auto& indexInModel = frame->second.identifierInModel();
-        frame->second.contactModel()->setState(
-            {{"frame_transform", m_kinDynPtr->getWorldTransform(indexInModel)},
-             {"null_force_transform", nullForceTransform},
-             {"twist", m_kinDynPtr->getFrameVel(indexInModel)}});
+        frame->second.contactModel()->setState(m_kinDynPtr->getFrameVel(indexInModel),
+                                               m_kinDynPtr->getWorldTransform(indexInModel),
+                                               nullForceTransform);
     }
 }
 

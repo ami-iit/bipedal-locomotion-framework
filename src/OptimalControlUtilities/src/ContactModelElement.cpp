@@ -113,8 +113,7 @@ void ContactModelElement::setContactState(bool isInContact,
 {
     m_frameInContact.isInCompliantContact() = isInContact;
     const auto& indexInModel = m_frameInContact.identifierInModel();
-    m_frameInContact.contactModel()->setState(
-        {{"frame_transform", m_kinDynPtr->getWorldTransform(indexInModel)},
-         {"null_force_transform", nullForceTransform},
-         {"twist", m_kinDynPtr->getFrameVel(indexInModel)}});
+    m_frameInContact.contactModel()->setState(m_kinDynPtr->getFrameVel(indexInModel),
+                                              m_kinDynPtr->getWorldTransform(indexInModel),
+                                              nullForceTransform);
 }
