@@ -38,6 +38,147 @@ Simulator::Simulator(const iDynTree::Model& model)
     m_state = State::NotInitialized;
 }
 
+bool Simulator::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak)
+{
+    auto handler = handlerWeak.lock();
+    if(handler == nullptr)
+    {
+        std::cerr << "[Simulator::initialize] The parameter handler is not valid."
+                  << std::endl;
+        return false;
+    }
+
+    if(m_state != State::NotInitialized)
+    {
+        std::cerr << "[Simulator::initialize] The simulator has been already initialized."
+                  << std::endl;
+        return false;
+    }
+
+    // get contact models parameters
+    // TODO please remove me
+    if (!handler->getParameter("length", m_length) || !handler->getParameter("width", m_width)
+        || !handler->getParameter("spring_coeff", m_springCoeff)
+        || !handler->getParameter("damper_coeff", m_damperCoeff))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the contact parameters." << std::endl;
+        return false;
+    }
+
+    // Initialize the left foot contact model
+    m_leftContact.model = std::make_unique<ContactModels::ContinuousContactModel>();
+    if(!m_leftContact.model->initialize(handlerWeak))
+    {
+        std::cerr << "[Simulator::initialize] Unable to initialize the left foot contact model." << std::endl;
+        return false;
+    }
+
+    m_rightContact.model = std::make_unique<ContactModels::ContinuousContactModel>();
+    if(!m_rightContact.model->initialize(handlerWeak))
+    {
+        std::cerr << "[Simulator::initialize] Unable to initialize the right foot contact model." << std::endl;
+        return false;
+    }
+
+    // get the contact frames
+    std::string footFrame;
+    if (!handler->getParameter("left_foot_frame", footFrame))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the frame name." << std::endl;
+        return false;
+    }
+    m_leftContact.indexInTheModel = m_kinDyn.model().getFrameIndex(footFrame);
+    if (m_leftContact.indexInTheModel == iDynTree::FRAME_INVALID_INDEX)
+    {
+        std::cerr << "[Simulator::initialize] Unable to find the frame named: " << footFrame
+                  << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("right_foot_frame", footFrame))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the frame name." << std::endl;
+        return false;
+    }
+    m_rightContact.indexInTheModel = m_kinDyn.model().getFrameIndex(footFrame);
+    if (m_rightContact.indexInTheModel == iDynTree::FRAME_INVALID_INDEX)
+    {
+        std::cerr << "[Simulator::initialize] Unable to find the frame named: " << footFrame
+                  << std::endl;
+        return false;
+    }
+
+    if (!setBaseFrame(m_leftContact.indexInTheModel, "left_foot"))
+    {
+        std::cerr << "[Simulator::initialize] Unable to set the leftFootFrame." << std::endl;
+        return false;
+    }
+
+    // set the right foot frame
+    if (!setBaseFrame(m_rightContact.indexInTheModel, "right_foot"))
+    {
+        std::cerr << "[Simulator::initialize] Unable to set the rightFootFrame." << std::endl;
+        return false;
+    }
+
+    // get the base frame
+    std::string baseFrame;
+    if (!handler->getParameter("base_frame", baseFrame))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the frame name." << std::endl;
+        return false;
+    }
+    m_baseFrame = m_kinDyn.model().getFrameIndex(baseFrame);
+
+    if (!setBaseFrame(m_baseFrame, "root"))
+    {
+        std::cerr << "[Simulator::initialize] Unable to set the root frame." << std::endl;
+        return false;
+    }
+
+    if (!handler->getParameter("sampling_time", m_dT))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the sampling time." << std::endl;
+        return false;
+    }
+
+    std::string controlMode;
+    if (!handler->getParameter("control_mode", controlMode))
+    {
+        std::cerr << "[Simulator::initialize] Unable to get the control mode." << std::endl;
+        return false;
+    }
+
+    if (controlMode == "torque")
+        m_controlMode = ControlMode::Torque;
+    else if (controlMode == "acceleration")
+        m_controlMode = ControlMode::Acceleration;
+    else if (controlMode == "velocity")
+        m_controlMode = ControlMode::Velocity;
+    else
+    {
+        std::cerr << "[Simulator::initialize]  The control mode selected is not supported"
+                  << std::endl;
+        return false;
+    }
+
+    // instantiate the integrates
+    m_jointVelocityIntegrator = std::make_unique<Integrator<iDynTree::VectorDynSize>>(m_dT);
+    m_jointPositionIntegrator = std::make_unique<Integrator<iDynTree::VectorDynSize>>(m_dT);
+
+    m_baseLinearVelocityIntegrator
+        = std::make_unique<Integrator<iDynTree::LinearMotionVector3>>(m_dT);
+    m_baseAngularVelocityIntegrator
+        = std::make_unique<Integrator<iDynTree::AngularMotionVector3>>(m_dT);
+
+    m_basePositionIntegrator = std::make_unique<Integrator<iDynTree::Vector3>>(m_dT);
+    m_baseRotationIntegrator = std::make_unique<Integrator<iDynTree::Matrix3x3>>(m_dT);
+
+    m_state = State::Initialized;
+
+    return true;
+}
+
 bool Simulator::setBaseFrame(const iDynTree::FrameIndex& frameBaseIndex, const std::string& name)
 {
     if (!m_kinDyn.isValid())
@@ -87,10 +228,18 @@ bool Simulator::reset(const iDynTree::VectorDynSize& initialJointValues,
     iDynTree::Position leftFootPosition = leftFootTransform.getPosition();
     leftFootPosition(2) = -m_totalMass * gravity / (2 * m_length * m_width * m_springCoeff);
 
+    std::cerr <<  "left foot position simulator "<< leftFootPosition.toString() << std::endl;
+
+
     iDynTree::Transform leftFootTransformOnCarpet(leftFootTransform.getRotation(),
                                                   leftFootPosition);
 
-    m_kinDyn.setFloatingBase(m_baseFrames["left_foot"].first);
+    if (!m_kinDyn.setFloatingBase(m_baseFrames["left_foot"].first))
+    {
+        std::cerr << "[Simulator::reset] Unable to set the floating base" << std::endl;
+        return false;
+    }
+
 
     if (!m_kinDyn.setRobotState(leftFootTransformOnCarpet * m_baseFrames["left_foot"].second,
                                 m_jointPosition,
@@ -104,7 +253,12 @@ bool Simulator::reset(const iDynTree::VectorDynSize& initialJointValues,
 
     m_baseTransform = m_kinDyn.getWorldTransform(m_baseFrame);
 
-    m_kinDyn.setFloatingBase(m_baseFrames["root"].first);
+    if (!m_kinDyn.setFloatingBase(m_baseFrames["root"].first))
+    {
+        std::cerr << "[Simulator::reset] Unable to set the floating base" << std::endl;
+        return false;
+    }
+
     if (!m_kinDyn.setRobotState(m_baseTransform * m_baseFrames["root"].second,
                                 m_jointPosition,
                                 m_baseTwist,
@@ -129,15 +283,13 @@ bool Simulator::reset(const iDynTree::VectorDynSize& initialJointValues,
     m_rightContact.frameNullForce = rightFootTransform;
 
     // compute contact wrench
-    m_leftContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-            {"null_force_transform", m_leftContact.frameNullForce}});
+    m_leftContact.model->setState(m_kinDyn.getFrameVel(m_leftContact.indexInTheModel),
+                                  m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel),
+                                  m_leftContact.frameNullForce);
 
-    m_rightContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-            {"null_force_transform", m_rightContact.frameNullForce}});
+    m_rightContact.model->setState(m_kinDyn.getFrameVel(m_rightContact.indexInTheModel),
+                                   m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel),
+                                   m_rightContact.frameNullForce);
 
 
     m_state = State::Ready;
@@ -197,15 +349,14 @@ bool Simulator::advance(const double& seconds /*= 0 */)
                 return false;
             }
 
-            m_leftContact.model->setState(
-                {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-                    {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-                    {"null_force_transform", m_leftContact.frameNullForce}});
+            // compute contact wrench
+            m_leftContact.model->setState(m_kinDyn.getFrameVel(m_leftContact.indexInTheModel),
+                                          m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel),
+                                          m_leftContact.frameNullForce);
 
-            m_rightContact.model->setState(
-                {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-                    {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-                    {"null_force_transform", m_rightContact.frameNullForce}});
+            m_rightContact.model->setState(m_kinDyn.getFrameVel(m_rightContact.indexInTheModel),
+                                           m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel),
+                                           m_rightContact.frameNullForce);
 
             const iDynTree::Wrench& leftWrench = m_leftContact.model->getContactWrench();
             const iDynTree::Wrench& rightWrench = m_rightContact.model->getContactWrench();
@@ -272,15 +423,14 @@ bool Simulator::advance(const double& seconds /*= 0 */)
         }
     }
 
-    m_leftContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-            {"null_force_transform", m_leftContact.frameNullForce}});
+    // compute contact wrench
+    m_leftContact.model->setState(m_kinDyn.getFrameVel(m_leftContact.indexInTheModel),
+                                  m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel),
+                                  m_leftContact.frameNullForce);
 
-    m_rightContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-            {"null_force_transform", m_rightContact.frameNullForce}});
+    m_rightContact.model->setState(m_kinDyn.getFrameVel(m_rightContact.indexInTheModel),
+                                   m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel),
+                                   m_rightContact.frameNullForce);
 
     return true;
 }
@@ -365,20 +515,19 @@ void Simulator::setLeftFootNullForceTransform(const iDynTree::Transform& transfo
 {
     m_leftContact.frameNullForce = transform;
 
-    m_leftContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_leftContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel)},
-            {"null_force_transform", m_leftContact.frameNullForce}});
+    // compute contact wrench
+    m_leftContact.model->setState(m_kinDyn.getFrameVel(m_leftContact.indexInTheModel),
+                                  m_kinDyn.getWorldTransform(m_leftContact.indexInTheModel),
+                                  m_leftContact.frameNullForce);
 }
 
 void Simulator::setRightFootNullForceTransform(const iDynTree::Transform& transform)
 {
     m_rightContact.frameNullForce = transform;
 
-    m_rightContact.model->setState(
-        {{"twist", m_kinDyn.getFrameVel(m_rightContact.indexInTheModel)},
-            {"frame_transform", m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel)},
-            {"null_force_transform", m_rightContact.frameNullForce}});
+    m_rightContact.model->setState(m_kinDyn.getFrameVel(m_rightContact.indexInTheModel),
+                                   m_kinDyn.getWorldTransform(m_rightContact.indexInTheModel),
+                                   m_rightContact.frameNullForce);
 }
 
 iDynTree::Wrench Simulator::leftWrench()
