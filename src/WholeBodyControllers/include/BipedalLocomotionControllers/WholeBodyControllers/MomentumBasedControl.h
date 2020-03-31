@@ -34,8 +34,7 @@ class MomentumBasedControl
 public:
     MomentumBasedControl(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
-    template <class T>
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler,
                     const iDynTree::VectorDynSize& maxJointsPosition,
                     const iDynTree::VectorDynSize& minJointsPosition);
 
@@ -78,7 +77,5 @@ public:
 };
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers
-
-#include "MomentumBasedControl.tpp"
 
 #endif // BIPEDAL_LCOMOTION_CONTROLLERS_WHOLE_BODY_CONTROLLERS_MOMENTUM_BASED_CONTROL_H

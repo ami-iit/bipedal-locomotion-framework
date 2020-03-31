@@ -1,14 +1,17 @@
 /**
- * @file MomentumBasedControl.tpp
+ * @file MomentumBasedControl.cpp
  * @authors Giulio Romualdi <giulio.romualdi@iit.it>
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  * @date 2020
  */
 
+#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotionControllers/WholeBodyControllers/MomentumBasedControl.h>
 
+using namespace BipedalLocomotionControllers::ParametersHandler;
 using namespace BipedalLocomotionControllers::WholeBodyControllers;
+
 
 MomentumBasedControl::MomentumBasedControl(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     : m_currentWalkingState(WalkingState::DoubleSupport)
@@ -20,6 +23,46 @@ MomentumBasedControl::MomentumBasedControl(std::shared_ptr<iDynTree::KinDynCompu
         {WalkingState::SingleSupportLeft, std::make_unique<MomentumBasedControlHelper>(kinDyn)});
     m_controllers.insert(
         {WalkingState::SingleSupportRight, std::make_unique<MomentumBasedControlHelper>(kinDyn)});
+}
+
+bool MomentumBasedControl::initialize(IParametersHandler::weak_ptr handler,
+                                      const iDynTree::VectorDynSize& maxJointsPosition,
+                                      const iDynTree::VectorDynSize& minJointsPosition)
+{
+    if (!m_controllers[WalkingState::DoubleSupport]->initialize(handler,
+                                                                "DOUBLE_SUPPORT",
+                                                                maxJointsPosition,
+                                                                minJointsPosition))
+    {
+        std::cerr << "[MomentumBasedControl::initialize] Unable to initialize the double support "
+                     "controller"
+                  << std::endl;
+        return false;
+    }
+
+    if (!m_controllers[WalkingState::SingleSupportLeft]->initialize(handler,
+                                                                    "SINGLE_SUPPORT_LEFT",
+                                                                    maxJointsPosition,
+                                                                    minJointsPosition))
+    {
+        std::cerr << "[MomentumBasedControl::initialize] Unable to initialize the single support "
+                     "left controller"
+                  << std::endl;
+        return false;
+    }
+
+    if (!m_controllers[WalkingState::SingleSupportRight]->initialize(handler,
+                                                                     "SINGLE_SUPPORT_RIGHT",
+                                                                     maxJointsPosition,
+                                                                     minJointsPosition))
+    {
+        std::cerr << "[MomentumBasedControl::initialize] Unable to initialize the single support "
+                     "right controller"
+                  << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 void MomentumBasedControl::setFeetState(bool isLeftInContact, bool isRightInContact)

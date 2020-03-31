@@ -105,49 +105,39 @@ class MomentumBasedControlHelper
 
     dictionary<unique_ptr<OptimalControlUtilities::ContactModelElement>> m_contactModelElements;
 
-    template <class T>
-    bool addFeetTypeIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addFeetTypeIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler> handler,
                                 const FootType& type);
 
-    template <class T>
-    bool addFeetIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addFeetIdentifiers(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    template <class T>
-    bool addLinearMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addLinearMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    template <class T>
-    bool addAngularMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addAngularMomentumElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    template <class T>
-    bool addAngularMomentumBounds(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addAngularMomentumBounds(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    template <OptimalControlUtilities::CartesianElementType type, class T>
-    bool addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    template <OptimalControlUtilities::CartesianElementType type>
+    bool addCartesianElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler,
                              const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
-    template <class T>
-    bool addSystemDynamicsElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler);
+    bool addSystemDynamicsElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    template <class T>
-    bool addRegularizationWithControlElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                             const std::string& label);
+    bool addRegularizationWithControlElement(
+        std::shared_ptr<ParametersHandler::IParametersHandler> handler, const std::string& label);
 
-    template <class T>
-    bool addRegularizationElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addRegularizationElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler,
                                   const std::string& label);
 
+    bool
+    addJointValuesFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler,
+                                     const iDynTree::VectorDynSize& maxJointsPosition,
+                                     const iDynTree::VectorDynSize& minJointsPosition);
 
-    template <class T>
-    bool addJointValuesFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                          const iDynTree::VectorDynSize& maxJointsPosition,
-                                          const iDynTree::VectorDynSize& minJointsPosition);
+    bool addContactWrenchFeasibilityElement(
+        std::shared_ptr<ParametersHandler::IParametersHandler> handler,
+        const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
-    template <class T>
-    bool addContactWrenchFeasibilityElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
-                                            const OptimalControlUtilities::Frame<std::string, std::string>& frame);
-
-    template <class T>
-    bool addContactModelElement(std::shared_ptr<ParametersHandler::IParametersHandler<T>> handler,
+    bool addContactModelElement(std::shared_ptr<ParametersHandler::IParametersHandler> handler,
                                 const OptimalControlUtilities::Frame<std::string, std::string>& frame);
 
     void printElements() const;
@@ -159,8 +149,7 @@ class MomentumBasedControlHelper
 public:
     MomentumBasedControlHelper(const std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
-    template <class T>
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler<T>> handlerWeak,
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak,
                     const std::string& controllerType,
                     const iDynTree::VectorDynSize& maxJointsPosition,
                     const iDynTree::VectorDynSize& minJointsPosition);
