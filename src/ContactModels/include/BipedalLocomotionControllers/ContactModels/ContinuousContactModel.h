@@ -66,7 +66,12 @@ class ContinuousContactModel final : public ContactModel
      */
     void computeControlMatrix() final;
 
-        /**
+    /**
+     * Evaluate the regressor matrix
+     */
+    void computeRegressor() final;
+
+    /**
      * Initialization of the class. Please call this method before evaluating any other function
      * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
      * of the container.

@@ -17,6 +17,8 @@ ContinuousContactModel::ContinuousContactModel()
 {
     m_controlMatrix.zero();
     m_autonomousDynamics.zero();
+    m_regressor.resize(6, 2);
+    m_regressor.zero();
 }
 
 bool ContinuousContactModel::initializePrivate(std::weak_ptr<ParametersHandler::IParametersHandler> weakHandler)
@@ -213,4 +215,37 @@ iDynTree::Torque ContinuousContactModel::getTorqueGeneratedAtPoint(const double&
 
     iDynTree::toEigen(torque) = (rotation * iDynTree::toEigen(pointPosition)).cross(iDynTree::toEigen(getForceAtPoint(x, y)));
     return torque;
+}
+
+void ContinuousContactModel::computeRegressor()
+{
+    double area = m_length * m_width;
+    auto position(iDynTree::toEigen(m_frameTransform.getPosition()));
+    auto rotation(iDynTree::toEigen(m_frameTransform.getRotation()));
+
+    auto linearVelocity(iDynTree::toEigen(m_twist.getLinearVec3()));
+    auto angularVelocity(iDynTree::toEigen(m_twist.getAngularVec3()));
+
+    auto nullForcePosition(iDynTree::toEigen(m_nullForceTransform.getPosition()));
+    auto nullForceRotation(iDynTree::toEigen(m_nullForceTransform.getRotation()));
+
+    auto skewRe1 = iDynTree::skew(rotation.col(0));
+    auto skewRe2 = iDynTree::skew(rotation.col(1));
+
+    auto regressor(iDynTree::toEigen(m_regressor));
+
+    regressor.topLeftCorner<3, 1>()
+        = std::abs(rotation(2, 2)) * area * (nullForcePosition - position);
+
+    regressor.topRightCorner<3, 1>() = -std::abs(rotation(2, 2)) * area * linearVelocity;
+
+    regressor.bottomLeftCorner<3, 1>()
+        = area / 12 * std::abs(rotation(2, 2))
+          * (m_length * m_length * skewRe1 * nullForceRotation.col(0)
+             + m_width * m_width * skewRe2 * nullForceRotation.col(1));
+
+    regressor.bottomRightCorner<3, 1>()
+        = area / 12 * std::abs(rotation(2, 2))
+          * (m_length * m_length * skewRe1 * skewRe1 + m_width * m_width * skewRe2 * skewRe2)
+          * angularVelocity;
 }
