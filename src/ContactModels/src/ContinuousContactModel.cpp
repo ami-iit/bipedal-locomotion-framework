@@ -249,3 +249,23 @@ void ContinuousContactModel::computeRegressor()
           * (m_length * m_length * skewRe1 * skewRe1 + m_width * m_width * skewRe2 * skewRe2)
           * angularVelocity;
 }
+
+const double& ContinuousContactModel::springCoeff() const
+{
+    return m_springCoeff;
+}
+
+double& ContinuousContactModel::springCoeff()
+{
+    return m_springCoeff;
+}
+
+const double& ContinuousContactModel::damperCoeff() const
+{
+    return m_damperCoeff;
+}
+
+double& ContinuousContactModel::damperCoeff()
+{
+    return m_damperCoeff;
+}

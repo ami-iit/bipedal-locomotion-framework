@@ -122,6 +122,14 @@ public:
      * origin is the center of the surface [in meters]
      */
     iDynTree::Torque getTorqueGeneratedAtPoint(const double& x, const double& y);
+
+    const double& springCoeff() const;
+
+    double& springCoeff();
+
+    const double& damperCoeff() const;
+
+    double& damperCoeff();
 };
 } // namespace ContactModels
 } // namespace BipedalLocomotionControllers
