@@ -102,6 +102,25 @@ TEST_CASE("Continuous Contact")
                             tollerance);
     }
 
+    SECTION("Test regressor")
+    {
+        MatrixDynSize regressor = model.getRegressor();
+        Wrench wrenchComputed;
+        Vector2 contactParams;
+        contactParams(0) = springCoeff;
+        contactParams(1) = damperCoeff;
+        toEigen(wrenchComputed.getLinearVec3()) = toEigen(regressor).topRows<3>() * toEigen(contactParams);
+        toEigen(wrenchComputed.getAngularVec3()) = toEigen(regressor).bottomRows<3>() * toEigen(contactParams);
+
+        double tollerance = 1e-7;
+        checkVectorAreEqual(wrenchComputed.getLinearVec3(),
+                            model.getContactWrench().getLinearVec3(),
+                            tollerance);
+        checkVectorAreEqual(wrenchComputed.getAngularVec3(),
+                            model.getContactWrench().getAngularVec3(),
+                            tollerance);
+    }
+
     SECTION("Test contact dynamics")
     {
         // Instantiate the acceleration
