@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_map>
 
+#include <iDynTree/Core/MatrixDynSize.h>
 #include <iDynTree/Core/MatrixFixSize.h>
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
@@ -36,17 +37,23 @@ class ContactModel
                                             computed */
     bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
+    bool m_isRegressorComputed; /**< If true the regressor matrix has been already computed */
+
 protected:
     iDynTree::Wrench m_contactWrench; /**< Contact wrench between the robot and the environment
                                          expressed in mixed representation */
 
-    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous dynamics is \a f */
+    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system
+     * \f$\dot{x} = f + g u\f$ the autonomous dynamics is \a f */
     iDynTree::Vector6 m_autonomousDynamics;
 
-    /** Control matrix of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the control matrix is \a g */
+    /** Control matrix of the contact model rate of change (i.e. given a non linear system
+     * \f$\dot{x} = f + g u\f$ the control matrix is \a g */
     iDynTree::Matrix6x6 m_controlMatrix;
+
+    /** Contains the regressor of the contact model. \f$f = A \theta\f$, where \f$f\f$ is the
+     * contact wrench, \f$A\f$ the regressor and \f$\theta\f$ the parameters */
+    iDynTree::MatrixDynSize m_regressor;
 
     /**
      * Evaluate the contact wrench given a specific contact model
@@ -62,6 +69,11 @@ protected:
      * Evaluate the Control Matrix of the derivative of a specific contact model
      */
     virtual void computeControlMatrix() = 0;
+
+    /**
+     * Evaluate the regressor matrix
+     */
+    virtual void computeRegressor() = 0;
 
     /**
      * Initialization of the class.
@@ -110,6 +122,12 @@ public:
      * @return the control matrix at a given state
      */
     const iDynTree::Matrix6x6& getControlMatrix();
+
+    /**
+     * Get and compute (only if it is necessary) the regressor
+     * @return the regressor at a given state
+     */
+    const iDynTree::MatrixDynSize& getRegressor();
 
     /**
      * Set the internal state of the model.

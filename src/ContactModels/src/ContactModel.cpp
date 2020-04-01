@@ -15,6 +15,7 @@ bool ContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandle
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
     m_isAutonomousDynamicsComputed = false;
+    m_isRegressorComputed = false;
 
     return initializePrivate(handler);
 }
@@ -27,6 +28,7 @@ void ContactModel::setState(const iDynTree::Twist& twist,
     m_isContactWrenchComputed = false;
     m_isControlMatrixComputed = false;
     m_isAutonomousDynamicsComputed = false;
+    m_isRegressorComputed = false;
 
     setStatePrivate(twist, transform, nullForceTransform);
 
@@ -64,4 +66,15 @@ const iDynTree::Matrix6x6& ContactModel::getControlMatrix()
     }
 
     return m_controlMatrix;
+}
+
+const iDynTree::MatrixDynSize& ContactModel::getRegressor()
+{
+    if (!m_isRegressorComputed)
+    {
+        computeRegressor();
+        m_isRegressorComputed = true;
+    }
+
+    return m_regressor;
 }
