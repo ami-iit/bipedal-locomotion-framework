@@ -14,12 +14,12 @@
 // Catch2
 #include <catch2/catch.hpp>
 
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-using namespace BipedalLocomotionControllers::ParametersHandler;
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion;
 
 // example of parameters handler
 class BasicImplementation : public IParametersHandler

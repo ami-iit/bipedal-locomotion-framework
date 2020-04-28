@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
   add_bipedal_component(
     NAME                   ParametersHandlerYarpImplementation
     SOURCES                src/YarpImplementation.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.tpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/ParametersHandler/YarpImplementation.h include/BipedalLocomotion/ParametersHandler/YarpImplementation.tpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::YarpUtilities YARP::YARP_os
     INSTALLATION_FOLDER ParametersHandler)
 

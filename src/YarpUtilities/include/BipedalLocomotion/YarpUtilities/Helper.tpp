@@ -236,7 +236,7 @@ void sendVariadicVector(yarp::os::BufferedPort<yarp::sig::Vector>& port, const A
     port.write();
 }
 } // namespace YarpUtilities
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
 // remove the macro
 #undef YARP_UTILITES_GET_ELEMENT_TYPE

@@ -154,8 +154,7 @@ void populateBottleWithStrings(yarp::os::Bottle& bottle,
                                const std::initializer_list<std::string>& strings);
 
 } // namespace YarpUtilities
-} // namespace BipedalLocomotionControllers
-
+} // namespace BipedalLocomotion
 #include "Helper.tpp"
 
 #endif // BIPEDAL_LOCOMOTION_YARP_UTILITIES_HELPER_H

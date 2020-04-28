@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_H
+#ifndef BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_H
+#define BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_H
 
 // std
 #include <memory>
@@ -18,9 +18,9 @@
 #include <yarp/os/Property.h>
 #include <yarp/os/Searchable.h>
 
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 namespace ParametersHandler
 {
@@ -246,4 +246,4 @@ public:
 
 #include "YarpImplementation.tpp"
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_YARP_UTILITIES_HELPER_H
+#endif // BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_YARP_IMPLEMENTATION_H

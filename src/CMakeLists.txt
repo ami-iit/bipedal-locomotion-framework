@@ -4,5 +4,5 @@
 
 add_subdirectory(GenericContainer)
 add_subdirectory(YarpUtilities)
-#add_subdirectory(ParametersHandler)
+add_subdirectory(ParametersHandler)
 #add_subdirectory(Estimators)
