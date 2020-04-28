@@ -5,14 +5,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_GENERICCONTAINER_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_GENERICCONTAINER_H
+#ifndef BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H
+#define BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H
 
 // iDynTree
 #include <iDynTree/Core/Span.h>
 
 // Template helpers
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 
 //std
 #include <functional>
@@ -20,7 +20,7 @@
 #include <iostream>
 #include <memory>
 
-namespace BipedalLocomotionControllers {
+namespace BipedalLocomotion {
 namespace GenericContainer {
 
 /**
@@ -49,7 +49,7 @@ using Vector_ptr = std::shared_ptr<Vector<T>>;
  * This would invalidate the pointer inside it.
  */
 template <typename T>
-class BipedalLocomotionControllers::GenericContainer::Vector
+class BipedalLocomotion::GenericContainer::Vector
 {
 public:
 
@@ -464,7 +464,7 @@ public:
 
 };
 
-namespace BipedalLocomotionControllers::GenericContainer {
+namespace BipedalLocomotion::GenericContainer {
 
 /**
  * is_vector is an utility metafunction used to check if T is a GenericContainer::Vector.
@@ -747,4 +747,4 @@ make_vector_ptr(iDynTree::Span<T> span, typename Vector<T>::resize_function_type
 }
 
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_GENERICCONTAINER_H
+#endif // BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H

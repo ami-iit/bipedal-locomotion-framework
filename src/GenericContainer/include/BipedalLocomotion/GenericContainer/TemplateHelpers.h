@@ -5,13 +5,13 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_TEMPLATEHELPERS_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_TEMPLATEHELPERS_H
+#ifndef BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H
+#define BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H
 
 #include <type_traits>
 #include <string_view>
 
-namespace BipedalLocomotionControllers {
+namespace BipedalLocomotion {
 
 /**
  * Implementation of the c++17 <code>void_t<\code> metafunction to avoid some static analyzer warnings.
@@ -224,15 +224,15 @@ type_name()
     std::string_view name, prefix, suffix;
 #ifdef __clang__
     name = __PRETTY_FUNCTION__;
-    prefix = "std::string_view BipedalLocomotionControllers::type_name() [T = ";
+    prefix = "std::string_view BipedalLocomotion::type_name() [T = ";
     suffix = "]";
 #elif defined(__GNUC__)
     name = __PRETTY_FUNCTION__;
-    prefix = "constexpr std::string_view BipedalLocomotionControllers::type_name() [with T = ";
+    prefix = "constexpr std::string_view BipedalLocomotion::type_name() [with T = ";
     suffix = "; std::string_view = std::basic_string_view<char>]";
 #elif defined(_MSC_VER)
     name = __FUNCSIG__;
-    prefix = "class std::basic_string_view<char,struct std::char_traits<char> > __cdecl BipedalLocomotionControllers::type_name<";
+    prefix = "class std::basic_string_view<char,struct std::char_traits<char> > __cdecl BipedalLocomotion::type_name<";
     suffix = ">(void)";
 #endif
     name.remove_prefix(prefix.size());
@@ -242,4 +242,4 @@ type_name()
 
 }
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_TEMPLATEHELPERS_H
+#endif // BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H
