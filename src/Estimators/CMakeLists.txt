@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_Estimators)
     add_bipedal_component(
     NAME                   Estimators
     SOURCES                src/RecursiveLeastSquare.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotionControllers/Estimators/RecursiveLeastSquare.h
+    PUBLIC_HEADERS         include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h
     SUBDIRECTORIES         tests
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler)
 

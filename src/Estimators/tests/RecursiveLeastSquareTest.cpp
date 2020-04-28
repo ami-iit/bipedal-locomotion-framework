@@ -22,15 +22,15 @@
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/MatrixDynSize.h>
 
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
-#include <BipedalLocomotionControllers/Estimators/RecursiveLeastSquare.h>
+#include <BipedalLocomotion/Estimators/RecursiveLeastSquare.h>
 
 #include <ConfigFolderPath.h>
 
-using namespace BipedalLocomotionControllers::Estimators;
-using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotion::Estimators;
+using namespace BipedalLocomotion::ParametersHandler;
 
 /**
  * The model class implement a simple model used for testing the Recursive Least Square algorithm
@@ -52,8 +52,8 @@ class Model
 
 public:
     Model(const iDynTree::Vector2& params)
-        : gen{42}
-        , params(params)
+        : params(params)
+        , gen{42}
     {
     }
 
@@ -134,8 +134,8 @@ TEST_CASE("Recursive Least Square")
     double admissibleError = 0.1 / 100.0;
 
     // compute the relative error of the parameters
-    double relativeError1 = abs((estimator.parametersExpectedValue()(0) - parameters(0)) / parameters(0));
-    double relativeError2 = abs((estimator.parametersExpectedValue()(1) - parameters(1)) / parameters(1));
+    double relativeError1 = std::abs((estimator.parametersExpectedValue()(0) - parameters(0)) / parameters(0));
+    double relativeError2 = std::abs((estimator.parametersExpectedValue()(1) - parameters(1)) / parameters(1));
 
     REQUIRE(relativeError1 < admissibleError);
     REQUIRE(relativeError2 < admissibleError);

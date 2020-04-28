@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_ESTIMATORS_RLS_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_ESTIMATORS_RLS_H
+#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_RLS_H
+#define BIPEDAL_LOCOMOTION_ESTIMATORS_RLS_H
 
 #include <functional>
 #include <memory>
@@ -14,9 +14,9 @@
 #include <iDynTree/Core/MatrixDynSize.h>
 #include <iDynTree/Core/VectorDynSize.h>
 
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 namespace Estimators
 {
@@ -110,6 +110,6 @@ public:
     const iDynTree::MatrixDynSize& parametersCovarianceMatrix() const;
 };
 } // namespace Estimators
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_ESTIMATORS_RLS_H
+#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_RLS_H
