@@ -5,5 +5,5 @@
 add_bipedal_test(
     NAME YarpUtilities
     SOURCES YarpUtilitiesTest.cpp
-    LINKS BipedalLocomotionControllers::YarpUtilities
+    LINKS BipedalLocomotion::YarpUtilities
     )

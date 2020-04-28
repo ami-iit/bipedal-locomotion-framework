@@ -6,25 +6,25 @@
 # BSD-3-Clause license. See the accompanying LICENSE file for details.
 
 # This module checks if all the dependencies are installed and if the
-# dependencies to build some parts of BIPEDAL_LOCOMOTION_CONTROLLERS are satisfied.
+# dependencies to build some parts are satisfied.
 # For every dependency, it creates the following variables:
 #
-# BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${Package}: Can be disabled by the user if he doesn't want to use that
+# FRAMEWORK_USE_${Package}: Can be disabled by the user if he doesn't want to use that
 #                      dependency.
-# BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_${Package}: Internal flag. It should be used to check if a part of
-#                      BIPEDAL_LOCOMOTION_CONTROLLERS should be built. It is on if BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${Package} is
+# FRAMEWORK_HAS_${Package}: Internal flag. It should be used to check if a part of
+#                      FRAMEWORK should be built. It is on if FRAMEWORK_USE_${Package} is
 #                      on and either the package was found or will be built.
-# BIPEDAL_LOCOMOTION_CONTROLLERS_BUILD_${Package}: Internal flag. Used to check if BIPEDAL_LOCOMOTION_CONTROLLERS has to build an
+# FRAMEWORK_BUILD_${Package}: Internal flag. Used to check if FRAMEWORK has to build an
 #                        external package.
-# BIPEDAL_LOCOMOTION_CONTROLLERS_BUILD_DEPS_${Package}: Internal flag. Used to check if dependencies
+# FRAMEWORK_BUILD_DEPS_${Package}: Internal flag. Used to check if dependencies
 #                             required to build the package are available.
-# BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${Package}: Internal flag. Used to check if the package is
+# FRAMEWORK_HAS_SYSTEM_${Package}: Internal flag. Used to check if the package is
 #                             available on the system.
-# BIPEDAL_LOCOMOTION_CONTROLLERS_USE_SYSTEM_${Package}: This flag is shown only for packages in the
+# FRAMEWORK_USE_SYSTEM_${Package}: This flag is shown only for packages in the
 #                             extern folder that were also found on the system
 #                             (TRUE by default). If this flag is enabled, the
 #                             system installed library will be used instead of
-#                             the version shipped with BIPEDAL_LOCOMOTION_CONTROLLERS.
+#                             the version shipped within the framework.
 
 
 include(CMakeDependentOption)
@@ -32,36 +32,38 @@ include(CMakeDependentOption)
 # Check if a package is installed and set some cmake variables
 macro(checkandset_dependency package)
 
+  set(PREFIX "FRAMEWORK")
+
   string(TOUPPER ${package} PKG)
 
-  # BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${package}
+  # FRAMEWORK_HAS_SYSTEM_${package}
   if(${package}_FOUND OR ${PKG}_FOUND)
-    set(BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${package} TRUE)
+    set(${PREFIX}_HAS_SYSTEM_${package} TRUE)
   else()
-    set(BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${package} FALSE)
+    set(${PREFIX}_HAS_SYSTEM_${package} FALSE)
   endif()
 
-  # BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${package}
-  cmake_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${package} "Use package ${package}" TRUE
-                         BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${package} FALSE)
-  mark_as_advanced(BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${package})
+  # FRAMEWORK_USE_${package}
+  cmake_dependent_option(${PREFIX}_USE_${package} "Use package ${package}" TRUE
+                         ${PREFIX}_HAS_SYSTEM_${package} FALSE)
+  mark_as_advanced(${PREFIX}_USE_${package})
 
-  # BIPEDAL_LOCOMOTION_CONTROLLERS_USE_SYSTEM_${package}
-  set(BIPEDAL_LOCOMOTION_CONTROLLERS_USE_SYSTEM_${package} ${BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${package}} CACHE INTERNAL "Use system-installed ${package}, rather than a private copy (recommended)" FORCE)
+  # FRAMEWORK_USE_SYSTEM_${package}
+  set(${PREFIX}_USE_SYSTEM_${package} ${${PREFIX}_USE_${package}} CACHE INTERNAL "Use system-installed ${package}, rather than a private copy (recommended)" FORCE)
   if(NOT "${package}" STREQUAL "${PKG}")
-    unset(BIPEDAL_LOCOMOTION_CONTROLLERS_USE_SYSTEM_${PKG} CACHE) # Deprecated since BIPEDAL_LOCOMOTION_CONTROLLERS 3.2
+    unset(${PREFIX}_USE_SYSTEM_${PKG} CACHE)
   endif()
 
-  # BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_${package}
-  if(${BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_SYSTEM_${package}})
-    set(BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_${package} ${BIPEDAL_LOCOMOTION_CONTROLLERS_USE_${package}})
+  # FRAMEWORK_HAS_${package}
+  if(${${PREFIX}_HAS_SYSTEM_${package}})
+    set(${PREFIX}_HAS_${package} ${${PREFIX}_USE_${package}})
   else()
-    set(BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_${package} FALSE)
+    set(${PREFIX}_HAS_${package} FALSE)
   endif()
 
 endmacro()
 
-macro(BIPEDAL_LOCOMOTION_CONTROLLERS_DEPENDENT_OPTION _option _doc _default _deps _force)
+macro(FRAMEWORK_DEPENDENT_OPTION _option _doc _default _deps _force)
 
   if(DEFINED ${_option})
     get_property(_option_strings_set CACHE ${_option} PROPERTY STRINGS SET)
@@ -123,14 +125,14 @@ checkandset_dependency(iDynTree)
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
 
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities
+framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_YARP;BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree" OFF)
+  "FRAMEWORK_HAS_YARP;FRAMEWORK_HAS_iDynTree" OFF)
 
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation
+framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpUtilities" OFF)
+  "FRAMEWORK_COMPILE_YarpUtilities" OFF)
 
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Estimators
+framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_iDynTree" OFF)
+  "FRAMEWORK_HAS_iDynTree" OFF)

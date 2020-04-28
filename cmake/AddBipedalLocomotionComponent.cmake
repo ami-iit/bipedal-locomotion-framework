@@ -58,8 +58,8 @@ function(add_bipedal_component)
       EXPORT               ${PROJECT_NAME}
       COMPONENT            runtime)
 
-    install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}")
-    install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}/impl")
+    install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}")
+    install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl")
 
   else()
 
@@ -73,7 +73,7 @@ function(add_bipedal_component)
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
 
     set_target_properties(${name} PROPERTIES
-      VERSION ${BipedalLocomotionControllers_VERSION}
+      VERSION ${BipedalLocomotionFramework_VERSION}
       PUBLIC_HEADER "${public_headers}"
       PRIVATE_HEADER "${private_headers}")
 
@@ -88,23 +88,23 @@ function(add_bipedal_component)
     install(TARGETS    ${name}
       EXPORT           ${PROJECT_NAME}
       COMPONENT        runtime
-      LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                               COMPONENT shlib
-      ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                               COMPONENT lib
-      RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                               COMPONENT bin
-      PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}"       COMPONENT dev
-      PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotionControllers/${installation_folder}/impl"  COMPONENT dev)
+      LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT shlib
+      ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT lib
+      RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                    COMPONENT bin
+      PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}"       COMPONENT dev
+      PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl"  COMPONENT dev)
 
   endif()
 
   # add alias
-  add_library(BipedalLocomotionControllers::${name} ALIAS ${name})
+  add_library(BipedalLocomotion::${name} ALIAS ${name})
 
   # Add all subdirectories
   foreach(subdir ${subdirectories})
     add_subdirectory(${subdir})
   endforeach()
 
-  set_property(GLOBAL APPEND PROPERTY BipedalLocomotionControllers_TARGETS ${name})
+  set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_TARGETS ${name})
 
   message(STATUS "Created target ${name} for export ${PROJECT_NAME}.")
 

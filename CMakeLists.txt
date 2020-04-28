@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_CXX_STANDARD 14)
 
 ## MAIN project
-project(BipedalLocomotionControllers
+project(BipedalLocomotionFramework
   VERSION 0.0.1)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -16,8 +16,8 @@ option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 option(BUILD_TESTING "Create tests using CMake" OFF)
 include(CTest)
 
-# Check BipedalLocomotionControllers dependencies, find necessary libraries.
-include(BipedalLocomotionControllersFindDependencies)
+# Check BipedalLocomotionFramework dependencies, find necessary libraries.
+include(BipedalLocomotionFrameworkFindDependencies)
 
 #set default build type to "Release" in single-config generators
 if(NOT CMAKE_CONFIGURATION_TYPES)
@@ -67,15 +67,15 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
   USE_LINK_PATH)
 
 # Setup testing
-include(AddBipedalLocomotionControllersUnitTest)
-include(AddBipedalLocomotionControllersComponent)
+include(AddBipedalLocomotionUnitTest)
+include(AddBipedalLocomotionComponent)
 
 add_subdirectory(src)
 
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
-                            NAMESPACE BipedalLocomotionControllers::
-                            VERSION ${BipedalLocomotionControllers_VERSION}
+                            NAMESPACE BipedalLocomotion::
+                            VERSION ${BipedalLocomotionFramework_VERSION}
                             COMPATIBILITY AnyNewerVersion
                             TARGETS_PROPERTY BipedalLocomotionControllers_TARGETS
                             VARS_PREFIX ${PROJECT_NAME}

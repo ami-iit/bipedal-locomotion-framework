@@ -3,13 +3,13 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 # set target name
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_Estimators)
+if(FRAMEWORK_COMPILE_Estimators)
 
     add_bipedal_component(
     NAME                   Estimators
     SOURCES                src/RecursiveLeastSquare.cpp
     PUBLIC_HEADERS         include/BipedalLocomotionControllers/Estimators/RecursiveLeastSquare.h
     SUBDIRECTORIES         tests
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotionControllers::ParametersHandler)
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler)
 
 endif()

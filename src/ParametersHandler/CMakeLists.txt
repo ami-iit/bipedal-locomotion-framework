@@ -5,6 +5,6 @@
 add_bipedal_component(
   NAME                  ParametersHandler
   PUBLIC_HEADERS        include/BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h
-  PUBLIC_LINK_LIBRARIES BipedalLocomotionControllers::GenericContainer
+  PUBLIC_LINK_LIBRARIES BipedalLocomotion::GenericContainer
   SUBDIRECTORIES        tests YarpImplementation
   IS_INTERFACE          ON)
