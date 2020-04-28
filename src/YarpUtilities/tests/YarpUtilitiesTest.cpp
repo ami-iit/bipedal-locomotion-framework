@@ -15,9 +15,9 @@
 #include <yarp/os/Property.h>
 #include <yarp/os/Value.h>
 
-#include <BipedalLocomotionControllers/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
 
-using namespace BipedalLocomotionControllers::YarpUtilities;
+using namespace BipedalLocomotion::YarpUtilities;
 
 template <typename T, typename U> void checkEqualVector(const T& vector1, const U& vector2)
 {

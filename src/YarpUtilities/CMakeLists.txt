@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
   add_bipedal_component(
     NAME                   YarpUtilities
     SOURCES                src/Helper.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotionControllers/YarpUtilities/Helper.h include/BipedalLocomotionControllers/YarpUtilities/Helper.tpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp
     PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer
     SUBDIRECTORIES         tests)
 

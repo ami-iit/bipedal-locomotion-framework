@@ -9,8 +9,8 @@
 #include <iostream>
 #include <type_traits>
 //GenericContainer
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 
 
 // clang-format off
@@ -38,7 +38,7 @@
 
 // clang-format on
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 
 /**

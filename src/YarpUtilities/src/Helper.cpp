@@ -5,9 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotionControllers/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotion;
 bool YarpUtilities::addVectorOfStringToProperty(yarp::os::Property& prop,
                                                 const std::string& key,
                                                 const std::vector<std::string>& list)
