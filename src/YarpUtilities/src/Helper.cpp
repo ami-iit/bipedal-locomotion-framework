@@ -63,7 +63,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                      "Missing field "
                   << key << std::endl;
         return false;
@@ -71,7 +71,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
 
     if (value->isNull())
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] Empty "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] Empty "
                      "input value named "
                   << key << std::endl;
         return false;
@@ -79,7 +79,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
 
     if (!value->isList())
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                      "value named "
                   << key << "is not associated to a list." << std::endl;
         return false;
@@ -88,7 +88,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                      "list associated to the value named "
                   << key << " is empty." << std::endl;
         return false;
@@ -97,11 +97,11 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     // resize the vector
     vector.resize(inputPtr->size());
 
-    for (int i = 0; i < inputPtr->size(); i++)
+    for (size_t i = 0; i < inputPtr->size(); i++)
     {
         if (!(inputPtr->get(i).isBool()) && !(inputPtr->get(i).isInt()))
         {
-            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                          "The element of the list associated to the value named "
                       << key << " is not a boolean ." << std::endl;
             return false;

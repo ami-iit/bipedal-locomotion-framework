@@ -242,7 +242,7 @@ public:
     ~YarpImplementation() = default;
 };
 } // namespace ParametersHandler
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
 #include "YarpImplementation.tpp"
 
