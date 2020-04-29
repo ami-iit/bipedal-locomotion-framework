@@ -5,7 +5,7 @@
 # set target name
 if(FRAMEWORK_COMPILE_YarpUtilities)
 
-  add_bipedal_component(
+  add_bipedal_locomotion_library(
     NAME                   YarpUtilities
     SOURCES                src/Helper.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp

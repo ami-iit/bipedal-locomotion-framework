@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-add_bipedal_component(
+add_bipedal_locomotion_library(
   NAME                  ParametersHandler
   PUBLIC_HEADERS        include/BipedalLocomotion/ParametersHandler/IParametersHandler.h
   PUBLIC_LINK_LIBRARIES BipedalLocomotion::GenericContainer

@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-function(add_bipedal_component)
+function(add_bipedal_locomotion_library)
 
   set(options IS_INTERFACE)
   set(oneValueArgs NAME INSTALLATION_FOLDER)

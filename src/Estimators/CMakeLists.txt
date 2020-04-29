@@ -5,7 +5,7 @@
 # set target name
 if(FRAMEWORK_COMPILE_Estimators)
 
-    add_bipedal_component(
+  add_bipedal_locomotion_library(
     NAME                   Estimators
     SOURCES                src/RecursiveLeastSquare.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h
