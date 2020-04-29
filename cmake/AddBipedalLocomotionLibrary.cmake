@@ -96,6 +96,17 @@ function(add_bipedal_locomotion_library)
 
   endif()
 
+  get_property(umbrella_includes_list GLOBAL PROPERTY umbrella_includes)
+  foreach(header ${public_headers})
+    get_filename_component(extension ${header} LAST_EXT)
+    if ((extension STREQUAL ".h") OR (extension STREQUAL ".hpp"))
+      get_filename_component(header_name ${header} NAME)
+      set(include_command "#include <BipedalLocomotion/${installation_folder}/${header_name}>")
+      set(umbrella_includes_list "${umbrella_includes_list}\n${include_command}")
+    endif()
+  endforeach()
+  set_property(GLOBAL PROPERTY umbrella_includes "${umbrella_includes_list}")
+
   # add alias
   add_library(BipedalLocomotion::${name} ALIAS ${name})
 

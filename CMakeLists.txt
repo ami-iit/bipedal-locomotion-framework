@@ -68,16 +68,22 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BIND
 
 # Setup testing
 include(AddBipedalLocomotionUnitTest)
+
+#Function to automatize the process of creating a new library
 include(AddBipedalLocomotionLibrary)
 
 add_subdirectory(src)
+
+#Creates the interface target BipedalLocomotion::Framework that depends on all the targets.
+#By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
+include(AddBipedalLocomotionFrameworkTarget)
 
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
                             VERSION ${BipedalLocomotionFramework_VERSION}
                             COMPATIBILITY AnyNewerVersion
-                            TARGETS_PROPERTY BipedalLocomotionControllers_TARGETS
+                            TARGETS_PROPERTY BipedalLocomotionFramework_TARGETS
                             VARS_PREFIX ${PROJECT_NAME}
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
