@@ -12,7 +12,7 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
 
 # :orange_book: Exported components
 - **BipedalLocomotion::Framework**: It is an _interface_ library that gathers all
-  the exported components, includable with the file ``BipedalLocomotion/Framework.h``.
+  the exported components, includable with the file ``BipedalLocomotion/Framework.h`` <sup id="a1">[1!](#f1)</sup>.
 - [**GenericContainer**](./src/GenericContainer): Utilities library which include a data structure similar to ``span`` but resizable. It can be used to "map" vector-type data structures.
 - [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
   data and from YARP structures
@@ -70,3 +70,6 @@ bipedal-locomotion-framework exports the `CMake` targets presented in [Exported 
 
 # :books: Doxigen documentation
 [Here](https://dic-iit.github.io/bipedal-locomotion-framework) you can find the documentation.
+
+#
+<b id="f1">1!</b>:warning: Including ``BipedalLocomotion/Framework.h`` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the ``CMake`` targets. It is suggested to link only the targets used in your project, e.g. ``BipedalLocomotion::Estimators``. [↩](#a1)
