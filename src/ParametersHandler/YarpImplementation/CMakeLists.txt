@@ -3,13 +3,13 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 # set target name
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
+if(FRAMEWORK_COMPILE_YarpImplementation)
 
-  add_bipedal_component(
+  add_bipedal_locomotion_library(
     NAME                   ParametersHandlerYarpImplementation
     SOURCES                src/YarpImplementation.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h include/BipedalLocomotionControllers/ParametersHandler/YarpImplementation.tpp
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotionControllers::ParametersHandler BipedalLocomotionControllers::YarpUtilities YARP::YARP_os
+    PUBLIC_HEADERS         include/BipedalLocomotion/ParametersHandler/YarpImplementation.h include/BipedalLocomotion/ParametersHandler/YarpImplementation.tpp
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::YarpUtilities YARP::YARP_os
     INSTALLATION_FOLDER ParametersHandler)
 
 endif()

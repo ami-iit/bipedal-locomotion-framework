@@ -5,9 +5,9 @@
 add_bipedal_test(
   NAME ParametersHandler
   SOURCES ParametersHandlerTest.cpp
-  LINKS BipedalLocomotionControllers::ParametersHandler)
+  LINKS BipedalLocomotion::ParametersHandler)
 
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
+if(FRAMEWORK_COMPILE_YarpImplementation)
 
   include_directories(${CMAKE_CURRENT_BINARY_DIR})
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
@@ -15,6 +15,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
   add_bipedal_test(
     NAME ParametersHandlerYarp
     SOURCES ParametersHandlerYarpTest.cpp
-    LINKS BipedalLocomotionControllers::ParametersHandlerYarpImplementation)
+    LINKS BipedalLocomotion::ParametersHandlerYarpImplementation)
 
 endif()

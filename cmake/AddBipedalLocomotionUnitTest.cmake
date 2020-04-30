@@ -12,15 +12,15 @@ checkandset_dependency(Catch2)
 find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
 
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests
+framework_dependent_option(FRAMEWORK_COMPILE_tests
   "Compile tests?" ON
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_HAS_Catch2;BUILD_TESTING" OFF)
+  "FRAMEWORK_HAS_Catch2;BUILD_TESTING" OFF)
 
-bipedal_locomotion_controllers_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests
+framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
-  "BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests;VALGRIND_FOUND" OFF)
+  "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)
 
-if (BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests)
+if (FRAMEWORK_RUN_Valgrind_tests)
     set(CTEST_MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
     set(MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
     if (APPLE)
@@ -34,7 +34,7 @@ if (BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests)
     separate_arguments(MEMCHECK_COMMAND_COMPLETE)
 endif()
 
-if (BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
+if (FRAMEWORK_COMPILE_tests)
     configure_file(cmake/Catch2Main.cpp.in ${CMAKE_BINARY_DIR}/Testing/Catch2Main.cpp)
     add_library(CatchTestMain ${CMAKE_BINARY_DIR}/Testing/Catch2Main.cpp)
     target_link_libraries(CatchTestMain PUBLIC Catch2::Catch2)
@@ -43,7 +43,7 @@ endif()
 
 function(add_bipedal_test)
 
-    if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_tests)
+    if(FRAMEWORK_COMPILE_tests)
 
       set(options)
       set(oneValueArgs NAME)
@@ -70,7 +70,7 @@ function(add_bipedal_test)
 
       add_test(NAME ${targetname} COMMAND ${targetname})
 
-      if(BIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests)
+      if(FRAMEWORK_RUN_Valgrind_tests)
         add_test(NAME memcheck_${targetname} COMMAND ${MEMCHECK_COMMAND_COMPLETE} $<TARGET_FILE:${targetname}>)
       endif()
 

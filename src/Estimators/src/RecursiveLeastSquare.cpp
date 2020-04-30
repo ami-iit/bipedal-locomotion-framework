@@ -7,12 +7,12 @@
 
 #include <iDynTree/Core/EigenHelpers.h>
 
-#include <BipedalLocomotionControllers/Estimators/RecursiveLeastSquare.h>
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
+#include <BipedalLocomotion/Estimators/RecursiveLeastSquare.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 
-using namespace BipedalLocomotionControllers::Estimators;
-using namespace BipedalLocomotionControllers::ParametersHandler;
-using namespace BipedalLocomotionControllers::GenericContainer;
+using namespace BipedalLocomotion::Estimators;
+using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion::GenericContainer;
 
 bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerWeak)
 {

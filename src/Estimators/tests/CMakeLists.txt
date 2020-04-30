@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
+if(FRAMEWORK_COMPILE_YarpImplementation)
 
   include_directories(${CMAKE_CURRENT_BINARY_DIR})
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
@@ -10,6 +10,6 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_YarpImplementation)
   add_bipedal_test(
     NAME RecursiveLeastSquare
     SOURCES RecursiveLeastSquareTest.cpp
-    LINKS BipedalLocomotionControllers::Estimators BipedalLocomotionControllers::ParametersHandlerYarpImplementation)
+    LINKS BipedalLocomotion::Estimators BipedalLocomotion::ParametersHandlerYarpImplementation)
 
 endif()

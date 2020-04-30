@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_YARP_UTILITIES_HELPER_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_YARP_UTILITIES_HELPER_H
+#ifndef BIPEDAL_LOCOMOTION_YARP_UTILITIES_HELPER_H
+#define BIPEDAL_LOCOMOTION_YARP_UTILITIES_HELPER_H
 
 // std
 #include <deque>
@@ -20,7 +20,7 @@
 
 #include <iDynTree/Core/VectorDynSize.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 
 /**
@@ -154,8 +154,7 @@ void populateBottleWithStrings(yarp::os::Bottle& bottle,
                                const std::initializer_list<std::string>& strings);
 
 } // namespace YarpUtilities
-} // namespace BipedalLocomotionControllers
-
+} // namespace BipedalLocomotion
 #include "Helper.tpp"
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_YARP_UTILITIES_HELPER_H
+#endif // BIPEDAL_LOCOMOTION_YARP_UTILITIES_HELPER_H

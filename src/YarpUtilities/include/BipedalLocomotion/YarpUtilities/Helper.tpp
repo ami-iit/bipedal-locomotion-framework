@@ -9,8 +9,8 @@
 #include <iostream>
 #include <type_traits>
 //GenericContainer
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 
 
 // clang-format off
@@ -38,7 +38,7 @@
 
 // clang-format on
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 
 /**
@@ -50,7 +50,7 @@ namespace YarpUtilities
 template <typename T> T convertValue(const yarp::os::Value& value)
 {
     static_assert(dependent_false<T>::value,
-                  "[BipedalLocomotionControllers::YarpUtilities::convertValue] The non specialized "
+                  "[BipedalLocomotion::YarpUtilities::convertValue] The non specialized "
                   "version has not been implemented");
 
     return T();
@@ -63,14 +63,14 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
 {
 
     static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(T),
-                  "[BipedalLocomotionControllers::YarpUtilities::getElementFromSearchable] The "
+                  "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] The "
                   "function getElementFromSearchable() cannot be called with the desired "
                   "element type");
 
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getElementFromSearchable] "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] "
                      "Missing field named "
                   << key << std::endl;
         return false;
@@ -78,7 +78,7 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
 
     if (!(value->*YARP_UTILITES_GET_CHECKER_NAME(T))())
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getElementFromSearchable] The "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] The "
                      "value named "
                   << key << " is not a " << YARP_UTILITES_GET_ELEMENT_TYPE(T) << "." << std::endl;
         return false;
@@ -95,14 +95,14 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     using elementType = typename std::pointer_traits<decltype(vector.data())>::element_type;
 
     static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(elementType),
-                  "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
+                  "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                   "function getElementFromSearchable() cannot be called with the desired "
                   "element type");
 
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                      "Missing field "
                   << key << std::endl;
         return false;
@@ -110,7 +110,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
 
     if (value->isNull())
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] Empty "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] Empty "
                      "input value named "
                   << key << std::endl;
         return false;
@@ -118,7 +118,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
 
     if (!value->isList())
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                      "value named "
                   << key << "is not associated to a list." << std::endl;
         return false;
@@ -127,7 +127,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] The "
+        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                      "list associated to the value named "
                   << key << " is empty." << std::endl;
         return false;
@@ -141,7 +141,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         {
             if (!vector.resizeVector(inputPtr->size()))
             {
-                std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+                std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                           << "Unable to resize " << type_name<T>()
                           << "List size: "
                           << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
@@ -152,7 +152,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
             vector.resize(inputPtr->size());
         else
         {
-            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                          "The size of the vector does not match with the size of the list. List "
                          "size: "
                       << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
@@ -164,7 +164,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     {
         if (!(inputPtr->get(i).*YARP_UTILITES_GET_CHECKER_NAME(elementType))())
         {
-            std::cerr << "[BipedalLocomotionControllers::YarpUtilities::getVectorFromSearchable] "
+            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
                          "The element of the list associated to the value named "
                       << key << " is not a " << YARP_UTILITES_GET_ELEMENT_TYPE(elementType) << "."
                       << std::endl;
@@ -185,7 +185,7 @@ template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
     {
         using elementType = typename std::pointer_traits<decltype(t.data())>::element_type;
         static_assert(std::is_convertible<elementType, double>::value,
-                      "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The element "
+                      "[BipedalLocomotion::YarpUtilities::mergeSigVector] The element "
                       "contained in the vector cannot be converted in a double");
 
         if constexpr (is_iterable<T>::value)
@@ -200,7 +200,7 @@ template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
 
         } else
             static_assert(dependent_false<T>::value,
-                          "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The "
+                          "[BipedalLocomotion::YarpUtilities::mergeSigVector] The "
                           "Vector type does not have square bracket operator nor begin()/end() "
                           "methods");
         return;
@@ -209,7 +209,7 @@ template <typename T> void mergeSigVector(yarp::sig::Vector& vector, const T& t)
     else
     {
         static_assert(dependent_false<T>::value,
-                      "[BipedalLocomotionControllers::YarpUtilities::mergeSigVector] The type of "
+                      "[BipedalLocomotion::YarpUtilities::mergeSigVector] The type of "
                       "the input element cannot be handled by the function");
     }
 
@@ -236,7 +236,7 @@ void sendVariadicVector(yarp::os::BufferedPort<yarp::sig::Vector>& port, const A
     port.write();
 }
 } // namespace YarpUtilities
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
 // remove the macro
 #undef YARP_UTILITES_GET_ELEMENT_TYPE

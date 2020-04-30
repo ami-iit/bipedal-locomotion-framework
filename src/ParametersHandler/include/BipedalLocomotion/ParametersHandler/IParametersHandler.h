@@ -5,17 +5,17 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
+#ifndef BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
+#define BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
-#include <BipedalLocomotionControllers/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 namespace ParametersHandler
 {
@@ -250,6 +250,6 @@ public:
 
 };
 } // namespace ParametersHandler
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
+#endif // BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_IPARAMETERS_HANDLER_H
