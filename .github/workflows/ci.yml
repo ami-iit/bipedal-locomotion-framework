@@ -12,7 +12,7 @@ env:
   vcpkg_robotology_TAG: v0.0.3
   YCM_TAG: v0.11.0
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
-  iDynTree_TAG: 0ee5f759a6fb3a6b6cfa9064779a9428440f8fc2
+  iDynTree_TAG: v1.0.5
   Catch2_TAG: v2.11.3
 
 jobs:
