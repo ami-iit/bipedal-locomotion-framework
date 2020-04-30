@@ -13,12 +13,12 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
 # :orange_book: Exported components
 - **BipedalLocomotion::Framework**: It is an _interface_ library that gathers all
   the exported components, includable with the file ``BipedalLocomotion/Framework.h`` <sup id="a1">[1!](#f1)</sup>.
-- [**GenericContainer**](./src/GenericContainer): Utilities library which include a data structure similar to ``span`` but resizable. It can be used to "map" vector-type data structures.
-- [**YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
+- [**BipedalLocomotion::GenericContainer**](./src/GenericContainer): Utilities library which include a data structure similar to ``span`` but resizable. It can be used to "map" vector-type data structures.
+- [**BipedalLocomotion::YarpUtilities**](./src/YarpUtilities): Utilities library for retrieving
   data and from YARP structures
-- [**ParametersHandler**](./src/ParametersHandler): Library for
+- [**BipedalLocomotion::ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
-- [**Estimators**](./src/Estimators): Library containing observers
+- [**BipedalLocomotion::Estimators**](./src/Estimators): Library containing observers
 
 
 # :page_facing_up: Dependencies
