@@ -142,47 +142,47 @@ template< class T >
 struct has_type_member<T, void_t<typename T::value_type>> : std::true_type { };
 
 /**
- * vector_data is an utility metafunction to detect the type of vector. If T is not a supported vector, it throws
+ * container_data is an utility metafunction to detect the type of container. If T is not a supported container, it throws
  * an assertion at compile time.
  */
 template <typename T, typename = void>
-struct vector_data
+struct container_data
 {
-    static_assert(dependent_false<T>::value, "Unable to detect type of data in the vector.");
+    static_assert(dependent_false<T>::value, "Unable to detect type of data in the container.");
 };
 
 /**
- * vector_data is an utility metafunction to detect the type of vector.
+ * container_data is an utility metafunction to detect the type of container.
  * This specialization is enabled if <code>T::value_type<\code> is available.
  */
 template <typename T>
-struct vector_data<T, typename std::enable_if<has_type_member<T>::value>::type>
+struct container_data<T, typename std::enable_if<has_type_member<T>::value>::type>
 {
     using type = typename T::value_type;
 };
 
 /**
- * vector_data is an utility metafunction to detect the type of vector.
+ * container_data is an utility metafunction to detect the type of container.
  * This specialization is enabled if <code>T::value_type<\code> is not available, but the method <code>data()<\code> is.
  */
 template <typename T>
-struct vector_data<T, typename std::enable_if<!has_type_member<T>::value && is_data_available<T>::value>::type>
+struct container_data<T, typename std::enable_if<!has_type_member<T>::value && is_data_available<T>::value>::type>
 {
     using type = typename std::remove_pointer<decltype(std::declval<T>().data())>::type;
 };
 
 /**
- * vector_data is an utility metafunction to detect the type of vector.
+ * container_data is an utility metafunction to detect the type of container.
  * This specialization is enabled if T is an array.
  */
 template <typename T>
-struct vector_data<T, typename std::enable_if<std::is_array<T>::value>::type>
+struct container_data<T, typename std::enable_if<std::is_array<T>::value>::type>
 {
     using type = typename std::remove_all_extents_t<T>;
 };
 
 /**
- * size_type is an utility metafunction to detect the type used for the indices in the vector.
+ * size_type is an utility metafunction to detect the type used for the indices in the container.
  * By default if std::ptrdiff_t.
  */
 template <typename T, typename = void>
@@ -192,7 +192,7 @@ struct size_type
 };
 
 /**
- * size_type is an utility metafunction to detect the type used for the indices in the vector.
+ * size_type is an utility metafunction to detect the type used for the indices in the container.
  * In this specialization it returns the return type of the <code>size()<\code> method, provided it exists.
  */
 template <typename T>
