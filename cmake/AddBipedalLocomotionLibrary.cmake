@@ -4,7 +4,7 @@
 
 function(add_bipedal_locomotion_library)
 
-  set(options IS_INTERFACE)
+  set(options IS_INTERFACE DEPENDS_ON_EIGEN_PRIVATE)
   set(oneValueArgs NAME INSTALLATION_FOLDER)
   set(multiValueArgs
     SOURCES
@@ -25,6 +25,7 @@ function(add_bipedal_locomotion_library)
   set(name ${${prefix}_NAME})
   set(installation_folder ${${prefix}_INSTALLATION_FOLDER})
   set(is_interface ${${prefix}_IS_INTERFACE})
+  set(depends_on_eigen_private ${${prefix}_DEPENDS_ON_EIGEN_PRIVATE})
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(private_headers ${${prefix}_PRIVATE_HEADERS})
@@ -109,6 +110,10 @@ function(add_bipedal_locomotion_library)
 
   # add alias
   add_library(BipedalLocomotion::${name} ALIAS ${name})
+
+  if (depends_on_eigen_private)
+    target_include_directories(${name} PRIVATE SYSTEM ${EIGEN3_INCLUDE_DIR})
+  endif()
 
   # Add all subdirectories
   foreach(subdir ${subdirectories})
