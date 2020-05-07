@@ -45,7 +45,7 @@ function(add_bipedal_test)
 
     if(FRAMEWORK_COMPILE_tests)
 
-      set(options)
+      set(options DEPENDS_ON_EIGEN_PRIVATE)
       set(oneValueArgs NAME)
       set(multiValueArgs SOURCES LINKS)
 
@@ -59,6 +59,7 @@ function(add_bipedal_test)
 
       set(name ${${prefix}_NAME})
       set(unit_test_files ${${prefix}_SOURCES})
+      set(depends_on_eigen_private ${${prefix}_DEPENDS_ON_EIGEN_PRIVATE})
 
       set(targetname ${name}UnitTests)
       add_executable(${targetname}
@@ -67,6 +68,10 @@ function(add_bipedal_test)
       target_link_libraries(${targetname} PRIVATE CatchTestMain ${${prefix}_LINKS})
       target_compile_definitions(${targetname} PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
       target_compile_features(${targetname} PUBLIC cxx_std_17)
+
+      if (depends_on_eigen_private)
+        target_include_directories(${targetname} PRIVATE SYSTEM ${EIGEN3_INCLUDE_DIR})
+      endif()
 
       add_test(NAME ${targetname} COMMAND ${targetname})
 
