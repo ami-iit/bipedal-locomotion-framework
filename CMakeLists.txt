@@ -78,6 +78,16 @@ add_subdirectory(src)
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
 include(AddBipedalLocomotionFrameworkTarget)
 
+set(FRAMEWORK_PUBLIC_DEPENDENCIES iDynTree)
+
+if (FRAMEWORK_HAS_YARP)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES YARP)
+endif()
+
+if (FRAMEWORK_HAS_Eigen3)
+  list(APPEND FRAMEWORK_PRIVATE_DEPENDENCIES Eigen3)
+endif()
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
@@ -85,7 +95,9 @@ install_basic_package_files(${PROJECT_NAME}
                             COMPATIBILITY AnyNewerVersion
                             TARGETS_PROPERTY BipedalLocomotionFramework_TARGETS
                             VARS_PREFIX ${PROJECT_NAME}
-                            NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+                            NO_CHECK_REQUIRED_COMPONENTS_MACRO
+                            DEPENDENCIES ${FRAMEWORK_PUBLIC_DEPENDENCIES}
+                            PRIVATE_DEPENDENCIES ${FRAMEWORK_PRIVATE_DEPENDENCIES})
 
 
 include(AddUninstallTarget)
