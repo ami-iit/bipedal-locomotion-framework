@@ -80,12 +80,8 @@ include(AddBipedalLocomotionFrameworkTarget)
 
 set(FRAMEWORK_PUBLIC_DEPENDENCIES iDynTree)
 
-if (FRAMEWORK_HAS_YARP)
+if (FRAMEWORK_USE_YARP)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES YARP)
-endif()
-
-if (FRAMEWORK_HAS_Eigen3)
-  list(APPEND FRAMEWORK_PRIVATE_DEPENDENCIES Eigen3)
 endif()
 
 include(InstallBasicPackageFiles)
