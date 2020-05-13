@@ -572,6 +572,9 @@ ${_compatibility_vars}
   unset(PACKAGE_DEPENDENCIES)
   if(DEFINED _IBPF_DEPENDENCIES)
     set(PACKAGE_DEPENDENCIES "#### Expanded from @PACKAGE_DEPENDENCIES@ by install_basic_package_files() ####\n\ninclude(CMakeFindDependencyMacro)\n")
+    string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH_BK \${CMAKE_MODULE_PATH})\n")
+    string(REPLACE ";" " " _this_module_path "${CMAKE_MODULE_PATH}")
+    string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH ${_this_module_path})\n")
 
     # FIXME When CMake 3.9 or greater is required, remove this madness and just
     #       use find_dependency
@@ -622,6 +625,7 @@ endif()
       endif()
 
     endif()
+    string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH_BK})\n")
 
     set(PACKAGE_DEPENDENCIES "${PACKAGE_DEPENDENCIES}\n###############################################################################\n")
   endif()

@@ -7,4 +7,4 @@ add_bipedal_locomotion_library(
   PUBLIC_HEADERS        include/BipedalLocomotion/ParametersHandler/IParametersHandler.h
   PUBLIC_LINK_LIBRARIES BipedalLocomotion::GenericContainer
   SUBDIRECTORIES        tests YarpImplementation
-  IS_INTERFACE          ON)
+  IS_INTERFACE)

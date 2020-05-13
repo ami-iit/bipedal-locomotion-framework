@@ -10,6 +10,7 @@
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/Core/Transform.h>
 #include <memory>
 #include <vector>
 #include <string>
@@ -27,6 +28,7 @@ TEST_CASE("GenericContainer::Vector")
         REQUIRE(GenericContainer::is_vector_constructible<const iDynTree::VectorDynSize>::value);
         REQUIRE(GenericContainer::is_vector_constructible<const iDynTree::VectorFixSize<3>>::value);
         REQUIRE(GenericContainer::is_vector_constructible<std::vector<double>>::value);
+        REQUIRE(GenericContainer::is_vector_constructible<std::vector<iDynTree::Transform>>::value);
         REQUIRE(GenericContainer::is_vector_constructible<const std::vector<double>>::value);
         REQUIRE(GenericContainer::is_vector_constructible<std::vector<int>>::value);
         REQUIRE(GenericContainer::is_vector_constructible<const std::vector<int>>::value);

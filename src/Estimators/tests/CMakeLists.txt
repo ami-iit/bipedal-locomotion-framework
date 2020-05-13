@@ -10,6 +10,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
   add_bipedal_test(
     NAME RecursiveLeastSquare
     SOURCES RecursiveLeastSquareTest.cpp
-    LINKS BipedalLocomotion::Estimators BipedalLocomotion::ParametersHandlerYarpImplementation)
+    LINKS BipedalLocomotion::Estimators BipedalLocomotion::ParametersHandlerYarpImplementation
+    DEPENDS_ON_EIGEN_PRIVATE)
 
 endif()

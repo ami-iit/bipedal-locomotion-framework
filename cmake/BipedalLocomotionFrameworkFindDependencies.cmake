@@ -119,15 +119,18 @@ endmacro()
 ################################################################################
 # Find all packages
 
-find_package(iDynTree 0.11.105 QUIET)
-checkandset_dependency(iDynTree)
+find_package(iDynTree 0.11.105 REQUIRED) #Right now, all the packages built in the framework
+                                         #depend directly or indirectly from iDynTree
 
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
 
+find_package(Eigen3 3.2.92 QUIET)
+checkandset_dependency(Eigen3)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
-  "FRAMEWORK_HAS_YARP;FRAMEWORK_HAS_iDynTree" OFF)
+  "FRAMEWORK_HAS_YARP" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
@@ -135,4 +138,4 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
 
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
-  "FRAMEWORK_HAS_iDynTree" OFF)
+  "FRAMEWORK_HAS_Eigen3" OFF)

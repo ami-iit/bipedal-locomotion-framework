@@ -495,7 +495,7 @@ struct is_span_constructible : std::false_type
 template <typename Class>
 struct is_span_constructible<Class,
                              typename std::enable_if<
-                                 std::is_constructible<iDynTree::Span<typename vector_data<Class>::type>, Class&>::value>::type>
+                                 std::is_constructible<iDynTree::Span<typename container_data<Class>::type>, Class&>::value>::type>
     : std::true_type
 {};
 
@@ -518,7 +518,7 @@ template <typename T>
     struct is_vector_constructible<T,
     typename std::enable_if<(std::is_array<T>::value || has_type_member<T>::value || is_data_available<T>::value)>::type,
     typename std::enable_if<(is_span_constructible<T>::value ||(is_data_available<T>::value && is_size_available<T>::value)) &&
-                             !std::is_same<typename vector_data<T>::type, bool>::value>::type> : std::true_type
+                             !std::is_same<typename container_data<T>::type, bool>::value>::type> : std::true_type
 {
 };
 
@@ -541,13 +541,13 @@ enum class VectorResizeMode
  * In fact, the output lambda contains a pointer to input.
  */
 template<typename Class>
-typename Vector<typename vector_data<Class>::type>::resize_function_type DefaultVectorResizer(Class& input)
+typename Vector<typename container_data<Class>::type>::resize_function_type DefaultVectorResizer(Class& input)
 {
     static_assert (is_resizable<Class>::value, "Class type is not resizable.");
     static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
                   "Cannot create a span given the provided class.");
 
-    using value_type = typename vector_data<Class>::type;
+    using value_type = typename container_data<Class>::type;
 
     if constexpr (is_span_constructible<Class>::value)
     {
@@ -591,15 +591,15 @@ typename Vector<typename vector_data<Class>::type>::resize_function_type Default
  * This would invalidate the pointer inside GenericContainer::Vector.
  */
 template<typename Class>
-Vector<typename vector_data<Class>::type>
+Vector<typename container_data<Class>::type>
 make_vector(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
-    static_assert (!std::is_same<typename vector_data<Class>::type, bool>::value,
+    static_assert (!std::is_same<typename container_data<Class>::type, bool>::value,
                   "Cannot create a Vector of bool type. Memory is not contiguos." );
     static_assert (is_span_constructible<Class>::value || (is_data_available<Class>::value && is_size_available<Class>::value),
                   "Cannot create a span given the provided class.");
 
-    using value_type = typename vector_data<Class>::type;
+    using value_type = typename container_data<Class>::type;
 
     iDynTree::Span<value_type> span;
 
@@ -648,16 +648,16 @@ make_vector(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
  * This would invalidate the pointer inside GenericContainer::Vector.
  */
 template <typename Class>
-Vector<const typename vector_data<Class>::type>
+Vector<const typename container_data<Class>::type>
 make_vector(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
-    static_assert (!std::is_same<typename vector_data<Class>::type, bool>::value,
+    static_assert (!std::is_same<typename container_data<Class>::type, bool>::value,
                   "Cannot create a Vector of bool type. Memory is not contiguos." );
     static_assert(is_span_constructible<Class>::value
                       || (is_data_available<Class>::value && is_size_available<Class>::value),
                   "Cannot create a span given the provided class.");
 
-    using value_type = typename vector_data<decltype(input)>::type;
+    using value_type = typename container_data<decltype(input)>::type;
 
     iDynTree::Span<value_type> span;
 
@@ -687,10 +687,10 @@ make_vector(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
  * This would invalidate the pointer inside GenericContainer::Vector.
  */
 template<typename Class>
-Vector_ptr<typename vector_data<Class>::type>
+Vector_ptr<typename container_data<Class>::type>
 make_vector_ptr(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
-    return std::make_shared<Vector<typename vector_data<Class>::type>>(make_vector(input,mode));
+    return std::make_shared<Vector<typename container_data<Class>::type>>(make_vector(input,mode));
 }
 
 /**
@@ -706,10 +706,10 @@ make_vector_ptr(Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
  * This would invalidate the pointer inside GenericContainer::Vector.
  */
 template<typename Class>
-Vector_ptr<const typename vector_data<Class>::type>
+Vector_ptr<const typename container_data<Class>::type>
 make_vector_ptr(const Class& input, VectorResizeMode mode = VectorResizeMode::Fixed)
 {
-    return std::make_shared<Vector<const typename vector_data<Class>::type>>(make_vector(input,mode));
+    return std::make_shared<Vector<const typename container_data<Class>::type>>(make_vector(input,mode));
 }
 
 /**
