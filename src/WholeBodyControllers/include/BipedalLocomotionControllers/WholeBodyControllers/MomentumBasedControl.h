@@ -74,6 +74,8 @@ public:
     bool solve();
 
     iDynTree::VectorDynSize getDesiredAcceleration();
+
+    void setContactParameters(const std::string& name, const double& k, const double& b);
 };
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers

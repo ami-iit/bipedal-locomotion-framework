@@ -103,6 +103,15 @@ void MomentumBasedControl::setContactState(const iDynTree::Transform& transform,
     m_controllers[m_currentWalkingState]->setContactState(name, true, transform);
 }
 
+void MomentumBasedControl::setContactParameters(const std::string& name,
+                                                const double& k,
+                                                const double& b)
+{
+    // if the frame is not in contact with the environment setContactState() does not update any
+    // contact model
+    m_controllers[m_currentWalkingState]->setContactParameters(name, k, b);
+}
+
 void MomentumBasedControl::setTransformationReference(const iDynTree::SpatialAcc& acceleration,
                                                       const iDynTree::Twist& twist,
                                                       const iDynTree::Transform& transform,

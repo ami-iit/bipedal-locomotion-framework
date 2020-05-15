@@ -1197,3 +1197,14 @@ iDynTree::Vector6 MomentumBasedControlHelper::getRightFootWrenchRateOfChange() c
 
     return forceRateOfChange;
 }
+
+void MomentumBasedControlHelper::setContactParameters(const std::string& name,
+                                                      const double& k,
+                                                      const double& b)
+{
+    auto contactModel = m_contactModelElements.find(name);
+    if (contactModel != m_contactModelElements.end())
+        contactModel->second->setContactParameters(k, b);
+
+    return;
+}

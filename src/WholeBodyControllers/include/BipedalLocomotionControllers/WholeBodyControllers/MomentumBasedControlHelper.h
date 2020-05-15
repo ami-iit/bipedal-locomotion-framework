@@ -194,6 +194,8 @@ public:
     iDynTree::Vector6 getLeftFootWrenchRateOfChange() const;
 
     iDynTree::Vector6 getRightFootWrenchRateOfChange() const;
+
+    void setContactParameters(const std::string& name, const double& k, const double& b);
 };
 } // namespace WholeBodyControllers
 } // namespace BipedalLocomotionControllers
