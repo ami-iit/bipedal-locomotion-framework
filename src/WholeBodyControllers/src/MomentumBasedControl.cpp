@@ -172,3 +172,8 @@ iDynTree::VectorDynSize MomentumBasedControl::getDesiredAcceleration()
 {
     return m_controllers[m_currentWalkingState]->getDesiredAcceleration();
 }
+
+iDynTree::VectorDynSize MomentumBasedControl::getDesiredTorques()
+{
+    return m_controllers[m_currentWalkingState]->getDesiredTorques();
+}

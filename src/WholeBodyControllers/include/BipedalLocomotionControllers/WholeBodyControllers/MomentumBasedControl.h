@@ -75,6 +75,8 @@ public:
 
     iDynTree::VectorDynSize getDesiredAcceleration();
 
+    iDynTree::VectorDynSize getDesiredTorques();
+
     void setContactParameters(const std::string& name, const double& k, const double& b);
 };
 } // namespace WholeBodyControllers
