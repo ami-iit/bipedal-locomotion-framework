@@ -235,17 +235,17 @@ void ContinuousContactModel::computeRegressor()
     auto regressor(iDynTree::toEigen(m_regressor));
 
     regressor.topLeftCorner<3, 1>()
-        = std::abs(rotation(2, 2)) * area * (nullForcePosition - position);
+        = std::abs(rotation(2, 2)) *  (nullForcePosition - position);
 
-    regressor.topRightCorner<3, 1>() = -std::abs(rotation(2, 2)) * area * linearVelocity;
+    regressor.topRightCorner<3, 1>() = -std::abs(rotation(2, 2)) * linearVelocity;
 
     regressor.bottomLeftCorner<3, 1>()
-        = area / 12 * std::abs(rotation(2, 2))
+        = 1.0 / 12.0 * std::abs(rotation(2, 2))
           * (m_length * m_length * skewRe1 * nullForceRotation.col(0)
              + m_width * m_width * skewRe2 * nullForceRotation.col(1));
 
     regressor.bottomRightCorner<3, 1>()
-        = area / 12 * std::abs(rotation(2, 2))
+        = 1.0 / 12.0 * std::abs(rotation(2, 2))
           * (m_length * m_length * skewRe1 * skewRe1 + m_width * m_width * skewRe2 * skewRe2)
           * angularVelocity;
 }
