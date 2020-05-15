@@ -373,12 +373,25 @@ bool Simulator::advance(const double& seconds /*= 0 */)
             toEigen(generalizedBiasForcesVector).tail(m_numberOfDoF)
                 = toEigen(m_generalizedBiasForces.jointTorques());
 
-            Eigen::VectorXd robotAcceleration
-                = toEigen(m_massMatrix).ldlt()
-                      .solve(-toEigen(generalizedBiasForcesVector)
-                             + toEigen(m_leftContact.jacobian).transpose() * toEigen(leftWrench)
-                             + toEigen(m_rightContact.jacobian).transpose() * toEigen(rightWrench)
-                             + toEigen(m_generalizedJointTorques));
+            Eigen::VectorXd robotAcceleration;
+
+            if(m_leftContact.isInContact && m_rightContact.isInContact)
+                robotAcceleration = toEigen(m_massMatrix).ldlt()
+                    .solve(-toEigen(generalizedBiasForcesVector)
+                           + toEigen(m_leftContact.jacobian).transpose() * toEigen(leftWrench)
+                           + toEigen(m_rightContact.jacobian).transpose() * toEigen(rightWrench)
+                           + toEigen(m_generalizedJointTorques));
+
+            else if(m_leftContact.isInContact)
+                robotAcceleration = toEigen(m_massMatrix).ldlt()
+                    .solve(-toEigen(generalizedBiasForcesVector)
+                           + toEigen(m_leftContact.jacobian).transpose() * toEigen(leftWrench)
+                           + toEigen(m_generalizedJointTorques));
+            else
+                robotAcceleration = toEigen(m_massMatrix).ldlt()
+                    .solve(-toEigen(generalizedBiasForcesVector)
+                           + toEigen(m_rightContact.jacobian).transpose() * toEigen(rightWrench)
+                           + toEigen(m_generalizedJointTorques));
 
             toEigen(m_jointAcceleration) = robotAcceleration.tail(m_numberOfDoF);
             toEigen(m_baseAcceleration.getLinearVec3()) = robotAcceleration.head(3);
