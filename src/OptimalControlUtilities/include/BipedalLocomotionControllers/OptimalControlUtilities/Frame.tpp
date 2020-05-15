@@ -76,7 +76,7 @@ FrameInContactWithContactModel<T, U>::FrameInContactWithContactModel(
     const T& identifierInVariableHandler,
     const U& identifierInModel,
     const bool& isInCompliantContact,
-    std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept
+    std::shared_ptr<ContactModels::ContinuousContactModel> contactModel) noexcept
     : FrameInContact<T, U>(identifierInVariableHandler, identifierInModel, isInCompliantContact)
     , m_contactModel(contactModel)
 {
@@ -86,7 +86,7 @@ template <typename T, typename U>
 FrameInContactWithContactModel<T, U>::FrameInContactWithContactModel(
     const T& identifierInVariableHandler,
     const U& identifierInModel,
-    std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept
+    std::shared_ptr<ContactModels::ContinuousContactModel> contactModel) noexcept
     : FrameInContact<T, U>(identifierInVariableHandler, identifierInModel)
     , m_contactModel(contactModel)
 {
@@ -94,14 +94,14 @@ FrameInContactWithContactModel<T, U>::FrameInContactWithContactModel(
 }
 
 template <typename T, typename U>
-const std::shared_ptr<ContactModels::ContactModel>&
+const std::shared_ptr<ContactModels::ContinuousContactModel>&
 FrameInContactWithContactModel<T, U>::contactModel() const noexcept
 {
     return m_contactModel;
 }
 
 template <typename T, typename U>
-std::shared_ptr<ContactModels::ContactModel>&
+std::shared_ptr<ContactModels::ContinuousContactModel>&
 FrameInContactWithContactModel<T, U>::contactModel() noexcept
 {
     return m_contactModel;

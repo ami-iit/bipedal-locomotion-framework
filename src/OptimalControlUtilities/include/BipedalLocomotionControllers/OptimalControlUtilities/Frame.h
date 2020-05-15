@@ -15,6 +15,7 @@
 #include <iDynTree/Model/Indices.h>
 
 #include <BipedalLocomotionControllers/ContactModels/ContactModel.h>
+#include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
 
 namespace BipedalLocomotionControllers
 {
@@ -143,7 +144,7 @@ template<typename T, typename U>
 class FrameInContactWithContactModel : public FrameInContact<T, U>
 {
     /** The contact model sued to describe the interaction between the link and the environment */
-    std::shared_ptr<ContactModels::ContactModel> m_contactModel{nullptr};
+    std::shared_ptr<ContactModels::ContinuousContactModel> m_contactModel{nullptr};
 
 public:
     using FrameInContact<T, U>::FrameInContact;
@@ -152,16 +153,16 @@ public:
         const T& identifierInVariableHandler,
         const U& identifierInModel,
         const bool& isInCompliantContact,
-        std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept;
+        std::shared_ptr<ContactModels::ContinuousContactModel> contactModel) noexcept;
 
     FrameInContactWithContactModel(
         const T& identifierInVariableHandler,
         const U& identifierInModel,
-        std::shared_ptr<ContactModels::ContactModel> contactModel) noexcept;
+        std::shared_ptr<ContactModels::ContinuousContactModel> contactModel) noexcept;
 
 
-    std::shared_ptr<ContactModels::ContactModel>& contactModel() noexcept;
-    const std::shared_ptr<ContactModels::ContactModel>& contactModel() const noexcept;
+    std::shared_ptr<ContactModels::ContinuousContactModel>& contactModel() noexcept;
+    const std::shared_ptr<ContactModels::ContinuousContactModel>& contactModel() const noexcept;
 };
 
 } // namespace OptimalControlUtilities
