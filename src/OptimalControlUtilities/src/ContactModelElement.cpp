@@ -117,3 +117,9 @@ void ContactModelElement::setContactState(bool isInContact,
                                               m_kinDynPtr->getWorldTransform(indexInModel),
                                               nullForceTransform);
 }
+
+void ContactModelElement::setContactParameters(const double& k, const double& b)
+{
+    m_frameInContact.contactModel()->springCoeff() = k;
+    m_frameInContact.contactModel()->damperCoeff() = b;
+}

@@ -54,6 +54,8 @@ public:
     void setContactState(bool isInContact,
                          const iDynTree::Transform& nullForceTransform);
 
+    void setContactParameters(const double& k, const double& b);
+
     /**
      * Get (and compute) the element vector
      * @return the element vector
