@@ -4,8 +4,9 @@
 
 add_bipedal_locomotion_library(
   NAME                  Contact
-  PUBLIC_HEADERS        include/BipedalLocomotion/Planners/Contact.h
+  PUBLIC_HEADERS        include/BipedalLocomotion/Planners/Contact.h include/BipedalLocomotion/Planners/ContactList.h
+  SOURCES               src/ContactList.cpp
   PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
-  IS_INTERFACE
   INSTALLATION_FOLDER   Planners
+  SUBDIRECTORIES        tests
   )
