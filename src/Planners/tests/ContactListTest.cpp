@@ -48,6 +48,14 @@ TEST_CASE("ContactList")
     {
         REQUIRE(contactsAreEqual(p1, *list.firstStep()));
         REQUIRE(contactsAreEqual(p2, *list.lastStep()));
+
+        Contact p3;
+        p3.activationTime = 0.6;
+        p3.deactivationTime = 0.8;
+
+        REQUIRE(list.addContact(p3));
+        REQUIRE(list.size() == 3);
+        REQUIRE(contactsAreEqual(p3, *(++list.begin())));
     }
 
     SECTION("Size")
@@ -79,6 +87,13 @@ TEST_CASE("ContactList")
         REQUIRE(contactsAreEqual(p2, *list.getPresentStep(1.2)));
         REQUIRE(contactsAreEqual(p2, *list.getPresentStep(1.6)));
         REQUIRE(contactsAreEqual(p1, *list.getPresentStep(0.6)));
-        REQUIRE(list.getPresentStep(0.0) == list.end());
+        bool same = list.getPresentStep(0.0) == list.end();
+        REQUIRE(same);
+    }
+
+    SECTION("Keep present step")
+    {
+        list.clear();
+        REQUIRE(list.size() == 0);
     }
 }

@@ -2,9 +2,11 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+set(H_PREFIX include/BipedalLocomotion/Planners)
+
 add_bipedal_locomotion_library(
   NAME                  Contact
-  PUBLIC_HEADERS        include/BipedalLocomotion/Planners/Contact.h include/BipedalLocomotion/Planners/ContactList.h
+  PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h
   SOURCES               src/ContactList.cpp
   PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
   INSTALLATION_FOLDER   Planners
