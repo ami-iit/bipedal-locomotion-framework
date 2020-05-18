@@ -11,19 +11,30 @@
 #include <BipedalLocomotion/Planners/Contact.h>
 #include <BipedalLocomotion/Planners/ContactList.h>
 #include <vector>
+#include <string>
 
 namespace BipedalLocomotion
 {
 namespace Planners
 {
 
+struct ContactReference
+{
+    std::string listLabel;
+    ContactList::const_iterator contact_it;
+};
+
 struct ContactPhase
 {
-    double begin {0.0};
+    double beginTime {0.0};
 
-    double end {0.0};
+    double endTime {0.0};
 
-    std::vector<ContactList::const_iterator> activeContacts;
+    std::vector<ContactReference> activeContacts;
+
+    bool isListIncluded(const std::string& key) const;
+
+    std::vector<ContactReference>::const_iterator getContactGivenList(const std::string& key) const;
 };
 
 }

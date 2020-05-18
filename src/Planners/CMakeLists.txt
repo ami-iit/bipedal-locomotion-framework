@@ -6,8 +6,8 @@ set(H_PREFIX include/BipedalLocomotion/Planners)
 
 add_bipedal_locomotion_library(
   NAME                  Contact
-  PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h
-  SOURCES               src/ContactList.cpp
+  PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
+  SOURCES               src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
   PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
   INSTALLATION_FOLDER   Planners
   SUBDIRECTORIES        tests

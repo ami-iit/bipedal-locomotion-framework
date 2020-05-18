@@ -8,4 +8,10 @@ if (FRAMEWORK_HAS_Eigen3)
         SOURCES ContactListTest.cpp
         LINKS BipedalLocomotion::Contact
         DEPENDS_ON_EIGEN_PRIVATE)
+
 endif()
+
+add_bipedal_test(
+    NAME ContactPhaseList
+    SOURCES ContactPhaseListTest.cpp
+    LINKS BipedalLocomotion::Contact)
