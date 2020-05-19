@@ -8,8 +8,13 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
 
+// BipedalLocomotion
 #include <BipedalLocomotion/Planners/Contact.h>
+
+//iDynTree
 #include <iDynTree/Core/Transform.h>
+
+//std
 #include <set>
 #include <string>
 #include <functional>
