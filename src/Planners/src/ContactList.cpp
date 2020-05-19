@@ -9,7 +9,6 @@
 #include <iostream>
 #include <iterator>
 #include <cassert>
-#include <cmath>
 
 using namespace BipedalLocomotion::Planners;
 
@@ -123,7 +122,7 @@ const Contact &ContactList::operator[](size_t index) const
 {
     assert(index < size());
 
-    if (index > std::ceil(size()/2))
+    if (index > (size() / 2 + (size() % 2 != 0))) //fancy way for doing std::ceil(size() / 2.0)
     {
         ContactList::const_reverse_iterator it = rbegin();
         std::advance(it, size() - index - 1);

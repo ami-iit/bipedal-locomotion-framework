@@ -100,12 +100,12 @@ TEST_CASE("ContactList")
     SECTION("Accessor")
     {
         bool ok = true;
-        for (size_t i = 0; i < 50; ++i)
+        for (size_t i = 0; i < 49; ++i)
         {
             ok = ok && list.addContact(iDynTree::Transform::Identity(), 2.0 + i, 2.5 + i);
         }
         REQUIRE(ok);
-        REQUIRE(list.size() == 52);
+        REQUIRE(list.size() == 51);
 
         ContactList::const_iterator it = list.begin();
         for (size_t i = 0; i < list.size(); ++i)
