@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Implement `ParametersHandler` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/13)
 - Implement `GenericContainer::Vector` (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/29)
 - Implement `Estimators` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/23)
-- Renamed from ``bipedal-locomotion-controllers`` to ``bipedal-locomotion-framework``.
+- Renamed from ``bipedal-locomotion-controllers`` to ``bipedal-locomotion-framework`` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/40).
+- Implement `Contact` library.
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
