@@ -96,4 +96,23 @@ TEST_CASE("ContactList")
         list.clear();
         REQUIRE(list.size() == 0);
     }
+
+    SECTION("Accessor")
+    {
+        bool ok = true;
+        for (size_t i = 0; i < 50; ++i)
+        {
+            ok = ok && list.addContact(iDynTree::Transform::Identity(), 2.0 + i, 2.5 + i);
+        }
+        REQUIRE(ok);
+        REQUIRE(list.size() == 52);
+
+        ContactList::const_iterator it = list.begin();
+        for (size_t i = 0; i < list.size(); ++i)
+        {
+            ok = ok && contactsAreEqual(list[i], *it);
+            it++;
+        }
+        REQUIRE(ok);
+    }
 }

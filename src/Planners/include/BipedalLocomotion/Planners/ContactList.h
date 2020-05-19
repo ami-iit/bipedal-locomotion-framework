@@ -147,6 +147,14 @@ public:
     const_reverse_iterator crend() const;
 
     /**
+     * @brief Access contacts by index.
+     * @warning This method in a for loop is much less efficient than using iterators.
+     * @param index of the phase to be accessed.
+     * @return A const reference to the desired contact.
+     */
+    const Contact& operator[](size_t index) const;
+
+    /**
      * @brief Get the size of the list.
      * @return The number of contacts.
      */

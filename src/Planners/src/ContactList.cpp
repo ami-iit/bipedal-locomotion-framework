@@ -7,6 +7,9 @@
 
 #include <BipedalLocomotion/Planners/ContactList.h>
 #include <iostream>
+#include <iterator>
+#include <cassert>
+#include <cmath>
 
 using namespace BipedalLocomotion::Planners;
 
@@ -114,6 +117,24 @@ ContactList::const_reverse_iterator ContactList::rend() const
 ContactList::const_reverse_iterator ContactList::crend() const
 {
     return m_contacts.crend();
+}
+
+const Contact &ContactList::operator[](size_t index) const
+{
+    assert(index < size());
+
+    if (index > std::ceil(size()/2))
+    {
+        ContactList::const_reverse_iterator it = rbegin();
+        std::advance(it, size() - index - 1);
+        return *(it);
+    }
+    else
+    {
+        ContactList::const_iterator it = begin();
+        std::advance(it, index);
+        return *(it);
+    }
 }
 
 size_t ContactList::size() const
