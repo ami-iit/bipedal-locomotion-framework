@@ -10,6 +10,11 @@
 
 using namespace BipedalLocomotion::Planners;
 
+bool ContactList::ContactCompare::operator()(const Contact &lhs, const Contact &rhs) const
+{
+    return lhs.deactivationTime < rhs.activationTime;
+}
+
 void ContactList::setDefaultName(const std::string &defaultName)
 {
     m_defaultName = defaultName;
@@ -116,12 +121,12 @@ size_t ContactList::size() const
     return m_contacts.size();
 }
 
-ContactList::const_iterator ContactList::firstStep() const
+ContactList::const_iterator ContactList::firstContact() const
 {
     return begin();
 }
 
-ContactList::const_iterator ContactList::lastStep() const
+ContactList::const_iterator ContactList::lastContact() const
 {
     return --end();
 }
@@ -162,7 +167,7 @@ bool ContactList::editContact(ContactList::const_iterator element, const Contact
     return true;
 }
 
-ContactList::const_iterator ContactList::getPresentStep(double time) const
+ContactList::const_iterator ContactList::getPresentContact(double time) const
 {
     // With the reverse iterator we find the last step such that the activation time is smaller that time
     ContactList::const_reverse_iterator presentReverse = std::find_if(rbegin(), rend(),
@@ -176,9 +181,9 @@ ContactList::const_iterator ContactList::getPresentStep(double time) const
     return --(presentReverse.base()); //This is to convert a reverse iterator to a forward iterator. The -- is because base() returns a forward iterator to the next element.
 }
 
-bool ContactList::keepOnlyPresentStep(double time)
+bool ContactList::keepOnlyPresentContact(double time)
 {
-    ContactList::const_iterator dropPoint = getPresentStep(time);
+    ContactList::const_iterator dropPoint = getPresentContact(time);
 
     if (dropPoint == end())
     {
@@ -199,8 +204,8 @@ void ContactList::clear()
     m_contacts.clear();
 }
 
-void ContactList::removeLastStep()
+void ContactList::removeLastContact()
 {
-    erase(lastStep());
+    erase(lastContact());
 }
 

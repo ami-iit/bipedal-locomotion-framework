@@ -20,69 +20,179 @@ namespace Planners
 {
 
 /**
- * @brief Class containing a list of steps.
- * The steps are added such that the activation time is strictly growing.
+ * @brief Class containing a list of contacts.
+ * The contact are added such that the activation time is strictly growing. In addition, contacts cannot be overlapping.
  * It represents a series of contact activations and deactivations of a single entity.
- * Once items are inserted, items cannot change since they are ordered according to their timing.
  */
 class ContactList
 {
+    /**
+     * @brief Struct used for inserting new contacts in the set.
+     */
     struct ContactCompare {
-        bool operator()(const Contact& lhs, const Contact& rhs) const {
-            return lhs.deactivationTime < rhs.activationTime;
-        }
+        bool operator()(const Contact& lhs, const Contact& rhs) const;
     };
 
-    std::set<Contact, ContactCompare> m_contacts;
-    std::string m_defaultName{"ContactList"};
-    ContactType m_defaultContactType{ContactType::FULL};
+    std::set<Contact, ContactCompare> m_contacts; /** Data structure for inserting and ordering contacts. **/
+    std::string m_defaultName{"ContactList"}; /** Default name for the contact list. **/
+    ContactType m_defaultContactType{ContactType::FULL}; /** Default contact type. **/
 
 public:
 
     using const_iterator = std::set<Contact, ContactCompare>::const_iterator;
     using const_reverse_iterator = std::set<Contact, ContactCompare>::const_reverse_iterator;
 
+    /**
+     * @brief Set the default name.
+     * @param defaultName the default name.
+     */
     void setDefaultName(const std::string& defaultName);
 
+    /**
+     * @brief Get the default name.
+     * @return the default name.
+     */
     const std::string& defaultName() const;
 
+    /**
+     * @brief Set the default contact type.
+     * @param The default contact type.
+     */
     void setDefaultContactType(const ContactType& type);
 
+    /**
+     * @brief Get the default contact type.
+     * @return the default contact type.
+     */
     const ContactType& defaultContactType() const;
 
+    /**
+     * @brief Add a new contact to the list.
+     * @param newContact The new contact
+     * @return false if it was not possible to insert the contact.
+     * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
+     */
     bool addContact(const Contact& newContact);
 
+    /**
+     * @brief Add a new contact to the list.
+     *
+     * It uses the defaultName and the defaultContactType for the missing informations.
+     * @param newTransform The contact pose.
+     * @param activationTime The activation time.
+     * @param deactivationTime The deactivation time.
+     * @return false if it was not possible to insert the contact.
+     * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
+     */
     bool addContact(const iDynTree::Transform& newTransform, double activationTime, double deactivationTime);
 
+    /**
+     * @brief Erase a contact
+     * @param iterator to the contact to erase.
+     * @return an iterator to the contact that follows the one removed.
+     */
     const_iterator erase(const_iterator iterator);
 
+    /**
+     * @brief Return a const iterator to the begin of the contacts.
+     */
     const_iterator begin() const;
+
+    /**
+     * @brief Return a const iterator to the begin of the contacts.
+     */
     const_iterator cbegin() const;
 
+    /**
+     * @brief Return a const reverse iterator to the contacts (basically starting from the last contact going backward).
+     */
     const_reverse_iterator rbegin() const;
+
+    /**
+     * @brief Return a const reverse iterator to the contacts (basically starting from the last contact going backward).
+     */
     const_reverse_iterator crbegin() const;
 
+    /**
+     * @brief Return a const iterator to the end of the list.
+     *
+     * This is only a placeholder, it does not reference any contact.
+     */
     const_iterator end() const;
+
+    /**
+     * @brief Return a const iterator to the end of the list.
+     *
+     * This is only a placeholder, it does not reference any contact.
+     */
     const_iterator cend() const;
 
+    /**
+     * @brief Return a const reverse iterator to the end of the list.
+     *
+     * This is only a placeholder, it does not reference any contact.
+     */
     const_reverse_iterator rend() const;
+
+    /**
+     * @brief Return a const reverse iterator to the end of the list.
+     *
+     * This is only a placeholder, it does not reference any contact.
+     */
     const_reverse_iterator crend() const;
 
+    /**
+     * @brief Get the size of the list.
+     * @return The number of contacts.
+     */
     size_t size() const;
 
-    const_iterator firstStep() const;
+    /**
+     * @brief Iterator pointing to the first contact.
+     */
+    const_iterator firstContact() const;
 
-    const_iterator lastStep() const;
+    /**
+     * @brief Iterator pointing to the last contact.
+     */
+    const_iterator lastContact() const;
 
+    /**
+     * @brief Edit an existing contact.
+     * @param element Iterator to the element to edit.
+     * @param newContact The new contact
+     * @return false if the element is not valid or if the new contact timing would require a reordering of the list.
+     */
     bool editContact(const_iterator element, const Contact& newContact);
 
-    const_iterator getPresentStep(double time) const;
+    /**
+     * @brief Get the contact given the time.
+     *
+     * It returns the contact with the highest activation time lower than time.
+     * If no contacts have an activation time lower than time, it returns an iterator to the end.
+     * Notice that the contact may not be active, i.e. the deactivationTime may be lower than time.
+     * @param time The present time.
+     * @return an iterator to the last contact  having an activation time lower than time.
+     * If no contact satisfy this condition, it returns a pointer to the end.
+     */
+    const_iterator getPresentContact(double time) const;
 
-    bool keepOnlyPresentStep(double time);
+    /**
+     * @brief Clear all the steps, except the one returned by getPresentContact
+     * @param time The present time.
+     * @return false if no contact is available at this time.
+     */
+    bool keepOnlyPresentContact(double time);
 
+    /**
+     * @brief Clear the contacts.
+     */
     void clear();
 
-    void removeLastStep();
+    /**
+     * @brief Remove only the last contact.
+     */
+    void removeLastContact();
 
 };
 

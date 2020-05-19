@@ -46,8 +46,8 @@ TEST_CASE("ContactList")
 
     SECTION("Insertion order")
     {
-        REQUIRE(contactsAreEqual(p1, *list.firstStep()));
-        REQUIRE(contactsAreEqual(p2, *list.lastStep()));
+        REQUIRE(contactsAreEqual(p1, *list.firstContact()));
+        REQUIRE(contactsAreEqual(p2, *list.lastContact()));
 
         Contact p3;
         p3.activationTime = 0.6;
@@ -78,16 +78,16 @@ TEST_CASE("ContactList")
         p2Modified = p2;
         p2Modified.type = ContactType::POINT;
 
-        REQUIRE(list.editContact(list.lastStep(), p2Modified));
-        REQUIRE(contactsAreEqual(p2Modified, *list.lastStep()));
+        REQUIRE(list.editContact(list.lastContact(), p2Modified));
+        REQUIRE(contactsAreEqual(p2Modified, *list.lastContact()));
     }
 
     SECTION("Present step")
     {
-        REQUIRE(contactsAreEqual(p2, *list.getPresentStep(1.2)));
-        REQUIRE(contactsAreEqual(p2, *list.getPresentStep(1.6)));
-        REQUIRE(contactsAreEqual(p1, *list.getPresentStep(0.6)));
-        bool same = list.getPresentStep(0.0) == list.end();
+        REQUIRE(contactsAreEqual(p2, *list.getPresentContact(1.2)));
+        REQUIRE(contactsAreEqual(p2, *list.getPresentContact(1.6)));
+        REQUIRE(contactsAreEqual(p1, *list.getPresentContact(0.6)));
+        bool same = list.getPresentContact(0.0) == list.end();
         REQUIRE(same);
     }
 
