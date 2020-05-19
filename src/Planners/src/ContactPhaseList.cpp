@@ -45,9 +45,9 @@ void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
 
     activations.erase(activations.begin());
 
-    while (activations.size())
+    while ((activations.size() + deactivations.size()) > 1)
     {
-        if (deactivations.begin()->first <= activations.begin()->first)
+        if ((activations.size() == 0) || (deactivations.begin()->first <= activations.begin()->first))
         {
             //Here I need to remove from the current phase the contacts that are going to end
             currentPhase.endTime = deactivations.begin()->first;
@@ -73,7 +73,7 @@ void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
 
             deactivations.erase(deactivations.begin());
 
-            if (deactivations.begin()->first == activations.begin()->first)
+            if (activations.size() && (deactivations.begin()->first == activations.begin()->first))
             {
                 currentPhase.activeContacts.insert(currentPhase.activeContacts.end(),
                                                    activations.begin()->second.begin(),
