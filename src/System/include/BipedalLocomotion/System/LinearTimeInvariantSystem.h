@@ -32,9 +32,9 @@ class LinearTimeInvariantSystem : public DynamicalSystem<std::tuple<iDynTree::Ve
 public:
     bool setSystemMatrices(const iDynTree::MatrixDynSize& A, const iDynTree::MatrixDynSize& b);
 
-    bool dynamics(const std::tuple<const iDynTree::VectorDynSize&>& state,
+    bool dynamics(const StateType& state,
                   const double& time,
-                  const std::tuple<iDynTree::VectorDynSize&>& stateDerivative) final;
+                  StateDerivativeType& stateDerivative) final;
 };
 
 } // namespace System

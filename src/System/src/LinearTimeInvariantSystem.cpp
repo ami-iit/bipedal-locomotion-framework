@@ -40,9 +40,9 @@ bool LinearTimeInvariantSystem::setSystemMatrices(const iDynTree::MatrixDynSize&
     return true;
 }
 
-bool LinearTimeInvariantSystem::dynamics(const std::tuple<const iDynTree::VectorDynSize&>& state,
+bool LinearTimeInvariantSystem::dynamics(const StateType& state,
                                          const double& time,
-                                         const std::tuple<iDynTree::VectorDynSize&>& stateDerivative)
+                                         StateDerivativeType& stateDerivative)
 {
 
     if (!m_isInitialized)
