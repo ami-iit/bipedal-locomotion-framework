@@ -10,7 +10,6 @@
 #include <iostream>
 #include <map>
 #include <cassert>
-#include <algorithm>
 
 using namespace BipedalLocomotion::Planners;
 
@@ -18,19 +17,15 @@ void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
-    std::map<double, std::vector<ContactReference>> activations, deactivations;
+    std::map<double, std::unordered_map<std::string, ContactList::const_iterator>> activations, deactivations;
 
     for (ContactListMap::iterator list = m_contactLists.begin(); list != m_contactLists.end(); ++list)
     {
         const std::string& key = list->first;
         for (ContactList::const_iterator step = list->second.begin(); step != list->second.end(); ++step)
         {
-            ContactReference newReference;
-            newReference.listLabel = key;
-            newReference.contact_it = step;
-
-            activations[step->activationTime].push_back(newReference);
-            deactivations[step->deactivationTime].push_back(newReference);
+            activations[step->activationTime][key] =  step; //By construction, there is only a step given a key and activationTime
+            deactivations[step->deactivationTime][key] =  step;
         }
     }
 
@@ -54,29 +49,17 @@ void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
             m_phases.push_back(currentPhase);
 
             currentPhase.beginTime = deactivations.begin()->first;
-            const std::vector<ContactReference>& toBeRemoved = deactivations.begin()->second;
 
-            //The following lambda returns true if the label inside reference is contained in toBeRemoved
-            auto deleteLambda = [toBeRemoved](const ContactReference &reference)
+            for (auto& toBeRemoved : deactivations.begin()->second)
             {
-                const std::string& key = reference.listLabel;
-                std::vector<ContactReference>::const_iterator it = std::find_if(toBeRemoved.begin(), toBeRemoved.end(),
-                                                                                [key](const ContactReference& ref){return ref.listLabel == key;});
-
-                return  it != toBeRemoved.end();
-            };
-
-            //Remove from activeContacts all the elements for which deleteLambda returns true.
-            currentPhase.activeContacts.erase(std::remove_if(currentPhase.activeContacts.begin(),
-                                                             currentPhase.activeContacts.end(),
-                                                             deleteLambda), currentPhase.activeContacts.end());
+                currentPhase.activeContacts.erase(toBeRemoved.first); //Erase all the contacts which are deactivativated in this instant
+            }
 
             deactivations.erase(deactivations.begin());
 
             if (activations.size() && (deactivations.begin()->first == activations.begin()->first))
             {
-                currentPhase.activeContacts.insert(currentPhase.activeContacts.end(),
-                                                   activations.begin()->second.begin(),
+                currentPhase.activeContacts.insert(activations.begin()->second.begin(),
                                                    activations.begin()->second.end()); //Add the new contacts to the list.
 
                 activations.erase(activations.begin());
@@ -88,8 +71,7 @@ void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
             m_phases.push_back(currentPhase);
 
             currentPhase.beginTime = activations.begin()->first;
-            currentPhase.activeContacts.insert(currentPhase.activeContacts.end(),
-                                               activations.begin()->second.begin(),
+            currentPhase.activeContacts.insert(activations.begin()->second.begin(),
                                                activations.begin()->second.end()); //Add the new contacts to the list.
 
             activations.erase(activations.begin());

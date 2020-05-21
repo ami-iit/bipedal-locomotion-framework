@@ -60,9 +60,9 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 0.0);
         REQUIRE(phase->endTime == 1.0);
         REQUIRE(phase->activeContacts.size() == 2);
-        bool ok = phase->getContactGivenList("left")->contact_it == expectedLeft;
+        bool ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
@@ -71,7 +71,7 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 1.0);
         REQUIRE(phase->endTime == 2.0);
         REQUIRE(phase->activeContacts.size() == 1);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
@@ -79,9 +79,9 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 2.0);
         REQUIRE(phase->endTime == 3.0);
         REQUIRE(phase->activeContacts.size() == 2);
-        ok = phase->getContactGivenList("left")->contact_it == expectedLeft;
+        ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
@@ -90,7 +90,7 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 3.0);
         REQUIRE(phase->endTime == 4.0);
         REQUIRE(phase->activeContacts.size() == 1);
-        ok = phase->getContactGivenList("left")->contact_it == expectedLeft;
+        ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
 
         phase++;
@@ -98,11 +98,11 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 4.0);
         REQUIRE(phase->endTime == 5.0);
         REQUIRE(phase->activeContacts.size() == 3);
-        ok = phase->getContactGivenList("left")->contact_it == expectedLeft;
+        ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("additional")->contact_it == expectedAdditional;
+        ok = phase->activeContacts.at("additional") == expectedAdditional;
         REQUIRE(ok);
 
         phase++;
@@ -112,7 +112,7 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 5.0);
         REQUIRE(phase->endTime == 6.0);
         REQUIRE(phase->activeContacts.size() == 1);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
@@ -120,11 +120,11 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 6.0);
         REQUIRE(phase->endTime == 7.0);
         REQUIRE(phase->activeContacts.size() == 3);
-        ok = phase->getContactGivenList("left")->contact_it == expectedLeft;
+        ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("right")->contact_it == expectedRight;
+        ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
-        ok = phase->getContactGivenList("additional")->contact_it == expectedAdditional;
+        ok = phase->activeContacts.at("additional") == expectedAdditional;
         REQUIRE(ok);
 
         phase++;
@@ -134,7 +134,7 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(phase->beginTime == 7.0);
         REQUIRE(phase->endTime == 7.5);
         REQUIRE(phase->activeContacts.size() == 1);
-        ok = phase->getContactGivenList("additional")->contact_it == expectedAdditional;
+        ok = phase->activeContacts.at("additional") == expectedAdditional;
         REQUIRE(ok);
 
         phase++;

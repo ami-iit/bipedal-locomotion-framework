@@ -12,13 +12,6 @@ using namespace BipedalLocomotion::Planners;
 
 bool ContactPhase::isListIncluded(const std::string &key) const
 {
-    std::vector<ContactReference>::const_iterator it = getContactGivenList(key);
-
-    return  it != activeContacts.end();
+    return  activeContacts.find(key) != activeContacts.end();
 }
 
-std::vector<ContactReference>::const_iterator ContactPhase::getContactGivenList(const std::string &key) const
-{
-    return std::find_if(activeContacts.begin(), activeContacts.end(),
-                        [key](const ContactReference& ref){return ref.listLabel == key;});
-}

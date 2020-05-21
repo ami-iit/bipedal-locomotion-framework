@@ -10,22 +10,13 @@
 
 #include <BipedalLocomotion/Planners/Contact.h>
 #include <BipedalLocomotion/Planners/ContactList.h>
-#include <vector>
+#include <unordered_map>
 #include <string>
 
 namespace BipedalLocomotion
 {
 namespace Planners
 {
-
-/**
- * @brief Utility struct to store a reference to a contact.
- */
-struct ContactReference
-{
-    std::string listLabel; /** Label to indicate the corresponding list. **/
-    ContactList::const_iterator contact_it; /** Const iterator to a contact. **/
-};
 
 /**
  * @brief Struct defining a contact phase.
@@ -46,7 +37,7 @@ struct ContactPhase
     /**
      * @brief The set of contacts active during the phase.
      */
-    std::vector<ContactReference> activeContacts;
+    std::unordered_map<std::string, ContactList::const_iterator> activeContacts;
 
     /**
      * @brief Utility function to check if a list is present amongst the active contacts.
@@ -54,14 +45,6 @@ struct ContactPhase
      * @return True if key is present amongst the active contacts.
      **/
     bool isListIncluded(const std::string& key) const;
-
-    /**
-     * @brief Utility function to retrieve the an iterator to an active contact given the list label
-     * @param key The label of interest
-     * @return An iterator to the element inside activeContacts containing the desired key.
-     * If no contact with the desired label is present, it returns an iterator to the end of the vector.
-     */
-    std::vector<ContactReference>::const_iterator getContactGivenList(const std::string& key) const;
 };
 
 }
