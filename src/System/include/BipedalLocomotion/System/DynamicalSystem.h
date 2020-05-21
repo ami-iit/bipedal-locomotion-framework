@@ -42,11 +42,18 @@ class DynamicalSystem<std::tuple<StateTypes...>,
                       std::tuple<StateDerivativeTypes...>,
                       std::tuple<InputTypes...>>
 {
+public:
+
+    using StateType = std::tuple<StateTypes...>;
+    using StateDerivativeType = std::tuple<StateDerivativeTypes...>;
+    using InputType = std::tuple<InputTypes...>;
+
 protected:
-    std::tuple<StateTypes...> m_initialState;
-    std::tuple<InputTypes...> m_controlInput;
+    StateType m_initialState;
+    InputType m_controlInput;
 
 public:
+
     virtual bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
@@ -56,7 +63,15 @@ public:
      * @param initialState the initial state value.
      * @return true in case of success, false otherwise.
      */
-    virtual bool setInitialState(const std::tuple<StateTypes...>& initialState);
+    virtual bool setInitialState(const StateType& initialState);
+
+    /**
+     * Get the initial state to the dynamical system.
+     * @notice In principle, there is no need to override this method. This value is stored in an
+     * internal buffer.
+     * @return the initial state of the dynamical system
+     */
+    virtual const StateType & getInitialState() const;
 
     /**
      * Set the control input to the dynamical system.
@@ -65,7 +80,7 @@ public:
      * @param controlInput the value of the control input used to compute the system dynamics.
      * @return true in case of success, false otherwise.
      */
-    virtual bool setControlInput(const std::tuple<InputTypes...>& controlInput);
+    virtual bool setControlInput(const InputType& controlInput);
 
     /**
      * Computes the system dynamics. It return \f$f(x, u, t)\f&.
@@ -75,9 +90,9 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    virtual bool dynamics(const std::tuple<const StateTypes&...>& state,
+    virtual bool dynamics(const StateType& state,
                           const double& time,
-                          const std::tuple<StateDerivativeTypes&...>& stateDerivative) = 0;
+                          StateDerivativeType& stateDerivative) = 0;
 
     /**
      * Destructor

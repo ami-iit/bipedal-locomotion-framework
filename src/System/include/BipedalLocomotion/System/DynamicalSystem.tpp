@@ -18,8 +18,7 @@ namespace System
 template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
 bool DynamicalSystem<std::tuple<StateTypes...>,
                      std::tuple<StateDerivativeTypes...>,
-                     std::tuple<InputTypes...>>::setInitialState(const std::tuple<StateTypes...>&
-                                                                     initialState)
+                     std::tuple<InputTypes...>>::setInitialState(const StateType& initialState)
 {
     m_initialState = initialState;
     return true;
@@ -28,8 +27,7 @@ bool DynamicalSystem<std::tuple<StateTypes...>,
 template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
 bool DynamicalSystem<std::tuple<StateTypes...>,
                      std::tuple<StateDerivativeTypes...>,
-                     std::tuple<InputTypes...>>::setControlInput(const std::tuple<InputTypes...>&
-                                                                     controlInput)
+                     std::tuple<InputTypes...>>::setControlInput(const InputType& controlInput)
 {
     m_controlInput = controlInput;
     return true;
@@ -42,6 +40,14 @@ bool DynamicalSystem<std::tuple<StateTypes...>,
     initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;
+}
+
+template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
+const std::tuple<StateTypes...>& DynamicalSystem<std::tuple<StateTypes...>,
+                                                 std::tuple<StateDerivativeTypes...>,
+                                                 std::tuple<InputTypes...>>::getInitialState() const
+{
+    return m_initialState;
 }
 
 } // namespace System
