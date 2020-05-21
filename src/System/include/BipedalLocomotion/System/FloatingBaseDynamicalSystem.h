@@ -65,17 +65,9 @@ public:
 
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
-    bool dynamics(const std::tuple<const iDynTree::Vector6&,
-                                   const iDynTree::VectorDynSize&,
-                                   const iDynTree::Position&,
-                                   const iDynTree::Rotation&,
-                                   const iDynTree::VectorDynSize&>& state,
+    bool dynamics(const StateType& state,
                   const double& time,
-                  const std::tuple<iDynTree::Vector6&,
-                                   iDynTree::VectorDynSize&,
-                                   iDynTree::Vector3&,
-                                   iDynTree::Matrix3x3&,
-                                   iDynTree::VectorDynSize&>& stateDerivative) final;
+                  StateDerivativeType& stateDerivative) final;
 };
 
 } // namespace System

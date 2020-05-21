@@ -43,17 +43,9 @@ bool FloatingBaseDynamicalSystem::setKinDyn(std::shared_ptr<iDynTree::KinDynComp
     return true;
 }
 
-bool FloatingBaseDynamicalSystem::dynamics(const std::tuple<const iDynTree::Vector6&,
-                                                            const iDynTree::VectorDynSize&,
-                                                            const iDynTree::Position&,
-                                                            const iDynTree::Rotation&,
-                                                            const iDynTree::VectorDynSize&>& state,
+bool FloatingBaseDynamicalSystem::dynamics(const StateType& state,
                                            const double& time,
-                                           const std::tuple<iDynTree::Vector6&,
-                                                            iDynTree::VectorDynSize&,
-                                                            iDynTree::Vector3&,
-                                                            iDynTree::Matrix3x3&,
-                                                            iDynTree::VectorDynSize&>& stateDerivative)
+                                           StateDerivativeType& stateDerivative)
 {
 
     if (m_kinDyn == nullptr)
