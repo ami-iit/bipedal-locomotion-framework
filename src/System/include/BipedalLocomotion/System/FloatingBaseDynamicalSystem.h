@@ -26,7 +26,25 @@ namespace System
 {
 
 /**
- * FloatingBaseDynamicalSystem describes a floating base dynamical system
+ * FloatingBaseDynamicalSystem describes a floating base dynamical system.
+ * The FloatingBaseDynamicalSystem inherits from a generic DynamicalSystem where:
+ * - DynamicalSystem::StateType is described by an std::tuple containing:
+ *   - iDynTree::Vector6: the base velocity expressed in mixed representation;
+ *   - iDynTree::VectorDynsize: the joint velocities [in rad/s];
+ *   - iDynTree::Position: position of the base w.r.t. the inertial frame
+ *   - iDynTree::Rotation: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
+ * whose coordinates are expressed in the base frame in the inertial frame;
+ *   - iDynTree::VectorDynsize: the joint positions [in rad].
+ * - DynamicalSystem::StateDerivativeType is described by an std::tuple containing:
+ *   - iDynTree::Vector6: the base acceleration expressed in mixed representation;
+ *   - iDynTree::VectorDynsize: the joint accelerations [in rad/s^2];
+ *   - iDynTree::Vector3: base velocity w.r.t. the inertial frame;
+ *   - iDynTree::Matrix3x3: rate of change of the rotation matrix \f${} ^ I \dot{R} _ {b}\f$.
+ * whose coordinates are expressed in the base frame in the inertial frame;
+ *   - iDynTree::VectorDynsize: the joint velocities [in rad/s].
+ * - DynamicalSystem::InputType is described by an std::tuple containing:
+ *   - iDynTree::VectorDynsize: the joint torques [in Nm];
+ *   - std::vector<ContactWrench>: List of contact wrenches.
  */
 class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::Vector6,
                                                                       iDynTree::VectorDynSize,
@@ -61,13 +79,35 @@ class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::
     iDynTree::VectorDynSize m_knownCoefficent;
 
 public:
+
+    /**
+     * Constructor.
+     */
     FloatingBaseDynamicalSystem();
 
+    /**
+     * Set a kinDynComputations object
+     * @param kinDyn a pointer to the kinDynComputations onject
+     * @return true in case of success, false otherwise.
+     */
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
+    /**
+     * Computes the floating based system dynamics. It return \f$f(x, u, t)\f$.
+     * @note The control input has to be set separately with the method setControlInput.
+     * @param state tuple containing a const reference to the state elements.
+     * @param time the time at witch the dynamics is computed.
+     * @param stateDynamics tuple containing a reference to the element of the state derivative
+     * @return true in case of success, false otherwise.
+     */
     bool dynamics(const StateType& state,
                   const double& time,
                   StateDerivativeType& stateDerivative) final;
+
+    /**
+     * Destructor.
+     */
+    ~FloatingBaseDynamicalSystem() = default;
 };
 
 } // namespace System
