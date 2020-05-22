@@ -15,37 +15,31 @@ namespace BipedalLocomotion
 namespace System
 {
 
-template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
-bool DynamicalSystem<std::tuple<StateTypes...>,
-                     std::tuple<StateDerivativeTypes...>,
-                     std::tuple<InputTypes...>>::setInitialState(const StateType& initialState)
+template <typename StateType, typename StateDerivativeType, typename InputType>
+bool DynamicalSystem<StateType, StateDerivativeType, InputType>::setInitialState(
+    const StateType& initialState)
 {
     m_initialState = initialState;
     return true;
 }
 
-template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
-bool DynamicalSystem<std::tuple<StateTypes...>,
-                     std::tuple<StateDerivativeTypes...>,
-                     std::tuple<InputTypes...>>::setControlInput(const InputType& controlInput)
+template <typename StateType, typename StateDerivativeType, typename InputType>
+bool DynamicalSystem<StateType, StateDerivativeType, InputType>::setControlInput(
+    const InputType& controlInput)
 {
     m_controlInput = controlInput;
     return true;
 }
 
-template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
-bool DynamicalSystem<std::tuple<StateTypes...>,
-                     std::tuple<StateDerivativeTypes...>,
-                     std::tuple<InputTypes...>>::
-    initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+template <typename StateType, typename StateDerivativeType, typename InputType>
+bool DynamicalSystem<StateType, StateDerivativeType, InputType>::initalize(
+    std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;
 }
 
-template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
-const std::tuple<StateTypes...>& DynamicalSystem<std::tuple<StateTypes...>,
-                                                 std::tuple<StateDerivativeTypes...>,
-                                                 std::tuple<InputTypes...>>::getInitialState() const
+template <typename StateType, typename StateDerivativeType, typename InputType>
+const StateType& DynamicalSystem<StateType, StateDerivativeType, InputType>::getInitialState() const
 {
     return m_initialState;
 }

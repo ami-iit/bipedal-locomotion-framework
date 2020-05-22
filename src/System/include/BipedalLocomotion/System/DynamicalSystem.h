@@ -19,41 +19,39 @@ namespace BipedalLocomotion
 namespace System
 {
 
-// Declaration of a template
-template <typename StateTypeList, typename DerivativeTypeList, typename InputTypeList>
-class DynamicalSystem
-{
-    static_assert(dependent_false<StateTypeList>::value,
-                  "Unable to create the following dynamical system.");
-};
-
 /**
  * DynamicalSystem defines a continuos time dynamical system, i.e. \f$\dot{x}=f(x, u, t)\f$. Please
- * inherit publicly from this class  in order to define your custom dynamical system.
- * @tparam StateTypes types used for describing the state (i.e. it may be a list of
- * vectors/matrices).
- * @tparam StateDerivativeTypes types used for describing the state derivative (i.e. it may be a
- * list of vectors/matrices).
- * @tparam InputTypes types used for describing the input (i.e. it may be a list
- * of vectors/matrices or in general classes).
+ * inherit publicly from this class in order to define your custom dynamical system.
+ * @tparam State type used for describing the state (i.e. it has to be a std::tuple vectors/matrices
+ * or in general classes).
+ * @tparam StateDerivative type used for describing the state derivative (i.e. it has to be a
+ * std::tuple of vectors/matrices or in general classes).
+ * @tparam Input type used for describing the input (i.e. it has to be a std::tuple of
+ * vectors/matrices or in general classes).
  */
-template <typename... StateTypes, typename... StateDerivativeTypes, typename... InputTypes>
-class DynamicalSystem<std::tuple<StateTypes...>,
-                      std::tuple<StateDerivativeTypes...>,
-                      std::tuple<InputTypes...>>
+template <typename State, typename StateDerivative, typename Input>
+class DynamicalSystem
 {
-public:
+    static_assert(is_specialization<State, std::tuple>::value);
+    static_assert(is_specialization<StateDerivative, std::tuple>::value);
+    static_assert(is_specialization<Input, std::tuple>::value);
 
-    using StateType = std::tuple<StateTypes...>;
-    using StateDerivativeType = std::tuple<StateDerivativeTypes...>;
-    using InputType = std::tuple<InputTypes...>;
+public:
+    using StateType = State; /**< State space type */
+    using StateDerivativeType = StateDerivative; /**< State space derivative type */
+    using InputType = Input; /**< Input type */
 
 protected:
-    StateType m_initialState;
-    InputType m_controlInput;
+    StateType m_initialState; /**< Value of the initial state */
+    InputType m_controlInput; /**< Value of the control input */
 
 public:
 
+    /**
+     * Initialize the Dynamical system.
+     * @param handler pointer to the parameter handler.
+     * @return true in case of success/false otherwise.
+     */
     virtual bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
@@ -83,11 +81,12 @@ public:
     virtual bool setControlInput(const InputType& controlInput);
 
     /**
-     * Computes the system dynamics. It return \f$f(x, u, t)\f&.
+     * Computes the system dynamics. It return \f$f(x, u, t)\f$.
      * @note The control input has to be set separately with the method setControlInput.
      * @param state tuple containing a const reference to the state elements.
      * @param time the time at witch the dynamics is computed.
      * @param stateDynamics tuple containing a reference to the element of the state derivative
+     * @warning Please implement the function in your custom dynamical system.
      * @return true in case of success, false otherwise.
      */
     virtual bool dynamics(const StateType& state,
