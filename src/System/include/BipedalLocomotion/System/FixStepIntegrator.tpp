@@ -40,8 +40,7 @@ bool FixStepIntegrator<DynamicalSystemDerived>::integrate(double initialTime, do
     int iterations = std::ceil((finalTime - initialTime) / m_dT);
 
     typename DynamicalSystemDerived::StateType nextState;
-
-    double currentTime;
+    double currentTime = initialTime;
     for (std::size_t i = 0; i < iterations - 1; i++)
     {
         currentTime = initialTime + m_dT * i;
