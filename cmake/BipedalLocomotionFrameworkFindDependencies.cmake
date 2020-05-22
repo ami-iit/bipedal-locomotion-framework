@@ -139,3 +139,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
   "FRAMEWORK_HAS_Eigen3" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_Planners
+  "Compile Planners libraries?" ON
+  "FRAMEWORK_HAS_Eigen3" OFF)

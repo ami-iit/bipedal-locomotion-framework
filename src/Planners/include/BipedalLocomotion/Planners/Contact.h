@@ -37,27 +37,27 @@ struct Contact
     /**
      * Pose of the contact.
      */
-    iDynTree::Transform pose;
+    iDynTree::Transform pose {iDynTree::Transform::Identity()};
 
     /**
      * Instant from which the contact can be considered active.
      */
-    double activationTime;
+    double activationTime {0.0};
 
     /**
      * Instant after which the contact is no more active.
      */
-    double deactivationTime;
+    double deactivationTime {0.0};
 
     /**
      * Name of the contact.
      */
-    std::string name;
+    std::string name {"Contact"};
 
     /**
      * Type of contact.
      */
-    ContactType type;
+    ContactType type {ContactType::FULL};
 };
 
 }
