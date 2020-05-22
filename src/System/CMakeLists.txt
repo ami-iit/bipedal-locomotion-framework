@@ -13,4 +13,5 @@ add_bipedal_locomotion_library(
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler iDynTree::idyntree-high-level
     PRIVATE_LINK_LIBRARIES iDynTree::idyntree-model
     DEPENDS_ON_EIGEN_PRIVATE
+    SUBDIRECTORIES        tests
     )
