@@ -240,6 +240,24 @@ type_name()
     return name;
 }
 
-}
+/**
+ * is_specialization is used to check if the type Test is a specialization of the class Ref.
+ * This specific implementation is called if Test is not specialized from Ref.
+ */
+template <typename Test, template <typename...> class Ref>
+struct is_specialization : std::false_type
+{
+};
+
+/**
+ * is_specialization is used to check if the type Test is a specialization of the class Ref.
+ * This specific implementation is called if Test is specialized from Ref.
+ */
+template <template <typename...> class Ref, typename... Args>
+struct is_specialization<Ref<Args...>, Ref> : std::true_type
+{
+};
+
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H
