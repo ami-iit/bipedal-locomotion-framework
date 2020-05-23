@@ -20,7 +20,7 @@ namespace System
 {
 
 /**
- * DynamicalSystem defines a continuos time dynamical system, i.e. \f$\dot{x}=f(x, u, t)\f$. Please
+ * DynamicalSystem defines a continuous time dynamical system, i.e. \f$\dot{x}=f(x, u, t)\f$. Please
  * inherit publicly from this class in order to define your custom dynamical system.
  * @tparam State type used for describing the state (i.e. it has to be a std::tuple vectors/matrices
  * or in general classes).
