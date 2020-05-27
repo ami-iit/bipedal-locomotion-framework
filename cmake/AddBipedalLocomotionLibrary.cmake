@@ -74,6 +74,7 @@ function(add_bipedal_locomotion_library)
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
 
     set_target_properties(${name} PROPERTIES
+      OUTPUT_NAME "${PROJECT_NAME}${name}"
       VERSION ${BipedalLocomotionFramework_VERSION}
       PUBLIC_HEADER "${public_headers}"
       PRIVATE_HEADER "${private_headers}")
