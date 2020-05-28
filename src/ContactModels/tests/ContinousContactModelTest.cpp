@@ -54,7 +54,8 @@ TEST_CASE("Continuous Contact")
 
     ContinuousContactModel model;
     REQUIRE(model.initialize(handler));
-    model.setState(linkVelocity, world_T_link, nullForceTransform);
+    model.setState(linkVelocity, world_T_link);
+    model.setNullForceTransform(nullForceTransform);
 
     SECTION("Test contact wrench")
     {
@@ -98,6 +99,25 @@ TEST_CASE("Continuous Contact")
                             model.getContactWrench().getLinearVec3(),
                             tollerance);
         checkVectorAreEqual(numericalWrench.getAngularVec3(),
+                            model.getContactWrench().getAngularVec3(),
+                            tollerance);
+    }
+
+    SECTION("Test regressor")
+    {
+        MatrixDynSize regressor = model.getRegressor();
+        Wrench wrenchComputed;
+        Vector2 contactParams;
+        contactParams(0) = springCoeff;
+        contactParams(1) = damperCoeff;
+        toEigen(wrenchComputed.getLinearVec3()) = toEigen(regressor).topRows<3>() * toEigen(contactParams);
+        toEigen(wrenchComputed.getAngularVec3()) = toEigen(regressor).bottomRows<3>() * toEigen(contactParams);
+
+        double tollerance = 1e-7;
+        checkVectorAreEqual(wrenchComputed.getLinearVec3(),
+                            model.getContactWrench().getLinearVec3(),
+                            tollerance);
+        checkVectorAreEqual(wrenchComputed.getAngularVec3(),
                             model.getContactWrench().getAngularVec3(),
                             tollerance);
     }
@@ -170,10 +190,14 @@ TEST_CASE("Continuous Contact")
         toEigen(contactWrenchRate) = toEigen(model.getAutonomousDynamics())
                                      + toEigen(model.getControlMatrix()) * toEigen(acceleration);
 
-        model.setState(linkVelocity_prev, world_T_link_prev, nullForceTransform);
+        model.setState(linkVelocity_prev, world_T_link_prev);
+        model.setNullForceTransform(nullForceTransform);
+
         Wrench contactWrench_prev = model.getContactWrench();
 
-        model.setState(linkVelocity_next, world_T_link_next, nullForceTransform);
+        model.setState(linkVelocity_next, world_T_link_next);
+        model.setNullForceTransform(nullForceTransform);
+
         Wrench contactWrench_next = model.getContactWrench();
 
 
