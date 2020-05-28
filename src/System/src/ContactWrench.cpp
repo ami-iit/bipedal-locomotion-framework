@@ -8,10 +8,13 @@
 #include <BipedalLocomotion/System/ContactWrench.h>
 
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion;
 
-ContactWrench::ContactWrench(const iDynTree::FrameIndex& index)
+ContactWrench::ContactWrench(const iDynTree::FrameIndex& index,
+                             std::shared_ptr<ContactModels::ContactModel> model)
+
 {
-    m_wrench.zero();
+    m_contactModel = model;
     m_frame = index;
 }
 
@@ -25,12 +28,7 @@ const iDynTree::FrameIndex& ContactWrench::index() const noexcept
     return m_frame;
 }
 
-iDynTree::Wrench& ContactWrench::wrench() noexcept
+const std::shared_ptr<ContactModels::ContactModel>& ContactWrench::contactModel() const noexcept
 {
-    return m_wrench;
-}
-
-const iDynTree::Wrench& ContactWrench::wrench() const noexcept
-{
-    return m_wrench;
+    return m_contactModel;
 }

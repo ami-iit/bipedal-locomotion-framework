@@ -10,6 +10,7 @@
 
 #include <iDynTree/Core/Wrench.h>
 #include <iDynTree/Model/Indices.h>
+#include <BipedalLocomotion/ContactModels/ContactModel.h>
 
 namespace BipedalLocomotion
 {
@@ -23,15 +24,17 @@ namespace System
 class ContactWrench
 {
     iDynTree::FrameIndex m_frame; /**< Useful for identifying the variable in the Model */
-    iDynTree::Wrench m_wrench; /**< Wrench expressed in mixed representation */
+    std::shared_ptr<ContactModels::ContactModel> m_contactModel; /**< Contact model */
 
 public:
 
     /**
      * Constructor
      * @param index index of the frame
+     * @param wrench the contact wrench
      */
-    ContactWrench(const iDynTree::FrameIndex& index);
+    ContactWrench(const iDynTree::FrameIndex& index,
+                  std::shared_ptr<ContactModels::ContactModel> model);
 
     /**
      * Get the index of the frame
@@ -47,15 +50,9 @@ public:
 
     /**
      * Get the contact wrench
-     * @return a reference to the parameter
-     */
-    iDynTree::Wrench& wrench() noexcept;
-
-    /**
-     * Get the contact wrench
      * @return a const reference to the parameter
      */
-    const iDynTree::Wrench& wrench() const noexcept;
+    const std::shared_ptr<ContactModels::ContactModel>& contactModel() const noexcept;
 };
 
 } // namespace System
