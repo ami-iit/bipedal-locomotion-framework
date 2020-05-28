@@ -5,23 +5,24 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTACT_MODEL_H
+#define BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTACT_MODEL_H
 
 #include <any>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
+#include <iDynTree/Core/MatrixDynSize.h>
 #include <iDynTree/Core/MatrixFixSize.h>
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/Wrench.h>
 
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 namespace ContactModels
 {
@@ -36,17 +37,23 @@ class ContactModel
                                             computed */
     bool m_isControlMatrixComputed; /**< If true the controllers matrix has been already computed */
 
+    bool m_isRegressorComputed; /**< If true the regressor matrix has been already computed */
+
 protected:
     iDynTree::Wrench m_contactWrench; /**< Contact wrench between the robot and the environment
                                          expressed in mixed representation */
 
-    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the autonomous dynamics is \a f */
+    /** Autonomous dynamics of the contact model rate of change (i.e. given a non linear system
+     * \f$\dot{x} = f + g u\f$ the autonomous dynamics is \a f */
     iDynTree::Vector6 m_autonomousDynamics;
 
-    /** Control matrix of the contact model rate of change (i.e. given a non linear system\f$
-     * \dot{x} = f + g u\f$ the control matrix is \a g */
+    /** Control matrix of the contact model rate of change (i.e. given a non linear system
+     * \f$\dot{x} = f + g u\f$ the control matrix is \a g */
     iDynTree::Matrix6x6 m_controlMatrix;
+
+    /** Contains the regressor of the contact model. \f$f = A \theta\f$, where \f$f\f$ is the
+     * contact wrench, \f$A\f$ the regressor and \f$\theta\f$ the parameters */
+    iDynTree::MatrixDynSize m_regressor;
 
     /**
      * Evaluate the contact wrench given a specific contact model
@@ -64,6 +71,11 @@ protected:
     virtual void computeControlMatrix() = 0;
 
     /**
+     * Evaluate the regressor matrix
+     */
+    virtual void computeRegressor() = 0;
+
+    /**
      * Initialization of the class.
      * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
      * of the container.
@@ -77,8 +89,12 @@ protected:
      * Set the internal state of the model.
      */
     virtual void setStatePrivate(const iDynTree::Twist& twist,
-                                 const iDynTree::Transform& transform,
-                                 const iDynTree::Transform& nullForceTransform) = 0;
+                                 const iDynTree::Transform& transform) = 0;
+
+    /**
+     * Set the null force transform.
+     */
+    virtual void setNullForceTransformPrivate(const iDynTree::Transform& transform) = 0;
 
 public:
     /**
@@ -112,16 +128,23 @@ public:
     const iDynTree::Matrix6x6& getControlMatrix();
 
     /**
+     * Get and compute (only if it is necessary) the regressor
+     * @return the regressor at a given state
+     */
+    const iDynTree::MatrixDynSize& getRegressor();
+
+    /**
      * Set the internal state of the model.
      * @note the meaning of the parameters may depend on the particular implementation. An example
      * can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState
      */
     void setState(const iDynTree::Twist& twist,
-                  const iDynTree::Transform& transform,
-                  const iDynTree::Transform& nullForceTransform);
+                  const iDynTree::Transform& transform);
+
+    void setNullForceTransform(const iDynTree::Transform& transform);
 
 };
 } // namespace ContactModels
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTACT_MODEL_H
+#endif // BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTACT_MODEL_H

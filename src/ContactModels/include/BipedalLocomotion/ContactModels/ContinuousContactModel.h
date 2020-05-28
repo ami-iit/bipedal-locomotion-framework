@@ -5,33 +5,38 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
-#define BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
+#define BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
 
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/Wrench.h>
 
-#include <BipedalLocomotionControllers/ContactModels/ContactModel.h>
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ContactModels/ContactModel.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
 namespace ContactModels
 {
 /**
  * ContinuousContactModel is a model that describe the contact using a continuous representation. It
  * is an extension of the brush model used for describing the contact between the tire and the
- * ground. Each point in the contact surface is subjected to an infinitesimal force \f$ f \f$ given
- * by \f$ f=k(x_0 - x)- b x\f$, where \f$k\f$ is the spring coefficient and \f$b\f$ is the damper
+ * ground. Each point in the contact surface is subjected to an infinitesimal force \f$f\f$ given
+ * by \f$f=k(x_0 - x)- b x\f$, where \f$k\f$ is the spring coefficient and \f$b\f$ is the damper
  * coefficient. \f$x\f$ and \f$x_0\f$ are, respectively, the position of the point placed in the
  * contact surface and the point con corresponding to a null contact force written in the inertial
  * frame. Furthermore, during the contact scenario, we assume the link acts as a rigid body. While
  * the environment will deform. The ground characteristics are isotropic, and it can be approximated
  * as a continuum of springs and dampers.
- * The contact surface is supposed to be <b>rectangular</b> and the frame placed on the contact
+ * The contact surface is supposed to be <b>rectangular</b>. The frame placed on the contact
  * surfaced is centered in the middle of the surface, with the \a z-axis pointing upwards and the \a
- * x-axis pointing forward (parallel to one edge of the rectangle).
+ * x-axis pointing forward (parallel to one edge of the rectangle). We define \a length the length
+ * of the edge parallel to the \x coordinate and width the length of the edge parallel to the \a y
+ * coordinate.
+ * @warning This model assumes infinite friction. Please make sure that the friction force between
+ * the contact surface and the environment is feasible (i.e. by enforcing a constraint in the
+ * controller).
  */
 class ContinuousContactModel final : public ContactModel
 {
@@ -66,7 +71,12 @@ class ContinuousContactModel final : public ContactModel
      */
     void computeControlMatrix() final;
 
-        /**
+    /**
+     * Evaluate the regressor matrix
+     */
+    void computeRegressor() final;
+
+    /**
      * Initialization of the class. Please call this method before evaluating any other function
      * @param handler std::weak_ptr to a parameter container. This class does not have the ownership
      * of the container.
@@ -83,12 +93,17 @@ class ContinuousContactModel final : public ContactModel
      * Set the internal state of the model.
      * @param twist spatial velocity (expressed in mixed representation) of the link
      * @param transform transformation between the link and the inertial frame
-     * @param nullForceTransform transformation corresponding to a null force expressed w.r.t. the
-     * inertial frame
      */
     void setStatePrivate(const iDynTree::Twist& twist,
-                         const iDynTree::Transform& transform,
-                         const iDynTree::Transform& nullForceTransform) final;
+                         const iDynTree::Transform& transform) final;
+
+    /**
+     * Set the null force transform of the model.
+     * @param transform transformation corresponding to a null force expressed w.r.t. the inertial
+     * frame
+     */
+    void setNullForceTransformPrivate(const iDynTree::Transform& transform) final;
+
 
 public:
 
@@ -117,8 +132,16 @@ public:
      * origin is the center of the surface [in meters]
      */
     iDynTree::Torque getTorqueGeneratedAtPoint(const double& x, const double& y);
+
+    const double& springCoeff() const;
+
+    double& springCoeff();
+
+    const double& damperCoeff() const;
+
+    double& damperCoeff();
 };
 } // namespace ContactModels
-} // namespace BipedalLocomotionControllers
+} // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTROLLERS_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
+#endif // BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
