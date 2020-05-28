@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_SYSTEM_FORWARD_EULER_H
 
 #include <tuple>
+#include <type_traits>
 
 #include <iDynTree/Core/EigenHelpers.h>
 
@@ -45,6 +46,17 @@ class ForwardEuler : public FixStepIntegrator<DynamicalSystemDerived>
         static_assert(sizeof...(Tp) == sizeof...(Td));
 
         iDynTree::toEigen(std::get<I>(x)) += iDynTree::toEigen(std::get<I>(dx)) * dT;
+
+        if constexpr (std::is_same<typename std::remove_reference<decltype(std::get<I>(x))>::type,
+                                   iDynTree::Rotation>::value)
+        {
+            Eigen::Matrix3d baseRotationEigen = iDynTree::toEigen(std::get<I>(x));
+            Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseRotationEigen,
+                                                  Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+            iDynTree::toEigen(std::get<I>(x)) = svd.matrixU() * svd.matrixV().transpose();
+        }
+
         addArea<I + 1>(dx, dT, x);
     }
 
