@@ -20,9 +20,7 @@ bool ContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandle
     return initializePrivate(handler);
 }
 
-void ContactModel::setState(const iDynTree::Twist& twist,
-                            const iDynTree::Transform& transform,
-                            const iDynTree::Transform& nullForceTransform)
+void ContactModel::setNullForceTransform(const iDynTree::Transform& nullForceTransform)
 {
     // the state has been update the previous quantities has to be evaluated again
     m_isContactWrenchComputed = false;
@@ -30,7 +28,21 @@ void ContactModel::setState(const iDynTree::Twist& twist,
     m_isAutonomousDynamicsComputed = false;
     m_isRegressorComputed = false;
 
-    setStatePrivate(twist, transform, nullForceTransform);
+
+    setNullForceTransformPrivate(nullForceTransform);
+}
+
+void ContactModel::setState(const iDynTree::Twist& twist,
+                            const iDynTree::Transform& transform)
+
+{
+    // the state has been update the previous quantities has to be evaluated again
+    m_isContactWrenchComputed = false;
+    m_isControlMatrixComputed = false;
+    m_isAutonomousDynamicsComputed = false;
+    m_isRegressorComputed = false;
+
+    setStatePrivate(twist, transform);
 
     return;
 }

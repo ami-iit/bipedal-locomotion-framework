@@ -64,13 +64,16 @@ bool ContinuousContactModel::initializePrivate(std::weak_ptr<ParametersHandler::
     return true;
 }
 
+void ContinuousContactModel::setNullForceTransformPrivate(const iDynTree::Transform& transform)
+{
+    m_nullForceTransform = transform;
+}
+
 void ContinuousContactModel::setStatePrivate(const iDynTree::Twist& twist,
-                                             const iDynTree::Transform& transform,
-                                             const iDynTree::Transform& nullForceTransform)
+                                             const iDynTree::Transform& transform)
 {
     m_twist = twist;
     m_frameTransform = transform;
-    m_nullForceTransform = nullForceTransform;
 }
 
 void ContinuousContactModel::computeContactWrench()
