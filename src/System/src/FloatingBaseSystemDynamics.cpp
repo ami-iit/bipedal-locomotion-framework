@@ -1,5 +1,5 @@
 /**
- * @file FloatingBaseDynamicalSystem.cpp
+ * @file FloatingBaseSystemDynamics.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -9,7 +9,7 @@
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/EigenHelpers.h>
 
-#include <BipedalLocomotion/System/FloatingBaseDynamicalSystem.h>
+#include <BipedalLocomotion/System/FloatingBaseSystemDynamics.h>
 
 using namespace BipedalLocomotion::System;
 
