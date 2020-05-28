@@ -29,7 +29,7 @@ namespace System
 template <typename DynamicalSystemDerived>
 class ForwardEuler : public FixStepIntegrator<DynamicalSystemDerived>
 {
-    typename DynamicalSystemDerived::InputType m_computationalBuffer;
+    typename DynamicalSystemDerived::StateDerivativeType m_computationalBuffer;
 
     template <std::size_t I = 0, typename... Tp, typename... Td>
     inline typename std::enable_if<I == sizeof...(Tp), void>::type
