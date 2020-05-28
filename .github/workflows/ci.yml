@@ -12,7 +12,7 @@ env:
   vcpkg_robotology_TAG: v0.0.3
   YCM_TAG: v0.11.0
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
-  iDynTree_TAG: 0ee5f759a6fb3a6b6cfa9064779a9428440f8fc2
+  iDynTree_TAG: v1.0.5
   Catch2_TAG: v2.11.3
 
 jobs:
@@ -81,7 +81,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ${{ github.workspace }}/install/deps
-        key: source-deps-${{ runner.os }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}
+        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -200,7 +201,7 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
-              -DBIPEDAL_LOCOMOTION_CONTROLLERS_RUN_Valgrind_tests:BOOL=ON ..
+              -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
       if: matrix.os == 'macOS-latest'
@@ -218,12 +219,12 @@ jobs:
         cd build
         # Attempt of fix for using YARP idl generators (that link ACE) in Windows
         # See https://github.com/robotology/idyntree/issues/569
-        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
+        export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         cmake --build . --config ${{ matrix.build_type }}
 
     - name: Test
       shell: bash
       run: |
         cd build
-        export PATH=$PATH:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/bin:/d/a/bipedal-locomotion-controllers/bipedal-locomotion-controllers/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
+        export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         ctest --output-on-failure -C ${{ matrix.build_type }} .

@@ -3,11 +3,11 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 # set target name
-add_bipedal_component(
+add_bipedal_locomotion_library(
     NAME                   GenericContainer
-    PUBLIC_HEADERS         include/BipedalLocomotionControllers/GenericContainer/Vector.h include/BipedalLocomotionControllers/GenericVector/TemplateHelpers.h
-    PUBLIC_LINK_LIBRARIES ${iDynTree_LIBRARIES}
+    PUBLIC_HEADERS         include/BipedalLocomotion/GenericContainer/Vector.h include/BipedalLocomotion/GenericContainer/TemplateHelpers.h
+    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core
     SUBDIRECTORIES   tests
-    IS_INTERFACE     ON)
+    IS_INTERFACE)
 
 

@@ -10,9 +10,9 @@
 #include <cassert>
 #include <string>
 
-#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
-using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotion::ParametersHandler;
 
 bool YarpImplementation::getParameter(const std::string& parameterName, int& parameter) const
 {

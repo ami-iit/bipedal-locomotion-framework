@@ -5,5 +5,7 @@
 add_subdirectory(GenericContainer)
 add_subdirectory(YarpUtilities)
 add_subdirectory(ParametersHandler)
+add_subdirectory(Estimators)
+add_subdirectory(System)
+add_subdirectory(Planners)
 add_subdirectory(ContactModels)
-add_subdirectory(BipedalLocomotionControllers)

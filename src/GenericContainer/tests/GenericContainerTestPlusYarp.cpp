@@ -15,9 +15,9 @@
 
 #include <memory>
 
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotion;
 
 TEST_CASE("GenericContainer::Vector + Yarp")
 {

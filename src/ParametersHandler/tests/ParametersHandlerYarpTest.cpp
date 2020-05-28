@@ -18,14 +18,14 @@
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/Bottle.h>
 
-#include <BipedalLocomotionControllers/GenericContainer/Vector.h>
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
 #include <ConfigFolderPath.h>
 
-using namespace BipedalLocomotionControllers::ParametersHandler;
-using namespace BipedalLocomotionControllers::GenericContainer;
+using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion::GenericContainer;
 
 TEST_CASE("Get parameters")
 {

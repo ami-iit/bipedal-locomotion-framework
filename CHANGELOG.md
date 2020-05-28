@@ -13,5 +13,8 @@ All notable changes to this project are documented in this file.
 - Implement the  first version of the `YarpUtilities` library
 - Implement `ParametersHandler` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/13)
 - Implement `GenericContainer::Vector` (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/29)
+- Implement `Estimators` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/23)
+- Renamed from ``bipedal-locomotion-controllers`` to ``bipedal-locomotion-framework`` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/40).
+- Implement `Contact` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/43 and https://github.com/dic-iit/bipedal-locomotion-framework/pull/45)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-controllers/
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
