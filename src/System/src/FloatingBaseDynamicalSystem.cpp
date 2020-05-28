@@ -142,8 +142,12 @@ bool FloatingBaseDynamicalSystem::dynamics(const StateType& state,
             return false;
         }
 
+        // update the state of the contact model
+        contactWrench.contactModel()->setState(m_kinDyn->getFrameVel(contactWrench.index()),
+                                               m_kinDyn->getWorldTransform(contactWrench.index()));
+
         iDynTree::toEigen(m_knownCoefficent) += iDynTree::toEigen(m_jacobianMatrix).transpose()
-                                                * iDynTree::toEigen(contactWrench.wrench());
+            * iDynTree::toEigen(contactWrench.contactModel()->getContactWrench());
     }
 
     // add the joint torques to the known coefficent
