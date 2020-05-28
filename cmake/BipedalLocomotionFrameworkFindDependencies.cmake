@@ -24,7 +24,7 @@
 #                             extern folder that were also found on the system
 #                             (TRUE by default). If this flag is enabled, the
 #                             system installed library will be used instead of
-#                             the version shipped with BIPEDAL_LOCOMOTION_CONTROLLERS.
+#                             the version shipped within the framework.
 
 
 include(CMakeDependentOption)
@@ -144,6 +144,6 @@ framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
   "FRAMEWORK_HAS_Eigen3" OFF)
 
-framework_dependent_option(FRAMEWORK_COMPILE__ContactModels
+framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
   FRAMEWORK_HAS_Eigen3 OFF)
