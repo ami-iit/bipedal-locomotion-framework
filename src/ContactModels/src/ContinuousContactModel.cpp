@@ -7,11 +7,11 @@
 
 #include <iDynTree/Core/EigenHelpers.h>
 
-#include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
-#include <BipedalLocomotionControllers/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-using namespace BipedalLocomotionControllers::ContactModels;
-using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotion::ContactModels;
+using namespace BipedalLocomotion::ParametersHandler;
 
 ContinuousContactModel::ContinuousContactModel()
 {

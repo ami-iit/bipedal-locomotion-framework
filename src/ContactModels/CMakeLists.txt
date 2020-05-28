@@ -3,13 +3,14 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 # set target name
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_ContactModels)
+if(FRAMEWORK_COMPILE_ContactModels)
 
-    add_bipedal_component(
-      NAME                   ContactModels
-      SOURCES                src/ContactModel.cpp src/ContinuousContactModel.cpp
-      PUBLIC_HEADERS         include/BipedalLocomotionControllers/ContactModels/ContactModel.h include/BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h
-      PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core BipedalLocomotionControllers::ParametersHandler
-      SUBDIRECTORIES         tests)
+  add_bipedal_locomotion_library(
+    NAME                   ContactModels
+    SOURCES                src/ContactModel.cpp src/ContinuousContactModel.cpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/ContactModels/ContactModel.h include/BipedalLocomotion/ContactModels/ContinuousContactModel.h
+    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core BipedalLocomotion::ParametersHandler
+    DEPENDS_ON_EIGEN_PRIVATE
+    SUBDIRECTORIES         tests)
 
 endif()

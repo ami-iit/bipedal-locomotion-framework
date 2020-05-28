@@ -5,9 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotionControllers/ContactModels/ContactModel.h>
+#include <BipedalLocomotion/ContactModels/ContactModel.h>
 
-using namespace BipedalLocomotionControllers::ContactModels;
+using namespace BipedalLocomotion::ContactModels;
 
 bool ContactModel::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {

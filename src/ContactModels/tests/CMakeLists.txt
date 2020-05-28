@@ -5,4 +5,4 @@
 add_bipedal_test(
   NAME ContinousContactModel
   SOURCES ContinousContactModelTest.cpp
-  LINKS BipedalLocomotionControllers::ContactModels BipedalLocomotionControllers::ParametersHandlerYarpImplementation)
+  LINKS BipedalLocomotion::ContactModels BipedalLocomotion::ParametersHandlerYarpImplementation)

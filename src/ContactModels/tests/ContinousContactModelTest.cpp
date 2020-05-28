@@ -13,12 +13,12 @@
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/SpatialAcc.h>
 
-#include <BipedalLocomotionControllers/ContactModels/ContinuousContactModel.h>
-#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
 using namespace iDynTree;
-using namespace BipedalLocomotionControllers::ContactModels;
-using namespace BipedalLocomotionControllers::ParametersHandler;
+using namespace BipedalLocomotion::ContactModels;
+using namespace BipedalLocomotion::ParametersHandler;
 
 template <typename T, typename U>
 void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
