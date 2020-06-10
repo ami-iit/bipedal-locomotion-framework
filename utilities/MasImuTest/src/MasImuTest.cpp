@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotionControllers/MasImuTest.h>
-#include <BipedalLocomotionControllers/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/MasImuTest.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/yarp/YARPConfigurationsLoader.h>
 #include <iDynTree/Model/IJoint.h>
@@ -16,7 +16,7 @@
 #include <cassert>
 #include <cmath>
 
-using namespace BipedalLocomotionControllers;
+using namespace BipedalLocomotion;
 
 bool MasImuTest::MasImuData::setupModel()
 {
@@ -581,9 +581,9 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_parametersPtr = BipedalLocomotionControllers::ParametersHandler::YarpImplementation::make_unique(rf);
+    m_parametersPtr = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>(rf);
     m_commonDataPtr = std::make_shared<CommonData>();
-    
+
     bool ok = m_parametersPtr->getParameter("name", m_commonDataPtr->prefix);
     if (!ok)
     {

@@ -229,7 +229,7 @@ framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
   "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_USE_pytest" OFF)
 
-framework_dependent_option(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_MasImuTest
+framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
   "FRAMEWORK_COMPILE_YarpUtilities" OFF)
 

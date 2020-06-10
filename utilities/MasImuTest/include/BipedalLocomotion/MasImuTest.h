@@ -31,14 +31,14 @@
 //Thrifts
 #include <thrifts/MasImuTestCommands.h>
 
-#include <BipedalLocomotionControllers/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
-namespace BipedalLocomotionControllers
+namespace BipedalLocomotion
 {
     class MasImuTest;
 }
 
-class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, public MasImuTestCommands {
+class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTestCommands {
 
     struct CommonData
     {
@@ -57,7 +57,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
     {
         std::string m_testName;
         std::shared_ptr<CommonData> m_commonDataPtr;
-        BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr m_group;
+        BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_group;
         iDynTree::FrameIndex m_frame;
         std::string m_frameName;
         iDynTree::LinkIndex m_link;
@@ -95,7 +95,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
     public:
 
         bool setup(const std::string& testName,
-                   BipedalLocomotionControllers::ParametersHandler::YarpImplementation::shared_ptr group,
+                   BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group,
                    std::shared_ptr<CommonData> commonDataPtr);
 
         bool firstRun();
@@ -123,7 +123,7 @@ class BipedalLocomotionControllers::MasImuTest : public yarp::os::RFModule, publ
         RUNNING
     };
 
-    BipedalLocomotionControllers::ParametersHandler::YarpImplementation::unique_ptr m_parametersPtr;
+    BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_parametersPtr;
     std::shared_ptr<CommonData> m_commonDataPtr;
     double m_period;
     MasImuData m_leftIMU, m_rightIMU;

@@ -3,7 +3,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 # set target name
-if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_MasImuTest)
+if(FRAMEWORK_COMPILE_MasImuTest)
 
   set(EXE_TARGET_NAME MasImuTest)
 
@@ -15,7 +15,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_MasImuTest)
 
   # set hpp files
   set(${EXE_TARGET_NAME}_HDR
-        include/BipedalLocomotionControllers/MasImuTest.h
+        include/BipedalLocomotion/MasImuTest.h
       )
 
   set(${EXE_TARGET_NAME}_THRIFT_HDR
@@ -27,7 +27,7 @@ if(BIPEDAL_LOCOMOTION_CONTROLLERS_COMPILE_MasImuTest)
   add_executable(${EXE_TARGET_NAME} ${${EXE_TARGET_NAME}_SRC} ${${EXE_TARGET_NAME}_HDR} ${${EXE_TARGET_NAME}_THRIFT_GEN_FILES})
 
   target_link_libraries(${EXE_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES}
-      BipedalLocomotionControllers::YarpUtilities BipedalLocomotionControllers::ParametersHandlerYarpImplementation)
+      BipedalLocomotion::YarpUtilities BipedalLocomotion::ParametersHandlerYarpImplementation)
   target_compile_features(${EXE_TARGET_NAME} PUBLIC cxx_std_17)
 
   # Specify include directories for both compilation and installation process.

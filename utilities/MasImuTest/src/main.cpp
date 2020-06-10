@@ -10,7 +10,7 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/RFModule.h>
 
-#include <BipedalLocomotionControllers/MasImuTest.h>
+#include <BipedalLocomotion/MasImuTest.h>
 
 int main(int argc, char * argv[])
 {
@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 
     yInfo() << "[MasImuTest] Configuration file: " << rf.findFileByName("MasImuTestConfig.ini");
 
-    BipedalLocomotionControllers::MasImuTest test;
+    BipedalLocomotion::MasImuTest test;
 
     return test.runModule(rf);
 }
