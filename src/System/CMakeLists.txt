@@ -4,7 +4,9 @@
 
 # set target name
 add_bipedal_locomotion_library(
-    NAME           System
-    PUBLIC_HEADERS include/BipedalLocomotion/System/Advanceable.h
-    IS_INTERFACE #This will be removed when adding also sources.
-    )
+  NAME                   System
+  PUBLIC_HEADERS         include/BipedalLocomotion/System/Advanceable.h include/BipedalLocomotion/System/VariablesHandler.h
+  SOURCES                src/VariablesHandler.cpp
+  PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core
+  SUBDIRECTORIES         tests
+  )
