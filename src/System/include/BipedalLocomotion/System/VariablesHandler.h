@@ -31,7 +31,7 @@ class VariablesHandler
 
 public:
     /**
-     * Add a mew variable to the list
+     * Add a new variable to the list
      * @param name of the variable
      * @param size the size of the variable
      * @return true/false in case of success/failure
@@ -39,7 +39,7 @@ public:
     bool addVariable(const std::string& name, const std::size_t& size) noexcept;
 
     /**
-     * Add a mew variable to the list
+     * Get a variable from the list
      * @param name of the variable
      * @return the index range associated to the variable
      */
