@@ -7,12 +7,13 @@ if (FRAMEWORK_COMPILE_Planners)
   set(H_PREFIX include/BipedalLocomotion/Planners)
 
   add_bipedal_locomotion_library(
-    NAME                  Contact
-    PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
-    SOURCES               src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
-    PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
-    INSTALLATION_FOLDER   Planners
-    SUBDIRECTORIES        tests
-    )
+    NAME                   Contact
+    PUBLIC_HEADERS         ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h ${H_PREFIX}/ConvexHullHelper.h
+    SOURCES                src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp src/ConvexHullHelper.cpp
+    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core
+    PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhull_r
+    INSTALLATION_FOLDER    Planners
+    SUBDIRECTORIES         tests
+    DEPENDS_ON_EIGEN_PRIVATE)
 
 endif()
