@@ -143,11 +143,21 @@ bool FloatingBaseDynamicalSystem::dynamics(const StateType& state,
         }
 
         // update the state of the contact model
-        contactWrench.contactModel()->setState(m_kinDyn->getFrameVel(contactWrench.index()),
-                                               m_kinDyn->getWorldTransform(contactWrench.index()));
+        auto contactPtr = contactWrench.contactModel().lock();
+        if (contactPtr == nullptr)
+        {
+            std::cerr << "[FloatingBaseDynamicalSystem::dynamics] The contact model associated to "
+                         "the frame named: "
+                      << m_kinDyn->model().getFrameLink(contactWrench.index())
+                      << " has been expired." << std::endl;
+            return false;
+        }
+
+        contactPtr->setState(m_kinDyn->getFrameVel(contactWrench.index()),
+                             m_kinDyn->getWorldTransform(contactWrench.index()));
 
         iDynTree::toEigen(m_knownCoefficent) += iDynTree::toEigen(m_jacobianMatrix).transpose()
-            * iDynTree::toEigen(contactWrench.contactModel()->getContactWrench());
+            * iDynTree::toEigen(contactPtr->getContactWrench());
     }
 
     // add the joint torques to the known coefficent

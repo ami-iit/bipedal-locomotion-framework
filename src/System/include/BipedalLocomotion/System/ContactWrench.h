@@ -52,7 +52,7 @@ public:
      * Get the contact wrench
      * @return a const reference to the parameter
      */
-    const std::shared_ptr<ContactModels::ContactModel>& contactModel() const noexcept;
+    const std::weak_ptr<ContactModels::ContactModel> contactModel() const noexcept;
 };
 
 } // namespace System

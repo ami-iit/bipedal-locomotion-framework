@@ -28,7 +28,7 @@ const iDynTree::FrameIndex& ContactWrench::index() const noexcept
     return m_frame;
 }
 
-const std::shared_ptr<ContactModels::ContactModel>& ContactWrench::contactModel() const noexcept
+const std::weak_ptr<ContactModels::ContactModel> ContactWrench::contactModel() const noexcept
 {
     return m_contactModel;
 }
