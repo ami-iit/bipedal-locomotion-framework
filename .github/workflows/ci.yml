@@ -130,6 +130,19 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # Qhull
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/qhull/qhull
+        cd qhull
+        git checkout ${Qhull_TAG}
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest')
       shell: bash
