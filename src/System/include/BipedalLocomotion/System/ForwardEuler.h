@@ -13,7 +13,7 @@
 
 #include <iDynTree/Core/EigenHelpers.h>
 
-#include <BipedalLocomotion/System/FixStepIntegrator.h>
+#include <BipedalLocomotion/System/FixedStepIntegrator.h>
 
 namespace BipedalLocomotion
 {
@@ -28,7 +28,7 @@ namespace System
  * iDynTree::toEigen() function
  */
 template <typename DynamicalSystemDerived>
-class ForwardEuler : public FixStepIntegrator<DynamicalSystemDerived>
+class ForwardEuler : public FixedStepIntegrator<DynamicalSystemDerived>
 {
     typename DynamicalSystemDerived::StateDerivativeType m_computationalBuffer;
 
@@ -79,7 +79,7 @@ public:
      * @param dT the sampling time
      */
     ForwardEuler(const double& dT)
-        : FixStepIntegrator<DynamicalSystemDerived>(dT)
+        : FixedStepIntegrator<DynamicalSystemDerived>(dT)
     {
     }
     ~ForwardEuler() = default;
