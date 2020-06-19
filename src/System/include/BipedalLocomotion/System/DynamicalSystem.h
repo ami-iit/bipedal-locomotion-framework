@@ -32,9 +32,17 @@ namespace System
 template <typename State, typename StateDerivative, typename Input>
 class DynamicalSystem
 {
-    static_assert(is_specialization<State, std::tuple>::value);
-    static_assert(is_specialization<StateDerivative, std::tuple>::value);
-    static_assert(is_specialization<Input, std::tuple>::value);
+    static_assert(is_specialization<State, std::tuple>::value,
+                  "The State type must be a specialization of the std::tuple. I.e. "
+                  "std::truple<iDyntree::Position, iDynTree::Rotation>");
+
+    static_assert(is_specialization<StateDerivative, std::tuple>::value,
+                  "The StateDerivative type must be a specialization of the std::tuple. I.e. "
+                  "std::truple<iDyntree::Vector3, iDynTree::Vector3>");
+
+    static_assert(is_specialization<Input, std::tuple>::value,
+                  "The Input type must be a specialization of the std::tuple. I.e. "
+                  "std::truple<iDyntree::Vector3, iDynTree::Vector3>");
 
 public:
     using StateType = State; /**< State space type */
