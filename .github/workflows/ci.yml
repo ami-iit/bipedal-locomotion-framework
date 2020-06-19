@@ -67,7 +67,8 @@ jobs:
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
-        brew install ace boost eigen swig qt5 orocos-kdl catch2
+        brew update
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -177,6 +178,21 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+    - name: Source-based Dependencies [Ubuntu]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+        # Catch2
+        git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
+        cd Catch2
+        mkdir -p build
+        cd build
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+               -DBUILD_TESTING=OFF ..
+
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
         # Qhull
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/qhull/qhull
@@ -188,19 +204,6 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Source-based Dependencies [Ubuntu]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
-      shell: bash
-      run: |
-         git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
-         cd Catch2
-         mkdir -p build
-         cd build
-         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
-                -DBUILD_TESTING=OFF ..
-
-         cmake --build . --config ${{ matrix.build_type }} --target install
 
     # ===================
     # CMAKE-BASED PROJECT
