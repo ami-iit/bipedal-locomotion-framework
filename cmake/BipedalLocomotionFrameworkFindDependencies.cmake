@@ -149,5 +149,5 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   FRAMEWORK_HAS_Eigen3 OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_System
-  "Compile Estimators library?" ON
+  "Compile System library?" ON
   "FRAMEWORK_HAS_Eigen3;FRAMEWORK_COMPILE_ContactModels" OFF)
