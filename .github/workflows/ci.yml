@@ -200,7 +200,8 @@ jobs:
         mkdir -p build
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
 
