@@ -59,8 +59,8 @@ bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize
     orgQhull::Qhull qhull;
 
     // it seems that the pointCoordinates element cannot be cleaned so a new point coordinates has to be instantiate
-    orgQhull::PointCoordinates pointCooridinates;
-    pointCooridinates.setDimension(size);
+    orgQhull::PointCoordinates pointCoordinates;
+    pointCoordinates.setDimension(size);
 
     std::vector<double> allPoints;
     for (const auto& point : points)
@@ -68,13 +68,13 @@ bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize
         for (const auto& coordinate : point)
             allPoints.push_back(coordinate);
     }
-    pointCooridinates.append(allPoints);
+    pointCoordinates.append(allPoints);
 
     // find the convex hull
-    qhull.runQhull(pointCooridinates.comment().c_str(),
-                   pointCooridinates.dimension(),
-                   pointCooridinates.count(),
-                   &*pointCooridinates.coordinates(),
+    qhull.runQhull(pointCoordinates.comment().c_str(),
+                   pointCoordinates.dimension(),
+                   pointCoordinates.count(),
+                   &*pointCoordinates.coordinates(),
                    "Qt");
 
     auto facetList = qhull.facetList();
