@@ -58,6 +58,8 @@ public:
     /**
      * Return the \f$A\f$ constraint matrix, such that \f$ Ax \le b\f$ iff the point \f$x\f$ is in
      * the convex hull.
+     * @warning Please call buildConvexHull before asking for \f$A\f$. If the convex hull has not be
+     * built yet a reference to a 0-size matrix is returned.
      * @return the constraint matrix.
      */
     const iDynTree::MatrixDynSize& getA() const;
@@ -65,6 +67,8 @@ public:
     /**
      * Return the \f$b\f$ constraint vector, such that \f$ Ax \le b\f$ iff the point \f$x\f$ is in
      * the convex hull.
+     * @warning Please call buildConvexHull before asking for \f$b\f$. If the convex hull has not be
+     * built yet a reference to a 0-size vector is returned.
      * @return the constraint vector.
      */
     const iDynTree::VectorDynSize& getB() const;

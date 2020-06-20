@@ -27,6 +27,9 @@ struct ConvexHullHelper::Impl
 ConvexHullHelper::ConvexHullHelper()
 {
     m_pimpl = std::make_unique<Impl>();
+
+    m_pimpl->A.resize(0,0);
+    m_pimpl->b.resize(0);
 }
 
 ConvexHullHelper::~ConvexHullHelper()
