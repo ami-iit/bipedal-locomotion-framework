@@ -118,11 +118,11 @@ const iDynTree::VectorDynSize& ConvexHullHelper::getB() const
     return m_pimpl->b;
 }
 
-bool ConvexHullHelper::doesPointBelongToCovexHull(const iDynTree::VectorDynSize& point) const
+bool ConvexHullHelper::doesPointBelongToConvexHull(const iDynTree::VectorDynSize& point) const
 {
     if (point.size() != m_pimpl->A.cols())
     {
-        std::cerr << "[ConvexHullHelper::doesPointBelongToCovexHull] Unexpected size of the point."
+        std::cerr << "[ConvexHullHelper::doesPointBelongToConvexHull] Unexpected size of the point."
                   << std::endl;
         return false;
     }

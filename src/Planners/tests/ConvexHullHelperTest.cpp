@@ -58,10 +58,10 @@ TEST_CASE("Convex Hull helper")
 
     // check if the points belong to convex hull
     for(const auto& point : points)
-        REQUIRE(helper.doesPointBelongToCovexHull(point));
+        REQUIRE(helper.doesPointBelongToConvexHull(point));
 
     // p = [0 0 0] does not belong to the convex hull
     iDynTree::VectorDynSize pointOutsideConvexHull(3);
     pointOutsideConvexHull.zero();
-    REQUIRE_FALSE(helper.doesPointBelongToCovexHull(pointOutsideConvexHull));
+    REQUIRE_FALSE(helper.doesPointBelongToConvexHull(pointOutsideConvexHull));
 }

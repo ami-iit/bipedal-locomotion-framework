@@ -74,10 +74,10 @@ public:
     const iDynTree::VectorDynSize& getB() const;
 
     /**
-     * Check if a point belong to the convex hull.
+     * Check if a point belong to the convex hull (The frontier of the set is also included).
      * @return true if the point belongs to the convex hull false otherwise.
      */
-    bool doesPointBelongToCovexHull(const iDynTree::VectorDynSize& point) const;
+    bool doesPointBelongToConvexHull(const iDynTree::VectorDynSize& point) const;
 };
 } // namespace Planners
 } // namespace BipedalLocomotion
