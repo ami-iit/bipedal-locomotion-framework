@@ -128,6 +128,9 @@ checkandset_dependency(YARP)
 find_package(Eigen3 3.2.92 QUIET)
 checkandset_dependency(Eigen3)
 
+find_package(Qhull 8.0.0 QUIET)
+checkandset_dependency(Qhull)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_HAS_YARP" OFF)
@@ -142,7 +145,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Estimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_HAS_Eigen3" OFF)
+  "FRAMEWORK_HAS_Eigen3;FRAMEWORK_HAS_Qhull" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON

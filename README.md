@@ -19,6 +19,7 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
 - [**BipedalLocomotion::ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
 - [**BipedalLocomotion::Estimators**](./src/Estimators): Library containing observers
+- [**BipedalLocomotion::Planner**](./src/Planner): Library containing planner useful for locomotion
 
 
 # :page_facing_up: Dependencies
@@ -47,6 +48,13 @@ file. Please note that the indicated version is the the minimum required version
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
       - [`YARP`](https://github.com/robotology/YARP)
+
+- `Planner` requires:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`Qhull`](https://github.com/qhull/qhull) (version 8.0.0)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
 
 # :hammer: Build the suite
 ## Linux/macOs

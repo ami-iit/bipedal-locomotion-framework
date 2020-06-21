@@ -15,3 +15,8 @@ add_bipedal_test(
     NAME ContactPhaseList
     SOURCES ContactPhaseListTest.cpp
     LINKS BipedalLocomotion::Contact)
+
+add_bipedal_test(
+    NAME ConvexHullHelper
+    SOURCES ConvexHullHelperTest.cpp
+    LINKS BipedalLocomotion::Contact)
