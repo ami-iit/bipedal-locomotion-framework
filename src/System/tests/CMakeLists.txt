@@ -6,3 +6,9 @@ add_bipedal_test(
   NAME VariablesHandler
   SOURCES VariablesHandlerTest.cpp
   LINKS BipedalLocomotion::System)
+
+add_bipedal_test(
+  NAME IntegratorTest
+  SOURCES IntegratorTest.cpp
+  LINKS BipedalLocomotion::System
+  DEPENDS_ON_EIGEN_PRIVATE)
