@@ -20,6 +20,11 @@ FloatingBaseDynamicalSystem::FloatingBaseDynamicalSystem()
     m_gravity(2) = -9.81;
 }
 
+void FloatingBaseDynamicalSystem::setGravityVector(const iDynTree::Vector3& gravity)
+{
+    m_gravity = gravity;
+}
+
 bool FloatingBaseDynamicalSystem::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     if (kinDyn == nullptr)

@@ -82,15 +82,23 @@ class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::
     iDynTree::MatrixDynSize m_massMatrixReglarizationTerm;
 
 public:
-
     /**
      * Constructor.
+     * @note The constructor set the gravity acceleration vector to
+     * \f$\begin{bmatrix} 0 & 0 & -9.81\end{bmatrix}^\top\f$. Please call setGravityVector() if you
+     * want define your custom gravity vector.
      */
     FloatingBaseDynamicalSystem();
 
     /**
-     * Set a kinDynComputations object
-     * @param kinDyn a pointer to the kinDynComputations onject
+     * Set the vector of gravity.
+     * @param gravity a 3D vector describing the gravity acceleration.
+     */
+    void setGravityVector(const iDynTree::Vector3& gravity);
+
+    /**
+     * Set a kinDynComputations object.
+     * @param kinDyn a pointer to the kinDynComputations object.
      * @return true in case of success, false otherwise.
      */
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
