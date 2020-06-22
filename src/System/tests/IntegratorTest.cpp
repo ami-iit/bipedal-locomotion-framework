@@ -17,10 +17,10 @@
 using namespace BipedalLocomotion::System;
 
 template <typename T, typename U>
-bool areVectorsEqual(const T& vector1, const U& vector2, const double& tollerance = 0)
+bool areVectorsEqual(const T& vector1, const U& vector2, const double& tolerance = 0)
 {
-    // the tollerance must be a positive number
-    if (tollerance < 0)
+    // the tolerance must be a positive number
+    if (tolerance < 0)
         return false;
 
     // check the size of the two vectors
@@ -29,7 +29,7 @@ bool areVectorsEqual(const T& vector1, const U& vector2, const double& tolleranc
 
     // iterate over all the elements
     for (unsigned int i = 0; i < vector1.size(); i++)
-        if (std::abs(vector1[i] - vector2[i]) > tollerance)
+        if (std::abs(vector1[i] - vector2[i]) > tolerance)
             return false;
 
     return true;
@@ -82,12 +82,12 @@ TEST_CASE("Integrate - Linear system")
     ForwardEuler<LinearTimeInvariantSystem> integrator(dT);
     integrator.setDynamicalSystem(system);
 
-    constexpr double tollerance = 1e-3;
+    constexpr double tolerance = 1e-3;
     constexpr double simulationTime = 10;
     for (int i = 0; i < simulationTime / dT; i++)
     {
         auto [solution] = integrator.getSolution();
-        REQUIRE(areVectorsEqual(solution, closeFormSolution(dT * i), tollerance));
+        REQUIRE(areVectorsEqual(solution, closeFormSolution(dT * i), tolerance));
 
         REQUIRE(integrator.integrate(0, dT));
     }
