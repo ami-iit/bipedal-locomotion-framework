@@ -37,6 +37,14 @@ bool FixedStepIntegrator<DynamicalSystemDerived>::integrate(double initialTime, 
         return false;
     }
 
+    if (m_dT <= 0)
+    {
+        std::cerr << "[FixedStepIntegrator::integrate] The sampling time must be a strictly "
+                     "positive number."
+                  << std::endl;
+        return false;
+    }
+
     int iterations = std::ceil((finalTime - initialTime) / m_dT);
 
     typename DynamicalSystemDerived::StateType nextState;
