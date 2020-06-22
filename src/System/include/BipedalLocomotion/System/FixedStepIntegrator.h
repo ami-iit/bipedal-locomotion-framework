@@ -26,6 +26,8 @@ namespace System
 template <typename DynamicalSystemDerived>
 class FixedStepIntegrator : public Integrator<DynamicalSystemDerived>
 {
+    typename DynamicalSystemDerived::StateType m_stateAtNextTimeInstant; /**< State at t+1 */
+
 protected:
     double m_dT{0.0}; /**< Fixed step size */
 
