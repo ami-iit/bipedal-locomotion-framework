@@ -78,6 +78,9 @@ class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::
     iDynTree::VectorDynSize m_generalizedRobotAcceleration;
     iDynTree::VectorDynSize m_knownCoefficent;
 
+    bool m_useMassMatrixRegularizationTerm{false};
+    iDynTree::MatrixDynSize m_massMatrixReglarizationTerm;
+
 public:
 
     /**
@@ -91,6 +94,16 @@ public:
      * @return true in case of success, false otherwise.
      */
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+
+    /**
+     * Set the mass matrix regularization term. i.e. $\f\bar{M} = M + M _ {reg}\f$. Where  $\fM\f$
+     * is the mass matrix and  $\fM_{reg}\f$ is the matrix regularization term.
+     * @param matrix the regularization term for the mass matrix.
+     * @notice Calling this function is not mandatory. Call it only if you want to add a
+     * regularization term.
+     * @return true in case of success, false otherwise.
+     */
+    bool setMassMatrixRegularization(const iDynTree::MatrixDynSize& matrix);
 
     /**
      * Computes the floating based system dynamics. It return \f$f(x, u, t)\f$.

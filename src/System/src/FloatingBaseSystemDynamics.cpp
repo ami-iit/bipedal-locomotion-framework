@@ -43,6 +43,32 @@ bool FloatingBaseDynamicalSystem::setKinDyn(std::shared_ptr<iDynTree::KinDynComp
     return true;
 }
 
+bool FloatingBaseDynamicalSystem::setMassMatrixRegularization(const iDynTree::MatrixDynSize& matrix)
+{
+
+    if (m_kinDyn == nullptr)
+    {
+        std::cerr << "[FloatingBaseDynamicalSystem::setMassMatrixRegularization] Please call "
+                     "'setKinDyn()' before."
+                  << std::endl;
+        return false;
+    }
+
+    if ((m_actuatedDoFs + m_baseDoFs != matrix.rows()) || (matrix.cols() != matrix.rows()))
+    {
+        const auto rightSize = m_actuatedDoFs + m_baseDoFs;
+        std::cerr << "[FloatingBaseDynamicalSystem::setMassMatrixRegularization] The size of the "
+                     "regularization matrix is not correct. The correct size is: "
+                  << rightSize << " x " << rightSize << ". While the input of the function is a "
+                  << matrix.rows() << " x " << matrix.cols() << " matrix." << std::endl;
+        return false;
+    }
+
+    m_massMatrixReglarizationTerm = matrix;
+    m_useMassMatrixRegularizationTerm = true;
+    return true;
+}
+
 bool FloatingBaseDynamicalSystem::dynamics(const StateType& state,
                                            const double& time,
                                            StateDerivativeType& stateDerivative)
@@ -169,8 +195,13 @@ bool FloatingBaseDynamicalSystem::dynamics(const StateType& state,
     // compute the generalized robot acceleration solving the linear system. Here we assume that the
     // mass matrix is positive definite (check here for further informations:
     // https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html)
-    iDynTree::toEigen(m_generalizedRobotAcceleration)
-        = iDynTree::toEigen(m_massMatrix).llt().solve(iDynTree::toEigen(m_knownCoefficent));
+    if (m_useMassMatrixRegularizationTerm)
+        iDynTree::toEigen(m_generalizedRobotAcceleration)
+            = (iDynTree::toEigen(m_massMatrix) + iDynTree::toEigen(m_massMatrixReglarizationTerm))
+                  .llt().solve(iDynTree::toEigen(m_knownCoefficent));
+    else
+        iDynTree::toEigen(m_generalizedRobotAcceleration)
+            = iDynTree::toEigen(m_massMatrix).llt().solve(iDynTree::toEigen(m_knownCoefficent));
 
     // split the acceleration in base and joint acceleration
     iDynTree::toEigen(baseAcceleration)
