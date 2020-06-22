@@ -49,7 +49,7 @@ public:
      * @param B the B matrix.
      * @return true in case of success, false otherwise.
      */
-    bool setSystemMatrices(const iDynTree::MatrixDynSize& A, const iDynTree::MatrixDynSize& b);
+    bool setSystemMatrices(const iDynTree::MatrixDynSize& A, const iDynTree::MatrixDynSize& B);
 
     /**
      * Computes the linear system dynamics. It returns \f$\dot{x} = Ax + Bu\f$
