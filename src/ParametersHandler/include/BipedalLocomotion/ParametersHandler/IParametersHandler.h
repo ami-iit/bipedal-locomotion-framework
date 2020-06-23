@@ -22,8 +22,6 @@ namespace ParametersHandler
 
 /**
  * Parameters handler interface.
- * @tparam Derived type of the Derived class. Necessary to implement the Curiously recurring
- * template pattern
  */
 class IParametersHandler
 {
