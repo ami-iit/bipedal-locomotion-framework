@@ -120,7 +120,7 @@ ContactPhaseList::const_iterator ContactPhaseList::begin() const
 
 ContactPhaseList::const_iterator ContactPhaseList::cbegin() const
 {
-    return m_phases.end();
+    return m_phases.cbegin();
 }
 
 ContactPhaseList::const_reverse_iterator ContactPhaseList::rbegin() const
