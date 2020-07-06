@@ -88,6 +88,13 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
         return false;
     }
 
+    ok = m_group->getParameter("sensor_name", m_sensorName);
+    if (!ok)
+    {
+        yError() << errorPrefix << "Setup failed.";
+        return false;
+    }
+
     yarp::os::Property inertialClientProperty;
     inertialClientProperty.put("remote", "/" + m_commonDataPtr->robotName + "/" + remote);
     inertialClientProperty.put("local", "/" + m_commonDataPtr->prefix + "/" + remote);
@@ -116,7 +123,7 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
         bool ok = m_orientationInterface->getOrientationSensorFrameName(m_sensorIndex, name);
         if (ok)
         {
-            found = name == m_frameName;
+            found = name == m_sensorName;
 
             if (!found)
             {
@@ -129,17 +136,18 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
     if (!found)
     {
         yError() << errorPrefix << "The interface contains no orientation sensors on frame "
-                 << m_frameName << ". Available orientation sensors frame names (" << m_orientationInterface->getNrOfOrientationSensors() << "):";
+                 << m_sensorName << ". Available orientation sensors frame names (" << m_orientationInterface->getNrOfOrientationSensors() << "):";
         ok = true;
-        do
+        size_t index = 0;
+        while (ok && (index < m_orientationInterface->getNrOfOrientationSensors()))
         {
-            bool ok = m_orientationInterface->getOrientationSensorFrameName(m_sensorIndex, name);
+            bool ok = m_orientationInterface->getOrientationSensorFrameName(index, name);
             if (ok)
             {
                 yError() << "       - " << name;
+                index++;
             }
         }
-        while (ok && (m_sensorIndex < m_orientationInterface->getNrOfOrientationSensors()));
 
         return false;
     }
