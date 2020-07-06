@@ -68,7 +68,7 @@ jobs:
       if: matrix.os == 'macOS-latest'
       run: |
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -76,7 +76,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -204,6 +204,33 @@ jobs:
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+    - name: CasADi [Ubuntu/macOS]
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest'
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/casadi/casadi.git -b master casadi
+        cd casadi
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: CasADi [Windows]
+      if: matrix.os == 'windows-latest'
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/casadi/casadi.git -b master casadi
+        cd casadi
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DWITH_IPOPT=BOOL:ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
 
     # ===================
     # CMAKE-BASED PROJECT
