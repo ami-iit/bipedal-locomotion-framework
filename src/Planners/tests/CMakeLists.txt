@@ -20,3 +20,8 @@ add_bipedal_test(
     NAME ConvexHullHelper
     SOURCES ConvexHullHelperTest.cpp
     LINKS BipedalLocomotion::Contact)
+
+add_bipedal_test(
+  NAME TimeVaryingDCMPlanner
+  SOURCES TimeVaryingDCMPlannerTest.cpp
+  LINKS BipedalLocomotion::Contact)
