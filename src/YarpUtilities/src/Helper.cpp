@@ -21,7 +21,8 @@ bool YarpUtilities::addVectorOfStringToProperty(yarp::os::Property& prop,
         return false;
     }
 
-    yarp::os::Bottle& bot = prop.addGroup(key).findGroup(key).addList();
+    prop.addGroup(key);
+    yarp::os::Bottle& bot = prop.findGroup(key).addList();
     for (size_t i = 0; i < list.size(); i++)
         bot.addString(list[i].c_str());
 
