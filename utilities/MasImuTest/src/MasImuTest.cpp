@@ -129,7 +129,18 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
     if (!found)
     {
         yError() << errorPrefix << "The interface contains no orientation sensors on frame "
-                 << m_frameName << ". Setup failed.";
+                 << m_frameName << ". Available orientation sensors frame names (" << m_orientationInterface->getNrOfOrientationSensors() << "):";
+        ok = true;
+        do
+        {
+            bool ok = m_orientationInterface->getOrientationSensorFrameName(m_sensorIndex, name);
+            if (ok)
+            {
+                yError() << "       - " << name;
+            }
+        }
+        while (ok && (m_sensorIndex < m_orientationInterface->getNrOfOrientationSensors()));
+
         return false;
     }
 
