@@ -588,6 +588,7 @@ bool MasImuTest::updateModule()
         {
             yError() << "[MasImuTest::updateModule] Failed to perform first run.";
             m_state = State::PREPARED;
+            return true;
         }
 
         m_state = State::RUNNING;
