@@ -755,9 +755,25 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
+    bool autoStart;
+    ok = m_parametersPtr->getParameter("auto_start", autoStart);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
+
     m_state = State::PREPARED;
 
     yInfo() << "[MasImuTest::configure] Ready!";
+
+
+    if (autoStart)
+    {
+        m_state = State::FIRST_RUN;
+
+        yInfo() << "[MasImuTest::startTest] Started!";
+    }
 
     return true;
 }
