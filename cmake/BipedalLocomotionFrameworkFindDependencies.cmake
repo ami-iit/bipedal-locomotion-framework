@@ -48,7 +48,7 @@ macro(checkandset_dependency package)
   endif()
 
   # FRAMEWORK_USE_${package}
-  option(${PREFIX}_USE_${package} "Use package ${package}" ${PREFIX}_HAS_SYSTEM_${package})
+  option(${PREFIX}_USE_${package} "Use package ${package}" ${${PREFIX}_HAS_SYSTEM_${package}})
   if (${PREFIX}_HAS_SYSTEM_${package})
       mark_as_advanced(${PREFIX}_USE_${package})
   elseif (${PREFIX}_USE_${package})
@@ -144,7 +144,7 @@ checkandset_dependency(Qhull)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
-  "FRAMEWORK_HAS_YARP" OFF)
+  "FRAMEWORK_USE_YARP" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
@@ -152,16 +152,16 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
 
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
-  "FRAMEWORK_HAS_Eigen3" OFF)
+  "FRAMEWORK_USE_Eigen3" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_HAS_Eigen3;FRAMEWORK_HAS_Qhull" OFF)
+  "FRAMEWORK_USE_Eigen3;FRAMEWORK_USE_Qhull" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
-  FRAMEWORK_HAS_Eigen3 OFF)
+  "FRAMEWORK_USE_Eigen3" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
-  "FRAMEWORK_HAS_Eigen3;FRAMEWORK_COMPILE_ContactModels" OFF)
+  "FRAMEWORK_USE_Eigen3;FRAMEWORK_COMPILE_ContactModels" OFF)
