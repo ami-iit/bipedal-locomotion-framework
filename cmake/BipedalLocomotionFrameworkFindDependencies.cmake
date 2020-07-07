@@ -32,6 +32,10 @@ include(CMakeDependentOption)
 # Check if a package is installed and set some cmake variables
 macro(checkandset_dependency package)
 
+  set(singleValueArgs MINIMUM_VERSION)
+  set(multiValueArgs COMPONENTS)
+  cmake_parse_arguments(CSD "${options}" "${singleValueArgs}" "${multiValueArgs}" ${ARGN})
+
   set(PREFIX "FRAMEWORK")
 
   string(TOUPPER ${package} PKG)
@@ -44,9 +48,16 @@ macro(checkandset_dependency package)
   endif()
 
   # FRAMEWORK_USE_${package}
-  cmake_dependent_option(${PREFIX}_USE_${package} "Use package ${package}" TRUE
-                         ${PREFIX}_HAS_SYSTEM_${package} FALSE)
-  mark_as_advanced(${PREFIX}_USE_${package})
+  option(${PREFIX}_USE_${package} "Use package ${package}" ${PREFIX}_HAS_SYSTEM_${package})
+  if (${PREFIX}_HAS_SYSTEM_${package})
+      mark_as_advanced(${PREFIX}_USE_${package})
+  elseif (${PREFIX}_USE_${package})
+    if (CSD_COMPONENTS)
+      find_package(${package} ${CSD_MINIMUM_VERSION} COMPONENTS ${CSD_COMPONENTS} REQUIRED)
+    else ()
+      find_package(${package} ${CSD_MINIMUM_VERSION} REQUIRED)
+      endif ()
+  endif()
 
   # FRAMEWORK_USE_SYSTEM_${package}
   set(${PREFIX}_USE_SYSTEM_${package} ${${PREFIX}_USE_${package}} CACHE INTERNAL "Use system-installed ${package}, rather than a private copy (recommended)" FORCE)
