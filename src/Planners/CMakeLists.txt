@@ -7,7 +7,7 @@ if (FRAMEWORK_COMPILE_Planners)
   set(H_PREFIX include/BipedalLocomotion/Planners)
 
   add_bipedal_locomotion_library(
-    NAME                   Contact
+    NAME                   Planners
     PUBLIC_HEADERS         ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h ${H_PREFIX}/ConvexHullHelper.h
     SOURCES                src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp src/ConvexHullHelper.cpp
     PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core
