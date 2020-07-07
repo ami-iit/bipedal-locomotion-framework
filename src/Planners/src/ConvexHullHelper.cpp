@@ -9,10 +9,6 @@
 #include <libqhullcpp/Qhull.h>
 #include <libqhullcpp/QhullFacetList.h>
 
-#include <iDynTree/Core/MatrixDynSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/EigenHelpers.h>
-
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
 
 using namespace BipedalLocomotion::Planners;
@@ -20,8 +16,8 @@ using namespace BipedalLocomotion::Planners;
 // Implementation
 struct ConvexHullHelper::Impl
 {
-    iDynTree::VectorDynSize b;
-    iDynTree::MatrixDynSize A;
+    Eigen::VectorXd b;
+    Eigen::MatrixXd A;
 };
 
 ConvexHullHelper::ConvexHullHelper()
@@ -36,39 +32,23 @@ ConvexHullHelper::~ConvexHullHelper()
 {
 }
 
-bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize>& points)
+bool ConvexHullHelper::buildConvexHull(Eigen::Ref<const Eigen::MatrixXd> points)
 {
-    const std::size_t size = points.front().size();
-
-    // check if the size of the vectors are all the same
-    auto point = points.cbegin();
-    // it is useless to check the size of the first vector
-    std::advance(point, 1);
-    for (; point < points.end(); std::advance(point, 1))
-    {
-        if (size != point->size())
-        {
-            std::cerr << "[ConvexHullHelper::buildConvexHull] All the vectors should belong to the "
-                         "same vectorial space."
-                      << std::endl;
-            return false;
-        }
-    }
+    const std::size_t numberOfPoints = points.cols();
+    const std::size_t numberOfCoordinates = points.rows();
 
     // the qhull object can be called only once
     orgQhull::Qhull qhull;
 
     // it seems that the pointCoordinates element cannot be cleaned so a new point coordinates has to be instantiate
     orgQhull::PointCoordinates pointCoordinates;
-    pointCoordinates.setDimension(size);
+    pointCoordinates.setDimension(numberOfCoordinates);
 
-    std::vector<double> allPoints;
-    for (const auto& point : points)
-    {
-        for (const auto& coordinate : point)
-            allPoints.push_back(coordinate);
-    }
-    pointCoordinates.append(allPoints);
+    std::vector<double> allCoordinates(numberOfPoints * numberOfCoordinates);
+    Eigen::Map<Eigen::MatrixXd>(allCoordinates.data(), numberOfCoordinates, numberOfPoints) = points;
+
+    // map = points;
+    pointCoordinates.append(allCoordinates);
 
     // find the convex hull
     qhull.runQhull(pointCoordinates.comment().c_str(),
@@ -81,7 +61,7 @@ bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize
     const std::size_t numberOfFacet = facetList.count();
 
     // resize matrix and vectors
-    m_pimpl->A.resize(numberOfFacet, size);
+    m_pimpl->A.resize(numberOfFacet, numberOfCoordinates);
     m_pimpl->b.resize(numberOfFacet);
 
     // fill the A matrix and the b vector
@@ -95,7 +75,7 @@ bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize
         if (hyperplane.isValid())
         {
             const auto coord = hyperplane.coordinates();
-            for (std::size_t column = 0; column < size; column++)
+            for (std::size_t column = 0; column < numberOfCoordinates; column++)
             {
                 m_pimpl->A(row, column) = coord[column];
             }
@@ -108,17 +88,17 @@ bool ConvexHullHelper::buildConvexHull(const std::vector<iDynTree::VectorDynSize
     return true;
 }
 
-const iDynTree::MatrixDynSize& ConvexHullHelper::getA() const
+Eigen::Ref<const Eigen::MatrixXd> ConvexHullHelper::getA() const
 {
     return m_pimpl->A;
 }
 
-const iDynTree::VectorDynSize& ConvexHullHelper::getB() const
+Eigen::Ref<const Eigen::VectorXd> ConvexHullHelper::getB() const
 {
     return m_pimpl->b;
 }
 
-bool ConvexHullHelper::doesPointBelongToConvexHull(const iDynTree::VectorDynSize& point) const
+bool ConvexHullHelper::doesPointBelongToConvexHull(Eigen::Ref<const Eigen::VectorXd> point) const
 {
     if (point.size() != m_pimpl->A.cols())
     {
@@ -127,7 +107,7 @@ bool ConvexHullHelper::doesPointBelongToConvexHull(const iDynTree::VectorDynSize
         return false;
     }
 
-    Eigen::VectorXd tmp = iDynTree::toEigen(m_pimpl->A) * iDynTree::toEigen(point);
+    Eigen::VectorXd tmp = m_pimpl->A * point;
 
     for(std::size_t i = 0; i < m_pimpl->b.size(); i++)
         if(tmp[i] > m_pimpl->b[i])

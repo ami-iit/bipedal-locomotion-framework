@@ -14,6 +14,6 @@ if (FRAMEWORK_COMPILE_Planners)
     PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhullstatic_r
     INSTALLATION_FOLDER    Planners
     SUBDIRECTORIES         tests
-    DEPENDS_ON_EIGEN_PRIVATE)
+    DEPENDS_ON_EIGEN_PUBLIC)
 
 endif()
