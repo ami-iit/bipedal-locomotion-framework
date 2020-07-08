@@ -440,9 +440,23 @@ void MasImuTest::MasImuData::printResults() const
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::printResults](" + m_testName +") ";
 
+    auto rpyPrinter = [](const iDynTree::Rotation& rot)->std::string
+    {
+        std::string output;
+        iDynTree::Vector3 rpy = rot.asRPY();
+
+        output = "RPY: (" + std::to_string(rpy[0]) + ", " + std::to_string(rpy[1]) + ", " + std::to_string(rpy[2]) + ")\n";
+        return output;
+    };
+
     if (!m_data.size())
     {
-        yInfo() << errorPrefix << "Results ("<<m_data.size() << " samples) :\n"
+        yInfo() << errorPrefix << "Inertial calibration matrix:\n"
+                << "--------------------------------------\n"
+                << m_imuWorld.toString()
+                << rpyPrinter(m_imuWorld)
+                << "--------------------------------------\n"
+                << "Results ("<<m_data.size() << " samples) :\n"
                 << "--------------------------------------\n"
                 << "--------------------------------------\n";
         return;
@@ -480,16 +494,12 @@ void MasImuTest::MasImuData::printResults() const
         }
     }
 
-    auto rpyPrinter = [](const iDynTree::Rotation& rot)->std::string
-    {
-        std::string output;
-        iDynTree::Vector3 rpy = rot.asRPY();
-
-        output = "RPY: (" + std::to_string(rpy[0]) + ", " + std::to_string(rpy[1]) + ", " + std::to_string(rpy[2]) + ")\n";
-        return output;
-    };
-
-    yInfo() << errorPrefix << "Results ("<<m_data.size() << " samples) :\n"
+    yInfo() << errorPrefix << "Inertial calibration matrix:\n"
+            << "--------------------------------------\n"
+            << m_imuWorld.toString()
+            << rpyPrinter(m_imuWorld)
+            << "--------------------------------------\n"
+            << "Results ("<<m_data.size() << " samples) :\n"
             << "--------------------------------------\n"
             << "--------------Mean Rotation-----------\n"
             << meanError.toString()

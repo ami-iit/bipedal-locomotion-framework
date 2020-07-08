@@ -130,7 +130,7 @@ endmacro()
 ################################################################################
 # Find all packages
 
-find_package(iDynTree 0.11.105 REQUIRED) #Right now, all the packages built in the framework
+find_package(iDynTree 1.1.0 REQUIRED) #Right now, all the packages built in the framework
                                          #depend directly or indirectly from iDynTree and Eigen
                                          #(which is an iDynTree dependency by the way)
 find_package(Eigen3 3.2.92 REQUIRED)
