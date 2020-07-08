@@ -104,7 +104,7 @@ struct TimeVaryingDCMPlanner::Impl
     struct OptimizationSettings
     {
         unsigned long solverVerbosity{1}; /**< Verbosity of ipopt */
-        std::string ipoptLinearSolver{"ma27"}; /**< Linear solved used by ipopt */
+        std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
 
         double plannerSamplingTime; /**< Sampling time of the planner in seconds */
         std::vector<iDynTree::Position> footCorners; /**< Position of the corner of the foot
