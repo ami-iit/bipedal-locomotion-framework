@@ -6,7 +6,7 @@ if (FRAMEWORK_HAS_Eigen3)
     add_bipedal_test(
         NAME ContactList
         SOURCES ContactListTest.cpp
-        LINKS BipedalLocomotion::Planners
+        LINKS BipedalLocomotion::Contact
         DEPENDS_ON_EIGEN_PRIVATE)
 
 endif()
@@ -14,7 +14,7 @@ endif()
 add_bipedal_test(
     NAME ContactPhaseList
     SOURCES ContactPhaseListTest.cpp
-    LINKS BipedalLocomotion::Planners)
+    LINKS BipedalLocomotion::Contact)
 
 add_bipedal_test(
     NAME ConvexHullHelper
