@@ -50,7 +50,6 @@ public:
 
     /**
      * Compute the DCM trajectory.
-     * @warning Please implement the function in your custom planner.
      * @return true in case of success, false otherwise.
      */
      bool computeTrajectory() final;
