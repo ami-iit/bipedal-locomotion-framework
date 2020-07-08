@@ -19,4 +19,4 @@ add_bipedal_test(
 add_bipedal_test(
     NAME ConvexHullHelper
     SOURCES ConvexHullHelperTest.cpp
-    LINKS BipedalLocomotion::Contact)
+    LINKS BipedalLocomotion::Planners)

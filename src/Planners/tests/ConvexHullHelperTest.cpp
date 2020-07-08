@@ -16,52 +16,48 @@ TEST_CASE("Convex Hull helper")
 {
     ConvexHullHelper helper;
 
-    // initialize the points
-    std::vector<iDynTree::VectorDynSize> points;
-    iDynTree::VectorDynSize p(3);
+    Eigen::MatrixXd p(3, 8);
 
-    p(0) = 0.6269;
-    p(1) = 0.7207;
-    p(2) = 0.3000;
-    points.push_back(p);
+    p(0,0) = 0.6269;
+    p(1,0) = 0.7207;
+    p(2,0) = 0.3000;
 
-    p(0) = 0.5538;
-    p(1) = 0.6526;
-    points.push_back(p);
+    p(0,1) = 0.5538;
+    p(1,1) = 0.6526;
+    p(2,1) = 0.3000;
 
-    p(0) = 0.6901;
-    p(1) = 0.5062;
-    points.push_back(p);
+    p(0,2) = 0.6901;
+    p(1,2) = 0.5062;
+    p(2,2) = 0.3000;
 
-    p(0) = 0.7633;
-    p(1) = 0.5744;
-    points.push_back(p);
+    p(0,3) = 0.7633;
+    p(1,3) = 0.5744;
+    p(2,3) = 0.3000;
 
-    p(0) = 0.8927;
-    p(1) = 0.7319;
-    p(2) = 0.2400;
-    points.push_back(p);
+    p(0,4) = 0.8927;
+    p(1,4) = 0.7319;
+    p(2,4) = 0.2400;
 
-    p(0) = 0.8101;
-    p(1) = 0.6754;
-    points.push_back(p);
+    p(0,5) = 0.8101;
+    p(1,5) = 0.6754;
+    p(2,5) = 0.2400;
 
-    p(0) = 0.9231;
-    p(1) = 0.5103;
-    points.push_back(p);
+    p(0,6) = 0.9231;
+    p(1,6) = 0.5103;
+    p(2,6) = 0.2400;
 
-    p(0) = 1.0056;
-    p(1) = 0.5668;
-    points.push_back(p);
+    p(0,7) = 1.0056;
+    p(1,7) = 0.5668;
+    p(2,7) = 0.2400;
 
-    REQUIRE(helper.buildConvexHull(points));
+    REQUIRE(helper.buildConvexHull(p));
 
     // check if the points belong to convex hull
-    for(const auto& point : points)
-        REQUIRE(helper.doesPointBelongToConvexHull(point));
+    for(size_t col = 0; col < p.cols(); col++)
+        REQUIRE(helper.doesPointBelongToConvexHull(p.col(col)));
 
     // p = [0 0 0] does not belong to the convex hull
-    iDynTree::VectorDynSize pointOutsideConvexHull(3);
-    pointOutsideConvexHull.zero();
+    Eigen::VectorXd pointOutsideConvexHull(3);
+    pointOutsideConvexHull.setZero();
     REQUIRE_FALSE(helper.doesPointBelongToConvexHull(pointOutsideConvexHull));
 }
