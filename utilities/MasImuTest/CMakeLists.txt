@@ -44,6 +44,8 @@ if(FRAMEWORK_COMPILE_MasImuTest)
     ARCHIVE       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                               COMPONENT lib
     RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}"                                               COMPONENT bin)
 
+  install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/app)
+
   message(STATUS "Created target ${EXE_TARGET_NAME} for export ${PROJECT_NAME}.")
 
 endif()

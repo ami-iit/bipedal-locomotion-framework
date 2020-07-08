@@ -14,7 +14,7 @@ checkandset_dependency(VALGRIND)
 
 framework_dependent_option(FRAMEWORK_COMPILE_tests
   "Compile tests?" ON
-  "FRAMEWORK_HAS_Catch2;BUILD_TESTING" OFF)
+  "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
 
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
