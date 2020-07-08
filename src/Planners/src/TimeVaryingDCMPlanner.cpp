@@ -634,27 +634,18 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
         return false;
     }
 
-    auto contacts = m_contactPhaseList.lock();
-    if (contacts == nullptr)
-    {
-        std::cerr << "[TimeVaryingDCMPlanner::computeTrajectory] The pointer to the contact phase "
-                     "list is expired."
-                  << std::endl;
-        return false;
-    }
-
     // clear the solver and the solution computed
     m_pimpl->clear();
 
-    const double& initialTrajectoryTime = contacts->cbegin()->beginTime;
-    const double& endTrajectoryTime = contacts->lastPhase()->endTime;
+    const double& initialTrajectoryTime = m_contactPhaseList->cbegin()->beginTime;
+    const double& endTrajectoryTime = m_contactPhaseList->lastPhase()->endTime;
 
     m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
                                                    / m_pimpl->optiSettings.plannerSamplingTime);
 
     m_pimpl->setupOpti(m_pimpl->numberOfTrajectorySamples);
 
-    if (!m_pimpl->setupOptimizationProblem(contacts, m_initialState))
+    if (!m_pimpl->setupOptimizationProblem(m_contactPhaseList, m_initialState))
     {
         std::cerr << "[TimeVaryingDCMPlanner::computeTrajectory] Unable to setup the optimization "
                      "problem."

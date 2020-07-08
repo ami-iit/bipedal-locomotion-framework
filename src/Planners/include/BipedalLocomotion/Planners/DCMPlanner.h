@@ -41,8 +41,8 @@ struct DCMPlannerState
 class DCMPlanner : public BipedalLocomotion::System::Advanceable<DCMPlannerState>
 {
 protected:
-    std::weak_ptr<const ContactPhaseList> m_contactPhaseList; /**< Pointer containing the contact
-                                                                 phases. */
+    std::shared_ptr<const ContactPhaseList> m_contactPhaseList; /**< Pointer containing the contact
+                                                                   phases. */
 
     DCMPlannerState m_initialState; /**< Initial state of the planner */
 

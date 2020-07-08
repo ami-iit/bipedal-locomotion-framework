@@ -24,7 +24,7 @@ bool DCMPlanner::setContactPhaseList(std::weak_ptr<const ContactPhaseList> conta
         return false;
     }
 
-    m_contactPhaseList = contactPhaseList;
+    m_contactPhaseList = contactPhaseList.lock();
     return true;
 }
 
