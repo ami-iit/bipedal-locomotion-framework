@@ -14,7 +14,7 @@
 #include <iDynTree/Core/SpatialAcc.h>
 
 #include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 using namespace iDynTree;
 using namespace BipedalLocomotion::ContactModels;
@@ -46,7 +46,7 @@ TEST_CASE("Continuous Contact")
     double length = 0.12;
     double width = 0.09;
 
-    std::shared_ptr<IParametersHandler> handler = std::make_shared<YarpImplementation>();
+    std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("spring_coeff", springCoeff);
     handler->setParameter("damper_coeff", damperCoeff);
     handler->setParameter("length", length);
