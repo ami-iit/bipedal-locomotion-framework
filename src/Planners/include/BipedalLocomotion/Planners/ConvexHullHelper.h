@@ -8,8 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONVEX_HULL_HELPER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_CONVEX_HULL_HELPER_H
 
-#include <iDynTree/Core/MatrixDynSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
+#include <Eigen/Dense>
 
 #include <vector>
 #include <memory>
@@ -50,10 +49,11 @@ public:
     /**
      * Given a set of points in \f$ \mathbb{R} ^ n\f$ the function build the convex hull.
      * @warning the points must belong to the same vectorial space.
-     * @param points a vector of the points that describes the convex hull.
+     * @param points a matrix of the points that describes the convex hull. Each point is stored as
+     * column of the matrix.
      * @return true/false in case of success/failure.
      */
-    bool buildConvexHull(const std::vector<iDynTree::VectorDynSize>& points);
+    bool buildConvexHull(Eigen::Ref<const Eigen::MatrixXd> points);
 
     /**
      * Return the \f$A\f$ constraint matrix, such that \f$ Ax \le b\f$ iff the point \f$x\f$ is in
@@ -62,7 +62,7 @@ public:
      * built yet a reference to a 0-size matrix is returned.
      * @return the constraint matrix.
      */
-    const iDynTree::MatrixDynSize& getA() const;
+    Eigen::Ref<const Eigen::MatrixXd> getA() const;
 
     /**
      * Return the \f$b\f$ constraint vector, such that \f$ Ax \le b\f$ iff the point \f$x\f$ is in
@@ -71,13 +71,13 @@ public:
      * built yet a reference to a 0-size vector is returned.
      * @return the constraint vector.
      */
-    const iDynTree::VectorDynSize& getB() const;
+    Eigen::Ref<const Eigen::VectorXd> getB() const;
 
     /**
      * Check if a point belong to the convex hull (The frontier of the set is also included).
      * @return true if the point belongs to the convex hull false otherwise.
      */
-    bool doesPointBelongToConvexHull(const iDynTree::VectorDynSize& point) const;
+    bool doesPointBelongToConvexHull(Eigen::Ref<const Eigen::VectorXd> point) const;
 };
 } // namespace Planners
 } // namespace BipedalLocomotion

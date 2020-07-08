@@ -71,6 +71,9 @@ include(AddBipedalLocomotionUnitTest)
 #Function to automatize the process of creating a new library
 include(AddBipedalLocomotionLibrary)
 
+#Utility to install ini files
+include(InstallIniFiles)
+
 add_subdirectory(src)
 
 #Creates the interface target BipedalLocomotion::Framework that depends on all the targets.
