@@ -62,8 +62,8 @@ public:
 
     /**
      * Set the contact phase list
-     * @note the contactPhaseList pointer should point to an already initialize ContactPhaseList.
-     * Please be sure that the memory pointed is reacheable for the entire life time of the
+     * @note the contactPhaseList pointer should point to an already initialized ContactPhaseList.
+     * Please be sure that the memory pointed is reachable for the entire life time of the
      * DCMPlanner class.
      * @param contactPhaseList pointer containing the list of the contact phases
      * @return true in case of success, false otherwise.
