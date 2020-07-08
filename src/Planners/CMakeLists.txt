@@ -18,7 +18,7 @@ if (FRAMEWORK_COMPILE_Planners)
     NAME                   Planners
     PUBLIC_HEADERS         ${H_PREFIX}/ConvexHullHelper.h ${H_PREFIX}/DCMPlanner.h ${H_PREFIX}/TimeVaryingDCMPlanner.h
     SOURCES                src/ConvexHullHelper.cpp src/DCMPlanner.cpp src/TimeVaryingDCMPlanner.cpp
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::Contact BipedalLocomotion::System BipedalLocomotion::ParametersHandler
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::System BipedalLocomotion::ParametersHandler BipedalLocomotion::Contact
     PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhullstatic_r casadi
     INSTALLATION_FOLDER    Planners
     DEPENDS_ON_EIGEN_PUBLIC)

@@ -103,8 +103,8 @@ struct TimeVaryingDCMPlanner::Impl
      */
     struct OptimizationSettings
     {
-        unsigned long solverVerbosity{0}; /**< Verbosity of ipopt */
-        std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
+        unsigned long solverVerbosity{1}; /**< Verbosity of ipopt */
+        std::string ipoptLinearSolver{"ma27"}; /**< Linear solved used by ipopt */
 
         double plannerSamplingTime; /**< Sampling time of the planner in seconds */
         std::vector<iDynTree::Position> footCorners; /**< Position of the corner of the foot
@@ -273,12 +273,15 @@ struct TimeVaryingDCMPlanner::Impl
                                        casadi::DM& ecmpConstraintB)
     {
         // TODO we may optimize here (DYNAMIC MEMORY ALLOCATION)
-        std::vector<iDynTree::VectorDynSize> points;
+        Eigen::MatrixXd points;
 
         // check if the points belongs to the same plane
-        bool samePlane = false;
+        int numberOfCoordinates = 3;
+
         if (contactPhase.activeContacts.size() == 1)
-            samePlane = true;
+        {
+            numberOfCoordinates = 2;
+        }
         else if (contactPhase.activeContacts.size() == 2)
         {
             auto contactIt = contactPhase.activeContacts.cbegin();
@@ -287,36 +290,39 @@ struct TimeVaryingDCMPlanner::Impl
             double foot2Height = contactIt->second->pose.getPosition()[2];
 
             if (foot2Height == foot1Height)
-                samePlane = true;
+            {
+                numberOfCoordinates = 2;
+            }
         }
 
+        const std::size_t numberOfPoints
+            = contactPhase.activeContacts.size() * this->optiSettings.footCorners.size();
+
+        points.resize(numberOfCoordinates, numberOfPoints);
+
         // compute the convex hull only once
+        int columnIndex = 0;
+        iDynTree::Position point;
         for (const auto& [contactName, activeContact] : contactPhase.activeContacts)
         {
             for (const auto& footCorner : this->optiSettings.footCorners)
             {
-                iDynTree::Position pointPosition = activeContact->pose * footCorner;
-
-                // TODO we may optimize here (DYNAMIC MEMORY ALLOCATION)
-                if (samePlane)
-                    points.push_back(iDynTree::VectorDynSize(pointPosition.data(), 2));
-                else
-                    points.push_back(iDynTree::VectorDynSize(pointPosition.data(), 3));
+                point = activeContact->pose * footCorner;
+                points.col(columnIndex) = iDynTree::toEigen(point).head(numberOfCoordinates);
+                columnIndex++;
             }
         }
         this->convexHullHelper.buildConvexHull(points);
-        const auto& A = this->convexHullHelper.getA();
 
         // TODO PLEASE OPTIMIZE ME
         // please check https://github.com/casadi/casadi/issues/2563 and
         // https://groups.google.com/forum/#!topic/casadi-users/npPcKItdLN8
-        // unfortunately iDynTree::MatrixDynSize store the matrix in row-major order, thus this
-        // trick is required
+        // Assumption: the matrices as stored as column-major
+        const auto& A = this->convexHullHelper.getA();
         ecmpConstraintA.resize(A.rows(), A.cols());
         ecmpConstraintA = casadi::DM::zeros(A.rows(), A.cols());
-        Eigen::MatrixXd AColumnMajour = iDynTree::toEigen(A);
         std::memcpy(ecmpConstraintA.ptr(),
-                    AColumnMajour.data(),
+                    A.data(),
                     sizeof(double) * A.rows() * A.cols());
 
         const auto& b = this->convexHullHelper.getB();
@@ -324,7 +330,7 @@ struct TimeVaryingDCMPlanner::Impl
         ecmpConstraintB = casadi::DM::zeros(b.size(), 1);
         std::memcpy(ecmpConstraintB.ptr(), b.data(), sizeof(double) * b.size());
 
-        return samePlane;
+        return numberOfCoordinates == 2;
     }
 
     bool setupOptimizationProblem(std::shared_ptr<const ContactPhaseList> contactPhaseList,
@@ -346,7 +352,7 @@ struct TimeVaryingDCMPlanner::Impl
 
         double time = contactPhaseList->cbegin()->beginTime;
 
-        std::vector<iDynTree::Vector3> dcmKnots;
+        std::vector<Eigen::Vector3d> dcmKnots;
         std::vector<double> timeKnots;
 
         // first point
@@ -393,9 +399,8 @@ struct TimeVaryingDCMPlanner::Impl
                     std::advance(contactIt, 1);
                     iDynTree::Position p2 = contactIt->second->pose.getPosition();
 
-                    iDynTree::Vector3 desiredDCMPosition;
-                    iDynTree::toEigen(desiredDCMPosition)
-                        = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
+                    Eigen::Vector3d desiredDCMPosition;
+                    desiredDCMPosition = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -412,9 +417,8 @@ struct TimeVaryingDCMPlanner::Impl
                     std::advance(contactIt, 1);
                     iDynTree::Position p2 = contactIt->second->pose.getPosition();
 
-                    iDynTree::Vector3 desiredDCMPosition;
-                    iDynTree::toEigen(desiredDCMPosition)
-                        = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
+                    Eigen::Vector3d desiredDCMPosition;
+                    desiredDCMPosition = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -512,25 +516,24 @@ struct TimeVaryingDCMPlanner::Impl
 
     void prepareSolution()
     {
-        using iDynTree::toEigen;
-
         std::size_t outputIndex = this->trajectoryIndex == numberOfTrajectorySamples
                                       ? numberOfTrajectorySamples - 1
                                       : trajectoryIndex;
 
-        for (std::size_t i = 0; i < dcmVectorSize; i++)
-            this->trajectory.dcmPosition(i) = static_cast<double>(optiSolution.dcm(i, trajectoryIndex));
+        std::memcpy(this->trajectory.dcmPosition.data(),
+                    optiSolution.dcm.ptr(),
+                    sizeof(double) * this->dcmVectorSize);
 
-        for (std::size_t i = 0; i < vrpVectorSize; i++)
-            trajectory.vrpPosition(i) = static_cast<double>(optiSolution.vrp(i, outputIndex));
+        std::memcpy(this->trajectory.vrpPosition.data(),
+                    optiSolution.vrp.ptr(),
+                    sizeof(double) * this->dcmVectorSize);
 
         trajectory.omega = static_cast<double>(optiSolution.omega(0, trajectoryIndex));
 
         const double omegaDot = static_cast<double>(optiSolution.omegaDot(0, outputIndex));
 
-        toEigen(trajectory.dcmVelocity)
-            = (trajectory.omega - omegaDot / trajectory.omega)
-              * (toEigen(trajectory.dcmPosition) - toEigen(trajectory.vrpPosition));
+        trajectory.dcmVelocity = (trajectory.omega - omegaDot / trajectory.omega)
+                                 * (trajectory.dcmPosition - trajectory.vrpPosition);
     }
 };
 

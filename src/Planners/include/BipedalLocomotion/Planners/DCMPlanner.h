@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include <iDynTree/Core/VectorFixSize.h>
+#include <Eigen/Dense>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/ContactPhaseList.h>
@@ -26,10 +26,10 @@ namespace Planners
  */
 struct DCMPlannerState
 {
-    iDynTree::Vector3 dcmPosition; /**< Position of the DCM expressed w.r.t. the inertial frame */
-    iDynTree::Vector3 dcmVelocity; /**< Velocity of the DCM expressed w.r.t. the inertial frame */
-    iDynTree::Vector3 vrpPosition; /**< Position of the virtual repellent point (VRP) expressed
-                                      w.r.t. the inertial frame */
+    Eigen::Vector3d dcmPosition; /**< Position of the DCM expressed w.r.t. the inertial frame */
+    Eigen::Vector3d dcmVelocity; /**< Velocity of the DCM expressed w.r.t. the inertial frame */
+    Eigen::Vector3d vrpPosition; /**< Position of the virtual repellent point (VRP) expressed
+                                    w.r.t. the inertial frame */
     double omega;/**< Value of the parameter omega */
 };
 

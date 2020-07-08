@@ -83,9 +83,9 @@ TEST_CASE("TimeVaryingDCMPlanner")
 
     // set the initial state
     DCMPlannerState initialState;
-    initialState.dcmPosition.zero();
+    initialState.dcmPosition.setZero();
     initialState.dcmPosition[2] = 0.53;
-    initialState.dcmVelocity.zero();
+    initialState.dcmVelocity.setZero();
     initialState.vrpPosition = initialState.dcmPosition;
     initialState.omega = std::sqrt(9.81 / initialState.dcmPosition[2]);
 
