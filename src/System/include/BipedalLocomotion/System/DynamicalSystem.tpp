@@ -16,10 +16,9 @@ namespace System
 {
 
 template <typename StateType, typename StateDerivativeType, typename InputType>
-bool DynamicalSystem<StateType, StateDerivativeType, InputType>::setInitialState(
-    const StateType& initialState)
+bool DynamicalSystem<StateType, StateDerivativeType, InputType>::setState(const StateType& state)
 {
-    m_initialState = initialState;
+    m_state = state;
     return true;
 }
 
@@ -32,16 +31,16 @@ bool DynamicalSystem<StateType, StateDerivativeType, InputType>::setControlInput
 }
 
 template <typename StateType, typename StateDerivativeType, typename InputType>
+const StateType& DynamicalSystem<StateType, StateDerivativeType, InputType>::getState() const
+{
+    return m_state;
+}
+
+template <typename StateType, typename StateDerivativeType, typename InputType>
 bool DynamicalSystem<StateType, StateDerivativeType, InputType>::initalize(
     std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;
-}
-
-template <typename StateType, typename StateDerivativeType, typename InputType>
-const StateType& DynamicalSystem<StateType, StateDerivativeType, InputType>::getInitialState() const
-{
-    return m_initialState;
 }
 
 } // namespace System
