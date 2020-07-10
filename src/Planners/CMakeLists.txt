@@ -18,9 +18,9 @@ if (FRAMEWORK_COMPILE_Planners)
     NAME                   Planners
     PUBLIC_HEADERS         ${H_PREFIX}/ConvexHullHelper.h
     SOURCES                src/ConvexHullHelper.cpp
+    PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
     PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhullstatic_r
-    INSTALLATION_FOLDER    Planners
-    DEPENDS_ON_EIGEN_PUBLIC)
+    INSTALLATION_FOLDER    Planners)
 
   add_subdirectory(tests)
 

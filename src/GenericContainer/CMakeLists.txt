@@ -6,7 +6,7 @@
 add_bipedal_locomotion_library(
     NAME                   GenericContainer
     PUBLIC_HEADERS         include/BipedalLocomotion/GenericContainer/Vector.h include/BipedalLocomotion/GenericContainer/TemplateHelpers.h
-    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core
+    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core Eigen3::Eigen
     SUBDIRECTORIES   tests
     IS_INTERFACE)
 

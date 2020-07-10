@@ -10,5 +10,4 @@ add_bipedal_test(
 add_bipedal_test(
   NAME IntegratorTest
   SOURCES IntegratorTest.cpp
-  LINKS BipedalLocomotion::System
-  DEPENDS_ON_EIGEN_PRIVATE)
+  LINKS BipedalLocomotion::System Eigen3::Eigen)
