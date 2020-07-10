@@ -16,11 +16,7 @@ namespace System
 {
 
 template <typename DynamicalSystemDerived>
-bool ForwardEuler<DynamicalSystemDerived>::oneStepIntegration(
-    double t0,
-    double dT,
-    const typename DynamicalSystemDerived::StateType& x0,
-    typename DynamicalSystemDerived::StateType& x)
+bool ForwardEuler<DynamicalSystemDerived>::oneStepIntegration(double t0, double dT)
 {
 
     if (this->m_dynamicalSystem == nullptr)
@@ -30,7 +26,7 @@ bool ForwardEuler<DynamicalSystemDerived>::oneStepIntegration(
         return false;
     }
 
-    if (!this->m_dynamicalSystem->dynamics(x0, t0, this->m_computationalBuffer))
+    if (!this->m_dynamicalSystem->dynamics(t0, this->m_computationalBufferStateDerivative))
     {
         std::cerr << "[ForwardEuler::oneStepIntegration] Unable to compute the system dynamics."
                   << std::endl;
@@ -38,8 +34,16 @@ bool ForwardEuler<DynamicalSystemDerived>::oneStepIntegration(
     }
 
     // x = x0 + dT * dx
-    x = x0;
-    this->addArea(this->m_computationalBuffer, dT, x);
+    this->m_computationalBufferState = this->m_dynamicalSystem->getState();
+    this->addArea(this->m_computationalBufferStateDerivative, dT, this->m_computationalBufferState);
+
+    if (!this->m_dynamicalSystem->setState(this->m_computationalBufferState))
+    {
+        std::cerr << "[ForwardEuler::oneStepIntegration] Unable to set the new state in the "
+                     "dynamical system."
+                  << std::endl;
+        return false;
+    }
 
     return true;
 }

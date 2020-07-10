@@ -23,14 +23,14 @@ namespace System
 /**
  * Forward Euler integration method.
  * @tparam DynamicalSystemDerived a class derived from DynamicalSystem
- * @warning We assume that the vectors / matrices contained in the DynamicalSystemDerived::StateType
- * and DynamicalSystemDerived::StateDerivativeType can be converted into an Eigen::Map using
- * iDynTree::toEigen() function
+ * @warning We assume that the operator + is defined for the objects contained in the
+ * DynamicalSystemDerived::StateType and DynamicalSystemDerived::StateDerivativeType.
  */
 template <typename DynamicalSystemDerived>
 class ForwardEuler : public FixedStepIntegrator<DynamicalSystemDerived>
 {
-    typename DynamicalSystemDerived::StateDerivativeType m_computationalBuffer;
+    typename DynamicalSystemDerived::StateDerivativeType m_computationalBufferStateDerivative;
+    typename DynamicalSystemDerived::StateType m_computationalBufferState;
 
     template <std::size_t I = 0, typename... Tp, typename... Td>
     inline typename std::enable_if<I == sizeof...(Tp), void>::type
@@ -45,18 +45,7 @@ class ForwardEuler : public FixedStepIntegrator<DynamicalSystemDerived>
     {
         static_assert(sizeof...(Tp) == sizeof...(Td));
 
-        iDynTree::toEigen(std::get<I>(x)) += iDynTree::toEigen(std::get<I>(dx)) * dT;
-
-        if constexpr (std::is_same<typename std::remove_reference<decltype(std::get<I>(x))>::type,
-                                   iDynTree::Rotation>::value)
-        {
-            Eigen::Matrix3d baseRotationEigen = iDynTree::toEigen(std::get<I>(x));
-            Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseRotationEigen,
-                                                  Eigen::ComputeFullU | Eigen::ComputeFullV);
-
-            iDynTree::toEigen(std::get<I>(x)) = svd.matrixU() * svd.matrixV().transpose();
-        }
-
+        std::get<I>(x) += std::get<I>(dx) * dT;
         addArea<I + 1>(dx, dT, x);
     }
 
@@ -64,14 +53,9 @@ class ForwardEuler : public FixedStepIntegrator<DynamicalSystemDerived>
      * Integrate one step.
      * @param t0 initial time.
      * @param dT sampling time.
-     * @param x0 initial state.
-     * @param x state at t0 + dT.
      * @return true in case of success, false otherwise.
      */
-    bool oneStepIntegration(double t0,
-                            double dT,
-                            const typename DynamicalSystemDerived::StateType& x0,
-                            typename DynamicalSystemDerived::StateType& x) final;
+    bool oneStepIntegration(double t0, double dT) final;
 
 public:
     /**
