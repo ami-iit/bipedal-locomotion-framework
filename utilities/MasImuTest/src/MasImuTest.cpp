@@ -445,7 +445,7 @@ void MasImuTest::MasImuData::printResults() const
         std::string output;
         iDynTree::Vector3 rpy = rot.asRPY();
 
-        output = "RPY: (" + std::to_string(rpy[0]) + ", " + std::to_string(rpy[1]) + ", " + std::to_string(rpy[2]) + ")\n";
+        output = "RPY [deg]: (" + std::to_string(iDynTree::rad2deg(rpy[0])) + ", " + std::to_string(iDynTree::rad2deg(rpy[1])) + ", " + std::to_string(iDynTree::rad2deg(rpy[2])) + ")\n";
         return output;
     };
 
