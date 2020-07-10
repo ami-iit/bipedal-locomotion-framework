@@ -14,6 +14,8 @@
 #include <BipedalLocomotion/System/DynamicalSystem.h>
 #include <BipedalLocomotion/System/ContactWrench.h>
 
+#include <Eigen/Dense>
+
 #include <iDynTree/Core/MatrixFixSize.h>
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
@@ -29,35 +31,35 @@ namespace System
  * FloatingBaseDynamicalSystem describes a floating base dynamical system.
  * The FloatingBaseDynamicalSystem inherits from a generic DynamicalSystem where:
  * - DynamicalSystem::StateType is described by an std::tuple containing:
- *   - iDynTree::Vector6: the base velocity expressed in mixed representation;
- *   - iDynTree::VectorDynsize: the joint velocities [in rad/s];
- *   - iDynTree::Position: position of the base w.r.t. the inertial frame
- *   - iDynTree::Rotation: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
+ *   - Eigen::Vector6d: the base velocity expressed in mixed representation;
+ *   - Eigen::VectorXd: the joint velocities [in rad/s];
+ *   - Eigen::Vector3d: position of the base w.r.t. the inertial frame
+ *   - Eigen::Matrix3d: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
  * whose coordinates are expressed in the base frame in the inertial frame;
- *   - iDynTree::VectorDynsize: the joint positions [in rad].
+ *   - Eigen::VectorXd: the joint positions [in rad].
  * - DynamicalSystem::StateDerivativeType is described by an std::tuple containing:
- *   - iDynTree::Vector6: the base acceleration expressed in mixed representation;
- *   - iDynTree::VectorDynsize: the joint accelerations [in rad/s^2];
- *   - iDynTree::Vector3: base velocity w.r.t. the inertial frame;
- *   - iDynTree::Matrix3x3: rate of change of the rotation matrix \f${} ^ I \dot{R} _ {b}\f$.
+ *   - Eigen::Vector6d: the base acceleration expressed in mixed representation;
+ *   - Eigen::VectorXd: the joint accelerations [in rad/s^2];
+ *   - Eigen::Vector3d: base velocity w.r.t. the inertial frame;
+ *   - Eigen::Matrix3d: rate of change of the rotation matrix \f${} ^ I \dot{R} _ {b}\f$.
  * whose coordinates are expressed in the base frame in the inertial frame;
- *   - iDynTree::VectorDynsize: the joint velocities [in rad/s].
+ *   - Eigen::VectorXd: the joint velocities [in rad/s].
  * - DynamicalSystem::InputType is described by an std::tuple containing:
- *   - iDynTree::VectorDynsize: the joint torques [in Nm];
+ *   - Eigen::VectorXd: the joint torques [in Nm];
  *   - std::vector<ContactWrench>: List of contact wrenches.
  */
-class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::Vector6,
-                                                                      iDynTree::VectorDynSize,
-                                                                      iDynTree::Position,
-                                                                      iDynTree::Rotation,
-                                                                      iDynTree::VectorDynSize>,
-                                                           std::tuple<iDynTree::Vector6,
-                                                                      iDynTree::VectorDynSize,
-                                                                      iDynTree::Vector3,
-                                                                      iDynTree::Matrix3x3,
-                                                                      iDynTree::VectorDynSize>,
-                                                           std::tuple<iDynTree::VectorDynSize,
-                                                                      std::vector<ContactWrench>>>
+class FloatingBaseDynamicalSystem
+    : public DynamicalSystem<std::tuple<Eigen::Matrix<double, 6, 1>,
+                                        Eigen::VectorXd,
+                                        Eigen::Vector3d,
+                                        Eigen::Matrix3d,
+                                        Eigen::VectorXd>,
+                             std::tuple<Eigen::Matrix<double, 6, 1>,
+                                        Eigen::VectorXd,
+                                        Eigen::Vector3d,
+                                        Eigen::Matrix3d,
+                                        Eigen::VectorXd>,
+                             std::tuple<Eigen::VectorXd, std::vector<ContactWrench>>>
 {
     static constexpr size_t m_baseDoFs = 6; /**< Number of degree of freedom associated to the
                                                floating base */
@@ -75,11 +77,11 @@ class FloatingBaseDynamicalSystem : public DynamicalSystem<std::tuple<iDynTree::
 
     // quantities useful to avoid dynamic allocation in the dynamic allocation in the
     // FloatingBaseDynamicalSystem::dynamics method
-    iDynTree::VectorDynSize m_generalizedRobotAcceleration;
-    iDynTree::VectorDynSize m_knownCoefficent;
+    Eigen::VectorXd m_generalizedRobotAcceleration;
+    Eigen::VectorXd m_knownCoefficent;
 
     bool m_useMassMatrixRegularizationTerm{false};
-    iDynTree::MatrixDynSize m_massMatrixReglarizationTerm;
+    Eigen::MatrixXd m_massMatrixReglarizationTerm;
 
 public:
     /**
@@ -91,10 +93,19 @@ public:
     FloatingBaseDynamicalSystem();
 
     /**
+     * Set the state of the dynamical system.
+     * @note This function is required to guarantee that the matrix representing the rotation
+     * belongs to SO(3)
+     * @param state tuple containing a const reference to the state elements.
+     * @return true in case of success, false otherwise.
+     */
+    bool setState(const StateType& state) override;
+
+    /**
      * Set the vector of gravity.
      * @param gravity a 3D vector describing the gravity acceleration.
      */
-    void setGravityVector(const iDynTree::Vector3& gravity);
+    void setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity);
 
     /**
      * Set a kinDynComputations object.
@@ -111,19 +122,17 @@ public:
      * regularization term.
      * @return true in case of success, false otherwise.
      */
-    bool setMassMatrixRegularization(const iDynTree::MatrixDynSize& matrix);
+    bool setMassMatrixRegularization(const Eigen::Ref<const Eigen::MatrixXd>& matrix);
 
     /**
      * Computes the floating based system dynamics. It return \f$f(x, u, t)\f$.
-     * @note The control input has to be set separately with the method setControlInput.
-     * @param state tuple containing a const reference to the state elements.
+     * @note The control input and the state have to be set separately with the methods
+     * setControlInput and setState.
      * @param time the time at witch the dynamics is computed.
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const StateType& state,
-                  const double& time,
-                  StateDerivativeType& stateDerivative) final;
+    bool dynamics(const double& time, StateDerivativeType& stateDerivative) final;
 
     /**
      * Destructor.
