@@ -26,7 +26,6 @@ namespace System
 template <typename DynamicalSystemDerived>
 class FixedStepIntegrator : public Integrator<DynamicalSystemDerived>
 {
-    typename DynamicalSystemDerived::StateType m_stateAtNextTimeInstant; /**< State at t+1 */
 
 protected:
     double m_dT{0.0}; /**< Fixed step size */
@@ -35,14 +34,9 @@ protected:
      * Integrate one step.
      * @param t0 initial time.
      * @param dT sampling time.
-     * @param x0 initial state.
-     * @param x state at t0 + dT.
      * @return true in case of success, false otherwise.
      */
-    virtual bool oneStepIntegration(double t0,
-                                    double dT,
-                                    const typename DynamicalSystemDerived::StateType& x0,
-                                    typename DynamicalSystemDerived::StateType& x) = 0;
+    virtual bool oneStepIntegration(double t0, double dT) = 0;
 
 public:
 
