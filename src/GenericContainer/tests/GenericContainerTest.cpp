@@ -14,6 +14,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <Eigen/Core>
 
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 
@@ -36,6 +37,7 @@ TEST_CASE("GenericContainer::Vector")
         REQUIRE(GenericContainer::is_vector_constructible<double[5]>::value);
         REQUIRE(GenericContainer::is_vector_constructible<const double[5]>::value);
         REQUIRE(GenericContainer::is_vector_constructible<std::string>::value);
+        REQUIRE(GenericContainer::is_vector_constructible<Eigen::VectorXd>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<std::vector<bool>>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<double>::value);
         REQUIRE_FALSE(GenericContainer::is_vector_constructible<int>::value);
@@ -611,6 +613,21 @@ TEST_CASE("GenericContainer::Vector")
             ok = (it - beyond == 0);
             REQUIRE(ok);
         }
+    }
+
+    SECTION("To eigen")
+    {
+        double a[] = {1, 2, 3, 4};
+        iDynTree::VectorDynSize b(4);
+        b(0) = 5;
+        b(1) = 6;
+        b(2) = 7;
+        b(3) = 8;
+        std::vector<double> c{6, 8, 10, 12};
+
+        Eigen::VectorXd d = GenericContainer::to_eigen(a) + GenericContainer::to_eigen(b);
+
+        REQUIRE(d.isApprox(GenericContainer::to_eigen(c)));
     }
 
 }

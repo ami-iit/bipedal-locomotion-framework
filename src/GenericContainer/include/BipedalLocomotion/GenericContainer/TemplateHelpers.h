@@ -95,14 +95,14 @@ struct is_resizable<T, void_t<decltype(std::declval<T>().resize(std::declval<int
 };
 
 /**
- * is_size_available is an utility metafunction to detect if typename T contains the <code>size()<\code> method.
+ * is_size_available is a utility metafunction to detect if typename T contains the <code>size()<\code> method.
  */
 template <typename T, typename = void> struct is_size_available : std::false_type
 {
 };
 
 /**
- * is_size_available is an utility metafunction to detect if typename T contains the <code>size()<\code> method.
+ * is_size_available is a utility metafunction to detect if typename T contains the <code>size()<\code> method.
  * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
  */
 template <typename T>
@@ -111,14 +111,14 @@ struct is_size_available<T, void_t<decltype(std::declval<T>().size())>> : std::t
 };
 
 /**
- * is_data_available is an utility metafunction to detect if typename T contains the <code>data()<\code> method.
+ * is_data_available is a utility metafunction to detect if typename T contains the <code>data()<\code> method.
  */
 template <typename T, typename = void> struct is_data_available : std::false_type
 {
 };
 
 /**
- * is_data_available is an utility metafunction to detect if typename T contains the <code>data()<\code> method.
+ * is_data_available is a utility metafunction to detect if typename T contains the <code>data()<\code> method.
  * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
  */
 template <typename T>
@@ -127,14 +127,14 @@ struct is_data_available<T, void_t<decltype(std::declval<T>().data())>> : std::t
 };
 
 /**
- * has_type_member is an utility metafunction to detect if typename T defines <code>value_type<\code>,
+ * has_type_member is a utility metafunction to detect if typename T defines <code>value_type<\code>,
  * i.e. <code>T::value_type<\code> is available.
  */
 template< class, typename = void >
 struct has_type_member : std::false_type { };
 
 /**
- * has_type_member is an utility metafunction to detect if typename T defines <code>value_type<\code>,
+ * has_type_member is a utility metafunction to detect if typename T defines <code>value_type<\code>,
  * i.e. <code>T::value_type<\code> is available.
  * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
  */
@@ -142,7 +142,7 @@ template< class T >
 struct has_type_member<T, void_t<typename T::value_type>> : std::true_type { };
 
 /**
- * container_data is an utility metafunction to detect the type of container. If T is not a supported container, it throws
+ * container_data is a utility metafunction to detect the type of container. If T is not a supported container, it throws
  * an assertion at compile time.
  */
 template <typename T, typename = void>
@@ -152,7 +152,7 @@ struct container_data
 };
 
 /**
- * container_data is an utility metafunction to detect the type of container.
+ * container_data is a utility metafunction to detect the type of container.
  * This specialization is enabled if <code>T::value_type<\code> is available.
  */
 template <typename T>
@@ -162,7 +162,7 @@ struct container_data<T, typename std::enable_if<has_type_member<T>::value>::typ
 };
 
 /**
- * container_data is an utility metafunction to detect the type of container.
+ * container_data is a utility metafunction to detect the type of container.
  * This specialization is enabled if <code>T::value_type<\code> is not available, but the method <code>data()<\code> is.
  */
 template <typename T>
@@ -172,7 +172,7 @@ struct container_data<T, typename std::enable_if<!has_type_member<T>::value && i
 };
 
 /**
- * container_data is an utility metafunction to detect the type of container.
+ * container_data is a utility metafunction to detect the type of container.
  * This specialization is enabled if T is an array.
  */
 template <typename T>
@@ -182,7 +182,7 @@ struct container_data<T, typename std::enable_if<std::is_array<T>::value>::type>
 };
 
 /**
- * size_type is an utility metafunction to detect the type used for the indices in the container.
+ * size_type is a utility metafunction to detect the type used for the indices in the container.
  * By default if std::ptrdiff_t.
  */
 template <typename T, typename = void>
@@ -192,7 +192,7 @@ struct size_type
 };
 
 /**
- * size_type is an utility metafunction to detect the type used for the indices in the container.
+ * size_type is a utility metafunction to detect the type used for the indices in the container.
  * In this specialization it returns the return type of the <code>size()<\code> method, provided it exists.
  */
 template <typename T>
@@ -202,7 +202,7 @@ struct size_type<T, typename std::enable_if<is_size_available<T>::value>::type>
 };
 
 /**
- * is_string is an utility metafunction to detect the if a given type is a std::string or it can be
+ * is_string is a utility metafunction to detect the if a given type is a std::string or it can be
  * trivially converted in a std::string.
  */
 template <typename T>
