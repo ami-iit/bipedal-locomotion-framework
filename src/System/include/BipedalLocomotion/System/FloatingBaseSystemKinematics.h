@@ -13,6 +13,7 @@
 
 #include <BipedalLocomotion/System/DynamicalSystem.h>
 #include <BipedalLocomotion/System/ContactWrench.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
 #include <Eigen/Dense>
 
@@ -43,15 +44,19 @@ class FloatingBaseSystemKinematics
                              std::tuple<Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd>,
                              std::tuple<Eigen::Matrix<double, 6, 1>, Eigen::VectorXd>>
 {
+    double m_rho{0.01}; /**< Regularization term used for the Baumgarte stabilization over the SO(3)
+                           group */
+
 public:
     /**
-     * Set the state of the dynamical system.
-     * @note This function is required to guarantee that the matrix representing the rotation
-     * belongs to SO(3)
-     * @param state tuple containing a const reference to the state elements.
-     * @return true in case of success, false otherwise.
+     * Initialize the Dynamical system.
+     * @note Please call this function only if you want to set an arbitrary value for the parameter
+     * used in the Baumgarte stabilization \f$\rho\f$ (The default value is 0.01 ). In this case the
+     * handler should contain a key called rho.
+     * @param handler pointer to the parameter handler.
+     * @return true in case of success/false otherwise.
      */
-    bool setState(const StateType& state) override;
+    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Computes the floating based system dynamics. It return \f$f(x, u, t)\f$.

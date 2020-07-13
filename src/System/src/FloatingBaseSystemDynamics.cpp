@@ -12,6 +12,31 @@
 #include <BipedalLocomotion/System/FloatingBaseSystemDynamics.h>
 
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion::ParametersHandler;
+
+bool FloatingBaseDynamicalSystem::initalize(std::weak_ptr<IParametersHandler> handler)
+{
+    auto ptr = handler.lock();
+    if (ptr == nullptr)
+    {
+        std::cerr << "[FloatingBaseDynamicalSystem::initalize] The parameter handler is expired. "
+                     "Please call the function passing a pointer pointing an already allocated "
+                     "memory."
+                  << std::endl;
+        return false;
+    }
+
+    if (!ptr->getParameter("rho", m_rho))
+    {
+        std::cerr << "[FloatingBaseDynamicalSystem::initalize] Unable to load the Baumgarte "
+                     "stabilization parameter."
+                  << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
 
 FloatingBaseDynamicalSystem::FloatingBaseDynamicalSystem()
 {
@@ -74,24 +99,6 @@ bool FloatingBaseDynamicalSystem::setMassMatrixRegularization(const Eigen::Ref<c
     return true;
 }
 
-bool FloatingBaseDynamicalSystem::setState(const StateType& state)
-{
-
-    std::get<0>(m_state) = std::get<0>(state);
-    std::get<1>(m_state) = std::get<1>(state);
-    std::get<2>(m_state) = std::get<2>(state);
-    std::get<4>(m_state) = std::get<4>(state);
-
-    // project the base orientation matrix in SO3
-    // here we assume that the velocity is expressed using the mixed representation
-    const Eigen::Matrix3d& baseOrientation = std::get<3>(state);
-    Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseOrientation,
-                                          Eigen::ComputeFullU | Eigen::ComputeFullV);
-    std::get<3>(m_state) = svd.matrixU() * svd.matrixV().transpose();
-
-    return true;
-}
-
 bool FloatingBaseDynamicalSystem::dynamics(const double& time,
                                            StateDerivativeType& stateDerivative)
 {
@@ -126,7 +133,11 @@ bool FloatingBaseDynamicalSystem::dynamics(const double& time,
 
     // compute the base linear velocity
     baseLinearVelocity = baseVelocity.head<3>();
-    baseRotationRate = iDynTree::skew(baseVelocity.tail<3>()) * baseOrientation;
+    baseRotationRate = -baseOrientation.colwise().cross(baseVelocity.tail<3>())
+                       + m_rho / 2.0
+                             * ((baseOrientation * baseOrientation.transpose()).inverse()
+                                - Eigen::Matrix3d::Identity())
+                             * baseOrientation;
 
     jointVelocityOutput = jointVelocity;
 

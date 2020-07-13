@@ -8,22 +8,30 @@
 #include <BipedalLocomotion/System/FloatingBaseSystemKinematics.h>
 
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseSystemKinematics::setState(const StateType& state)
+bool FloatingBaseSystemKinematics::initalize(std::weak_ptr<IParametersHandler> handler)
 {
-    std::get<0>(m_state) = std::get<0>(state);
-    std::get<2>(m_state) = std::get<2>(state);
+    auto ptr = handler.lock();
+    if (ptr == nullptr)
+    {
+        std::cerr << "[FloatingBaseSystemKinematics::initalize] The parameter handler is expired. "
+                     "Please call the function passing a pointer pointing an already allocated "
+                     "memory."
+                  << std::endl;
+        return false;
+    }
 
-    // project the base orientation matrix in SO3
-    // here we assume that the velocity is expressed using the mixed representation
-    const Eigen::Matrix3d& baseOrientation = std::get<1>(state);
-    Eigen::JacobiSVD<Eigen::Matrix3d> svd(baseOrientation,
-                                          Eigen::ComputeFullU | Eigen::ComputeFullV);
-    std::get<1>(m_state) = svd.matrixU() * svd.matrixV().transpose();
+    if (!ptr->getParameter("rho", m_rho))
+    {
+        std::cerr << "[FloatingBaseSystemKinematics::initalize] Unable to load the Baumgarte "
+                     "stabilization parameter."
+                  << std::endl;
+        return false;
+    }
 
     return true;
 }
-
 
 bool FloatingBaseSystemKinematics::dynamics(const double& time,
                                             StateDerivativeType& stateDerivative)
@@ -53,7 +61,11 @@ bool FloatingBaseSystemKinematics::dynamics(const double& time,
     baseLinearVelocity = baseTwist.head<3>();
 
     // here we assume that the velocity is expressed using the mixed representation
-    baseRotationRate = -baseRotation.colwise().cross(baseTwist.tail<3>());
+    baseRotationRate = -baseRotation.colwise().cross(baseTwist.tail<3>())
+                       + m_rho / 2.0
+                             * ((baseRotation * baseRotation.transpose()).inverse()
+                                - Eigen::Matrix3d::Identity())
+                             * baseRotation;
 
     jointVelocityOutput = jointVelocity;
 
