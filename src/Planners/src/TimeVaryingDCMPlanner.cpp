@@ -553,21 +553,19 @@ struct TimeVaryingDCMPlanner::Impl
 
     void prepareSolution()
     {
-        std::size_t outputIndex = this->trajectoryIndex == numberOfTrajectorySamples
-                                      ? numberOfTrajectorySamples - 1
-                                      : trajectoryIndex;
+        using Sl = casadi::Slice;
 
         std::memcpy(this->trajectory.dcmPosition.data(),
-                    optiSolution.dcm.ptr(),
+                    optiSolution.dcm(Sl(), this->trajectoryIndex).ptr(),
                     sizeof(double) * this->dcmVectorSize);
 
         std::memcpy(this->trajectory.vrpPosition.data(),
-                    optiSolution.vrp.ptr(),
+                    optiSolution.vrp(Sl(), this->trajectoryIndex).ptr(),
                     sizeof(double) * this->dcmVectorSize);
 
-        trajectory.omega = static_cast<double>(optiSolution.omega(0, trajectoryIndex));
+        trajectory.omega = static_cast<double>(optiSolution.omega(0, this->trajectoryIndex));
 
-        const double omegaDot = static_cast<double>(optiSolution.omegaDot(0, outputIndex));
+        const double omegaDot = static_cast<double>(optiSolution.omegaDot(0, this->trajectoryIndex));
 
         trajectory.dcmVelocity = (trajectory.omega - omegaDot / trajectory.omega)
                                  * (trajectory.dcmPosition - trajectory.vrpPosition);
@@ -711,6 +709,9 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     m_pimpl->optiSolution.omega = m_pimpl->optiSolution.solution->value(m_pimpl->optiVariables.omega);
     m_pimpl->optiSolution.omegaDot = m_pimpl->optiSolution.solution->value(m_pimpl->optiVariables.omegaDot);
 
+    // reinitialize the trajectory
+    m_pimpl->trajectoryIndex = 0;
+
     m_pimpl->prepareSolution();
 
     m_pimpl->isTrajectoryComputed = true;
@@ -740,7 +741,7 @@ bool TimeVaryingDCMPlanner::advance()
         return false;
     }
 
-    m_pimpl->trajectoryIndex = std::min(m_pimpl->trajectoryIndex + 1, m_pimpl->numberOfTrajectorySamples);
+    m_pimpl->trajectoryIndex = std::min(m_pimpl->trajectoryIndex + 1, m_pimpl->numberOfTrajectorySamples - 1);
 
     m_pimpl->prepareSolution();
 
