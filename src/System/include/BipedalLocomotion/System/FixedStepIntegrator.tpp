@@ -52,26 +52,22 @@ bool FixedStepIntegrator<DynamicalSystemDerived>::integrate(double initialTime, 
     {
         currentTime = initialTime + m_dT * i;
 
-        if (!oneStepIntegration(currentTime, m_dT, this->m_solution, m_stateAtNextTimeInstant))
+        if (!oneStepIntegration(currentTime, m_dT))
         {
             std::cerr << "[FixedStepIntegrator::integrate] Error while integrating at time: "
                       << currentTime << "." << std::endl;
             return false;
         }
-
-        this->m_solution = m_stateAtNextTimeInstant;
     }
 
     // Consider last step separately to be sure that the last solution point is in finalTime
     double dT = finalTime - currentTime;
-    if (!oneStepIntegration(currentTime, dT, this->m_solution, m_stateAtNextTimeInstant))
+    if (!oneStepIntegration(currentTime, dT))
     {
         std::cerr << "[FixedStepIntegrator::integrate] Error while integrating the last step."
                   << std::endl;
         return false;
     }
-
-    this->m_solution = m_stateAtNextTimeInstant;
     return true;
 }
 

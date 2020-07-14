@@ -36,9 +36,6 @@ bool Integrator<DynamicalSystemDerived>::setDynamicalSystem(std::shared_ptr<Dyna
 
     m_dynamicalSystem = dynamicalSystem;
 
-    // set the initial state
-    m_solution = m_dynamicalSystem->getInitialState();
-
     return true;
 }
 
@@ -53,7 +50,7 @@ template <typename DynamicalSystemDerived>
 const typename DynamicalSystemDerived::StateType&
 Integrator<DynamicalSystemDerived>::getSolution() const
 {
-    return m_solution;
+    return m_dynamicalSystem->getState();
 }
 
 } // namespace System
