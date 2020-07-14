@@ -10,5 +10,5 @@ if(FRAMEWORK_COMPILE_Estimators)
     PUBLIC_HEADERS         include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h
     SUBDIRECTORIES         tests
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler
-    DEPENDS_ON_EIGEN_PRIVATE)
+    PRIVATE_LINK_LIBRARIES Eigen3::Eigen)
 endif()

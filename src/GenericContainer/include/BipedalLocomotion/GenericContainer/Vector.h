@@ -20,6 +20,9 @@
 #include <iostream>
 #include <memory>
 
+//Eigen (for toEigen() methods)
+#include <Eigen/Core>
+
 namespace BipedalLocomotion {
 namespace GenericContainer {
 
@@ -38,7 +41,7 @@ using Vector_ptr = std::shared_ptr<Vector<T>>;
 }
 }
 /**
- * Vector is an utility class which maps another existing contiguous container.
+ * Vector is a utility class which maps another existing contiguous container.
  * It does not contain any data, but only a pointer to an existing contiguous area of memory containing a sequence of objects.
  * It also stores its size, i.e. the number of objects. It does not own this portion of memory, hence it needs to be properly
  * initialized from an existing container, such as an iDynTree::Vector, std::vector, array, yarp::sig::Vector and similar.
@@ -82,6 +85,13 @@ public:
      * In particular, it takes as input the new size (of type index size)
      */
     using resize_function_type = std::function<iDynTree::Span<T>(index_type)>;
+
+    /**
+     * Alias to determine the output type of toEigen()
+     */
+    using eigen_map_type = typename Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>>;
+    using eigen_map_const_type = typename Eigen::Map<const Eigen::Matrix<T, Eigen::Dynamic, 1>>;
+
 
 private:
     /**
@@ -462,12 +472,28 @@ public:
         return m_span.crend();
     }
 
+    /**
+     * @brief Get an Eigen map corresponding to the current generic vector (see https://eigen.tuxfamily.org/dox/classEigen_1_1Map.html).
+     */
+    eigen_map_type toEigen()
+    {
+        return eigen_map_type(data(), size());
+    }
+
+    /**
+     * @brief Get an Eigen const map corresponding to the current generic vector (see https://eigen.tuxfamily.org/dox/classEigen_1_1Map.html).
+     */
+    eigen_map_const_type toEigen() const
+    {
+        return eigen_map_const_type(data(), size());
+    }
+
 };
 
 namespace BipedalLocomotion::GenericContainer {
 
 /**
- * is_vector is an utility metafunction used to check if T is a GenericContainer::Vector.
+ * is_vector is a utility metafunction used to check if T is a GenericContainer::Vector.
  */
 template <typename T>
 struct is_vector : std::false_type
@@ -475,7 +501,7 @@ struct is_vector : std::false_type
 };
 
 /**
- * is_vector is an utility metafunction used to check if T is a GenericContainer::Vector.
+ * is_vector is a utility metafunction used to check if T is a GenericContainer::Vector.
  */
 template <typename T>
 struct is_vector<Vector<T>> : std::true_type
@@ -483,14 +509,14 @@ struct is_vector<Vector<T>> : std::true_type
 };
 
 /**
- * is_span_constructible is an utility metafunction to check if iDynTree::Span is constructible given a reference to Class.
+ * is_span_constructible is a utility metafunction to check if iDynTree::Span is constructible given a reference to Class.
  */
 template <typename Class, typename = void>
 struct is_span_constructible : std::false_type
 {};
 
 /**
- * is_span_constructible is an utility metafunction to check if iDynTree::Span is constructible given a reference to Class.
+ * is_span_constructible is a utility metafunction to check if iDynTree::Span is constructible given a reference to Class.
  */
 template <typename Class>
 struct is_span_constructible<Class,
@@ -500,7 +526,7 @@ struct is_span_constructible<Class,
 {};
 
 /**
- * is_vector_constructible is an utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
+ * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
  */
 template <typename T, typename = void, typename = void>
 struct is_vector_constructible : std::false_type
@@ -508,7 +534,7 @@ struct is_vector_constructible : std::false_type
 };
 
 /**
- * is_vector_constructible is an utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
+ * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
  * This specialization first checks if T is an array, or if it is possible to deduce the type of vector.
  * If not, this specialization is not used (SFINAE). Otherwise, given the vector type, it checks if a iDynTree::Span is construbile
  * or if the methods <code>data()<\code> and <code>size()<\code> are available. In addition, the type has not to be <code>bool<\code>.
@@ -742,6 +768,54 @@ Vector_ptr<T>
 make_vector_ptr(iDynTree::Span<T> span, typename Vector<T>::resize_function_type resizeLambda)
 {
     return std::make_shared<Vector<T>>(span, resizeLambda);
+}
+
+/**
+ * @brief Utility function to create an Eigen map from a reference to another vector.
+ * @param input The refence to an existing vector.
+ * @returns The coresponding eigen map.
+ *
+ * @warning The input object from which GenericContainer::Vector has been initialized should not be deallocated before it.
+ * This would invalidate the pointer inside GenericContainer::Vector.
+ */
+template<typename Class>
+typename Vector<typename container_data<Class>::type>::eigen_map_type to_eigen(Class& input)
+{
+    static_assert (is_vector_constructible<Class>::value,
+                  "Cannot create a Vector from the input class. Cannot know how to convert to Eigen." );
+
+    if constexpr (is_vector<Class>::value)
+    {
+        return input.toEigen();
+    }
+    else
+    {
+        return make_vector(input).toEigen();
+    }
+}
+
+/**
+ * @brief Utility function to create an Eigen map from a reference to another vector.
+ * @param input The refence to an existing vector.
+ * @returns The coresponding eigen map.
+ *
+ * @warning The input object from which GenericContainer::Vector has been initialized should not be deallocated before it.
+ * This would invalidate the pointer inside GenericContainer::Vector.
+ */
+template<typename Class>
+typename Vector<const typename container_data<Class>::type>::eigen_map_const_type to_eigen(const Class& input)
+{
+    static_assert (is_vector_constructible<Class>::value,
+                  "Cannot create a Vector from the input class. Cannot know how to convert to Eigen." );
+
+    if constexpr (is_vector<Class>::value)
+    {
+        return input.toEigen();
+    }
+    else
+    {
+        return make_vector(input).toEigen();
+    }
 }
 
 }

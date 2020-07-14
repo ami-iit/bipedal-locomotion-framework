@@ -80,10 +80,14 @@ add_subdirectory(src)
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
 include(AddBipedalLocomotionFrameworkTarget)
 
-set(FRAMEWORK_PUBLIC_DEPENDENCIES iDynTree)
+set(FRAMEWORK_PUBLIC_DEPENDENCIES iDynTree "Eigen3 3.2.92")
 
 if (FRAMEWORK_USE_YARP)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES YARP)
+endif()
+
+if (FRAMEWORK_USE_Qhull)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES "Qhull 8.0.0")
 endif()
 
 include(InstallBasicPackageFiles)

@@ -10,7 +10,7 @@ if(FRAMEWORK_COMPILE_ContactModels)
     SOURCES                src/ContactModel.cpp src/ContinuousContactModel.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/ContactModels/ContactModel.h include/BipedalLocomotion/ContactModels/ContinuousContactModel.h
     PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-core BipedalLocomotion::ParametersHandler
-    DEPENDS_ON_EIGEN_PRIVATE
+    PRIVATE_LINK_LIBRARIES Eigen3::Eigen
     SUBDIRECTORIES         tests)
 
 endif()
