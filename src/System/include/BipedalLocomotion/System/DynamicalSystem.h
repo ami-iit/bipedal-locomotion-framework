@@ -50,8 +50,8 @@ public:
     using InputType = Input; /**< Input type */
 
 protected:
-    StateType m_initialState; /**< Value of the initial state */
     InputType m_controlInput; /**< Value of the control input */
+    StateType m_state; /**< Value of the current state of the system */
 
 public:
 
@@ -63,21 +63,19 @@ public:
     virtual bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
-     * Set the initial state to the dynamical system.
-     * @notice In principle, there is no need to override this method. This value is stored in an
+     * Set the state of the dynamical system.
+     * @note In principle, there is no need to override this method. This value is stored in an
      * internal buffer.
-     * @param initialState the initial state value.
+     * @param state tuple containing a const reference to the state elements.
      * @return true in case of success, false otherwise.
      */
-    virtual bool setInitialState(const StateType& initialState);
+    virtual bool setState(const StateType& state);
 
     /**
-     * Get the initial state to the dynamical system.
-     * @notice In principle, there is no need to override this method. This value is stored in an
-     * internal buffer.
-     * @return the initial state of the dynamical system
+     * Get the state to the dynamical system.
+     * @return the current state of the dynamical system
      */
-    virtual const StateType & getInitialState() const;
+    const StateType & getState() const;
 
     /**
      * Set the control input to the dynamical system.
@@ -90,16 +88,14 @@ public:
 
     /**
      * Computes the system dynamics. It return \f$f(x, u, t)\f$.
-     * @note The control input has to be set separately with the method setControlInput.
-     * @param state tuple containing a const reference to the state elements.
+     * @note The control input and the state have to be set separately with the methods
+     * setControlInput and setState.
      * @param time the time at witch the dynamics is computed.
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @warning Please implement the function in your custom dynamical system.
      * @return true in case of success, false otherwise.
      */
-    virtual bool dynamics(const StateType& state,
-                          const double& time,
-                          StateDerivativeType& stateDerivative) = 0;
+    virtual bool dynamics(const double& time, StateDerivativeType& stateDerivative) = 0;
 
     /**
      * Destructor

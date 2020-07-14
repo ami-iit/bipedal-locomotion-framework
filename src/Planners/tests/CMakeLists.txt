@@ -6,8 +6,7 @@ if (FRAMEWORK_HAS_Eigen3)
     add_bipedal_test(
         NAME ContactList
         SOURCES ContactListTest.cpp
-        LINKS BipedalLocomotion::Contact
-        DEPENDS_ON_EIGEN_PRIVATE)
+        LINKS BipedalLocomotion::Contact Eigen3::Eigen)
 
 endif()
 

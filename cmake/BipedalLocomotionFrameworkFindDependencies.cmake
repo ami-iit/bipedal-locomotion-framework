@@ -131,13 +131,12 @@ endmacro()
 # Find all packages
 
 find_package(iDynTree 0.11.105 REQUIRED) #Right now, all the packages built in the framework
-                                         #depend directly or indirectly from iDynTree
+                                         #depend directly or indirectly from iDynTree and Eigen
+                                         #(which is an iDynTree dependency by the way)
+find_package(Eigen3 3.2.92 REQUIRED)
 
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
-
-find_package(Eigen3 3.2.92 QUIET)
-checkandset_dependency(Eigen3)
 
 find_package(Qhull 8.0.0 QUIET)
 checkandset_dependency(Qhull)
@@ -155,16 +154,16 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
 
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
-  "FRAMEWORK_USE_Eigen3" OFF)
+  "" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Eigen3;FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi" OFF)
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
-  "FRAMEWORK_USE_Eigen3" OFF)
+  "" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
-  "FRAMEWORK_USE_Eigen3;FRAMEWORK_COMPILE_ContactModels" OFF)
+  "FRAMEWORK_COMPILE_ContactModels" OFF)

@@ -14,7 +14,7 @@
 #include <iDynTree/Core/SpatialAcc.h>
 
 #include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 using namespace iDynTree;
 using namespace BipedalLocomotion::ContactModels;
@@ -40,13 +40,13 @@ TEST_CASE("Continuous Contact")
     toEigen(linkVelocity.getLinearVec3()).setRandom();
     toEigen(linkVelocity.getAngularVec3()).setRandom();
 
-    double springCoeff = 2000.0;
-    double damperCoeff = 100.0;
+    constexpr double springCoeff = 2000.0;
+    constexpr double damperCoeff = 100.0;
 
-    double length = 0.12;
-    double width = 0.09;
+    constexpr double length = 0.12;
+    constexpr double width = 0.09;
 
-    std::shared_ptr<IParametersHandler> handler = std::make_shared<YarpImplementation>();
+    std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("spring_coeff", springCoeff);
     handler->setParameter("damper_coeff", damperCoeff);
     handler->setParameter("length", length);
@@ -67,8 +67,8 @@ TEST_CASE("Continuous Contact")
         std::uniform_real_distribution xAxis(-length / 2, length / 2);
         std::uniform_real_distribution yAxis(-width / 2, width / 2);
 
-        double area = length * width;
-        unsigned int samples = 1e7;
+        constexpr double area = length * width;
+        constexpr unsigned int samples = 1e4;
 
         Wrench numericalWrench;
         numericalWrench.zero();
@@ -93,15 +93,16 @@ TEST_CASE("Continuous Contact")
                                                     / samples * area
                                                     * std::abs(world_T_link.getRotation()(2, 2));
 
-        double tollerance = 1e-4;
+        constexpr double tolerance = 1e-2;
 
         checkVectorAreEqual(numericalWrench.getLinearVec3(),
                             model.getContactWrench().getLinearVec3(),
-                            tollerance);
+                            tolerance);
         checkVectorAreEqual(numericalWrench.getAngularVec3(),
                             model.getContactWrench().getAngularVec3(),
-                            tollerance);
+                            tolerance);
     }
+
 
     SECTION("Test regressor")
     {
@@ -113,13 +114,13 @@ TEST_CASE("Continuous Contact")
         toEigen(wrenchComputed.getLinearVec3()) = toEigen(regressor).topRows<3>() * toEigen(contactParams);
         toEigen(wrenchComputed.getAngularVec3()) = toEigen(regressor).bottomRows<3>() * toEigen(contactParams);
 
-        double tollerance = 1e-7;
+        constexpr double tolerance = 1e-7;
         checkVectorAreEqual(wrenchComputed.getLinearVec3(),
                             model.getContactWrench().getLinearVec3(),
-                            tollerance);
+                            tolerance);
         checkVectorAreEqual(wrenchComputed.getAngularVec3(),
                             model.getContactWrench().getAngularVec3(),
-                            tollerance);
+                            tolerance);
     }
 
     SECTION("Test contact dynamics")
@@ -207,7 +208,7 @@ TEST_CASE("Continuous Contact")
             = (toEigen(contactWrench_next) - toEigen(contactWrench_prev))
               / (2 * numericalDerivStep);
 
-        double tollerance = 1e-4;
-        checkVectorAreEqual(contactWrenchRateNumerical, contactWrenchRate, tollerance);
+        constexpr double tolerance = 1e-4;
+        checkVectorAreEqual(contactWrenchRateNumerical, contactWrenchRate, tolerance);
     }
 }

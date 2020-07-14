@@ -6,15 +6,12 @@
  */
 
 #include <iostream>
-
-#include <iDynTree/Core/EigenHelpers.h>
-
 #include <BipedalLocomotion/System/LinearTimeInvariantSystem.h>
 
 using namespace BipedalLocomotion::System;
 
-bool LinearTimeInvariantSystem::setSystemMatrices(const iDynTree::MatrixDynSize& A,
-                                                  const iDynTree::MatrixDynSize& B)
+bool LinearTimeInvariantSystem::setSystemMatrices(const Eigen::Ref<const Eigen::MatrixXd>& A,
+                                                  const Eigen::Ref<const Eigen::MatrixXd>& B)
 {
 
     if (A.rows() != B.rows())
@@ -40,8 +37,7 @@ bool LinearTimeInvariantSystem::setSystemMatrices(const iDynTree::MatrixDynSize&
     return true;
 }
 
-bool LinearTimeInvariantSystem::dynamics(const StateType& state,
-                                         const double& time,
+bool LinearTimeInvariantSystem::dynamics(const double& time,
                                          StateDerivativeType& stateDerivative)
 {
 
@@ -52,7 +48,7 @@ bool LinearTimeInvariantSystem::dynamics(const StateType& state,
         return false;
     }
 
-    const auto& x = std::get<0>(state);
+    const auto& x = std::get<0>(m_state);
     auto& dx = std::get<0>(stateDerivative);
     const auto& u = std::get<0>(m_controlInput);
 
@@ -72,9 +68,7 @@ bool LinearTimeInvariantSystem::dynamics(const StateType& state,
         return false;
     }
 
-    dx.resize(x.size());
-    iDynTree::toEigen(dx) = iDynTree::toEigen(m_A) * iDynTree::toEigen(x)
-                            + iDynTree::toEigen(m_B) * iDynTree::toEigen(u);
+    dx = m_A * x + m_B * u;
 
     return true;
 }

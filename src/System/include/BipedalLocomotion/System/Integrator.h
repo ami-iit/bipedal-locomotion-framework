@@ -39,9 +39,6 @@ protected:
     /** Pointer to a dynamical system*/
     std::shared_ptr<DynamicalSystemDerived> m_dynamicalSystem;
 
-    /** Solution of the integrator */
-    typename DynamicalSystemDerived::StateType m_solution;
-
 public:
 
     /**
