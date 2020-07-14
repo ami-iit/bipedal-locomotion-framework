@@ -5,8 +5,6 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <iDynTree/Core/EigenHelpers.h>
-
 #include <BipedalLocomotion/Estimators/RecursiveLeastSquare.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 
@@ -37,8 +35,10 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     // Gaussian the random variable are also independent)
     // Since the variable are independent we are interested only on the element in the diagonal
     // of the matrix
-    iDynTree::VectorDynSize measurementCovariance;
-    if (!handler->getParameter("measurement_covariance", measurementCovariance, VectorResizeMode::Resizable))
+    Eigen::VectorXd measurementCovariance;
+    if (!handler->getParameter("measurement_covariance",
+                               measurementCovariance,
+                               VectorResizeMode::Resizable))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to find the covariance matrix of "
                      "the measuraments."
@@ -47,7 +47,7 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     }
 
     m_measurementCovarianceMatrix.resize(measurementCovariance.size(), measurementCovariance.size());
-    iDynTree::toEigen(m_measurementCovarianceMatrix) = iDynTree::toEigen(measurementCovariance).asDiagonal();
+    m_measurementCovarianceMatrix = measurementCovariance.asDiagonal();
 
     // get the lambda
     if (!handler->getParameter("lambda", m_lambda))
@@ -57,14 +57,14 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     }
 
     // check if the presence of the initial initial guess of the state and of the covariance matrix
-    if (!handler->getParameter("state", m_state, VectorResizeMode::Resizable))
+    if (!handler->getParameter("state", m_state.expectedValue, VectorResizeMode::Resizable))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to get the initial guess."
                   << std::endl;
         return false;
     }
 
-    iDynTree::VectorDynSize stateCovariance;
+    Eigen::VectorXd stateCovariance;
     if(!handler->getParameter("state_covariance", stateCovariance, VectorResizeMode::Resizable))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to get the initial state covariance."
@@ -72,31 +72,29 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
         return false;
     }
 
-    m_stateCovarianceMatrix.resize(m_state.size(), m_state.size());
-    iDynTree::toEigen(m_stateCovarianceMatrix) = iDynTree::toEigen(stateCovariance).asDiagonal();
+    m_state.covariance.resize(m_state.expectedValue.size(), m_state.expectedValue.size());
+    m_state.covariance= stateCovariance.asDiagonal();
 
     // resize the vector containing the measuraments
     m_measurements.resize(measurementCovariance.size());
-    m_measurements.zero();
+    m_measurements.setZero();
 
     // resize the matrix containing the kalman gain
-    m_kalmanGain.resize(m_state.size(), measurementCovariance.size());
-    m_kalmanGain.zero();
+    m_kalmanGain.resize(m_state.expectedValue.size(), measurementCovariance.size());
+    m_kalmanGain.setZero();
 
     m_estimatorState = State::Initialized;
 
     return true;
 }
 
-void RecursiveLeastSquare::setRegressorFunction(std::function<iDynTree::MatrixDynSize(void)> regressor)
+void RecursiveLeastSquare::setRegressorFunction(std::function<Eigen::MatrixXd(void)> regressor)
 {
     m_regressor = regressor;
 }
 
 bool RecursiveLeastSquare::advance()
 {
-    using iDynTree::toEigen;
-
     if (m_regressor == nullptr)
     {
         std::cerr << "[RecursiveLeastSquare::advance] Please call the setRegressorFunction() "
@@ -116,34 +114,33 @@ bool RecursiveLeastSquare::advance()
     if (m_estimatorState == State::Initialized)
         m_estimatorState = State::Running;
 
-    iDynTree::MatrixDynSize regressor = m_regressor();
-    toEigen(m_kalmanGain) = toEigen(m_stateCovarianceMatrix) * toEigen(regressor).transpose()
-                            * (m_lambda * toEigen(m_measurementCovarianceMatrix)
-                               + (toEigen(regressor) * toEigen(m_stateCovarianceMatrix)
-                                  * toEigen(regressor).transpose())).inverse();
+    auto& expectedValue = m_state.expectedValue;
+    auto& covariance = m_state.covariance;
 
-    toEigen(m_state) = toEigen(m_state) + toEigen(m_kalmanGain)
-                * (toEigen(m_measurements) - toEigen(regressor) * toEigen(m_state));
+    auto regressor = m_regressor();
+    m_kalmanGain = covariance * regressor.transpose()
+                   * (m_lambda * m_measurementCovarianceMatrix
+                      + (regressor * covariance * regressor.transpose())).inverse();
 
-    toEigen(m_stateCovarianceMatrix) = (toEigen(m_stateCovarianceMatrix)
-                                        - toEigen(m_kalmanGain) * toEigen(regressor)
-                                        * toEigen(m_stateCovarianceMatrix)) / m_lambda;
+    expectedValue +=  m_kalmanGain * (m_measurements - regressor * expectedValue);
+
+    covariance = (covariance - m_kalmanGain * regressor * covariance) / m_lambda;
 
     return true;
 }
 
-void RecursiveLeastSquare::setMeasurements(const iDynTree::VectorDynSize& measurements)
+void RecursiveLeastSquare::setMeasurements(const Eigen::Ref<const Eigen::VectorXd>& measurements)
 {
     assert(m_measurements.size() == measurements.size());
     m_measurements = measurements;
 }
 
-const iDynTree::VectorDynSize& RecursiveLeastSquare::parametersExpectedValue() const
+const RecursiveLeastSquareState& RecursiveLeastSquare::get() const
 {
     return m_state;
 }
 
-const iDynTree::MatrixDynSize& RecursiveLeastSquare::parametersCovarianceMatrix() const
+bool RecursiveLeastSquare::isValid() const
 {
-    return m_stateCovarianceMatrix;
+    return m_estimatorState == State::Running;
 }
