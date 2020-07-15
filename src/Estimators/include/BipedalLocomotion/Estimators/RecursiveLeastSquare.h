@@ -11,10 +11,10 @@
 #include <functional>
 #include <memory>
 
-#include <iDynTree/Core/MatrixDynSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
+#include <Eigen/Dense>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -25,27 +25,38 @@ namespace Estimators
  * in Lennart Ljung - System Identification Theory for the User (1999, Prentice Hall). Chapter 11
  * Section 2.
  */
-class RecursiveLeastSquare
-{
-    iDynTree::VectorDynSize m_state; /**< Vector containing the expected value of the estimated
-                                        state */
-    iDynTree::VectorDynSize m_measurements; /**< Vector containing the measurements */
 
-    iDynTree::MatrixDynSize m_stateCovarianceMatrix; /**< Covariance matrix of the state */
+struct RecursiveLeastSquareState
+{
+    Eigen::VectorXd expectedValue; /**< Vector containing the expected value of the estimated
+                                        state */
+    Eigen::MatrixXd covariance; /**< Covariance matrix of the state */
+};
+
+class RecursiveLeastSquare : public System::Advanceable<RecursiveLeastSquareState>
+{
+
+    RecursiveLeastSquareState m_state; /**< State of the RLS algorithm */
+
+    Eigen::VectorXd m_measurements; /**< Vector containing the measurements */
 
     /** Covariance matrix of the measurements we assume that the measurements are uncorrelated
      (furthermore since the model of the noise is Gaussian the random variable are also independent)
      Since the variable are independent we are interested only on the element in the diagonal
      of the matrix */
-    iDynTree::MatrixDynSize m_measurementCovarianceMatrix;
 
-    iDynTree::MatrixDynSize m_kalmanGain; /**< Gain of the Kalman filter */
+    Eigen::MatrixXd m_measurementCovarianceMatrix;
+
+    Eigen::MatrixXd m_kalmanGain; /**< Gain of the Kalman filter */
 
     double m_lambda{1}; /**< Filter gain. The recursive least square filter is equivalent to a
                         kalman filter if lambda is equal to 1 */
 
-    std::function<iDynTree::MatrixDynSize(void)> m_regressor; /**< Function containing the regressor
-                                                                 of the system */
+
+    std::function<Eigen::MatrixXd(void)> m_regressorFunction; /**< Function containing the regressor
+                                                                         of the system */
+
+    Eigen::MatrixXd m_regressor; /**< Regressor matrix */
 
     /**
      * Enumerator useful to described the current status of the filter
@@ -74,40 +85,53 @@ public:
      * - "state_covariance" vector containing the diagonal matrix of the covariance of the state
      * @param handlerWeak weak pointer to a ParametersHandler::IParametersHandler interface
      * @tparameter Derived particular implementation of the IParameterHandler
-     * @return true in case of success, false otherwise
+     * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak);
 
     /**
-     * Set the regressor
-     * @parameter regressor fucntion that return an iDynTree::MatrixDynSize containing the regressor
+     * Set the regressor function.
+     * @parameter regressor function that return an Eigen::MatrixXd containing the regressor
      * of the system
+     * @note The user can decide to set the regressor function or set the regressor matrix by
+     * calling setReressor(). If setRegressorFunction() is called, the RLS algorithm will compute
+     * the regressor every time the advance() function is called.
      */
-    void setRegressorFunction(std::function<iDynTree::MatrixDynSize(void)> regressor);
+    void setRegressorFunction(std::function<Eigen::MatrixXd(void)> regressor);
+
+    /**
+     * Set the regressor function.
+     * @parameter regressor is the regressor matrix.
+     * @note The user can decide to set the regressor function or set the regressor matrix by
+     * calling setReressor(). If setRegressorFunction() is called, the RLS algorithm will compute
+     * the regressor every time the advance() function is called.
+     */
+    void setRegressor(const Eigen::Ref<const Eigen::MatrixXd>& regressor);
 
     /**
      * Set the measurements
      * @parameter measurements vector containing all the measurements
      */
-    void setMeasurements(const iDynTree::VectorDynSize& measurements);
+    void setMeasurements(const Eigen::Ref<const Eigen::VectorXd>& measurements);
 
     /**
      * Compute one step of the filter
-     * @return true in case of success, false otherwise
+     * @return True in case of success, false otherwise
      */
-    bool advance();
+    bool advance() final;
 
     /**
-     * Get the expected value of the estimated parameters
-     * @return vector containing the expected value of the estimated parameters
+     * Get the expected value and the covariance matrix of the estimated parameters.
+     * @return A struct containing the expected value and the covariance of the estimated
+     * parameters.
      */
-    const iDynTree::VectorDynSize& parametersExpectedValue() const;
+    const RecursiveLeastSquareState& get() const final;
 
     /**
-     * Get the Covariance matrix of the estimated parameters
-     * @return covariance matrix
+     * Determines the validity of the object retrieved with get()
+     * @return True if the object is valid, false otherwise.
      */
-    const iDynTree::MatrixDynSize& parametersCovarianceMatrix() const;
+    bool isValid() const final;
 };
 } // namespace Estimators
 } // namespace BipedalLocomotion
