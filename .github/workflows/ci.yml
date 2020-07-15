@@ -61,7 +61,7 @@ jobs:
 
         # Install Catch2
         cd C:/robotology/vcpkg
-        ./vcpkg.exe install --triplet x64-windows catch2
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
