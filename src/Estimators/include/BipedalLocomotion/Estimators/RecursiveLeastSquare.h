@@ -52,8 +52,11 @@ class RecursiveLeastSquare : public System::Advanceable<RecursiveLeastSquareStat
     double m_lambda{1}; /**< Filter gain. The recursive least square filter is equivalent to a
                         kalman filter if lambda is equal to 1 */
 
-    std::function<Eigen::MatrixXd(void)> m_regressor; /**< Function containing the regressor
-                                                         of the system */
+
+    std::function<Eigen::MatrixXd(void)> m_regressorFunction; /**< Function containing the regressor
+                                                                         of the system */
+
+    Eigen::MatrixXd m_regressor; /**< Regressor matrix */
 
     /**
      * Enumerator useful to described the current status of the filter
@@ -87,11 +90,23 @@ public:
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak);
 
     /**
-     * Set the regressor
-     * @parameter regressor fucntion that return an Eigen::MatrixXd containing the regressor
+     * Set the regressor function.
+     * @parameter regressor function that return an Eigen::MatrixXd containing the regressor
      * of the system
+     * @note The user can decide to set the regressor function or set the regressor matrix by
+     * calling setReressor(). If setRegressorFunction() is called, the RLS algorithm will compute
+     * the regressor every time the advance() function is called.
      */
     void setRegressorFunction(std::function<Eigen::MatrixXd(void)> regressor);
+
+    /**
+     * Set the regressor function.
+     * @parameter regressor is the regressor matrix.
+     * @note The user can decide to set the regressor function or set the regressor matrix by
+     * calling setReressor(). If setRegressorFunction() is called, the RLS algorithm will compute
+     * the regressor every time the advance() function is called.
+     */
+    void setRegressor(const Eigen::Ref<const Eigen::MatrixXd>& regressor);
 
     /**
      * Set the measurements

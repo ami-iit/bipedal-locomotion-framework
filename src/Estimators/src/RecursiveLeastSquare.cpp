@@ -90,15 +90,20 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
 
 void RecursiveLeastSquare::setRegressorFunction(std::function<Eigen::MatrixXd(void)> regressor)
 {
+    m_regressorFunction = regressor;
+}
+
+void RecursiveLeastSquare::setRegressor(const Eigen::Ref<const Eigen::MatrixXd>& regressor)
+{
     m_regressor = regressor;
 }
 
 bool RecursiveLeastSquare::advance()
 {
-    if (m_regressor == nullptr)
+    if (m_regressorFunction == nullptr && (m_regressor.rows() == 0 && m_regressor.cols() == 0))
     {
-        std::cerr << "[RecursiveLeastSquare::advance] Please call the setRegressorFunction() "
-                     "before calling advance"
+        std::cerr << "[RecursiveLeastSquare::advance] Please call the setRegressorFunction() or "
+                     "setRegressor() before calling advance()."
                   << std::endl;
         return false;
     }
@@ -117,14 +122,17 @@ bool RecursiveLeastSquare::advance()
     auto& expectedValue = m_state.expectedValue;
     auto& covariance = m_state.covariance;
 
-    auto regressor = m_regressor();
-    m_kalmanGain = covariance * regressor.transpose()
+    if(m_regressorFunction)
+    {
+        m_regressor = m_regressorFunction();
+    }
+
+    m_kalmanGain = covariance * m_regressor.transpose()
                    * (m_lambda * m_measurementCovarianceMatrix
-                      + (regressor * covariance * regressor.transpose())).inverse();
+                      + (m_regressor * covariance * m_regressor.transpose())).inverse();
 
-    expectedValue +=  m_kalmanGain * (m_measurements - regressor * expectedValue);
-
-    covariance = (covariance - m_kalmanGain * regressor * covariance) / m_lambda;
+    expectedValue += m_kalmanGain * (m_measurements - m_regressor * expectedValue);
+    covariance = (covariance - m_kalmanGain * m_regressor * covariance) / m_lambda;
 
     return true;
 }
