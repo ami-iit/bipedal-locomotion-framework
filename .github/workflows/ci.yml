@@ -9,12 +9,13 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.0.3
+  vcpkg_robotology_TAG: v0.4.0
   YCM_TAG: v0.11.0
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
   iDynTree_TAG: v1.1.0
   Catch2_TAG: v2.11.3
   Qhull_TAG: v8.0.0
+  CasADi_TAG: 3.5.1
 
 jobs:
   build:
@@ -53,22 +54,21 @@ jobs:
         # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
         # that has been used to create the pre-compiled archive
         cd C:/
-        md C:/robotology
-        md C:/robotology/vcpkg
         wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
-        unzip vcpkg-robotology.zip -d C:/robotology/vcpkg
+        unzip vcpkg-robotology.zip -d C:/
+        rm vcpkg-robotology.zip
         # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
         echo "::set-env name=VCPKG_INSTALLATION_ROOT::C:/robotology/vcpkg"
 
         # Install Catch2
         cd C:/robotology/vcpkg
-        ./vcpkg.exe install --triplet x64-windows catch2
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt pkg-config
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -76,7 +76,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -84,7 +84,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -143,6 +143,27 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # CasADi
+        # We override the casadi installation structure to be compliant with the folder structure used for
+        # the other dependencies. Please check:
+        # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
+        cd casadi
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DINCLUDE_PREFIX:PATH="include" \
+                     -DCMAKE_PREFIX:PATH="lib/cmake/casadi" \
+                     -DLIB_PREFIX:PATH="lib" \
+                     -DBIN_PREFIX:PATH="bin" \
+                     -DWITH_IPOPT=BOOL:ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest')
       shell: bash
@@ -177,6 +198,16 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # CasADi
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
+        cd casadi
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+
     - name: Source-based Dependencies [Ubuntu]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
       shell: bash
@@ -203,7 +234,6 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
-
 
     # ===================
     # CMAKE-BASED PROJECT

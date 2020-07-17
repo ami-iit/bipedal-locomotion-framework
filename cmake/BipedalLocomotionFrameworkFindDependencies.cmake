@@ -141,6 +141,9 @@ checkandset_dependency(YARP)
 find_package(Qhull 8.0.0 QUIET)
 checkandset_dependency(Qhull)
 
+find_package(casadi QUIET)
+checkandset_dependency(casadi)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -155,7 +158,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Estimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Qhull" OFF)
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
