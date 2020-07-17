@@ -14,9 +14,9 @@ bool DCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandle
     return true;
 }
 
-bool DCMPlanner::setContactPhaseList(std::weak_ptr<const ContactPhaseList> contactPhaseList)
+bool DCMPlanner::setContactPhaseList(std::shared_ptr<const ContactPhaseList> contactPhaseList)
 {
-    if(contactPhaseList.expired())
+    if(contactPhaseList == nullptr)
     {
         std::cerr << "[DCMPlanner::setContactPhaseList] The contactPhaseList pointer is expired. "
                      "Please pass a valid pointer."
@@ -24,7 +24,7 @@ bool DCMPlanner::setContactPhaseList(std::weak_ptr<const ContactPhaseList> conta
         return false;
     }
 
-    m_contactPhaseList = contactPhaseList.lock();
+    m_contactPhaseList = contactPhaseList;
     return true;
 }
 

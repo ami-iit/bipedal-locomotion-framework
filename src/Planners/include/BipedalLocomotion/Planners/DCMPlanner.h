@@ -68,7 +68,7 @@ public:
      * @param contactPhaseList pointer containing the list of the contact phases
      * @return true in case of success, false otherwise.
      */
-    bool setContactPhaseList(std::weak_ptr<const ContactPhaseList> contactPhaseList);
+    bool setContactPhaseList(std::shared_ptr<const ContactPhaseList> contactPhaseList);
 
     /**
      * Compute the DCM trajectory.
