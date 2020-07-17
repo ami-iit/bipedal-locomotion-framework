@@ -144,6 +144,9 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # CasADi
+        # We override the casadi installation structure to be compliant with the folder structure used for
+        # the other dependencies. Please check:
+        # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
@@ -153,6 +156,10 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DINCLUDE_PREFIX:PATH="include" \
+                     -DCMAKE_PREFIX:PATH="lib/cmake/casadi" \
+                     -DLIB_PREFIX:PATH="lib" \
+                     -DBIN_PREFIX:PATH="bin" \
                      -DWITH_IPOPT=BOOL:ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
