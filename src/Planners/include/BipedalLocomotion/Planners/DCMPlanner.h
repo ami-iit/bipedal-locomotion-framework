@@ -52,7 +52,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    virtual bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the initial state of the planner

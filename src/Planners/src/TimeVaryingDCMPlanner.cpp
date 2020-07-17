@@ -580,30 +580,28 @@ TimeVaryingDCMPlanner::TimeVaryingDCMPlanner()
 
 TimeVaryingDCMPlanner::~TimeVaryingDCMPlanner() = default;
 
-bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
     assert(m_pimpl);
 
-    // convert the weak_ptr into a shared_ptr
-    auto ptr = handler.lock();
-    if (ptr == nullptr)
+    if (handler == nullptr)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] The pointer to the parameter handler is "
-                     "expired."
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] The handler has to point to an already "
+                     "initialized IParametershandler."
                   << std::endl;
         return false;
     }
 
-    if (!ptr->getParameter("planner_sampling_time", m_pimpl->optiSettings.plannerSamplingTime))
+    if (!handler->getParameter("planner_sampling_time", m_pimpl->optiSettings.plannerSamplingTime))
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the sampling time of the "
-                     "planner."
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the sampling time of "
+                     "the planner."
                   << std::endl;
         return false;
     }
 
     int numberOfFootCorners;
-    if (!ptr->getParameter("number_of_foot_corners", numberOfFootCorners))
+    if (!handler->getParameter("number_of_foot_corners", numberOfFootCorners))
     {
         std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the number of foot "
                      "corners."
@@ -615,8 +613,8 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
 
     for(std::size_t i = 0; i < numberOfFootCorners; i++)
     {
-        if (!ptr->getParameter("foot_corner_" + std::to_string(i),
-                               m_pimpl->optiSettings.footCorners[i]))
+        if (!handler->getParameter("foot_corner_" + std::to_string(i),
+                                   m_pimpl->optiSettings.footCorners[i]))
         {
             std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load get the foot corner "
                          "number: "
@@ -637,15 +635,15 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
     m_pimpl->dcmDynamicsIntegrator->setDynamicalSystem(std::make_shared<TimeVaryingDCMPlannerDynamics>());
 
     bool okCostFunctions = true;
-    okCostFunctions &= ptr->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
-    okCostFunctions &= ptr->getParameter("dcm_tracking_weight", m_pimpl->optiSettings.dcmTrackingWeight);
-    okCostFunctions &= ptr->getParameter("omega_dot_rate_of_change_weight",
-                                         m_pimpl->optiSettings.omegaDotRateOfChangeWeight);
-    okCostFunctions &= ptr->getParameter("vrp_rate_of_change_weight",
-                                         m_pimpl->optiSettings.vrpRateOfChangeWeight);
+    okCostFunctions &= handler->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
+    okCostFunctions &= handler->getParameter("dcm_tracking_weight", m_pimpl->optiSettings.dcmTrackingWeight);
+    okCostFunctions &= handler->getParameter("omega_dot_rate_of_change_weight",
+                                             m_pimpl->optiSettings.omegaDotRateOfChangeWeight);
+    okCostFunctions &= handler->getParameter("vrp_rate_of_change_weight",
+                                             m_pimpl->optiSettings.vrpRateOfChangeWeight);
 
-    okCostFunctions &= ptr->getParameter("dcm_rate_of_change_weight",
-                                         m_pimpl->optiSettings.dcmRateOfChangeWeight);
+    okCostFunctions &= handler->getParameter("dcm_rate_of_change_weight",
+                                             m_pimpl->optiSettings.dcmRateOfChangeWeight);
 
     if (!okCostFunctions)
     {

@@ -9,7 +9,7 @@
 
 using namespace BipedalLocomotion::Planners;
 
-bool DCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool DCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;
 }

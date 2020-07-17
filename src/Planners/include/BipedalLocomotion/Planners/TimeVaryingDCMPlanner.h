@@ -46,7 +46,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
+     bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Compute the DCM trajectory.
