@@ -239,7 +239,7 @@ struct TimeVaryingDCMPlanner::Impl
         dcmDynamicalSystem->setState({dcm(Sl(), 0), omega(Sl(), 0)});
         dcmDynamicalSystem->setControlInput({vrp(Sl(), 0), omegaDot(Sl(), 0)});
 
-        std::tuple<casadi::MX, casadi::MX> stateDerivative;
+        TimeVaryingDCMPlannerDynamics::StateDerivativeType stateDerivative;
         dcmDynamicalSystem->dynamics(0, stateDerivative);
 
         const auto& [initialDcmVelocity, initialOmegaVelocity] = stateDerivative;
