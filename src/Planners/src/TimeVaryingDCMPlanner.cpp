@@ -42,7 +42,7 @@ public:
         auto& dcmDot = std::get<0>(stateDerivative);
         auto& omegaDot = std::get<1>(stateDerivative);
 
-        dcmDot = (omega - omegaDotInput / omega) * (dcm - vrp);
+        dcmDot = (omega - omegaDotInput / casadi::MX::pow(omega, 2)) * (dcm - vrp);
         omegaDot = omegaDotInput;
         return true;
     }
