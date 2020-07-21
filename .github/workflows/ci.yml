@@ -68,7 +68,7 @@ jobs:
       if: matrix.os == 'macOS-latest'
       run: |
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt pkg-config
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -233,6 +233,22 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: CppAD [Ubuntu]
+      if: matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+        # Catch2
+        git clone https://github.com/coin-or/CppAD.git
+        cd CppAD
+        mkdir -p build
+        cd build
+        cmake -Dcppad_prefix=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+              -DBUILD_TESTING=OFF ..
+
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     # ===================
