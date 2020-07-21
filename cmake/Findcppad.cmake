@@ -85,6 +85,10 @@ mark_as_advanced(cppad_INCLUDE_DIRS
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(cppad DEFAULT_MSG cppad_LIBRARIES)
 
+if(NOT cppad_FOUND)
+  return()
+endif()
+
 if(NOT TARGET cppad)
   add_library(cppad UNKNOWN IMPORTED)
   set_target_properties(cppad PROPERTIES IMPORTED_LOCATION ${cppad_LIBRARIES})
