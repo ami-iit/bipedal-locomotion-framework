@@ -4,10 +4,18 @@
 
 if(FRAMEWORK_COMPILE_Estimators)
 
+  set(H_PREFIX include/BipedalLocomotion/Estimators)
   add_bipedal_locomotion_library(
     NAME                   Estimators
     SOURCES                src/RecursiveLeastSquare.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h
+    PUBLIC_HEADERS         ${H_PREFIX}/RecursiveLeastSquare.h
     SUBDIRECTORIES         tests
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System Eigen3::Eigen)
+
+  add_bipedal_locomotion_library(
+    NAME                   FloatingBaseEstimators
+    SOURCES                src/FloatingBaseEstimator.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/FloatingBaseEstimatorParams.h ${H_PREFIX}/FloatingBaseEstimatorIO.h ${H_PREFIX}/FloatingBaseEstimator.h
+    PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model BipedalLocomotion::System Eigen3::Eigen)
+
 endif()
