@@ -30,7 +30,7 @@ namespace Estimators
 *  @note it is assumed that if an IMU (primary) is specified in the inherited implementation,
 *  then this IMU is rigidly attached to the specified base link in the implementation
 */
-class FloatingBaseEstimator : public BipedalLocomotion::System::Advanceable<FBEOutput>
+class FloatingBaseEstimator : public BipedalLocomotion::System::Advanceable<FloatingBaseEstimators::Output>
 {
 public:
     /**
@@ -67,10 +67,9 @@ public:
 
         /**
         * Check if model is configured with the required information
-        * @note this is a required step to initialize the estimator
         * @return True in case of success, false otherwise.
         */
-        bool checkModelInfoLoaded();
+        bool isModelInfoLoaded();
 
         /**
         * Get relative pose between IMU and the feet
@@ -98,13 +97,13 @@ public:
         /**
          * Getters
          */
-        const auto& nrJoints() const { return m_nr_joints; }
-        const auto& baseLink() const { return m_base_link; }
-        const auto& baseLinkIMU() const { return m_base_imu_frame; }
-        const auto& leftFootContact() const { return m_l_foot_contact_frame; }
-        const auto& rightFootContact() const { return m_r_foot_contact_frame; }
-        const auto& base_H_IMU() const { return m_base_H_imu; }
-        const auto& modelSet() const { return m_model_set; }
+        const int& nrJoints() const { return m_nr_joints; }
+        const std::string& baseLink() const { return m_base_link; }
+        const std::string& baseLinkIMU() const { return m_base_imu_frame; }
+        const std::string& leftFootContactFrame() const { return m_l_foot_contact_frame; }
+        const std::string& rightFootContactFrame() const { return m_r_foot_contact_frame; }
+        const iDynTree::Transform& base_H_IMU() const { return m_base_H_imu; }
+        const bool& isModelSet() const { return m_model_set; }
 
     private:
         std::string m_base_link{""}; /**< name of the floating base link*/
@@ -125,20 +124,20 @@ public:
 
 
     /**
-    * Configure generic parameters. The generic parameters include,
+    * Configure generic parameters and the model. The generic parameters include,
     *  - sampling_period_in_s [PARAMETER|REQUIRED|Sampling period of the estimator in seconds]
     *  - ModelInfo [GROUP|REQUIRED|URDF Model specific parameters used by the estimator]
     *      - base_link [PARAMETER|REQUIRED|base link frame from the URDF model| Exists in "ModelInfo" GROUP]
     *      - base_link_imu [PARAMETER|REQUIRED|IMU frame rigidly attached to thebase link from the URDF model| Exists in "ModelInfo" GROUP]
     *      - left_foot_contact_frame [PARAMETER|REQUIRED|left foot contact frame from the URDF model| Exists in "ModelInfo" GROUP]
     *      - right_foot_contact_frame [PARAMETER|REQUIRED|right foot contact frame from the URDF model| Exists in "ModelInfo" GROUP]
-    * @param handler configure the generic parameters for the estimator
-    * @note call modelComputations().setModel() before calling initialize
+    * @param[in] handler configure the generic parameters for the estimator
+    * @param[in] model reduced iDynTree model required by the estimator
     * @note any custom initialization of parameters or the algorithm implementation is not done here,
     *       it must be done in customInitialization() by the child class implementing the algorithm
-    * @return bool
+    * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, const iDynTree::Model& model);
 
     /**
     * Set the polled IMU measurement
@@ -151,11 +150,11 @@ public:
 
     /**
     * Set feet contact states
-    * @param[in] lf_contact left foot contact state [0, 1]
-    * @param[in] rf_contact right foot contact state [0, 1]
+    * @param[in] lf_in_contact left foot contact state [0, 1]
+    * @param[in] rf_in_contact right foot contact state [0, 1]
     * @return True in case of success, false otherwise.
     */
-    bool setContacts(const bool& lf_contact, const bool& rf_contact);
+    bool setContacts(const bool& lf_in_contact, const bool& rf_in_contact);
 
     /**
     * Set kinematic measurements
@@ -177,7 +176,7 @@ public:
     * Get estimator outputs
     * @return A struct containing he estimated internal states of the estiamtor and the associated covariance matrix
     */
-    virtual const FBEOutput& get() const final;
+    virtual const FloatingBaseEstimators::Output& get() const final;
 
     /**
     * Determines the validity of the object retrieved with get()
@@ -194,8 +193,15 @@ public:
 
 protected:
     /**
-    *
-    * @param[in] handler p_handler:...
+    * Configure generic parameters
+    * @param[in] handler configure the generic parameters for the estimator
+    * @return True in case of success, false otherwise.
+    */
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
+    /**
+    * These custom parameter specifications should be specified by the derived class.
+    * @param[in] handler configure the custom parameters for the estimator
     * @return bool
     */
     virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) { return true; };
@@ -208,7 +214,7 @@ protected:
     * @param[out] P previous state covariance matrix
     * @return True in case of success, false otherwise.
     */
-    virtual bool predictState(const FBEMeasurements& meas,
+    virtual bool predictState(const FloatingBaseEstimators::Measurements& meas,
                               const double& dt) { return true; };
 
     /**
@@ -217,28 +223,28 @@ protected:
     * @param[in] dt sampling period in seconds
     * @return True in case of success, false otherwise.
     */
-    virtual bool updateKinematics(const FBEMeasurements& meas,
+    virtual bool updateKinematics(const FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) { return true; };
 
    /**
    * Update the states and the associated covariance using the Kalman gain and the innovations (in an EKF based implementation)
    * @note this function should be called from within updateKinematics in an EKF base implementation, otherwise left unused
-   * @param[in] deltaY innovation vector
-   * @param[in] H discrete-time measurement model Jacobian
-   * @param[in] R discrete-time measurement noise covariance matrix
+   * @param[in] innovation innovation vector
+   * @param[in] measurement_model_jacobian discrete-time measurement model Jacobian
+   * @param[in] measurement_noise_var discrete-time measurement noise covariance matrix
    * @return bool
    */
-   virtual bool updateStates(const Eigen::VectorXd& deltaY,
-                             const Eigen::MatrixXd& H,
-                             const Eigen::MatrixXd& R) { return true; };
+   virtual bool updateStates(const Eigen::VectorXd& innovation,
+                             const Eigen::MatrixXd& measurement_model_jacobian,
+                             const Eigen::MatrixXd& measurement_noise_var) { return true; };
 
     ModelComputations m_model_comp; /**< Model computations object */
-    FBEOptions m_options; /**< Struct holding estimator options */
-    FBEMeasurements m_meas; /**< Struct holding the latest measurements that were set to the estimator */
-    FBEInternalState m_state, m_state_prev; /**< Structs holding the curent and previous internal states of the estimation algorithm */
-    FBEOutput m_estimator_out; /**< Struct holding outputs of the estimator */
-    FBEPriorsStdDev m_priors; /**< Struct holding standard deviations associated to prior state estimates */
-    FBESensorsStdDev m_sensors_dev; /**< Struct holding standard deviations associated to sensor measurements */
+    FloatingBaseEstimators::Options m_options; /**< Struct holding estimator options */
+    FloatingBaseEstimators::Measurements m_meas; /**< Struct holding the latest measurements that were set to the estimator */
+    FloatingBaseEstimators::InternalState m_state, m_state_prev; /**< Structs holding the curent and previous internal states of the estimation algorithm */
+    FloatingBaseEstimators::Output m_estimator_out; /**< Struct holding outputs of the estimator */
+    FloatingBaseEstimators::PriorsStdDev m_priors; /**< Struct holding standard deviations associated to prior state estimates */
+    FloatingBaseEstimators::SensorsStdDev m_sensors_dev; /**< Struct holding standard deviations associated to sensor measurements */
 
     /**
     * Enumerator used to determine the running state of the estimator

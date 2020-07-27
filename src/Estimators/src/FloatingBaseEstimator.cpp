@@ -10,12 +10,31 @@
 
 using namespace BipedalLocomotion::Estimators;
 
-bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                       const iDynTree::Model& model)
 {
-    if (!m_model_comp.modelSet())
+    if (!m_model_comp.setModel(model))
     {
         std::cerr << "[FloatingBaseEstimator::initialize] "
-        "Please call modelComputations().setModel(iDynTree::Model& model) to set the model, before calling initialize()."
+        "The model could not be loaded."
+        << std::endl;
+        return false;
+    }
+
+    if (!initialize(handler))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    if (!m_model_comp.isModelSet())
+    {
+        std::cerr << "[FloatingBaseEstimator::initialize] "
+        "The model does not seem to be loaded. Please call initialize(handler, model) to set the model."
         << std::endl;
         return false;
     }
@@ -87,7 +106,7 @@ bool FloatingBaseEstimator::advance()
     }
 
     auto ok = predictState(m_meas, m_dt);
-    if (m_options.enable_ekf_update)
+    if (m_options.ekf_update_enabled)
     {
         ok = updateKinematics(m_meas, m_dt);
     }
@@ -177,7 +196,7 @@ bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::s
     return true;
 }
 
-bool FloatingBaseEstimator::ModelComputations::checkModelInfoLoaded()
+bool FloatingBaseEstimator::ModelComputations::isModelInfoLoaded()
 {
     bool loaded = (m_base_link_idx != iDynTree::FRAME_INVALID_INDEX) &&
              (m_base_imu_idx != iDynTree::FRAME_INVALID_INDEX) &&
@@ -192,7 +211,7 @@ bool FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState(const iD
                                                                         iDynTree::Transform& A_H_B,
                                                                         iDynTree::Twist& v_B)
 {
-    if (!checkModelInfoLoaded())
+    if (!isModelInfoLoaded())
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState] "
         "Please set required model info parameters, before calling getBaseStateFromIMUState(...)"
@@ -214,7 +233,7 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
                                                              iDynTree::Transform& IMU_H_l_foot,
                                                              iDynTree::Transform& IMU_H_r_foot)
 {
-    if (!checkModelInfoLoaded())
+    if (!isModelInfoLoaded())
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] "
         "Please set required model info parameters, before calling getIMU_H_feet(...)"
@@ -255,11 +274,11 @@ bool FloatingBaseEstimator::setKinematics(const Eigen::VectorXd& encoders,
     return true;
 }
 
-bool FloatingBaseEstimator::setContacts(const bool& lf_contact,
-                                        const bool& rf_contact)
+bool FloatingBaseEstimator::setContacts(const bool& lf_in_contact,
+                                        const bool& rf_in_contact)
 {
-    m_meas.lf_contact = lf_contact;
-    m_meas.rf_contact = rf_contact;
+    m_meas.lf_in_contact = lf_in_contact;
+    m_meas.rf_in_contact = rf_in_contact;
     return true;
 }
 
@@ -269,7 +288,7 @@ FloatingBaseEstimator::ModelComputations& FloatingBaseEstimator::modelComputatio
 }
 
 
-const FBEOutput& FloatingBaseEstimator::get() const
+const FloatingBaseEstimators::Output& FloatingBaseEstimator::get() const
 {
     return m_estimator_out;
 }

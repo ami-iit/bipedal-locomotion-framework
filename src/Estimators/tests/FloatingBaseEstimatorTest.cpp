@@ -42,8 +42,10 @@ TEST_CASE("Bare Bones Base Estimator")
     std::shared_ptr<StdImplementation> originalHandler = std::make_shared<StdImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 
+    // Populate the input configuration to be passed to the estimator
     REQUIRE(populateConfig(parameterHandler));
 
+    // Load the reduced iDynTree model to be passed to the estimator
     std::string model_path{getFBEURDFModelPath()};
     std::cout << model_path << std::endl;
     std::vector<std::string> joints_list = {"neck_pitch", "neck_roll", "neck_yaw",
@@ -62,14 +64,13 @@ TEST_CASE("Bare Bones Base Estimator")
 
     // Instantiate the estimator
     FloatingBaseEstimator estimator;
-    REQUIRE(estimator.modelComputations().setModel(model));
-    REQUIRE(estimator.initialize(parameterHandler));
-    REQUIRE(estimator.modelComputations().modelSet());
+    REQUIRE(estimator.initialize(parameterHandler, model));
+    REQUIRE(estimator.modelComputations().isModelSet());
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");
     REQUIRE(estimator.modelComputations().baseLinkIMU() == "root_link_imu_acc");
-    REQUIRE(estimator.modelComputations().leftFootContact() == "l_sole");
-    REQUIRE(estimator.modelComputations().rightFootContact() == "r_sole");
+    REQUIRE(estimator.modelComputations().leftFootContactFrame() == "l_sole");
+    REQUIRE(estimator.modelComputations().rightFootContactFrame() == "r_sole");
 
     auto b_H_imu = model.getFrameTransform(model.getFrameIndex("root_link_imu_acc"));
 
@@ -96,7 +97,7 @@ TEST_CASE("Bare Bones Base Estimator")
 
     encoder_speeds.setZero();
 
-    // estimate the parameters
+    // set measurements and advance the estimator
     for (int i = 0; i < 10000; i++)
     {
         REQUIRE(estimator.setIMUMeasurement(acc, gyro));

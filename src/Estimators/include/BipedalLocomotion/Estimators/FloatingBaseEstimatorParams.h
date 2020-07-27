@@ -14,12 +14,13 @@ namespace BipedalLocomotion
 {
 namespace Estimators
 {
-
+namespace FloatingBaseEstimators
+{
 /**
 * @brief Struct containing sensor measurement deviation parameters of floating base estimators
 *
 */
-class FBESensorsStdDev
+class SensorsStdDev
 {
     /**
     * @brief Additive white Gaussian noise deviation for accelerometer measurements
@@ -81,7 +82,7 @@ class FBESensorsStdDev
 * @brief Struct containing prior state deviation parameters of floating base estimators
 *
 */
-struct FBEPriorsStdDev
+struct PriorsStdDev
 {
     /**
     * @brief Prior deviation of IMU orientation in inertial frame
@@ -144,13 +145,13 @@ struct FBEPriorsStdDev
 * @brief Struct containing options runtime options for floating base estimator
 *
 */
-struct FBEOptions
+struct Options
 {
     /**
     * @brief Enable/disable online accelerometer and gyroscope bias estimation
     *
     */
-    bool enable_imu_bias_estimation{false};
+    bool imu_bias_estimation_enabled{false};
 
     /**
     * @brief Enable/disable IMU bias initialization using
@@ -158,7 +159,7 @@ struct FBEOptions
     * @note also remember to set nr_samples_for_bias_initialization
     *
     */
-    bool enable_static_imu_bias_initialization{false};
+    bool static_imu_bias_initialization_enabled{false};
 
     /**
     * @brief Number of initial measurement samples in a static configuration
@@ -171,10 +172,10 @@ struct FBEOptions
     * @brief Enable/disable measurement update step of the internal EKF
     *
     */
-    bool enable_ekf_update{true};
+    bool ekf_update_enabled{true};
 };
 
-
+} //namespace FloatingBaseEstimators
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
