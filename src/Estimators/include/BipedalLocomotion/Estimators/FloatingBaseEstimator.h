@@ -226,18 +226,6 @@ protected:
     virtual bool updateKinematics(const FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) { return true; };
 
-   /**
-   * Update the states and the associated covariance using the Kalman gain and the innovations (in an EKF based implementation)
-   * @note this function should be called from within updateKinematics in an EKF base implementation, otherwise left unused
-   * @param[in] innovation innovation vector
-   * @param[in] measurement_model_jacobian discrete-time measurement model Jacobian
-   * @param[in] measurement_noise_var discrete-time measurement noise covariance matrix
-   * @return bool
-   */
-   virtual bool updateStates(const Eigen::VectorXd& innovation,
-                             const Eigen::MatrixXd& measurement_model_jacobian,
-                             const Eigen::MatrixXd& measurement_noise_var) { return true; };
-
     ModelComputations m_model_comp; /**< Model computations object */
     FloatingBaseEstimators::Options m_options; /**< Struct holding estimator options */
     FloatingBaseEstimators::Measurements m_meas; /**< Struct holding the latest measurements that were set to the estimator */
