@@ -90,6 +90,10 @@ if (FRAMEWORK_USE_Qhull)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES "Qhull 8.0.0")
 endif()
 
+if (FRAMEWORK_USE_cppad)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES cppad)
+endif()
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
