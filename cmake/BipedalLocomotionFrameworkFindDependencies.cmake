@@ -144,6 +144,9 @@ checkandset_dependency(Qhull)
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
 
+find_package(cppad QUIET)
+checkandset_dependency(cppad)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -167,3 +170,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
   "FRAMEWORK_COMPILE_ContactModels" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
+  "Compile CppAD-Eigen wrapper?" ON
+  "FRAMEWORK_USE_cppad" OFF)
