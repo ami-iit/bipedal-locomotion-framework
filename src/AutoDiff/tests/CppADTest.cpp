@@ -17,11 +17,11 @@ TEST_CASE("CppAD and Eigen")
     constexpr double b = 1.1341;
     constexpr double c = 2.3213;
 
-    BipedalLocomotion::AutoDiff::VectorXcppAD x(3);
+    BipedalLocomotion::AutoDiff::CppAD::VectorXAD x(3);
 
     // Start recording
     CppAD::Independent(x);
-    BipedalLocomotion::AutoDiff::VectorXcppAD y = a * x.array() + c * (b * x.array()).sin();
+    BipedalLocomotion::AutoDiff::CppAD::VectorXAD y = a * x.array() + c * (b * x.array()).sin();
 
     // stop recording
     CppAD::ADFun<double> f(x, y);

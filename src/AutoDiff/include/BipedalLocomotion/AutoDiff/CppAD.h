@@ -39,9 +39,10 @@ namespace BipedalLocomotion
 {
 namespace AutoDiff
 {
+namespace CppAD
+{
 
 // Generate the VectorX and MatrixX typedef for CppAD
-
 #define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)             \
     typedef Eigen::Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix; \
     typedef Eigen::Matrix<Type, Size, 1> Vector##SizeSuffix##TypeSuffix;    \
@@ -50,12 +51,13 @@ namespace AutoDiff
 #define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
     EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Eigen::Dynamic, X)
 
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(CppAD::AD<double>, cppAD)
+EIGEN_MAKE_TYPEDEFS_ALL_SIZES(::CppAD::AD<double>, AD)
 
 #undef EIGEN_MAKE_TYPEDEFS_ALL_SIZES
 #undef EIGEN_MAKE_TYPEDEFS
 #undef EIGEN_MAKE_FIXED_TYPEDEFS
 
+} // namespace CppAD
 } // namespace AutoDiff
 } // namespace BipedalLocomotion
 
