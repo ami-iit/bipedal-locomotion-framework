@@ -13,10 +13,9 @@ using namespace BipedalLocomotion::Estimators;
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                        const iDynTree::Model& model)
 {
-    if (!m_model_comp.setModel(model))
+    if (!m_modelComp.setModel(model))
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] "
-        "The model could not be loaded."
+        std::cerr << "[FloatingBaseEstimator::initialize] The model could not be loaded."
         << std::endl;
         return false;
     }
@@ -31,18 +30,16 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    if (!m_model_comp.isModelSet())
+    if (!m_modelComp.isModelSet())
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] "
-        "The model does not seem to be loaded. Please call initialize(handler, model) to set the model."
+        std::cerr << "[FloatingBaseEstimator::initialize] The model does not seem to be loaded. Please call initialize(handler, model) to set the model."
         << std::endl;
         return false;
     }
 
-    if (m_estimator_state != State::NotInitialized)
+    if (m_estimatorState != State::NotInitialized)
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] "
-        "The estimator already seems to be initialized."
+        std::cerr << "[FloatingBaseEstimator::initialize] The estimator already seems to be initialized."
         << std::endl;
         return false;
     }
@@ -50,8 +47,7 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
     auto handle = handler.lock();
     if (handle == nullptr)
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] "
-        "The parameter handler has expired. Please check its scope."
+        std::cerr << "[FloatingBaseEstimator::initialize] The parameter handler has expired. Please check its scope."
         << std::endl;
         return false;
     }
@@ -66,8 +62,8 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
     }
 
     // setup model related entities
-    auto model_handle = handle->getGroup("ModelInfo");
-    if (!setupModelParams(model_handle))
+    auto modelHandle = handle->getGroup("ModelInfo");
+    if (!setupModelParams(modelHandle))
     {
         std::cerr << "[FloatingBaseEstimator::initialize] "
         "Could not load model related parameters."
@@ -83,34 +79,33 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
         return false;
     }
 
-    m_estimator_state = State::Initialized;
+    m_estimatorState = State::Initialized;
 
     return true;
 }
 
 bool FloatingBaseEstimator::advance()
 {
-    m_state_prev = m_state;
-
-    if (m_estimator_state != State::Initialized && m_estimator_state != State::Running)
+    if (m_estimatorState != State::Initialized && m_estimatorState != State::Running)
     {
-        std::cerr << "[FloatingBaseEstimator::advance] "
-        "Please initialize the estimator before calling advance()."
+        std::cerr << "[FloatingBaseEstimator::advance] Please initialize the estimator before calling advance()."
         << std::endl;
         return false;
     }
 
-    if (m_estimator_state == State::Initialized)
+    if (m_estimatorState == State::Initialized)
     {
-        m_estimator_state = State::Running;
+        m_estimatorState = State::Running;
     }
 
-    auto ok = predictState(m_meas, m_dt);
-    if (m_options.ekf_update_enabled)
+    m_statePrev = m_state;
+    auto ok = predictState(m_measPrev, m_dt);
+    if (m_options.ekfUpdateEnabled)
     {
         ok = updateKinematics(m_meas, m_dt);
     }
 
+    m_measPrev = m_meas;
     return ok;
 }
 
@@ -121,87 +116,82 @@ bool FloatingBaseEstimator::ModelComputations::setModel(const iDynTree::Model& m
         return false;
     }
 
-    m_model = model;
-    m_nr_joints = model.getNrOfDOFs();
-    m_model_set = true;
+    m_nrJoints = model.getNrOfDOFs();
+    m_modelSet = true;
     return true;
 }
 
-bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& base_link,
-                                                                 const std::string& imu_frame)
+bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& baseLink,
+                                                                 const std::string& imuFrame)
 {
-    m_base_link_idx = m_model.getFrameIndex(base_link);
-    if (m_base_link_idx == iDynTree::FRAME_INVALID_INDEX)
+    m_baseLinkIdx = m_kindyn.model().getFrameIndex(baseLink);
+    if (m_baseLinkIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-        "Specified base link not available in the loaded URDF Model."
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified base link not available in the loaded URDF Model."
         << std::endl;
         return false;
     }
 
-    m_base_imu_idx = m_model.getFrameIndex(imu_frame);
-    if (m_base_imu_idx == iDynTree::FRAME_INVALID_INDEX)
+    m_baseImuIdx = m_kindyn.model().getFrameIndex(imuFrame);
+    if (m_baseImuIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-        "Specified IMU frame not available in the loaded URDF Model."
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU frame not available in the loaded URDF Model."
         << std::endl;
         return false;
     }
 
-    if (m_base_link_idx != m_model.getFrameLink(m_base_imu_idx))
+    if (m_baseLinkIdx != m_kindyn.model().getFrameLink(m_baseImuIdx))
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-        "Specified IMU not rigidly attached to the base link. Please specify a base link colocated IMU."
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU not rigidly attached to the base link. Please specify a base link colocated IMU."
         << std::endl;
         return false;
     }
 
 
-    if (m_model.getDefaultBaseLink() != m_base_link_idx)
+    if (m_kindyn.model().getDefaultBaseLink() != m_baseLinkIdx)
     {
-        m_model.setDefaultBaseLink(m_base_link_idx);
-        this->setModel(m_model);
+        auto model = m_kindyn.model();
+        model.setDefaultBaseLink(m_baseLinkIdx);
+        setModel(model);
     }
 
-    m_base_link = base_link;
-    m_base_imu_frame = imu_frame;
-    m_base_H_imu = m_model.getFrameTransform(m_base_imu_idx);
+    m_baseLink = baseLink;
+    m_baseImuFrame = imuFrame;
+    m_base_H_imu = m_kindyn.model().getFrameTransform(m_baseImuIdx);
     return true;
 }
 
-bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::string& l_foot_contact_frame,
-                                                                    const std::string& r_foot_contact_frame)
+bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::string& lFootContactFrame,
+                                                                    const std::string& rFootContactFrame)
 {
-    m_l_foot_contact_idx = m_model.getFrameIndex(l_foot_contact_frame);
-    if (m_l_foot_contact_idx == iDynTree::FRAME_INVALID_INDEX)
+    m_lFootContactIdx = m_kindyn.model().getFrameIndex(lFootContactFrame);
+    if (m_lFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] "
-        "Specified left foot contact frame not available in the loaded URDF Model."
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified left foot contact frame not available in the loaded URDF Model."
         << std::endl;
         return false;
     }
 
-    m_r_foot_contact_idx = m_model.getFrameIndex(r_foot_contact_frame);
-    if (m_r_foot_contact_idx == iDynTree::FRAME_INVALID_INDEX)
+    m_rFootContactIdx = m_kindyn.model().getFrameIndex(rFootContactFrame);
+    if (m_rFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] "
-        "Specified right foot contact frame not available in the loaded URDF Model."
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified right foot contact frame not available in the loaded URDF Model."
         << std::endl;
         return false;
     }
 
-    m_l_foot_contact_frame = l_foot_contact_frame;
-    m_r_foot_contact_frame = r_foot_contact_frame;
+    m_lFootContactFrame = lFootContactFrame;
+    m_rFootContactFrame = rFootContactFrame;
 
     return true;
 }
 
 bool FloatingBaseEstimator::ModelComputations::isModelInfoLoaded()
 {
-    bool loaded = (m_base_link_idx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_base_imu_idx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_l_foot_contact_idx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_r_foot_contact_idx != iDynTree::FRAME_INVALID_INDEX);
+    bool loaded = (m_baseLinkIdx != iDynTree::FRAME_INVALID_INDEX) &&
+             (m_baseImuIdx != iDynTree::FRAME_INVALID_INDEX) &&
+             (m_lFootContactIdx != iDynTree::FRAME_INVALID_INDEX) &&
+             (m_rFootContactIdx != iDynTree::FRAME_INVALID_INDEX);
 
     return loaded;
 }
@@ -213,8 +203,7 @@ bool FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState(const iD
 {
     if (!isModelInfoLoaded())
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState] "
-        "Please set required model info parameters, before calling getBaseStateFromIMUState(...)"
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState] Please set required model info parameters, before calling getBaseStateFromIMUState(...)"
         << std::endl;
         return false;
     }
@@ -235,62 +224,61 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
 {
     if (!isModelInfoLoaded())
     {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] "
-        "Please set required model info parameters, before calling getIMU_H_feet(...)"
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] Please set required model info parameters, before calling getIMU_H_feet(...)"
         << std::endl;
         return false;
     }
 
     m_kindyn.setJointPos(encoders);
-    IMU_H_l_foot = m_kindyn.getRelativeTransform(m_base_imu_idx, m_l_foot_contact_idx);
-    IMU_H_r_foot = m_kindyn.getRelativeTransform(m_base_imu_idx, m_r_foot_contact_idx);
+    IMU_H_l_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
+    IMU_H_r_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
 
     return true;
 }
 
-bool FloatingBaseEstimator::setIMUMeasurement(const Eigen::Vector3d& acc_meas,
-                                              const Eigen::Vector3d& gyro_meas)
+bool FloatingBaseEstimator::setIMUMeasurement(const Eigen::Vector3d& accMeas,
+                                              const Eigen::Vector3d& gyroMeas)
 {
-    m_meas.acc = acc_meas;
-    m_meas.gyro = gyro_meas;
+    m_meas.acc = accMeas;
+    m_meas.gyro = gyroMeas;
+
     return true;
 }
 
 
 bool FloatingBaseEstimator::setKinematics(const Eigen::VectorXd& encoders,
-                                          const Eigen::VectorXd& encoder_speeds)
+                                          const Eigen::VectorXd& encoderSpeeds)
 {
-    if ( (encoders.size() != encoder_speeds.size()) ||
+    if ( (encoders.size() != encoderSpeeds.size()) ||
         (encoders.size() != modelComputations().nrJoints()))
     {
-        std::cerr << "[FloatingBaseEstimator::setKinematics] "
-        "kinematic measurements size mismatch"
+        std::cerr << "[FloatingBaseEstimator::setKinematics] kinematic measurements size mismatch"
         << std::endl;
         return false;
     }
 
     m_meas.encoders = encoders;
-    m_meas.encoders_speed = encoder_speeds;
+    m_meas.encodersSpeed = encoderSpeeds;
     return true;
 }
 
-bool FloatingBaseEstimator::setContacts(const bool& lf_in_contact,
-                                        const bool& rf_in_contact)
+bool FloatingBaseEstimator::setContacts(const bool& lfInContact,
+                                        const bool& rfInContact)
 {
-    m_meas.lf_in_contact = lf_in_contact;
-    m_meas.rf_in_contact = rf_in_contact;
+    m_meas.lfInContact = lfInContact;
+    m_meas.rfInContact = rfInContact;
     return true;
 }
 
 FloatingBaseEstimator::ModelComputations& FloatingBaseEstimator::modelComputations()
 {
-    return m_model_comp;
+    return m_modelComp;
 }
 
 
 const FloatingBaseEstimators::Output& FloatingBaseEstimator::get() const
 {
-    return m_estimator_out;
+    return m_estimatorOut;
 }
 
 
@@ -299,54 +287,49 @@ bool FloatingBaseEstimator::setupModelParams(std::weak_ptr<BipedalLocomotion::Pa
     auto handle = handler.lock();
     if (handle == nullptr)
     {
-        std::cerr << "[FloatingBaseEstimator::setupModelParams] "
-        "The parameter handler has expired. Please check its scope."
+        std::cerr << "[FloatingBaseEstimator::setupModelParams] The parameter handler has expired. Please check its scope."
         << std::endl;
         return false;
     }
 
     // setup base link and imu
-    std::string base_link, imu;
-    if (!handle->getParameter("base_link", base_link))
+    std::string baseLink, imu;
+    if (!handle->getParameter("base_link", baseLink))
     {
-        std::cerr << "[FloatingBaseEstimator::setupModelParams] "
-        "The parameter handler could not find \" base_link \" in the configuration file."
+        std::cerr << "[FloatingBaseEstimator::setupModelParams] The parameter handler could not find \" base_link \" in the configuration file."
         << std::endl;
         return false;
     }
 
     if (!handle->getParameter("base_link_imu", imu))
     {
-        std::cerr << "[FloatingBaseEstimator::setupModelParams] "
-        "The parameter handler could not find \" base_link_imu \" in the configuration file."
+        std::cerr << "[FloatingBaseEstimator::setupModelParams] The parameter handler could not find \" base_link_imu \" in the configuration file."
         << std::endl;
         return false;
     }
 
-    // setup base lf_contact and rf_contact
-    std::string lf_contact, rf_contact;
-    if (!handle->getParameter("left_foot_contact_frame", lf_contact))
+    // setup base lfContact and rfContact
+    std::string lfContact, rfContact;
+    if (!handle->getParameter("left_foot_contact_frame", lfContact))
     {
-        std::cerr << "[FloatingBaseEstimator::setupModelParams] "
-        "The parameter handler could not find \" base_link \" in the configuration file."
+        std::cerr << "[FloatingBaseEstimator::setupModelParams] The parameter handler could not find \" base_link \" in the configuration file."
         << std::endl;
         return false;
     }
 
-    if (!handle->getParameter("right_foot_contact_frame", rf_contact))
+    if (!handle->getParameter("right_foot_contact_frame", rfContact))
     {
-        std::cerr << "[FloatingBaseEstimator::setupModelParams] "
-        "The parameter handler could not find \" base_link \" in the configuration file."
+        std::cerr << "[FloatingBaseEstimator::setupModelParams] The parameter handler could not find \" base_link \" in the configuration file."
         << std::endl;
         return false;
     }
 
-    if (!m_model_comp.setBaseLinkAndIMU(base_link, imu))
+    if (!m_modelComp.setBaseLinkAndIMU(baseLink, imu))
     {
         return false;
     }
 
-    if (!m_model_comp.setFeetContactFrames(lf_contact, rf_contact))
+    if (!m_modelComp.setFeetContactFrames(lfContact, rfContact))
     {
         return false;
     }
@@ -354,4 +337,270 @@ bool FloatingBaseEstimator::setupModelParams(std::weak_ptr<BipedalLocomotion::Pa
     return true;
 }
 
+bool FloatingBaseEstimator::setupOptions(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    auto handle = handler.lock();
+    if (handle == nullptr)
+    {
+        std::cerr << "[FloatingBaseEstimator::setupOptions] The parameter handler has expired. Please check its scope."
+        << std::endl;
+        return false;
+    }
+
+    if (!handle->getParameter("enable_imu_bias_estimation", m_options.imuBiasEstimationEnabled))
+    {
+        std::cout << "[FloatingBaseEstimator::setupOptions] The parameter handler could not find \" enable_imu_bias_estimation \" in the configuration file. Setting default value to false."
+        << std::endl;
+        m_options.imuBiasEstimationEnabled = false;
+    }
+
+    if (m_options.imuBiasEstimationEnabled)
+    {
+        if (!handle->getParameter("enable_static_imu_bias_initialization", m_options.staticImuBiasInitializationEnabled))
+        {
+            std::cout << "[FloatingBaseEstimator::setupOptions] The parameter handler could not find \" enable_static_imu_bias_initialization \" in the configuration file. Setting default value to false."
+            << std::endl;
+            m_options.staticImuBiasInitializationEnabled = false;
+        }
+
+        if (m_options.staticImuBiasInitializationEnabled)
+        {
+            if (!handle->getParameter("nr_samples_for_imu_bias_initialization", m_options.nrSamplesForImuBiasInitialization))
+            {
+                std::cerr << "[FloatingBaseEstimator::setupOptions] The parameter handler could not find \" nr_samples_for_imu_bias_initialization \" in the configuration file. "
+                "This is a required parameter since the static_imu_bias_initialization_enabled is set to true."
+                << std::endl;
+                return false;
+            }
+        }
+    }
+
+    if (!handle->getParameter("enable_ekf_update", m_options.ekfUpdateEnabled))
+    {
+        m_options.ekfUpdateEnabled = true;
+    }
+
+    if (!m_options.ekfUpdateEnabled)
+    {
+        std::cerr << "[FloatingBaseEstimator::setupOptions] [WARNING] EKF Measurement updates are disabled. This might cause quick divergence of the estimates. Please enable the update for expected performance."
+        << std::endl;
+    }
+
+    std::vector<double> g;
+    g.resize(3);
+    if (handle->getParameter("acceleration_due_to_gravity", g, GenericContainer::VectorResizeMode::Fixed))
+    {
+        m_options.accelerationDueToGravity << g[0], g[1], g[2];
+    }
+
+    std::cout << "[FloatingBaseEstimator::setupOptions] Setting value for acceleration due to gravity: "
+    << m_options.accelerationDueToGravity.transpose() << std::endl;
+
+    return true;
+}
+
+bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    auto handle = handler.lock();
+    if (handle == nullptr)
+    {
+        std::cerr << "[FloatingBaseEstimator::setupSensorDevs] The parameter handler has expired. Please check its scope."
+        << std::endl;
+        return false;
+    }
+
+    std::string printPrefix{"setupSensorDevs"};
+
+    std::vector<double> accNoise(3);
+    if (!setupFixedVectorParamPrivate("accelerometer_measurement_noise_std_dev", printPrefix, handler, accNoise)) { return false; }
+
+    std::vector<double> gyroNoise(3);
+    if (!setupFixedVectorParamPrivate("gyroscope_measurement_noise_std_dev", printPrefix, handler, gyroNoise)) { return false; }
+
+    std::vector<double> contactFootLinvelNoise(3);
+    if (!setupFixedVectorParamPrivate("contact_foot_linear_velocity_noise_std_dev", printPrefix, handler, contactFootLinvelNoise)) { return false; }
+
+    std::vector<double> contactFootAngvelNoise(3);
+    if (!setupFixedVectorParamPrivate("contact_foot_angular_velocity_noise_std_dev", printPrefix, handler, contactFootAngvelNoise)) { return false; }
+
+    std::vector<double> swingFootLinvelNoise(3);
+    if (!setupFixedVectorParamPrivate("swing_foot_linear_velocity_noise_std_dev", printPrefix, handler, swingFootLinvelNoise)) { return false; }
+
+    std::vector<double> swingFootAngvelNoise(3);
+    if (!setupFixedVectorParamPrivate("swing_foot_angular_velocity_noise_std_dev", printPrefix, handler, swingFootAngvelNoise)) { return false; }
+
+    std::vector<double> forwardKinematicsNoise(6);
+    if (!setupFixedVectorParamPrivate("forward_kinematic_measurement_noise_std_dev", printPrefix, handler, forwardKinematicsNoise)) { return false; }
+
+    std::vector<double> encodersNoise(m_modelComp.nrJoints());
+    if (!setupFixedVectorParamPrivate("encoders_measurement_noise_std_dev", printPrefix, handler, encodersNoise)) { return false; }
+
+    if (m_options.imuBiasEstimationEnabled)
+    {
+        std::vector<double> accBiasNoise(3);
+        if (!setupFixedVectorParamPrivate("accelerometer_measurement_bias_noise_std_dev", printPrefix, handler, accBiasNoise)) { return false; }
+
+        std::vector<double> gyroBiasNoise(3);
+        if (!setupFixedVectorParamPrivate("gyroscope_measurement_bias_noise_std_dev", printPrefix, handler, gyroBiasNoise)) { return false; }
+
+        m_sensorsDev.accelerometerBiasNoise << accBiasNoise[0], accBiasNoise[1], accBiasNoise[2];
+        m_sensorsDev.gyroscopeBiasNoise << gyroBiasNoise[0], gyroBiasNoise[1], gyroBiasNoise[2];
+    }
+
+    m_sensorsDev.accelerometerNoise << accNoise[0], accNoise[1], accNoise[2];
+    m_sensorsDev.gyroscopeNoise << gyroNoise[0], gyroNoise[1], gyroNoise[2];
+
+    m_sensorsDev.contactFootLinvelNoise << contactFootLinvelNoise[0], contactFootLinvelNoise[1], contactFootLinvelNoise[2];
+    m_sensorsDev.contactFootAngvelNoise << contactFootAngvelNoise[0], contactFootAngvelNoise[1], contactFootAngvelNoise[2];
+
+    m_sensorsDev.swingFootLinvelNoise << swingFootLinvelNoise[0], swingFootLinvelNoise[1], swingFootLinvelNoise[2];
+    m_sensorsDev.swingFootAngvelNoise << swingFootAngvelNoise[0], swingFootAngvelNoise[1], swingFootAngvelNoise[2];
+
+    m_sensorsDev.forwardKinematicsNoise << forwardKinematicsNoise[0], forwardKinematicsNoise[1], forwardKinematicsNoise[2],
+                                           forwardKinematicsNoise[3], forwardKinematicsNoise[4], forwardKinematicsNoise[5];
+
+    m_sensorsDev.encodersNoise.resize(encodersNoise.size());
+    m_sensorsDev.encodersNoise = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(encodersNoise.data(), encodersNoise.size());
+    return true;
+}
+
+bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    auto handle = handler.lock();
+    if (handle == nullptr)
+    {
+        std::cerr << "[FloatingBaseEstimator::setupInitialStates] The parameter handler has expired. Please check its scope."
+        << std::endl;
+        return false;
+    }
+
+    std::string printPrefix{"setupInitialStates"};
+
+    std::vector<double> imuOrientation(4);
+    if (!setupFixedVectorParamPrivate("imu_orientation_quaternion_wxyz", printPrefix, handler, imuOrientation)) { return false; }
+
+    std::vector<double> imuPosition(3);
+    if (!setupFixedVectorParamPrivate("imu_position_xyz", printPrefix, handler, imuPosition)) { return false; }
+
+    std::vector<double> imuLinearVelocity(3);
+    if (!setupFixedVectorParamPrivate("imu_linear_velocity_xyz", printPrefix, handler, imuLinearVelocity)) { return false; }
+
+    std::vector<double> lContactFrameOrientation(4);
+    if (!setupFixedVectorParamPrivate("l_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, lContactFrameOrientation)) { return false; }
+
+    std::vector<double> lContactFramePosition(3);
+    if (!setupFixedVectorParamPrivate("l_contact_frame_position_xyz", printPrefix, handler, lContactFramePosition)) { return false; }
+
+    std::vector<double> rContactFrameOrientation(4);
+    if (!setupFixedVectorParamPrivate("r_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, rContactFrameOrientation)) { return false; }
+
+    std::vector<double> rContactFramePosition(3);
+    if (!setupFixedVectorParamPrivate("r_contact_frame_position_xyz", printPrefix, handler, rContactFramePosition)) { return false; }
+
+    if (m_options.imuBiasEstimationEnabled)
+    {
+        std::vector<double> accelerometerBias(3);
+        if (!setupFixedVectorParamPrivate("accelerometer_bias", printPrefix, handler, accelerometerBias)) { return false; }
+
+        std::vector<double> gyroscopeBias(3);
+        if (!setupFixedVectorParamPrivate("gyroscope_bias", printPrefix, handler, gyroscopeBias)) { return false; }
+
+        m_statePrev.accelerometerBias << accelerometerBias[0], accelerometerBias[1], accelerometerBias[2];
+        m_statePrev.gyroscopeBias << gyroscopeBias[0], gyroscopeBias[1], gyroscopeBias[2];
+    }
+
+    m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]);
+    m_statePrev.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
+    m_statePrev.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
+
+
+    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);
+    m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
+
+    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);
+    m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
+
+    m_state = m_statePrev;
+
+    return true;
+}
+
+bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    auto handle = handler.lock();
+    if (handle == nullptr)
+    {
+        std::cerr << "[FloatingBaseEstimator::setupPriorDevs] The parameter handler has expired. Please check its scope."
+        << std::endl;
+        return false;
+    }
+
+    std::string printPrefix{"setupPriorDevs"};
+
+    std::vector<double> imuOrientation(3);
+    if (!setupFixedVectorParamPrivate("imu_orientation", printPrefix, handler, imuOrientation)) { return false; }
+
+    std::vector<double> imuPosition(3);
+    if (!setupFixedVectorParamPrivate("imu_position", printPrefix, handler, imuPosition)) { return false; }
+
+    std::vector<double> imuLinearVelocity(3);
+    if (!setupFixedVectorParamPrivate("imu_linear_velocity", printPrefix, handler, imuLinearVelocity)) { return false; }
+
+    std::vector<double> lContactFrameOrientation(3);
+    if (!setupFixedVectorParamPrivate("l_contact_frame_orientation", printPrefix, handler, lContactFrameOrientation)) { return false; }
+
+    std::vector<double> lContactFramePosition(3);
+    if (!setupFixedVectorParamPrivate("l_contact_frame_position", printPrefix, handler, lContactFramePosition)) { return false; }
+
+    std::vector<double> rContactFrameOrientation(3);
+    if (!setupFixedVectorParamPrivate("r_contact_frame_orientation", printPrefix, handler, rContactFrameOrientation)) { return false; }
+
+    std::vector<double> rContactFramePosition(3);
+    if (!setupFixedVectorParamPrivate("r_contact_frame_position", printPrefix, handler, rContactFramePosition)) { return false; }
+
+    if (m_options.imuBiasEstimationEnabled)
+    {
+        std::vector<double> accelerometerBias(3);
+        if (!setupFixedVectorParamPrivate("accelerometer_bias", printPrefix, handler, accelerometerBias)) { return false; }
+
+        std::vector<double> gyroscopeBias(3);
+        if (!setupFixedVectorParamPrivate("gyroscope_bias", printPrefix, handler, gyroscopeBias)) { return false; }
+
+        m_priors.accelerometerBias << accelerometerBias[0], accelerometerBias[1], accelerometerBias[2];
+        m_priors.gyroscopeBias << gyroscopeBias[0], gyroscopeBias[1], gyroscopeBias[2];
+    }
+
+    m_priors.imuOrientation << imuOrientation[0], imuOrientation[1], imuOrientation[2];
+    m_priors.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
+    m_priors.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
+
+
+    m_priors.lContactFrameOrientation << lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2];
+    m_priors.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
+
+    m_priors.rContactFrameOrientation << rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2];
+    m_priors.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
+
+    return true;
+}
+
+
+bool FloatingBaseEstimator::setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
+                                                         std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                                         std::vector<double>& vec)
+{
+    auto handle = handler.lock();
+    if (handle == nullptr)
+    {
+        return false;
+    }
+
+    if (!handle->getParameter(param, vec, GenericContainer::VectorResizeMode::Fixed))
+    {
+        std::cerr << "[FloatingBaseEstimator::" << prefix << "] The parameter handler could not find \""<< param <<"\" in the configuration file. This is a required parameter." << std::endl;
+        return false;
+    }
+
+    return true;
+}
 

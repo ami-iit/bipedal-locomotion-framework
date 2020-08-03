@@ -20,124 +20,128 @@ namespace FloatingBaseEstimators
 * @brief Struct containing sensor measurement deviation parameters of floating base estimators
 *
 */
-class SensorsStdDev
+struct SensorsStdDev
 {
     /**
     * @brief Additive white Gaussian noise deviation for accelerometer measurements
     *        Expressed in local frame as m/(s^2), in continuous time
     */
-    Eigen::Vector3d accelerometer_noise;
+    Eigen::Vector3d accelerometerNoise;
 
     /**
     * @brief Additive white Gaussian noise deviation for gyroscope measurements
     *        Expressed in local frame as rad/s, in continuous time
     */
-    Eigen::Vector3d gyroscope_noise;
+    Eigen::Vector3d gyroscopeNoise;
 
     /**
     * @brief Random walk bias noise deviation for accelerometer measurements
     *        Expressed in local frame as m/s^3, in continuous time
     */
-    Eigen::Vector3d accelerometer_bias_noise;
+    Eigen::Vector3d accelerometerBiasNoise;
 
     /**
     * @brief Random walk bias noise deviation for gyroscope measurements
     *        Expressed in local frame as rad/s^2, in continuous time
     */
-    Eigen::Vector3d gyroscope_bias_noise;
+    Eigen::Vector3d gyroscopeBiasNoise;
 
     /**
     * @brief White Gaussian noise deviation for linear feet velocities in rigid contact with the environment
     *        Expressed in local frame as m/s^2, in continuous time
     */
-    Eigen::Vector3d contact_foot_linvel_noise;
+    Eigen::Vector3d contactFootLinvelNoise;
 
     /**
     * @brief White Gaussian noise deviation for angular feet velocities in rigid contact with the environment
     *        Expressed in local frame as rad/s, in continuous time
     */
-    Eigen::Vector3d contact_foot_angvel_noise;
+    Eigen::Vector3d contactFootAngvelNoise;
 
     /**
     * @brief White Gaussian noise deviation for linear feet velocities in swing phase
     *        Expressed in local frame as m/s^2, in continuous time
     */
-    Eigen::Vector3d swing_foot_linvel_noise;
+    Eigen::Vector3d swingFootLinvelNoise;
 
     /**
     * @brief White Gaussian noise deviation for angular feet velocities in swing phase
     *        Expressed in local frame as rad/s, in continuous time
     */
-    Eigen::Vector3d swing_foot_angvel_noise;
+    Eigen::Vector3d swingFootAngvelNoise;
 
     /**
     * @brief White Gaussian noise deviation for relative kinematics between IMU frame to foot contact frames
     *        Expressed in local frame, in continuous time
-    *
     */
-    Eigen::Matrix<double, 6, 1> forward_kinematics_noise;
+    Eigen::Matrix<double, 6, 1> forwardKinematicsNoise;
+
+    /**
+    * @brief White Gaussian noise deviation for encoder measurements in continuous time
+    */
+    Eigen::VectorXd encodersNoise;
 };
 
 /**
 * @brief Struct containing prior state deviation parameters of floating base estimators
 *
 */
-struct PriorsStdDev
+struct StateStdDev
 {
     /**
     * @brief Prior deviation of IMU orientation in inertial frame
     *        expressed in radians as rpy
     */
-    Eigen::Vector3d imu_orientation;
+    Eigen::Vector3d imuOrientation;
 
     /**
     * @brief Prior deviation of IMU position in inertial frame
     *        expressed in m as xyz
     */
-    Eigen::Vector3d imu_position;
+    Eigen::Vector3d imuPosition;
 
     /**
     * @brief Prior deviation of mixed-trivialized IMU linear velocity
     *        expressed in m/s
     */
-    Eigen::Vector3d imu_linear_velocity;
+    Eigen::Vector3d imuLinearVelocity;
 
     /**
     * @brief Prior deviation of left foot contact frame orientation in inertial frame
     *        expressed in radians as rpy
     */
-    Eigen::Vector3d l_contact_frame_orientation;
+    Eigen::Vector3d lContactFrameOrientation;
 
     /**
     * @brief Prior deviation of left foot contact frame position in inertial frame
     *        expressed in m as xyz
     */
-    Eigen::Vector3d l_contact_frame_position;
+    Eigen::Vector3d lContactFramePosition;
 
     /**
     * @brief Prior deviation of right foot contact frame orientation in inertial frame
     *        expressed in radians as rpy
     */
-    Eigen::Vector3d r_contact_frame_orientation;
+    Eigen::Vector3d rContactFrameOrientation;
 
     /**
     * @brief Prior deviation of right foot contact frame position in inertial frame
     *        expressed in m as xyz
     */
-    Eigen::Vector3d r_contact_frame_position;
+    Eigen::Vector3d rContactFramePosition;
 
     /**
     * @brief Prior deviation of IMU accelerometer bias in local frame
     *        expressed in m/s^2
     *
     */
-    Eigen::Vector3d accelerometer_bias;
+    Eigen::Vector3d accelerometerBias;
 
     /**
     * @brief Prior deviation of IMU gyroscope bias in local frame
     *        expressed in rad/s
     */
-    Eigen::Vector3d gyroscope_bias;
+    Eigen::Vector3d gyroscopeBias;
 };
 
 
@@ -151,7 +155,7 @@ struct Options
     * @brief Enable/disable online accelerometer and gyroscope bias estimation
     *
     */
-    bool imu_bias_estimation_enabled{false};
+    bool imuBiasEstimationEnabled{false};
 
     /**
     * @brief Enable/disable IMU bias initialization using
@@ -159,20 +163,26 @@ struct Options
     * @note also remember to set nr_samples_for_bias_initialization
     *
     */
-    bool static_imu_bias_initialization_enabled{false};
+    bool staticImuBiasInitializationEnabled{false};
 
     /**
     * @brief Number of initial measurement samples in a static configuration
     *        used for IMU bias initialization
     *
     */
-    int nr_samples_for_imu_bias_initialization{0};
+    int nrSamplesForImuBiasInitialization{0};
 
     /**
     * @brief Enable/disable measurement update step of the internal EKF
     *
     */
-    bool ekf_update_enabled{true};
+    bool ekfUpdateEnabled{true};
+
+    /**
+    * @brief Acceleration vector due to gravity
+    *
+    */
+    Eigen::Vector3d accelerationDueToGravity{0, 0, -9.80665};
 };
 
 } //namespace FloatingBaseEstimators
