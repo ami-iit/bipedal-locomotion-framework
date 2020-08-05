@@ -61,7 +61,7 @@ bool ContactList::addContact(const Contact &newContact)
     return true;
 }
 
-bool ContactList::addContact(const iDynTree::Transform &newTransform, double activationTime, double deactivationTime)
+bool ContactList::addContact(const manif::SE3d &newTransform, double activationTime, double deactivationTime)
 {
     Contact newContact;
     newContact.pose = newTransform;
@@ -228,4 +228,3 @@ void ContactList::removeLastContact()
 {
     erase(lastContact());
 }
-
