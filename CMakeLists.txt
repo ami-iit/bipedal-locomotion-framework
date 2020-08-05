@@ -94,6 +94,10 @@ if (FRAMEWORK_USE_cppad)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES cppad)
 endif()
 
+if (FRAMEWORK_USE_manif)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES manif)
+endif()
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
