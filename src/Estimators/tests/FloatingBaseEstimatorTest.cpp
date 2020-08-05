@@ -9,7 +9,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Estimators/FloatingBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/Core/TestUtils.h>

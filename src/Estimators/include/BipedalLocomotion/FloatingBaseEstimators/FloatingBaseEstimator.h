@@ -10,8 +10,8 @@
 
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Estimators/FloatingBaseEstimatorParams.h>
-#include <BipedalLocomotion/Estimators/FloatingBaseEstimatorIO.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
 
 #include <iDynTree/Model/Model.h>
 #include <iDynTree/KinDynComputations.h>
@@ -82,6 +82,21 @@ public:
         bool getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
                            iDynTree::Transform& IMU_H_l_foot,
                            iDynTree::Transform& IMU_H_r_foot);
+
+        /**
+        * Get relative pose between IMU and the feet
+        * @param[in] encoders joint positions through encoder measurements
+        * @param[out] IMU_H_l_foot pose of the left foot contact frame with respect to the IMU frame
+        * @param[out] IMU_H_r_foot pose of the right foot contact frame with respect to the IMU frame
+        * @param[out] J_IMULF explicit Jacobian of left foot frame with respect to IMU frame
+        * @param[out] J_IMURF explicit Jacobian of right foot frame with respect to IMU frame
+        * @return True in case of success, false otherwise.
+        */
+        bool getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
+                           iDynTree::Transform& IMU_H_l_foot,
+                           iDynTree::Transform& IMU_H_r_foot,
+                           iDynTree::MatrixDynSize& J_IMULF,
+                           iDynTree::MatrixDynSize& J_IMURF);
 
         /**
         * Get the base link pose and velocity from the estimated IMU pose and velocity
@@ -346,6 +361,18 @@ private:
     bool setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
                                       std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                       std::vector<double>& vec);
+
+    /**
+     * Wrapper method for getting base state from internal IMU state
+     * @param[in] state internal state of the estimator
+     * @param[in] meas previous measurement to the estimator
+     * @param[in] basePose base pose as an iDynTree Transform object
+     * @param[in] baseTwist mixe- trivialized base velocity as an iDynTree Twist object
+     */
+    bool updateBaseStateFromIMUState(const FloatingBaseEstimators::InternalState& state,
+                                     const FloatingBaseEstimators::Measurements& meas,
+                                     iDynTree::Transform& basePose,
+                                     iDynTree::Twist& baseTwist);
 };
 
 
