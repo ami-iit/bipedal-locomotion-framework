@@ -142,7 +142,7 @@ struct TimeVaryingDCMPlanner::Impl
         std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
 
         double plannerSamplingTime; /**< Sampling time of the planner in seconds */
-        std::vector<iDynTree::Position> footCorners; /**< Position of the corner of the foot
+        std::vector<Eigen::Vector3d> footCorners; /**< Position of the corner of the foot
                                                     expressed in a frame placed in the center of the
                                                     foot. The X axis points forward and the z
                                                     upword.*/
@@ -322,9 +322,9 @@ struct TimeVaryingDCMPlanner::Impl
         else if (contactPhase.activeContacts.size() == 2)
         {
             auto contactIt = contactPhase.activeContacts.cbegin();
-            double foot1Height = contactIt->second->pose.getPosition()[2];
+            double foot1Height = contactIt->second->pose.translation()[2];
             std::advance(contactIt, 1);
-            double foot2Height = contactIt->second->pose.getPosition()[2];
+            double foot2Height = contactIt->second->pose.translation()[2];
 
             if (foot2Height == foot1Height)
             {
@@ -339,13 +339,13 @@ struct TimeVaryingDCMPlanner::Impl
 
         // compute the convex hull only once
         int columnIndex = 0;
-        iDynTree::Position point;
+        Eigen::Vector3d point;
         for (const auto& [contactName, activeContact] : contactPhase.activeContacts)
         {
             for (const auto& footCorner : this->optiSettings.footCorners)
             {
-                point = activeContact->pose * footCorner;
-                points.col(columnIndex) = iDynTree::toEigen(point).head(numberOfCoordinates);
+                point = activeContact->pose.isometry() * footCorner;
+                points.col(columnIndex) = point.head(numberOfCoordinates);
                 columnIndex++;
             }
         }
@@ -401,7 +401,6 @@ struct TimeVaryingDCMPlanner::Impl
         casadi::DM ecmpConstraintA;
         casadi::DM ecmpConstraintB;
 
-        const auto& dcm = this->optiVariables.dcm;
         const auto& vrp = this->optiVariables.vrp;
         const auto& omega = this->optiVariables.omega;
         const auto& omegaDot = this->optiVariables.omegaDot;
@@ -432,12 +431,12 @@ struct TimeVaryingDCMPlanner::Impl
                         (contactPhaseListIt->endTime + contactPhaseListIt->beginTime) / 2);
 
                     auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    iDynTree::Position p1 = contactIt->second->pose.getPosition();
+                    Eigen::Vector3d p1 = contactIt->second->pose.translation();
                     std::advance(contactIt, 1);
-                    iDynTree::Position p2 = contactIt->second->pose.getPosition();
+                    Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
                     Eigen::Vector3d desiredDCMPosition;
-                    desiredDCMPosition = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
+                    desiredDCMPosition = (p1 + p2) / 2;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -450,12 +449,12 @@ struct TimeVaryingDCMPlanner::Impl
                 {
                     timeKnots.push_back(contactPhaseListIt->endTime);
                     auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    iDynTree::Position p1 = contactIt->second->pose.getPosition();
+                    Eigen::Vector3d p1 = contactIt->second->pose.translation();
                     std::advance(contactIt, 1);
-                    iDynTree::Position p2 = contactIt->second->pose.getPosition();
+                    Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
                     Eigen::Vector3d desiredDCMPosition;
-                    desiredDCMPosition = (iDynTree::toEigen(p1) + iDynTree::toEigen(p2)) / 2;
+                    desiredDCMPosition = (p1 + p2) / 2;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -476,7 +475,7 @@ struct TimeVaryingDCMPlanner::Impl
 
                 this->opti.subject_to(
                     vrp(2, k) - 9.81 / (casadi::MX::pow(omega(Sl(), k), 2) - omegaDot(Sl(), k))
-                    == contactPhaseListIt->activeContacts.begin()->second->pose.getPosition()[2]);
+                    == contactPhaseListIt->activeContacts.begin()->second->pose.translation()[2]);
             }
         }
 
