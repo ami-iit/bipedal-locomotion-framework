@@ -24,7 +24,7 @@ TEST_CASE("TimeVaryingDCMPlanner")
     // left foot
     // first footstep
     manif::SE3d leftTransform = manif::SE3d::Identity();
-    leftTransform.coeffs().bottomRows<3>() << 0, -0.8, 0;
+    leftTransform.coeffs().head<3>() << 0, -0.8, 0;
     REQUIRE(contactListMap["left"].addContact(leftTransform, 0.0, 1.0));
 
     // second footstep
@@ -35,7 +35,7 @@ TEST_CASE("TimeVaryingDCMPlanner")
     // right foot
     // first footstep
     manif::SE3d rightTransform = manif::SE3d::Identity();
-    rightTransform.coeffs().bottomRows<3>() << 0, 0.8, 0;
+    leftTransform.coeffs().head<3>() << 0, 0.8, 0;
     REQUIRE(contactListMap["right"].addContact(rightTransform, 0.0, 3.0));
 
     // second footstep
