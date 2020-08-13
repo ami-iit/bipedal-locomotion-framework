@@ -16,8 +16,8 @@ if (FRAMEWORK_COMPILE_Planners)
 
   add_bipedal_locomotion_library(
     NAME                   Planners
-    PUBLIC_HEADERS         ${H_PREFIX}/ConvexHullHelper.h ${H_PREFIX}/DCMPlanner.h ${H_PREFIX}/TimeVaryingDCMPlanner.h
-    SOURCES                src/ConvexHullHelper.cpp  src/DCMPlanner.cpp src/TimeVaryingDCMPlanner.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/ConvexHullHelper.h ${H_PREFIX}/DCMPlanner.h ${H_PREFIX}/TimeVaryingDCMPlanner.h ${H_PREFIX}/QuinticSpline.h
+    SOURCES                src/ConvexHullHelper.cpp  src/DCMPlanner.cpp src/TimeVaryingDCMPlanner.cpp src/QuinticSpline.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contact
     PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhullstatic_r casadi
     INSTALLATION_FOLDER    Planners)
