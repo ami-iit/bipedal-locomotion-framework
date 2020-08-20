@@ -15,3 +15,8 @@ add_bipedal_test(
  SOURCES FloatingBaseEstimatorTest.cpp
  LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler Eigen3::Eigen iDynTree::idyntree-modelio-urdf)
 
+add_bipedal_test(
+ NAME InvariantEKFBaseEstimatorTest
+ SOURCES InvariantEKFBaseEstimatorTest.cpp
+ LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler Eigen3::Eigen iDynTree::idyntree-modelio-urdf MANIF::manif)
+
