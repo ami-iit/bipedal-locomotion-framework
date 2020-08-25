@@ -220,8 +220,8 @@ bool FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState(const iD
     A_H_B = A_H_IMU*(m_base_H_imu.inverse());
 
     // transform velocity (mixed-representation)
-    auto base2IMUinWorld = A_H_B.getRotation()*m_base_H_imu.getPosition();
-    auto X = iDynTree::Transform(iDynTree::Rotation::Identity(), base2IMUinWorld);
+    auto A_o_BIMU = A_H_B.getRotation().changeCoordFrameOf(m_base_H_imu.getPosition());
+    auto X = iDynTree::Transform(iDynTree::Rotation::Identity(), A_o_BIMU);
     v_B = X*v_IMU;
 
     return true;
@@ -539,15 +539,15 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
         m_statePrev.gyroscopeBias << gyroscopeBias[0], gyroscopeBias[1], gyroscopeBias[2];
     }
 
-    m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]);
+    m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]); // here loaded as w x y z
     m_statePrev.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
     m_statePrev.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
 
 
-    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);
+    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);  // here loaded as w x y z
     m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
 
-    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);
+    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);  // here loaded as w x y z
     m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
 
     m_state = m_statePrev;
@@ -665,3 +665,49 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
     }
     return true;
 }
+
+bool FloatingBaseEstimator::resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
+                                           const Eigen::Vector3d& newBasePosition)
+{
+    iDynTree::Rotation Rb;
+    iDynTree::toEigen(Rb) = newBaseOrientation.toRotationMatrix();
+
+    iDynTree::Position pb;
+    iDynTree::toEigen(pb) = newBasePosition;
+
+    auto A_H_B = iDynTree::Transform(Rb, pb);
+    iDynTree::Transform IMU_H_RF, IMU_H_LF;
+    iDynTree::JointPosDoubleArray s(m_meas.encoders.size());
+    toEigen(s) = m_meas.encoders;
+
+    if (!m_modelComp.getIMU_H_feet(s, IMU_H_RF, IMU_H_LF))
+    {
+        std::cerr << "[FloatingBaseEstimator::resetEstimator] Could not reset estimator using new base pose." << std::endl;
+        return false;
+    }
+
+    auto A_H_IMU = A_H_B*m_modelComp.base_H_IMU();;
+    auto A_H_RF = A_H_IMU*IMU_H_RF;
+    auto A_H_LF = A_H_IMU*IMU_H_LF;
+
+    // convert to iDynTree Rotation to  Eigen angle axis and then to quaternion for consistent conversion
+    auto imuAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_IMU.getRotation()));
+    auto rfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_RF.getRotation()));
+    auto lfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_LF.getRotation()));
+
+    m_state.imuOrientation = Eigen::Quaterniond(imuAngleAxis);
+    m_state.imuPosition = iDynTree::toEigen(A_H_IMU.getPosition());
+    m_state.rContactFrameOrientation = Eigen::Quaterniond(rfAngleAxis);
+    m_state.rContactFramePosition = iDynTree::toEigen(A_H_RF.getPosition());
+    m_state.lContactFrameOrientation = Eigen::Quaterniond(lfAngleAxis);
+    m_state.lContactFramePosition = iDynTree::toEigen(A_H_LF.getPosition());
+
+    return true;
+}
+
+bool FloatingBaseEstimator::resetEstimator(const FloatingBaseEstimators::InternalState& newState)
+{
+    m_state = newState;
+    return true;
+}
+

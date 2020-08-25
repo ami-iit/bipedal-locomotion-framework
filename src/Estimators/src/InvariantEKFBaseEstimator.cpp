@@ -12,60 +12,154 @@
 
 using namespace BipedalLocomotion::Estimators;
 
-class InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl
+class InvariantEKFBaseEstimator::Impl
 {
 public:
+    /**
+     * Struct containing skew-symmetric matrices
+     */
     struct SkewSymContainter
     {
-        Eigen::Matrix3d gCross;
-        Eigen::Matrix3d vCross;
-        Eigen::Matrix3d pCross;
-        Eigen::Matrix3d prCross;
-        Eigen::Matrix3d plCross;
+        Eigen::Matrix3d gCross;  /**< skew of acceleretion due to gravity */
+        Eigen::Matrix3d vCross;  /**< skew of linear velocity of IMU frame in mixed-representation */
+        Eigen::Matrix3d pCross;  /**< skew of position of IMU frame origin */
+        Eigen::Matrix3d prCross; /**< skew of position of right foot contact frame origin */
+        Eigen::Matrix3d plCross; /**< skew of position of left foot contact frame origin */
     };
 
-    bool constructState(const Eigen::MatrixXd& X, const Eigen::Matrix<double, 6, 1>& theta, FloatingBaseEstimators::InternalState& state);
+    /**
+     * Construct internal state object given,
+     *  - state matrix \f[ X \in SE_2+2(3) \f] and
+     *  - parameters vector \f[ \theta \in \mathbb{R}^6 \f]
+     */
+    bool constructState(const Eigen::MatrixXd& X,
+                        const Eigen::Matrix<double, 6, 1>& theta,
+                        FloatingBaseEstimators::InternalState& state);
 
-    void extractState(const FloatingBaseEstimators::InternalState& state, Eigen::MatrixXd& X, Eigen::Matrix<double, 6, 1>& theta);
+    /**
+     * Extract
+     *  - state matrix \f[ X \in SE_2+2(3) \f] and
+     *  - parameters vector \f[ \theta \in \mathbb{R}^6 \f],
+     * from internal state object
+     */
+    void extractState(const FloatingBaseEstimators::InternalState& state,
+                      Eigen::MatrixXd& X,
+                      Eigen::Matrix<double, 6, 1>& theta);
 
-    void constuctStateVar(const FloatingBaseEstimators::StateStdDev& stateStdDev, const bool& estimateBias, Eigen::MatrixXd& P);
+    /**
+     * Construct  the state covariance matrix from the
+     * internal state standard deviation object,
+     */
+    void constuctStateVar(const FloatingBaseEstimators::StateStdDev& stateStdDev,
+                          const bool& estimateBias,
+                          Eigen::MatrixXd& P);
 
-    void extractStateVar(const Eigen::MatrixXd& P, const bool& estimateBias, FloatingBaseEstimators::StateStdDev& stateStdDev);
+    /**
+     * Extract internal state standard deviation object,
+     * from the diagonal elements of the state covariance matrix
+     */
+    void extractStateVar(const Eigen::MatrixXd& P,
+                         const bool& estimateBias,
+                         FloatingBaseEstimators::StateStdDev& stateStdDev);
 
+    /**
+     * Propagate internal state of the estimator,
+     * given previous IMU measurements and predicted foot poses relative to IMU
+     */
     bool propagateStates(const FloatingBaseEstimators::Measurements& meas,
                          const double& dt, const Eigen::Vector3d& g,
                          const iDynTree::Transform& IMU_H_RF,
                          const iDynTree::Transform& IMU_H_LF,
                          FloatingBaseEstimators::InternalState& X);
 
-    bool calcExpHatSE_2_3(const Eigen::VectorXd& vec, Eigen::MatrixXd& X);
-
-    void calcAdjointSE_2_3(const FloatingBaseEstimators::InternalState& X, const SkewSymContainter& skew, Eigen::MatrixXd& AdjX);
-
-    bool copyDiagX(const Eigen::MatrixXd& X, const int& n, Eigen::MatrixXd& BigX);
-
-    void calcQc(const FloatingBaseEstimators::InternalState& X, const FloatingBaseEstimators::SensorsStdDev& sensStdDev,
-                const FloatingBaseEstimators::Measurements& meas, const bool& estimateBias, Eigen::MatrixXd& Qc);
-
-    void calcLc(const FloatingBaseEstimators::InternalState& X, const SkewSymContainter& skew, const bool& estimateBias, Eigen::MatrixXd& Lc);
-
-    void calcFc(const FloatingBaseEstimators::InternalState& X, const SkewSymContainter& skew, const bool& estimateBias,   Eigen::MatrixXd& Fc);
-
-    void calcSkewSymAtCurrenState(const FloatingBaseEstimators::InternalState& X, SkewSymContainter& skew);
-
-
-
+    /**
+     * Perform the Kalman filter update step given measurements and Jacobians
+     */
     bool updateStates(const Eigen::VectorXd& obs,
-                      const Eigen::MatrixXd measModelJacobian, const Eigen::MatrixXd& measNoiseVar, const Eigen::MatrixXd& auxMat,
+                      const Eigen::MatrixXd measModelJacobian,
+                      const Eigen::MatrixXd& measNoiseVar,
+                      const Eigen::MatrixXd& auxMat,
                       FloatingBaseEstimators::InternalState& state,
                       Eigen::MatrixXd& P);
 
-    SkewSymContainter m_skew;
+    /**
+     * Compute exponential map of \f[SE_2+2(3)\f]
+     * this is a composition of a hat and a exp operator
+     * Exp: R9 to SE_2+2(3)
+     * The order of vector,
+     * (w, a, v, vr, vl) where
+     * w - angular velocity IMU
+     * a - linear acceleration IMU
+     * v - linear velocity IMU
+     * vr - linear velocity of right foot contact freame
+     * vl - linear velocity of left foot contact freame
+     * We choose this order to be consistent with original paper implementation
+     */
+    bool calcExpHatX(const Eigen::VectorXd& vec,
+                     Eigen::MatrixXd& X);
 
-    Eigen::MatrixXd m_P;
+    /**
+     * Compute Adjoint matrix of \f[SE_2+2(3)\f]
+     * The order of vector,
+     * (w, a, v, vr, vl) where
+     * w - angular velocity IMU
+     * a - linear acceleration IMU
+     * v - linear velocity IMU
+     * vr - linear velocity of right foot contact freame
+     * vl - linear velocity of left foot contact freame
+     * We choose this order to be consistent with original paper implementation
+     */
+    void calcAdjointX(const FloatingBaseEstimators::InternalState& X,
+                      const SkewSymContainter& skew,
+                      Eigen::MatrixXd& AdjX);
 
-    const size_t m_vecSizeWOBias{15};
-    const size_t m_vecSizeWBias{21};
+    /**
+     * Copy the state matrix X along block diagonal.
+     * This is used for multiplying the stacked observations
+     */
+    bool copyDiagX(const Eigen::MatrixXd& X,
+                   const int& n,
+                   Eigen::MatrixXd& BigX);
+
+    /**
+     * Compute continuous time system noise covariance matrix
+     * using the predicted internal state estimates
+     */
+    void calcQc(const FloatingBaseEstimators::InternalState& X,
+                const FloatingBaseEstimators::SensorsStdDev& sensStdDev,
+                const FloatingBaseEstimators::Measurements& meas,
+                const bool& estimateBias,
+                Eigen::MatrixXd& Qc);
+
+    /**
+     * Compute transformation matrix  for the
+     * system noise using the predicted internal state estimates
+     */
+    void calcLc(const FloatingBaseEstimators::InternalState& X,
+                const SkewSymContainter& skew,
+                const bool& estimateBias,
+                Eigen::MatrixXd& Lc);
+
+    /**
+     * Compute continuous time linearized state propagation matrix
+     */
+    void calcFc(const FloatingBaseEstimators::InternalState& X,
+                const SkewSymContainter& skew,
+                const bool& estimateBias,
+                Eigen::MatrixXd& Fc);
+
+    /**
+     * Compute skew symmetric matrices given states
+     */
+    void calcSkewSymAtCurrenState(const FloatingBaseEstimators::InternalState& X,
+                                  SkewSymContainter& skew);
+
+    SkewSymContainter m_skew; /**< skew symmetric matrix container */
+
+    Eigen::MatrixXd m_P;      /**< state covariance matrix */
+
+    const size_t m_vecSizeWOBias{15}; /**< Tangent space vector size without considering IMU biases */
+    const size_t m_vecSizeWBias{21};  /**< Tangent space vector size considering IMU biases */
 
     struct {
     const size_t imuOrientation{0};
@@ -75,12 +169,12 @@ public:
     const size_t lContactFramePosition{12};
     const size_t gyroBias{15};
     const size_t accBias{18};
-    } m_vecOffsets;
+    } m_vecOffsets;  /**< Tangent space vector offsets */
 
     friend class InvariantEKFBaseEstimator;
 };
 
-InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_unique<InvariantEKFBaseEstimatorImpl>())
+InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_unique<Impl>())
 {
 }
 
@@ -135,6 +229,26 @@ bool InvariantEKFBaseEstimator::customInitialization(std::weak_ptr<BipedalLocomo
     m_pimpl->m_skew.gCross = iDynTree::skew(m_options.accelerationDueToGravity);
 
     m_pimpl->constuctStateVar(m_priors, m_options.imuBiasEstimationEnabled, m_pimpl->m_P); // construct priors
+    return true;
+}
+
+bool InvariantEKFBaseEstimator::resetEstimator(const FloatingBaseEstimators::InternalState& newState,
+                                               const FloatingBaseEstimators::StateStdDev& newPriorDev)
+{
+    m_state = newState;
+    m_stateStdDev = newPriorDev;
+    m_priors = newPriorDev;
+
+    m_pimpl->constuctStateVar(m_priors, m_options.imuBiasEstimationEnabled, m_pimpl->m_P); // construct priors
+    return true;
+}
+
+bool InvariantEKFBaseEstimator::resetEstimator(const FloatingBaseEstimators::InternalState& newState,
+                                               const FloatingBaseEstimators::StateStdDev& newPriorDev,
+                                               const FloatingBaseEstimators::SensorsStdDev& newSensorsDev)
+{
+    m_sensorsDev = newSensorsDev;
+    resetEstimator(newState, newPriorDev);
     return true;
 }
 
@@ -196,6 +310,24 @@ bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::M
     Eigen::VectorXd encodersVar = m_sensorsDev.encodersNoise.array().square();
     Eigen::MatrixXd Renc = static_cast<Eigen::MatrixXd>(encodersVar.asDiagonal());
 
+    // The right invariant observation from the forward kinematics has structure Y = X^{-1} b + V
+    // See Section III C. of the original paper
+    // [ h(s) ]     [R.T -R.T v  -R.T p  -R.T d ] [  0_{3x1}]   [ Jv(s) w_s]
+    // [   0  ]     [         1                 ] [  0      ]   [       0  ]
+    // [   1  ]  =  [                 1         ] [  1      ] + [       0  ]
+    // [  -1  ]     [                          1] [ -1      ]   [       0  ]
+    // s is the encoder measurements and Jv(s) the relevant manipulator Jacobian
+    // Note that the above equation describes only equations for one foot.
+    //
+    // The measurement model Jacobian becomes (shown for one foot),
+    // H = [0_{3x3}  0_{3x3} -I  I]
+    // I is the 3d identity matrix
+    //
+    // The measurement noise covariance,
+    // N = R Jv(s) Cov(w_s) Jv(s).T R.T
+    //
+    // An auxiliary matrix is used along with the Kalman gain due to a reduced form of state update equations
+    // Pi = [I  0_{3x3}]
     if (meas.lfInContact && meas.rfInContact)
     {
         // prepare observation vector Y
@@ -328,12 +460,12 @@ bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::M
 }
 
 
-bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::propagateStates(const FloatingBaseEstimators::Measurements& meas,
-                                                                               const double& dt,
-                                                                               const Eigen::Vector3d& g,
-                                                                               const iDynTree::Transform& IMU_H_RF,
-                                                                               const iDynTree::Transform& IMU_H_LF,
-                                                                               FloatingBaseEstimators::InternalState& X)
+bool InvariantEKFBaseEstimator::Impl::propagateStates(const FloatingBaseEstimators::Measurements& meas,
+                                                      const double& dt,
+                                                      const Eigen::Vector3d& g,
+                                                      const iDynTree::Transform& IMU_H_RF,
+                                                      const iDynTree::Transform& IMU_H_LF,
+                                                      FloatingBaseEstimators::InternalState& X)
 {
     auto acc_unbiased = meas.acc - X.accelerometerBias;
     auto gyro_unbiased = meas.gyro - X.gyroscopeBias;
@@ -341,7 +473,6 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::propagateStates(c
     auto R = X.imuOrientation.toRotationMatrix();
     auto v = X.imuLinearVelocity;
     auto p = X.imuPosition;
-
     auto acc = (R*acc_unbiased) + g;
 
     manif::SO3Tangentd omega_skew_dt(gyro_unbiased*dt);
@@ -364,12 +495,12 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::propagateStates(c
     return true;
 }
 
-bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::updateStates(const Eigen::VectorXd& obs,
-                                                                            const Eigen::MatrixXd measModelJacobian,
-                                                                            const Eigen::MatrixXd& measNoiseVar,
-                                                                            const Eigen::MatrixXd& auxMat,
-                                                                            FloatingBaseEstimators::InternalState& state,
-                                                                            Eigen::MatrixXd& P)
+bool InvariantEKFBaseEstimator::Impl::updateStates(const Eigen::VectorXd& obs,
+                                                   const Eigen::MatrixXd measModelJacobian,
+                                                   const Eigen::MatrixXd& measNoiseVar,
+                                                   const Eigen::MatrixXd& auxMat,
+                                                   FloatingBaseEstimators::InternalState& state,
+                                                   Eigen::MatrixXd& P)
 {
     if (measModelJacobian.cols() != P.rows())
     {
@@ -422,7 +553,7 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::updateStates(cons
     // update state
     Eigen::MatrixXd dX;
 
-    if (!calcExpHatSE_2_3(delta.segment(0, m_vecSizeWOBias), dX))
+    if (!calcExpHatX(delta.segment(0, m_vecSizeWOBias), dX))
     {
         std::cerr << "[InvariantEKFBaseEstimator::updateStates] Could not compute state update";
         return false;
@@ -434,12 +565,14 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::updateStates(cons
         return false;
     }
     // update covariance
-    auto ImKH = Eigen::MatrixXd::Identity(P.rows(), P.cols()) - K*measModelJacobian;
-    P = ImKH*P*(ImKH.transpose()) + K*measNoiseVar*(K.transpose());
+    auto IminusKH = Eigen::MatrixXd::Identity(P.rows(), P.cols()) - K*measModelJacobian;
+    P = IminusKH*P*(IminusKH.transpose()) + K*measNoiseVar*(K.transpose());
     return true;
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::extractStateVar(const Eigen::MatrixXd& P, const bool& estimateBias, FloatingBaseEstimators::StateStdDev& stateStdDev)
+void InvariantEKFBaseEstimator::Impl::extractStateVar(const Eigen::MatrixXd& P,
+                                                      const bool& estimateBias,
+                                                      FloatingBaseEstimators::StateStdDev& stateStdDev)
 {
     stateStdDev.imuOrientation =  P.block<3, 3>(m_vecOffsets.imuOrientation, m_vecOffsets.imuOrientation).diagonal().array().sqrt();
     stateStdDev.imuLinearVelocity =  P.block<3, 3>(m_vecOffsets.imuLinearVel, m_vecOffsets.imuLinearVel).diagonal().array().sqrt();
@@ -453,7 +586,9 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::extractStateVar(c
     }
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::constuctStateVar(const FloatingBaseEstimators::StateStdDev& stateStdDev, const bool& estimateBias, Eigen::MatrixXd& P)
+void InvariantEKFBaseEstimator::Impl::constuctStateVar(const FloatingBaseEstimators::StateStdDev& stateStdDev,
+                                                       const bool& estimateBias,
+                                                       Eigen::MatrixXd& P)
 {
     if (estimateBias)
     {
@@ -487,7 +622,9 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::constuctStateVar(
     }
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::extractState(const FloatingBaseEstimators::InternalState& state, Eigen::MatrixXd& X, Eigen::Matrix<double, 6, 1>& theta)
+void InvariantEKFBaseEstimator::Impl::extractState(const FloatingBaseEstimators::InternalState& state,
+                                                   Eigen::MatrixXd& X,
+                                                   Eigen::Matrix<double, 6, 1>& theta)
 {
     // X =    |R  v  p pr pl|
     //        |   1         |
@@ -507,7 +644,9 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::extractState(cons
     theta.segment<3>(3) = state.accelerometerBias;
 }
 
-bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::constructState(const Eigen::MatrixXd& X, const Eigen::Matrix<double, 6, 1>& theta, FloatingBaseEstimators::InternalState& state)
+bool InvariantEKFBaseEstimator::Impl::constructState(const Eigen::MatrixXd& X,
+                                                     const Eigen::Matrix<double, 6, 1>& theta,
+                                                     FloatingBaseEstimators::InternalState& state)
 {
     if (X.rows() != 7 && X.cols() != 7)
     {
@@ -525,12 +664,18 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::constructState(co
     return true;
 }
 
-bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcExpHatSE_2_3(const Eigen::VectorXd& vec,
-                                                                                Eigen::MatrixXd& X)
+bool InvariantEKFBaseEstimator::Impl::calcExpHatX(const Eigen::VectorXd& vec,
+                                                  Eigen::MatrixXd& X)
 {
+    // Exp(vec) = Exp([ w]) =    |ExpSO3(w)  JlSO3(w)v  JlSO3(w)p  JlSO3(w)pr  JlSO3(w)pl|
+    //               ([ a])      |                   1                                   |
+    //               ([ v])      |                              1                        |
+    //               ([vr])      |                                         1             |
+    //               ([vl])      |                                                      1|
+    // where JlSO3 is the left Jacobian of SO(3)
     if (vec.size() != 15)
     {
-        std::cerr << "[InvariantEKFBaseEstimator::calcExpHatSE_2_3] State vector does not seem to have expected size of 15x1." << std::endl;
+        std::cerr << "[InvariantEKFBaseEstimator::calcExpHatX] State vector does not seem to have expected size of 15x1." << std::endl;
         return false;
     }
 
@@ -547,19 +692,18 @@ bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcExpHatSE_2_3(
     return true;
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcAdjointSE_2_3(const FloatingBaseEstimators::InternalState& X,
-                                                                                 const SkewSymContainter& skew,
-                                                                                 Eigen::MatrixXd& AdjX)
+void InvariantEKFBaseEstimator::Impl::calcAdjointX(const FloatingBaseEstimators::InternalState& X,
+                                                   const SkewSymContainter& skew,
+                                                   Eigen::MatrixXd& AdjX)
 {
-    AdjX.resize(m_vecSizeWOBias, m_vecSizeWOBias);
-    AdjX.setZero();
-    auto R = X.imuOrientation.toRotationMatrix();
-
     // AdjX = |   R         |
     //        | vxR  R      |
     //        | pxR    R    |
     //        |prxR      R  |
     //        |plxR        R|
+    AdjX.resize(m_vecSizeWOBias, m_vecSizeWOBias);
+    AdjX.setZero();
+    auto R = X.imuOrientation.toRotationMatrix();
 
     AdjX.block<3, 3>(m_vecOffsets.imuOrientation, m_vecOffsets.imuOrientation) =
     AdjX.block<3, 3>(m_vecOffsets.imuLinearVel, m_vecOffsets.imuLinearVel) =
@@ -573,10 +717,19 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcAdjointSE_2_3
     AdjX.block<3, 3>(m_vecOffsets.lContactFramePosition, m_vecOffsets.imuOrientation) = (skew.plCross)*R;
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcFc(const FloatingBaseEstimators::InternalState& X,
-                                                                      const SkewSymContainter& skew,
-                                                                      const bool& estimateBias, Eigen::MatrixXd& Fc)
+void InvariantEKFBaseEstimator::Impl::calcFc(const FloatingBaseEstimators::InternalState& X,
+                                             const SkewSymContainter& skew,
+                                             const bool& estimateBias, Eigen::MatrixXd& Fc)
 {
+    // When biases are enabled,
+    // Fc = [   0   0   0   0       -R   0]
+    //      [ S(g)  0   0   0   -S(v)R  -R]
+    //      [   0   I   0   0   -S(p)R   0]
+    //      [   0   0   0   0  -S(pr)R   0]
+    //      [   0   0   0   0  -S(pl)R   0]
+    //      [   0   0   0   0        0   0]
+    //      [   0   0   0   0        0   0]
+    // when biases are disabled, ignore last two rows and columns
     if (estimateBias)
     {
         Fc.resize(m_vecSizeWBias, m_vecSizeWBias);
@@ -606,12 +759,15 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcFc(const Floa
     }
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcQc(const FloatingBaseEstimators::InternalState& X,
-                                                                      const FloatingBaseEstimators::SensorsStdDev& sensDev,
-                                                                      const FloatingBaseEstimators::Measurements& meas,
-                                                                      const bool& estimateBias,
-                                                                      Eigen::MatrixXd& Qc)
+void InvariantEKFBaseEstimator::Impl::calcQc(const FloatingBaseEstimators::InternalState& X,
+                                             const FloatingBaseEstimators::SensorsStdDev& sensDev,
+                                             const FloatingBaseEstimators::Measurements& meas,
+                                             const bool& estimateBias,
+                                             Eigen::MatrixXd& Qc)
 {
+    // When biases are enabled,
+    // Qc = blkdiag(Qg, Qa, 0, Qrf, Qlf, Qbg, Qba)
+    // Qrf and Qlf depend on the feet contact states
     if (estimateBias)
     {
         Qc.resize(m_vecSizeWBias, m_vecSizeWBias);
@@ -660,10 +816,15 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcQc(const Floa
     Qc.block<3, 3>(m_vecOffsets.lContactFramePosition, m_vecOffsets.lContactFramePosition) = R*static_cast<Eigen::Matrix3d>(Qlf.asDiagonal())*(R.transpose());
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcLc(const FloatingBaseEstimators::InternalState& X,
-                                                                      const SkewSymContainter& skew,
-                                                                      const bool& estimateBias, Eigen::MatrixXd& Lc)
+void InvariantEKFBaseEstimator::Impl::calcLc(const FloatingBaseEstimators::InternalState& X,
+                                             const SkewSymContainter& skew,
+                                             const bool& estimateBias,
+                                             Eigen::MatrixXd& Lc)
 {
+    // When biases are enabled,
+    // Lc = blkdiag(AdjX(X), I, I)
+    // when biases are disabledm
+    // Lc = AdjX(X)
     if (estimateBias)
     {
         Lc.resize(m_vecSizeWBias, m_vecSizeWBias);
@@ -673,7 +834,7 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcLc(const Floa
         Lc.resize(m_vecSizeWOBias, m_vecSizeWOBias);
     }
     Eigen::MatrixXd AdjX;
-    calcAdjointSE_2_3(X, skew, AdjX);
+    calcAdjointX(X, skew, AdjX);
     Lc.block(m_vecOffsets.imuOrientation, m_vecOffsets.imuOrientation, m_vecSizeWOBias, m_vecSizeWOBias) = AdjX;
 
     if (estimateBias)
@@ -682,8 +843,8 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcLc(const Floa
     }
 }
 
-void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcSkewSymAtCurrenState(const FloatingBaseEstimators::InternalState& X,
-                                                                                        SkewSymContainter& skew)
+void InvariantEKFBaseEstimator::Impl::calcSkewSymAtCurrenState(const FloatingBaseEstimators::InternalState& X,
+                                                               SkewSymContainter& skew)
 {
     skew.vCross = iDynTree::skew(X.imuLinearVelocity);
     skew.pCross = iDynTree::skew(X.imuPosition);
@@ -692,9 +853,9 @@ void InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::calcSkewSymAtCurr
 }
 
 
-bool InvariantEKFBaseEstimator::InvariantEKFBaseEstimatorImpl::copyDiagX(const Eigen::MatrixXd& X,
-                                                                         const int& n,
-                                                                         Eigen::MatrixXd& BigX)
+bool InvariantEKFBaseEstimator::Impl::copyDiagX(const Eigen::MatrixXd& X,
+                                                const int& n,
+                                                Eigen::MatrixXd& BigX)
 {
     if (X.rows() != 7 && X.cols() != 7)
     {

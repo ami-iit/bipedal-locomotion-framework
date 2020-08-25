@@ -188,6 +188,26 @@ public:
     virtual bool advance() final;
 
     /**
+     * Reset the internal state of the estimator
+     * @param[in] newState Internal state of the estimator
+     * @return True in case of success, false otherwise.
+     *
+     * @note reset and advance estimator to get updated estimator output
+     */
+    virtual bool resetEstimator(const FloatingBaseEstimators::InternalState& newState) final;
+
+    /**
+     * Reset the base pose estimate and consequently the internal state of the estimator
+     * @param[in] newBaseOrientation base link orientation as a Eigen quaternion
+     * @param[in] newBasePosition base link position
+     * @return True in case of success, false otherwise.
+     *
+     * * @note reset and advance estimator to get updated estimator output
+     */
+    virtual bool resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
+                                const Eigen::Vector3d& newBasePosition) final;
+
+    /**
     * Get estimator outputs
     * @return A struct containing he estimated internal states of the estiamtor and the associated covariance matrix
     */

@@ -180,5 +180,45 @@ TEST_CASE("Invariant EKF Base Estimator")
         REQUIRE(rotError.weightedNorm() < 0.002);
         REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
     }
+
+
+    // test reset methods
+    auto out = estimator.get();
+    FloatingBaseEstimators::InternalState resetState;
+    resetState = out.state;
+    // changing imu position should be reflected also on feet contact positions
+    // to maintian consistent resetting of the internal state
+    resetState.imuPosition(0) += 10;
+    resetState.rContactFramePosition(0) += 10;
+    resetState.lContactFramePosition(0) += 10;
+    REQUIRE(estimator.resetEstimator(resetState));
+    REQUIRE(estimator.advance());
+    auto newOut = estimator.get();
+    REQUIRE( std::abs(newOut.state.imuPosition(0) - resetState.imuPosition(0)) < 1e-2);
+
+
+    // reset base pose
+    auto basePose = out.basePose;
+    auto basePosition = basePose.getPosition();
+    auto imuPosition = out.state.imuPosition;
+    basePosition(1) -= 10.0;
+    imuPosition(1) -= 10.0;
+    // convert to iDynTree Rotation to angle axis and then to quaternion - otherwise, produces inverse rotations
+    auto angleaxis = Eigen::AngleAxisd(iDynTree::toEigen(basePose.getRotation()));
+    auto baseOrientation = Eigen::Quaterniond(angleaxis);
+    estimator.resetEstimator(baseOrientation, iDynTree::toEigen(basePosition));
+    REQUIRE(estimator.advance());
+    newOut = estimator.get();
+    // roughly computing from base position 2 cm tolerance
+    REQUIRE( std::abs(newOut.state.imuPosition(1) - (imuPosition(1))) < 2e-2);
+
+    // reset internal state and priors
+    auto resetStateStdDev = out.stateStdDev;
+    resetStateStdDev.imuPosition << 1e-2, 1e-2, 1e-2;
+    REQUIRE(estimator.resetEstimator(resetState, resetStateStdDev));
+    REQUIRE(estimator.advance());
+    newOut = estimator.get();
+
+    REQUIRE( std::abs(newOut.stateStdDev.imuPosition(0) - resetStateStdDev.imuPosition(0)) < 2e-2);
 }
 
