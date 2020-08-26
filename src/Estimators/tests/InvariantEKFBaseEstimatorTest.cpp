@@ -157,6 +157,8 @@ TEST_CASE("Invariant EKF Base Estimator")
     -0.5695, -0.3771, -0.0211;
 
     encoder_speeds.setZero();
+    FloatingBaseEstimators::Output out;
+    manif::SO3Tangentd rotError;
     // set measurements and advance the estimator
     for (int i = 0; i < 10; i++)
     {
@@ -164,7 +166,7 @@ TEST_CASE("Invariant EKF Base Estimator")
         REQUIRE(estimator.setContacts(lf_contact, rf_contact));
         REQUIRE(estimator.setKinematics(encoders, encoder_speeds));
         REQUIRE(estimator.advance());
-        auto out = estimator.get();
+        out = estimator.get();
 
         std::cout << "-------------------------------------------------------------" << std::endl;
         std::cout << "Simulated IMU Orientation quaternion xyz w: " << simImuQuat.coeffs().transpose() << std::endl;
@@ -175,15 +177,14 @@ TEST_CASE("Invariant EKF Base Estimator")
 
         manif::SO3d estR(out.state.imuOrientation);
         manif::SO3d simR(simImuQuat);
-        auto rotError = estR - simR; // performs logvee(R1.T R2)
-
-        REQUIRE(rotError.weightedNorm() < 0.002);
-        REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
+        rotError = estR - simR; // performs logvee(R1.T R2)
     }
 
+    REQUIRE(rotError.weightedNorm() < 0.002);
+    REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
 
     // test reset methods
-    auto out = estimator.get();
+    out = estimator.get();
     FloatingBaseEstimators::InternalState resetState;
     resetState = out.state;
     // changing imu position should be reflected also on feet contact positions
