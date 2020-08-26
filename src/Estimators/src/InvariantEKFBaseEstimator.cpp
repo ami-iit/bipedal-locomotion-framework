@@ -176,6 +176,47 @@ public:
 
 InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_unique<Impl>())
 {
+    m_state.imuOrientation.setIdentity();
+    m_state.imuPosition.setZero();
+    m_state.imuLinearVelocity.setZero();
+    m_state.rContactFrameOrientation.setIdentity();
+    m_state.rContactFramePosition.setZero();
+    m_state.lContactFrameOrientation.setIdentity();
+    m_state.lContactFramePosition.setZero();
+    m_state.accelerometerBias.setZero();
+    m_state.gyroscopeBias.setZero();
+
+    m_statePrev = m_state;
+    m_estimatorOut.state = m_state;
+
+    m_meas.acc.setZero();
+    m_meas.gyro.setZero();
+    m_meas.lfInContact = false;
+    m_meas.rfInContact = false;
+
+    m_measPrev = m_meas;
+
+    m_stateStdDev.imuOrientation.setZero();
+    m_stateStdDev.imuPosition.setZero();
+    m_stateStdDev.imuLinearVelocity.setZero();
+    m_stateStdDev.rContactFrameOrientation.setZero();
+    m_stateStdDev.rContactFramePosition.setZero();
+    m_stateStdDev.lContactFrameOrientation.setZero();
+    m_stateStdDev.lContactFramePosition.setZero();
+    m_stateStdDev.accelerometerBias.setZero();
+    m_stateStdDev.gyroscopeBias.setZero();
+
+    m_priors = m_stateStdDev;
+    m_estimatorOut.stateStdDev = m_stateStdDev;
+
+    m_sensorsDev.gyroscopeNoise.setZero();
+    m_sensorsDev.accelerometerNoise.setZero();
+    m_sensorsDev.accelerometerBiasNoise.setZero();
+    m_sensorsDev.gyroscopeBiasNoise.setZero();
+    m_sensorsDev.contactFootLinvelNoise.setZero();
+    m_sensorsDev.contactFootAngvelNoise.setZero();
+    m_sensorsDev.swingFootLinvelNoise.setZero();
+    m_sensorsDev.swingFootAngvelNoise.setZero();
 }
 
 InvariantEKFBaseEstimator::~InvariantEKFBaseEstimator() = default;

@@ -639,17 +639,10 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
                                                         iDynTree::Transform& basePose,
                                                         iDynTree::Twist& baseTwist)
 {
-
-    iDynTree::Vector4 imuQuaternion;
-    imuQuaternion(0) = state.imuOrientation.w();
-    imuQuaternion(1) = state.imuOrientation.x();
-    imuQuaternion(2) = state.imuOrientation.y();
-    imuQuaternion(3) = state.imuOrientation.z();
-
     iDynTree::Position imuPosition;
     iDynTree::toEigen(imuPosition) = state.imuPosition;
     iDynTree::Rotation imuRotation;
-    imuRotation.fromQuaternion(imuQuaternion);
+    iDynTree::toEigen(imuRotation) = state.imuOrientation.toRotationMatrix();
     auto A_H_IMU = iDynTree::Transform(imuRotation, imuPosition);
 
     iDynTree::Twist v_IMU;
