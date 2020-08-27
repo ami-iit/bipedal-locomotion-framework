@@ -19,8 +19,9 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
 - [**BipedalLocomotion::ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
 - [**BipedalLocomotion::Estimators**](./src/Estimators): Library containing observers
-- [**BipedalLocomotion::FloatingBaseEstimators**](./src/Estimators): Library containing floating base estimators 
+- [**BipedalLocomotion::FloatingBaseEstimators**](./src/Estimators): Library containing floating base estimators
 - [**BipedalLocomotion::Planner**](./src/Planner): Library containing planner useful for locomotion
+- [**BipedalLocomotion::RobotInterface**](./src/RobotInterface): Library containing generic interface classes to adapt to various IO data formats
 
 
 # :page_facing_up: Dependencies
@@ -54,6 +55,12 @@ file. Please note that the indicated version is the the minimum required version
     - For using it:
       - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
       - [`Qhull`](https://github.com/qhull/qhull) (version 8.0.0)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
+
+- `RobotInterface` requires:
+    - For using it:
+      - [`ParametersHandler`](./src/ParametersHandler)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
 
