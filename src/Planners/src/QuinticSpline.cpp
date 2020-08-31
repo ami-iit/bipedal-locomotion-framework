@@ -90,7 +90,7 @@ struct QuinticSpline::Impl
     bool computePhasesDuration();
 
     /**
-     * Set tthe boundary condition. This function is called before computing all the intermediate
+     * Set the boundary condition. This function is called before computing all the intermediate
      * velocities and accelerations.
      */
     bool setBoundaryVelocitiesAndAccelaration();
@@ -213,7 +213,7 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
 {
     if (position.size() < 2)
     {
-        std::cerr << "[QuinticSpline::setKnots] The number of knots has to be greater equal 2."
+        std::cerr << "[QuinticSpline::setKnots] The number of knots has to be at least 2."
                   << std::endl;
         return false;
     }
@@ -240,7 +240,7 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
         if (position[i].size() != sizeOfVectors)
         {
             std::cerr << "[QuinticSpline::setKnots] The size of the knot number " << i
-                      << " in different from the one expected. Expected: " << sizeOfVectors
+                      << " is different from the one expected. Expected: " << sizeOfVectors
                       << " Retrieved: " << position[i].size() << "." << std::endl;
             return false;
         }
@@ -263,7 +263,7 @@ bool QuinticSpline::Impl::computePhasesDuration()
     {
         polynomials[i].duration = knots[i + 1].timeInstant - knots[i].timeInstant;
 
-        // This is required or stability purposes, the matrix below may not be invertible
+        // This is required for stability purposes, the matrix below may not be invertible
         if (polynomials[i].duration == 0)
         {
             std::cerr << "[QuinticSpline::Impl::computePhasesDuration] Two consecutive points have "
