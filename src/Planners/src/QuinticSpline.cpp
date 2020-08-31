@@ -64,6 +64,13 @@ struct QuinticSpline::Impl
     bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
 
     /**
+     * Reset a given knot with a time instant and a position
+     */
+    void resetKnot(const double& timeInstant,
+                   Eigen::Ref<const Eigen::VectorXd> position,
+                   Knot& knot);
+
+    /**
      * Get the position at given time for a sub-trajectory
      */
     void getPositionAtTime(const double& t,
@@ -226,16 +233,11 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
         return false;
     }
 
+    // resize the vector containing all the knots
     m_pimpl->knots.resize(time.size());
 
     const std::size_t sizeOfVectors = position[0].size();
-
-    m_pimpl->knots[0].timeInstant = time[0];
-    m_pimpl->knots[0].position = position[0];
-    m_pimpl->knots[0].velocity.resize(sizeOfVectors);
-    m_pimpl->knots[0].acceleration.resize(sizeOfVectors);
-
-    for (std::size_t i = 1; i < m_pimpl->knots.size(); i++)
+    for (std::size_t i = 0; i < m_pimpl->knots.size(); i++)
     {
         if (position[i].size() != sizeOfVectors)
         {
@@ -245,16 +247,26 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
             return false;
         }
 
-        m_pimpl->knots[i].timeInstant = time[i];
-        m_pimpl->knots[i].position = position[i];
-        m_pimpl->knots[i].velocity.resize(sizeOfVectors);
-        m_pimpl->knots[i].acceleration.resize(sizeOfVectors);
+        // set all the knots
+        m_pimpl->resetKnot(time[i], position[i], m_pimpl->knots[i]);
     }
 
     // The knots changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
 
     return true;
+}
+
+void QuinticSpline::Impl::resetKnot(const double& timeInstant,
+                                    Eigen::Ref<const Eigen::VectorXd> position,
+                                    Knot& knot)
+{
+    knot.timeInstant = timeInstant;
+    knot.position = position;
+
+    const std::size_t sizeOfVectors = position.size();
+    knot.velocity.resize(sizeOfVectors);
+    knot.acceleration.resize(sizeOfVectors);
 }
 
 bool QuinticSpline::Impl::computePhasesDuration()
