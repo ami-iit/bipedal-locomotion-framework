@@ -169,7 +169,7 @@ QuinticSpline::QuinticSpline()
 QuinticSpline::~QuinticSpline() = default;
 
 bool QuinticSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
-                                               Eigen::Ref<const Eigen::VectorXd> acceleration)
+                                         Eigen::Ref<const Eigen::VectorXd> acceleration)
 {
     if (velocity.size() != acceleration.size())
     {
@@ -290,7 +290,7 @@ bool QuinticSpline::Impl::computeCoefficients()
     this->polynomials.resize(knots.size() - 1);
 
     // set the velocity and acceleration boundary conditions
-    if(!this->setBoundaryVelocitiesAndAcceleration())
+    if (!this->setBoundaryVelocitiesAndAcceleration())
     {
         std::cerr << "[QuinticSpline::Impl::computeCoefficients] Unable to set the boundary "
                      "conditions related to the velocity and acceleration."
@@ -308,7 +308,7 @@ bool QuinticSpline::Impl::computeCoefficients()
     }
 
     // populate the polynomials vector with the knots
-    for(int i = 0; i < polynomials.size(); i++)
+    for (int i = 0; i < polynomials.size(); i++)
     {
         polynomials[i].initialPoint = &(knots[i]);
         polynomials[i].finalPoint = &(knots[i + 1]);
@@ -484,8 +484,8 @@ void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
 }
 
 void QuinticSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
-                                             const std::size_t& coordinateIndex,
-                                             Eigen::Ref<Eigen::VectorXd> b)
+                                                   const std::size_t& coordinateIndex,
+                                                   Eigen::Ref<Eigen::VectorXd> b)
 {
     const auto& poly = polynomials;
 
@@ -516,7 +516,7 @@ void QuinticSpline::Impl::addKnownTermNextKnot(const std::size_t& knotIndex,
 
     Eigen::Matrix2d tempMatrix;
     tempMatrix << -8 / std::pow(poly[i].duration, 2), 1 / poly[i].duration,
-                  14 / std::pow(poly[i].duration, 3), -2 / std::pow(poly[i].duration, 2);
+        14 / std::pow(poly[i].duration, 3), -2 / std::pow(poly[i].duration, 2);
 
     Eigen::Vector2d tempVector;
     tempVector << knots[i + 1].velocity[j], knots[i + 1].acceleration[j];
@@ -534,7 +534,7 @@ void QuinticSpline::Impl::addKnownTermPreviousKnot(const std::size_t& knotIndex,
 
     Eigen::Matrix2d tempMatrix;
     tempMatrix << 8 / std::pow(poly[i - 1].duration, 2), 1 / poly[i - 1].duration,
-                 14 / std::pow(poly[i - 1].duration, 3), 2 / std::pow(poly[i - 1].duration, 2);
+        14 / std::pow(poly[i - 1].duration, 3), 2 / std::pow(poly[i - 1].duration, 2);
 
     Eigen::Vector2d tempVector;
     tempVector << knots[i - 1].velocity[j], knots[i - 1].acceleration[j];
@@ -579,7 +579,7 @@ void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
     std::vector<Eigen::Triplet<double>> tripletsList;
 
     std::size_t numberOfExpectedTriplets = 4;
-    if(numberOfInteriorKnots  > 1)
+    if (numberOfInteriorKnots > 1)
     {
         numberOfExpectedTriplets = 2 * (6 * (numberOfInteriorKnots - 2) + 2 * 4);
     }
@@ -593,15 +593,11 @@ void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
         if (i == 0 && (i + 1) == numberOfInteriorKnots)
         {
             this->addTripletCurrentKnot(absoluteKnotIndex, 0, 0, tripletsList);
-        }
-        else if (i == 0)
+        } else if (i == 0)
         {
             this->addTripletCurrentKnot(absoluteKnotIndex, i * 2, 0, tripletsList);
             this->addTripletNextKnot(absoluteKnotIndex, i * 2, 2, tripletsList);
-
-        }
-
-        else if (i + 1 == numberOfInteriorKnots)
+        } else if (i + 1 == numberOfInteriorKnots)
         {
             this->addTripletPreviousKnot(absoluteKnotIndex, i * 2, 2 * (i - 1), tripletsList);
             this->addTripletCurrentKnot(absoluteKnotIndex, i * 2, 2 * (i - 1) + 2, tripletsList);
@@ -653,7 +649,7 @@ void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
         qrDecomposition.compute(A);
         Eigen::VectorXd solution = qrDecomposition.solve(b);
 
-        for(size_t i = 0; i < numberOfInteriorKnots; i++)
+        for (size_t i = 0; i < numberOfInteriorKnots; i++)
         {
             const int absoluteKnotIndex = i + 1;
 
