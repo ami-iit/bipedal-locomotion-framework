@@ -63,6 +63,10 @@ struct QuinticSpline::Impl
 
     bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
 
+    QuinticSplineState currentTrajectory; /**< Current trajectory stored in the advance state */
+    double advanceTimeStep{0.0}; /**< Time step of the advance interface. */
+    double advanceCurrentTime{0.0}; /**< current time of the advance object. */
+
     /**
      * Reset a given knot with a time instant and a position
      */
@@ -189,6 +193,10 @@ bool QuinticSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> veloc
     m_pimpl->initialCondition.velocity = velocity;
     m_pimpl->initialCondition.acceleration = acceleration;
 
+    // Set the initial state for the advance interface
+    m_pimpl->currentTrajectory.velocity = velocity;
+    m_pimpl->currentTrajectory.acceleration = acceleration;
+
     // The initial conditions changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
 
@@ -211,6 +219,21 @@ bool QuinticSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocit
 
     // The final conditions changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
+
+    return true;
+}
+
+bool QuinticSpline::setAdvanceTimeStep(const double& dt)
+{
+    if (dt <= 0)
+    {
+        std::cerr << "[QuinticSpline::setAdvanceTimeStep] The time step of the advance object has "
+                     "to be a strictly  positive number."
+                  << std::endl;
+        return false;
+    }
+
+    m_pimpl->advanceTimeStep = dt;
 
     return true;
 }
@@ -250,6 +273,10 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
         // set all the knots
         m_pimpl->resetKnot(time[i], position[i], m_pimpl->knots[i]);
     }
+
+    // set the initial state for the advance interface
+    m_pimpl->currentTrajectory.position = position.front();
+    m_pimpl->advanceCurrentTime = time.front();
 
     // The knots changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
@@ -782,4 +809,43 @@ bool QuinticSpline::evaluatePoint(const double& t,
     m_pimpl->getAccelerationAtTime(t - poly->initialPoint->timeInstant, *poly, acceleration);
 
     return true;
+}
+
+bool QuinticSpline::evaluatePoint(const double& t, QuinticSplineState& state)
+{
+    return this->evaluatePoint(t, state.position, state.velocity, state.acceleration);
+}
+
+bool QuinticSpline::isValid() const
+{
+    // if the time step is different from zero and the user already set the knots the advance
+    // capabilities can be used
+    bool ok = (m_pimpl->advanceTimeStep != 0.0) && (!m_pimpl->knots.empty());
+    return ok;
+}
+
+bool QuinticSpline::advance()
+{
+    if (!this->isValid())
+    {
+        std::cerr << "[QuinticSpline::advance] The advance capabilities cannot be used. Have you "
+                     "set the advance time step?"
+                  << std::endl;
+        return false;
+    }
+
+    // advance the time step
+    m_pimpl->advanceCurrentTime = std::min(m_pimpl->advanceTimeStep + m_pimpl->advanceCurrentTime,
+                                           m_pimpl->knots.back().timeInstant);
+
+    // Here we can improve the performances by avoiding calling the evaluatePoint function
+    // indeed this function performs a binary search to find the sub-trajectory for a given time
+    // instant. When the advance is called the sequence of the sub-trajectory is already
+    // predetermined.
+    return evaluatePoint(m_pimpl->advanceCurrentTime, m_pimpl->currentTrajectory);
+}
+
+const QuinticSplineState& QuinticSpline::get() const
+{
+    return m_pimpl->currentTrajectory;
 }

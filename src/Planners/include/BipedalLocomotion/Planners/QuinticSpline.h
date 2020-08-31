@@ -13,14 +13,24 @@
 
 #include <Eigen/Dense>
 
+#include <BipedalLocomotion/System/Advanceable.h>
+
 namespace BipedalLocomotion
 {
 namespace Planners
 {
+
+struct QuinticSplineState
+{
+    Eigen::VectorXd position;
+    Eigen::VectorXd velocity;
+    Eigen::VectorXd acceleration;
+};
+
 /**
  * Quintic spline implement a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
  */
-class QuinticSpline
+class QuinticSpline : public System::Advanceable<QuinticSplineState>
 {
     /**
      * Private implementation of the class
@@ -29,7 +39,6 @@ class QuinticSpline
     std::unique_ptr<Impl> m_pimpl; /**< Private implementation */
 
 public:
-
     /**
      * Constructor.
      */
@@ -40,6 +49,14 @@ public:
      * @note It is required by the PIMPL idiom.
      */
     ~QuinticSpline();
+
+    /**
+     * Set the time step of the advance interface.
+     * @warning if the the time step is not set the user cannot use the advance features.
+     * @param dt the time step of the advance block.
+     * @return True in case of success, false otherwise.
+     */
+    bool setAdvanceTimeStep(const double& dt);
 
     /**
      * Set the knots of the spline.
@@ -79,6 +96,40 @@ public:
                        Eigen::Ref<Eigen::VectorXd> position,
                        Eigen::Ref<Eigen::VectorXd> velocity,
                        Eigen::Ref<Eigen::VectorXd> acceleration);
+
+    /**
+     * Evaluate the spline at a given point
+     * @param t instant time
+     * @param state of the system
+     * @return True in case of success, false otherwise.
+     */
+    bool evaluatePoint(const double& t,
+                       QuinticSplineState& state);
+
+    /**
+     * Get the state of the system.
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return a const reference of the requested object.
+     */
+    const QuinticSplineState& get() const final;
+
+    /**
+     * Determines the validity of the object retrieved with get()
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return True if the object is valid, false otherwise.
+     */
+    bool isValid() const final;
+
+    /**
+     * Advance the internal state. This may change the value retrievable from get().
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return True if the advance is successfull.
+     */
+    bool advance() final;
+
 };
 } // namespace Planners
 } // namespace BipedalLocomotion
