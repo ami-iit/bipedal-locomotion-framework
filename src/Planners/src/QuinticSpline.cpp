@@ -93,7 +93,7 @@ struct QuinticSpline::Impl
      * Set the boundary condition. This function is called before computing all the intermediate
      * velocities and accelerations.
      */
-    bool setBoundaryVelocitiesAndAccelaration();
+    bool setBoundaryVelocitiesAndAcceleration();
 
     /**
      * addTripletCurrentKnot is an helper function to generate a triplet containing a 2x2 matrix.
@@ -148,7 +148,7 @@ struct QuinticSpline::Impl
     /**
      * Compute the intermediate velocity and accelerations.
      */
-    void computeIntermediateVelocitiesAndAccelaration();
+    void computeIntermediateVelocitiesAndAcceleration();
 
     /**
      * Function to set the coefficients of the polynomials
@@ -290,7 +290,7 @@ bool QuinticSpline::Impl::computeCoefficients()
     this->polynomials.resize(knots.size() - 1);
 
     // set the velocity and acceleration boundary conditions
-    if(!this->setBoundaryVelocitiesAndAccelaration())
+    if(!this->setBoundaryVelocitiesAndAcceleration())
     {
         std::cerr << "[QuinticSpline::Impl::computeCoefficients] Unable to set the boundary "
                      "conditions related to the velocity and acceleration."
@@ -317,7 +317,7 @@ bool QuinticSpline::Impl::computeCoefficients()
     // intermediate conditions have to be computed only if the knots are greater than equal 3
     if (knots.size() > 2)
     {
-        this->computeIntermediateVelocitiesAndAccelaration();
+        this->computeIntermediateVelocitiesAndAcceleration();
     }
 
     // populate the coefficients of each polynomial
@@ -332,7 +332,7 @@ bool QuinticSpline::Impl::computeCoefficients()
     return true;
 }
 
-bool QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration()
+bool QuinticSpline::Impl::setBoundaryVelocitiesAndAcceleration()
 {
     // this is an internal function and it is called only after setting the knots. However
     // the following assert checks that the number of knots is at least 1
@@ -342,7 +342,7 @@ bool QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration()
 
     if (knotSize != initialCondition.velocity.size())
     {
-        std::cerr << "[QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration] The size of the "
+        std::cerr << "[QuinticSpline::Impl::setBoundaryVelocitiesAndAcceleration] The size of the "
                      "initial velocity is different from the expected one. Expected: "
                   << knotSize << ", Retrieved: " << initialCondition.velocity.size() << "."
                   << std::endl;
@@ -351,7 +351,7 @@ bool QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration()
 
     if (knotSize != initialCondition.acceleration.size())
     {
-        std::cerr << "[QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration] The size of the "
+        std::cerr << "[QuinticSpline::Impl::setBoundaryVelocitiesAndAcceleration] The size of the "
                      "initial acceleration is different from the expected one. Expected: "
                   << knotSize << ", Retrieved: " << initialCondition.acceleration.size() << "."
                   << std::endl;
@@ -360,7 +360,7 @@ bool QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration()
 
     if (knotSize != finalCondition.velocity.size())
     {
-        std::cerr << "[QuinticSpline::setBoundaryVelocitiesAndAccelaration] The size of the "
+        std::cerr << "[QuinticSpline::setBoundaryVelocitiesAndAcceleration] The size of the "
                      "final velocity is different from the expected one. Expected: "
                   << knotSize << ", Retrieved: " << finalCondition.velocity.size() << "."
                   << std::endl;
@@ -369,7 +369,7 @@ bool QuinticSpline::Impl::setBoundaryVelocitiesAndAccelaration()
 
     if (knotSize != finalCondition.acceleration.size())
     {
-        std::cerr << "[QuinticSpline::setBoundaryVelocitiesAndAccelaration] The size of the "
+        std::cerr << "[QuinticSpline::setBoundaryVelocitiesAndAcceleration] The size of the "
                      "final acceleration is different from the expected one. Expected: "
                   << knotSize << ", Retrieved: " << finalCondition.acceleration.size() << "."
                   << std::endl;
@@ -572,7 +572,7 @@ void QuinticSpline::Impl::setPolynomialCoefficients(Polynomial& poly)
               * (-1.0 / 2.0);
 }
 
-void QuinticSpline::Impl::computeIntermediateVelocitiesAndAccelaration()
+void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
 {
     // here we assume that at least 3 points has been defined
     const std::size_t numberOfInteriorKnots = knots.size() - 2;
