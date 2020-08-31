@@ -303,7 +303,7 @@ bool QuinticSpline::Impl::computePhasesDuration()
         polynomials[i].duration = knots[i + 1].timeInstant - knots[i].timeInstant;
 
         // This is required or stability purposes, the matrix A may not be invertible.
-        if (polynomials[i].duration == 0)
+        if (std::abs(polynomials[i].duration) <= std::numeric_limits<double>::epsilon())
         {
             std::cerr << "[QuinticSpline::Impl::computePhasesDuration] Two consecutive points have "
                          "the same time coordinate."
