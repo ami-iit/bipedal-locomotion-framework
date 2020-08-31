@@ -60,9 +60,14 @@ jobs:
         # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
         echo "::set-env name=VCPKG_INSTALLATION_ROOT::C:/robotology/vcpkg"
 
-        # Install Catch2
+        # Install Catch2 and cppad
         cd C:/robotology/vcpkg
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows
+        git fetch
+        git checkout 222c35e3bcb8f28cd63fc526e591bb4ef6b99e4f
+        ./bootstrap-vcpkg.bat
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
+        echo "::set-env name=cppad_DIR::C:/robotology/vcpkg/installed/x64-windows"
+
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
