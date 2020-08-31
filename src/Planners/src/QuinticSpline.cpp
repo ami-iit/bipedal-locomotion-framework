@@ -263,19 +263,11 @@ bool QuinticSpline::Impl::computePhasesDuration()
     {
         polynomials[i].duration = knots[i + 1].timeInstant - knots[i].timeInstant;
 
-        // This is required for stability purposes, the matrix below may not be invertible
+        // This is required or stability purposes, the matrix A may not be invertible.
         if (polynomials[i].duration == 0)
         {
             std::cerr << "[QuinticSpline::Impl::computePhasesDuration] Two consecutive points have "
                          "the same time coordinate."
-                      << std::endl;
-            return false;
-        }
-
-        if (polynomials[i].duration == 0)
-        {
-            std::cerr << "[QuinticSpline::Impl::computePhasesDuration] The input points are "
-                         "expected to be consecutive, strictly increasing in the time variable."
                       << std::endl;
             return false;
         }
