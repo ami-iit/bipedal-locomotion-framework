@@ -96,7 +96,7 @@ struct QuinticSpline::Impl
     bool setBoundaryVelocitiesAndAcceleration();
 
     /**
-     * addTripletCurrentKnot is an helper function to generate a triplet containing a 2x2 matrix.
+     * addTripletCurrentKnot is a helper function to generate a triplet containing a 2x2 matrix.
      * This matrix is used to compute the intermediate velocity and acceleration.
      */
     void addTripletCurrentKnot(const int& knotIndex,
@@ -105,7 +105,7 @@ struct QuinticSpline::Impl
                                std::vector<Eigen::Triplet<double>>& tripletList);
 
     /**
-     * addTripletPreviousKnot is an helper function to generate a triplet containing a 2x2 matrix.
+     * addTripletPreviousKnot is a helper function to generate a triplet containing a 2x2 matrix.
      * This matrix is used to compute the intermediate velocity and acceleration.
      */
     void addTripletPreviousKnot(const int& knotIndex,
@@ -113,7 +113,7 @@ struct QuinticSpline::Impl
                                 const int& columnOffset,
                                 std::vector<Eigen::Triplet<double>>& tripletList);
     /**
-     * addTripletNextKnot is an helper function to generate a triplet containing a 2x2 matrix.
+     * addTripletNextKnot is a helper function to generate a triplet containing a 2x2 matrix.
      * This matrix is used to compute the intermediate velocity and acceleration.
      */
     void addTripletNextKnot(const int& knotIndex,
@@ -122,7 +122,7 @@ struct QuinticSpline::Impl
                             std::vector<Eigen::Triplet<double>>& tripletList);
 
     /**
-     * addKnownTermKnotPosition is an helper function to generate a 2-d vector,
+     * addKnownTermKnotPosition is a helper function to generate a 2-d vector,
      * This vector is the known term used to compute the intermediate velocity and acceleration.
      */
     void addKnownTermKnotPosition(const std::size_t& knotIndex,
@@ -130,7 +130,7 @@ struct QuinticSpline::Impl
                                   Eigen::Ref<Eigen::VectorXd> b);
 
     /**
-     * addKnownTermNextKnot is an helper function to generate a 2-d vector,
+     * addKnownTermNextKnot is a helper function to generate a 2-d vector,
      * This vector is the known term used to compute the intermediate velocity and acceleration.
      */
     void addKnownTermNextKnot(const std::size_t& knotIndex,
@@ -138,7 +138,7 @@ struct QuinticSpline::Impl
                               Eigen::Ref<Eigen::VectorXd> b);
 
     /**
-     * addKnownTermPreviousKnot is an helper function to generate a 2-d vector,
+     * addKnownTermPreviousKnot is a helper function to generate a 2-d vector,
      * This vector is the known term used to compute the intermediate velocity and acceleration.
      */
     void addKnownTermPreviousKnot(const std::size_t& knotIndex,
@@ -286,7 +286,7 @@ bool QuinticSpline::Impl::computeCoefficients()
         return false;
     }
 
-    // the number of polynomials is equal to the number of knots - -1
+    // the number of polynomials is equal to the "number of knots - 1"
     this->polynomials.resize(knots.size() - 1);
 
     // set the velocity and acceleration boundary conditions
