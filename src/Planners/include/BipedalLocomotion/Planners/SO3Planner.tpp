@@ -62,29 +62,40 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     }
 
     const double& t = time;
-    const auto infinitesimalRotation = m_distance * (10 * std::pow(t / m_T, 3)
-                                                     - 15 * std::pow(t / m_T, 4)
-                                                     + 6 * std::pow(t / m_T, 5));
+    // Compute the displacement in the tangent space
+    // - displacement_tangent = log(finalRotation * initialRotation.inverse()) * s(t) (in case of
+    //                                                                                 Right
+    //                                                                                 Trivialization)
+    // - displacement_tangent = log(initialRotation.inverse() * finalRotation) * s(t) (in case of
+    //                                                                                 Left
+    //                                                                                 Trivialization)
+    const double s = 10 * std::pow(t / m_T, 3)
+                     - 15 * std::pow(t / m_T, 4)
+                     + 6 * std::pow(t / m_T, 5);
+    const manif::SO3d::Tangent displacementTangent = m_distance * s;
 
     if constexpr (representation == Representation::RightTrivialized)
     {
-        rotation = infinitesimalRotation + m_initialRotation;
+        // please read this as R(t) = exp(displacementTangent) * initialRotation
+        rotation = displacementTangent + m_initialRotation;
     } else
     // Please read it as representation == Representation::LeftTrivialized
     {
-        rotation = m_initialRotation + infinitesimalRotation;
+        // please read this as R(t) = initialRotation * exp(displacementTangent)
+        rotation = m_initialRotation + displacementTangent;
     }
 
-    velocity = m_distance
-        * (10 * 3 * std::pow(t, 2) / std::pow(m_T, 3)
-           - 15 * 4 * std::pow(t, 3) / std::pow(m_T, 4)
-           + 6 * 5 * std::pow(t, 4) / std::pow(m_T, 5));
+    // compute velocity (it is expressed in body / inertial frame accordingly to the chosen representation)
+    const double sDot = 10 * 3 * std::pow(t, 2) / std::pow(m_T, 3)
+                        - 15 * 4 * std::pow(t, 3) / std::pow(m_T, 4)
+                        + 6 * 5 * std::pow(t, 4) / std::pow(m_T, 5);
+    velocity = m_distance * sDot;
 
-    acceleration
-        = m_distance
-          * (10 * 3 * 2 * t / std::pow(m_T, 3)
-             - 15 * 4 * 3 * std::pow(t, 2) / std::pow(m_T, 4)
-             + 6 * 5 * 4 * std::pow(t, 3) / std::pow(m_T, 5));
+    // compute velocity (it is expressed in body / inertial frame accordingly to the chosen representation)
+    const double sDdot = 10 * 3 * 2 * t / std::pow(m_T, 3)
+                         - 15 * 4 * 3 * std::pow(t, 2) / std::pow(m_T, 4)
+                         + 6 * 5 * 4 * std::pow(t, 3) / std::pow(m_T, 5);
+    acceleration = m_distance * sDdot;
 
     return true;
 }
