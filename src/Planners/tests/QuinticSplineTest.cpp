@@ -96,4 +96,40 @@ TEST_CASE("Quintic spline")
                    + 5 * 4 * coefficients[5] * std::pow(t, 3);
         REQUIRE(expected.isApprox(acceleration,  1e-5));
     }
+
+    SECTION("Advance capabilities")
+    {
+        REQUIRE_FALSE(spline.isValid());
+        REQUIRE(spline.setAdvanceTimeStep(dTCheckPoints));
+
+        REQUIRE(spline.isValid());
+
+        for (std::size_t i = 0; i < pointsToCheckNumber; i++)
+        {
+            double t = dTCheckPoints * i + initTime;
+            const auto& traj = spline.get();
+
+            // check position
+            expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)
+                       + coefficients[3] * std::pow(t, 3) + coefficients[4] * std::pow(t, 4)
+                       + coefficients[5] * std::pow(t, 5);
+
+            REQUIRE(expected.isApprox(traj.position, 1e-5));
+
+            // check velocity
+            expected = coefficients[1] + 2 * coefficients[2] * t
+                       + 3 * coefficients[3] * std::pow(t, 2) + 4 * coefficients[4] * std::pow(t, 3)
+                       + 5 * coefficients[5] * std::pow(t, 4);
+            REQUIRE(expected.isApprox(traj.velocity, 1e-5));
+
+            // check acceleration
+            expected = 2 * coefficients[2] + 3 * 2 * coefficients[3] * t
+                       + 4 * 3 * coefficients[4] * std::pow(t, 2)
+                       + 5 * 4 * coefficients[5] * std::pow(t, 3);
+            REQUIRE(expected.isApprox(traj.acceleration, 1e-5));
+
+            // advance the spline
+            REQUIRE(spline.advance());
+        }
+    }
 }
