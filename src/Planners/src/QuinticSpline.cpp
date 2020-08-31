@@ -391,7 +391,8 @@ void QuinticSpline::Impl::addTripletCurrentKnot(const int& knotIndex,
                                                 const int& columnOffset,
                                                 std::vector<Eigen::Triplet<double>>& tripletList)
 {
-    const auto& poly = polynomials;
+    const auto& poly = polynomials[knotIndex];
+    const auto& prevPoly = polynomials[knotIndex - 1];
 
     // The following triplets represent this matrix
     // /    /   1      1\          /   1      1\ \
@@ -407,24 +408,25 @@ void QuinticSpline::Impl::addTripletCurrentKnot(const int& knotIndex,
     // |    |T        T |         |T    T     |  |
     // \    \ i - 1    i/         \ i    i - 1/  /
 
-    tripletList.push_back({rowOffset,
-                           columnOffset,
-                           12 * (1 / std::pow(poly[knotIndex - 1].duration, 2)
-                                 - 1 / std::pow(poly[knotIndex].duration, 2))});
+    tripletList.push_back(
+        {rowOffset,
+         columnOffset,
+         12 * ((1 / std::pow(prevPoly.duration, 2)) - (1 / std::pow(poly.duration, 2)))});
 
-    tripletList.push_back({rowOffset,
-                           columnOffset + 1,
-                           -3 * (1 / poly[knotIndex - 1].duration + 1 / poly[knotIndex].duration)});
+    tripletList.push_back(
+        {rowOffset,
+         columnOffset + 1,
+         -3 * ((1 / prevPoly.duration) + (1 / poly.duration))});
 
-    tripletList.push_back({rowOffset + 1,
-                           columnOffset,
-                           16 * (1 / std::pow(poly[knotIndex - 1].duration, 3)
-                                 + 1 / std::pow(poly[knotIndex].duration, 3))});
+    tripletList.push_back(
+        {rowOffset + 1,
+         columnOffset,
+         16 * ((1 / std::pow(prevPoly.duration, 3)) + (1 / std::pow(poly.duration, 3)))});
 
-    tripletList.push_back({rowOffset + 1,
-                           columnOffset + 1,
-                           3 * (-1 / std::pow(poly[knotIndex - 1].duration, 2)
-                                + 1 / std::pow(poly[knotIndex].duration, 2))});
+    tripletList.push_back(
+        {rowOffset + 1,
+         columnOffset + 1,
+         3 * ((-1 / std::pow(prevPoly.duration, 2)) + (1 / std::pow(poly.duration, 2)))});
 }
 
 void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
@@ -432,7 +434,7 @@ void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
                                                  const int& columnOffset,
                                                  std::vector<Eigen::Triplet<double>>& tripletList)
 {
-    const auto& poly = polynomials;
+    const auto& poly = polynomials[knotIndex - 1];
 
     // The following triplets represent this matrix
     // /    8          1    \
@@ -448,12 +450,10 @@ void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
     // | T          T       |
     // \  i - 1      i - 1  /
 
-    tripletList.push_back({rowOffset, columnOffset, 8 / std::pow(poly[knotIndex - 1].duration, 2)});
-    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly[knotIndex - 1].duration});
-    tripletList.push_back(
-        {rowOffset + 1, columnOffset, 14 / std::pow(poly[knotIndex - 1].duration, 3)});
-    tripletList.push_back(
-        {rowOffset + 1, columnOffset + 1, 2 / std::pow(poly[knotIndex - 1].duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset, 8 / std::pow(poly.duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly.duration});
+    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(poly.duration, 3)});
+    tripletList.push_back({rowOffset + 1, columnOffset + 1, 2 / std::pow(poly.duration, 2)});
 }
 
 void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
@@ -461,7 +461,7 @@ void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
                                              const int& columnOffset,
                                              std::vector<Eigen::Triplet<double>>& tripletList)
 {
-    const auto& poly = polynomials;
+    const auto& poly = polynomials[knotIndex];
 
     // The following triplets represent this matrix
     // /    8          1    \
@@ -477,12 +477,10 @@ void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
     // |  T            T    |
     // \   i            i   /
 
-    tripletList.push_back({rowOffset, columnOffset, -8 / std::pow(poly[knotIndex].duration, 2)});
-    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly[knotIndex].duration});
-    tripletList.push_back(
-        {rowOffset + 1, columnOffset, 14 / std::pow(poly[knotIndex].duration, 3)});
-    tripletList.push_back(
-        {rowOffset + 1, columnOffset + 1, -2 / std::pow(poly[knotIndex].duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset, -8 / std::pow(poly.duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly.duration});
+    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(poly.duration, 3)});
+    tripletList.push_back({rowOffset + 1, columnOffset + 1, -2 / std::pow(poly.duration, 2)});
 }
 
 void QuinticSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
