@@ -17,8 +17,9 @@ using namespace BipedalLocomotion::Planners;
 
 bool contactsAreEqual(const Contact& c1, const Contact& c2)
 {
+    constexpr double tolerance = 1e-5;
     return (c1.type == c2.type) && (c1.name == c2.name)
-           && (((c1.pose * c2.pose.inverse()).log()).isApprox(Eigen::Matrix<double, 6, 1>::Zero()))
+           && (c1.pose.coeffs().isApprox(c2.pose.coeffs(), tolerance))
            && (c1.activationTime == c2.activationTime)
            && (c1.deactivationTime == c2.deactivationTime);
 }
