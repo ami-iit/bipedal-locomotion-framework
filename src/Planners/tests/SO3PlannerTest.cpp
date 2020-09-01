@@ -5,6 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <Eigen/Geometry> // Required because of https://github.com/artivis/manif/issues/162
+
 // Catch2
 #include <catch2/catch.hpp>
 
