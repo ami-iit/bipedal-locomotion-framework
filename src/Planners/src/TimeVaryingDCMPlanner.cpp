@@ -344,7 +344,7 @@ struct TimeVaryingDCMPlanner::Impl
         {
             for (const auto& footCorner : this->optiSettings.footCorners)
             {
-                point = activeContact->pose.isometry() * footCorner;
+                point = activeContact->pose.act(footCorner);
                 points.col(columnIndex) = point.head(numberOfCoordinates);
                 columnIndex++;
             }
