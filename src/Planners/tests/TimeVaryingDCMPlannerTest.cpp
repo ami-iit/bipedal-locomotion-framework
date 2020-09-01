@@ -23,24 +23,28 @@ TEST_CASE("TimeVaryingDCMPlanner")
 
     // left foot
     // first footstep
-    manif::SE3d leftTransform = manif::SE3d::Identity();
-    leftTransform.coeffs().head<3>() << 0, -0.8, 0;
+    Eigen::Vector3d leftPos;
+    leftPos << 0, -0.8, 0;
+    manif::SE3d leftTransform(leftPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["left"].addContact(leftTransform, 0.0, 1.0));
 
     // second footstep
-    leftTransform.coeffs()[0] = 0.25;
-    leftTransform.coeffs()[2] = 0.2;
+    leftPos(0) = 0.25;
+    leftPos(2) = 0.2;
+    leftTransform = manif::SE3d(leftPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["left"].addContact(leftTransform, 2.0, 7.0));
 
     // right foot
     // first footstep
-    manif::SE3d rightTransform = manif::SE3d::Identity();
-    rightTransform.coeffs().head<3>() << 0, 0.8, 0;
+    Eigen::Vector3d rightPos;
+    rightPos << 0, 0.8, 0;
+    manif::SE3d rightTransform(rightPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["right"].addContact(rightTransform, 0.0, 3.0));
 
     // second footstep
-    rightTransform.coeffs()[0] = 0.25;
-    rightTransform.coeffs()[2] = 0.2;
+    rightPos(0) = 0.25;
+    rightPos(2) = 0.2;
+    rightTransform = manif::SE3d(rightPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["right"].addContact(rightTransform, 4.0, 7.0));
     phaseList->setLists(contactListMap);
 
