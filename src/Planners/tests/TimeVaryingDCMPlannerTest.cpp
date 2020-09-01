@@ -12,8 +12,6 @@
 #include <BipedalLocomotion/Planners/ContactPhaseList.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 
-#include <iDynTree/Core/VectorFixSize.h>
-
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 
@@ -23,34 +21,31 @@ TEST_CASE("TimeVaryingDCMPlanner")
 
     ContactListMap contactListMap;
 
-    iDynTree::Transform leftTransform = iDynTree::Transform::Identity();
-    iDynTree::Position leftPosition;
-
-    leftPosition[0] = 0;
-    leftPosition[1] = -0.8;
-    leftPosition[2] = 0;
-    leftTransform.setPosition(leftPosition);
+    // left foot
+    // first footstep
+    Eigen::Vector3d leftPos;
+    leftPos << 0, -0.8, 0;
+    manif::SE3d leftTransform(leftPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["left"].addContact(leftTransform, 0.0, 1.0));
 
-    leftPosition[0] = 0.25;
-    leftPosition[2] = 0.2;
-    leftTransform.setPosition(leftPosition);
+    // second footstep
+    leftPos(0) = 0.25;
+    leftPos(2) = 0.2;
+    leftTransform = manif::SE3d(leftPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["left"].addContact(leftTransform, 2.0, 7.0));
 
-    iDynTree::Transform rightTransform = iDynTree::Transform::Identity();
-    iDynTree::Position rightPosition;
-
-    rightPosition[0] = 0;
-    rightPosition[1] = 0.8;
-    rightPosition[2] = 0;
-    rightTransform.setPosition(rightPosition);
+    // right foot
+    // first footstep
+    Eigen::Vector3d rightPos;
+    rightPos << 0, 0.8, 0;
+    manif::SE3d rightTransform(rightPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["right"].addContact(rightTransform, 0.0, 3.0));
 
-    rightPosition[0] = 0.25;
-    rightPosition[2] = 0.2;
-    rightTransform.setPosition(rightPosition);
+    // second footstep
+    rightPos(0) = 0.25;
+    rightPos(2) = 0.2;
+    rightTransform = manif::SE3d(rightPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["right"].addContact(rightTransform, 4.0, 7.0));
-
     phaseList->setLists(contactListMap);
 
     // Set the parameters
@@ -58,7 +53,8 @@ TEST_CASE("TimeVaryingDCMPlanner")
     handler->setParameter("planner_sampling_time", 0.05);
     handler->setParameter("number_of_foot_corners", 4);
 
-    iDynTree::Vector3 footCorner;
+    // set the foot-corners
+    std::vector<double> footCorner(3);
     footCorner[0] = 0.1;
     footCorner[1] = 0.05;
     footCorner[2] = 0;
@@ -98,7 +94,8 @@ TEST_CASE("TimeVaryingDCMPlanner")
 
     REQUIRE(planner.computeTrajectory());
 
-    for(int i = 0; i < 150; i++)
+    constexpr std::size_t numberOfIterations = 150;
+    for (std::size_t i = 0; i < numberOfIterations; i++)
     {
         REQUIRE(planner.advance());
     }

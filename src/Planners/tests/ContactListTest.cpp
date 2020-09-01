@@ -1,6 +1,6 @@
 /**
  * @file ContactListTest.cpp
- * @authors Stefano Dafarra
+ * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
@@ -8,8 +8,8 @@
 // Catch2
 #include <catch2/catch.hpp>
 
-#include <iDynTree/Core/Utils.h>
-#include <iDynTree/Core/EigenHelpers.h>
+// manif
+#include <manif/manif.h>
 
 #include <BipedalLocomotion/Planners/ContactList.h>
 
@@ -17,12 +17,11 @@ using namespace BipedalLocomotion::Planners;
 
 bool contactsAreEqual(const Contact& c1, const Contact& c2)
 {
-    return (c1.type == c2.type) &&
-           (c1.name == c2.name) &&
-           (iDynTree::toEigen((c1.pose * c2.pose.inverse()).asHomogeneousTransform()).isApprox(
-               iDynTree::toEigen(iDynTree::Transform::Identity().asHomogeneousTransform()))) &&
-           (iDynTree::checkDoublesAreEqual(c1.activationTime, c2.activationTime)) &&
-           (iDynTree::checkDoublesAreEqual(c1.deactivationTime, c2.deactivationTime));
+    constexpr double tolerance = 1e-5;
+    return (c1.type == c2.type) && (c1.name == c2.name)
+           && (c1.pose.coeffs().isApprox(c2.pose.coeffs(), tolerance))
+           && (c1.activationTime == c2.activationTime)
+           && (c1.deactivationTime == c2.deactivationTime);
 }
 
 TEST_CASE("ContactList")
@@ -102,7 +101,7 @@ TEST_CASE("ContactList")
         bool ok = true;
         for (size_t i = 0; i < 49; ++i)
         {
-            ok = ok && list.addContact(iDynTree::Transform::Identity(), 2.0 + i, 2.5 + i);
+            ok = ok && list.addContact(manif::SE3d::Identity(), 2.0 + i, 2.5 + i);
         }
         REQUIRE(ok);
         REQUIRE(list.size() == 51);

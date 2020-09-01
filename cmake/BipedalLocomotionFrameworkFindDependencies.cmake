@@ -147,6 +147,9 @@ checkandset_dependency(casadi)
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
 
+find_package(manif QUIET)
+checkandset_dependency(manif)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -161,7 +164,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Estimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi" OFF)
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON

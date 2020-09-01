@@ -10,7 +10,7 @@ if (FRAMEWORK_COMPILE_Planners)
     NAME                  Contact
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
     SOURCES               src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
-    PUBLIC_LINK_LIBRARIES iDynTree::idyntree-core
+    PUBLIC_LINK_LIBRARIES MANIF::manif
     INSTALLATION_FOLDER   Planners
     )
 
