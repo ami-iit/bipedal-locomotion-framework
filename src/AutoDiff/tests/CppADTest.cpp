@@ -33,7 +33,7 @@ TEST_CASE("CppAD and Eigen")
     Eigen::Map<Eigen::Matrix<double, 3, 3, Eigen::RowMajor>> jacMatrix(jac.data());
 
     // Compute the analytic Jacobian
-    auto analyticJacobian = [&a, &b](const Eigen::Ref<Eigen::Vector3d>& x) -> Eigen::Matrix3d {
+    auto analyticJacobian = [&a, &b, &c](const Eigen::Ref<Eigen::Vector3d>& x) -> Eigen::Matrix3d {
         Eigen::Vector3d jacobian;
         jacobian = a + c * b * (b * x.array()).cos();
         return jacobian.asDiagonal();
