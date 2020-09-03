@@ -45,7 +45,7 @@ template <Representation representation> class SO3Planner
      * depends on the chosen Representation */
     manif::SO3d::Tangent m_distance{manif::SO3d::Tangent::Zero()};
 
-    double m_T{1}; /**< Trajectory duration in seconds */
+    double m_T{1.0}; /**< Trajectory duration in seconds */
 
 public:
     /**
