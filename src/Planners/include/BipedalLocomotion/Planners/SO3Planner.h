@@ -10,6 +10,8 @@
 
 #include <manif/SO3.h>
 
+#include <BipedalLocomotion/System/Advanceable.h>
+
 namespace BipedalLocomotion
 {
 namespace Planners
@@ -25,6 +27,19 @@ enum class Representation
 };
 
 /**
+ * SO3PlannerState contains the state of the planner. The velocity and the acceleration are
+ * expressed in inertial/body frame depending on the Representation used by the planner.
+ */
+struct SO3PlannerState
+{
+    manif::SO3d rotation; /**< $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f */
+    manif::SO3d::Tangent velocity; /**< Angular velocity expressed in inertial or body fixed frame
+                                    * (accordingly to the trivialization used). */
+    manif::SO3d::Tangent acceleration; /**< Angular acceleration expressed in inertial or body fixed
+                                        * frame (accordingly to the trivialization used). */
+};
+
+/**
  * SO3Planner implements a minimum jerk trajectory planner for object belonging to SO(3). The
  * planner assumes initial and final angular acceleration and velocity of the object equal to zero.
  * The generated velocity and acceleration are written in the inertial or in body-fixed frame
@@ -35,7 +50,8 @@ enum class Representation
  * - The left trivialization planner generates a velocity and an acceleration expressed in the
  * body-fixed frame.
  */
-template <Representation representation> class SO3Planner
+template <Representation representation>
+class SO3Planner : public System::Advanceable<SO3PlannerState>
 {
     /** Initial rotation from the inertial frame to the body frame. Namely
      * $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f */
@@ -46,6 +62,11 @@ template <Representation representation> class SO3Planner
     manif::SO3d::Tangent m_distance{manif::SO3d::Tangent::Zero()};
 
     double m_T{1.0}; /**< Trajectory duration in seconds */
+
+    double m_advanceTimeStep{0.0}; /**< Time step of the advance interface. */
+    double m_advanceCurrentTime{0.0}; /**< Current time of the advance object. */
+    SO3PlannerState m_state; /**< Current state of the planner. It is used by the advance
+                                capabilities. */
 
 public:
     /**
@@ -62,6 +83,15 @@ public:
     /**
      * Get the trajectory at a given time
      * @param time time, in seconds, at which the trajectory should be computed.
+     * @param state state of the planner.
+     * @return True in case of success/false otherwise.
+     */
+    bool evaluatePoint(const double& time,
+                       SO3PlannerState& state) const;
+
+    /**
+     * Get the trajectory at a given time
+     * @param time time, in seconds, at which the trajectory should be computed.
      * @param rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f.
      * @param velocity angular velocity expressed in inertial or body fixed frame (accordingly to
      * the trivialization used).
@@ -74,6 +104,39 @@ public:
                        manif::SO3d& rotation,
                        manif::SO3TangentBase<Derived>& velocity,
                        manif::SO3TangentBase<Derived>& acceleration) const;
+
+
+    /**
+     * Set the time step of the advance interface.
+     * @warning if the the time step is not set the user cannot use the advance features.
+     * @param dt the time step of the advance block.
+     * @return True in case of success, false otherwise.
+     */
+    bool setAdvanceTimeStep(const double& dt);
+
+    /**
+     * Get the state of the system.
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return a const reference of the requested object.
+     */
+    const SO3PlannerState& get() const final;
+
+    /**
+     * Determines the validity of the object retrieved with get()
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return True if the object is valid, false otherwise.
+     */
+    bool isValid() const final;
+
+    /**
+     * Advance the internal state. This may change the value retrievable from get().
+     * @warning if the the time step of the advance is not set the user cannot use the advance
+     * features.
+     * @return True if the advance is successfull.
+     */
+    bool advance() final;
 };
 
 /**

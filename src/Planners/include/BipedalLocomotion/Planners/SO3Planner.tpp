@@ -44,6 +44,14 @@ bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation
         m_distance = (initialRotation.inverse() * finalRotation).log();
     }
 
+    // reset the advance current time
+    m_advanceCurrentTime = 0;
+
+    // reset the state
+    m_state.rotation = m_initialRotation;
+    m_state.velocity.setZero();
+    m_state.acceleration.setZero();
+
     return true;
 }
 
@@ -107,6 +115,58 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     acceleration = m_distance * sDdot;
 
     return true;
+}
+
+template <Representation representation>
+bool SO3Planner<representation>::evaluatePoint(const double& time,
+                                               SO3PlannerState& state) const
+{
+    return this->evaluatePoint(time, state.rotation, state.velocity, state.acceleration);
+}
+
+template <Representation representation>
+bool SO3Planner<representation>::setAdvanceTimeStep(const double& dt)
+{
+    if (dt <= 0)
+    {
+        std::cerr << "[SO3Planner::setAdvanceTimeStep] The time step of the advance time has "
+                     "to be a strictly positive number."
+                  << std::endl;
+        return false;
+    }
+
+    m_advanceTimeStep = dt;
+
+    return true;
+}
+
+template <Representation representation> bool SO3Planner<representation>::isValid() const
+{
+    // if the time step is different from zero
+    return (m_advanceTimeStep != 0.0);
+}
+
+template <Representation representation> bool SO3Planner<representation>::advance()
+{
+    if (!this->isValid())
+    {
+        std::cerr << "[SO3Planner::advance] The advance capabilities cannot be used. Did you "
+                     "set the advance time step?"
+                  << std::endl;
+        return false;
+    }
+
+    // advance the time step
+    m_advanceCurrentTime = std::min(m_advanceTimeStep + m_advanceCurrentTime, m_T);
+
+    // update the state of the system
+    return evaluatePoint(m_advanceCurrentTime, m_state);
+}
+
+template <Representation representation>
+const SO3PlannerState& SO3Planner<representation>::get() const
+{
+    return m_state;
 }
 
 } // namespace Planners
