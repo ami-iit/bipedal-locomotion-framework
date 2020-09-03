@@ -69,10 +69,11 @@ public:
      * (accordingly to the trivialization used).
      * @return True in case of success/false otherwise.
      */
+    template<class Derived>
     bool evaluatePoint(const double& time,
                        manif::SO3d& rotation,
-                       manif::SO3d::Tangent& velocity,
-                       manif::SO3d::Tangent& acceleraton) const;
+                       manif::SO3TangentBase<Derived>& velocity,
+                       manif::SO3TangentBase<Derived>& acceleration) const;
 };
 
 /**

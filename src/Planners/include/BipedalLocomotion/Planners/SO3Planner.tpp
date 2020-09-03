@@ -48,10 +48,11 @@ bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation
 }
 
 template <Representation representation>
+template <class Derived>
 bool SO3Planner<representation>::evaluatePoint(const double& time,
                                                manif::SO3d& rotation,
-                                               manif::SO3d::Tangent& velocity,
-                                               manif::SO3d::Tangent& acceleration) const
+                                               manif::SO3TangentBase<Derived>& velocity,
+                                               manif::SO3TangentBase<Derived>& acceleration) const
 {
     if (time < 0 || time > m_T)
     {
