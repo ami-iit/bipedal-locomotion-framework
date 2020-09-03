@@ -78,12 +78,12 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     if constexpr (representation == Representation::RightTrivialized)
     {
         // please read this as R(t) = exp(displacementTangent) * initialRotation
-        rotation = displacementTangent + m_initialRotation;
+        rotation = displacementTangent.exp() * m_initialRotation;
     } else
     // Please read it as representation == Representation::LeftTrivialized
     {
         // please read this as R(t) = initialRotation * exp(displacementTangent)
-        rotation = m_initialRotation + displacementTangent;
+        rotation = m_initialRotation * displacementTangent.exp();
     }
 
     // compute velocity (it is expressed in body / inertial frame accordingly to the chosen representation)
