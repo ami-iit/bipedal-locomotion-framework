@@ -43,7 +43,6 @@ function(add_bipedal_locomotion_library)
 
     # Add C++17 features
     target_compile_features(${name} INTERFACE cxx_std_17)
-
     target_link_libraries(${name} INTERFACE ${public_link_libraries})
 
     # Specify include directories for both compilation and installation process.
@@ -68,6 +67,7 @@ function(add_bipedal_locomotion_library)
 
     # Add C++17 features
     target_compile_features(${name} PUBLIC cxx_std_17)
+    target_compile_definitions(${name} PRIVATE -D_USE_MATH_DEFINES)
 
     target_link_libraries(${name} PUBLIC ${public_link_libraries})
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
