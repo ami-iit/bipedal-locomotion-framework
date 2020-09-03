@@ -14,7 +14,7 @@ env:
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
   iDynTree_TAG: v1.1.0
   Catch2_TAG: v2.11.3
-  Qhull_TAG: v8.0.0
+  Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
   CasADi_TAG: 3.5.1
   manif_TAG: 56bb7744aea51820bd80875b4ee4369eb7d52dfb
 
