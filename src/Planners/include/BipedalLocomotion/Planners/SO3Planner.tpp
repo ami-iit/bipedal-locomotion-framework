@@ -70,6 +70,8 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     // - displacement_tangent = log(initialRotation.inverse() * finalRotation) * s(t) (in case of
     //                                                                                 Left
     //                                                                                 Trivialization)
+    // You can find the computation of s in "Modern Robotics: Mechanics, Planning, and Control"
+    // (Chapter 9.2)
     const double s = 10 * std::pow(t / m_T, 3)
                      - 15 * std::pow(t / m_T, 4)
                      + 6 * std::pow(t / m_T, 5);
@@ -86,13 +88,19 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
         rotation = m_initialRotation * displacementTangent.exp();
     }
 
-    // compute velocity (it is expressed in body / inertial frame accordingly to the chosen representation)
+    // compute velocity (it is expressed in body / inertial frame accordingly to the chosen
+    // representation)
+    // You can find the computation of sDot in "Modern Robotics: Mechanics, Planning, and Control"
+    // (Chapter 9.2)
     const double sDot = 10 * 3 * std::pow(t, 2) / std::pow(m_T, 3)
                         - 15 * 4 * std::pow(t, 3) / std::pow(m_T, 4)
                         + 6 * 5 * std::pow(t, 4) / std::pow(m_T, 5);
     velocity = m_distance * sDot;
 
-    // compute velocity (it is expressed in body / inertial frame accordingly to the chosen representation)
+    // compute acceleration (it is expressed in body / inertial frame accordingly to the chosen
+    // representation)
+    // You can find the computation of sDdot in "Modern Robotics: Mechanics,
+    // Planning, and Control" (Chapter 9.2)
     const double sDdot = 10 * 3 * 2 * t / std::pow(m_T, 3)
                          - 15 * 4 * 3 * std::pow(t, 2) / std::pow(m_T, 4)
                          + 6 * 5 * 4 * std::pow(t, 3) / std::pow(m_T, 5);
