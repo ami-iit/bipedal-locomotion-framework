@@ -22,9 +22,9 @@ namespace Planners
 template <Representation representation>
 bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation,
                                               const manif::SO3d& finalRotation,
-                                              const double& T)
+                                              const double& duration)
 {
-    if (T <= 0)
+    if (duration <= 0)
     {
         std::cerr << "[SO3Planner::setRotation] The trajectory duration must be a strictly "
                      "positive number."
@@ -33,7 +33,7 @@ bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation
     }
 
     m_initialRotation = initialRotation;
-    m_T = T;
+    m_T = duration;
 
     if constexpr (representation == Representation::RightTrivialized)
     {

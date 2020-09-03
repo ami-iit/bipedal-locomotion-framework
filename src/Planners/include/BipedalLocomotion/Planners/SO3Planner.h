@@ -52,12 +52,12 @@ public:
      * Set the rotation
      * @param initialRotation initial rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}_0}$\f.
      * @param finalRotation final rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}_T}$\f.
-     * @param T Trajectory duration in seconds.
+     * @param duration Trajectory duration in seconds.
      * @return True in case of success/false otherwise.
      */
     bool setRotations(const manif::SO3d& initialRotation,
                       const manif::SO3d& finalRotation,
-                      const double& T);
+                      const double& duration);
 
     /**
      * Get the trajectory at a given time
