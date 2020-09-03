@@ -637,11 +637,11 @@ void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
     //                         |__                                       __|
     //
     // where x represents a non zero number and 0 represents the number 0. The matrix A can be
-    // stored as a spare matrix where the number of non zero entries fro the extremum elements are 4
-    // * 2 and the number of non zero elements for the interior (non extremum elements) are 6 * 2.
-    // The matrix A is a square matrix whose number of columns (and rows) is equal to the number of
-    // interior knots of the spline times 2.
-    // If there is only an interior knot, A is a 2x2 dense matrix.
+    // stored as a sparse matrix where the number of non zero entries for the extremum elements are
+    // 4 * 2 and the number of non zero elements for the interior (non extremum elements) are 6
+    // * 2. The matrix A is a square matrix whose number of columns (and rows) is equal to the
+    // number of interior knots of the spline times 2. If there is only an interior knot, A is a 2x2
+    // dense matrix.
     std::size_t numberOfExpectedTriplets = 4;
     if (numberOfInteriorKnots > 1)
     {
