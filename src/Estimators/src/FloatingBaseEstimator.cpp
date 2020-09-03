@@ -540,14 +540,17 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
     }
 
     m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]); // here loaded as w x y z
+    m_statePrev.imuOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
     m_statePrev.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
 
 
     m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);  // here loaded as w x y z
+    m_statePrev.lContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
 
     m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);  // here loaded as w x y z
+    m_statePrev.rContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
 
     m_state = m_statePrev;

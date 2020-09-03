@@ -135,6 +135,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     // ground truth
     Eigen::Vector3d simIMUPos;
     Eigen::Quaterniond simImuQuat = Eigen::Quaterniond(0.3218, -0.6304, -0.6292, 0.3212);
+    simImuQuat.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     simIMUPos << 0.0296, -0.1439,  0.4915;
 
     // IMU measures
