@@ -65,7 +65,7 @@ jobs:
         # Install Catch2 and cppad
         cd C:/robotology/vcpkg
         git fetch
-        git checkout ${vcpkg_TAG}
+        git checkout $env:vcpkg_TAG
         ./bootstrap-vcpkg.bat
         ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
         echo "::set-env name=cppad_DIR::C:/robotology/vcpkg/installed/x64-windows"
