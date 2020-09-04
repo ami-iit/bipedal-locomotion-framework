@@ -8,7 +8,8 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_H
 
-#include <iDynTree/Core/Transform.h>
+#include <manif/SE3.h>
+
 #include <string>
 
 namespace BipedalLocomotion
@@ -37,7 +38,7 @@ struct Contact
     /**
      * Pose of the contact.
      */
-    iDynTree::Transform pose {iDynTree::Transform::Identity()};
+    manif::SE3d pose{manif::SE3d::Identity()};
 
     /**
      * Instant from which the contact can be considered active.

@@ -12,7 +12,7 @@
 #include <BipedalLocomotion/Planners/Contact.h>
 
 //iDynTree
-#include <iDynTree/Core/Transform.h>
+#include <manif/manif.h>
 
 //std
 #include <set>
@@ -89,7 +89,7 @@ public:
      * @return false if it was not possible to insert the contact.
      * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
      */
-    bool addContact(const iDynTree::Transform& newTransform, double activationTime, double deactivationTime);
+    bool addContact(const manif::SE3d& newTransform, double activationTime, double deactivationTime);
 
     /**
      * @brief Erase a contact

@@ -19,12 +19,12 @@ TEST_CASE("ContactPhaseList")
     SECTION("Set from map")
     {
         ContactListMap contactListMap;
-        REQUIRE(contactListMap["left"].addContact(iDynTree::Transform::Identity(), 0.0, 1.0));
-        REQUIRE(contactListMap["left"].addContact(iDynTree::Transform::Identity(), 2.0, 5.0));
-        REQUIRE(contactListMap["left"].addContact(iDynTree::Transform::Identity(), 6.0, 7.0));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0.0, 1.0));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2.0, 5.0));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6.0, 7.0));
 
-        REQUIRE(contactListMap["right"].addContact(iDynTree::Transform::Identity(), 0.0, 3.0));
-        REQUIRE(contactListMap["right"].addContact(iDynTree::Transform::Identity(), 4.0, 7.0));
+        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0.0, 3.0));
+        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4.0, 7.0));
 
         phaseList.setLists(contactListMap);
     }
@@ -34,15 +34,15 @@ TEST_CASE("ContactPhaseList")
     contactListRight.setDefaultName("right");
     contactListAdditional.setDefaultName("additional");
 
-    REQUIRE(contactListLeft.addContact(iDynTree::Transform::Identity(), 0.0, 1.0));
-    REQUIRE(contactListLeft.addContact(iDynTree::Transform::Identity(), 2.0, 5.0));
-    REQUIRE(contactListLeft.addContact(iDynTree::Transform::Identity(), 6.0, 7.0));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 0.0, 1.0));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 2.0, 5.0));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 6.0, 7.0));
 
-    REQUIRE(contactListRight.addContact(iDynTree::Transform::Identity(), 0.0, 3.0));
-    REQUIRE(contactListRight.addContact(iDynTree::Transform::Identity(), 4.0, 7.0));
+    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 0.0, 3.0));
+    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 4.0, 7.0));
 
-    REQUIRE(contactListAdditional.addContact(iDynTree::Transform::Identity(), 4.0, 5.0));
-    REQUIRE(contactListAdditional.addContact(iDynTree::Transform::Identity(), 6.0, 7.5));
+    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 4.0, 5.0));
+    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 6.0, 7.5));
 
     REQUIRE(phaseList.setLists({contactListAdditional, contactListLeft, contactListRight}));
 
