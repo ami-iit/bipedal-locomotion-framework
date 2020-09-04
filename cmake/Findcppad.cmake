@@ -73,7 +73,53 @@ if(NOT WIN32)
 
 # Windows platforms
 else()
-  message(WARNING "Windows is not supported yet.")
+
+  find_package(PkgConfig QUIET)
+  if(PKG_CONFIG_FOUND)
+
+    if(cppad_FIND_VERSION)
+      if(cppad_FIND_VERSION_EXACT)
+        pkg_check_modules(_PC_cppad QUIET cppad=${cppad_FIND_VERSION})
+      else()
+        pkg_check_modules(_PC_cppad QUIET cppad>=${cppad_FIND_VERSION})
+      endif()
+    else()
+      pkg_check_modules(_PC_cppad QUIET cppad)
+    endif()
+
+    if(_PC_cppad_FOUND)
+      set(cppad_INCLUDE_DIRS ${_PC_cppad_INCLUDE_DIRS} CACHE PATH "cppad include directory")
+      set(cppad_DEFINITIONS ${_PC_cppad_CFLAGS} CACHE STRING "Additional compiler flags for cppad")
+
+      find_library(${_PC_cppad_LIBRARIES}_PATH
+        NAMES ${_PC_cppad_LIBRARIES}
+        PATHS ${_PC_cppad_LIBRARY_DIRS})
+
+      set(cppad_LIBRARIES ${${_PC_cppad_LIBRARIES}_PATH} CACHE PATH "cppad libraries" FORCE)
+
+    else()
+      set(cppad_DEFINITIONS "")
+    endif()
+
+  endif()
+
+  set(cppad_LINK_FLAGS "")
+
+  # If pkg-config fails, try to find the package using cppad_DIR
+  if(NOT _PC_cppad_FOUND)
+    set(cppad_DIR $ENV{cppad_DIR} CACHE PATH "Path to cppad build directory")
+
+    find_path(cppad_INCLUDE_DIRS
+      NAMES cppad.hpp PATH_SUFFIXES cppad PATHS ${cppad_DIR}/include/cppad)
+
+    find_library(cppad_LIBRARIES
+      NAMES cppad cppad_lib
+      PATHS ${cppad_DIR}/lib ${cppad_DIR}/lib/cppad)
+
+    set(cppad_DEFINITIONS "")
+    set(cppad_LINK_FLAGS "")
+  endif()
+
 endif()
 
 

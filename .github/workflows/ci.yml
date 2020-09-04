@@ -10,6 +10,7 @@ on:
 
 env:
   vcpkg_robotology_TAG: v0.4.0
+  vcpkg_TAG: 222c35e3bcb8f28cd63fc526e591bb4ef6b99e4f
   YCM_TAG: v0.11.1
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
   iDynTree_TAG: v1.1.0
@@ -61,9 +62,14 @@ jobs:
         # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
         echo "::set-env name=VCPKG_INSTALLATION_ROOT::C:/robotology/vcpkg"
 
-        # Install Catch2
+        # Install Catch2 and cppad
         cd C:/robotology/vcpkg
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows
+        git fetch
+        git checkout $env:vcpkg_TAG
+        ./bootstrap-vcpkg.bat
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
+        echo "::set-env name=cppad_DIR::C:/robotology/vcpkg/installed/x64-windows"
+
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
@@ -85,7 +91,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
