@@ -8,8 +8,8 @@ set(H_PREFIX include/BipedalLocomotion/RobotInterface)
 
 add_bipedal_locomotion_library(
     NAME                   RobotInterface
-    PUBLIC_HEADERS         ${H_PREFIX}/ISensorBridge.h
+    SOURCES                src/IRobotControl.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/IRobotControl.h
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
-    SUBDIRECTORIES    tests
-    IS_INTERFACE)
+    SUBDIRECTORIES         YarpImplementation tests)
 endif()
