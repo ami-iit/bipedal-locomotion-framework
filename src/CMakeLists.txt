@@ -10,3 +10,5 @@ add_subdirectory(System)
 add_subdirectory(Planners)
 add_subdirectory(ContactModels)
 add_subdirectory(AutoDiff)
+add_subdirectory(RobotInterface)
+
