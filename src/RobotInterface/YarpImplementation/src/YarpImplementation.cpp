@@ -6,6 +6,7 @@
  */
 
 #include <cmath>
+#include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
 #include <yarp/dev/IControlMode.h>
