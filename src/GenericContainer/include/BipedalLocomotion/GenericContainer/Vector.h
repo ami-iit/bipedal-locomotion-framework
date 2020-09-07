@@ -93,7 +93,7 @@ public:
     using eigen_map_const_type = typename Eigen::Map<const Eigen::Matrix<T, Eigen::Dynamic, 1>>;
 
 
-private:
+protected:
     /**
      * @brief Span of the pointed vector. This allows to point to an existing container without owning it.
      */
@@ -103,12 +103,13 @@ private:
      */
     resize_function_type m_resizeLambda;
 
-public:
-
     /**
-     * The default constructor is deleted. In fact, once the Vector is built, it is assumed to point to an existing container.
+     * The default constructor is private. In fact, once the Vector is built, it is assumed to point to an existing container.
+     * To be used only if m_span and m_resizeLamba are set manually.
      */
-    Vector() = delete;
+    Vector() = default;
+
+public:
 
     /**
      * @brief Constructor
@@ -529,6 +530,8 @@ public:
         return eigen_map_const_type(data(), size());
     }
 
+    class Ref;
+
 };
 
 namespace BipedalLocomotion::GenericContainer {
@@ -860,6 +863,79 @@ typename Vector<const typename container_data<Class>::type>::eigen_map_const_typ
 }
 
 }
+
+template <typename T>
+class BipedalLocomotion::GenericContainer::Vector<T>::Ref : public BipedalLocomotion::GenericContainer::Vector<T>
+{
+public:
+
+    Ref() = delete;
+
+    Ref(const BipedalLocomotion::GenericContainer::Vector<T>::Ref& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>::Ref&& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    Ref(const BipedalLocomotion::GenericContainer::Vector<T>& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>&& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
+                                                               !std::is_same<Vector, std::string>::value &&
+                                                               GenericContainer::is_vector_constructible<Vector>::value>::type>
+    Ref(Vector& input)
+    {
+        if constexpr (is_span_constructible<Vector>::value)
+        {
+            m_span = iDynTree::make_span(input);
+        } else
+        {
+            m_span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        if constexpr (BipedalLocomotion::is_resizable<Vector>::value)
+        {
+            m_resizeLambda = DefaultVectorResizer(input);
+        }
+        else
+        {
+            m_resizeLambda = [this](index_type size){unused(size); return m_span;};
+        }
+    }
+
+    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
+                                                               !std::is_same<Vector, std::string>::value &&
+                                                               GenericContainer::is_vector_constructible<Vector>::value>::type>
+    Ref(const Vector& input)
+    {
+        if constexpr (is_span_constructible<Vector>::value)
+        {
+            m_span = iDynTree::make_span(input);
+        } else
+        {
+            m_span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        m_resizeLambda = [this](index_type size){unused(size); return m_span;};
+    }
+
+    ~Ref() = default;
+};
 
 
 #endif // BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H

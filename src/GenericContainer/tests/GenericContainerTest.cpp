@@ -20,6 +20,18 @@
 
 using namespace BipedalLocomotion;
 
+void foo(GenericContainer::Vector<int>::Ref test)
+{
+    test.data();
+    return;
+}
+
+void fooConst(const GenericContainer::Vector<const int>& test)
+{
+    test.data();
+    return;
+}
+
 TEST_CASE("GenericContainer::Vector")
 {
     SECTION("Constructible")
@@ -636,4 +648,11 @@ TEST_CASE("GenericContainer::Vector")
 
         REQUIRE(d.isApprox(GenericContainer::to_eigen(c)));
     }
+
+    SECTION("Generic input to function")
+    {
+        std::vector<int> vec(5);
+        foo(vec);
+    }
+
 }
