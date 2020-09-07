@@ -89,7 +89,7 @@ add_subdirectory(devices)
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
 include(AddBipedalLocomotionFrameworkTarget)
 
-set(FRAMEWORK_PUBLIC_DEPENDENCIES iDynTree "Eigen3 3.2.92")
+set(FRAMEWORK_PUBLIC_DEPENDENCIES "iDynTree 1.1.0" "Eigen3 3.2.92")
 
 if (FRAMEWORK_USE_YARP)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES YARP)
