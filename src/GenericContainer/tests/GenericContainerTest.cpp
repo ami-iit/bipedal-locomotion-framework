@@ -53,10 +53,17 @@ TEST_CASE("GenericContainer::Vector")
 
         std::vector<double> copiedIn;
         copiedIn.resize(5);
-        GenericContainer::Vector containerToBeCopied(iDynTree::make_span(copiedIn));
+        GenericContainer::Vector<double> containerToBeCopied(copiedIn); // copied in is automatically casted to a span
 
         containerToBeCopied = container;
 
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == copiedIn[i]);
+        }
+
+        iDynTree::getRandomVector(vector);
+        containerToBeCopied = vector; //vector is automatically turned into a span
         for (long i = 0; i < container.size(); ++i)
         {
             REQUIRE(vector[i] == copiedIn[i]);
@@ -629,5 +636,4 @@ TEST_CASE("GenericContainer::Vector")
 
         REQUIRE(d.isApprox(GenericContainer::to_eigen(c)));
     }
-
 }

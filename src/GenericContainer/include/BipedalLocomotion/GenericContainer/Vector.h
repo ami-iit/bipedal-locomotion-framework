@@ -158,13 +158,39 @@ public:
     }
 
     /**
-     * @brief Copies the content of the vecto
+     * @brief Copies the content of the vector
      * @param other Vector from which to copy
      * @return true in case of success. False if the two have different size and this is not resizable.
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
     bool clone(const Vector<T>& other)
+    {
+        if (size() != other.size())
+        {
+            if (!resizeVector(other.size()))
+            {
+                std::cerr << "[GenericContainer::Vector] Failed to resize. Copy aborted" << std::endl;
+                return false;
+            }
+        }
+
+        for (index_type i = 0; i < size(); ++i)
+        {
+            this->operator[](i) = other[i];
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Copies the content of the vector
+     * @param other Span from which to copy
+     * @return true in case of success. False if the two have different size and this is not resizable.
+     *
+     * @warning It performs memory allocation if this is resizable and the sizes are different.
+     */
+    bool clone(iDynTree::Span<T> other)
     {
         if (size() != other.size())
         {
@@ -192,6 +218,21 @@ public:
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
     void operator=(const Vector<T>& other)
+    {
+        bool ok = clone(other);
+        assert(ok);
+        unused(ok);
+    }
+
+    /**
+     * @brief operator = Copies the content
+     * @param other Vector from which to copy
+     *
+     * It calls clone(). There is an assert on its return value.
+     *
+     * @warning It performs memory allocation if this is resizable and the sizes are different.
+     */
+    void operator=(iDynTree::Span<T> other)
     {
         bool ok = clone(other);
         assert(ok);
