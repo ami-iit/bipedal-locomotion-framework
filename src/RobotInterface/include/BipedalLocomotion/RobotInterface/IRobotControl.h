@@ -51,12 +51,12 @@ public:
     virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
-     * Check if the motion set thought the position control mode ended.
+     * Check if the motion set through the position control mode ended.
      * @param[out] motionDone true if the motion ended.
      * @param[out] isTimerExpired true if the internal timer is expired or not.
-     * @param[out] info vector containing the list of the joint whose motion did not finished yet.
+     * @param[out] info vector containing the list of the joint whose motion did not finish yet.
      * @return True/False in case of success/failure.
-     * @note If the timer is expired and the motion did not finished yet, there may be a problem
+     * @note If the timer is expired and the motion did not finish yet, there may be a problem
      * with the robot.
      */
     virtual bool checkMotionDone(bool& motionDone,
