@@ -26,6 +26,7 @@ namespace RobotInterface
 
 /**
  * YarpRobotControl Yarp implementation of the IRobotControl interface
+ * @warning At the current stage only revolute joints are supported.
  */
 class YarpRobotControl : public IRobotControl
 {
@@ -75,6 +76,7 @@ public:
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
      * expressed in Nm.
+     * @warning At the current stage only revolute joints are supported.
      */
     bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
                        const std::vector<IRobotControl::ControlMode>& controlModes) final;
@@ -87,7 +89,7 @@ public:
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
      * expressed in Nm.
-     * @warining Call this function if you want to control all the joint with the same control mode.
+     * @warning Call this function if you want to control all the joint with the same control mode.
      * Otherwise call setReferences(Eigen::Ref<const Eigen::VectorXd>, const
      * std::vector<IRobotControl::ControlMode>&).
      */
