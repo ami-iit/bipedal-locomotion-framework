@@ -289,6 +289,10 @@ struct YarpRobotControl::Impl
         return this->getControlModes();
     }
 
+    /**
+     * Return the the worst position error for the joint controlled in position direct.
+     * The first value is the index while the second is the error in radians.
+     */
     std::pair<int, double> getWorstPositionDirectError(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
                                                        Eigen::Ref<const Eigen::VectorXd> jointPositions) const
     {
