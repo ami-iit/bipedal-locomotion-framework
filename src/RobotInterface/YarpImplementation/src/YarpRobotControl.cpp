@@ -1,5 +1,5 @@
 /**
- * @file YarpImplementation.cpp
+ * @file YarpRobotControl.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -18,11 +18,11 @@
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Time.h>
 
-#include <BipedalLocomotion/RobotInterface/YarpImplementation.h>
+#include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 
 using namespace BipedalLocomotion::RobotInterface;
 
-struct YarpImplementation::Impl
+struct YarpRobotControl::Impl
 {
     /**
      * JointsControlValuesAndMode contains the information regarding the desired joint values and
@@ -120,7 +120,7 @@ struct YarpImplementation::Impl
 
     bool getControlModes()
     {
-        constexpr std::string_view errorPrefix = "[YarpImplementation::Impl::getControlModes] ";
+        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::getControlModes] ";
 
         if (this->controlModeInterface == nullptr)
         {
@@ -144,7 +144,7 @@ struct YarpImplementation::Impl
 
     bool setControlModes(const std::vector<IRobotControl::ControlMode>& controlModes)
     {
-        constexpr std::string_view errorPrefix = "[YarpImplementation::Impl::setControlModes] ";
+        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setControlModes] ";
 
         if (this->controlModeInterface == nullptr)
         {
@@ -185,7 +185,7 @@ struct YarpImplementation::Impl
 
     bool getJointPos()
     {
-        constexpr std::string_view errorPrefix = "[YarpImplementation::Impl::getJointPos] ";
+        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::getJointPos] ";
 
         if (this->encodersInterface == nullptr)
         {
@@ -207,7 +207,7 @@ struct YarpImplementation::Impl
 
     bool setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDevice)
     {
-        constexpr std::string_view errorPrefix = "[YarpImplementation::Impl::setDriver] ";
+        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setDriver] ";
 
         if (robotDevice == nullptr)
         {
@@ -349,7 +349,7 @@ struct YarpImplementation::Impl
 
     bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues)
     {
-        constexpr std::string_view errorPrefix = "[YarpImplementation::Impl::setReferences] ";
+        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setReferences] ";
 
         if(!this->getJointPos())
         {
@@ -428,21 +428,21 @@ struct YarpImplementation::Impl
     }
 };
 
-YarpImplementation::YarpImplementation()
+YarpRobotControl::YarpRobotControl()
     : m_pimpl(std::make_unique<Impl>())
 {
 }
 
-YarpImplementation::~YarpImplementation() = default;
+YarpRobotControl::~YarpRobotControl() = default;
 
-bool YarpImplementation::setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDevice)
+bool YarpRobotControl::setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDevice)
 {
     return m_pimpl->setDriver(robotDevice);
 }
 
-bool YarpImplementation::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
-    constexpr std::string_view errorPrefix = "[YarpImplementation::initialize] ";
+    constexpr std::string_view errorPrefix = "[YarpRobotControl::initialize] ";
 
     auto ptr = handler.lock();
     if (ptr == nullptr)
@@ -460,7 +460,7 @@ bool YarpImplementation::initialize(std::weak_ptr<ParametersHandler::IParameters
     return ok;
 }
 
-bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
+bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
                                        const std::vector<IRobotControl::ControlMode>& controlModes)
 {
     if (controlModes != m_pimpl->controlModes)
@@ -468,7 +468,7 @@ bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> jointVa
         m_pimpl->controlModes = controlModes;
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            std::cerr << "[YarpImplementation::setReferences] Unable to switch in "
+            std::cerr << "[YarpRobotControl::setReferences] Unable to switch in "
                          "position-direct control mode."
                       << std::endl;
             return false;
@@ -478,7 +478,7 @@ bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> jointVa
     return m_pimpl->setReferences(jointValues);
 }
 
-bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
                                        const IRobotControl::ControlMode& mode)
 {
 
@@ -490,7 +490,7 @@ bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> desired
         std::fill(m_pimpl->controlModes.begin(), m_pimpl->controlModes.end(), mode);
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            std::cerr << "[YarpImplementation::setReferences] Unable to the desired control mode."
+            std::cerr << "[YarpRobotControl::setReferences] Unable to the desired control mode."
                       << std::endl;
             return false;
         }
@@ -499,11 +499,11 @@ bool YarpImplementation::setReferences(Eigen::Ref<const Eigen::VectorXd> desired
     return m_pimpl->setReferences(desiredJointValues);
 }
 
-bool YarpImplementation::checkMotionDone(bool& motionDone,
+bool YarpRobotControl::checkMotionDone(bool& motionDone,
                                          bool& isTimeExpired,
                                          std::vector<std::pair<std::string, double>>& info)
 {
-    constexpr std::string_view errorPrefix = "[YarpImplementation::checkMotionDone] ";
+    constexpr std::string_view errorPrefix = "[YarpRobotControl::checkMotionDone] ";
 
     if (!m_pimpl->positionInterface->checkMotionDone(&motionDone))
     {

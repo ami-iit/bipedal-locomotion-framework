@@ -1,12 +1,12 @@
 /**
- * @file YarpImplementation.h
+ * @file YarpRobotControl.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_IMPLEMENTATION_H
-#define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_IMPLEMENTATION_H
+#ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_ROBOT_CONTROL_H
+#define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_ROBOT_CONTROL_H
 
 // std
 #include <memory>
@@ -25,9 +25,9 @@ namespace RobotInterface
 {
 
 /**
- * YarpImplementation Yarp implementation of the IRobotControl interface
+ * YarpRobotControl Yarp implementation of the IRobotControl interface
  */
-class YarpImplementation : public IRobotControl
+class YarpRobotControl : public IRobotControl
 {
     /** Private implementation */
     struct Impl;
@@ -38,7 +38,7 @@ public:
     /**
      * Constructor
      */
-    YarpImplementation();
+    YarpRobotControl();
 
     /**
      * Initialize the Interface
@@ -97,10 +97,10 @@ public:
     /**
      * Destructor
      */
-    ~YarpImplementation();
+    ~YarpRobotControl();
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotion
 
 
-#endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_IMPLEMENTATION_H
+#endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_ROBOT_CONTROL_H
