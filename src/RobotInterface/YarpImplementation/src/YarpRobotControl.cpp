@@ -217,9 +217,6 @@ struct YarpRobotControl::Impl
             return false;
         }
 
-        // store the polydriver
-        this->robotDevice = robotDevice;
-
         // obtain the interfaces
         if (!robotDevice->view(encodersInterface) || encodersInterface == nullptr)
         {
@@ -285,6 +282,9 @@ struct YarpRobotControl::Impl
         {
             this->axisInfoInterface->getAxisName(i, this->axesName[i]);
         }
+
+        // store the polydriver
+        this->robotDevice = robotDevice;
 
         return this->getControlModes();
     }
