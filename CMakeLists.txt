@@ -111,3 +111,6 @@ install_basic_package_files(${PROJECT_NAME}
 
 
 include(AddUninstallTarget)
+
+include(GenerateAndAddUrdfModel)
+add_subdirectory(Python)
