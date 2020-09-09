@@ -17,6 +17,7 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
   add_bipedal_locomotion_library(
     NAME                   FloatingBaseEstimators
     SOURCES                src/FloatingBaseEstimator.cpp src/InvariantEKFBaseEstimator.cpp
+    SUBDIRECTORIES         tests
     PUBLIC_HEADERS         ${H_PREFIX}/FloatingBaseEstimatorParams.h ${H_PREFIX}/FloatingBaseEstimatorIO.h ${H_PREFIX}/FloatingBaseEstimator.h ${H_PREFIX}/InvariantEKFBaseEstimator.h
     PUBLIC_LINK_LIBRARIES  iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model BipedalLocomotion::System Eigen3::Eigen
     PRIVATE_LINK_LIBRARIES MANIF::manif)
