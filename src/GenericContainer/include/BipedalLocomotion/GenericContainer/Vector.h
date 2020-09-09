@@ -218,11 +218,12 @@ public:
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
-    void operator=(const Vector<T>& other)
+    Vector<T>& operator=(const Vector<T>& other)
     {
         bool ok = clone(other);
         assert(ok);
         unused(ok);
+        return *this;
     }
 
     /**
@@ -233,11 +234,12 @@ public:
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
-    void operator=(iDynTree::Span<T> other)
+    Vector<T>& operator=(iDynTree::Span<T> other)
     {
         bool ok = clone(other);
         assert(ok);
         unused(ok);
+        return *this;
     }
 
     /**
@@ -248,11 +250,12 @@ public:
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
-    void operator=(Vector<T>&& other)
+    Vector<T>& operator=(Vector<T>&& other)
     {
         bool ok = clone(other);
         assert(ok);
         unused(ok);
+        return *this;
     }
 
     /**
@@ -942,6 +945,16 @@ public:
     }
 
    ~Ref() = default;
+
+   Vector<T> & operator=(const Ref& other)
+   {
+       return static_cast<BipedalLocomotion::GenericContainer::Vector<T>&>(*this) = other;
+   }
+
+   Vector<T> & operator=(Ref&& other)
+   {
+       return static_cast<BipedalLocomotion::GenericContainer::Vector<T>&>(*this) = other;
+   }
 
 };
 

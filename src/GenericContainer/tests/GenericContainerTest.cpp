@@ -678,7 +678,36 @@ TEST_CASE("GenericContainer::Vector")
         foo(idynFixVec);
         iDynTree::VectorDynSize idynVec;
         foo(idynVec);
+        fooConst(idynVec);
         foo(GenericContainer::make_vector(idynVec, GenericContainer::VectorResizeMode::Fixed));
+    }
+
+    SECTION("Copy of Refs")
+    {
+        iDynTree::VectorDynSize vector(5);
+        iDynTree::getRandomVector(vector);
+        GenericContainer::Vector<double>::Ref container(vector);
+
+        std::vector<double> copiedIn;
+        copiedIn.resize(5);
+        GenericContainer::Vector<double> containerToBeCopied(copiedIn); // copied in is automatically casted to a span
+
+        containerToBeCopied = container; //Ref = Vector
+
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == copiedIn[i]);
+        }
+
+        Eigen::VectorXd otherCopiedIn;
+        GenericContainer::Vector<double>::Ref otherContainerToBeCopied(otherCopiedIn);
+
+        otherContainerToBeCopied = container;
+
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == otherCopiedIn[i]);
+        }
     }
 
 }
