@@ -517,7 +517,7 @@ bool InvariantEKFBaseEstimator::Impl::propagateStates(const FloatingBaseEstimato
     auto acc = (R*acc_unbiased) + g;
 
     manif::SO3Tangentd omega_skew_dt(gyro_unbiased*dt);
-    auto R_pred = R*(omega_skew_dt.exp().rotation());
+    Eigen::Matrix3d R_pred = R*(omega_skew_dt.exp().rotation());
 
     X.imuOrientation = Eigen::Quaterniond(R_pred);
     X.imuLinearVelocity = v + acc*dt;
