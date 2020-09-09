@@ -20,15 +20,16 @@
 
 using namespace BipedalLocomotion;
 
-void foo(GenericContainer::Vector<int>::Ref test)
+void foo(GenericContainer::Vector<double>::Ref test)
 {
     test.data();
     return;
 }
 
-void fooConst(const GenericContainer::Vector<const int>& test)
+void fooConst(GenericContainer::Vector<const double>::Ref test)
 {
     test.data();
+//    test.resize(5);
     return;
 }
 
@@ -649,10 +650,35 @@ TEST_CASE("GenericContainer::Vector")
         REQUIRE(d.isApprox(GenericContainer::to_eigen(c)));
     }
 
-    SECTION("Generic input to function")
+    SECTION("Refs")
     {
         std::vector<int> vec(5);
+        GenericContainer::Vector<int>::Ref stdRef(vec);
+        const std::vector<int>& cvec = vec;
+        GenericContainer::Vector<const int>::Ref stdConstRef(cvec);
+        Eigen::Vector2d eigenVec;
+        GenericContainer::Vector<double>::Ref eigenRef(eigenVec);
+        iDynTree::VectorFixSize<3> idynFixVec;
+        GenericContainer::Vector<double>::Ref idynFix(idynFixVec);
+        iDynTree::VectorDynSize idynVec;
+        GenericContainer::Vector<double>::Ref idyn(idynVec);
+        const iDynTree::VectorDynSize& idynConstVec = idynVec;
+        GenericContainer::Vector<const double>::Ref idynConst(idynConstVec);
+    }
+
+    SECTION("Generic input to function")
+    {
+        std::vector<double> vec(5);
         foo(vec);
+        const std::vector<double>& cvec = vec;
+        fooConst(cvec);
+        Eigen::Vector2d eigenVec;
+        foo(eigenVec);
+        iDynTree::VectorFixSize<3> idynFixVec;
+        foo(idynFixVec);
+        iDynTree::VectorDynSize idynVec;
+        foo(idynVec);
+        foo(GenericContainer::make_vector(idynVec, GenericContainer::VectorResizeMode::Fixed));
     }
 
 }

@@ -871,7 +871,7 @@ public:
 
     Ref() = delete;
 
-    Ref(const BipedalLocomotion::GenericContainer::Vector<T>::Ref& other)
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>::Ref& other)
     {
         m_span = other.m_span;
         m_resizeLambda = other.m_resizeLambda;
@@ -883,7 +883,7 @@ public:
         m_resizeLambda = other.m_resizeLambda;
     }
 
-    Ref(const BipedalLocomotion::GenericContainer::Vector<T>& other)
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>& other)
     {
         m_span = other.m_span;
         m_resizeLambda = other.m_resizeLambda;
@@ -897,7 +897,9 @@ public:
 
     template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
                                                                !std::is_same<Vector, std::string>::value &&
-                                                               GenericContainer::is_vector_constructible<Vector>::value>::type>
+                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               !std::is_const_v<T> &&
+                                                               !is_container_const<Vector>::value>::type>
     Ref(Vector& input)
     {
         if constexpr (is_span_constructible<Vector>::value)
@@ -914,13 +916,16 @@ public:
         }
         else
         {
-            m_resizeLambda = [this](index_type size){unused(size); return m_span;};
+            iDynTree::Span<T> copiedSpan = m_span;
+            m_resizeLambda = [copiedSpan](index_type size){unused(size); return copiedSpan;};
         }
+
     }
 
     template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
                                                                !std::is_same<Vector, std::string>::value &&
-                                                               GenericContainer::is_vector_constructible<Vector>::value>::type>
+                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               std::is_const_v<T>>::type>
     Ref(const Vector& input)
     {
         if constexpr (is_span_constructible<Vector>::value)
@@ -931,10 +936,13 @@ public:
             m_span = iDynTree::make_span(input.data(), input.size());
         }
 
-        m_resizeLambda = [this](index_type size){unused(size); return m_span;};
+        iDynTree::Span<T> copiedSpan = m_span;
+        m_resizeLambda = [copiedSpan](index_type size){unused(size); return copiedSpan;};
+
     }
 
-    ~Ref() = default;
+   ~Ref() = default;
+
 };
 
 

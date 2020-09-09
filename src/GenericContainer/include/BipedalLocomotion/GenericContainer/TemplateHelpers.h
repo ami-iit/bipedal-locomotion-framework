@@ -258,6 +258,26 @@ struct is_specialization<Ref<Args...>, Ref> : std::true_type
 {
 };
 
+template<typename T, typename = void >
+struct is_data_const : std::false_type
+{
+};
+
+template <typename T>
+    struct is_data_const<T,
+                     std::enable_if_t<is_data_available<T>::value,
+                                      std::enable_if_t<std::is_const_v<decltype(std::declval<T>().data())>>>> : std::true_type
+{
+};
+
+
+template <typename Container>
+struct is_container_const
+{
+    static constexpr bool value = std::is_const_v<Container> ||
+                                  is_data_const<Container>::value;
+};
+
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H
