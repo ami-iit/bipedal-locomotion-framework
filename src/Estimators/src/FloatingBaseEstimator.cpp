@@ -657,6 +657,8 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
 
     if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, baseTwist))
     {
+        std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
+                  << std::endl;
         return false;
     }
     return true;
@@ -687,9 +689,9 @@ bool FloatingBaseEstimator::resetEstimator(const Eigen::Quaterniond& newBaseOrie
     auto A_H_LF = A_H_IMU*IMU_H_LF;
 
     // convert to iDynTree Rotation to  Eigen angle axis and then to quaternion for consistent conversion
-    auto imuAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_IMU.getRotation()));
-    auto rfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_RF.getRotation()));
-    auto lfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_LF.getRotation()));
+    Eigen::AngleAxisd imuAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_IMU.getRotation()));
+    Eigen::AngleAxisd rfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_RF.getRotation()));
+    Eigen::AngleAxisd lfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_LF.getRotation()));
 
     m_state.imuOrientation = Eigen::Quaterniond(imuAngleAxis);
     m_state.imuPosition = iDynTree::toEigen(A_H_IMU.getPosition());

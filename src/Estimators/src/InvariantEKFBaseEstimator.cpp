@@ -154,9 +154,25 @@ public:
     void calcSkewSymAtCurrenState(const FloatingBaseEstimators::InternalState& X,
                                   SkewSymContainter& skew);
 
+    /**
+     * Dynamically update filter matrices depending on bias estimation flag
+     */
+    void updateFilterMatrixDimensions(const bool& estimateBias);
+
     SkewSymContainter m_skew; /**< skew symmetric matrix container */
 
     Eigen::MatrixXd m_P;      /**< state covariance matrix */
+    Eigen::MatrixXd m_Fc, m_Qc, m_Lc; /**< continuous time system propagation matrices */
+    Eigen::MatrixXd m_Fk, m_Qk; /**< discrete time system propagation matrices */
+    Eigen::MatrixXd m_In;  /** identity matrix with dimensions of state manifold tangent space */
+    Eigen::MatrixXd m_PHT, m_S, m_K, m_IminusKH; /** measurement update matrices **/
+    Eigen::VectorXd m_obs; /**< observation vector */
+    Eigen::MatrixXd m_measModelJacobian, m_measNoiseVar, m_auxMat; /**< measurement model matrices */
+    Eigen::MatrixXd m_BigX, m_innovation; /**< invariant error update related matrices */
+    Eigen::VectorXd m_delta; /**< correction term*/
+    Eigen::MatrixXd m_X, m_dX; /**< placeholder for state update variables */
+    Eigen::Matrix<double, 6, 1> m_theta, m_deltaTheta; /**< placeholder for parameter update variables */
+
 
     const size_t m_vecSizeWOBias{15}; /**< Tangent space vector size without considering IMU biases */
     const size_t m_vecSizeWBias{21};  /**< Tangent space vector size considering IMU biases */
@@ -170,6 +186,8 @@ public:
     const size_t gyroBias{15};
     const size_t accBias{18};
     } m_vecOffsets;  /**< Tangent space vector offsets */
+
+    bool m_prevBiasEstimationFlag{false};
 
     friend class InvariantEKFBaseEstimator;
 };
@@ -268,7 +286,8 @@ bool InvariantEKFBaseEstimator::customInitialization(std::weak_ptr<BipedalLocomo
     }
 
     m_pimpl->m_skew.gCross = iDynTree::skew(m_options.accelerationDueToGravity);
-
+    m_pimpl->updateFilterMatrixDimensions(m_options.imuBiasEstimationEnabled);
+    m_pimpl->m_prevBiasEstimationFlag = m_options.imuBiasEstimationEnabled;
     m_pimpl->constuctStateVar(m_priors, m_options.imuBiasEstimationEnabled, m_pimpl->m_P); // construct priors
     return true;
 }
@@ -293,6 +312,18 @@ bool InvariantEKFBaseEstimator::resetEstimator(const FloatingBaseEstimators::Int
     return true;
 }
 
+void BipedalLocomotion::Estimators::InvariantEKFBaseEstimator::Impl::updateFilterMatrixDimensions(const bool& estimateBias)
+{
+    if (estimateBias)
+    {
+        m_In = Eigen::MatrixXd::Identity(m_vecSizeWBias, m_vecSizeWBias);
+    }
+    else
+    {
+        m_In = Eigen::MatrixXd::Identity(m_vecSizeWOBias, m_vecSizeWOBias);
+    }
+}
+
 bool InvariantEKFBaseEstimator::predictState(const FloatingBaseEstimators::Measurements& meas,
                                              const double& dt)
 {
@@ -313,18 +344,21 @@ bool InvariantEKFBaseEstimator::predictState(const FloatingBaseEstimators::Measu
         return false;
     }
 
-    Eigen::MatrixXd Fc, Qc, Lc;
-    m_pimpl->calcFc(m_statePrev, m_pimpl->m_skew, m_options.imuBiasEstimationEnabled, Fc); // compute Fc at priori state
-    m_pimpl->calcQc(m_statePrev, m_sensorsDev, meas,  m_options.imuBiasEstimationEnabled, Qc); // compute Qc at priori state and previous measure
-    m_pimpl->calcLc(m_statePrev, m_pimpl->m_skew, m_options.imuBiasEstimationEnabled, Lc); // compute Lc at priori state
+    if (m_pimpl->m_prevBiasEstimationFlag != m_options.imuBiasEstimationEnabled)
+    {
+        m_pimpl->updateFilterMatrixDimensions(m_options.imuBiasEstimationEnabled);
+    }
+
+    m_pimpl->m_prevBiasEstimationFlag = m_options.imuBiasEstimationEnabled;
+
+    m_pimpl->calcFc(m_statePrev, m_pimpl->m_skew, m_options.imuBiasEstimationEnabled, m_pimpl->m_Fc); // compute Fc at priori state
+    m_pimpl->calcQc(m_statePrev, m_sensorsDev, meas,  m_options.imuBiasEstimationEnabled, m_pimpl->m_Qc); // compute Qc at priori state and previous measure
+    m_pimpl->calcLc(m_statePrev, m_pimpl->m_skew, m_options.imuBiasEstimationEnabled, m_pimpl->m_Lc); // compute Lc at priori state
 
     // discretize linearized dynamics and propagate covariance
-    size_t dims = Fc.rows();
-    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(dims, dims);
-
-    auto Fk = I + (Fc*dt);
-    auto Qk = (Fk*Lc*Qc*(Lc.transpose())*(Fk.transpose()))*dt;
-    m_pimpl->m_P = Fk*m_pimpl->m_P*(Fk.transpose()) + Qk;
+    m_pimpl->m_Fk = m_pimpl->m_In + (m_pimpl->m_Fc*dt);  // read as Fk = I + (Fc*dt)
+    m_pimpl->m_Qk = (m_pimpl->m_Fk*m_pimpl->m_Lc*m_pimpl->m_Qc*(m_pimpl->m_Lc.transpose())*(m_pimpl->m_Fk.transpose()))*dt; // read as Qk = Fk Lc Qc Lc.T Fk.T
+    m_pimpl->m_P = m_pimpl->m_Fk*m_pimpl->m_P*(m_pimpl->m_Fk.transpose()) + m_pimpl->m_Qk; // read as P = Fk P Fk.T + Qk
     m_pimpl->extractStateVar(m_pimpl->m_P,m_options.imuBiasEstimationEnabled, m_stateStdDev); // unwrap state covariance matrix diagonal
 
     return true;
@@ -333,9 +367,7 @@ bool InvariantEKFBaseEstimator::predictState(const FloatingBaseEstimators::Measu
 bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::Measurements& meas,
                                                  const double& dt)
 {
-    Eigen::VectorXd obs;
-    Eigen::MatrixXd measModelJacobian, measNoiseVar, auxMat;
-    auto A_R_IMU = m_state.imuOrientation.toRotationMatrix();
+    Eigen::Matrix3d A_R_IMU = m_state.imuOrientation.toRotationMatrix();
 
     iDynTree::JointPosDoubleArray jointPos(meas.encoders.size());
     iDynTree::toEigen(jointPos) = meas.encoders;
@@ -350,6 +382,9 @@ bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::M
 
     Eigen::VectorXd encodersVar = m_sensorsDev.encodersNoise.array().square();
     Eigen::MatrixXd Renc = static_cast<Eigen::MatrixXd>(encodersVar.asDiagonal());
+
+    constexpr int firstFootPositionVecOffsetObs{0};
+    constexpr int secondFootPositionVecOffsetObs{3};
 
     // The right invariant observation from the forward kinematics has structure Y = X^{-1} b + V
     // See Section III C. of the original paper
@@ -371,125 +406,139 @@ bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::M
     // Pi = [I  0_{3x3}]
     if (meas.lfInContact && meas.rfInContact)
     {
+        constexpr int observationDimension{14};
+        constexpr int linearizedDimension{6};
         // prepare observation vector Y
-        obs.resize(14);
-        obs << sIMU_p_RF, 0, 1, -1, 0,
-               sIMU_p_LF, 0, 1,  0, -1;
+        m_pimpl->m_obs.resize(observationDimension);
+        m_pimpl->m_obs << sIMU_p_RF, 0, 1, -1, 0,
+                          sIMU_p_LF, 0, 1,  0, -1;
 
         // prepare measurement model Jacobian H
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.resize(6, m_pimpl->m_vecSizeWBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWBias);
         }
         else
         {
-            measModelJacobian.resize(6, m_pimpl->m_vecSizeWOBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWOBias);
         }
 
-        measModelJacobian.topLeftCorner<6, 6>().setZero();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.rContactFramePosition).setIdentity();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.lContactFramePosition).setZero();
-        measModelJacobian.block<3, 3>(3, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
-        measModelJacobian.block<3, 3>(3, m_pimpl->m_vecOffsets.rContactFramePosition).setZero();
-        measModelJacobian.block<3, 3>(3, m_pimpl->m_vecOffsets.lContactFramePosition).setIdentity();
+        m_pimpl->m_measModelJacobian.topLeftCorner<6, 6>().setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.rContactFramePosition).setIdentity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.lContactFramePosition).setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(secondFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(secondFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.rContactFramePosition).setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(secondFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.lContactFramePosition).setIdentity();
 
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.block<6, 6>(0, m_pimpl->m_vecOffsets.gyroBias).setZero();
+            m_pimpl->m_measModelJacobian.block<6, 6>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.gyroBias).setZero();
         }
 
         // prepare auxiliary gain matrix Pi
-        auxMat.resize(6, 14);
-        auxMat.block<3, 3>(0, 0) = auxMat.block<3, 3>(3, 7) = Eigen::Matrix3d::Identity();
-        auxMat.block<3, 11>(0, 3).setZero();
-        auxMat.block<3, 7>(3, 0).setZero();
-        auxMat.block<3, 4>(3, 10).setZero();
+        constexpr int firstFootIGainOffset{0};
+        constexpr int firstFootZeroGainOffset{3};
+        constexpr int secondFootIGainOffset{7};
+        constexpr int secondFootZeroGainOffset{10};
+        m_pimpl->m_auxMat.resize(linearizedDimension, observationDimension);
+        m_pimpl->m_auxMat.block<3, 3>(firstFootPositionVecOffsetObs, firstFootIGainOffset) = m_pimpl->m_auxMat.block<3, 3>(secondFootPositionVecOffsetObs, secondFootIGainOffset) = Eigen::Matrix3d::Identity();
+        m_pimpl->m_auxMat.block<3, 11>(firstFootPositionVecOffsetObs, firstFootZeroGainOffset).setZero();
+        m_pimpl->m_auxMat.block<3, 7>(secondFootPositionVecOffsetObs, firstFootIGainOffset).setZero();
+        m_pimpl->m_auxMat.block<3, 4>(secondFootPositionVecOffsetObs, secondFootZeroGainOffset).setZero();
 
         // prepare measurement noise covariance R
-        measNoiseVar.resize(6, 6);
-        measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
-        measNoiseVar.topRightCorner<3, 3>().setZero();
-        measNoiseVar.bottomRightCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
-        measNoiseVar.bottomLeftCorner<3, 3>().setZero();
-        measNoiseVar /= dt;
+        m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.topRightCorner<3, 3>().setZero();
+        m_pimpl->m_measNoiseVar.bottomRightCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.bottomLeftCorner<3, 3>().setZero();
+        m_pimpl->m_measNoiseVar /= dt;
     }
     else if (meas.rfInContact)
     {
+        constexpr int observationDimension{7};
+        constexpr int linearizedDimension{3};
         // prepare observation vector Y
-        obs.resize(7);
-        obs << sIMU_p_RF, 0, 1, -1, 0;
+        m_pimpl->m_obs.resize(observationDimension);
+        m_pimpl->m_obs << sIMU_p_RF, 0, 1, -1, 0;
 
         // prepare measurement model Jacobian H
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.resize(3, m_pimpl->m_vecSizeWBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWBias);
         }
         else
         {
-            measModelJacobian.resize(3, m_pimpl->m_vecSizeWOBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWOBias);
         }
 
-        measModelJacobian.topLeftCorner<3, 6>().setZero();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.rContactFramePosition).setIdentity();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.lContactFramePosition).setZero();
+        m_pimpl->m_measModelJacobian.topLeftCorner<3, 6>().setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.rContactFramePosition).setIdentity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.lContactFramePosition).setZero();
 
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.block<3, 6>(0, m_pimpl->m_vecOffsets.gyroBias).setZero();
+            m_pimpl->m_measModelJacobian.block<3, 6>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.gyroBias).setZero();
         }
 
         // prepare auxiliary gain matrix Pi
-        auxMat.resize(3, 7);
-        auxMat.block<3, 3>(0, 0) = Eigen::Matrix3d::Identity();
-        auxMat.block<3, 4>(0, 3).setZero();
+        constexpr int firstFootIGainOffset{0};
+        constexpr int firstFootZeroGainOffset{3};
+        m_pimpl->m_auxMat.resize(linearizedDimension, observationDimension);
+        m_pimpl->m_auxMat.block<3, 3>(firstFootPositionVecOffsetObs, firstFootIGainOffset) = Eigen::Matrix3d::Identity();
+        m_pimpl->m_auxMat.block<3, 4>(firstFootPositionVecOffsetObs, firstFootZeroGainOffset).setZero();
 
         // prepare measurement noise covariance R
-        measNoiseVar.resize(3, 3);
-        measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
-        measNoiseVar /= dt;
+        m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar /= dt;
     }
     else if (meas.lfInContact)
     {
+        constexpr int observationDimension{7};
+        constexpr int linearizedDimension{3};
         // prepare observation vector Y
-        obs.resize(7);
-        obs << sIMU_p_LF, 0, 1,  0, -1;
+        m_pimpl->m_obs.resize(observationDimension);
+        m_pimpl->m_obs << sIMU_p_LF, 0, 1,  0, -1;
 
         // prepare measurement model Jacobian H
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.resize(3, m_pimpl->m_vecSizeWBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWBias);
         }
         else
         {
-            measModelJacobian.resize(3, m_pimpl->m_vecSizeWOBias);
+            m_pimpl->m_measModelJacobian.resize(linearizedDimension, m_pimpl->m_vecSizeWOBias);
         }
 
-        measModelJacobian.topLeftCorner<3, 6>().setZero();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.rContactFramePosition).setZero();
-        measModelJacobian.block<3, 3>(0, m_pimpl->m_vecOffsets.lContactFramePosition).setIdentity();
+        m_pimpl->m_measModelJacobian.topLeftCorner<3, 6>().setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.imuPosition) = -Eigen::Matrix3d::Identity();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.rContactFramePosition).setZero();
+        m_pimpl->m_measModelJacobian.block<3, 3>(firstFootPositionVecOffsetObs, m_pimpl->m_vecOffsets.lContactFramePosition).setIdentity();
 
         if (m_options.imuBiasEstimationEnabled)
         {
-            measModelJacobian.block<3, 6>(0, m_pimpl->m_vecOffsets.gyroBias).setZero();
+            m_pimpl->m_measModelJacobian.block<3, 6>(0, m_pimpl->m_vecOffsets.gyroBias).setZero();
         }
 
         // prepare auxiliary gain matrix Pi
-        auxMat.resize(3, 7);
-        auxMat.block<3, 3>(0, 0) = Eigen::Matrix3d::Identity();
-        auxMat.block<3, 4>(0, 3).setZero();
+        constexpr int firstFootIGainOffset{0};
+        constexpr int firstFootZeroGainOffset{3};
+        m_pimpl->m_auxMat.resize(linearizedDimension, observationDimension);
+        m_pimpl->m_auxMat.block<3, 3>(firstFootPositionVecOffsetObs, firstFootIGainOffset) = Eigen::Matrix3d::Identity();
+        m_pimpl->m_auxMat.block<3, 4>(firstFootPositionVecOffsetObs, firstFootZeroGainOffset).setZero();
 
         // prepare measurement noise covariance R
-        measNoiseVar.resize(3, 3);
-        measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
-        measNoiseVar /= dt;
+        m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar /= dt;
     }
 
     if (meas.lfInContact || meas.rfInContact)
     {
-        if (!m_pimpl->updateStates(obs, measModelJacobian, measNoiseVar, auxMat, m_state, m_pimpl->m_P))
+        if (!m_pimpl->updateStates(m_pimpl->m_obs, m_pimpl->m_measModelJacobian, m_pimpl->m_measNoiseVar, m_pimpl->m_auxMat, m_state, m_pimpl->m_P))
         {
             return false;
         }
@@ -508,13 +557,13 @@ bool InvariantEKFBaseEstimator::Impl::propagateStates(const FloatingBaseEstimato
                                                       const iDynTree::Transform& IMU_H_LF,
                                                       FloatingBaseEstimators::InternalState& X)
 {
-    auto acc_unbiased = meas.acc - X.accelerometerBias;
-    auto gyro_unbiased = meas.gyro - X.gyroscopeBias;
+    Eigen::Vector3d acc_unbiased = meas.acc - X.accelerometerBias;
+    Eigen::Vector3d gyro_unbiased = meas.gyro - X.gyroscopeBias;
 
-    auto R = X.imuOrientation.toRotationMatrix();
-    auto v = X.imuLinearVelocity;
-    auto p = X.imuPosition;
-    auto acc = (R*acc_unbiased) + g;
+    Eigen::Matrix3d R = X.imuOrientation.toRotationMatrix();
+    Eigen::Vector3d v = X.imuLinearVelocity;
+    Eigen::Vector3d p = X.imuPosition;
+    Eigen::Vector3d acc = (R*acc_unbiased) + g;
 
     manif::SO3Tangentd omega_skew_dt(gyro_unbiased*dt);
     Eigen::Matrix3d R_pred = R*(omega_skew_dt.exp().rotation());
@@ -565,49 +614,43 @@ bool InvariantEKFBaseEstimator::Impl::updateStates(const Eigen::VectorXd& obs,
         estimateBias = false;
     }
 
-    auto PHT = P*measModelJacobian.transpose();
-    auto S = measModelJacobian*PHT + measNoiseVar;
-    auto K = PHT*(S.inverse());
+    m_PHT = P*measModelJacobian.transpose();
+    m_S = measModelJacobian*m_PHT + measNoiseVar;
+    m_K = m_PHT*(m_S.inverse());
 
     // compute innovation delta
-    Eigen::MatrixXd X;
-    Eigen::Matrix<double, 6, 1> theta;
-    extractState(state, X, theta);
+    extractState(state, m_X, m_theta);
 
-    int copyTimes = obs.rows()/X.cols();
-    Eigen::MatrixXd BigX;
-    if (!copyDiagX(X, copyTimes, BigX))
+    int copyTimes = obs.rows()/m_X.cols();
+    if (!copyDiagX(m_X, copyTimes, m_BigX))
     {
         return false;
     }
 
-    Eigen::MatrixXd innovation = BigX*obs; // minus bias terms which are zero in reduced form (Section III C of the paper)
-    Eigen::VectorXd delta = K*auxMat*innovation;
+    m_innovation = m_BigX*obs; // minus bias terms which are zero in reduced form (Section III C of the paper)
+    m_delta = m_K*auxMat*m_innovation;
 
-    Eigen::Matrix<double, 6, 1> deltaTheta;
-    deltaTheta.setZero();
+    m_deltaTheta.setZero();
     if (estimateBias)
     {
-        deltaTheta = delta.segment<6>(m_vecSizeWOBias);
+        m_deltaTheta = m_delta.segment<6>(m_vecSizeWOBias);
     }
 
     // update state
-    Eigen::MatrixXd dX;
-
-    if (!calcExpHatX(delta.segment(0, m_vecSizeWOBias), dX))
+    if (!calcExpHatX(m_delta.segment(0, m_vecSizeWOBias), m_dX))
     {
         std::cerr << "[InvariantEKFBaseEstimator::updateStates] Could not compute state update";
         return false;
     }
 
-    if (!constructState( dX*X, theta+deltaTheta, state) ) // right invariant update
+    if (!constructState( m_dX*m_X, m_theta+m_deltaTheta, state) ) // right invariant update
     {
         std::cerr << "[InvariantEKFBaseEstimator::updateStates] Could not update state";
         return false;
     }
     // update covariance
-    auto IminusKH = Eigen::MatrixXd::Identity(P.rows(), P.cols()) - K*measModelJacobian;
-    P = IminusKH*P*(IminusKH.transpose()) + K*measNoiseVar*(K.transpose());
+    m_IminusKH = Eigen::MatrixXd::Identity(P.rows(), P.cols()) - m_K*measModelJacobian;
+    P = m_IminusKH*P*(m_IminusKH.transpose()) + m_K*measNoiseVar*(m_K.transpose());
     return true;
 }
 
@@ -744,7 +787,7 @@ void InvariantEKFBaseEstimator::Impl::calcAdjointX(const FloatingBaseEstimators:
     //        |plxR        R|
     AdjX.resize(m_vecSizeWOBias, m_vecSizeWOBias);
     AdjX.setZero();
-    auto R = X.imuOrientation.toRotationMatrix();
+    Eigen::Matrix3d R = X.imuOrientation.toRotationMatrix();
 
     AdjX.block<3, 3>(m_vecOffsets.imuOrientation, m_vecOffsets.imuOrientation) =
     AdjX.block<3, 3>(m_vecOffsets.imuLinearVel, m_vecOffsets.imuLinearVel) =
@@ -781,13 +824,13 @@ void InvariantEKFBaseEstimator::Impl::calcFc(const FloatingBaseEstimators::Inter
     }
     Fc.setZero();
 
-    auto I3 = Eigen::Matrix3d::Identity();
+    Eigen::Matrix3d I3 = Eigen::Matrix3d::Identity();
     Fc.block<3, 3>(m_vecOffsets.imuLinearVel, m_vecOffsets.imuOrientation) = skew.gCross;
     Fc.block<3, 3>(m_vecOffsets.imuPosition, m_vecOffsets.imuLinearVel) = I3;
 
     if (estimateBias)
     {
-        auto R = X.imuOrientation.toRotationMatrix();
+        Eigen::Matrix3d R = X.imuOrientation.toRotationMatrix();
 
         Fc.block<3, 3>(m_vecOffsets.imuOrientation, m_vecOffsets.gyroBias) = -R;
 
@@ -833,7 +876,7 @@ void InvariantEKFBaseEstimator::Impl::calcQc(const FloatingBaseEstimators::Inter
         Qc.block<3, 3>(m_vecOffsets.accBias, m_vecOffsets.accBias) = static_cast<Eigen::Matrix3d>(Qba.asDiagonal());
     }
 
-    auto R = X.imuOrientation.toRotationMatrix();
+    Eigen::Matrix3d R = X.imuOrientation.toRotationMatrix();
     Eigen::Vector3d Qlf, Qrf;
     if (meas.lfInContact)
     {
@@ -904,6 +947,7 @@ bool InvariantEKFBaseEstimator::Impl::copyDiagX(const Eigen::MatrixXd& X,
         return false;
     }
 
+    BigX.resize(0, 0);
     int dimX = X.cols();
     for (int i = 0; i < n; ++i)
     {

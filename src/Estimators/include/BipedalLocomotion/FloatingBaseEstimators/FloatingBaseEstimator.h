@@ -88,8 +88,8 @@ public:
         * @param[in] encoders joint positions through encoder measurements
         * @param[out] IMU_H_l_foot pose of the left foot contact frame with respect to the IMU frame
         * @param[out] IMU_H_r_foot pose of the right foot contact frame with respect to the IMU frame
-        * @param[out] J_IMULF explicit Jacobian of left foot frame with respect to IMU frame
-        * @param[out] J_IMURF explicit Jacobian of right foot frame with respect to IMU frame
+        * @param[out] J_IMULF Jacobian of left foot frame with respect to IMU frame in mixed-velocity trivialization
+        * @param[out] J_IMURF Jacobian of right foot frame with respect to IMU frame in mixed-velocity trivialization
         * @return True in case of success, false otherwise.
         */
         bool getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
