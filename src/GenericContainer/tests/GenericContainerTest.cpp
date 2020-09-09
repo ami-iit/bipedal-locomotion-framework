@@ -26,10 +26,9 @@ void foo(GenericContainer::Vector<double>::Ref test)
     return;
 }
 
-void fooConst(GenericContainer::Vector<const double>::Ref test)
+void fooConst(const GenericContainer::Vector<const double>::Ref test)
 {
     test.data();
-//    test.resize(5);
     return;
 }
 
