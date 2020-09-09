@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
+if(FRAMEWORK_COMPILE_Estimators)
   add_bipedal_test(
     NAME RecursiveLeastSquare
     SOURCES RecursiveLeastSquareTest.cpp
