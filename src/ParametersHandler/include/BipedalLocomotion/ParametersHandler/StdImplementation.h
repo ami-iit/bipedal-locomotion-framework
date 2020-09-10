@@ -30,52 +30,6 @@ class StdImplementation : public IParametersHandler
                                                         std::any objects */
 
     /**
-     * Get a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const final;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const final;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) final;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) final;
-
-
-    /**
      * Private implementation of getParameter
      * @param parameterName name of the parameter
      * @param parameter parameter
@@ -157,6 +111,30 @@ public:
     bool getParameter(const std::string& parameterName, std::vector<bool>& parameter) const final;
 
     /**
+     * Get a parameter [GenericContainer::Vector<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>::Ref parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>::Ref parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>::Ref parameter) const final;
+
+    /**
      * Set a parameter [int]
      * @param parameterName name of the parameter
      * @param parameter parameter
@@ -199,6 +177,27 @@ public:
      * @param parameter parameter
      */
     void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<int>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>::Ref parameter) final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>::Ref parameter) final;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>::Ref parameter) final;
 
     /**
      * Get a Group from the handler.

@@ -71,7 +71,7 @@ TEST_CASE("Get parameters")
     SECTION("Get Vector")
     {
         std::vector<int> element;
-        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element, VectorResizeMode::Resizable));
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);
     }
 
@@ -80,7 +80,7 @@ TEST_CASE("Get parameters")
         fibonacciNumbers.push_back(34);
         parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
         std::vector<int> element;
-        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element, VectorResizeMode::Resizable));
+        REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);
     }
 
@@ -93,7 +93,7 @@ TEST_CASE("Get parameters")
         REQUIRE(cartoonsGroup);
 
         std::vector<std::string> element;
-        REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element, VectorResizeMode::Resizable));
+        REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
         REQUIRE(element == donaldsNephews);
     }
 
@@ -177,7 +177,7 @@ TEST_CASE("Get parameters")
 
         {
             std::vector<int> element;
-            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element, VectorResizeMode::Resizable));
+            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
             REQUIRE(element == fibonacciNumbers);
         }
 
@@ -186,14 +186,14 @@ TEST_CASE("Get parameters")
 
         {
             std::vector<std::string> element;
-            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element, VectorResizeMode::Resizable));
+            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
             REQUIRE(element == donaldsNephews);
 
         }
 
         {
             std::vector<int> element(fibonacciNumbers.size());
-            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element, VectorResizeMode::Resizable));
+            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
             REQUIRE(element == fibonacciNumbers);
         }
 
