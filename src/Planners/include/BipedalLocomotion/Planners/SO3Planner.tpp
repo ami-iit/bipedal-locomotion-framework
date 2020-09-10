@@ -19,8 +19,8 @@ namespace BipedalLocomotion
 namespace Planners
 {
 
-template <Representation representation>
-bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation,
+template <LieGroupTrivialization trivialization>
+bool SO3Planner<trivialization>::setRotations(const manif::SO3d& initialRotation,
                                               const manif::SO3d& finalRotation,
                                               const double& duration)
 {
@@ -35,11 +35,11 @@ bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation
     m_initialRotation = initialRotation;
     m_T = duration;
 
-    if constexpr (representation == Representation::RightTrivialized)
+    if constexpr (trivialization == LieGroupTrivialization::Right)
     {
         m_distance = (finalRotation * initialRotation.inverse()).log();
     } else
-    // Please read it as representation == Representation::LeftTrivialized
+    // Please read it as trivialization == LieGroupTrivialization::Left
     {
         m_distance = (initialRotation.inverse() * finalRotation).log();
     }
@@ -55,9 +55,9 @@ bool SO3Planner<representation>::setRotations(const manif::SO3d& initialRotation
     return true;
 }
 
-template <Representation representation>
+template <LieGroupTrivialization trivialization>
 template <class Derived>
-bool SO3Planner<representation>::evaluatePoint(const double& time,
+bool SO3Planner<trivialization>::evaluatePoint(const double& time,
                                                manif::SO3d& rotation,
                                                manif::SO3TangentBase<Derived>& velocity,
                                                manif::SO3TangentBase<Derived>& acceleration) const
@@ -85,19 +85,19 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
                      + 6 * std::pow(t / m_T, 5);
     const manif::SO3d::Tangent displacementTangent = m_distance * s;
 
-    if constexpr (representation == Representation::RightTrivialized)
+    if constexpr (trivialization == LieGroupTrivialization::Right)
     {
         // please read this as R(t) = exp(displacementTangent) * initialRotation
         rotation = displacementTangent.exp() * m_initialRotation;
     } else
-    // Please read it as representation == Representation::LeftTrivialized
+    // Please read it as trivialization == LieGroupTrivialization::Left
     {
         // please read this as R(t) = initialRotation * exp(displacementTangent)
         rotation = m_initialRotation * displacementTangent.exp();
     }
 
     // compute velocity (it is expressed in body / inertial frame accordingly to the chosen
-    // representation)
+    // trivialization)
     // You can find the computation of sDot in "Modern Robotics: Mechanics, Planning, and Control"
     // (Chapter 9.2)
     const double sDot = 10 * 3 * std::pow(t, 2) / std::pow(m_T, 3)
@@ -106,7 +106,7 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     velocity = m_distance * sDot;
 
     // compute acceleration (it is expressed in body / inertial frame accordingly to the chosen
-    // representation)
+    // trivialization)
     // You can find the computation of sDdot in "Modern Robotics: Mechanics,
     // Planning, and Control" (Chapter 9.2)
     const double sDdot = 10 * 3 * 2 * t / std::pow(m_T, 3)
@@ -117,15 +117,15 @@ bool SO3Planner<representation>::evaluatePoint(const double& time,
     return true;
 }
 
-template <Representation representation>
-bool SO3Planner<representation>::evaluatePoint(const double& time,
+template <LieGroupTrivialization trivialization>
+bool SO3Planner<trivialization>::evaluatePoint(const double& time,
                                                SO3PlannerState& state) const
 {
     return this->evaluatePoint(time, state.rotation, state.velocity, state.acceleration);
 }
 
-template <Representation representation>
-bool SO3Planner<representation>::setAdvanceTimeStep(const double& dt)
+template <LieGroupTrivialization trivialization>
+bool SO3Planner<trivialization>::setAdvanceTimeStep(const double& dt)
 {
     if (dt <= 0)
     {
@@ -140,13 +140,13 @@ bool SO3Planner<representation>::setAdvanceTimeStep(const double& dt)
     return true;
 }
 
-template <Representation representation> bool SO3Planner<representation>::isValid() const
+template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>::isValid() const
 {
     // if the time step is different from zero
     return (m_advanceTimeStep != 0.0);
 }
 
-template <Representation representation> bool SO3Planner<representation>::advance()
+template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>::advance()
 {
     if (!this->isValid())
     {
@@ -163,8 +163,8 @@ template <Representation representation> bool SO3Planner<representation>::advanc
     return evaluatePoint(m_advanceCurrentTime, m_state);
 }
 
-template <Representation representation>
-const SO3PlannerState& SO3Planner<representation>::get() const
+template <LieGroupTrivialization trivialization>
+const SO3PlannerState& SO3Planner<trivialization>::get() const
 {
     return m_state;
 }

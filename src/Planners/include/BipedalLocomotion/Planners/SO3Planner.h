@@ -18,17 +18,17 @@ namespace Planners
 {
 
 /**
- * Representation used in the SO3Planner
+ * Trivialization used in the SO3Planner
  */
-enum class Representation
+enum class LieGroupTrivialization
 {
-    LeftTrivialized,
-    RightTrivialized
+    Left,
+    Right
 };
 
 /**
  * SO3PlannerState contains the state of the planner. The velocity and the acceleration are
- * expressed in inertial/body frame depending on the Representation used by the planner.
+ * expressed in inertial/body frame depending on the Trivialization used by the planner.
  */
 struct SO3PlannerState
 {
@@ -43,14 +43,14 @@ struct SO3PlannerState
  * SO3Planner implements a minimum jerk trajectory planner for object belonging to SO(3). The
  * planner assumes initial and final angular acceleration and velocity of the object equal to zero.
  * The generated velocity and acceleration are written in the inertial or in body-fixed frame
- * accordingly to the chosen representation.
- * @tparam chosen representation:
+ * accordingly to the chosen trivialization.
+ * @tparam chosen trivialization:
  * - The right trivialization planner generates a velocity and an acceleration expressed in the
  * inertial frame.
  * - The left trivialization planner generates a velocity and an acceleration expressed in the
  * body-fixed frame.
  */
-template <Representation representation>
+template <LieGroupTrivialization trivialization>
 class SO3Planner : public System::Advanceable<SO3PlannerState>
 {
     /** Initial rotation from the inertial frame to the body frame. Namely
@@ -58,7 +58,7 @@ class SO3Planner : public System::Advanceable<SO3PlannerState>
     manif::SO3d m_initialRotation{manif::SO3d::Identity()};
 
     /** Distance bewteen the initial rotation and the final one. The definition of the distance
-     * depends on the chosen Representation */
+     * depends on the chosen Trivialization */
     manif::SO3d::Tangent m_distance{manif::SO3d::Tangent::Zero()};
 
     double m_T{1.0}; /**< Trajectory duration in seconds */
@@ -143,13 +143,13 @@ public:
  * The right trivialization planner generates a velocity and an acceleration expressed in the
  * inertial frame.
  */
-using SO3PlannerInertial = SO3Planner<Representation::RightTrivialized>;
+using SO3PlannerInertial = SO3Planner<LieGroupTrivialization::Right>;
 
 /**
  * The left trivialization planner generates a velocity and an acceleration expressed in the
  * body-fixed frame.
  */
-using SO3PlannerBody = SO3Planner<Representation::LeftTrivialized>;
+using SO3PlannerBody = SO3Planner<LieGroupTrivialization::Left>;
 
 } // namespace Planners
 } // namespace BipedalLocomotion
