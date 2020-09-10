@@ -258,6 +258,35 @@ struct is_specialization<Ref<Args...>, Ref> : std::true_type
 {
 };
 
+/**
+ * is_data_const is a template metafunction to detect if the output of T.data() is const.
+ */
+template<typename T, typename = void >
+struct is_data_const : std::false_type
+{
+};
+
+/**
+ * is_data_const is a template metafunction to detect if the output of T.data() is const.
+ */
+template <typename T>
+    struct is_data_const<T,
+                     std::enable_if_t<is_data_available<T>::value,
+                                      std::enable_if_t<std::is_const_v<decltype(std::declval<T>().data())>>>> : std::true_type
+{
+};
+
+/**
+ * is_container_const is a struct containing a boolean value.
+ * If the container is either const itself, or if the output of Container.data() is const, then value is true.
+ */
+template <typename Container>
+struct is_container_const
+{
+    static constexpr bool value = std::is_const_v<Container> ||
+                                  is_data_const<Container>::value;
+};
+
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_TEMPLATEHELPERS_H

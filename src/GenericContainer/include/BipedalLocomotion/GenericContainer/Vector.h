@@ -93,7 +93,7 @@ public:
     using eigen_map_const_type = typename Eigen::Map<const Eigen::Matrix<T, Eigen::Dynamic, 1>>;
 
 
-private:
+protected:
     /**
      * @brief Span of the pointed vector. This allows to point to an existing container without owning it.
      */
@@ -103,12 +103,13 @@ private:
      */
     resize_function_type m_resizeLambda;
 
-public:
-
     /**
-     * The default constructor is deleted. In fact, once the Vector is built, it is assumed to point to an existing container.
+     * The default constructor is private. In fact, once the Vector is built, it is assumed to point to an existing container.
+     * To be used only if m_span and m_resizeLamba are set manually.
      */
-    Vector() = delete;
+    Vector() = default;
+
+public:
 
     /**
      * @brief Constructor
@@ -158,7 +159,7 @@ public:
     }
 
     /**
-     * @brief Copies the content of the vecto
+     * @brief Copies the content of the vector
      * @param other Vector from which to copy
      * @return true in case of success. False if the two have different size and this is not resizable.
      *
@@ -184,33 +185,80 @@ public:
     }
 
     /**
+     * @brief Copies the content of the vector
+     * @param other Span from which to copy
+     * @return true in case of success. False if the two have different size and this is not resizable.
+     *
+     * @warning It performs memory allocation if this is resizable and the sizes are different.
+     */
+    bool clone(iDynTree::Span<T> other)
+    {
+        if (size() != other.size())
+        {
+            if (!resizeVector(other.size()))
+            {
+                std::cerr << "[GenericContainer::Vector] Failed to resize. Copy aborted" << std::endl;
+                return false;
+            }
+        }
+
+        for (index_type i = 0; i < size(); ++i)
+        {
+            this->operator[](i) = other[i];
+        }
+
+        return true;
+    }
+
+    /**
      * @brief operator = Copies the content
      * @param other Vector from which to copy
+     * @returns A reference to the vector.
      *
      * It calls clone(). There is an assert on its return value.
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
-    void operator=(const Vector<T>& other)
+    Vector<T>& operator=(const Vector<T>& other)
     {
         bool ok = clone(other);
         assert(ok);
         unused(ok);
+        return *this;
+    }
+
+    /**
+     * @brief operator = Copies the content
+     * @param other Vector from which to copy
+     * @returns A reference to the vector.
+     *
+     * It calls clone(). There is an assert on its return value.
+     *
+     * @warning It performs memory allocation if this is resizable and the sizes are different.
+     */
+    Vector<T>& operator=(iDynTree::Span<T> other)
+    {
+        bool ok = clone(other);
+        assert(ok);
+        unused(ok);
+        return *this;
     }
 
     /**
      * @brief Move operator = Copies the content
      * @param other Vector from which to copy
+     * @returns A reference to the vector.
      *
      * It calls clone(). There is an assert on its return value.
      *
      * @warning It performs memory allocation if this is resizable and the sizes are different.
      */
-    void operator=(Vector<T>&& other)
+    Vector<T>& operator=(Vector<T>&& other)
     {
         bool ok = clone(other);
         assert(ok);
         unused(ok);
+        return *this;
     }
 
     /**
@@ -487,6 +535,11 @@ public:
     {
         return eigen_map_const_type(data(), size());
     }
+
+    /**
+     * Forward declaration of Ref, which is used as a reference to the Vector (as &).
+     */
+    class Ref;
 
 };
 
@@ -819,6 +872,157 @@ typename Vector<const typename container_data<Class>::type>::eigen_map_const_typ
 }
 
 }
+
+/**
+ * The class ref is used a substitution to a classical reference to a Vector. The advantage of using this,
+ * is that custom vectors (all those supported by GenericContainer::Vector) can be implicitly casted to Ref.
+ * Ref does not allocate any memory in construction, hence can be used as a parameter to be passed by copy.
+ * The = operator clones the content.
+ * Ref inherits Vector<T>, hence it can be used as it was a Vector<T>.
+ */
+template <typename T>
+class BipedalLocomotion::GenericContainer::Vector<T>::Ref : public BipedalLocomotion::GenericContainer::Vector<T>
+{
+public:
+
+    /**
+     * @brief A reference cannot exist on its own.
+     */
+    Ref() = delete;
+
+    /**
+     * @brief Copy constructor
+     * @param other The ref from which to copy the context.
+     */
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>::Ref& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    /**
+     * @brief Move constructor
+     * @param other The ref from which to get the context.
+     */
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>::Ref&& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    /**
+     * @brief Constructor from a GenericContainer::Vector<T>&
+     * @param other The input vector from which the context is copied
+     */
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    /**
+     * @brief Constructor from a GenericContainer::Vector<T>&
+     * @param other The input vector from which the context is taken
+     * In principle, Ref should be the reference of a Vector<T> which should remain alive while
+     * Ref is alive. On the other hand, Vector<T> is only a pointer to some data which does not own.
+     * Hence, Ref can remain alive even if the Vector<T> is deleted, provided that the original container
+     * stays alive.
+     */
+    Ref(BipedalLocomotion::GenericContainer::Vector<T>&& other)
+    {
+        m_span = other.m_span;
+        m_resizeLambda = other.m_resizeLambda;
+    }
+
+    /**
+     * Constructor from another container.
+     * This is used if:
+     * - the input container is not a GenericContainer::Vector, to avoid ambiguities with other constructors
+     * - the input container is not a string. This allows using Ref and string with overloaded methods.
+     * - a GenericContainer::Vector<T> can be constructed from the Container
+     * - T is not const
+     * - the input container is not const.
+     */
+    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
+                                                               !std::is_same<Vector, std::string>::value &&
+                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               !std::is_const_v<T> &&
+                                                               !is_container_const<Vector>::value>::type>
+    Ref(Vector& input)
+    {
+        if constexpr (is_span_constructible<Vector>::value)
+        {
+            m_span = iDynTree::make_span(input);
+        } else
+        {
+            m_span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        if constexpr (BipedalLocomotion::is_resizable<Vector>::value)
+        {
+            m_resizeLambda = DefaultVectorResizer(input);
+        }
+        else
+        {
+            iDynTree::Span<T> copiedSpan = m_span;
+            m_resizeLambda = [copiedSpan](index_type size){unused(size); return copiedSpan;};
+        }
+
+    }
+
+    /**
+     * Constructor from another container.
+     * This is used if:
+     * - the input container is not a GenericContainer::Vector, to avoid ambiguities with other constructors
+     * - the input container is not a string. This allows using Ref and string with overloaded methods.
+     * - a GenericContainer::Vector<T> can be constructed from the Container
+     * - T is const.
+     */
+    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
+                                                               !std::is_same<Vector, std::string>::value &&
+                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               std::is_const_v<T>>::type>
+    Ref(const Vector& input)
+    {
+        if constexpr (is_span_constructible<Vector>::value)
+        {
+            m_span = iDynTree::make_span(input);
+        } else
+        {
+            m_span = iDynTree::make_span(input.data(), input.size());
+        }
+
+        iDynTree::Span<T> copiedSpan = m_span;
+        m_resizeLambda = [copiedSpan](index_type size){unused(size); return copiedSpan;};
+
+    }
+
+    /**
+    * Default constructor
+    */
+   ~Ref() = default;
+
+   /**
+    * @brief Copy operator
+    * @param other The other Ref, from which the data is copied
+    * @return A reference to the vector resulting from the copy.
+    */
+   Ref operator=(const Ref& other)
+   {
+       return static_cast<BipedalLocomotion::GenericContainer::Vector<T>&>(*this) = other;
+   }
+
+   /**
+    * @brief Copy operator
+    * @param other The other Ref, from which the data is copied
+    * @return A reference to the vector resulting from the copy.
+    */
+   Ref operator=(Ref&& other)
+   {
+       return static_cast<BipedalLocomotion::GenericContainer::Vector<T>&>(*this) = other;
+   }
+
+};
 
 
 #endif // BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H

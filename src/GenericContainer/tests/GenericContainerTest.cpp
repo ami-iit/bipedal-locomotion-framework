@@ -20,6 +20,18 @@
 
 using namespace BipedalLocomotion;
 
+void foo(GenericContainer::Vector<double>::Ref test)
+{
+    test.data();
+    return;
+}
+
+void fooConst(const GenericContainer::Vector<const double>::Ref test)
+{
+    test.data();
+    return;
+}
+
 TEST_CASE("GenericContainer::Vector")
 {
     SECTION("Constructible")
@@ -53,10 +65,17 @@ TEST_CASE("GenericContainer::Vector")
 
         std::vector<double> copiedIn;
         copiedIn.resize(5);
-        GenericContainer::Vector containerToBeCopied(iDynTree::make_span(copiedIn));
+        GenericContainer::Vector<double> containerToBeCopied(copiedIn); // copied in is automatically casted to a span
 
         containerToBeCopied = container;
 
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == copiedIn[i]);
+        }
+
+        iDynTree::getRandomVector(vector);
+        containerToBeCopied = vector; //vector is automatically turned into a span
         for (long i = 0; i < container.size(); ++i)
         {
             REQUIRE(vector[i] == copiedIn[i]);
@@ -628,6 +647,66 @@ TEST_CASE("GenericContainer::Vector")
         Eigen::VectorXd d = GenericContainer::to_eigen(a) + GenericContainer::to_eigen(b);
 
         REQUIRE(d.isApprox(GenericContainer::to_eigen(c)));
+    }
+
+    SECTION("Refs")
+    {
+        std::vector<int> vec(5);
+        GenericContainer::Vector<int>::Ref stdRef(vec);
+        const std::vector<int>& cvec = vec;
+        GenericContainer::Vector<const int>::Ref stdConstRef(cvec);
+        Eigen::Vector2d eigenVec;
+        GenericContainer::Vector<double>::Ref eigenRef(eigenVec);
+        iDynTree::VectorFixSize<3> idynFixVec;
+        GenericContainer::Vector<double>::Ref idynFix(idynFixVec);
+        iDynTree::VectorDynSize idynVec;
+        GenericContainer::Vector<double>::Ref idyn(idynVec);
+        const iDynTree::VectorDynSize& idynConstVec = idynVec;
+        GenericContainer::Vector<const double>::Ref idynConst(idynConstVec);
+    }
+
+    SECTION("Generic input to function")
+    {
+        std::vector<double> vec(5);
+        foo(vec);
+        const std::vector<double>& cvec = vec;
+        fooConst(cvec);
+        Eigen::Vector2d eigenVec;
+        foo(eigenVec);
+        iDynTree::VectorFixSize<3> idynFixVec;
+        foo(idynFixVec);
+        iDynTree::VectorDynSize idynVec;
+        foo(idynVec);
+        fooConst(idynVec);
+        foo(GenericContainer::make_vector(idynVec, GenericContainer::VectorResizeMode::Fixed));
+    }
+
+    SECTION("Copy of Refs")
+    {
+        iDynTree::VectorDynSize vector(5);
+        iDynTree::getRandomVector(vector);
+        GenericContainer::Vector<double>::Ref container(vector);
+
+        std::vector<double> copiedIn;
+        copiedIn.resize(5);
+        GenericContainer::Vector<double> containerToBeCopied(copiedIn); // copied in is automatically casted to a span
+
+        containerToBeCopied = container; //Ref = Vector
+
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == copiedIn[i]);
+        }
+
+        Eigen::VectorXd otherCopiedIn;
+        GenericContainer::Vector<double>::Ref otherContainerToBeCopied(otherCopiedIn);
+
+        otherContainerToBeCopied = container;
+
+        for (long i = 0; i < container.size(); ++i)
+        {
+            REQUIRE(vector[i] == otherCopiedIn[i]);
+        }
     }
 
 }
