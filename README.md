@@ -8,7 +8,7 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
 - [:page_facing_up: Dependencies](#page_facing_up-dependencies)
 - [:hammer: Build the suite](#hammer-build-the-suite)
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
-- [:books: Doxigen documentation](#books-doxigen-documentation)
+- [:books: Doxygen documentation](#books-doxygen-documentation)
 
 # :orange_book: Exported components
 - **BipedalLocomotion::Framework**: It is an _interface_ library that gathers all
@@ -84,7 +84,7 @@ bipedal-locomotion-framework provides native CMake support which allows the libr
 
 bipedal-locomotion-framework exports the `CMake` targets presented in [Exported components](#orange_book-exported-components) section. The targets can be imported using the `find_package` CMake command and used by calling `target_link_libraries`.
 
-# :books: Doxigen documentation
+# :books: Doxygen documentation
 [Here](https://dic-iit.github.io/bipedal-locomotion-framework) you can find the documentation.
 
 #
