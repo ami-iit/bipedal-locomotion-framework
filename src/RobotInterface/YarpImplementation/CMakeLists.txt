@@ -9,6 +9,6 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
     SOURCES                src/YarpRobotControl.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/RobotInterface/YarpRobotControl.h
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::RobotInterface YARP::YARP_dev
-    INSTALLATION_FOLDER ParametersHandler)
+    INSTALLATION_FOLDER    RobotInterface)
 
 endif()
