@@ -6,9 +6,10 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
 
   add_bipedal_locomotion_library(
     NAME                   RobotInterfaceYarpImplementation
-    SOURCES                src/YarpRobotControl.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotion/RobotInterface/YarpRobotControl.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::RobotInterface YARP::YARP_dev
+    SOURCES                src/YarpRobotControl.cpp src/YarpSensorBridge.cpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/RobotInterface/YarpRobotControl.h include/BipedalLocomotion/RobotInterface/YarpSensorBridge.h
+    PRIVATE_HEADERS        include/BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::RobotInterface BipedalLocomotion::System YARP::YARP_dev
     INSTALLATION_FOLDER    RobotInterface)
 
 endif()
