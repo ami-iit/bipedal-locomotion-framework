@@ -11,6 +11,13 @@
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 
+// YARP os
+#include <yarp/os/Time.h>
+
+// YARP sig
+#include <yarp/sig/Vector.h>
+#include <yarp/sig/Image.h>
+
 // YARP Sensor Interfaces
 #include <yarp/dev/IAnalogSensor.h>
 #include <yarp/dev/IGenericSensor.h>
@@ -25,6 +32,7 @@
 #include <yarp/dev/IAxisInfo.h>
 
 // std
+#include <cmath>
 #include <set>
 #include <algorithm>
 
@@ -77,18 +85,18 @@ struct YarpSensorBridge::Impl
      */
     struct
     {
-        Eigen::VectorXd remappedJointIndices;
-        Eigen::VectorXd jointPositions;
-        Eigen::VectorXd jointVelocities;
+        yarp::sig::Vector remappedJointIndices;
+        yarp::sig::Vector jointPositions;
+        yarp::sig::Vector jointVelocities;
         double receivedTimeInSeconds;
     } controlBoardRemapperMeasures;
 
-    std::unordered_map<std::string, Vector12d> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
-    std::unordered_map<std::string, Vector6d> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
-    std::unordered_map<std::string, Eigen::Vector3d> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
-    std::unordered_map<std::string, Vector6d> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
-    std::unordered_map<std::string, Eigen::MatrixXd> wholeBodyCameraRGBImages; /** < map holding images **/
-    std::unordered_map<std::string, Eigen::MatrixXd> wholeBodyCameraDepthImages; /** < map holding images **/
+    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
+    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
+    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
+    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
+    std::unordered_map<std::string, yarp::sig::Image > wholeBodyCameraRGBImages; /** < map holding images **/
+    std::unordered_map<std::string, yarp::sig::Image > wholeBodyCameraDepthImages; /** < map holding images **/
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
@@ -806,9 +814,9 @@ struct YarpSensorBridge::Impl
         controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
 
         // zero buffers
-        controlBoardRemapperMeasures.remappedJointIndices.setZero();
-        controlBoardRemapperMeasures.jointPositions.setZero();
-        controlBoardRemapperMeasures.jointVelocities.setZero();
+        controlBoardRemapperMeasures.remappedJointIndices.zero();
+        controlBoardRemapperMeasures.jointPositions.zero();
+        controlBoardRemapperMeasures.jointVelocities.zero();
     }
 
     /**
@@ -995,7 +1003,7 @@ struct YarpSensorBridge::Impl
                                         const std::unordered_map<std::string, std::pair<int, int> >& imgDimensionsMap,
                                         std::string_view interfaceType,
                                         std::unordered_map<std::string, CameraType* >& sensorMap,
-                                        std::unordered_map<std::string, Eigen::MatrixXd>& imgBuffersMap)
+                                        std::unordered_map<std::string, yarp::sig::Image>& imgBuffersMap)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllCamerasOfSpecificType] ";
         for (auto cam : camList)
@@ -1027,7 +1035,7 @@ struct YarpSensorBridge::Impl
      */
     bool resizeImageBuffers(const std::vector<std::string>& camList,
                             const std::unordered_map<std::string, std::pair<int, int> >& imgDimensionsMap,
-                            std::unordered_map<std::string, Eigen::MatrixXd>& imgBuffersMap)
+                            std::unordered_map<std::string, yarp::sig::Image>& imgBuffersMap)
     {
         for (const auto& cam : camList)
         {
@@ -1040,6 +1048,69 @@ struct YarpSensorBridge::Impl
             auto imgDim = iter->second;
             imgBuffersMap[cam].resize(imgDim.first, imgDim.second);
         }
+        return true;
+    }
+
+    /**
+     * utility function
+     */
+    double deg2rad(double deg)
+    {
+        return deg * M_PI / 180.0;
+    }
+
+    /**
+     * Read generic or analog sensor stream and update internal measurement buffer
+     */
+    template <typename SensorType, typename Derived>
+    bool readAnalogOrGenericSensor(const std::string& sensorName,
+                                   const int& nrChannelsInYARPSensor,
+                                   std::unordered_map<std::string, SensorType* >& interface,
+                                   yarp::sig::Vector& sensorMeasure,
+                                   double& timeStamp)
+    {
+        bool ok{true};
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAnalogOrGenericSensor] ";
+        if (!checkSensor(interface, sensorName))
+        {
+            return false;
+        }
+
+        sensorMeasure.resize(nrChannelsInYARPSensor);
+
+        if constexpr (std::is_same_v<SensorType, yarp::dev::IAnalogSensor>)
+        {
+            auto retValue = interface->read(sensorMeasure);
+            ok = ok && (retValue == yarp::dev::IAnalogSensor::AS_OK);
+        }
+        else if constexpr (std::is_same_v<SensorType, yarp::dev::IGenericSensor>)
+        {
+            ok = ok && interface->read(sensorMeasure);
+        }
+
+        if (!ok || (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN)))
+        {
+            std::cerr << logPrefix << " Unable to read from " << sensorName << " , use previous measurement" << std::endl;
+            return false;
+        }
+
+        // for IMU measurements convert angular velocity  measurements to radians per s
+        // and convert orientation measurements to radians
+        // enforcing the assumption that if dimensions of sensor channel is 12 then its an IMU sensor
+        if (nrChannelsInYARPSensor == nrChannelsInYARPGenericIMUSensor)
+        {
+            // See http://wiki.icub.org/wiki/Inertial_Sensor
+            // 0, 1 and 2 indices correspond to orientation measurements
+            sensorMeasure[0] = deg2rad(sensorMeasure[0]);
+            sensorMeasure[1] = deg2rad(sensorMeasure[1]);
+            sensorMeasure[2] = deg2rad(sensorMeasure[2]);
+            // 6, 7 and 8 indices correspond to angular velocity measurements
+            sensorMeasure[6] = deg2rad(sensorMeasure[6]);
+            sensorMeasure[7] = deg2rad(sensorMeasure[7]);
+            sensorMeasure[8] = deg2rad(sensorMeasure[8]);
+        }
+
+        timeStamp = yarp::os::Time::now();
         return true;
     }
 };
