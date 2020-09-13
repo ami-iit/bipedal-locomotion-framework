@@ -35,6 +35,7 @@ struct SensorBridgeOptions
     bool isIMUEnabled{false}; /**< flag to connect IMU measurement sources */
     bool isLinearAccelerometerEnabled{false}; /**< flag to connect linear accelerometer measurement sources */
     bool isGyroscopeEnabled{false}; /**< flag to connect gyroscope measurement sources */
+    bool isOrientationSensorEnabled{false}; /**< flag to connect gyroscope measurement sources */
     bool isMagnetometerEnabled{false}; /**< flag to connect magnetometer measurement sources */
     bool isSixAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isThreeAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
@@ -61,6 +62,17 @@ struct SensorLists
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached to the bridge */
     std::vector<std::string> rgbCamerasList; /**< list of rgb cameras attached to the bridge */
     std::vector<std::string> depthCamerasList; /**< list of depth cameras attached to the bridge */
+};
+
+
+/**
+ * Meta data struct to hold list of sensors and configured options
+ * available from the Sensor bridge interface
+ */
+struct SensorBridgeMetaData
+{
+  SensorLists sensorsList;
+  SensorBridgeOptions bridgeOptions;
 };
 
 /**
