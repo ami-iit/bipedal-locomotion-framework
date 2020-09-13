@@ -97,9 +97,9 @@ public:
         rgbCamerasList = std::vector<std::string>{""};
         return true;
     };
-    virtual bool getDepthCamerasList(std::vector<std::string>& depthCamerasList) override
+    virtual bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) override
     {
-        depthCamerasList = std::vector<std::string>{""};
+        rgbdCamerasList = std::vector<std::string>{""};
         return true;
     };
 

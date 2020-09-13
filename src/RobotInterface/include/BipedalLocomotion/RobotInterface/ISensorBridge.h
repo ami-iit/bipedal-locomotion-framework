@@ -43,7 +43,8 @@ struct SensorBridgeOptions
     bool isCameraEnabled{false}; /**< flag to connect camera sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<int, int> > imgDimensions; /**< dimensions of the camera images available through camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<int, int> > rgbImgDimensions; /**< dimensions of the images available through rgb camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<int, int> > rgbdImgDimensions; /**< dimensions of the depth images available through rgbd camera streams, to be configured at initialization */
 };
 
 /**
@@ -61,7 +62,7 @@ struct SensorLists
     std::vector<std::string> threeAxisForceTorqueSensorsList; /**< list of three axis force torque sensors attached to the bridge */
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached to the bridge */
     std::vector<std::string> rgbCamerasList; /**< list of rgb cameras attached to the bridge */
-    std::vector<std::string> depthCamerasList; /**< list of depth cameras attached to the bridge */
+    std::vector<std::string> rgbdCamerasList; /**< list of RGBD cameras attached to the bridge */
 };
 
 
@@ -164,11 +165,11 @@ public:
     virtual bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) = 0;
 
     /**
-     * Get depth cameras
-     * @param[out] depthCamerasList list of depth cameras attached to the bridge
+     * Get RGBD cameras
+     * @param[out] rgbdCamerasList list of rgbd cameras attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getDepthCamerasList(std::vector<std::string>& depthCamerasList) = 0;
+    virtual bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) = 0;
 
     /**
      * Get joint position  in radians

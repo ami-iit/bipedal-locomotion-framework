@@ -150,11 +150,11 @@ public:
     bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) final;
 
     /**
-     * Get depth cameras
-     * @param[out] depthCamerasList list of depth cameras attached to the bridge
+     * Get RGBD cameras
+     * @param[out] rgbdCamerasList list of depth cameras attached to the bridge
      * @return  true/false in case of success/failure
      */
-    bool getDepthCamerasList(std::vector<std::string>& depthCamerasList) final;
+    bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) final;
 
     /**
      * Get joint position  in radians

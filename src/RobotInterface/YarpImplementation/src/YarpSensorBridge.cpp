@@ -176,13 +176,13 @@ bool YarpSensorBridge::getRGBCamerasList(std::vector<std::string>& rgbCamerasLis
     return true;
 }
 
-bool YarpSensorBridge::getDepthCamerasList(std::vector<std::string>& depthCamerasList)
+bool YarpSensorBridge::getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList)
 {
-    if (!m_pimpl->checkValid("[YarpSensorBridge::getDepthCamerasList]"))
+    if (!m_pimpl->checkValid("[YarpSensorBridge::getRGBDCamerasList]"))
     {
         return false;
     }
-    depthCamerasList = m_pimpl->metaData.sensorsList.depthCamerasList;
+    rgbdCamerasList = m_pimpl->metaData.sensorsList.rgbdCamerasList;
     return true;
 }
 

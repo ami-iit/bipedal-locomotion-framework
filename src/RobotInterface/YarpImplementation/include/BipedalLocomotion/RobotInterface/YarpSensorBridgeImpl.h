@@ -87,7 +87,8 @@ struct YarpSensorBridge::Impl
     std::unordered_map<std::string, Vector6d> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
     std::unordered_map<std::string, Eigen::Vector3d> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
     std::unordered_map<std::string, Vector6d> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
-    std::unordered_map<std::string, Eigen::MatrixXd> wholeBodyCameraImages; /** < map holding images **/
+    std::unordered_map<std::string, Eigen::MatrixXd> wholeBodyCameraRGBImages; /** < map holding images **/
+    std::unordered_map<std::string, Eigen::MatrixXd> wholeBodyCameraDepthImages; /** < map holding images **/
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
@@ -282,41 +283,41 @@ struct YarpSensorBridge::Impl
             {
                 std::pair<int, int> imgDimensions(rgbWidth[idx], rgbHeight[idx]);
                 auto cameraName{metaData.sensorsList.rgbCamerasList[idx]};
-                metaData.bridgeOptions.imgDimensions[cameraName] = imgDimensions;
+                metaData.bridgeOptions.rgbImgDimensions[cameraName] = imgDimensions;
             }
         }
 
-        if (ptr->getParameter("depth_cameras_list", metaData.sensorsList.depthCamerasList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("rgbd_cameras_list", metaData.sensorsList.rgbdCamerasList, VectorResizeMode::Resizable))
         {
             metaData.bridgeOptions.isCameraEnabled = true;
 
-            std::vector<int> depthCamWidth, depthCamHeight;
-            if (ptr->getParameter("depth_image_width", depthCamWidth, VectorResizeMode::Resizable))
+            std::vector<int> rgbdCamWidth, rgbdCamHeight;
+            if (ptr->getParameter("rgbd_image_width", rgbdCamWidth, VectorResizeMode::Resizable))
             {
-                std::cerr << logPrefix << " Required parameter \"depth_image_width\" not available in the configuration"
+                std::cerr << logPrefix << " Required parameter \"rgbd_image_width\" not available in the configuration"
                           << std::endl;
                 return false;
             }
 
-            if (ptr->getParameter("depth_image_height", depthCamHeight, VectorResizeMode::Resizable))
+            if (ptr->getParameter("rgbd_image_height", rgbdCamHeight, VectorResizeMode::Resizable))
             {
-                std::cerr << logPrefix << " Required parameter \"depth_image_height\" not available in the configuration"
+                std::cerr << logPrefix << " Required parameter \"rgbd_image_height\" not available in the configuration"
                           << std::endl;
                 return false;
             }
 
-            if ( (depthCamWidth.size() != metaData.sensorsList.depthCamerasList.size()) ||
-                (depthCamHeight.size() != metaData.sensorsList.depthCamerasList.size()) )
+            if ( (rgbdCamWidth.size() != metaData.sensorsList.rgbdCamerasList.size()) ||
+                (rgbdCamHeight.size() != metaData.sensorsList.rgbdCamerasList.size()) )
             {
                 std::cerr << logPrefix << " Parameters list size mismatch" << std::endl;
                 return false;
             }
 
-            for (int idx = 0; idx < depthCamHeight.size(); idx++)
+            for (int idx = 0; idx < rgbdCamHeight.size(); idx++)
             {
-                std::pair<int, int> imgDimensions(depthCamWidth[idx], depthCamHeight[idx]);
-                auto cameraName{metaData.sensorsList.depthCamerasList[idx]};
-                metaData.bridgeOptions.imgDimensions[cameraName] = imgDimensions;
+                std::pair<int, int> imgDimensions(rgbdCamWidth[idx], rgbdCamHeight[idx]);
+                auto cameraName{metaData.sensorsList.rgbdCamerasList[idx]};
+                metaData.bridgeOptions.rgbdImgDimensions[cameraName] = imgDimensions;
             }
         }
 
@@ -955,21 +956,29 @@ struct YarpSensorBridge::Impl
         std::string_view interfaceType{"RGB Cameras"};
         if (!attachAllCamerasOfSpecificType(devList,
                                             metaData.sensorsList.rgbCamerasList,
-                                            metaData.bridgeOptions.imgDimensions,
+                                            metaData.bridgeOptions.rgbImgDimensions,
                                             interfaceType,
                                             wholeBodyFrameGrabberInterface,
-                                            wholeBodyCameraImages))
+                                            wholeBodyCameraRGBImages))
         {
             return false;
         }
 
-        std::string_view interfaceTypeDepth = "Depth Cameras";
+        std::string_view interfaceTypeDepth = "RGBD Cameras";
         if (!attachAllCamerasOfSpecificType(devList,
-                                            metaData.sensorsList.depthCamerasList,
-                                            metaData.bridgeOptions.imgDimensions,
+                                            metaData.sensorsList.rgbdCamerasList,
+                                            metaData.bridgeOptions.rgbdImgDimensions,
                                             interfaceTypeDepth,
                                             wholeBodyRGBDInterface,
-                                            wholeBodyCameraImages))
+                                            wholeBodyCameraDepthImages))
+        {
+            return false;
+        }
+
+        // resize also rgb images of RGBD cameras
+        if (!resizeImageBuffers(metaData.sensorsList.rgbdCamerasList,
+                                metaData.bridgeOptions.rgbdImgDimensions,
+                                wholeBodyCameraRGBImages))
         {
             return false;
         }
@@ -999,7 +1008,7 @@ struct YarpSensorBridge::Impl
 
         if (sensorMap.size() != camList.size())
         {
-            std::cout << logPrefix << " could not attach all desired rgb cameras " << interfaceType  << "." << std::endl;
+            std::cout << logPrefix << " could not attach all desired cameras of type " << interfaceType  << "." << std::endl;
             return false;
         }
 
