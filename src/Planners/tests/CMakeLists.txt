@@ -26,3 +26,8 @@ add_bipedal_test(
   NAME QuinticSpline
   SOURCES QuinticSplineTest.cpp
   LINKS BipedalLocomotion::Planners)
+
+add_bipedal_test(
+  NAME SO3Planner
+  SOURCES SO3PlannerTest.cpp
+  LINKS BipedalLocomotion::Planners)
