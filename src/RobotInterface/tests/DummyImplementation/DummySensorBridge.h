@@ -20,7 +20,7 @@ namespace RobotInterface
 class DummySensorBridge : public ISensorBridge
 {
 public:
-    virtual bool initialize(std::weak_ptr<IParametersHandler> handler) override
+    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override
     {
         if (!populateSensorBridgeOptionsFromConfig(handler, m_options))
         {
@@ -168,7 +168,7 @@ public:
                                Eigen::Ref<Eigen::MatrixXd> depthImg,
                                double* receiveTimeInSeconds = nullptr) override { return true; };
 protected:
-    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                       SensorBridgeOptions& sensorBridgeOptions) override
     {
         auto handle = handler.lock();
@@ -197,7 +197,7 @@ protected:
         return true;
     };
 
-    virtual bool populateSensorListsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorListsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                const SensorBridgeOptions& sensorBridgeOptions,
                                                SensorLists& sensorLists) override
     {

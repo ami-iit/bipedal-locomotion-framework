@@ -33,6 +33,48 @@ namespace RobotInterface
  * - Depth Cameras through RGBD sensor interface
  * - Camera images through OpenCV Grabber interface
  *
+ * The YarpSensorBridge expects a list of device drivers through the yarp::dev::PolyDriverList object.
+ * Each PolyDriver object in the list is compared with the configured sensor names and the assumptions listed below
+ * to infer the sensor types and relevant interfaces in order to to read the relevant data.
+ *
+ * MAJOR ASSUMPTIONS
+ * - Every sensor unit(device driver) attached to this Bridge is identified by a unique name
+ * - A single instance of a remote control board remapper and a multiple analog sensor remapper is expected if the suer wants to use the control board interfaces and multiple analog sensor interfaces
+ * - Any generic sensor interface with channel dimensions of 6 is considered to be a cartesian wrench interface
+ * - Any generic sensor interface with channel dimensions of 12 is considered as a IMU interface (server inertial)
+ * - Any analog sensor interface with channel dimensions of 6 is considered as a force torque sensor interface
+ * - The images are available through a FrameGrabber interface (RGB only) and a RGBD interface (RGB and Depth).
+ * - The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set
+ *
+ * The parameters for writing the configuration file for this class is given as,
+ * |     Group                  |         Parameter               | Type              |                   Description                   |
+ * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
+ * |                            |check_for_nan                    | int (0/1)         |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
+ * |                            |stream_joint_states              | int (0/1)         |Flag to activate the attachment to IMU sensor devices       |
+ * |                            |stream_inertials                 | int (0/1)         |Flag to activate the attachment to IMU sensor devices       |
+ * |                            |stream_cartesian_wrenches        | int (0/1)         |Flag to activate the attachment to Cartesian wrench related devices       |
+ * |                            |stream_forcetorque_sensors       | int (0/1)         |Flag to activate the attachment to six axis FT sensor devices       |
+ * |                            |stream_cameras                   | int (0/1)         |Flag to activate the attachment to Cameras devices       |
+ * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
+ * |                            |joints_list                      | vector of strings |The joints list used to open the remote control board remapper       |
+ * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
+ * |                            |imu_list                         | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 12      |
+ * |                            |gyroscopes_list                  | vector of strings |list of the names of devices opened with ThreeAxisGyroscope interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3  |
+ * |                            |accelerometers_list              | vector of strings |list of the names of devices opened with ThreeAxisLinearAccelerometers interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
+ * |                            |orientation_sensors_list         | vector of strings |list of the names of devices opened with OrientationSensors interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
+ * |                            |magnetometers_list               | vector of strings |list of the names of devices opened with ThreeAxisMagnetometer interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
+ * |CartesianWrenches           |                                 |                   |Expects the devices wrapping the cartesian wrenches ports to be opened as "genericSensorClient" device and have a channel dimension of 6                      |
+ * |                            |cartesian_wrenches_list          | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 6      |
+ * |SixAxisForceTorqueSensors   |                                 |                   |Expects the Six axis FT sensors to be opened with SixAxisForceTorqueSensors interface remapped through multiple analog sensors remapper ("multipleanalogsensorsremapper") or to be opened as analog sensor ("analogsensorclient") device having channel dimensions as 6|
+ * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors (the difference between a MAS FT and an analog FT is done internally assuming that the names are distinct form each other)|
+ * |Cameras                     |                                 |                   |Expects cameras to be opened either as remote frame grabber ("RemoteFrameGrabber") with IFrameGrabber interface or rgbd sensor ("RGBDSensorClient") with IRGBDSensor interface|
+ * |                            |rgbd_list                        | vector of strings |list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface      |
+ * |                            |rgbd_image_width                 | vector of strings |list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
+ * |                            |rgbd_image_height                | vector of strings |list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
+ * |                            |rgb_cameras_list                 | vector of strings |list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface|
+ * |                            |rgb_image_width                  | vector of strings |list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
+ * |                            |rgb_image_height                 | vector of strings |list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
+ *
  */
 class YarpSensorBridge : public ISensorBridge,
                          public BipedalLocomotion::System::Advanceable<SensorBridgeMetaData>
@@ -52,7 +94,7 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    bool initialize(std::weak_ptr<IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the list of device drivers from which the sensor measurements need to be streamed
@@ -72,6 +114,12 @@ public:
      * @return True if the object is valid, false otherwise.
      */
     bool isValid() const final;
+
+    /**
+     * @brief list of sensors that was failed to be read in the current advance() step
+     * @return list of sensors as a vector of strings
+     */
+    std::vector<std::string> getFailedSensorReads();
 
     /**
      * @brief Get the object.
@@ -332,30 +380,6 @@ public:
                        Eigen::Ref<Eigen::MatrixXd> depthImg,
                        double* receiveTimeInSeconds = nullptr) final;
 
-protected:
-    /**
-     * Helper method to maintain SensorBridgeOptions struct by populating it from the configuration parameters
-     * @note the user may choose to use/not use this method depending on their requirements for the implementation
-     * if the user chooses to not use the method, the implementation must simply contain "return true;"
-     *
-     * @param[in] handler  Parameters handler
-     * @param[in] sensorBridgeOptions SensorBridgeOptions to hold the bridge options for streaming sensor measurements
-     */
-    bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<IParametersHandler> handler,
-                                               SensorBridgeOptions& sensorBridgeOptions) final;
-
-    /**
-     * Helper method to maintain SensorLists struct by populating it from the configuration parameters
-     * @note the user may choose to use/not use this method depending on their requirements for the implementation
-     * if the user chooses to not use the method, the implementation must simply contain "return true;"
-     *
-     * @param[in] handler  Parameters handler
-     * @param[in] sensorBridgeOptions configured object of SensorBridgeOptions
-     * @param[in] sensorLists SensorLists object holding list of connected sensor devices
-     */
-     bool populateSensorListsFromConfig(std::weak_ptr<IParametersHandler> handler,
-                                        const SensorBridgeOptions& sensorBridgeOptions,
-                                        SensorLists& sensorLists) final;
 private:
     /** Private implementation */
     struct Impl;

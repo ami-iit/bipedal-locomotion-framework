@@ -36,9 +36,6 @@
 #include <set>
 #include <algorithm>
 
-using namespace BipedalLocomotion::RobotInterface;
-using namespace BipedalLocomotion::GenericContainer;
-
 namespace BipedalLocomotion
 {
 namespace RobotInterface
@@ -46,33 +43,67 @@ namespace RobotInterface
 
 struct YarpSensorBridge::Impl
 {
+    using StampedYARPVector = std::pair<yarp::sig::Vector, double>;
+    using StampedYARPImage = std::pair<yarp::sig::Image, double>;
+
     /**
      * Struct holding remapped remote control board interfaces
      */
-    struct
+    struct ControlBoardRemapperInterfaces
     {
         yarp::dev::IEncodersTimed* encoders;
         yarp::dev::IAxisInfo* axis;
-    } controlBoardRemapperInterfaces;
+    };
+
+    ControlBoardRemapperInterfaces controlBoardRemapperInterfaces;
 
     /**
      * Struct holding remapped MAS interfaces -inertial sensors related
      */
-    struct
+    struct WholeBodyMASInertialsInterface
     {
         yarp::dev::IThreeAxisLinearAccelerometers* accelerometers;
         yarp::dev::IThreeAxisGyroscopes* gyroscopes;
         yarp::dev::IThreeAxisMagnetometers* magnetometers;
         yarp::dev::IOrientationSensors* orientationSensors;
-    } wholeBodyMASInertialsInterface;
+    };
+
+    WholeBodyMASInertialsInterface wholeBodyMASInertialsInterface;
 
     /**
      * Struct holding remapped MAS interfaces - FT sensors related
      */
-    struct
+    struct WholeBodyMASForceTorquesInterface
     {
         yarp::dev::ISixAxisForceTorqueSensors* sixAxisFTSensors;
-    } wholeBodyMASForceTorquesInterface;
+    };
+
+    WholeBodyMASForceTorquesInterface wholeBodyMASForceTorquesInterface;
+
+
+    struct MASSensorIndexMaps
+    {
+        std::unordered_map<std::string, std::size_t> accelerometer;
+        std::unordered_map<std::string, std::size_t> gyroscopes;
+        std::unordered_map<std::string, std::size_t> magnetometers;
+        std::unordered_map<std::string, std::size_t> orientationSensors;
+        std::unordered_map<std::string, std::size_t> sixAxisFTSensors;
+    };
+
+    MASSensorIndexMaps masSensorIndexMaps;
+
+    /**
+     * Struct holding measurements polled from remapped remote control board interfaces
+     */
+    struct ControlBoardRemapperMeasures
+    {
+        yarp::sig::Vector remappedJointIndices;
+        yarp::sig::Vector jointPositions;
+        yarp::sig::Vector jointVelocities;
+        double receivedTimeInSeconds;
+    };
+
+    ControlBoardRemapperMeasures controlBoardRemapperMeasures;
 
     std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyAnalogIMUInterface; /** < map  of IMU sensors attached through generic sensor interfaces */
     std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyCartesianWrenchInterface; /** < map  of cartesian wrench streams attached through generic sensor interfaces */
@@ -80,36 +111,42 @@ struct YarpSensorBridge::Impl
     std::unordered_map<std::string, yarp::dev::IFrameGrabberImage*> wholeBodyFrameGrabberInterface; /** < map of cameras attached through frame grabber interfaces */
     std::unordered_map<std::string, yarp::dev::IRGBDSensor*> wholeBodyRGBDInterface; /** < map of cameras attached through RGBD interfaces */
 
-    /**
-     * Struct holding measurements polled from remapped remote control board interfaces
-     */
-    struct
-    {
-        yarp::sig::Vector remappedJointIndices;
-        yarp::sig::Vector jointPositions;
-        yarp::sig::Vector jointVelocities;
-        double receivedTimeInSeconds;
-    } controlBoardRemapperMeasures;
-
-    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
-    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
-    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
-    std::unordered_map<std::string, yarp::sig::Vector> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
-    std::unordered_map<std::string, yarp::sig::Image > wholeBodyCameraRGBImages; /** < map holding images **/
-    std::unordered_map<std::string, yarp::sig::Image > wholeBodyCameraDepthImages; /** < map holding images **/
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
+    std::unordered_map<std::string, StampedYARPImage> wholeBodyCameraRGBImages; /** < map holding images **/
+    std::unordered_map<std::string, StampedYARPImage> wholeBodyCameraDepthImages; /** < map holding images **/
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
     const int nrChannelsInYARPAnalogSixAxisFTSensor{6};
 
+    std::vector<std::string> failedSensorReads;
     SensorBridgeMetaData metaData; /**< struct holding meta data **/
     bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized */
     bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to required device drivers */
-    bool sensorDryRunEnabled{false}; /**< flag to enable running a test stream of sensor interfaces after attaching to the device drivers */
+    bool checkForNAN{false}; /**< flag to enable binary search for NANs in the incoming measurement buffers */
 
 
-    using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(std::weak_ptr<IParametersHandler>,
+    using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>,
                                                              SensorBridgeMetaData&);
+    /**
+     * Utility function to get index from vector
+     */
+    bool getIndexFromVector(const std::vector<std::string>& vec,
+                            const std::string& query,
+                            int& index)
+    {
+        auto iter{std::lower_bound(vec.begin(), vec.end(), query)};
+        if (iter == vec.end())
+        {
+            return false;
+        }
+
+        index = iter - vec.begin();
+        return true;
+    }
 
     /**
      * Checks is a stream is enabled in configuration and
@@ -118,7 +155,7 @@ struct YarpSensorBridge::Impl
     bool subConfigLoader(const std::string& enableStreamString,
                          const std::string& streamGroupString,
                          const SubConfigLoader loader,
-                         std::weak_ptr<IParametersHandler> handler,
+                         std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                          SensorBridgeMetaData& metaData,
                          bool& enableStreamFlag)
     {
@@ -155,14 +192,14 @@ struct YarpSensorBridge::Impl
      * Configure remote control board remapper meta data
      * Related to kinematics and other joint/motor relevant quantities
      */
-    bool configureRemoteControlBoardRemapper(std::weak_ptr<IParametersHandler> handler,
+    bool configureRemoteControlBoardRemapper(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                              SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureRemoteControlBoardRemapper] ";
         auto ptr = handler.lock();
         if (ptr == nullptr) { return false; }
 
-        if (!ptr->getParameter("joints_list", metaData.sensorsList.jointsList, VectorResizeMode::Resizable))
+        if (!ptr->getParameter("joints_list", metaData.sensorsList.jointsList))
         {
             std::cerr << logPrefix << " Required parameter \"joints_list\" not available in the configuration"
                       << std::endl;
@@ -176,34 +213,34 @@ struct YarpSensorBridge::Impl
     /**
      * Configure inertial sensors meta data
      */
-    bool configureInertialSensors(std::weak_ptr<IParametersHandler> handler,
+    bool configureInertialSensors(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                   SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureInertialSensors] ";
         auto ptr = handler.lock();
         if (ptr == nullptr) { return false; }
 
-        if (ptr->getParameter("imu_list", metaData.sensorsList.IMUsList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("imu_list", metaData.sensorsList.IMUsList))
         {
             metaData.bridgeOptions.isIMUEnabled = true;
         }
 
-        if (ptr->getParameter("accelerometer_list", metaData.sensorsList.linearAccelerometersList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("accelerometers_list", metaData.sensorsList.linearAccelerometersList))
         {
             metaData.bridgeOptions.isLinearAccelerometerEnabled = true;
         }
 
-        if (ptr->getParameter("gyroscopes_list", metaData.sensorsList.gyroscopesList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("gyroscopes_list", metaData.sensorsList.gyroscopesList))
         {
             metaData.bridgeOptions.isGyroscopeEnabled = true;
         }
 
-        if (ptr->getParameter("orientation_sensors_list", metaData.sensorsList.orientationSensorsList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("orientation_sensors_list", metaData.sensorsList.orientationSensorsList))
         {
             metaData.bridgeOptions.isOrientationSensorEnabled = true;
         }
 
-        if (ptr->getParameter("magnetometers_list", metaData.sensorsList.magnetometersList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("magnetometers_list", metaData.sensorsList.magnetometersList))
         {
             metaData.bridgeOptions.isMagnetometerEnabled = true;
         }
@@ -214,14 +251,17 @@ struct YarpSensorBridge::Impl
     /**
      * Configure six axis force torque sensors meta data
      */
-    bool configureSixAxisForceTorqueSensors(std::weak_ptr<IParametersHandler> handler,
+    bool configureSixAxisForceTorqueSensors(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                             SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors] ";
         auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
+        if (ptr == nullptr)
+        {
+            return false;
+        }
 
-        if (!ptr->getParameter("sixaxis_forcetorque_sensors_list", metaData.sensorsList.sixAxisForceTorqueSensorsList, VectorResizeMode::Resizable))
+        if (!ptr->getParameter("sixaxis_forcetorque_sensors_list", metaData.sensorsList.sixAxisForceTorqueSensorsList))
         {
             std::cerr << logPrefix << " Required parameter \"sixaxis_forcetorque_sensors_list\" not available in the configuration"
                       << std::endl;
@@ -234,14 +274,17 @@ struct YarpSensorBridge::Impl
     /**
      * Configure cartesian wrenches meta data
      */
-    bool configureCartesianWrenches(std::weak_ptr<IParametersHandler> handler,
+    bool configureCartesianWrenches(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                     SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureCartesianWrenchSensors] ";
         auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
+        if (ptr == nullptr)
+        {
+            return false;
+        }
 
-        if (!ptr->getParameter("cartesian_wrenches_list", metaData.sensorsList.cartesianWrenchesList, VectorResizeMode::Resizable))
+        if (!ptr->getParameter("cartesian_wrenches_list", metaData.sensorsList.cartesianWrenchesList))
         {
             std::cerr << logPrefix << " Required parameter \"cartesian_wrenches_list\" not available in the configuration"
                       << std::endl;
@@ -254,26 +297,26 @@ struct YarpSensorBridge::Impl
     /**
      * Configure cameras meta data
      */
-    bool configureCameras(std::weak_ptr<IParametersHandler> handler,
+    bool configureCameras(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                           SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureCameras] ";
         auto ptr = handler.lock();
         if (ptr == nullptr) { return false; }
 
-        if (ptr->getParameter("rgb_cameras_list", metaData.sensorsList.rgbCamerasList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("rgb_cameras_list", metaData.sensorsList.rgbCamerasList))
         {
             metaData.bridgeOptions.isCameraEnabled = true;
 
             std::vector<int> rgbWidth, rgbHeight;
-            if (ptr->getParameter("rgb_image_width", rgbWidth, VectorResizeMode::Resizable))
+            if (ptr->getParameter("rgb_image_width", rgbWidth))
             {
                 std::cerr << logPrefix << " Required parameter \"rgb_image_width\" not available in the configuration"
                       << std::endl;
                 return false;
             }
 
-            if (ptr->getParameter("rgb_image_height", rgbHeight, VectorResizeMode::Resizable))
+            if (ptr->getParameter("rgb_image_height", rgbHeight))
             {
                 std::cerr << logPrefix << " Required parameter \"rgb_image_height\" not available in the configuration"
                       << std::endl;
@@ -295,19 +338,19 @@ struct YarpSensorBridge::Impl
             }
         }
 
-        if (ptr->getParameter("rgbd_cameras_list", metaData.sensorsList.rgbdCamerasList, VectorResizeMode::Resizable))
+        if (ptr->getParameter("rgbd_cameras_list", metaData.sensorsList.rgbdCamerasList))
         {
             metaData.bridgeOptions.isCameraEnabled = true;
 
             std::vector<int> rgbdCamWidth, rgbdCamHeight;
-            if (ptr->getParameter("rgbd_image_width", rgbdCamWidth, VectorResizeMode::Resizable))
+            if (ptr->getParameter("rgbd_image_width", rgbdCamWidth))
             {
                 std::cerr << logPrefix << " Required parameter \"rgbd_image_width\" not available in the configuration"
                           << std::endl;
                 return false;
             }
 
-            if (ptr->getParameter("rgbd_image_height", rgbdCamHeight, VectorResizeMode::Resizable))
+            if (ptr->getParameter("rgbd_image_height", rgbdCamHeight))
             {
                 std::cerr << logPrefix << " Required parameter \"rgbd_image_height\" not available in the configuration"
                           << std::endl;
@@ -442,6 +485,7 @@ struct YarpSensorBridge::Impl
             std::cerr << logPrefix << " Could not find atleast one of the required sensors." << std::endl;
             return false;
         }
+
         return true;
     }
 
@@ -498,7 +542,7 @@ struct YarpSensorBridge::Impl
         for (const auto& masSensorName : sensorList)
         {
             bool sensorFound{false};
-            for (size_t attachedIdx = 0; attachedIdx < nrSensors; attachedIdx++)
+            for (std::size_t attachedIdx = 0; attachedIdx < nrSensors; attachedIdx++)
             {
                 std::string attachedSensorName;
                 if (!getMASSensorName(sensorInterface, attachedIdx, attachedSensorName))
@@ -509,6 +553,28 @@ struct YarpSensorBridge::Impl
                 if (attachedSensorName == masSensorName)
                 {
                     sensorFound = true;
+
+                    // update mas sensor index map for lookup
+                    if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
+                    {
+                        masSensorIndexMaps.gyroscopes[masSensorName] = attachedIdx;
+                    }
+                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+                    {
+                        masSensorIndexMaps.accelerometer[masSensorName] = attachedIdx;
+                    }
+                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+                    {
+                        masSensorIndexMaps.magnetometers[masSensorName] = attachedIdx;
+                    }
+                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+                    {
+                        masSensorIndexMaps.orientationSensors[masSensorName] = attachedIdx;
+                    }
+                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+                    {
+                        masSensorIndexMaps.sixAxisFTSensors[masSensorName] = attachedIdx;
+                    }
                     break;
                 }
             }
@@ -526,7 +592,7 @@ struct YarpSensorBridge::Impl
      *  Get number of MAS Sensors
      */
     template <typename MASSensorType>
-    size_t getNumberOfMASSensors(MASSensorType* sensorInterface)
+    std::size_t getNumberOfMASSensors(MASSensorType* sensorInterface)
     {
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
@@ -557,7 +623,7 @@ struct YarpSensorBridge::Impl
      */
     template <typename MASSensorType>
     bool getMASSensorName(MASSensorType* sensorInterface,
-                          const size_t& sensIdx,
+                          const std::size_t& sensIdx,
                           std::string& sensorName)
     {
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
@@ -593,7 +659,7 @@ struct YarpSensorBridge::Impl
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
             auto nrSensors = sensorInterface->getNrOfThreeAxisGyroscopes();
-            for (size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
             {
                 std::string sensName;
                 sensorInterface->getThreeAxisGyroscopeName(sensIdx, sensName);
@@ -603,7 +669,7 @@ struct YarpSensorBridge::Impl
         else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
         {
             auto nrSensors = sensorInterface->getNrOfThreeAxisLinearAccelerometers();
-            for (size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
             {
                 std::string sensName;
                 sensorInterface->getThreeAxisLinearAccelerometerName(sensIdx, sensName);
@@ -613,7 +679,7 @@ struct YarpSensorBridge::Impl
         else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
         {
             auto nrSensors = sensorInterface->getNrOfThreeAxisMagnetometers();
-            for (size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
             {
                 std::string sensName;
                 sensorInterface->getThreeAxisMagnetometerName(sensIdx, sensName);
@@ -623,7 +689,7 @@ struct YarpSensorBridge::Impl
         else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
         {
             auto nrSensors = sensorInterface->getNrOfOrientationSensors();
-            for (size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
             {
                 std::string sensName;
                 sensorInterface->getOrientationSensorName(sensIdx, sensName);
@@ -633,7 +699,7 @@ struct YarpSensorBridge::Impl
         else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             auto nrSensors = sensorInterface->getNrOfSixAxisForceTorqueSensors();
-            for (size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
             {
                 std::string sensName;
                 sensorInterface->getSixAxisForceTorqueSensorName(sensIdx, sensName);
@@ -689,6 +755,28 @@ struct YarpSensorBridge::Impl
     }
 
     /**
+     * Check if sensor is available in the relevant sensor measurement map
+     */
+    template <typename YARPDataType>
+    bool checkValidSensorMeasure(std::string_view logPrefix,
+                                 const std::unordered_map<std::string, YARPDataType >& sensorMap,
+                                 const std::string& sensorName)
+    {
+        if (!checkValid(logPrefix))
+        {
+            return false;
+        }
+
+        if (sensorMap.find(sensorName) == sensorMap.end())
+        {
+            std::cerr << logPrefix << sensorName << " sensor unavailable in the measurement map" << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Check if the bridge is successfully initialized and attached to required device drivers
      */
     bool checkValid(const std::string_view methodName)
@@ -724,7 +812,8 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isLinearAccelerometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisLinearAccelerometers"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.accelerometers, metaData.sensorsList.linearAccelerometersList, interfaceType))
+            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.accelerometers,
+                                          metaData.sensorsList.linearAccelerometersList, interfaceType))
             {
                 return false;
             }
@@ -733,7 +822,8 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isGyroscopeEnabled)
         {
             std::string_view interfaceType{"IThreeAxisGyroscopes"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.gyroscopes, metaData.sensorsList.gyroscopesList, interfaceType))
+            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.gyroscopes,
+                                          metaData.sensorsList.gyroscopesList, interfaceType))
             {
                 return false;
             }
@@ -742,7 +832,8 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isOrientationSensorEnabled)
         {
             std::string_view interfaceType{"IOrientationSensors"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.orientationSensors, metaData.sensorsList.orientationSensorsList, interfaceType))
+            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.orientationSensors,
+                                          metaData.sensorsList.orientationSensorsList, interfaceType))
             {
                 return false;
             }
@@ -751,7 +842,8 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isMagnetometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisMagnetometers"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.magnetometers, metaData.sensorsList.magnetometersList, interfaceType))
+            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.magnetometers,
+                                          metaData.sensorsList.magnetometersList, interfaceType))
             {
                 return false;
             }
@@ -972,7 +1064,7 @@ struct YarpSensorBridge::Impl
             return false;
         }
 
-        std::string_view interfaceTypeDepth = "RGBD Cameras";
+        std::string_view interfaceTypeDepth{"RGBD Cameras"};
         if (!attachAllCamerasOfSpecificType(devList,
                                             metaData.sensorsList.rgbdCamerasList,
                                             metaData.bridgeOptions.rgbdImgDimensions,
@@ -1000,10 +1092,10 @@ struct YarpSensorBridge::Impl
     template <typename CameraType>
     bool attachAllCamerasOfSpecificType(const yarp::dev::PolyDriverList& devList,
                                         const std::vector<std::string>& camList,
-                                        const std::unordered_map<std::string, std::pair<int, int> >& imgDimensionsMap,
+                                        const std::unordered_map<std::string, std::pair<std::size_t, std::size_t> >& imgDimensionsMap,
                                         std::string_view interfaceType,
                                         std::unordered_map<std::string, CameraType* >& sensorMap,
-                                        std::unordered_map<std::string, yarp::sig::Image>& imgBuffersMap)
+                                        std::unordered_map<std::string, StampedYARPImage>& imgBuffersMap)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllCamerasOfSpecificType] ";
         for (auto cam : camList)
@@ -1034,8 +1126,8 @@ struct YarpSensorBridge::Impl
      * Resize image buffers
      */
     bool resizeImageBuffers(const std::vector<std::string>& camList,
-                            const std::unordered_map<std::string, std::pair<int, int> >& imgDimensionsMap,
-                            std::unordered_map<std::string, yarp::sig::Image>& imgBuffersMap)
+                            const std::unordered_map<std::string, std::pair<std::size_t, std::size_t> >& imgDimensionsMap,
+                            std::unordered_map<std::string, StampedYARPImage>& imgBuffersMap)
     {
         for (const auto& cam : camList)
         {
@@ -1046,7 +1138,7 @@ struct YarpSensorBridge::Impl
             }
 
             auto imgDim = iter->second;
-            imgBuffersMap[cam].resize(imgDim.first, imgDim.second);
+            imgBuffersMap[cam].first.resize(imgDim.first, imgDim.second);
         }
         return true;
     }
@@ -1062,20 +1154,24 @@ struct YarpSensorBridge::Impl
     /**
      * Read generic or analog sensor stream and update internal measurement buffer
      */
-    template <typename SensorType, typename Derived>
+    template <typename SensorType>
     bool readAnalogOrGenericSensor(const std::string& sensorName,
                                    const int& nrChannelsInYARPSensor,
-                                   std::unordered_map<std::string, SensorType* >& interface,
-                                   yarp::sig::Vector& sensorMeasure,
-                                   double& timeStamp)
+                                   std::unordered_map<std::string, SensorType* >& interfaceMap,
+                                   std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                                   bool checkForNan = false)
     {
         bool ok{true};
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAnalogOrGenericSensor] ";
-        if (!checkSensor(interface, sensorName))
+        if (!checkSensor(interfaceMap, sensorName))
         {
             return false;
         }
 
+        auto iter = interfaceMap.find(sensorName);
+        auto interface = iter->second;
+
+        yarp::sig::Vector sensorMeasure;
         sensorMeasure.resize(nrChannelsInYARPSensor);
 
         if constexpr (std::is_same_v<SensorType, yarp::dev::IAnalogSensor>)
@@ -1088,10 +1184,20 @@ struct YarpSensorBridge::Impl
             ok = ok && interface->read(sensorMeasure);
         }
 
-        if (!ok || (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN)))
+        if (!ok)
         {
             std::cerr << logPrefix << " Unable to read from " << sensorName << " , use previous measurement" << std::endl;
             return false;
+        }
+
+
+        if (checkForNan)
+        {
+            if (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN))
+            {
+                std::cerr << logPrefix << " NAN values read from " << sensorName << " , use previous measurement" << std::endl;
+                return false;
+            }
         }
 
         // for IMU measurements convert angular velocity  measurements to radians per s
@@ -1110,7 +1216,487 @@ struct YarpSensorBridge::Impl
             sensorMeasure[8] = deg2rad(sensorMeasure[8]);
         }
 
-        timeStamp = yarp::os::Time::now();
+        measurementMap[sensorName].first = sensorMeasure;
+        measurementMap[sensorName].second = yarp::os::Time::now();
+        return true;
+    }
+
+
+    template <typename MASSensorType>
+    bool readMASSensor(MASSensorType* interface,
+                       const std::string& sensorName,
+                       const std::unordered_map<std::string, std::size_t >& sensorIdxMap,
+                       std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                       bool checkForNan = false)
+    {
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readMASSensor] ";
+        auto iter = sensorIdxMap.find(sensorName);
+        if (iter == sensorIdxMap.end())
+        {
+            return false;
+        }
+
+        std::size_t sensIdx = iter->second;
+        yarp::sig::Vector sensorMeasure;
+        bool ok{false};
+        double txTimeStamp;
+        if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
+        {
+            constexpr int dim{3};
+            sensorMeasure.resize(dim);
+            ok = interface->getThreeAxisGyroscopeMeasure(sensIdx, sensorMeasure, txTimeStamp);
+
+            // convert YARP measures from deg/s to rad/s
+            for (std::size_t elemIdx = 0; elemIdx < dim; elemIdx++)
+            {
+                sensorMeasure(elemIdx) = deg2rad(sensorMeasure(elemIdx));
+            }
+        }
+        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+        {
+            constexpr int dim{3};
+            sensorMeasure.resize(dim);
+            ok = interface->getThreeAxisLinearAccelerometerMeasure(sensIdx, sensorMeasure, txTimeStamp);
+        }
+        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+        {
+            constexpr int dim{3};
+            sensorMeasure.resize(dim);
+            ok = interface->getThreeAxisMagnetometerMeasure(sensIdx, sensorMeasure, txTimeStamp);
+        }
+        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+        {
+            constexpr int dim{3};
+            sensorMeasure.resize(dim);
+            ok = interface->getOrientationSensorMeasureAsRollPitchYaw(sensIdx, sensorMeasure, txTimeStamp);
+            // convert YARP measures from deg to rad
+            for (std::size_t elemIdx = 0; elemIdx < dim; elemIdx++)
+            {
+                sensorMeasure(elemIdx) = deg2rad(sensorMeasure(elemIdx));
+            }
+        }
+        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+        {
+            constexpr int dim{6};
+            sensorMeasure.resize(dim);
+            ok = interface->getSixAxisForceTorqueSensorMeasure(sensIdx, sensorMeasure, txTimeStamp);
+        }
+
+        if (!ok)
+        {
+            std::cerr << logPrefix << " Unable to read from " << sensorName << ", use previous measurement" << std::endl;
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN))
+            {
+                std::cerr << logPrefix << " NAN values read from " << sensorName << ", use previous measurement" << std::endl;
+                return false;
+            }
+        }
+
+        measurementMap[sensorName].first = sensorMeasure;
+        measurementMap[sensorName].second = yarp::os::Time::now();
+
+        return true;
+    }
+
+    template <typename MASSensorType>
+    bool readAllMASSensors(MASSensorType* interface,
+                           std::unordered_map<std::string, std::size_t> sensIdxMap,
+                           std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                           std::vector<std::string>& failedSensorReads,
+                           bool checkForNan = false)
+    {
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllMASSensors] ";
+        bool allSensorsReadCorrectly{true};
+        failedSensorReads.clear();
+        for( auto const& sensorIdx : sensIdxMap )
+        {
+            const auto& sensorName = sensorIdx.first;
+            bool ok = readMASSensor(interface,
+                                    sensorName,
+                                    sensIdxMap,
+                                    measurementMap,
+                                    checkForNan);
+            if (!ok)
+            {
+                std::cerr << logPrefix << " Read MAS sensor failed for " << sensorName << std::endl;
+                failedSensorReads.emplace_back(sensorName);
+            }
+            allSensorsReadCorrectly = ok && allSensorsReadCorrectly;
+        }
+
+        return allSensorsReadCorrectly;
+    }
+
+    template<typename CameraType>
+    bool readCameraImage(const std::string& cameraName,
+                         const std::string& imageType,
+                         std::unordered_map<std::string, CameraType*>& interfaceMap,
+                         std::unordered_map<std::string, StampedYARPImage>& imageMap)
+    {
+        bool ok{true};
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readCameraImage] ";
+
+        if (!checkSensor(interfaceMap, cameraName))
+        {
+            return false;
+        }
+
+        auto iter = interfaceMap.find(cameraName);
+        auto interface = iter->second;
+
+        // StampedYARPImage is defined as a pair of yarp::sig::image and double
+        yarp::os::Stamp* txTimestamp{nullptr};
+        if constexpr (std::is_same_v<CameraType, yarp::dev::IFrameGrabberImage>)
+        {
+            if (imageType != "RGB")
+            {
+                std::cerr << logPrefix << " Frame Grabber " << cameraName << "handles only RGB image" << std::endl;
+                return false;
+            }
+            yarp::sig::ImageOf<yarp::sig::PixelRgb>& img =  dynamic_cast<yarp::sig::ImageOf<yarp::sig::PixelRgb>&> (imageMap[cameraName].first);
+            ok = interface->getImage(img);
+        }
+        else if constexpr (std::is_same_v<CameraType, yarp::dev::IRGBDSensor>)
+        {
+            if (imageType == "RGB")
+            {
+                yarp::sig::FlexImage& img =  dynamic_cast<yarp::sig::FlexImage&> (imageMap[cameraName].first);
+                img.setPixelCode(VOCAB_PIXEL_RGB);
+                ok = interface->getRgbImage(img, txTimestamp);
+
+            }
+            else if (imageType == "DEPTH")
+            {
+                yarp::sig::ImageOf<yarp::sig::PixelFloat>& img =  dynamic_cast<yarp::sig::ImageOf<yarp::sig::PixelFloat>&> (imageMap[cameraName].first);
+                ok = interface->getDepthImage(img, txTimestamp);
+            }
+        }
+
+        if (!ok)
+        {
+            std::cerr << logPrefix << " Unable to read from " << cameraName << ", use previous image" << std::endl;
+            return false;
+        }
+
+        imageMap[cameraName].second = yarp::os::Time::now();
+        return true;
+    }
+
+    /**
+     * Read control board remapper interfaces
+     */
+    bool readControlBoardInterface(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readControlBoardInterface] ";
+        yarp::sig::Vector tempJointPositions, tempJointVelocities;
+        tempJointPositions.resize(controlBoardRemapperMeasures.jointPositions.size());
+        tempJointVelocities.resize(controlBoardRemapperMeasures.jointPositions.size());
+
+        bool ok{true};
+        ok = ok && controlBoardRemapperInterfaces.encoders->getEncoders(tempJointPositions.data());
+        ok = ok && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(tempJointVelocities.data());
+
+        if (!ok)
+        {
+            std::cerr << logPrefix << " Unable to read from encoders interface, use previous measurement" << std::endl;
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (std::binary_search(tempJointPositions.begin(), tempJointPositions.end(), NAN))
+            {
+                std::cerr << logPrefix << " NAN values read from encoders interface, use previous measurement" << std::endl;
+                return false;
+            }
+
+            if (std::binary_search(tempJointVelocities.begin(), tempJointVelocities.end(), NAN))
+            {
+                std::cerr << logPrefix << " NAN values read from encoders interface, use previous measurement" << std::endl;
+                return false;
+            }
+        }
+
+        // convert from degrees to radians - YARP convention is to store joint positions in degrees
+        for (std::size_t idx = 0; idx < tempJointPositions.size(); idx++)
+        {
+            controlBoardRemapperMeasures.jointPositions[idx] = deg2rad(tempJointPositions[controlBoardRemapperMeasures.remappedJointIndices[idx]]);
+            controlBoardRemapperMeasures.jointVelocities[idx] = deg2rad(tempJointVelocities[controlBoardRemapperMeasures.remappedJointIndices[idx]]);
+        }
+
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    bool readAllIMUs(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isIMUEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllIMUs] ";
+        bool allIMUsReadCorrectly{true};
+        failedSensorReads.clear();
+        for( auto const& imu : wholeBodyAnalogIMUInterface )
+        {
+            const auto& imuName = imu.first;
+            bool ok = readAnalogOrGenericSensor(imuName,
+                                                nrChannelsInYARPGenericIMUSensor,
+                                                wholeBodyAnalogIMUInterface,
+                                                wholeBodyIMUMeasures,
+                                                checkForNAN);
+            if (!ok)
+            {
+                std::cerr << logPrefix << " Read IMU failed for " << imuName << std::endl;
+                failedSensorReads.emplace_back(imuName);
+            }
+            allIMUsReadCorrectly = ok && allIMUsReadCorrectly;
+        }
+
+        return allIMUsReadCorrectly;
+    }
+
+    bool readAllCartesianWrenches(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isCartesianWrenchEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllCartesianWrenches] ";
+        bool allWrenchesReadCorrectly{true};
+        failedSensorReads.clear();
+        for( auto const& wrenchUnit : wholeBodyCartesianWrenchInterface )
+        {
+            const auto& wrenchName = wrenchUnit.first;
+            bool ok = readAnalogOrGenericSensor(wrenchName,
+                                                nrChannelsInYARPGenericCartesianWrench,
+                                                wholeBodyCartesianWrenchInterface,
+                                                wholeBodyCartesianWrenchMeasures,
+                                                checkForNAN);
+            if (!ok)
+            {
+                std::cerr << logPrefix << " Read cartesian wrench failed for " << wrenchName << std::endl;
+                failedSensorReads.emplace_back(wrenchName);
+            }
+            allWrenchesReadCorrectly = ok && allWrenchesReadCorrectly;
+        }
+
+        return allWrenchesReadCorrectly;
+    }
+
+    bool readAllMASLinearAccelerometers(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isLinearAccelerometerEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyMASInertialsInterface.accelerometers,
+                                 masSensorIndexMaps.accelerometer,
+                                 wholeBodyInertialMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
+    bool readAllMASGyroscopes(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isGyroscopeEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyMASInertialsInterface.gyroscopes,
+                                 masSensorIndexMaps.gyroscopes,
+                                 wholeBodyInertialMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
+    bool readAllMASOrientationSensors(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isOrientationSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyMASInertialsInterface.orientationSensors,
+                                 masSensorIndexMaps.orientationSensors,
+                                 wholeBodyInertialMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
+    bool readAllMASMagnetometers(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isMagnetometerEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyMASInertialsInterface.magnetometers,
+                                 masSensorIndexMaps.magnetometers,
+                                 wholeBodyInertialMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
+    bool readAllMASSixAxisForceTorqueSensors(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyMASForceTorquesInterface.sixAxisFTSensors,
+                                 masSensorIndexMaps.sixAxisFTSensors,
+                                 wholeBodyFTMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
+    bool readAllFrameGrabberCameras(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isCameraEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllFrameGrabberCameras] ";
+        bool allRGBCamerasReadCorrectly{true};
+        failedSensorReads.clear();
+        for( auto const& camera : wholeBodyFrameGrabberInterface )
+        {
+            std::string imageType{"RGB"};
+            const auto& cameraName = camera.first;
+            bool ok = readCameraImage(cameraName,
+                                      imageType,
+                                      wholeBodyFrameGrabberInterface,
+                                      wholeBodyCameraRGBImages);
+            if (!ok)
+            {
+                std::cerr << logPrefix << " Read RGB image failed for " << cameraName << std::endl;
+                failedSensorReads.emplace_back(cameraName);
+            }
+            allRGBCamerasReadCorrectly = ok && allRGBCamerasReadCorrectly;
+        }
+
+        return allRGBCamerasReadCorrectly;
+    }
+
+    bool readAllRGBDCameras(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isCameraEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllRGBDCameras] ";
+        bool allRGBDCamerasReadCorrectly{true};
+        failedSensorReads.clear();
+        for( auto const& camera : wholeBodyRGBDInterface )
+        {
+            std::string imageType{"RGB"};
+            const auto& cameraName = camera.first;
+            bool ok = readCameraImage(cameraName,
+                                      imageType,
+                                      wholeBodyRGBDInterface,
+                                      wholeBodyCameraRGBImages);
+
+            imageType = "DEPTH";
+            ok = readCameraImage(cameraName,
+                                 imageType,
+                                 wholeBodyRGBDInterface,
+                                 wholeBodyCameraDepthImages) && ok;
+
+            if (!ok)
+            {
+                std::cerr << logPrefix << " Read RGB/Depth image failed for " << cameraName << std::endl;
+                failedSensorReads.emplace_back(cameraName);
+            }
+
+            allRGBDCamerasReadCorrectly = ok && allRGBDCamerasReadCorrectly;
+        }
+
+        return allRGBDCamerasReadCorrectly;
+    }
+
+    bool readAllSensors(std::vector<std::string>& failedReadAllSensors)
+    {
+        failedReadAllSensors.clear();
+        std::vector<std::string> failedReads;
+
+        if (readControlBoardInterface(checkForNAN))
+        {
+            failedReadAllSensors.emplace_back(std::string("RemoteControlBoardRemapper"));
+        }
+
+        if (!readAllIMUs(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllCartesianWrenches(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllMASLinearAccelerometers(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllMASGyroscopes(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllMASOrientationSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllMASMagnetometers(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllMASSixAxisForceTorqueSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllRGBDCameras(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
+
+        if (!readAllFrameGrabberCameras(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+        }
         return true;
     }
 };

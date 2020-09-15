@@ -17,7 +17,6 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-using namespace BipedalLocomotion::ParametersHandler;
 using Vector12d = Eigen::Matrix<double, 12, 1>;
 using Vector6d = Eigen::Matrix<double, 6, 1>;
 
@@ -43,8 +42,8 @@ struct SensorBridgeOptions
     bool isCameraEnabled{false}; /**< flag to connect camera sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<int, int> > rgbImgDimensions; /**< dimensions of the images available through rgb camera streams, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<int, int> > rgbdImgDimensions; /**< dimensions of the depth images available through rgbd camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbImgDimensions; /**< dimensions of the images available through rgb camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbdImgDimensions; /**< dimensions of the depth images available through rgbd camera streams, to be configured at initialization */
 };
 
 /**
@@ -92,7 +91,7 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    virtual bool initialize(std::weak_ptr<IParametersHandler> handler) = 0;
+    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) = 0;
 
     /**
      * Get joints list
@@ -361,7 +360,7 @@ protected:
      * @param[in] handler  Parameters handler
      * @param[in] sensorBridgeOptions SensorBridgeOptions to hold the bridge options for streaming sensor measurements
      */
-    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                       SensorBridgeOptions& sensorBridgeOptions) { return true; };
 
     /**
@@ -373,7 +372,7 @@ protected:
      * @param[in] sensorBridgeOptions configured object of SensorBridgeOptions
      * @param[in] sensorLists SensorLists object holding list of connected sensor devices
      */
-    virtual bool populateSensorListsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorListsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                const SensorBridgeOptions& sensorBridgeOptions,
                                                SensorLists& sensorLists) { return true; };
 
@@ -386,7 +385,7 @@ protected:
      * @param[in] sensorBridgeMetaData configured object of SensorBridgeMetadata
      * @param[in] sensorLists SensorLists object holding list of connected sensor devices
      */
-    virtual bool populateSensorBridgeMetaDataFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorBridgeMetaDataFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                         SensorBridgeMetaData& sensorBridgeMetaData) { return true; };
 
 
