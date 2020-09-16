@@ -12,37 +12,37 @@
 using namespace BipedalLocomotion::ParametersHandler;
 
 void StdImplementation::setParameter(const std::string& parameterName,
-                                     const GenericContainer::Vector<const int>& parameter)
+                                     const GenericContainer::Vector<const int>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 
 void StdImplementation::setParameter(const std::string& parameterName,
-                                     const GenericContainer::Vector<const double>& parameter)
+                                     const GenericContainer::Vector<const double>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 
 void StdImplementation::setParameter(const std::string& parameterName,
-                                     const GenericContainer::Vector<const std::string>& parameter)
+                                     const GenericContainer::Vector<const std::string>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 
 bool StdImplementation::getParameter(const std::string& parameterName,
-                                     GenericContainer::Vector<int>& parameter) const
+                                     GenericContainer::Vector<int>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool StdImplementation::getParameter(const std::string& parameterName,
-                                     GenericContainer::Vector<double>& parameter) const
+                                     GenericContainer::Vector<double>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool StdImplementation::getParameter(const std::string& parameterName,
-                                     GenericContainer::Vector<std::string>& parameter) const
+                                     GenericContainer::Vector<std::string>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }

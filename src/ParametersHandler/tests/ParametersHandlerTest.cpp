@@ -57,8 +57,7 @@ TEST_CASE("Get parameters")
     {
         std::vector<int> element;
         REQUIRE(parameterHandler->getParameter("Fibonacci Numbers",
-                                               element,
-                                               GenericContainer::VectorResizeMode::Resizable));
+                                               element));
         REQUIRE(element == std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
     }
 
@@ -73,8 +72,7 @@ TEST_CASE("Get parameters")
                                    std::vector<std::string>{"Huey", "Dewey", "Louie"});
         std::vector<std::string> element;
         REQUIRE(groupHandler->getParameter("Donald's nephews",
-                                           element,
-                                           GenericContainer::VectorResizeMode::Resizable));
+                                           element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
     }
 

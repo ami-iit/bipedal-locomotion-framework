@@ -37,8 +37,7 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     // of the matrix
     Eigen::VectorXd measurementCovariance;
     if (!handler->getParameter("measurement_covariance",
-                               measurementCovariance,
-                               VectorResizeMode::Resizable))
+                               measurementCovariance))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to find the covariance matrix of "
                      "the measuraments."
@@ -57,7 +56,7 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     }
 
     // check if the presence of the initial initial guess of the state and of the covariance matrix
-    if (!handler->getParameter("state", m_state.expectedValue, VectorResizeMode::Resizable))
+    if (!handler->getParameter("state", m_state.expectedValue))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to get the initial guess."
                   << std::endl;
@@ -65,7 +64,7 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerW
     }
 
     Eigen::VectorXd stateCovariance;
-    if(!handler->getParameter("state_covariance", stateCovariance, VectorResizeMode::Resizable))
+    if(!handler->getParameter("state_covariance", stateCovariance))
     {
         std::cerr << "[RecursiveLeastSquare::initialize] Unable to get the initial state covariance."
                   << std::endl;

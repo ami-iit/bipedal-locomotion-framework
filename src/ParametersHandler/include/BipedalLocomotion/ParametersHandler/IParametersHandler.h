@@ -25,52 +25,6 @@ namespace ParametersHandler
  */
 class IParametersHandler
 {
-protected:
-    /**
-     * Get a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>& parameter) const = 0;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>& parameter) const = 0;
-
-    /**
-     * Get a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     * @return true/false in case of success/failure
-     */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>& parameter) const = 0;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<int>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>& parameter) = 0;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<double>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>& parameter) = 0;
-
-    /**
-     * Set a parameter [GenericContainer::Vector<std::string>]
-     * @param parameterName name of the parameter
-     * @param parameter parameter
-     */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>& parameter) = 0;
-
 public:
 
     using unique_ptr = std::unique_ptr<IParametersHandler>;
@@ -121,22 +75,28 @@ public:
     virtual bool getParameter(const std::string& parameterName, std::vector<bool>& parameter) const = 0;
 
     /**
-     * Get a vector parameter
+     * Get a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
-     * @tparam Vector type of the vector.
-     * @warning this method can be only used with vectors that can be converted in a GenericContainer::Vector
      * @return true/false in case of success/failure
      */
-    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
-        !std::is_same<Vector, std::string>::value && GenericContainer::is_vector_constructible<Vector>::value>::type>
-    bool getParameter(const std::string& parameterName,
-                      Vector& parameter,
-                      GenericContainer::VectorResizeMode mode = GenericContainer::VectorResizeMode::Fixed) const
-    {
-        auto genericVector = GenericContainer::make_vector(parameter, mode);
-        return this->getParameter(parameterName, genericVector);
-    }
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>::Ref parameter) const = 0;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>::Ref parameter) const = 0;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>::Ref parameter) const = 0;
 
     /**
      * Set a parameter [int]
@@ -184,19 +144,25 @@ public:
     virtual void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) = 0;
 
     /**
-     * set a vector parameter
+     * Set a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
-     * @tparam Vector type of the vector.
-     * @warning this method can be only used with vectors that can be converted in a GenericContainer::Vector
      */
-    template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
-        !std::is_same<Vector, std::string>::value && GenericContainer::is_vector_constructible<Vector>::value>::type>
-    void setParameter(const std::string& parameterName, const Vector& parameter)
-    {
-        auto genericVector = GenericContainer::make_vector(parameter);
-        return this->setParameter(parameterName, genericVector);
-    }
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>::Ref parameter) = 0;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<double>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>::Ref parameter) = 0;
+
+    /**
+     * Set a parameter [GenericContainer::Vector<std::string>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>::Ref parameter) = 0;
 
     /**
      * Get a Group from the handler.

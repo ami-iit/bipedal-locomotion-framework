@@ -36,19 +36,19 @@ bool YarpImplementation::getParameter(const std::string& parameterName, bool& pa
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      GenericContainer::Vector<int>& parameter) const
+                                      GenericContainer::Vector<int>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      GenericContainer::Vector<double>& parameter) const
+                                      GenericContainer::Vector<double>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
-                                      GenericContainer::Vector<std::string>& parameter) const
+                                      GenericContainer::Vector<std::string>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -86,17 +86,17 @@ void YarpImplementation::setParameter(const std::string& parameterName, const bo
 }
 
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const GenericContainer::Vector<const int>& parameter)
+                                      const GenericContainer::Vector<const int>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const GenericContainer::Vector<const double>& parameter)
+                                      const GenericContainer::Vector<const double>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 void YarpImplementation::setParameter(const std::string& parameterName,
-                                      const GenericContainer::Vector<const std::string>& parameter)
+                                      const GenericContainer::Vector<const std::string>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }

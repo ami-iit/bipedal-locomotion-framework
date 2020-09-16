@@ -579,7 +579,7 @@ struct is_span_constructible<Class,
 {};
 
 /**
- * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
+ * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a type T.
  */
 template <typename T, typename = void, typename = void>
 struct is_vector_constructible : std::false_type
@@ -587,7 +587,7 @@ struct is_vector_constructible : std::false_type
 };
 
 /**
- * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a reference to Class.
+ * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a type T.
  * This specialization first checks if T is an array, or if it is possible to deduce the type of vector.
  * If not, this specialization is not used (SFINAE). Otherwise, given the vector type, it checks if a iDynTree::Span is construbile
  * or if the methods <code>data()<\code> and <code>size()<\code> are available. In addition, the type has not to be <code>bool<\code>.
@@ -598,6 +598,29 @@ template <typename T>
     typename std::enable_if<(std::is_array<T>::value || has_type_member<T>::value || is_data_available<T>::value)>::type,
     typename std::enable_if<(is_span_constructible<T>::value ||(is_data_available<T>::value && is_size_available<T>::value)) &&
                              !std::is_same<typename container_data<T>::type, bool>::value>::type> : std::true_type
+{
+};
+
+/**
+ * is_vector_ref_constructible is a utility metafunction to check if GenericContainer::Vector::Ref is constructible given a type T and a Container.
+ */
+template <typename T, typename Container, typename = void, typename = void>
+struct is_vector_ref_constructible : std::false_type
+{
+};
+
+/**
+ * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector::Ref is constructible given a type T and a Container.
+ * This specialization first checks if a GenericContainer::Vector can be constructed given the Container.
+ * If not, this specialization is not used (SFINAE). Otherwise, it checks that the data type of the Container is the same as T.
+ * This is useful to avoid ambiguity in interfaces with overloaded methods using different types of Ref.
+ * If all the above checks are true, <code>is_vector_ref_constructible<T>::value = true<\code>.
+ */
+template <typename T, typename Container>
+struct is_vector_ref_constructible<T,
+                                   Container,
+                                   typename std::enable_if<GenericContainer::is_vector_constructible<Container>::value>::type,
+                                   typename std::enable_if<std::is_same<std::remove_cv_t<T>, typename std::remove_cv_t<typename container_data<Container>::type>>::value>::type> : std::true_type
 {
 };
 
@@ -939,13 +962,13 @@ public:
      * This is used if:
      * - the input container is not a GenericContainer::Vector, to avoid ambiguities with other constructors
      * - the input container is not a string. This allows using Ref and string with overloaded methods.
-     * - a GenericContainer::Vector<T> can be constructed from the Container
+     * - a GenericContainer::Vector<T>::Ref can be constructed from the Container
      * - T is not const
      * - the input container is not const.
      */
     template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
                                                                !std::is_same<Vector, std::string>::value &&
-                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               GenericContainer::is_vector_ref_constructible<T,Vector>::value &&
                                                                !std::is_const_v<T> &&
                                                                !is_container_const<Vector>::value>::type>
     Ref(Vector& input)
@@ -975,12 +998,12 @@ public:
      * This is used if:
      * - the input container is not a GenericContainer::Vector, to avoid ambiguities with other constructors
      * - the input container is not a string. This allows using Ref and string with overloaded methods.
-     * - a GenericContainer::Vector<T> can be constructed from the Container
+     * - a GenericContainer::Vector<T>::Ref can be constructed from the Container
      * - T is const.
      */
     template <class Vector, typename = typename std::enable_if<!GenericContainer::is_vector<Vector>::value &&
                                                                !std::is_same<Vector, std::string>::value &&
-                                                               GenericContainer::is_vector_constructible<Vector>::value &&
+                                                               GenericContainer::is_vector_ref_constructible<T,Vector>::value &&
                                                                std::is_const_v<T>>::type>
     Ref(const Vector& input)
     {

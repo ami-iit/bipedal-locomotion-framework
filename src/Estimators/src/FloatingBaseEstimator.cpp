@@ -388,7 +388,7 @@ bool FloatingBaseEstimator::setupOptions(std::weak_ptr<BipedalLocomotion::Parame
 
     std::vector<double> g;
     g.resize(3);
-    if (handle->getParameter("acceleration_due_to_gravity", g, GenericContainer::VectorResizeMode::Fixed))
+    if (handle->getParameter("acceleration_due_to_gravity", GenericContainer::make_vector(g, GenericContainer::VectorResizeMode::Fixed)))
     {
         m_options.accelerationDueToGravity << g[0], g[1], g[2];
     }
@@ -595,7 +595,7 @@ bool FloatingBaseEstimator::setupFixedVectorParamPrivate(const std::string& para
         return false;
     }
 
-    if (!handle->getParameter(param, vec, GenericContainer::VectorResizeMode::Fixed))
+    if (!handle->getParameter(param, GenericContainer::make_vector(vec, GenericContainer::VectorResizeMode::Fixed)))
     {
         std::cerr << "[FloatingBaseEstimator::" << prefix << "] The parameter handler could not find \""<< param <<"\" in the configuration file. This is a required parameter." << std::endl;
         return false;

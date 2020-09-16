@@ -220,7 +220,7 @@ protected:
 
         if (sensorBridgeOptions.isLinearAccelerometerEnabled)
         {
-            if (!source->getParameter("LinearAccelerometers", sensorLists.linearAccelerometersList, GenericContainer::VectorResizeMode::Resizable))
+            if (!source->getParameter("LinearAccelerometers", sensorLists.linearAccelerometersList))
             {
                 std::cerr << "[DummySensorBridge::initialize] The parameter handler could not find \" LinearAccelerometers \" in the configuration file."
                 << std::endl;
