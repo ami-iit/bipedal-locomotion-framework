@@ -17,7 +17,6 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-using namespace BipedalLocomotion::ParametersHandler;
 using Vector12d = Eigen::Matrix<double, 12, 1>;
 using Vector6d = Eigen::Matrix<double, 6, 1>;
 
@@ -35,6 +34,7 @@ struct SensorBridgeOptions
     bool isIMUEnabled{false}; /**< flag to connect IMU measurement sources */
     bool isLinearAccelerometerEnabled{false}; /**< flag to connect linear accelerometer measurement sources */
     bool isGyroscopeEnabled{false}; /**< flag to connect gyroscope measurement sources */
+    bool isOrientationSensorEnabled{false}; /**< flag to connect gyroscope measurement sources */
     bool isMagnetometerEnabled{false}; /**< flag to connect magnetometer measurement sources */
     bool isSixAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isThreeAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
@@ -42,7 +42,8 @@ struct SensorBridgeOptions
     bool isCameraEnabled{false}; /**< flag to connect camera sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<int, int> > imgDimensions; /**< dimensions of the camera images available through camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbImgDimensions; /**< dimensions of the images available through rgb camera streams, to be configured at initialization */
+    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbdImgDimensions; /**< dimensions of the depth images available through rgbd camera streams, to be configured at initialization */
 };
 
 /**
@@ -60,7 +61,18 @@ struct SensorLists
     std::vector<std::string> threeAxisForceTorqueSensorsList; /**< list of three axis force torque sensors attached to the bridge */
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached to the bridge */
     std::vector<std::string> rgbCamerasList; /**< list of rgb cameras attached to the bridge */
-    std::vector<std::string> depthCamerasList; /**< list of depth cameras attached to the bridge */
+    std::vector<std::string> rgbdCamerasList; /**< list of RGBD cameras attached to the bridge */
+};
+
+
+/**
+ * Meta data struct to hold list of sensors and configured options
+ * available from the Sensor bridge interface
+ */
+struct SensorBridgeMetaData
+{
+  SensorLists sensorsList;
+  SensorBridgeOptions bridgeOptions;
 };
 
 /**
@@ -79,84 +91,84 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    virtual bool initialize(std::weak_ptr<IParametersHandler> handler) = 0;
+    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) = 0;
 
     /**
      * Get joints list
      * @param[out] jointsList list of joints attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getJointsList(std::vector<std::string>& jointsList) = 0;
+    virtual bool getJointsList(std::vector<std::string>& jointsList) { return false; };
 
     /**
      * Get imu sensors
      * @param[out] IMUsList list of IMUs attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getIMUsList(std::vector<std::string>& IMUsList) = 0;
+    virtual bool getIMUsList(std::vector<std::string>& IMUsList) { return false; };
 
     /**
      * Get linear accelerometers
      * @param[out] linearAccelerometersList list of linear accelerometers attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getLinearAccelerometersList(std::vector<std::string>& linearAccelerometersList) = 0;
+    virtual bool getLinearAccelerometersList(std::vector<std::string>& linearAccelerometersList) { return false; };
 
     /**
      * Get gyroscopes
      * @param[out] gyroscopesList list of gyroscopes attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getGyroscopesList(std::vector<std::string>& gyroscopesList) = 0;
+    virtual bool getGyroscopesList(std::vector<std::string>& gyroscopesList) { return false; };
 
     /**
      * Get orientation sensors
      * @param[out] orientationSensorsList list of orientation sensors attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getOrientationSensorsList(std::vector<std::string>& orientationSensorsList) = 0;
+    virtual bool getOrientationSensorsList(std::vector<std::string>& orientationSensorsList) { return false; };
 
     /**
      * Get magnetometers sensors
      * @param[out] magnetometersList list of magnetometers attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getMagnetometersList(std::vector<std::string>& magnetometersList) = 0;
+    virtual bool getMagnetometersList(std::vector<std::string>& magnetometersList) { return false; };
 
     /**
      * Get 6 axis FT sensors
      * @param[out] sixAxisForceTorqueSensorsList list of 6 axis force torque sensors attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getSixAxisForceTorqueSensorsList(std::vector<std::string>& sixAxisForceTorqueSensorsList) = 0;
+    virtual bool getSixAxisForceTorqueSensorsList(std::vector<std::string>& sixAxisForceTorqueSensorsList) { return false; };
 
     /**
      * Get 6 axis FT sensors
      * @param[out] threeAxisForceTorqueSensorsList list of 3 axis force torque sensors attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getThreeAxisForceTorqueSensorsList(std::vector<std::string>& threeAxisForceTorqueSensorsList) = 0;
+    virtual bool getThreeAxisForceTorqueSensorsList(std::vector<std::string>& threeAxisForceTorqueSensorsList) { return false; };
 
    /**
      * Get cartesian wrenches
      * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) = 0;
+    virtual bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) { return false; };
 
     /**
      * Get rgb cameras
      * @param[out] rgbCamerasList list of rgb cameras attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) = 0;
+    virtual bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) { return false; };
 
     /**
-     * Get depth cameras
-     * @param[out] depthCamerasList list of depth cameras attached to the bridge
+     * Get RGBD cameras
+     * @param[out] rgbdCamerasList list of rgbd cameras attached to the bridge
      * @return  true/false in case of success/failure
      */
-    virtual bool getDepthCamerasList(std::vector<std::string>& depthCamerasList) = 0;
+    virtual bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) { return false; };
 
     /**
      * Get joint position  in radians
@@ -167,7 +179,7 @@ public:
      */
     virtual bool getJointPosition(const std::string& jointName,
                                   double& jointPosition,
-                                  double* receiveTimeInSeconds = nullptr) = 0;
+                                  double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get all joints' positions in radians
@@ -181,7 +193,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                   double* receiveTimeInSeconds = nullptr) = 0;
+                                   double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get joint velocity in rad/s
@@ -192,7 +204,7 @@ public:
      */
     virtual bool getJointVelocity(const std::string& jointName,
                                   double& jointVelocity,
-                                  double* receiveTimeInSeconds = nullptr) = 0;
+                                  double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get all joints' velocities in rad/s
@@ -206,7 +218,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                    double* receiveTimeInSeconds = nullptr) = 0;
+                                    double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get IMU measurement
@@ -223,7 +235,7 @@ public:
      */
     virtual bool getIMUMeasurement(const std::string& imuName,
                                    Eigen::Ref<Vector12d> imuMeasurement,
-                                   double* receiveTimeInSeconds = nullptr) = 0;
+                                   double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get linear accelerometer measurement in m/s^2
@@ -234,7 +246,7 @@ public:
      */
     virtual bool getLinearAccelerometerMeasurement(const std::string& accName,
                                                    Eigen::Ref<Eigen::Vector3d> accMeasurement,
-                                                   double* receiveTimeInSeconds = nullptr) = 0;
+                                                   double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get gyroscope measurement in rad/s
@@ -245,7 +257,7 @@ public:
      */
     virtual bool getGyroscopeMeasure(const std::string& gyroName,
                                      Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
-                                     double* receiveTimeInSeconds = nullptr) = 0;
+                                     double* receiveTimeInSeconds = nullptr) { return false; };
 
    /**
      * Get orientation sensor measurement in radians as roll pitch yaw Euler angles
@@ -256,7 +268,7 @@ public:
      */
     virtual bool getOrientationSensorMeasurement(const std::string& rpyName,
                                                  Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
-                                                 double* receiveTimeInSeconds = nullptr) = 0;
+                                                 double* receiveTimeInSeconds = nullptr) { return false; };
 
    /**
      * Get magentometer measurement in tesla
@@ -267,7 +279,7 @@ public:
      */
     virtual bool getMagnetometerMeasurement(const std::string& magName,
                                             Eigen::Ref<Eigen::Vector3d> magMeasurement,
-                                            double* receiveTimeInSeconds = nullptr) = 0;
+                                            double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get six axis force torque measurement
@@ -278,7 +290,7 @@ public:
      */
     virtual bool getSixAxisForceTorqueMeasurement(const std::string& ftName,
                                                   Eigen::Ref<Vector6d> ftMeasurement,
-                                                  double* receiveTimeInSeconds = nullptr) = 0;
+                                                  double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get three axis force-torque measurement containing normal force (N) and tangential moments (Nm)
@@ -289,7 +301,7 @@ public:
      */
     virtual bool getThreeAxisForceTorqueMeasurement(const std::string& ftName,
                                                     Eigen::Ref<Eigen::Vector3d> ftMeasurement,
-                                                    double* receiveTimeInSeconds = nullptr) = 0;
+                                                    double* receiveTimeInSeconds = nullptr) { return false; };
 
    /**
      * Get 6D end effector wrenches in N and Nm for forces and torques respectively
@@ -300,7 +312,7 @@ public:
      */
     virtual bool getCartesianWrench(const std::string& cartesianWrenchName,
                                     Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
-                                    double* receiveTimeInSeconds = nullptr) = 0;
+                                    double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get color image from the camera
@@ -316,7 +328,7 @@ public:
      */
     virtual bool getColorImage(const std::string& camName,
                                Eigen::Ref<Eigen::MatrixXd> colorImg,
-                               double* receiveTimeInSeconds = nullptr) = 0;
+                               double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Get depth image
@@ -332,7 +344,7 @@ public:
      */
     virtual bool getDepthImage(const std::string& camName,
                                Eigen::Ref<Eigen::MatrixXd> depthImg,
-                               double* receiveTimeInSeconds = nullptr) = 0;
+                               double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Destructor
@@ -348,7 +360,7 @@ protected:
      * @param[in] handler  Parameters handler
      * @param[in] sensorBridgeOptions SensorBridgeOptions to hold the bridge options for streaming sensor measurements
      */
-    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                       SensorBridgeOptions& sensorBridgeOptions) { return true; };
 
     /**
@@ -360,9 +372,21 @@ protected:
      * @param[in] sensorBridgeOptions configured object of SensorBridgeOptions
      * @param[in] sensorLists SensorLists object holding list of connected sensor devices
      */
-    virtual bool populateSensorListsFromConfig(std::weak_ptr<IParametersHandler> handler,
+    virtual bool populateSensorListsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                const SensorBridgeOptions& sensorBridgeOptions,
                                                SensorLists& sensorLists) { return true; };
+
+    /**
+     * Helper method to maintain SensorBridgeMetaData struct by populating it from the configuration parameters
+     * @note the user may choose to use/not use this method depending on their requirements for the implementation
+     * if the user chooses to not use the method, the implementation must simply contain "return true;"
+     *
+     * @param[in] handler  Parameters handler
+     * @param[in] sensorBridgeMetaData configured object of SensorBridgeMetadata
+     * @param[in] sensorLists SensorLists object holding list of connected sensor devices
+     */
+    virtual bool populateSensorBridgeMetaDataFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                                        SensorBridgeMetaData& sensorBridgeMetaData) { return true; };
 
 
 };
