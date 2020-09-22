@@ -35,37 +35,57 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
     m_pimpl->checkForNAN = static_cast<bool>(temp);
 
     bool ret{true};
-    ret = ret && m_pimpl->subConfigLoader("stream_joint_states", "RemoteControlBoardRemapper",
-                                          &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
-                                          handler,
-                                          m_pimpl->metaData,
-                                          m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
+    ret = m_pimpl->subConfigLoader("stream_joint_states", "RemoteControlBoardRemapper",
+                                    &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
+                                    handler,
+                                    m_pimpl->metaData,
+                                    m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
+    if (!ret)
+    {
+        std::cout << logPrefix << " Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge will not stream relevant measures." << std::endl;
+    }
 
     bool useInertialSensors{false};
-    ret = ret && m_pimpl->subConfigLoader("stream_inertials", "InertialSensors",
-                                          &YarpSensorBridge::Impl::configureInertialSensors,
-                                          handler,
-                                          m_pimpl->metaData,
-                                          useInertialSensors);
+    ret = m_pimpl->subConfigLoader("stream_inertials", "InertialSensors",
+                                    &YarpSensorBridge::Impl::configureInertialSensors,
+                                    handler,
+                                    m_pimpl->metaData,
+                                    useInertialSensors);
+    if (!ret)
+    {
+        std::cout << logPrefix << " Skipping the configuration of InertialSensors. YarpSensorBridge will not stream relevant measures." << std::endl;
+    }
 
-    ret = ret && m_pimpl->subConfigLoader("stream_forcetorque_sensors", "SixAxisForceTorqueSensors",
-                                          &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
-                                          handler,
-                                          m_pimpl->metaData,
-                                          m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
+    ret = m_pimpl->subConfigLoader("stream_forcetorque_sensors", "SixAxisForceTorqueSensors",
+                                    &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
+                                    handler,
+                                    m_pimpl->metaData,
+                                    m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
+    if (!ret)
+    {
+        std::cout << logPrefix << " Skipping the configuration of SixAxisForceTorqueSensors. YarpSensorBridge will not stream relevant measures." << std::endl;
+    }
 
-    ret = ret && m_pimpl->subConfigLoader("stream_cartesian_wrenches", "CartesianWrenches",
-                                          &YarpSensorBridge::Impl::configureCartesianWrenches,
-                                          handler,
-                                          m_pimpl->metaData,
-                                          m_pimpl->metaData.bridgeOptions.isCartesianWrenchEnabled);
+    ret = m_pimpl->subConfigLoader("stream_cartesian_wrenches", "CartesianWrenches",
+                                    &YarpSensorBridge::Impl::configureCartesianWrenches,
+                                    handler,
+                                    m_pimpl->metaData,
+                                    m_pimpl->metaData.bridgeOptions.isCartesianWrenchEnabled);
+    if (!ret)
+    {
+        std::cout << logPrefix << " Skipping the configuration of CartesianWrenches. YarpSensorBridge will not stream relevant measures." << std::endl;
+    }
 
     bool useCameras{false};
-    ret = ret && m_pimpl->subConfigLoader("stream_cameras", "Cameras",
-                                          &YarpSensorBridge::Impl::configureCameras,
-                                          handler,
-                                          m_pimpl->metaData,
-                                          useCameras);
+    ret = m_pimpl->subConfigLoader("stream_cameras", "Cameras",
+                                    &YarpSensorBridge::Impl::configureCameras,
+                                    handler,
+                                    m_pimpl->metaData,
+                                    useCameras);
+    if (!ret)
+    {
+        std::cout << logPrefix << " Skipping the configuration of Cameras. YarpSensorBridge will not stream relevant measures." << std::endl;
+    }
 
 
     m_pimpl->bridgeInitialized = true;
