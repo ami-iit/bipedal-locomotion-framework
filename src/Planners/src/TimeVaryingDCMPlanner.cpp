@@ -266,11 +266,14 @@ struct TimeVaryingDCMPlanner::Impl
             // system dynamics
             this->opti.subject_to(casadi::MX::vertcat({dcm(Sl(), i + 1), omega(Sl(), i + 1)})
                                   == casadi::MX::vertcat({dcmNextStep, omegaNextStep}));
-
-            // omega has to be positive
-            this->opti.subject_to(omega(Sl(), i) > 0);
-            this->opti.subject_to(casadi::MX::pow(omega(Sl(), i), 2) - omegaDot(Sl(), i) > 0);
         }
+
+        // omega^2 - omegaDot has to be positive
+        this->opti.subject_to(casadi::MX::pow(omega(Sl(), Sl(0, -1)), 2) - omegaDot
+                              > casadi::DM::zeros(omegaDot.rows(), omegaDot.columns()));
+
+        // omega has to be positive
+        this->opti.subject_to(omega > casadi::DM::zeros(omega.rows(), omega.columns()));
 
         this->optiParameters.dcmRefererenceTraj = this->opti.parameter(this->dcmVectorSize, horizonSampling + 1);
 
