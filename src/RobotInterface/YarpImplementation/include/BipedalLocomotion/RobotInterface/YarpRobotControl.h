@@ -44,6 +44,14 @@ public:
     /**
      * Initialize the Interface
      * @param handler pointer to a parameter handler interface
+     * @note the following parameters are required by the class
+     * |             Parameter name             |   Type   |                                          Description                                         | Mandatory |
+     * |:--------------------------------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
+     * |            `reading_timeout`           |   `int`  |    Timeout used while reading from the YARP interfaces in microseconds. (Positive Number)    |     No    |
+     * |         `max_reading_attempts`         |   `int`  |      Max number of attempts used for reading from the YARP interfaces. (Positive Number)     |     No    |
+     * |         `positioning_duration`         | `double` | Duration of the trajectory generated when the joint is controlled in position mode [seconds] |    Yes    |
+     * |         `positioning_tolerance`        | `double` |                    Max Admissible error for position control joint [rad]                     |    Yes    |
+     * | `position_direct_max_admissible_error` | `double` |                 Max admissible error for position direct control joint [rad]                 |    Yes    |
      * @return True/False in case of success/failure.
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
