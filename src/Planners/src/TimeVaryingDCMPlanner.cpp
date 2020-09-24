@@ -433,7 +433,7 @@ struct TimeVaryingDCMPlanner::Impl
                     std::advance(contactIt, 1);
                     const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2;
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -450,7 +450,7 @@ struct TimeVaryingDCMPlanner::Impl
                     std::advance(contactIt, 1);
                     const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2;
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
