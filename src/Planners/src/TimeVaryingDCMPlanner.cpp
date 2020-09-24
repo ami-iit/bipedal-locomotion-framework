@@ -512,6 +512,7 @@ struct TimeVaryingDCMPlanner::Impl
         this->opti.set_value(this->optiParameters.dcmRefererenceTraj, initialValueDCM);
 
         this->opti.set_initial(this->optiVariables.dcm, initialValueDCM);
+        this->opti.set_initial(this->optiVariables.vrp, initialValueDCM(Sl(), Sl(0, -1)));
         this->opti.set_initial(this->optiVariables.omega, initialValueOmega);
         this->opti.set_initial(this->optiVariables.omegaDot,
                                casadi::DM::zeros(1, omegaDot.columns()));
