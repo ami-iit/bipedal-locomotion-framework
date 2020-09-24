@@ -6,6 +6,7 @@
  */
 
 #include <cmath>
+#include <thread>
 #include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
@@ -128,10 +129,20 @@ struct YarpRobotControl::Impl
             return false;
         }
 
-        if (!this->controlModeInterface->getControlModes(this->controlModesYarp.data()))
+        // try to read the control mode
+        unsigned counter = 0;
+        constexpr unsigned maxIter = 100;
+        constexpr unsigned timeout = 500;
+        while (!this->controlModeInterface->getControlModes(this->controlModesYarp.data()))
         {
-            std::cerr << errorPrefix << "Error reading the control mode." << std::endl;
-            return false;
+            if (++counter == maxIter)
+            {
+                std::cerr << errorPrefix << "Error while reading the control mode." << std::endl;
+                return false;
+            }
+
+            // Sleep for some while
+            std::this_thread::sleep_for(std::chrono::microseconds(timeout));
         }
 
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
@@ -193,10 +204,20 @@ struct YarpRobotControl::Impl
             return false;
         }
 
-        if (!this->encodersInterface->getEncoders(this->positionFeedback.data()))
+        // try to read the joint encoders
+        unsigned counter = 0;
+        constexpr unsigned maxIter = 100;
+        constexpr unsigned timeout = 500;
+        while (!this->encodersInterface->getEncoders(this->positionFeedback.data()))
         {
-            std::cerr << errorPrefix << "Error reading encoders." << std::endl;
-            return false;
+            if (++counter == maxIter)
+            {
+                std::cerr << errorPrefix << "Error while reading the encoders." << std::endl;
+                return false;
+            }
+
+            // Sleep for some while
+            std::this_thread::sleep_for(std::chrono::microseconds(timeout));
         }
 
         // convert the joint position in radians
@@ -485,7 +506,7 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValu
 }
 
 bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                                       const IRobotControl::ControlMode& mode)
+                                     const IRobotControl::ControlMode& mode)
 {
 
     // check if all the joints are controlled in the desired control mode
