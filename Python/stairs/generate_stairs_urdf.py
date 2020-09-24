@@ -10,12 +10,28 @@ import os
 import xml.etree.ElementTree as et
 from xml.dom import minidom
 
-"""
-Step contain the definition of a step on a stair
-"""
+
 class Step:
+    """Step contain the definition of a step on a stair.
+
+    Attributes:
+        name (str): associated to the step.
+        length (double): horizontal dimension, in meters, of the step (along the x axis).
+        width (double): horizontal dimension, in meters, of the step (along the y axis).
+        height (double): vertical dimension, in meters, of the step (along the z axis).
+    """
     def __init__(self, step_index, size):
+        """Constructor of the step method
+        Args:
+            step_index (int): index representing the step.
+            size (list): 3d vector containing the length (x-dimension)
+                         width (y-dimension) and height (z-dimension) of the step.
+        """
         self.name = 's_' + str(step_index)
+
+        if ((len(size) != 3) and all(element > 0 for element in size)):
+            raise ValueError('The size has to be a 3d-vector containing only positive numbers.')
+
         self.length = size[0]
         self.width = size[1]
         self.height = size[2]
