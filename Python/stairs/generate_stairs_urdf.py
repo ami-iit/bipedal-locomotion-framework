@@ -16,9 +16,9 @@ Step contain the definition of a step on a stair
 class Step:
     def __init__(self, step_index, size):
         self.name = 's_' + str(step_index)
-        self.height = size[0]
-        self.length = size[1]
-        self.width = size[2]
+        self.length = size[0]
+        self.width = size[1]
+        self.height = size[2]
         self.mass = 1
 
     def append_urdf(self, model_urdf):
@@ -105,7 +105,7 @@ def main():
     parser.add_argument('--install_folder', type = str, default = './', required = False, help='File output')
     args = parser.parse_args()
 
-    model_name = 'stair'
+    model_name = 'stairs'
     install_folder = args.install_folder
     
     
