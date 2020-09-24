@@ -50,8 +50,8 @@ class Step:
                                 iyy = str(self.mass/3.0 * (self.length ** 2 + self.height ** 2)),
                                 iyz= '0.0',
                                 izz=str(self.mass/3.0 * (self.length ** 2 + self.width ** 2)))
-        
-        
+
+
         visual =  et.SubElement(link, 'visual')
         visual_origin =  et.SubElement(visual, 'origin',
                                        xyz = str(self.length / 2.0) + ' 0.0 ' + str(self.height / 2.0),
@@ -60,7 +60,7 @@ class Step:
         visual_geometry = et.SubElement(visual, 'geometry')
         visual_box = et.SubElement(visual_geometry, 'box',
                                    size = str(self.length) + ' ' + str(self.width) + ' ' + str(self.height))
-        
+
         collision = et.SubElement(link, 'collision')
         collision_origin =  et.SubElement(collision, 'origin',
                                        xyz = str(self.length / 2.0) + ' 0.0 ' + str(self.height / 2.0),
@@ -69,21 +69,21 @@ class Step:
         collision_geometry = et.SubElement(collision, 'geometry')
         collision_box = et.SubElement(collision_geometry, 'box',
                                    size = str(self.length) + ' ' + str(self.width) + ' ' + str(self.height))
-        
+
 def add_joint_to_urdf(parent_step, child_step, model_urdf):
     joint_name = 'joint_' + parent_step.name + '_' + child_step.name
-    
+
     joint = et.SubElement(model_urdf, 'joint', name = joint_name, type = 'fixed')
     et.SubElement(joint, 'origin',
                   xyz = str(parent_step.length) + ' 0 ' + str(parent_step.height), rpy = '0 0 0')
     et.SubElement(joint, 'parent' ,link = parent_step.name)
     et.SubElement(joint, 'child' ,link = child_step.name)
-    
+
     return model_urdf
-        
+
 
 def save_urdf(model_urdf, output_file):
-    
+
     xmlstr = minidom.parseString(et.tostring(model_urdf, encoding='UTF-8')).toprettyxml(indent='    ')
     with open(output_file, 'w') as f:
         f.write(xmlstr)
@@ -99,7 +99,7 @@ def generate_urdf(model_name, step_size, steps_number):
     # Populate the urdf model with the steps
     for step in steps:
         step.append_urdf(model)
-    
+
     for i in range(len(steps) - 1):
         add_joint_to_urdf(steps[i], steps[i+1], model)
 
@@ -123,15 +123,15 @@ def main():
 
     model_name = 'stairs'
     install_folder = args.install_folder
-    
-    
+
+
     model = generate_urdf(model_name,
                           [args.step_length, args.step_width, args.step_height],
                           args.steps_number)
 
     if not os.path.exists(os.path.normpath(args.install_folder)):
         os.makedirs(os.path.normpath(args.install_folder))
-        
+
     save_urdf(model,
               os.path.normpath(args.install_folder + '/' + model_name + '.urdf'))
 
