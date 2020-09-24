@@ -6,6 +6,7 @@
  */
 
 #include <cmath>
+#include <thread>
 #include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
@@ -74,6 +75,11 @@ struct YarpRobotControl::Impl
     double positionDirectMaxAdmissibleError{0.0}; /**< Max admissible error for position direct
                                                      control joint [rad] */
 
+    std::size_t maxReadingAttempts{100}; /**< Max number of attempts used for reading from the yarp
+                                            interfaces. */
+    std::size_t readingTimeout{500}; /**< Timeout used while reading from the yarp interfaces in
+                                        microseconds. */
+
     static IRobotControl::ControlMode
     YarpControlModeToControlMode(const yarp::conf::vocab32_t& controlModeYarp)
     {
@@ -128,10 +134,18 @@ struct YarpRobotControl::Impl
             return false;
         }
 
-        if (!this->controlModeInterface->getControlModes(this->controlModesYarp.data()))
+        // try to read the control mode
+        std::size_t counter = 0;
+        while (!this->controlModeInterface->getControlModes(this->controlModesYarp.data()))
         {
-            std::cerr << errorPrefix << "Error reading the control mode." << std::endl;
-            return false;
+            if (++counter == this->maxReadingAttempts)
+            {
+                std::cerr << errorPrefix << "Error while reading the control mode." << std::endl;
+                return false;
+            }
+
+            // Sleep for some while
+            std::this_thread::sleep_for(std::chrono::microseconds(this->readingTimeout));
         }
 
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
@@ -193,10 +207,18 @@ struct YarpRobotControl::Impl
             return false;
         }
 
-        if (!this->encodersInterface->getEncoders(this->positionFeedback.data()))
+        // try to read the joint encoders
+        std::size_t counter = 0;
+        while (!this->encodersInterface->getEncoders(this->positionFeedback.data()))
         {
-            std::cerr << errorPrefix << "Error reading encoders." << std::endl;
-            return false;
+            if (++counter == this->maxReadingAttempts)
+            {
+                std::cerr << errorPrefix << "Error while reading the encoders." << std::endl;
+                return false;
+            }
+
+            // Sleep for some while
+            std::this_thread::sleep_for(std::chrono::microseconds(this->readingTimeout));
         }
 
         // convert the joint position in radians
@@ -286,7 +308,31 @@ struct YarpRobotControl::Impl
         // store the polydriver
         this->robotDevice = robotDevice;
 
-        return this->getControlModes();
+        if (!this->getControlModes())
+        {
+            std::cerr << errorPrefix << "Unable to get the control modes." << std::endl;
+            return false;
+        }
+
+        // clear all the stored control modes
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PositionDirect].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Velocity].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Torque].clear();
+
+        // store the joint associated to a specific control mode
+        for (std::size_t i = 0; i < this->actuatedDOFs; i++)
+        {
+            this->desiredJointValuesAndMode.index[this->controlModes[i]].push_back(i);
+        }
+
+        // resize the desired joint value vector associated to each control mode
+        for (const auto& [mode, indeces] : this->desiredJointValuesAndMode.index)
+        {
+            this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
+        }
+
+        return true;
     }
 
     /**
@@ -458,10 +504,41 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
         return false;
     }
 
-    bool ok = ptr->getParameter("positioning_duration", m_pimpl->positioningDuration);
-    ok = ok && ptr->getParameter("positioning_tolerance", m_pimpl->positioningTolerance);
+    // optional parameters
+    int temp = 0;
+    if (ptr->getParameter("reading_timeout", temp))
+    {
+        // the reading timeout has to be a positive number
+        if (temp < 0)
+        {
+            std::cerr << errorPrefix << "'reading_timeout' parameter has to be a positive number."
+                      << std ::endl;
+            return false;
+        }
+        m_pimpl->readingTimeout = temp;
+    }
+
+    if (ptr->getParameter("max_reading_attempts", temp))
+    {
+        // the max_reading_attempts has to be a strictly positive number
+        if (temp <= 0)
+        {
+            std::cerr << errorPrefix
+                      << "'max_reading_attempts' parameter has to be a strictly positive number."
+                      << std ::endl;
+            return false;
+        }
+        m_pimpl->maxReadingAttempts = temp;
+    }
+
+    // mandatory parameters
+    bool ok = ptr->getParameter("positioning_duration", m_pimpl->positioningDuration)
+              && (m_pimpl->positioningDuration > 0);
+    ok = ok && ptr->getParameter("positioning_tolerance", m_pimpl->positioningTolerance)
+         && (m_pimpl->positioningTolerance > 0);
     ok = ok && ptr->getParameter("position_direct_max_admissible_error",
-                                 m_pimpl->positionDirectMaxAdmissibleError);
+                                 m_pimpl->positionDirectMaxAdmissibleError)
+         && (m_pimpl->positionDirectMaxAdmissibleError > 0);
 
     return ok;
 }
@@ -485,7 +562,7 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValu
 }
 
 bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                                       const IRobotControl::ControlMode& mode)
+                                     const IRobotControl::ControlMode& mode)
 {
 
     // check if all the joints are controlled in the desired control mode
