@@ -307,7 +307,31 @@ struct YarpRobotControl::Impl
         // store the polydriver
         this->robotDevice = robotDevice;
 
-        return this->getControlModes();
+        if (!this->getControlModes())
+        {
+            std::cerr << errorPrefix << "Unable to get the control modes." << std::endl;
+            return false;
+        }
+
+        // clear all the stored control modes
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PositionDirect].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Velocity].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Torque].clear();
+
+        // store the joint associated to a specific control mode
+        for (std::size_t i = 0; i < this->actuatedDOFs; i++)
+        {
+            this->desiredJointValuesAndMode.index[this->controlModes[i]].push_back(i);
+        }
+
+        // resize the desired joint value vector associated to each control mode
+        for (const auto& [mode, indeces] : this->desiredJointValuesAndMode.index)
+        {
+            this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
+        }
+
+        return true;
     }
 
     /**
