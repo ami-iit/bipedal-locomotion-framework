@@ -532,9 +532,9 @@ struct TimeVaryingDCMPlanner::Impl
 
         trajectory.omega = static_cast<double>(optiSolution.omega(0, this->trajectoryIndex));
 
-        const double omegaDot = static_cast<double>(optiSolution.omegaDot(0, this->trajectoryIndex));
+        trajectory.omegaDot = static_cast<double>(optiSolution.omegaDot(0, this->trajectoryIndex));
 
-        trajectory.dcmVelocity = (trajectory.omega - omegaDot / trajectory.omega)
+        trajectory.dcmVelocity = (trajectory.omega - trajectory.omegaDot / trajectory.omega)
                                  * (trajectory.dcmPosition - trajectory.vrpPosition);
     }
 };
