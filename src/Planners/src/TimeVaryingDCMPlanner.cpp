@@ -7,11 +7,9 @@
 
 #include <casadi/casadi.hpp>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/CubicSpline.h>
-
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
+#include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/System/DynamicalSystem.h>
 #include <BipedalLocomotion/System/ForwardEuler.h>
 
@@ -63,10 +61,7 @@ struct TimeVaryingDCMPlanner::Impl
                                           constraints related to the position of the Zero Moment
                                           Point (ZMP) */
 
-    iDynTree::CubicSpline dcmRefX; /**< Cubic spline for the x-coordinate of the reference DCM */
-    iDynTree::CubicSpline dcmRefY; /**< Cubic spline for the y-coordinate of the reference DCM */
-    iDynTree::CubicSpline dcmRefZ; /**< Cubic spline for the z-coordinate of the reference DCM */
-
+    BipedalLocomotion::Planners::QuinticSpline dcmRef;
     std::unique_ptr<ForwardEuler<TimeVaryingDCMPlannerDynamics>> dcmDynamicsIntegrator;
 
     casadi::Opti opti; /**< CasADi opti stack */
@@ -271,11 +266,14 @@ struct TimeVaryingDCMPlanner::Impl
             // system dynamics
             this->opti.subject_to(casadi::MX::vertcat({dcm(Sl(), i + 1), omega(Sl(), i + 1)})
                                   == casadi::MX::vertcat({dcmNextStep, omegaNextStep}));
-
-            // omega has to be positive
-            this->opti.subject_to(omega(Sl(), i) > 0);
-            this->opti.subject_to(casadi::MX::pow(omega(Sl(), i), 2) - omegaDot(Sl(), i) > 0);
         }
+
+        // omega^2 - omegaDot has to be positive
+        this->opti.subject_to(casadi::MX::pow(omega(Sl(), Sl(0, -1)), 2) - omegaDot
+                              > casadi::DM::zeros(omegaDot.rows(), omegaDot.columns()));
+
+        // omega has to be positive
+        this->opti.subject_to(omega > casadi::DM::zeros(omega.rows(), omega.columns()));
 
         this->optiParameters.dcmRefererenceTraj = this->opti.parameter(this->dcmVectorSize, horizonSampling + 1);
 
@@ -389,7 +387,7 @@ struct TimeVaryingDCMPlanner::Impl
 
         double time = contactPhaseList->cbegin()->beginTime;
 
-        std::vector<Eigen::Vector3d> dcmKnots;
+        std::vector<Eigen::VectorXd> dcmKnots;
         std::vector<double> timeKnots;
 
         // first point
@@ -431,12 +429,11 @@ struct TimeVaryingDCMPlanner::Impl
                         (contactPhaseListIt->endTime + contactPhaseListIt->beginTime) / 2);
 
                     auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    Eigen::Vector3d p1 = contactIt->second->pose.translation();
+                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
                     std::advance(contactIt, 1);
-                    Eigen::Vector3d p2 = contactIt->second->pose.translation();
+                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-                    Eigen::Vector3d desiredDCMPosition;
-                    desiredDCMPosition = (p1 + p2) / 2;
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -449,12 +446,11 @@ struct TimeVaryingDCMPlanner::Impl
                 {
                     timeKnots.push_back(contactPhaseListIt->endTime);
                     auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    Eigen::Vector3d p1 = contactIt->second->pose.translation();
+                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
                     std::advance(contactIt, 1);
-                    Eigen::Vector3d p2 = contactIt->second->pose.translation();
+                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-                    Eigen::Vector3d desiredDCMPosition;
-                    desiredDCMPosition = (p1 + p2) / 2;
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
                     desiredDCMPosition(2) += averageDCMHeight;
 
                     dcmKnots.emplace_back(desiredDCMPosition);
@@ -479,28 +475,9 @@ struct TimeVaryingDCMPlanner::Impl
             }
         }
 
-        dcmRefX.setInitialConditions(initialState.dcmVelocity[0], 0);
-        dcmRefX.setFinalConditions(0, 0);
-
-        dcmRefY.setInitialConditions(initialState.dcmVelocity[1], 0);
-        dcmRefY.setFinalConditions(0, 0);
-
-        dcmRefZ.setInitialConditions(initialState.dcmVelocity[2], 0);
-        dcmRefZ.setFinalConditions(0, 0);
-
-        iDynTree::VectorDynSize dcmKnotsX(dcmKnots.size());
-        iDynTree::VectorDynSize dcmKnotsY(dcmKnots.size());
-        iDynTree::VectorDynSize dcmKnotsZ(dcmKnots.size());
-        iDynTree::VectorDynSize timeKnotsiDynTree(dcmKnots.size());
-
-        for(int i = 0; i < dcmKnots.size(); i++)
-        {
-            dcmKnotsX[i] = dcmKnots[i][0];
-            dcmKnotsY[i] = dcmKnots[i][1];
-            dcmKnotsZ[i] = dcmKnots[i][2];
-            timeKnotsiDynTree[i] = timeKnots[i];
-        }
-
+        dcmRef.setInitialConditions(initialState.dcmVelocity, Eigen::Vector3d::Zero());
+        dcmRef.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+        dcmRef.setKnots(dcmKnots, timeKnots);
 
         // set last values
         this->opti.set_value(this->optiParameters.dcmFinalPosition,
@@ -514,35 +491,28 @@ struct TimeVaryingDCMPlanner::Impl
         // TODO the final omega is equal to the initial omega
         this->opti.set_value(this->optiParameters.omegaFinalValue, initialState.omega);
 
-        dcmRefX.setData(timeKnotsiDynTree, dcmKnotsX);
-        dcmRefY.setData(timeKnotsiDynTree, dcmKnotsY);
-        dcmRefZ.setData(timeKnotsiDynTree, dcmKnotsZ);
+        casadi::DM initialValueDCM = casadi::DM::zeros(3, this->optiVariables.dcm.columns());
+        casadi::DM initialValueOmega(1, this->optiVariables.dcm.columns());
 
-        casadi::DM initialValueDCM(3,this->optiVariables.dcm.columns());
-        casadi::DM initialValueOmega(1,this->optiVariables.dcm.columns());
+        Eigen::Vector3d velocity, acceleration;
+        Eigen::Map<Eigen::MatrixXd> initialValueDCMEigenMap(initialValueDCM.ptr(),
+                                                            initialValueDCM.rows(),
+                                                            initialValueDCM.columns());
 
         for (int i = 0; i < this->optiVariables.dcm.columns(); i++)
         {
-
-            this->opti.set_value(this->optiParameters.dcmRefererenceTraj(0, i),
-                                 dcmRefX.evaluatePoint(i * this->optiSettings.plannerSamplingTime));
-            this->opti.set_value(this->optiParameters.dcmRefererenceTraj(1, i),
-                                 dcmRefY.evaluatePoint(i * this->optiSettings.plannerSamplingTime));
-            this->opti.set_value(this->optiParameters.dcmRefererenceTraj(2, i),
-                                 dcmRefZ.evaluatePoint(i * this->optiSettings.plannerSamplingTime));
-
-            initialValueDCM(0, i)
-                = dcmRefX.evaluatePoint(i * this->optiSettings.plannerSamplingTime);
-            initialValueDCM(1, i)
-                = dcmRefY.evaluatePoint(i * this->optiSettings.plannerSamplingTime);
-            initialValueDCM(2, i)
-                = dcmRefZ.evaluatePoint(i * this->optiSettings.plannerSamplingTime);
-
-            initialValueOmega(Sl(), i) = std::sqrt(
-                9.81 / dcmRefZ.evaluatePoint(i * this->optiSettings.plannerSamplingTime));
+            const double currentTime = i * this->optiSettings.plannerSamplingTime;
+            dcmRef.evaluatePoint(currentTime,
+                                 initialValueDCMEigenMap.col(i),
+                                 velocity,
+                                 acceleration);
         }
 
+        initialValueOmega = sqrt(9.81 / initialValueDCM(2,Sl()));
+        this->opti.set_value(this->optiParameters.dcmRefererenceTraj, initialValueDCM);
+
         this->opti.set_initial(this->optiVariables.dcm, initialValueDCM);
+        this->opti.set_initial(this->optiVariables.vrp, initialValueDCM(Sl(), Sl(0, -1)));
         this->opti.set_initial(this->optiVariables.omega, initialValueOmega);
         this->opti.set_initial(this->optiVariables.omegaDot,
                                casadi::DM::zeros(1, omegaDot.columns()));
@@ -564,9 +534,9 @@ struct TimeVaryingDCMPlanner::Impl
 
         trajectory.omega = static_cast<double>(optiSolution.omega(0, this->trajectoryIndex));
 
-        const double omegaDot = static_cast<double>(optiSolution.omegaDot(0, this->trajectoryIndex));
+        trajectory.omegaDot = static_cast<double>(optiSolution.omegaDot(0, this->trajectoryIndex));
 
-        trajectory.dcmVelocity = (trajectory.omega - omegaDot / trajectory.omega)
+        trajectory.dcmVelocity = (trajectory.omega - trajectory.omegaDot / trajectory.omega)
                                  * (trajectory.dcmPosition - trajectory.vrpPosition);
     }
 };

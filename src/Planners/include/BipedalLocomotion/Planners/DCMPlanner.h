@@ -31,6 +31,7 @@ struct DCMPlannerState
     Eigen::Vector3d vrpPosition; /**< Position of the virtual repellent point (VRP) expressed
                                     w.r.t. the inertial frame */
     double omega;/**< Value of the parameter omega */
+    double omegaDot;/**< Value of the parameter omega dot */
 };
 
 /**
