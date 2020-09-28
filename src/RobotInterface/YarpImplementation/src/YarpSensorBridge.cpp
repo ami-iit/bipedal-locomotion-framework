@@ -30,9 +30,13 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
         return false;
     }
 
-    int temp;
-    ptr->getParameter("check_for_nan", temp);
-    m_pimpl->checkForNAN = static_cast<bool>(temp);
+
+    if(!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
+    {
+        std::cerr << logPrefix << "Unable to get check_for_nan."
+                  << std ::endl;
+        return false;
+    }
 
     bool ret{true};
     ret = m_pimpl->subConfigLoader("stream_joint_states", "RemoteControlBoardRemapper",

@@ -164,24 +164,23 @@ struct YarpSensorBridge::Impl
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
-            std::cerr << logPrefix << "The handler is not pointing to an already initialized memory."
+            std::cerr << logPrefix
+                      << "The handler is not pointing to an already initialized memory."
                       << std ::endl;
             return false;
         }
 
-        int success;
-        if (ptr->getParameter(enableStreamString, success))
+        enableStreamFlag = false;
+        if (ptr->getParameter(enableStreamString, enableStreamFlag) && enableStreamFlag)
         {
-            enableStreamFlag = static_cast<bool>(success);
-            if (enableStreamFlag)
+            auto groupHandler = ptr->getGroup(streamGroupString);
+            if (!(this->*loader)(groupHandler, metaData))
             {
-                auto groupHandler = ptr->getGroup(streamGroupString);
-                if (! (this->*loader)(groupHandler, metaData) )
-                {
-                    std::cerr << logPrefix << streamGroupString << " group could not be initialized from the configuration file."
-                              << std ::endl;
-                    return false;
-                }
+                std::cerr << logPrefix << streamGroupString
+                          << " group could not be initialized from the configuration file."
+                          << std::endl;
+
+                return false;
             }
         }
 
@@ -1704,5 +1703,3 @@ struct YarpSensorBridge::Impl
 }
 }
 #endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_IMPL_H
-
-
