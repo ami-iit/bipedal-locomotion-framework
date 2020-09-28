@@ -49,14 +49,14 @@ namespace RobotInterface
  * The parameters for writing the configuration file for this class is given as,
  * |     Group                  |         Parameter               | Type              |                   Description                   |
  * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
- * |                            |check_for_nan                    | int (0/1)         |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
- * |                            |stream_joint_states              | int (0/1)         |Flag to activate the attachment to IMU sensor devices       |
- * |                            |stream_inertials                 | int (0/1)         |Flag to activate the attachment to IMU sensor devices       |
- * |                            |stream_cartesian_wrenches        | int (0/1)         |Flag to activate the attachment to Cartesian wrench related devices       |
- * |                            |stream_forcetorque_sensors       | int (0/1)         |Flag to activate the attachment to six axis FT sensor devices       |
- * |                            |stream_cameras                   | int (0/1)         |Flag to activate the attachment to Cameras devices       |
+ * |                            |check_for_nan                    | boolean           |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
+ * |                            |stream_joint_states              | boolean           |Flag to activate the attachment to IMU sensor devices       |
+ * |                            |stream_inertials                 | boolean           |Flag to activate the attachment to IMU sensor devices       |
+ * |                            |stream_cartesian_wrenches        | boolean           |Flag to activate the attachment to Cartesian wrench related devices       |
+ * |                            |stream_forcetorque_sensors       | boolean           |Flag to activate the attachment to six axis FT sensor devices       |
+ * |                            |stream_cameras                   | boolean           |Flag to activate the attachment to Cameras devices       |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
- * |                            |joints_list                      | vector of strings |The joints list used to open the remote control board remapper       |
+ * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
  * |                            |imu_list                         | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 12      |
  * |                            |gyroscopes_list                  | vector of strings |list of the names of devices opened with ThreeAxisGyroscope interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3  |
