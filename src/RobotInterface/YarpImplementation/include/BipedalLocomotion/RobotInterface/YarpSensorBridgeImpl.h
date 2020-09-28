@@ -953,7 +953,7 @@ struct YarpSensorBridge::Impl
             metaData.bridgeOptions.nrJoints = metaData.sensorsList.jointsList.size();
         }
 
-        // reset the control board wrappers
+        // reset the control board buffers
         this->resetControlBoardBuffers();
 
         // check if the joints in the desired joint list are available in the controlboard joints
