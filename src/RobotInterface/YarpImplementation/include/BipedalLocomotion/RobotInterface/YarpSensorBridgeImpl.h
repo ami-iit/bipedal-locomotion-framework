@@ -199,13 +199,27 @@ struct YarpSensorBridge::Impl
 
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureRemoteControlBoardRemapper] ";
         auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
+
+        // in general if a group is not defined means there is an error in the configuration file.
+        // In this particlar case since the only parameter is optional, having an empty
+        // configuration file is not a problem.
+        if (ptr == nullptr)
+        {
+            // Notice in case of other REQUIRED parameters here a return false is necessary.
+            std::cout << logPrefix
+                      << "The parameter \"joints_list\" in not available in the configuration. The "
+                         "order of the joints will be the one passed in RemoteControlBoardRemapper."
+                      << std::endl;
+            return true;
+        }
 
         if (!ptr->getParameter("joints_list", metaData.sensorsList.jointsList))
         {
-            std::cerr << logPrefix << " Required parameter \"joints_list\" not available in the configuration"
+            std::cerr << logPrefix
+                      << "The parameter \"joints_list\" in not available in the configuration. The "
+                         "order of the joints will be the one passed in RemoteControlBoardRemapper."
                       << std::endl;
-            return false;
+            return true;
         }
 
         metaData.bridgeOptions.nrJoints = metaData.sensorsList.jointsList.size();
