@@ -194,6 +194,9 @@ struct YarpSensorBridge::Impl
     bool configureRemoteControlBoardRemapper(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                              SensorBridgeMetaData& metaData)
     {
+        // clear the joint list
+        metaData.sensorsList.jointsList.clear();
+
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureRemoteControlBoardRemapper] ";
         auto ptr = handler.lock();
         if (ptr == nullptr) { return false; }
@@ -884,7 +887,6 @@ struct YarpSensorBridge::Impl
             return false;
         }
 
-        resetControlBoardBuffers();
         if (!compareControlBoardJointsList())
         {
             std::cerr << logPrefix << " Could not attach to remapped control board interface" << std::endl;
@@ -916,6 +918,7 @@ struct YarpSensorBridge::Impl
     bool compareControlBoardJointsList()
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::compareControlBoardJointsList] ";
+
         // get the names of all the joints available in the attached remote control board remapper
         std::vector<std::string> controlBoardJoints;
         int controlBoardDOFs;
@@ -927,42 +930,52 @@ struct YarpSensorBridge::Impl
             controlBoardJoints.push_back(joint);
         }
 
-        // check if the joints in the desired joint list are available in the controlboard joints list
-        // if available get the control board index at which the desired joint is available
+        // if the joint list is empty means that the user did not pass a "joints_list" while the
+        // RemoteControlBoard is configured. In this case the joints list of the SensorBridge is the
+        // same of the polydriver.
+        if (metaData.sensorsList.jointsList.empty())
+        {
+            metaData.sensorsList.jointsList = controlBoardJoints;
+            metaData.bridgeOptions.nrJoints = metaData.sensorsList.jointsList.size();
+        }
+
+        // reset the control board wrappers
+        this->resetControlBoardBuffers();
+
+        // check if the joints in the desired joint list are available in the controlboard joints
+        // list if available get the control board index at which the desired joint is available
         // this is required in order to remap the control board joints on to the desired joints
-        // this needs to be optimized with better STL algorithms
-        bool jointFound{false};
         for (int desiredDOF = 0; desiredDOF < metaData.sensorsList.jointsList.size(); desiredDOF++)
         {
-            jointFound = false;
-            for (int DOF = 0; DOF < controlBoardDOFs; DOF++)
-            {
-                if (metaData.sensorsList.jointsList[desiredDOF] == controlBoardJoints[DOF])
-                {
-                    controlBoardRemapperMeasures.remappedJointIndices[desiredDOF] = DOF;
-                    jointFound = true;
-                    break;
-                }
-            }
+            const auto& jointInSensorList = metaData.sensorsList.jointsList[desiredDOF];
+            auto& remappedJointIndex = controlBoardRemapperMeasures.remappedJointIndices[desiredDOF];
+            // find the joint named jointInSensorList into the controlBoardJoints vector
+            const auto it = std::find_if(controlBoardJoints.begin(),
+                                         controlBoardJoints.end(),
+                                         [&](const auto& joint) { return jointInSensorList == joint; });
 
-            if (!jointFound)
+            // check if the joint is found
+            if (it != controlBoardJoints.end())
             {
-                std::cerr << logPrefix << " Could not find a desired joint from the configuration in the attached control board remapper." << std::endl;
+                remappedJointIndex = std::distance(controlBoardJoints.begin(), it);
+            } else
+            {
+                std::cerr << logPrefix
+                          << "Could not find a desired joint from the configuration in the "
+                             "attached control board remapper."
+                          << std::endl;
                 return false;
             }
         }
 
-        if (!jointFound)
-        {
-            return false;
-        }
-
         std::cout << logPrefix << "Found all joints with the remapped index " << std::endl;
-        for (int idx =0; idx < controlBoardRemapperMeasures.remappedJointIndices.size(); idx++)
+        for (int idx = 0; idx < controlBoardRemapperMeasures.remappedJointIndices.size(); idx++)
         {
-            std::cout << logPrefix << "Remapped Index: " << controlBoardRemapperMeasures.remappedJointIndices[idx]
-                                   << " , Joint name:  " << controlBoardJoints[controlBoardRemapperMeasures.remappedJointIndices[idx]]
-                                   << std::endl;
+            std::cout << logPrefix << "Remapped Index: "
+                      << controlBoardRemapperMeasures.remappedJointIndices[idx]
+                      << " , Joint name:  "
+                      << controlBoardJoints[controlBoardRemapperMeasures.remappedJointIndices[idx]]
+                      << std::endl;
         }
         return true;
     }
