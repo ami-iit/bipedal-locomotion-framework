@@ -11,40 +11,8 @@
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/System/DynamicalSystem.h>
-#include <BipedalLocomotion/System/ForwardEuler.h>
 
 using namespace BipedalLocomotion::Planners;
-using namespace BipedalLocomotion::System;
-
-class TimeVaryingDCMPlannerDynamics : public DynamicalSystem<std::tuple<casadi::MX, casadi::MX>,
-                                                             std::tuple<casadi::MX, casadi::MX>,
-                                                             std::tuple<casadi::MX, casadi::MX>>
-{
-public:
-    /**
-     * Computes the floating based system dynamics. It return \f$f(x, u, t)\f$.
-     * @note The control input and the state have to be set separately with the methods
-     * setControlInput and setState.
-     * @param time the time at witch the dynamics is computed.
-     * @param stateDynamics tuple containing a reference to the element of the state derivative
-     * @return true in case of success, false otherwise.
-     */
-    bool dynamics(const double& time, StateDerivativeType& stateDerivative) final
-    {
-        const auto& dcm = std::get<0>(m_state);
-        const auto& omega = std::get<1>(m_state);
-
-        const auto& vrp = std::get<0>(m_controlInput);
-        const auto& omegaDotInput = std::get<1>(m_controlInput);
-
-        auto& dcmDot = std::get<0>(stateDerivative);
-        auto& omegaDot = std::get<1>(stateDerivative);
-
-        dcmDot = (omega - omegaDotInput / omega) * (dcm - vrp);
-        omegaDot = omegaDotInput;
-        return true;
-    }
-};
 
 /**
  * Private implementation of the TimeVaryingDCMPlanner class
@@ -62,7 +30,6 @@ struct TimeVaryingDCMPlanner::Impl
                                           Point (ZMP) */
 
     BipedalLocomotion::Planners::QuinticSpline dcmRef;
-    std::unique_ptr<ForwardEuler<TimeVaryingDCMPlannerDynamics>> dcmDynamicsIntegrator;
 
     casadi::Opti opti; /**< CasADi opti stack */
     casadi::MX costFunction; /**< Cost function of the optimization problem */
@@ -165,6 +132,22 @@ struct TimeVaryingDCMPlanner::Impl
         return casadi::Function("eCMP", {omega, vrp, omegaDot}, {rhs});
     }
 
+    casadi::Function getDynamics()
+    {
+        casadi::MX state = casadi::MX::sym("state", 4);
+        const auto& dcm = state(casadi::Slice(0,3));
+        const auto& omega = state(3);
+
+        casadi::MX vrp = casadi::MX::sym("vrp", 3);
+        casadi::MX omegaDot = casadi::MX::sym("omega_dot");
+
+        casadi::MX rhs = casadi::MX::vertcat(
+            {dcm + (omega - omegaDot / omega) * (dcm - vrp) * optiSettings.plannerSamplingTime,
+             omega + omegaDot * optiSettings.plannerSamplingTime});
+
+        return casadi::Function("DCMDynamics", {state, vrp, omegaDot}, {rhs});
+    }
+
     /**
      * Clear the optimization problem
      */
@@ -203,8 +186,6 @@ struct TimeVaryingDCMPlanner::Impl
     {
         using Sl = casadi::Slice;
 
-        auto dcmDynamicalSystem = this->dcmDynamicsIntegrator->dynamicalSystem().lock();
-
         // define the size of the optimization variables
         this->optiVariables.dcm = this->opti.variable(this->dcmVectorSize, horizonSampling + 1);
         this->optiVariables.omega = this->opti.variable(1, horizonSampling + 1);
@@ -230,14 +211,10 @@ struct TimeVaryingDCMPlanner::Impl
         this->opti.subject_to(omega(Sl(), 0) == this->optiParameters.omegaInitialValue);
         this->opti.subject_to(dcm(Sl(), 0) == this->optiParameters.dcmInitialPosition);
 
-        // initial value of the DCM dynamics
-        dcmDynamicalSystem->setState({dcm(Sl(), 0), omega(Sl(), 0)});
-        dcmDynamicalSystem->setControlInput({vrp(Sl(), 0), omegaDot(Sl(), 0)});
 
-        TimeVaryingDCMPlannerDynamics::StateDerivativeType stateDerivative;
-        dcmDynamicalSystem->dynamics(0, stateDerivative);
+        auto initialDcmVelocity = (omega(0) - omegaDot(0) / omega(0)) * (dcm(Sl(), 0) - vrp(Sl(), 0));
+        auto initialOmegaVelocity = omegaDot(0);
 
-        const auto& [initialDcmVelocity, initialOmegaVelocity] = stateDerivative;
         this->opti.subject_to(casadi::MX::vertcat({initialDcmVelocity, initialOmegaVelocity})
                               == casadi::MX::vertcat({this->optiParameters.dcmInitialVelocity, 0}));
 
@@ -245,28 +222,20 @@ struct TimeVaryingDCMPlanner::Impl
         this->opti.subject_to(omega(Sl(), -1) == this->optiParameters.omegaFinalValue);
         this->opti.subject_to(dcm(Sl(), -1) == this->optiParameters.dcmFinalPosition);
 
+        auto finalDcmVelocity = (omega(-1) - omegaDot(-1) / omega(-1)) * (dcm(Sl(), -1) - vrp(Sl(), -1));
+        auto finalOmegaVelocity = omegaDot(-1);
 
-        dcmDynamicalSystem->setState({dcm(Sl(), -1), omega(Sl(), -1)});
-        dcmDynamicalSystem->setControlInput({vrp(Sl(), -1), omegaDot(Sl(), -1)});
-
-        dcmDynamicalSystem->dynamics(0, stateDerivative);
-        const auto& [finalDcmVelocity, finalOmegaVelocity] = stateDerivative;
         this->opti.subject_to(casadi::MX::vertcat({finalDcmVelocity, finalOmegaVelocity})
                               == casadi::MX::vertcat({this->optiParameters.dcmFinalVelocity, 0}));
 
-        for(std::size_t i = 0; i < horizonSampling - 1; i++)
-        {
-            // initial value of the DCM dynamics
-            dcmDynamicalSystem->setState({dcm(Sl(), i), omega(Sl(), i)});
-            dcmDynamicalSystem->setControlInput({vrp(Sl(), i), omegaDot(Sl(), i)});
-            dcmDynamicsIntegrator->integrate(0, this->optiSettings.plannerSamplingTime);
+        auto trajectory = this->optiFunctions.dcmDynamics.map(horizonSampling);
 
-            const auto& [dcmNextStep, omegaNextStep] = dcmDynamicsIntegrator->getSolution();
-
-            // system dynamics
-            this->opti.subject_to(casadi::MX::vertcat({dcm(Sl(), i + 1), omega(Sl(), i + 1)})
-                                  == casadi::MX::vertcat({dcmNextStep, omegaNextStep}));
-        }
+        this->opti.subject_to(
+            casadi::MX::vertcat(
+                {dcm(Sl(), Sl(1, dcm.columns())), omega(Sl(), Sl(1, omega.columns()))})
+            == trajectory({casadi::MX::vertcat({dcm(Sl(), Sl(0, -1)), omega(Sl(), Sl(0, -1))}),
+                           vrp,
+                           omegaDot})[0]);
 
         // omega^2 - omegaDot has to be positive
         this->opti.subject_to(casadi::MX::pow(omega(Sl(), Sl(0, -1)), 2) - omegaDot
@@ -301,6 +270,7 @@ struct TimeVaryingDCMPlanner::Impl
     void setupCasADiFunctions()
     {
         optiFunctions.ecmp = getECMP();
+        optiFunctions.dcmDynamics = getDynamics();
     }
 
     bool computeConstraintElementsECMP(const ContactPhase& contactPhase,
@@ -598,10 +568,6 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
         }
     }
 
-    // instantiate the dcm dynamical system integrator
-    m_pimpl->dcmDynamicsIntegrator = std::make_unique<ForwardEuler<TimeVaryingDCMPlannerDynamics>>(
-        m_pimpl->optiSettings.plannerSamplingTime);
-    m_pimpl->dcmDynamicsIntegrator->setDynamicalSystem(std::make_shared<TimeVaryingDCMPlannerDynamics>());
 
     bool okCostFunctions = true;
     okCostFunctions &= handler->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
