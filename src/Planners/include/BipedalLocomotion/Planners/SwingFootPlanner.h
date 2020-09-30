@@ -29,17 +29,15 @@ namespace Planners
 struct SwingFootPlannerState
 {
     manif::SE3d transform; /**< Homogeneous transform between the link and the inertial frame */
-    manif::SE3d::Tangent spatialVelocity; /**< Spatial velocity written in mixed representation */
-    manif::SE3d::Tangent spatialAcceleration; /**< Spatial acceleration written in mixed
-                                                 representation */
+    manif::SE3d::Tangent mixedVelocity; /**< 6D-velocity written in mixed representation */
+    manif::SE3d::Tangent mixedAcceleration; /**< 6D-acceleration written in mixed representation */
     bool isInContact{true}; /** < If true the link is in contact with the environment */
 };
 
 /**
  * SwingFootPlanner implement a minimum jerk trajectory planner for the swing foot. The planner is
- * designed in SE(3) and we assume that initial and final spatial acceleration and velocity of the
- * foot is always equal to zero at take off and landing. The trajectory of the foot will belong to
- * the Geodesic.
+ * designed in SE(3) and we assume that initial 6d-acceleration and 6d-velocity of the  foot is
+ * always equal to zero at take off. The trajectory of the foot will belong to the Geodesic.
  */
 class SwingFootPlanner : public System::Advanceable<SwingFootPlannerState>
 {

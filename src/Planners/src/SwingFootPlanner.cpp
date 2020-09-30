@@ -71,9 +71,9 @@ bool SwingFootPlanner::initialize(std::shared_ptr<ParametersHandler::IParameters
     m_planarPlanner.setInitialConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
     m_planarPlanner.setFinalConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
 
-
     m_heightPlanner.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
-    m_heightPlanner.setFinalConditions(Vector1d::Constant(footLandingVelocity), Vector1d::Constant(footLandingAcceleration));
+    m_heightPlanner.setFinalConditions(Vector1d::Constant(footLandingVelocity),
+                                       Vector1d::Constant(footLandingAcceleration));
 
     return true;
 }
@@ -88,8 +88,8 @@ void SwingFootPlanner::setContactList(const ContactList& contactList)
     // set the first contact
     m_currentContactPtr = m_contactList.firstContact();
     m_state.transform = m_currentContactPtr->pose;
-    m_state.spatialVelocity.setZero();
-    m_state.spatialAcceleration.setZero();
+    m_state.mixedVelocity.setZero();
+    m_state.mixedAcceleration.setZero();
     m_state.isInContact = true;
 
 }
@@ -110,12 +110,13 @@ bool SwingFootPlanner::updateSE3Traj()
     const double shiftedTime = m_currentTrajectoryTime - m_currentContactPtr->deactivationTime;
 
     manif::SO3d rotation;
-    auto angularVelocity(m_state.spatialVelocity.asSO3());
-    auto angularAcceleration(m_state.spatialAcceleration.asSO3());
-    if (!m_SO3Planner.evaluatePoint(shiftedTime,
-                                    rotation,
-                                    angularVelocity,
-                                    angularAcceleration))
+
+    // note here we assume that the velocity is expressed using the mixed representation.
+    // This is the only reason why we consider an element of the  tangent space of SE3 as a 6d
+    // vector containing linear and angular velocity. The same assumption holds also for the acceleration.
+    auto angularVelocity(m_state.mixedVelocity.asSO3());
+    auto angularAcceleration(m_state.mixedAcceleration.asSO3());
+    if (!m_SO3Planner.evaluatePoint(shiftedTime, rotation, angularVelocity, angularAcceleration))
     {
         std::cerr << "[SwingFootPlanner::advance] Unable to get the SO(3) trajectory at time t = "
                   << m_currentTrajectoryTime << "." << std::endl;
@@ -125,8 +126,8 @@ bool SwingFootPlanner::updateSE3Traj()
     manif::SE3d::Translation position;
     if (!m_planarPlanner.evaluatePoint(m_currentTrajectoryTime,
                                        position.head<2>(),
-                                       m_state.spatialVelocity.coeffs().head<2>(),
-                                       m_state.spatialAcceleration.coeffs().head<2>()))
+                                       m_state.mixedVelocity.coeffs().head<2>(),
+                                       m_state.mixedAcceleration.coeffs().head<2>()))
     {
         std::cerr << "[SwingFootPlanner::advance] Unable to get the planar trajectory at time t = "
                   << m_currentTrajectoryTime << "." << std::endl;
@@ -135,8 +136,8 @@ bool SwingFootPlanner::updateSE3Traj()
 
     if (!m_heightPlanner.evaluatePoint(m_currentTrajectoryTime,
                                        position.segment<1>(2),
-                                       m_state.spatialVelocity.coeffs().segment<1>(2),
-                                       m_state.spatialAcceleration.coeffs().segment<1>(2)))
+                                       m_state.mixedVelocity.coeffs().segment<1>(2),
+                                       m_state.mixedAcceleration.coeffs().segment<1>(2)))
     {
         std::cerr << "[SwingFootPlanner::advance] Unable to get the height trajectory at time t = "
                   << m_currentTrajectoryTime << "." << std::endl;
@@ -258,8 +259,8 @@ bool SwingFootPlanner::advance()
         std::advance(m_currentContactPtr, 1);
 
         m_state.transform = m_currentContactPtr->pose;
-        m_state.spatialVelocity.setZero();
-        m_state.spatialAcceleration.setZero();
+        m_state.mixedVelocity.setZero();
+        m_state.mixedAcceleration.setZero();
         m_state.isInContact = true;
 
         return true;
