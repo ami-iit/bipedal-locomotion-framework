@@ -50,19 +50,33 @@ class SwingFootPlanner : public System::Advanceable<SwingFootPlannerState>
     ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal
                                                         use) */
 
-    SO3PlannerInertial m_SO3Planner;
-    QuinticSpline m_planarPlanner;
-    QuinticSpline m_heightPlanner;
+    SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
+    QuinticSpline m_planarPlanner; /**< Trajectory planner for the x y coordinates of the foot */
+    QuinticSpline m_heightPlanner; /**< Trajectory planner for the z coordinate of the foot */
 
-    double m_stepHeight{0};
-    double m_footApexTime{0};
+    double m_stepHeight{0.0}; /**< Height of the swing foot. Note that this value could not be the
+                                 maximum height of the foot. If m_footApexTime is set to 0.5 the
+                                 stepHeight is the maximum of the trajectory. */
+    double m_footApexTime{0.5}; /**< Number between 0 and 1 representing the foot apex instant */
 
+    /**
+     * Update the SE3 Trajectory.
+     * @return True in case of success/false otherwise.
+     */
     bool updateSE3Traj();
 
 public:
     /**
      * Initialize the planner.
      * @param handler pointer to the parameter handler.
+     * @note the following parameters are required by the class
+     * |        Parameter Name       |   Type   |                                                      Description                                                     | Mandatory |
+     * |:---------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |       `sampling_time`       | `double` |                                        Sampling time of the planner in seconds                                       |    Yes    |
+     * |        `step_height`        | `double` | Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum |    Yes    |
+     * |       `foot_apex_time`      | `double` |   Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down    |    Yes    |
+     * |   `foot_landing_velocity`   | `double` |                                               Landing vertical velocity                                              |    Yes    |
+     * | `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration                                            |    Yes    |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
