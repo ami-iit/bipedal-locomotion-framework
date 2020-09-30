@@ -112,8 +112,14 @@ bool SwingFootPlanner::updateSE3Traj()
     manif::SO3d rotation;
 
     // note here we assume that the velocity is expressed using the mixed representation.
-    // This is the only reason why we consider an element of the  tangent space of SE3 as a 6d
-    // vector containing linear and angular velocity. The same assumption holds also for the acceleration.
+    // for this reason the velocity can be computed splitting the linear and the angular problem.
+    // For the angular part we are interested in the angular velocity expressed in the inertial
+    // frame (right trivialized velocity). For the liner part we are interested on the derivative of
+    // the position vector w.r.t the time. A similar consideration can be done also for the
+    // acceleration.
+
+    // Note that here we use asSO3() to access to the angular velocity stored in the 6d-vector. (A
+    // similar consideration can be done also for the acceleration.)
     auto angularVelocity(m_state.mixedVelocity.asSO3());
     auto angularAcceleration(m_state.mixedAcceleration.asSO3());
     if (!m_SO3Planner.evaluatePoint(shiftedTime, rotation, angularVelocity, angularAcceleration))
