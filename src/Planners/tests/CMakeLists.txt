@@ -31,3 +31,8 @@ add_bipedal_test(
   NAME SO3Planner
   SOURCES SO3PlannerTest.cpp
   LINKS BipedalLocomotion::Planners)
+
+add_bipedal_test(
+  NAME SwingFootPlanner
+  SOURCES SwingFootPlannerTest.cpp
+  LINKS BipedalLocomotion::Planners)
