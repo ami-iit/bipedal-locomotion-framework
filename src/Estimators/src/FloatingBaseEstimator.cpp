@@ -6,7 +6,8 @@
  */
 
 
-#include <BipedalLocomotion/Estimators/FloatingBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
+#include <iDynTree/Core/EigenHelpers.h>
 
 using namespace BipedalLocomotion::Estimators;
 
@@ -93,19 +94,27 @@ bool FloatingBaseEstimator::advance()
         return false;
     }
 
+    bool ok{true};
     if (m_estimatorState == State::Initialized)
     {
         m_estimatorState = State::Running;
+        m_measPrev = m_meas;
     }
 
-    m_statePrev = m_state;
-    auto ok = predictState(m_measPrev, m_dt);
+    ok = ok && predictState(m_measPrev, m_dt);
     if (m_options.ekfUpdateEnabled)
     {
-        ok = updateKinematics(m_meas, m_dt);
+        ok = ok && updateKinematics(m_meas, m_dt);
     }
 
+    ok = ok && updateBaseStateFromIMUState(m_state, m_measPrev,
+                                           m_estimatorOut.basePose, m_estimatorOut.baseTwist);
+    m_statePrev = m_state;
     m_measPrev = m_meas;
+
+    m_estimatorOut.state = m_state;
+    m_estimatorOut.stateStdDev = m_stateStdDev;
+
     return ok;
 }
 
@@ -211,8 +220,8 @@ bool FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState(const iD
     A_H_B = A_H_IMU*(m_base_H_imu.inverse());
 
     // transform velocity (mixed-representation)
-    auto base2IMUinWorld = A_H_B.getRotation()*m_base_H_imu.getPosition();
-    auto X = iDynTree::Transform(iDynTree::Rotation::Identity(), base2IMUinWorld);
+    auto A_o_BIMU = A_H_B.getRotation().changeCoordFrameOf(m_base_H_imu.getPosition());
+    auto X = iDynTree::Transform(iDynTree::Rotation::Identity(), A_o_BIMU);
     v_B = X*v_IMU;
 
     return true;
@@ -222,16 +231,37 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
                                                              iDynTree::Transform& IMU_H_l_foot,
                                                              iDynTree::Transform& IMU_H_r_foot)
 {
-    if (!isModelInfoLoaded())
+    if (!isModelInfoLoaded() && (encoders.size() !=nrJoints()))
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] Please set required model info parameters, before calling getIMU_H_feet(...)"
         << std::endl;
         return false;
     }
 
-    m_kindyn.setJointPos(encoders);
+    if (!m_kindyn.setJointPos(encoders))
+    {
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] Failed setting joint positions." << std::endl;
+        return false;
+    }
     IMU_H_l_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
     IMU_H_r_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
+
+    return true;
+}
+
+bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
+                                                             iDynTree::Transform& IMU_H_l_foot,
+                                                             iDynTree::Transform& IMU_H_r_foot,
+                                                             iDynTree::MatrixDynSize& J_IMULF,
+                                                             iDynTree::MatrixDynSize& J_IMURF)
+{
+    if (!getIMU_H_feet(encoders, IMU_H_l_foot, IMU_H_r_foot))
+    {
+        return false;
+    }
+
+    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_lFootContactIdx, J_IMULF);
+    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_rFootContactIdx, J_IMURF);
 
     return true;
 }
@@ -509,15 +539,18 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
         m_statePrev.gyroscopeBias << gyroscopeBias[0], gyroscopeBias[1], gyroscopeBias[2];
     }
 
-    m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]);
+    m_statePrev.imuOrientation = Eigen::Quaterniond(imuOrientation[0], imuOrientation[1], imuOrientation[2], imuOrientation[3]); // here loaded as w x y z
+    m_statePrev.imuOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
     m_statePrev.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
 
 
-    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);
+    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);  // here loaded as w x y z
+    m_statePrev.lContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
 
-    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);
+    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);  // here loaded as w x y z
+    m_statePrev.rContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
     m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
 
     m_state = m_statePrev;
@@ -601,6 +634,78 @@ bool FloatingBaseEstimator::setupFixedVectorParamPrivate(const std::string& para
         return false;
     }
 
+    return true;
+}
+
+bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstimators::InternalState& state,
+                                                        const FloatingBaseEstimators::Measurements& meas,
+                                                        iDynTree::Transform& basePose,
+                                                        iDynTree::Twist& baseTwist)
+{
+    iDynTree::Position imuPosition;
+    iDynTree::toEigen(imuPosition) = state.imuPosition;
+    iDynTree::Rotation imuRotation;
+    iDynTree::toEigen(imuRotation) = state.imuOrientation.toRotationMatrix();
+    auto A_H_IMU = iDynTree::Transform(imuRotation, imuPosition);
+
+    iDynTree::Twist v_IMU;
+    iDynTree::Vector3 imuLinVel, imuAngVel;
+    iDynTree::toEigen(imuLinVel) = state.imuLinearVelocity;
+    iDynTree::toEigen(imuAngVel) = state.imuOrientation.toRotationMatrix()*(meas.gyro - state.gyroscopeBias);
+    v_IMU.setLinearVec3(imuLinVel);
+    v_IMU.setAngularVec3(imuAngVel);
+
+    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, baseTwist))
+    {
+        std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
+                  << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool FloatingBaseEstimator::resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
+                                           const Eigen::Vector3d& newBasePosition)
+{
+    iDynTree::Rotation Rb;
+    iDynTree::toEigen(Rb) = newBaseOrientation.toRotationMatrix();
+
+    iDynTree::Position pb;
+    iDynTree::toEigen(pb) = newBasePosition;
+
+    auto A_H_B = iDynTree::Transform(Rb, pb);
+    iDynTree::Transform IMU_H_RF, IMU_H_LF;
+    iDynTree::JointPosDoubleArray s(m_meas.encoders.size());
+    toEigen(s) = m_meas.encoders;
+
+    if (!m_modelComp.getIMU_H_feet(s, IMU_H_RF, IMU_H_LF))
+    {
+        std::cerr << "[FloatingBaseEstimator::resetEstimator] Could not reset estimator using new base pose." << std::endl;
+        return false;
+    }
+
+    auto A_H_IMU = A_H_B*m_modelComp.base_H_IMU();;
+    auto A_H_RF = A_H_IMU*IMU_H_RF;
+    auto A_H_LF = A_H_IMU*IMU_H_LF;
+
+    // convert to iDynTree Rotation to  Eigen angle axis and then to quaternion for consistent conversion
+    Eigen::AngleAxisd imuAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_IMU.getRotation()));
+    Eigen::AngleAxisd rfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_RF.getRotation()));
+    Eigen::AngleAxisd lfAngleAxis = Eigen::AngleAxisd(iDynTree::toEigen(A_H_LF.getRotation()));
+
+    m_state.imuOrientation = Eigen::Quaterniond(imuAngleAxis);
+    m_state.imuPosition = iDynTree::toEigen(A_H_IMU.getPosition());
+    m_state.rContactFrameOrientation = Eigen::Quaterniond(rfAngleAxis);
+    m_state.rContactFramePosition = iDynTree::toEigen(A_H_RF.getPosition());
+    m_state.lContactFrameOrientation = Eigen::Quaterniond(lfAngleAxis);
+    m_state.lContactFramePosition = iDynTree::toEigen(A_H_LF.getPosition());
+
+    return true;
+}
+
+bool FloatingBaseEstimator::resetEstimator(const FloatingBaseEstimators::InternalState& newState)
+{
+    m_state = newState;
     return true;
 }
 

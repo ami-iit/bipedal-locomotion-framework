@@ -178,7 +178,11 @@ framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
   "Compile CppAD-Eigen wrapper?" ON
   "FRAMEWORK_USE_cppad" OFF)
 
-  framework_dependent_option(FRAMEWORK_COMPILE_RobotInterface
+framework_dependent_option(FRAMEWORK_COMPILE_RobotInterface
   "Compile RobotInterface libraries?" ON
   "" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
+  "Compile FloatingBaseEstimators libraries?" ON
+  "FRAMEWORK_USE_manif" OFF)
 

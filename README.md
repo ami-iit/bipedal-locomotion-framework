@@ -36,21 +36,26 @@ file. Please note that the indicated version is the the minimum required version
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
-
 - `ParametersHandler` requires:
     - For compiling the `YARP` specialization of the `ParametersHandler`:
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
-
-- `Estimators` and `FloatingBaseEstimators` require:
+- `Estimators` require:
     - For using it:
       - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
       - [`ParametersHandler`](./src/ParametersHandler)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
       - [`YARP`](https://github.com/robotology/YARP)
-
+- `FloatingBaseEstimators` require:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
+      - [`ParametersHandler`](./src/ParametersHandler)
+      - [`manif`](https://github.com/artivis/manif)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)
+      - [`YARP`](https://github.com/robotology/YARP)
 - `Planner` requires:
     - For using it:
       - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
