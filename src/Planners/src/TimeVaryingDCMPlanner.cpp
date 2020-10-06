@@ -175,6 +175,7 @@ struct TimeVaryingDCMPlanner::Impl
             casadiOptions["print_time"] = false;
         }
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
+        casadiOptions["expand"] = true;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
     }
