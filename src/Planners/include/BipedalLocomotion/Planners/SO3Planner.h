@@ -32,7 +32,7 @@ enum class LieGroupTrivialization
  */
 struct SO3PlannerState
 {
-    manif::SO3d rotation; /**< $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f */
+    manif::SO3d rotation; /**< \f${}^{\mathcal{I}}R_{\mathcal{B}}\f$ */
     manif::SO3d::Tangent velocity; /**< Angular velocity expressed in inertial or body fixed frame
                                     * (accordingly to the trivialization used). */
     manif::SO3d::Tangent acceleration; /**< Angular acceleration expressed in inertial or body fixed
@@ -54,7 +54,7 @@ template <LieGroupTrivialization trivialization>
 class SO3Planner : public System::Advanceable<SO3PlannerState>
 {
     /** Initial rotation from the inertial frame to the body frame. Namely
-     * $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f */
+     * \f${}^{\mathcal{I}}R_{\mathcal{B}}\f$ */
     manif::SO3d m_initialRotation{manif::SO3d::Identity()};
 
     /** Distance bewteen the initial rotation and the final one. The definition of the distance
@@ -71,8 +71,8 @@ class SO3Planner : public System::Advanceable<SO3PlannerState>
 public:
     /**
      * Set the rotation
-     * @param initialRotation initial rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}_0}$\f.
-     * @param finalRotation final rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}_T}$\f.
+     * @param initialRotation initial rotation \f${}^{\mathcal{I}}R_{\mathcal{B}_0}\f$.
+     * @param finalRotation final rotation \f${}^{\mathcal{I}}R_{\mathcal{B}_T}\f$.
      * @param duration Trajectory duration in seconds.
      * @return True in case of success/false otherwise.
      */
@@ -92,7 +92,7 @@ public:
     /**
      * Get the trajectory at a given time
      * @param time time, in seconds, at which the trajectory should be computed.
-     * @param rotation $\f{}^{\mathcal{I}}R_{\mathcal{B}}$\f.
+     * @param rotation \f${}^{\mathcal{I}}R_{\mathcal{B}}\f$.
      * @param velocity angular velocity expressed in inertial or body fixed frame (accordingly to
      * the trivialization used).
      * @param acceleration angular acceleration expressed in inertial or body fixed frame
