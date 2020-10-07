@@ -175,6 +175,7 @@ struct TimeVaryingDCMPlanner::Impl
             casadiOptions["print_time"] = false;
         }
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
+        casadiOptions["expand"] = true;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
     }
@@ -568,6 +569,10 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
         }
     }
 
+    // get the linear solver used by ipopt. This parameter is optional. The default value is mumps
+    std::string linearSolver;
+    if (handler->getParameter("linear_solver", linearSolver))
+        m_pimpl->optiSettings.ipoptLinearSolver = linearSolver;
 
     bool okCostFunctions = true;
     okCostFunctions &= handler->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
