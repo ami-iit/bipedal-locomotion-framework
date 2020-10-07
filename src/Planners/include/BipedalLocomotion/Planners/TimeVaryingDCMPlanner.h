@@ -51,9 +51,9 @@ public:
      * |      `planner_sampling_time`      |  `double`  |                                                          Sampling time of the planner                                                          |    Yes    |
      * |      `number_of_foot_corners`     |    `int`   |                                      Number of the corner of the polygon used to describe the foot. E.g. 4                                     |    Yes    |
      * |         `foot_corner_<i>`         | `Vector3d` |             A 3d vector describing the position of the corner w.r.t. frame associated to the foot. `i = 0:number_of_foot_corners`.             |    Yes    |
-     * |         `omega_dot_weight`        |  `double`  |                                                   Weight associated to the $\f\dot{omega}$\f                                                   |    Yes    |
+     * |         `omega_dot_weight`        |  `double`  |                                                   Weight associated to the \f$\dot{omega}\f$                                                   |    Yes    |
      * |       `dcm_tracking_weight`       |  `double`  |                                                      Weight associated to the DCM tracking                                                     |    Yes    |
-     * | `omega_dot_rate_of_change_weight` |  `double`  |                                          Weight associated to the rate of change of $\f\dot{omega}$\f                                          |    Yes    |
+     * | `omega_dot_rate_of_change_weight` |  `double`  |                                          Weight associated to the rate of change of \f$\dot{omega}\f$                                          |    Yes    |
      * |    `vrp_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the VRP                                               |    Yes    |
      * |    `dcm_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the DCM                                               |    Yes    |
      * @return true in case of success/false otherwise.
