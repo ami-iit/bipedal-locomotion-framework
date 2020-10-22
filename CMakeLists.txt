@@ -114,3 +114,6 @@ include(AddUninstallTarget)
 
 include(GenerateAndAddUrdfModel)
 add_subdirectory(Python)
+
+
+add_subdirectory(bindings)
