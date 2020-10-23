@@ -70,7 +70,7 @@ file. Please note that the indicated version is the the minimum required version
       - [`Catch2`](https://github.com/catchorg/Catch2)
 
 # :hammer: Build the suite
-## Linux/macOs
+## Linux/macOS
 
 ```sh
 git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
