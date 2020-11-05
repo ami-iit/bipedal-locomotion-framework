@@ -8,9 +8,11 @@ pybind11_add_module(pybind11_BipedalLocomotion MODULE
     bipedal_locomotion.cpp
     # Support files
     Contacts.cpp
+    DCMPlanner.cpp
     ParametersHandler.cpp
     QuinticSpline.cpp
     SwingFootPlaner.cpp
+    TimeVaryingDCMPlanner.cpp
     )
 
 target_link_libraries(pybind11_BipedalLocomotion PUBLIC

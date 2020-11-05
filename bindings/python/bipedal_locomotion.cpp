@@ -29,5 +29,11 @@ PYBIND11_MODULE(bindings, m)
 
     // SwingFootPlanner.cpp
     bindings::CreateSwingFootPlanner(m);
+
+    // DCMPlanner.cpp
+    bindings::CreateDCMPlanner(m);
+
+    // TimeVaryingDCMPlanner.cpp
+    bindings::CreateTimeVaryingDCMPlanner(m);
 }
 } // namespace BipedalLocomotion

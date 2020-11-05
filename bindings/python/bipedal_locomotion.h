@@ -24,4 +24,10 @@ void CreateContactPhaseList(pybind11::module& module);
 
 // SwingFootPlanner.cpp
 void CreateSwingFootPlanner(pybind11::module& module);
+
+// DCMPlanner.cpp
+void CreateDCMPlanner(pybind11::module& module);
+
+// TimeVaryingDCMPlanner.cpp
+void CreateTimeVaryingDCMPlanner(pybind11::module& module);
 } // namespace BipedalLocomotion::bindings
