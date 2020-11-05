@@ -1,5 +1,5 @@
-"""Tests for BipedalLocomotion::Planners Python bindings."""
 import pytest
+pytestmark = pytest.mark.planners
 
 import bipedal_locomotion.bindings as bl
 import numpy as np
