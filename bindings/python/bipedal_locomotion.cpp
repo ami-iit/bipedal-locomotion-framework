@@ -20,5 +20,11 @@ PYBIND11_MODULE(bindings, m)
     // ParametersHandler.cpp
     bindings::CreateIParameterHandler(m);
     bindings::CreateStdParameterHandler(m);
+
+    // Contacts.cpp
+    bindings::CreateContact(m);
+    bindings::CreateContactList(m);
+    bindings::CreateContactPhase(m);
+    bindings::CreateContactPhaseList(m);
 }
 } // namespace BipedalLocomotion

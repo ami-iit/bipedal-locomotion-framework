@@ -7,6 +7,7 @@ pybind11_add_module(pybind11_BipedalLocomotion MODULE
     bipedal_locomotion.h
     bipedal_locomotion.cpp
     # Support files
+    Contacts.cpp
     ParametersHandler.cpp
     QuinticSpline.cpp
     )

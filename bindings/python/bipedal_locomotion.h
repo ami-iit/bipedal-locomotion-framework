@@ -15,4 +15,10 @@ void CreateQuinticSpline(pybind11::module& module);
 // ParametersHandler.cpp
 void CreateIParameterHandler(pybind11::module& module);
 void CreateStdParameterHandler(pybind11::module& module);
+
+// Contacts.cpp
+void CreateContact(pybind11::module& module);
+void CreateContactList(pybind11::module& module);
+void CreateContactPhase(pybind11::module& module);
+void CreateContactPhaseList(pybind11::module& module);
 } // namespace BipedalLocomotion::bindings
