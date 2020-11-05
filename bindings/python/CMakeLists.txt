@@ -10,11 +10,13 @@ pybind11_add_module(pybind11_BipedalLocomotion MODULE
     Contacts.cpp
     ParametersHandler.cpp
     QuinticSpline.cpp
+    SwingFootPlaner.cpp
     )
 
 target_link_libraries(pybind11_BipedalLocomotion PUBLIC
     BipedalLocomotion::ParametersHandler
     BipedalLocomotion::Planners
+    BipedalLocomotion::System
     )
 
 target_include_directories(pybind11_BipedalLocomotion PRIVATE

@@ -26,5 +26,8 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateContactList(m);
     bindings::CreateContactPhase(m);
     bindings::CreateContactPhaseList(m);
+
+    // SwingFootPlanner.cpp
+    bindings::CreateSwingFootPlanner(m);
 }
 } // namespace BipedalLocomotion
