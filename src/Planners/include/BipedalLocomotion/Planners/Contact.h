@@ -59,6 +59,26 @@ struct Contact
      * Type of contact.
      */
     ContactType type {ContactType::FULL};
+
+    /**
+     * @brief The equality operator.
+     *
+     * @param other The other object used for the comparison.
+     * @return True if the contacts are the same, false otherwise.
+     */
+    bool operator==(const Contact& other) const
+    {
+        auto doubleEq = [](const double d1, const double d2) {
+            return std::abs(d1 - d2) < std::numeric_limits<double>::epsilon();
+        };
+        bool eq = true;
+        eq = eq && this->name == other.name;
+        eq = eq && this->type == other.type;
+        eq = eq && this->pose.coeffs() == other.pose.coeffs();
+        eq = eq && doubleEq(this->activationTime, other.activationTime);
+        eq = eq && doubleEq(this->deactivationTime, other.deactivationTime);
+        return eq;
+    }
 };
 
 }
