@@ -2,7 +2,9 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-add_test (NAME pybind11_BipdealLocomotion_test
-  COMMAND ${Python3_EXECUTABLE} -m unittest discover -s ${CMAKE_CURRENT_SOURCE_DIR}
-  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/bindings/python
+# Run pytest from the build folder. CMake creates a build/bipedal_locomotion
+# folder with the build-tree Python package.
+add_test(NAME pybind11_BipedalLocomotion_test
+  COMMAND ${Python3_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
+  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 )
