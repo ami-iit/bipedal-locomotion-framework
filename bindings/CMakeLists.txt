@@ -4,9 +4,17 @@
 
 if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
+    option(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES
+        "Do you want BLF to detect and use the active site-package directory? (it could be a system dir)"
+        FALSE)
+
     # Install the resulting Python package for the active interpreter
-    if(NOT PYTHON_INSTDIR)
+    if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
         set(PYTHON_INSTDIR ${Python3_SITELIB}/bipedal_locomotion)
+    else()
+        set(PYTHON_MAJ_MIN ${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR})
+        set(PYTHON_INSTDIR
+            ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_MAJ_MIN}/dist-packages/bipedal_locomotion)
     endif()
 
     # Folder of the Python package within the build tree.
