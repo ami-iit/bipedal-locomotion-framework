@@ -153,6 +153,9 @@ checkandset_dependency(manif)
 find_package(pybind11 CONFIG QUIET)
 checkandset_dependency(pybind11)
 
+find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
+checkandset_dependency(Python3)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -192,3 +195,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
+  "Do you want to generate and compile the Python bindings?" OFF
+  "FRAMEWORK_HAS_Python3;FRAMEWORK_USE_pybind11" OFF)
