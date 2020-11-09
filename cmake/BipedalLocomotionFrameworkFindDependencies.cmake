@@ -231,5 +231,5 @@ framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
 
 framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
-  "FRAMEWORK_COMPILE_YarpUtilities" OFF)
+  "FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_matioCpp" OFF)
 
