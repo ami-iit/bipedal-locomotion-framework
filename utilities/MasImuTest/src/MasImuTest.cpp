@@ -162,7 +162,7 @@ bool MasImuTest::MasImuData::setupEncoders()
     std::string errorPrefix = "[MasImuTest::MasImuData::setupEncoders](" + m_testName +") ";
 
     std::vector<std::string> inputControlBoards;
-    bool ok = m_group->getParameter("remote_control_boards", inputControlBoards, GenericContainer::VectorResizeMode::Resizable);
+    bool ok = m_group->getParameter("remote_control_boards", inputControlBoards);
     if (!ok)
     {
         yError() << errorPrefix << "Setup failed.";
