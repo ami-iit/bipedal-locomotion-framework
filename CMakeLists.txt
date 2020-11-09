@@ -71,6 +71,9 @@ include(AddBipedalLocomotionUnitTest)
 #Function to automatize the process of creating a new library
 include(AddBipedalLocomotionLibrary)
 
+#Function to automatize the process of creating a new application
+include(AddBipedalLocomotionApplication)
+
 #Utility to install ini files
 include(InstallIniFiles)
 
@@ -114,3 +117,5 @@ include(AddUninstallTarget)
 
 include(GenerateAndAddUrdfModel)
 add_subdirectory(Python)
+
+add_subdirectory(utilities)
