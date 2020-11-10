@@ -59,6 +59,8 @@ void MasImuTest::MasImuData::reserveData()
     m_rotationFromEncodersData.reserve(m_commonDataPtr->maxSamples);
     m_jointsPositionData.reserve(m_commonDataPtr->maxSamples);
     m_rpyImuData.reserve(m_commonDataPtr->maxSamples);
+    m_gyroData.reserve(m_commonDataPtr->maxSamples);
+    m_accData.reserve(m_commonDataPtr->maxSamples);
 }
 
 void MasImuTest::MasImuData::clearData()
@@ -70,6 +72,8 @@ void MasImuTest::MasImuData::clearData()
     m_rotationFromEncodersData.clear();
     m_jointsPositionData.clear();
     m_rpyImuData.clear();
+    m_gyroData.clear();
+    m_accData.clear();
 }
 
 bool MasImuTest::MasImuData::setupModel()
@@ -131,18 +135,11 @@ bool MasImuTest::MasImuData::setupModel()
     return true;
 }
 
-bool MasImuTest::MasImuData::setupOrientationSensors()
+bool MasImuTest::MasImuData::setupIMUDriver()
 {
-    std::string errorPrefix = "[MasImuTest::MasImuData::setupOrientationSensors](" + m_testName +") ";
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupIMUDriver](" + m_testName +") ";
     std::string remote;
-    bool ok = m_group->getParameter("remote",remote);
-    if (!ok)
-    {
-        yError() << errorPrefix << "Setup failed.";
-        return false;
-    }
-
-    ok = m_group->getParameter("sensor_name", m_sensorName);
+    bool ok = m_group->getParameter("remote", remote);
     if (!ok)
     {
         yError() << errorPrefix << "Setup failed.";
@@ -162,35 +159,48 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
         return false;
     }
 
-    if (!m_orientationDriver.view(m_orientationInterface) || !m_orientationInterface)
+    return true;
+}
+
+bool MasImuTest::MasImuData::setupOrientationSensor()
+{
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupOrientationSensors](" + m_testName +") ";
+
+    bool ok = m_group->getParameter("imu_sensor_name", m_imuName);
+    if (!ok)
     {
-        yError() << errorPrefix << "Failed to open multipleanalogsensorsclient on remote "
-                 << remote << ". Setup failed.";
+        yError() << errorPrefix << "Setup failed.";
         return false;
     }
 
-    m_sensorIndex = 0;
+    if (!m_orientationDriver.view(m_orientationInterface) || !m_orientationInterface)
+    {
+        yError() << errorPrefix << "Failed to view orientation interface. Setup failed.";
+        return false;
+    }
+
+    m_imuSensorIndex = 0;
     std::string name;
     bool found = false;
     do
     {
-        bool ok = m_orientationInterface->getOrientationSensorFrameName(m_sensorIndex, name);
+        bool ok = m_orientationInterface->getOrientationSensorFrameName(m_imuSensorIndex, name);
         if (ok)
         {
-            found = name == m_sensorName;
+            found = name == m_imuName;
 
             if (!found)
             {
-                m_sensorIndex++;
+                m_imuSensorIndex++;
             }
         }
     }
-    while (ok && (m_sensorIndex < m_orientationInterface->getNrOfOrientationSensors()) && !found);
+    while (ok && (m_imuSensorIndex < m_orientationInterface->getNrOfOrientationSensors()) && !found);
 
     if (!found)
     {
         yError() << errorPrefix << "The interface contains no orientation sensors on frame "
-                 << m_sensorName << ". Available orientation sensors frame names (" << m_orientationInterface->getNrOfOrientationSensors() << "):";
+                 << m_imuName << ". Available orientation sensor frame names (" << m_orientationInterface->getNrOfOrientationSensors() << "):";
         ok = true;
         size_t index = 0;
         while (ok && (index < m_orientationInterface->getNrOfOrientationSensors()))
@@ -207,6 +217,124 @@ bool MasImuTest::MasImuData::setupOrientationSensors()
     }
 
     m_rpyInDeg.resize(3);
+
+    return true;
+}
+
+bool MasImuTest::MasImuData::setupGyro()
+{
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupGyro](" + m_testName +") ";
+
+    bool ok = m_group->getParameter("gyro_sensor_name", m_imuName);
+    if (!ok)
+    {
+        yError() << errorPrefix << "Setup failed.";
+        return false;
+    }
+
+    if (!m_orientationDriver.view(m_gyroInterface) || !m_gyroInterface)
+    {
+        yError() << errorPrefix << "Failed to view gyro interface. Setup failed.";
+        return false;
+    }
+
+    m_gyroSensorIndex = 0;
+    std::string name;
+    bool found = false;
+    do
+    {
+        bool ok = m_gyroInterface->getThreeAxisGyroscopeFrameName(m_gyroSensorIndex, name);
+        if (ok)
+        {
+            found = name == m_gyroName;
+
+            if (!found)
+            {
+                m_gyroSensorIndex++;
+            }
+        }
+    }
+    while (ok && (m_gyroSensorIndex < m_gyroInterface->getNrOfThreeAxisGyroscopes()) && !found);
+
+    if (!found)
+    {
+        yError() << errorPrefix << "The interface contains no gyro sensors on frame "
+                 << m_gyroName << ". Available gyro sensor frame names (" << m_gyroInterface->getNrOfThreeAxisGyroscopes() << "):";
+        ok = true;
+        size_t index = 0;
+        while (ok && (index < m_gyroInterface->getNrOfThreeAxisGyroscopes()))
+        {
+            bool ok = m_gyroInterface->getThreeAxisGyroscopeFrameName(index, name);
+            if (ok)
+            {
+                yError() << "       - " << name;
+                index++;
+            }
+        }
+
+        return false;
+    }
+
+    m_gyroInDeg_s.resize(3);
+
+    return true;
+}
+
+bool MasImuTest::MasImuData::setupAccelerometer()
+{
+    std::string errorPrefix = "[MasImuTest::MasImuData::setupAccelerometer](" + m_testName +") ";
+
+    bool ok = m_group->getParameter("acc_sensor_name", m_imuName);
+    if (!ok)
+    {
+        yError() << errorPrefix << "Setup failed.";
+        return false;
+    }
+
+    if (!m_orientationDriver.view(m_accInterface) || !m_accInterface)
+    {
+        yError() << errorPrefix << "Failed to view accelerometers interface. Setup failed.";
+        return false;
+    }
+
+    m_accSensorIndex = 0;
+    std::string name;
+    bool found = false;
+    do
+    {
+        bool ok = m_accInterface->getThreeAxisLinearAccelerometerFrameName(m_accSensorIndex, name);
+        if (ok)
+        {
+            found = name == m_accName;
+
+            if (!found)
+            {
+                m_accSensorIndex++;
+            }
+        }
+    }
+    while (ok && (m_accSensorIndex < m_accInterface->getNrOfThreeAxisLinearAccelerometers()) && !found);
+
+    if (!found)
+    {
+        yError() << errorPrefix << "The interface contains no accelerometers on frame "
+                 << m_accName << ". Available accelerometer frame names (" << m_accInterface->getNrOfThreeAxisLinearAccelerometers() << "):";
+        ok = true;
+        size_t index = 0;
+        while (ok && (index < m_accInterface->getNrOfThreeAxisLinearAccelerometers()))
+        {
+            bool ok = m_accInterface->getThreeAxisLinearAccelerometerFrameName(index, name);
+            if (ok)
+            {
+                yError() << "       - " << name;
+                index++;
+            }
+        }
+
+        return false;
+    }
+
+    m_acc.resize(3);
 
     return true;
 }
@@ -269,6 +397,8 @@ bool MasImuTest::MasImuData::getFeedback()
     size_t attempt = 0;
     bool okEncoders = false;
     bool okIMU = false;
+    bool okGyro = false;
+    bool okAcc = false;
 
     do
     {
@@ -277,15 +407,35 @@ bool MasImuTest::MasImuData::getFeedback()
 
         if (!okIMU)
         {
-            yarp::dev::MAS_status status = m_orientationInterface->getOrientationSensorStatus(m_sensorIndex);
+            yarp::dev::MAS_status status = m_orientationInterface->getOrientationSensorStatus(m_imuSensorIndex);
             if (status == yarp::dev::MAS_status::MAS_OK)
             {
                 double timestamp;
-                okIMU = m_orientationInterface->getOrientationSensorMeasureAsRollPitchYaw(m_sensorIndex, m_rpyInDeg, timestamp);
+                okIMU = m_orientationInterface->getOrientationSensorMeasureAsRollPitchYaw(m_imuSensorIndex, m_rpyInDeg, timestamp);
             }
         }
 
-        if (okEncoders && okIMU)
+        if (!okGyro)
+        {
+            yarp::dev::MAS_status status = m_gyroInterface->getThreeAxisGyroscopeStatus(m_gyroSensorIndex);
+            if (status == yarp::dev::MAS_status::MAS_OK)
+            {
+                double timestamp;
+                okGyro = m_gyroInterface->getThreeAxisGyroscopeMeasure(m_gyroSensorIndex, m_gyroInDeg_s, timestamp);
+            }
+        }
+
+        if (!okAcc)
+        {
+            yarp::dev::MAS_status status = m_accInterface->getThreeAxisLinearAccelerometerStatus(m_accSensorIndex);
+            if (status == yarp::dev::MAS_status::MAS_OK)
+            {
+                double timestamp;
+                okAcc = m_accInterface->getThreeAxisLinearAccelerometerMeasure(m_accSensorIndex, m_acc, timestamp);
+            }
+        }
+
+        if (okEncoders && okIMU && okGyro && okAcc)
         {
             for(unsigned j = 0 ; j < m_positionFeedbackDeg.size(); j++)
             {
@@ -312,6 +462,12 @@ bool MasImuTest::MasImuData::getFeedback()
 
     if (!okIMU)
         yError() << "\t - IMU";
+
+    if (!okGyro)
+        yError() << "\t - Gyro";
+
+    if (!okAcc)
+        yError() << "\t - Accelerometer";
 
     return false;
 }
@@ -378,10 +534,31 @@ bool MasImuTest::MasImuData::setup(const std::string &testName, ParametersHandle
         return false;
     }
 
-    ok = setupOrientationSensors();
+    ok = setupIMUDriver();
+    if (!ok)
+    {
+        yError() << errorPrefix << "setupDriver failed.";
+        return false;
+    }
+
+    ok = setupOrientationSensor();
     if (!ok)
     {
         yError() << errorPrefix << "setupOrientationSensors failed.";
+        return false;
+    }
+
+    ok = setupGyro();
+    if (!ok)
+    {
+        yError() << errorPrefix << "setupGyro failed.";
+        return false;
+    }
+
+    ok = setupAccelerometer();
+    if (!ok)
+    {
+        yError() << errorPrefix << "setupAccelerometer failed.";
         return false;
     }
 
@@ -448,10 +625,12 @@ bool MasImuTest::MasImuData::addSample()
         return false;
     }
 
-    m_rpyImuData.push_back(m_rpyInRad);
+    m_rpyImuData.push_back(m_rpyInDeg);
     m_jointsPositionData.push_back(m_positionFeedbackInRad);
     m_rotationFromEncodersData.push_back(m_rotationFromEncoders);
     m_rotationFeedbackData.push_back(m_rotationFeedback);
+    m_gyroData.push_back(m_gyroInDeg_s);
+    m_accData.push_back(m_acc);
 
     iDynTree::Rotation measuredImu = m_imuWorld * m_rotationFeedback;
 
@@ -585,7 +764,15 @@ bool MasImuTest::MasImuData::saveResults()
     std::string errorPrefix = "[MasImuTest::MasImuData::saveResults](" + m_testName +") ";
 
     matioCpp::StructArray dataArray(m_testName, {m_errorData.size(), 1});
-    std::vector<std::string> fields = {"RotationError", "RotationFromIMU", "RotationFromIMUInInertial", "RotationFromIMUInInertialYawFiltered", "RotationFromEncoders", "JointPositions_rad", "RPYfromIMU"};
+    std::vector<std::string> fields = {"RotationError",
+                                       "RotationFromIMU",
+                                       "RotationFromIMUInInertial",
+                                       "RotationFromIMUInInertialYawFiltered",
+                                       "RotationFromEncoders",
+                                       "JointPositions_rad",
+                                       "RPYfromIMUinDeg",
+                                       "AngularVelocity_deg_s",
+                                       "Accelerometer"};
 
     for (std::string& field : fields)
     {
@@ -604,40 +791,60 @@ bool MasImuTest::MasImuData::saveResults()
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
+
         if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackData[i]), "RotationFromIMU")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
+
         if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackInInertialData[i]), "RotationFromIMUInInertial")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
+
         if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackInInertialYawFilteredData[i]), "RotationFromIMUInInertialYawFiltered")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
+
         if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFromEncodersData[i]), "RotationFromEncoders")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
+
         if(!el.setField(to_matio<double>(m_jointsPositionData[i], "JointPositions_rad")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
             return false;
         }
-        if(!el.setField(to_matio<double>(m_rpyImuData[i], "RPYfromIMU")))
+
+        if(!el.setField(to_matio<double>(m_rpyImuData[i], "RPYfromIMUinDeg")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+
+        if(!el.setField(to_matio<double>(m_gyroData[i], "AngularVelocity_deg_s")))
+        {
+            yError() << errorPrefix << "Failed to set the field AngularVelocity_deg_s.";
+            return false;
+        }
+
+        if(!el.setField(to_matio<double>(m_accData[i], "Accelerometer")))
+        {
+            yError() << errorPrefix << "Failed to set the field Accelerometer.";
             return false;
         }
     }
 
     std::vector<matioCpp::Variable> options;
-    options.push_back(matioCpp::String("SensorName", m_sensorName));
+    options.push_back(matioCpp::String("IMUSensorName", m_imuName));
+    options.push_back(matioCpp::String("GyroName", m_gyroName));
+    options.push_back(matioCpp::String("AccelerometerName", m_accName));
     options.push_back(matioCpp::String("FrameName", m_frameName));
     matioCpp::CellArray consideredJoints("ConsideredJoints", {m_consideredJointNames.size(), 1});
     for (size_t i = 0; i < m_consideredJointNames.size(); ++i)

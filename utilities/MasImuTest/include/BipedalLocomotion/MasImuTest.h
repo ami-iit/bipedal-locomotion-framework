@@ -63,31 +63,38 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         std::shared_ptr<CommonData> m_commonDataPtr;
         BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_group;
         iDynTree::FrameIndex m_frame;
-        std::string m_frameName, m_sensorName;
+        std::string m_frameName, m_imuName, m_gyroName, m_accName;
         iDynTree::LinkIndex m_link;
         std::vector<iDynTree::LinkIndex> m_consideredJointIndexes;
         std::vector<std::string> m_consideredJointNames;
         iDynTree::KinDynComputations m_kinDyn;
         yarp::dev::PolyDriver m_orientationDriver, m_robotDriver;
         yarp::dev::IOrientationSensors* m_orientationInterface;
+        yarp::dev::IThreeAxisGyroscopes* m_gyroInterface;
+        yarp::dev::IThreeAxisLinearAccelerometers* m_accInterface;
         yarp::dev::IEncodersTimed* m_encodersInterface;
-        size_t m_sensorIndex;
-        std::vector<iDynTree::Rotation> m_errorData;
+        size_t m_imuSensorIndex, m_gyroSensorIndex, m_accSensorIndex;
         yarp::sig::Vector m_positionFeedbackDeg; /**< Current joint position [deg]. */
-        yarp::sig::Vector m_rpyInDeg;
+        yarp::sig::Vector m_rpyInDeg, m_gyroInDeg_s, m_acc;
         iDynTree::Vector3 m_rpyInRad;
         iDynTree::VectorDynSize m_positionFeedbackInRad;
         iDynTree::VectorDynSize m_previousPositionFeedbackInRad;
         iDynTree::VectorDynSize m_dummyVelocity;
         iDynTree::Rotation m_rotationFeedback;
+
+        iDynTree::Rotation m_rotationFromEncoders;
+        iDynTree::Rotation m_imuWorld; //i_R_imuworld
+
+        std::vector<iDynTree::Rotation> m_errorData;
         std::vector<iDynTree::VectorDynSize> m_jointsPositionData;
         std::vector<iDynTree::Rotation> m_rotationFeedbackData;
         std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialData;
         std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialYawFilteredData;
-        std::vector<iDynTree::Vector3> m_rpyImuData;
-        iDynTree::Rotation m_rotationFromEncoders;
+        std::vector<yarp::sig::Vector> m_rpyImuData;
         std::vector<iDynTree::Rotation> m_rotationFromEncodersData;
-        iDynTree::Rotation m_imuWorld; //i_R_imuworld
+        std::vector<yarp::sig::Vector> m_gyroData;
+        std::vector<yarp::sig::Vector> m_accData;
+
         bool m_completed{false};
 
         void reserveData();
@@ -96,7 +103,13 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         bool setupModel();
 
-        bool setupOrientationSensors();
+        bool setupIMUDriver();
+
+        bool setupOrientationSensor();
+
+        bool setupGyro();
+
+        bool setupAccelerometer();
 
         bool setupEncoders();
 
