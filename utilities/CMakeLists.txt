@@ -3,4 +3,4 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 
-add_subdirectory(JointPositionTracking)
+add_subdirectory(joint-position-tracking)

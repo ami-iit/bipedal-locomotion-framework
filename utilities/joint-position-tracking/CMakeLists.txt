@@ -5,7 +5,7 @@
 if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_Planners)
 
   add_bipedal_locomotion_application(
-    NAME JointPositionTracking
+    NAME joint-position-tracking
     SOURCES src/Main.cpp src/Module.cpp
     HEADERS include/BipedalLocomotion/JointPositionTracking/Module.h
     LINK_LIBRARIES   YARP::YARP_dev BipedalLocomotion::Planners BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation
