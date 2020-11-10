@@ -1,6 +1,6 @@
-## JointPositionTracking
+## joint-position-tracking
 
-The **JointPositionTracking** is a simple tool for testing the joint position tracking of a robot in a `YARP` environment. 
+The **joint-position-tracking** is a simple tool for testing the joint position tracking of a robot in a `YARP` environment.
 
 
 
