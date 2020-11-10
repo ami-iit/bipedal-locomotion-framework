@@ -18,7 +18,7 @@ env:
   Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
   CasADi_TAG: 3.5.1
   manif_TAG: 44bdfebff0fbc56cb189f680212257dc7f20ea58
-  matioCpp_TAG: master
+  matioCpp_TAG: 15c72f8e5896e8279f4bd5e54ed3787b18802fcf
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg  
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
 
