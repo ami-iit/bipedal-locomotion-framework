@@ -11,12 +11,66 @@
 #include <iDynTree/yarp/YARPConfigurationsLoader.h>
 #include <iDynTree/Model/IJoint.h>
 #include <iDynTree/Core/SO3Utils.h>
+#include <iDynTree/Core/EigenHelpers.h>
 #include <yarp/os/LogStream.h>
 #include <iostream>
 #include <cassert>
 #include <cmath>
 
 using namespace BipedalLocomotion;
+using namespace BipedalLocomotion::GenericContainer;
+
+template <typename type>
+Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>> to_eigen(matioCpp::MultiDimensionalArray<type>& input)
+{
+    assert(input.isValid());
+    assert(input.dimensions().size() == 2);
+    return Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(1), input.dimensions()(2));
+}
+
+template <typename type>
+const Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>> to_eigen(const matioCpp::MultiDimensionalArray<type>& input)
+{
+    assert(input.isValid());
+    assert(input.dimensions().size() == 2);
+    return Eigen::Map<const Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(1), input.dimensions()(2));
+}
+
+template <typename EigenDerived>
+matioCpp::MultiDimensionalArray<typename EigenDerived::Scalar> to_matio(const Eigen::MatrixBase<EigenDerived>& input, const std::string& name)
+{
+    matioCpp::MultiDimensionalArray<typename EigenDerived::Scalar> matio(name, {static_cast<size_t>(input.rows()), static_cast<size_t>(input.cols())});
+    to_eigen(matio) = input;
+    return matio;
+}
+
+template <typename type>
+matioCpp::Vector<type> to_matio(typename GenericContainer::Vector<const type>::Ref input, const std::string& name)
+{
+    return matioCpp::Vector<type>(name, input);
+}
+
+void MasImuTest::MasImuData::reserveData()
+{
+    m_errorData.reserve(m_commonDataPtr->maxSamples);
+    m_rotationFeedbackData.reserve(m_commonDataPtr->maxSamples);
+    m_rotationFeedbackInInertialData.reserve(m_commonDataPtr->maxSamples);
+    m_rotationFeedbackInInertialYawFilteredData.reserve(m_commonDataPtr->maxSamples);
+    m_rotationFromEncodersData.reserve(m_commonDataPtr->maxSamples);
+    m_jointsPositionData.reserve(m_commonDataPtr->maxSamples);
+    m_rpyImuData.reserve(m_commonDataPtr->maxSamples);
+}
+
+void MasImuTest::MasImuData::clearData()
+{
+    m_errorData.clear();
+    m_rotationFeedbackData.clear();
+    m_rotationFeedbackInInertialData.clear();
+    m_rotationFeedbackInInertialYawFilteredData.clear();
+    m_rotationFromEncodersData.clear();
+    m_jointsPositionData.clear();
+    m_rpyImuData.clear();
+}
 
 bool MasImuTest::MasImuData::setupModel()
 {
@@ -238,9 +292,11 @@ bool MasImuTest::MasImuData::getFeedback()
                 m_positionFeedbackInRad(j) = iDynTree::deg2rad(m_positionFeedbackDeg(j));
             }
 
-            m_rotationFeedback = iDynTree::Rotation::RPY(iDynTree::deg2rad(m_rpyInDeg[0]),
-                                                         iDynTree::deg2rad(m_rpyInDeg[1]),
-                                                         iDynTree::deg2rad(m_rpyInDeg[2]));
+            m_rpyInRad(0) = iDynTree::deg2rad(m_rpyInDeg[0]);
+            m_rpyInRad(1) = iDynTree::deg2rad(m_rpyInDeg[1]);
+            m_rpyInRad(2) = iDynTree::deg2rad(m_rpyInDeg[2]);
+
+            m_rotationFeedback = iDynTree::Rotation::RPY(m_rpyInRad(0), m_rpyInRad(1), m_rpyInRad(2));
 
             return true;
         }
@@ -311,7 +367,7 @@ bool MasImuTest::MasImuData::setup(const std::string &testName, ParametersHandle
     m_commonDataPtr = commonDataPtr;
     m_group = group;
 
-    m_data.reserve(m_commonDataPtr->maxSamples);
+    reserveData();
 
     std::string errorPrefix = "[MasImuTest::MasImuData::setup](" + m_testName +") ";
 
@@ -392,7 +448,14 @@ bool MasImuTest::MasImuData::addSample()
         return false;
     }
 
+    m_rpyImuData.push_back(m_rpyInRad);
+    m_jointsPositionData.push_back(m_positionFeedbackInRad);
+    m_rotationFromEncodersData.push_back(m_rotationFromEncoders);
+    m_rotationFeedbackData.push_back(m_rotationFeedback);
+
     iDynTree::Rotation measuredImu = m_imuWorld * m_rotationFeedback;
+
+    m_rotationFeedbackInInertialData.push_back(measuredImu);
 
     if (m_commonDataPtr->filterYaw)
     {
@@ -405,9 +468,11 @@ bool MasImuTest::MasImuData::addSample()
         measuredImu = iDynTree::Rotation::RPY(measuredRoll, measuredPitch, estimatedYaw);
     }
 
+    m_rotationFeedbackInInertialYawFilteredData.push_back(measuredImu);
+
     iDynTree::Rotation error = m_rotationFromEncoders.inverse() * measuredImu;
 
-    m_data.push_back(error);
+    m_errorData.push_back(error);
 
     m_previousPositionFeedbackInRad = m_positionFeedbackInRad;
 
@@ -423,7 +488,7 @@ bool MasImuTest::MasImuData::addSample()
 
 size_t MasImuTest::MasImuData::addedSamples() const
 {
-    return m_data.size();
+    return m_errorData.size();
 }
 
 bool MasImuTest::MasImuData::isCompleted() const
@@ -449,14 +514,14 @@ void MasImuTest::MasImuData::printResults() const
         return output;
     };
 
-    if (!m_data.size())
+    if (!m_errorData.size())
     {
         yInfo() << errorPrefix << "Inertial calibration matrix:\n"
                 << "--------------------------------------\n"
                 << m_imuWorld.toString()
                 << rpyPrinter(m_imuWorld)
                 << "--------------------------------------\n"
-                << "Results ("<<m_data.size() << " samples) :\n"
+                << "Results ("<<m_errorData.size() << " samples) :\n"
                 << "--------------------------------------\n"
                 << "--------------------------------------\n";
         return;
@@ -467,7 +532,7 @@ void MasImuTest::MasImuData::printResults() const
     iDynTree::GeodesicL2MeanOptions options;
     options.maxIterations = 1000; //If it takes so many steps to converge, it is probably in a loop. Hence, this parameter can be safely hardcoded.
 
-    bool ok = iDynTree::geodesicL2MeanRotation(m_data, meanError, options);
+    bool ok = iDynTree::geodesicL2MeanRotation(m_errorData, meanError, options);
     if (!ok)
     {
         yError() << errorPrefix << "Failed to compute the mean rotation.";
@@ -478,9 +543,9 @@ void MasImuTest::MasImuData::printResults() const
     double maxError = -1;
     size_t minIndex, maxIndex;
 
-    for (size_t i = 0; i < m_data.size(); ++i)
+    for (size_t i = 0; i < m_errorData.size(); ++i)
     {
-        double error = iDynTree::geodesicL2Distance(iDynTree::Rotation::Identity(), m_data[i]);
+        double error = iDynTree::geodesicL2Distance(iDynTree::Rotation::Identity(), m_errorData[i]);
         if ((i > 0) && ((minError < 0) || (error < minError))) //Avoiding to pick the very first data point as it may be too close to the initialization
         {
             minError = error;
@@ -499,31 +564,127 @@ void MasImuTest::MasImuData::printResults() const
             << m_imuWorld.toString()
             << rpyPrinter(m_imuWorld)
             << "--------------------------------------\n"
-            << "Results ("<<m_data.size() << " samples) :\n"
+            << "Results ("<<m_errorData.size() << " samples) :\n"
             << "--------------------------------------\n"
             << "--------------Mean Rotation-----------\n"
             << meanError.toString()
             << rpyPrinter(meanError)
             << "----------------Min Error-------------\n"
             << "Index: " << minIndex << "\n"
-            << m_data[minIndex].toString()
-            << rpyPrinter(m_data[minIndex])
+            << m_errorData[minIndex].toString()
+            << rpyPrinter(m_errorData[minIndex])
             << "----------------Max Error-------------\n"
             << "Index: " << maxIndex << "\n"
-            << m_data[maxIndex].toString()
-            << rpyPrinter(m_data[maxIndex])
+            << m_errorData[maxIndex].toString()
+            << rpyPrinter(m_errorData[maxIndex])
             << "--------------------------------------\n";
+}
+
+bool MasImuTest::MasImuData::saveResults()
+{
+    std::string errorPrefix = "[MasImuTest::MasImuData::saveResults](" + m_testName +") ";
+
+    matioCpp::StructArray dataArray(m_testName, {m_errorData.size(), 1});
+    std::vector<std::string> fields = {"RotationError", "RotationFromIMU", "RotationFromIMUInInertial", "RotationFromIMUInInertialYawFiltered", "RotationFromEncoders", "JointPositions_rad", "RPYfromIMU"};
+
+    for (std::string& field : fields)
+    {
+        if (!dataArray.addField(field))
+        {
+            yError() << errorPrefix << "Unable to add the field " << field << " to the data struct.";
+            return false;
+        }
+    }
+
+    for (size_t i = 0; i < m_errorData.size(); ++i)
+    {
+        matioCpp::StructArrayElement el = dataArray[{i, 1}];
+        if (!el.setField(to_matio(iDynTree::toEigen(m_errorData[i]), "RotationError")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackData[i]), "RotationFromIMU")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackInInertialData[i]), "RotationFromIMUInInertial")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFeedbackInInertialYawFilteredData[i]), "RotationFromIMUInInertialYawFiltered")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio(iDynTree::toEigen(m_rotationFromEncodersData[i]), "RotationFromEncoders")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio<double>(m_jointsPositionData[i], "JointPositions_rad")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+        if(!el.setField(to_matio<double>(m_rpyImuData[i], "RPYfromIMU")))
+        {
+            yError() << errorPrefix << "Failed to set the field RotationError.";
+            return false;
+        }
+    }
+
+    std::vector<matioCpp::Variable> options;
+    options.push_back(matioCpp::String("SensorName", m_sensorName));
+    options.push_back(matioCpp::String("FrameName", m_frameName));
+    matioCpp::CellArray consideredJoints("ConsideredJoints", {m_consideredJointNames.size(), 1});
+    for (size_t i = 0; i < m_consideredJointNames.size(); ++i)
+    {
+        consideredJoints.setElement({i,1}, matioCpp::String(m_consideredJointNames[i]));
+    }
+    options.push_back(consideredJoints);
+    options.push_back(to_matio(iDynTree::toEigen(m_imuWorld), "I_R_world"));
+
+    matioCpp::Struct optionsStruct(m_testName + "_options", options);
+
+    if (!optionsStruct.isValid())
+    {
+        yError() << errorPrefix << "Failed to create the options struct.";
+        return false;
+    }
+
+    if (!m_commonDataPtr->outputFile.write(dataArray))
+    {
+        yError() << errorPrefix << "Failed to write the data array to file.";
+        return false;
+    }
+
+    if (!m_commonDataPtr->outputFile.write(optionsStruct))
+    {
+        yError() << errorPrefix << "Failed to write the options struct to file.";
+        return false;
+    }
+
+    return true;
 }
 
 void MasImuTest::MasImuData::reset()
 {
-    m_data.clear();
+    clearData();
     m_completed = false;
 }
 
 bool MasImuTest::MasImuData::close()
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::close](" + m_testName +") ";
+
+    if (!saveResults())
+    {
+        yError() << errorPrefix << "Unable to save the results.";
+        return false;
+    }
 
     if(!m_orientationDriver.close())
     {
@@ -729,6 +890,14 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
+    std::string outputFileName;
+    ok = m_parametersPtr->getParameter("file_name", outputFileName);
+    if (!ok || m_commonDataPtr->masTimeout < 0)
+    {
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"file_name\".";
+        return false;
+    }
+
     auto leftLegGroup = m_parametersPtr->getGroup("LEFT_LEG").lock();
     if (!leftLegGroup)
     {
@@ -754,6 +923,40 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
+        return false;
+    }
+
+    matioCpp::File testFile(outputFileName, matioCpp::FileMode::ReadOnly);
+
+    if (testFile.isOpen())
+    {
+        testFile.close();
+        matioCpp::File::Delete(outputFileName);
+    }
+
+    matioCpp::File::Create(outputFileName);
+    m_commonDataPtr->outputFile.open(outputFileName);
+
+    if (!(m_commonDataPtr->outputFile.isOpen()))
+    {
+        yError() << "[MasImuTest::configure] Failed to create new file with the name " << outputFileName <<".";
+        return false;
+    }
+
+    std::vector<matioCpp::Variable> settings;
+    settings.push_back(matioCpp::String("robot_name", m_commonDataPtr->robotName));
+    settings.push_back(matioCpp::Element<double>("period", m_period));
+    settings.push_back(matioCpp::String("model", pathToModel));
+    settings.push_back(matioCpp::String("base_link", baseLink));
+    settings.push_back(to_matio(iDynTree::toEigen(baseRotation), "base_rotation"));
+    settings.push_back(matioCpp::Element<matioCpp::Logical>("filter_yaw", m_commonDataPtr->filterYaw));
+    settings.push_back(matioCpp::Element<double>("min_joint_variation_deg", minJointVariationInDeg));
+    settings.push_back(matioCpp::Element<int>("max_samples", m_commonDataPtr->maxSamples));
+    settings.push_back(matioCpp::Element<double>("mas_timeout", m_commonDataPtr->masTimeout));
+
+    if (!m_commonDataPtr->outputFile.write(matioCpp::Struct("settings", settings)))
+    {
+        yError() << "[MasImuTest::configure] Error while writing the settings to file";
         return false;
     }
 

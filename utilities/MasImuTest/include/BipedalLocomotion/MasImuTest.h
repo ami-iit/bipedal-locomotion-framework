@@ -28,6 +28,9 @@
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/Transform.h>
 
+// matioCpp
+#include <matioCpp/matioCpp.h>
+
 //Thrifts
 #include <thrifts/MasImuTestCommands.h>
 
@@ -51,6 +54,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         int maxSamples;
         double minJointVariationRad;
         double masTimeout;
+        matioCpp::File outputFile;
     };
 
     class MasImuData
@@ -68,17 +72,27 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         yarp::dev::IOrientationSensors* m_orientationInterface;
         yarp::dev::IEncodersTimed* m_encodersInterface;
         size_t m_sensorIndex;
-        std::vector<iDynTree::Rotation> m_data;
+        std::vector<iDynTree::Rotation> m_errorData;
         yarp::sig::Vector m_positionFeedbackDeg; /**< Current joint position [deg]. */
         yarp::sig::Vector m_rpyInDeg;
+        iDynTree::Vector3 m_rpyInRad;
         iDynTree::VectorDynSize m_positionFeedbackInRad;
         iDynTree::VectorDynSize m_previousPositionFeedbackInRad;
         iDynTree::VectorDynSize m_dummyVelocity;
         iDynTree::Rotation m_rotationFeedback;
+        std::vector<iDynTree::VectorDynSize> m_jointsPositionData;
+        std::vector<iDynTree::Rotation> m_rotationFeedbackData;
+        std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialData;
+        std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialYawFilteredData;
+        std::vector<iDynTree::Vector3> m_rpyImuData;
         iDynTree::Rotation m_rotationFromEncoders;
+        std::vector<iDynTree::Rotation> m_rotationFromEncodersData;
         iDynTree::Rotation m_imuWorld; //i_R_imuworld
         bool m_completed{false};
 
+        void reserveData();
+
+        void clearData();
 
         bool setupModel();
 
@@ -110,6 +124,8 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         void printResults() const;
 
+        bool saveResults();
+
         void reset();
 
         bool close();
@@ -130,7 +146,6 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
     State m_state{State::STARTED};
     std::mutex m_mutex;
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
-
 
     void reset();
 
