@@ -18,6 +18,8 @@ The **BipedalLocomotionFramework** project is a _suite_ of libraries for achievi
   data and from YARP structures
 - [**BipedalLocomotion::ParametersHandler**](./src/ParametersHandler): Library for
   retrieving parameters from configuration files and not only
+- [**BipedalLocomotion::CommonConversions**](./src/Conversions): Library for common conversion utilities used in the framework
+- [**BipedalLocomotion::ManifConversions**](./src/Conversions): Library for manif library related conversion utilities used in the framework
 - [**BipedalLocomotion::Estimators**](./src/Estimators): Library containing observers
 - [**BipedalLocomotion::FloatingBaseEstimators**](./src/Estimators): Library containing floating base estimators
 - [**BipedalLocomotion::Planner**](./src/Planner): Library containing planner useful for locomotion
@@ -41,6 +43,12 @@ file. Please note that the indicated version is the the minimum required version
       - [`YARP`](https://github.com/robotology/YARP)
     - For testing:
       - [`Catch2`](https://github.com/catchorg/Catch2)
+- `ManifConversions` require:
+    - For using it:
+      - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)      
+      - [`manif`](https://github.com/artivis/manif)
+    - For testing:
+      - [`Catch2`](https://github.com/catchorg/Catch2)      
 - `Estimators` require:
     - For using it:
       - [`iDynTree`](https://github.com/robotology/idyntree) (version 0.11.105)
