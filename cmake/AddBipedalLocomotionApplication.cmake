@@ -33,6 +33,12 @@ function(add_bipedal_locomotion_application)
   target_compile_features(${name} PRIVATE cxx_std_17)
   target_compile_definitions(${name} PRIVATE -D_USE_MATH_DEFINES)
 
+  set_target_properties(${name} PROPERTIES
+      OUTPUT_NAME "blf-${name}"
+      VERSION ${BipedalLocomotionFramework_VERSION}
+      PRIVATE_HEADER "${headers}")
+
+
   target_link_libraries(${name} PRIVATE ${link_libraries})
 
   # Specify include directories for both compilation and installation process.
