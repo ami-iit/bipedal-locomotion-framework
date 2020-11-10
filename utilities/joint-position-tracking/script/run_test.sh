@@ -4,7 +4,7 @@ echo "Welcome to the JointPositionTrackingTest. I will first move the robot and 
 
 echo "I'm going to move the robot. Watch out! \n"
 
-JointPositionTracking --from ../config/jointPositionTrackingOptions.ini
+blf-joint-position-tracking --from ../config/jointPositionTrackingOptions.ini
 
 echo "The trajectory is terminated. \n"
 
