@@ -35,21 +35,16 @@ function(add_bipedal_locomotion_application)
 
   set_target_properties(${name} PROPERTIES
       OUTPUT_NAME "blf-${name}"
-      VERSION ${BipedalLocomotionFramework_VERSION}
-      PRIVATE_HEADER "${headers}")
-
+      VERSION ${BipedalLocomotionFramework_VERSION})
 
   target_link_libraries(${name} PRIVATE ${link_libraries})
 
-  # Specify include directories for both compilation and installation process.
-  # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
-  # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
-  #creating-relocatable-packages
+
   target_include_directories(${name} PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>")
 
   # Specify installation targets, typology and destination folders.
   install(TARGETS    ${name}
-    RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin)
+    DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin)
 
   # Add all subdirectories
   foreach(subdir ${subdirectories})
