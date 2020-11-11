@@ -14,7 +14,6 @@ All notable changes to this project are documented in this file.
 - Implement `ParametersHandler` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/13)
 - Implement `GenericContainer::Vector` (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/29)
 - Implement `Estimators` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/23)
-- Rename from `bipedal-locomotion-controllers` to `bipedal-locomotion-framework` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/40).
 - Implement `Contact` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/43 and https://github.com/dic-iit/bipedal-locomotion-framework/pull/45)
 - Implement the first version of the `TimeVaryingDCMPlanner` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/61)
 - Implement the Quintic Spline class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/83)
