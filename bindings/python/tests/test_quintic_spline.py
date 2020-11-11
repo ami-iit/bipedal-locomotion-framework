@@ -1,7 +1,7 @@
 import pytest
 pytestmark = pytest.mark.planners
 
-import bipedal_locomotion_framework.bindings as bl
+import bipedal_locomotion_framework.bindings as blf
 import numpy as np
 
 
@@ -50,7 +50,7 @@ def test_quintic_spline():
         + 4 * 3 * coefficients[4] * (final_time ** 2) \
         + 5 * 4 * coefficients[5] * (final_time ** 3)
 
-    spline = bl.QuinticSpline()
+    spline = blf.QuinticSpline()
 
     assert spline.set_knots(knots, time)
     assert spline.set_initial_conditions(init_velocity, init_acceleration)

@@ -1,13 +1,13 @@
 import pytest
 pytestmark = pytest.mark.parameters_handler
 
-import bipedal_locomotion_framework.bindings as bl
+import bipedal_locomotion_framework.bindings as blf
 import numpy as np
 
 
 def test_bool():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_bool(name="my_bool", value=True)
 
@@ -25,7 +25,7 @@ def test_bool():
 
 def test_int():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_int(name="my_int", value=42)
 
@@ -43,7 +43,7 @@ def test_int():
 
 def test_float():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_float(name="my_float", value=3.1415)
 
@@ -61,7 +61,7 @@ def test_float():
 
 def test_string():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_string(name="my_string", value="foo")
 
@@ -79,7 +79,7 @@ def test_string():
 
 def test_vector_bool():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_vector_bool(name="my_vector_bool",value= [True, False, True])
 
@@ -97,7 +97,7 @@ def test_vector_bool():
 
 def test_vector_int():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_vector_int(name="my_vector_int", value=[-1, 2, 10])
 
@@ -115,7 +115,7 @@ def test_vector_int():
 
 def test_vector_float():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_vector_float(name="my_vector_float",
                                        value=[-3.14, 2.7182, 42.0])
@@ -135,7 +135,7 @@ def test_vector_float():
 
 def test_vector_string():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_vector_string(name="my_vector_string",
                                         value=["foo", "bar", "bipedal", "locomotion"])
@@ -155,7 +155,7 @@ def test_vector_string():
 
 def test_vector_mixed():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     # 1. Mixed vector: store as more general type float
     handler.set_parameter_vector_float(name="to_float", value=[42.0, 1, -3.14, False])
@@ -177,7 +177,7 @@ def test_vector_mixed():
 
 def test_clear():
 
-    handler = bl.StdParametersHandler()
+    handler = blf.StdParametersHandler()
 
     handler.set_parameter_bool(name="my_bool1", value=False)
     handler.set_parameter_bool(name="my_bool2", value=True)

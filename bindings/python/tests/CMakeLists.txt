@@ -4,7 +4,7 @@
 
 # Run pytest from the build folder. CMake creates a build/bipedal_locomotion
 # folder with the build-tree Python package.
-add_test(NAME pybind11_BipedalLocomotion_test
+add_test(NAME PythonBindingsUnitTest
   COMMAND ${Python3_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
   WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 )
