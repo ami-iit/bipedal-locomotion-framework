@@ -5,10 +5,23 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <Eigen/Core>
 #include <pybind11/pybind11.h>
+
+namespace BipedalLocomotion::Planners
+{
+class Contact;
+}
 
 namespace BipedalLocomotion::bindings
 {
+// Custom formatter of Eigen vectors
+const Eigen::IOFormat FormatEigenVector //
+    (Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", ", ", "", "", "[", "]");
+
+// Conversions from custom classes to string
+std::string ToString(const Planners::Contact& contact);
+
 // QuinticSpline.cpp
 void CreateQuinticSpline(pybind11::module& module);
 

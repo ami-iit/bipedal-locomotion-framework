@@ -31,24 +31,7 @@ void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
             "pose",
             [](const Contact& c) { return c.pose.coeffs(); },
             [](Contact& c, const Eigen::Ref<Eigen::VectorXd>& coeffs) { c.pose.coeffs() = coeffs; })
-        .def("__repr__",
-             [](const Contact& c) {
-                 const Eigen::IOFormat format( //
-                     Eigen::StreamPrecision,
-                     Eigen::DontAlignCols,
-                     ", ",
-                     ", ",
-                     "",
-                     "",
-                     "[",
-                     "]");
-                 std::stringstream pose;
-                 pose << c.pose.coeffs().format(format);
-                 return "Contact(name=" + c.name + ", pose=" + pose.str()
-                        + ", activation_time=" + std::to_string(c.activationTime)
-                        + ", deactivation_time=" + std::to_string(c.deactivationTime)
-                        + ", type=" + std::to_string(static_cast<int>(c.type)) + ")";
-             })
+        .def("__repr__", py::overload_cast<const Contact&>(&ToString))
         .def("__eq__", &Contact::operator==, py::is_operator());
 
     py::enum_<ContactType>(module, "ContactType")

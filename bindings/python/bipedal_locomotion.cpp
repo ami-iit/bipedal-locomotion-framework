@@ -7,6 +7,7 @@
 
 #include <pybind11/pybind11.h>
 
+#include "BipedalLocomotion/Planners/Contact.h"
 #include "bipedal_locomotion.h"
 
 namespace BipedalLocomotion
@@ -14,6 +15,9 @@ namespace BipedalLocomotion
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
 {
+    // BaseTypes.cpp
+    bindings::CreateBaseTypes(m);
+
     // QuinticSpline.cpp
     bindings::CreateQuinticSpline(m);
 
@@ -36,4 +40,17 @@ PYBIND11_MODULE(bindings, m)
     // TimeVaryingDCMPlanner.cpp
     bindings::CreateTimeVaryingDCMPlanner(m);
 }
+
+std::string bindings::ToString(const Planners::Contact& contact)
+{
+    std::stringstream pose;
+
+    pose << "Contact(name=" + contact.name + ", pose=" + ToString(contact.pose)
+                + ", activation_time=" + std::to_string(contact.activationTime)
+                + ", deactivation_time=" + std::to_string(contact.deactivationTime)
+                + ", type=" + std::to_string(static_cast<int>(contact.type)) + ")";
+
+    return pose.str();
+}
+
 } // namespace BipedalLocomotion
