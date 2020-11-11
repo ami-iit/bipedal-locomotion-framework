@@ -20,6 +20,10 @@ void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Planners;
 
+    py::enum_<ContactType>(module, "ContactType")
+        .value("Full", ContactType::FULL)
+        .value("Point", ContactType::POINT);
+
     py::class_<Contact>(module, "Contact")
         .def(py::init())
         .def_readwrite("pose", &Contact::pose)
@@ -33,10 +37,6 @@ void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
             [](Contact& c, const Eigen::Ref<Eigen::VectorXd>& coeffs) { c.pose.coeffs() = coeffs; })
         .def("__repr__", py::overload_cast<const Contact&>(&ToString))
         .def("__eq__", &Contact::operator==, py::is_operator());
-
-    py::enum_<ContactType>(module, "ContactType")
-        .value("Full", ContactType::FULL)
-        .value("Point", ContactType::POINT);
 }
 
 void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
