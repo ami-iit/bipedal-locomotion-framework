@@ -25,7 +25,7 @@ Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>> to_eigen(matioCp
 {
     assert(input.isValid());
     assert(input.dimensions().size() == 2);
-    return Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(1), input.dimensions()(2));
+    return Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(0), input.dimensions()(1));
 }
 
 template <typename type>
@@ -33,7 +33,7 @@ const Eigen::Map<Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>> to_eigen(c
 {
     assert(input.isValid());
     assert(input.dimensions().size() == 2);
-    return Eigen::Map<const Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(1), input.dimensions()(2));
+    return Eigen::Map<const Eigen::Matrix<type, Eigen::Dynamic, Eigen::Dynamic>>(input.data(), input.dimensions()(0), input.dimensions()(1));
 }
 
 template <typename EigenDerived>
@@ -225,7 +225,7 @@ bool MasImuTest::MasImuData::setupGyro()
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::setupGyro](" + m_testName +") ";
 
-    bool ok = m_group->getParameter("gyro_sensor_name", m_imuName);
+    bool ok = m_group->getParameter("gyro_sensor_name", m_gyroName);
     if (!ok)
     {
         yError() << errorPrefix << "Setup failed.";
@@ -284,7 +284,7 @@ bool MasImuTest::MasImuData::setupAccelerometer()
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::setupAccelerometer](" + m_testName +") ";
 
-    bool ok = m_group->getParameter("acc_sensor_name", m_imuName);
+    bool ok = m_group->getParameter("acc_sensor_name", m_accName);
     if (!ok)
     {
         yError() << errorPrefix << "Setup failed.";
@@ -517,9 +517,10 @@ double MasImuTest::MasImuData::maxVariation()
 }
 
 bool MasImuTest::MasImuData::setup(const std::string &testName, ParametersHandler::YarpImplementation::shared_ptr group,
-                                   std::shared_ptr<CommonData> commonDataPtr)
+                                   std::shared_ptr<CommonData> commonDataPtr, const std::string& logPrefix)
 {
     m_testName = testName;
+    m_logPrefix = logPrefix;
     m_commonDataPtr = commonDataPtr;
     m_group = group;
 
@@ -763,29 +764,24 @@ bool MasImuTest::MasImuData::saveResults()
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::saveResults](" + m_testName +") ";
 
-    matioCpp::StructArray dataArray(m_testName, {m_errorData.size(), 1});
-    std::vector<std::string> fields = {"RotationError",
-                                       "RotationFromIMU",
-                                       "RotationFromIMUInInertial",
-                                       "RotationFromIMUInInertialYawFiltered",
-                                       "RotationFromEncoders",
-                                       "JointPositions_rad",
-                                       "RPYfromIMUinDeg",
-                                       "AngularVelocity_deg_s",
-                                       "Accelerometer"};
+    std::vector<matioCpp::Variable> structFields;
+    structFields.push_back(matioCpp::MultiDimensionalArray<double>("RotationError", {3,3}));
+    structFields.push_back(matioCpp::MultiDimensionalArray<double>("RotationFromIMU", {3,3}));
+    structFields.push_back(matioCpp::MultiDimensionalArray<double>("RotationFromIMUInInertial", {3,3}));
+    structFields.push_back(matioCpp::MultiDimensionalArray<double>("RotationFromIMUInInertialYawFiltered", {3,3}));
+    structFields.push_back(matioCpp::MultiDimensionalArray<double>("RotationFromEncoders", {3,3}));
+    structFields.push_back(matioCpp::Vector<double>("JointPositions_rad", m_consideredJointNames.size()));
+    structFields.push_back(matioCpp::Vector<double>("RPYfromIMUinDeg", 3));
+    structFields.push_back(matioCpp::Vector<double>("AngularVelocity_deg_s", 3));
+    structFields.push_back(matioCpp::Vector<double>("Accelerometer", 3));
+    matioCpp::Struct structElement("structElement", structFields);
+    std::vector<matioCpp::Struct> structElements(m_errorData.size(), structElement);
 
-    for (std::string& field : fields)
-    {
-        if (!dataArray.addField(field))
-        {
-            yError() << errorPrefix << "Unable to add the field " << field << " to the data struct.";
-            return false;
-        }
-    }
+    matioCpp::StructArray dataArray(m_logPrefix + "_data", {m_errorData.size(), 1}, structElements);
 
     for (size_t i = 0; i < m_errorData.size(); ++i)
     {
-        matioCpp::StructArrayElement el = dataArray[{i, 1}];
+        matioCpp::StructArrayElement el = dataArray[{i, 0}];
         if (!el.setField(to_matio(iDynTree::toEigen(m_errorData[i]), "RotationError")))
         {
             yError() << errorPrefix << "Failed to set the field RotationError.";
@@ -849,12 +845,12 @@ bool MasImuTest::MasImuData::saveResults()
     matioCpp::CellArray consideredJoints("ConsideredJoints", {m_consideredJointNames.size(), 1});
     for (size_t i = 0; i < m_consideredJointNames.size(); ++i)
     {
-        consideredJoints.setElement({i,1}, matioCpp::String(m_consideredJointNames[i]));
+        consideredJoints.setElement({i,0}, matioCpp::String(m_consideredJointNames[i]));
     }
     options.push_back(consideredJoints);
     options.push_back(to_matio(iDynTree::toEigen(m_imuWorld), "I_R_world"));
 
-    matioCpp::Struct optionsStruct(m_testName + "_options", options);
+    matioCpp::Struct optionsStruct(m_logPrefix + "_options", options);
 
     if (!optionsStruct.isValid())
     {
@@ -862,13 +858,22 @@ bool MasImuTest::MasImuData::saveResults()
         return false;
     }
 
-    if (!m_commonDataPtr->outputFile.write(dataArray))
+    std::cerr << "Saving data" <<std::endl;
+
+    matioCpp::File outputFile(m_commonDataPtr->outputFile);
+    if (!(outputFile.isOpen()))
+    {
+        yError() << errorPrefix << "Failed to open file.";
+        return false;
+    }
+
+    if (!outputFile.write(dataArray))
     {
         yError() << errorPrefix << "Failed to write the data array to file.";
         return false;
     }
 
-    if (!m_commonDataPtr->outputFile.write(optionsStruct))
+    if (!outputFile.write(optionsStruct))
     {
         yError() << errorPrefix << "Failed to write the options struct to file.";
         return false;
@@ -1112,7 +1117,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    ok = m_leftIMU.setup("Left IMU Test", leftLegGroup, m_commonDataPtr);
+    ok = m_leftIMU.setup("Left IMU Test", leftLegGroup, m_commonDataPtr, "left");
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
@@ -1126,25 +1131,19 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    ok = m_rightIMU.setup("Right IMU Test", rightLegGroup, m_commonDataPtr);
+    ok = m_rightIMU.setup("Right IMU Test", rightLegGroup, m_commonDataPtr, "right");
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
         return false;
     }
 
-    matioCpp::File testFile(outputFileName, matioCpp::FileMode::ReadOnly);
+    matioCpp::File::Delete(outputFileName);
 
-    if (testFile.isOpen())
-    {
-        testFile.close();
-        matioCpp::File::Delete(outputFileName);
-    }
+    matioCpp::File outputFile = matioCpp::File::Create(outputFileName);
+    m_commonDataPtr->outputFile = outputFileName;
 
-    matioCpp::File::Create(outputFileName);
-    m_commonDataPtr->outputFile.open(outputFileName);
-
-    if (!(m_commonDataPtr->outputFile.isOpen()))
+    if (!(outputFile.isOpen()))
     {
         yError() << "[MasImuTest::configure] Failed to create new file with the name " << outputFileName <<".";
         return false;
@@ -1161,7 +1160,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     settings.push_back(matioCpp::Element<int>("max_samples", m_commonDataPtr->maxSamples));
     settings.push_back(matioCpp::Element<double>("mas_timeout", m_commonDataPtr->masTimeout));
 
-    if (!m_commonDataPtr->outputFile.write(matioCpp::Struct("settings", settings)))
+    if (!outputFile.write(matioCpp::Struct("settings", settings)))
     {
         yError() << "[MasImuTest::configure] Error while writing the settings to file";
         return false;

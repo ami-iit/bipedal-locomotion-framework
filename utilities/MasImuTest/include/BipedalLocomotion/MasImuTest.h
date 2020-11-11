@@ -54,12 +54,12 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         int maxSamples;
         double minJointVariationRad;
         double masTimeout;
-        matioCpp::File outputFile;
+        std::string outputFile;
     };
 
     class MasImuData
     {
-        std::string m_testName;
+        std::string m_testName, m_logPrefix;
         std::shared_ptr<CommonData> m_commonDataPtr;
         BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_group;
         iDynTree::FrameIndex m_frame;
@@ -123,7 +123,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         bool setup(const std::string& testName,
                    BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group,
-                   std::shared_ptr<CommonData> commonDataPtr);
+                   std::shared_ptr<CommonData> commonDataPtr, const std::string &logPrefix);
 
         bool firstRun();
 
