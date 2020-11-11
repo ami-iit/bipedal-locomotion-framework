@@ -20,12 +20,22 @@ void BipedalLocomotion::bindings::CreateQuinticSpline(pybind11::module& module)
     py::class_<QuinticSpline>(module, "QuinticSpline")
         .def(py::init())
         .def("set_knots", &QuinticSpline::setKnots)
-        .def("set_initial_conditions", &QuinticSpline::setInitialConditions)
-        .def("set_final_conditions", &QuinticSpline::setFinalConditions)
+        .def("set_initial_conditions",
+             &QuinticSpline::setInitialConditions,
+             py::arg("velocity"),
+             py::arg("acceleration"))
+        .def("set_final_conditions",
+             &QuinticSpline::setFinalConditions,
+             py::arg("velocity"),
+             py::arg("acceleration"))
         .def("evaluate_point",
              py::overload_cast<const double&,
                                Eigen::Ref<Eigen::VectorXd>,
                                Eigen::Ref<Eigen::VectorXd>,
                                Eigen::Ref<Eigen::VectorXd>>(
-                 &QuinticSpline::evaluatePoint));
+                 &QuinticSpline::evaluatePoint),
+             py::arg("time"),
+             py::arg("position"),
+             py::arg("velocity"),
+             py::arg("acceleration"));
 }
