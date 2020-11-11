@@ -2,7 +2,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 # Authors: Giulio Romualdi
 
-if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_Planners)
+if(FRAMEWORK_COMPILE_JointPositionTrackingApplication)
 
   add_bipedal_locomotion_application(
     NAME joint-position-tracking

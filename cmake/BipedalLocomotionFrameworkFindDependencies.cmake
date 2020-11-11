@@ -189,3 +189,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
+  "Compile joint-position-tracking application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
