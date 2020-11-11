@@ -1,7 +1,7 @@
 import pytest
 pytestmark = pytest.mark.planners
 
-import bipedal_locomotion.bindings as bl
+import bipedal_locomotion_framework.bindings as bl
 import numpy as np
 
 
