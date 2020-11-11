@@ -22,22 +22,25 @@ void BipedalLocomotion::bindings::CreateSwingFootPlanner(pybind11::module& modul
     py::class_<SwingFootPlannerState>(module, "SwingFootPlannerState")
         .def(py::init())
         .def_readwrite("is_in_contact", &SwingFootPlannerState::isInContact)
-        .def_property(
-            "transform",
-            [](const SwingFootPlannerState& s) { return s.transform.coeffs(); },
-            [](SwingFootPlannerState& s, const Eigen::Ref<Eigen::VectorXd>& coeffs) {
-                s.transform.coeffs() = coeffs;
-            })
+        .def_readwrite("transform", &SwingFootPlannerState::transform)
         .def_property(
             "mixed_velocity",
-            [](const SwingFootPlannerState& s) { return s.mixedVelocity.coeffs(); },
-            [](SwingFootPlannerState& s, const Eigen::Ref<Eigen::VectorXd>& coeffs) {
+            [](const SwingFootPlannerState& s) //
+            -> decltype(SwingFootPlannerState::mixedVelocity)::DataType {
+                return s.mixedVelocity.coeffs();
+            },
+            [](SwingFootPlannerState& s,
+               decltype(SwingFootPlannerState::mixedVelocity)::DataType& coeffs) {
                 s.mixedVelocity.coeffs() = coeffs;
             })
         .def_property(
             "mixed_acceleration",
-            [](const SwingFootPlannerState& s) { return s.mixedAcceleration.coeffs(); },
-            [](SwingFootPlannerState& s, const Eigen::Ref<Eigen::VectorXd>& coeffs) {
+            [](const SwingFootPlannerState& s) //
+            -> decltype(SwingFootPlannerState::mixedAcceleration)::DataType {
+                return s.mixedAcceleration.coeffs();
+            },
+            [](SwingFootPlannerState& s,
+               decltype(SwingFootPlannerState::mixedAcceleration)::DataType& coeffs) {
                 s.mixedAcceleration.coeffs() = coeffs;
             });
 

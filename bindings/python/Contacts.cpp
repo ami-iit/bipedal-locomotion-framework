@@ -31,10 +31,7 @@ void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
         .def_readwrite("deactivation_time", &Contact::deactivationTime)
         .def_readwrite("name", &Contact::name)
         .def_readwrite("type", &Contact::type)
-        .def_property(
-            "pose",
-            [](const Contact& c) { return c.pose.coeffs(); },
-            [](Contact& c, const Eigen::Ref<Eigen::VectorXd>& coeffs) { c.pose.coeffs() = coeffs; })
+        .def_readwrite("pose", &Contact::pose)
         .def("__repr__", py::overload_cast<const Contact&>(&ToString))
         .def("__eq__", &Contact::operator==, py::is_operator());
 }
@@ -52,18 +49,12 @@ void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
         .def("default_contact_type", &ContactList::defaultContactType)
         .def("add_contact",
              py::overload_cast<const Contact&>(&ContactList::addContact),
-             py::arg("new_contact"))
-        .def(
-            "add_contact",
-            [](ContactList& list,
-               const Eigen::Ref<Eigen::VectorXd>& coeffs,
-               const double activation,
-               const double deactivation) {
-                return list.addContact({coeffs}, activation, deactivation);
-            },
-            py::arg("new_transform"),
-            py::arg("activation_time"),
-            py::arg("deactivation_time"))
+             py::arg("contact"))
+        .def("add_contact",
+             py::overload_cast<const manif::SE3d&, double, double>(&ContactList::addContact),
+             py::arg("transform"),
+             py::arg("activation_time"),
+             py::arg("deactivation_time"))
         .def(
             "__iter__",
             [](const ContactList& l) { return py::make_iterator(l.cbegin(), l.cend()); },
