@@ -41,6 +41,19 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateTimeVaryingDCMPlanner(m);
 }
 
+std::string bindings::ToString(const manif::SE3d& se3)
+{
+    const auto& position = se3.coeffs().segment<3>(0);
+    const auto& quaternion = se3.coeffs().segment<4>(3);
+
+    std::stringstream repr;
+
+    repr << "SE3(position=" << position.format(FormatEigenVector)
+         << ", quaternion=" << quaternion.format(FormatEigenVector) << ")";
+
+    return repr.str();
+}
+
 std::string bindings::ToString(const Planners::Contact& contact)
 {
     std::stringstream pose;

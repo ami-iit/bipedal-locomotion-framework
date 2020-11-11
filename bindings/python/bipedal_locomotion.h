@@ -6,6 +6,7 @@
  */
 
 #include <Eigen/Core>
+#include <manif/SE3.h>
 #include <pybind11/pybind11.h>
 
 namespace BipedalLocomotion::Planners
@@ -20,7 +21,11 @@ const Eigen::IOFormat FormatEigenVector //
     (Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", ", ", "", "", "[", "]");
 
 // Conversions from custom classes to string
+std::string ToString(const manif::SE3d& se3);
 std::string ToString(const Planners::Contact& contact);
+
+// BaseTypes.cpp
+void CreateBaseTypes(pybind11::module& module);
 
 // QuinticSpline.cpp
 void CreateQuinticSpline(pybind11::module& module);

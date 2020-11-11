@@ -7,6 +7,7 @@ pybind11_add_module(pybind11_blf MODULE
     bipedal_locomotion.h
     bipedal_locomotion.cpp
     # Support files
+    BaseTypes.cpp
     Contacts.cpp
     DCMPlanner.cpp
     ParametersHandler.cpp
