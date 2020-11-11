@@ -3,15 +3,21 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 pybind11_add_module(pybind11_BipedalLocomotion MODULE
-  BipedalLocomotion.cpp
-  BipedalLocomotion_GenericContainer.h BipedalLocomotion_GenericContainer.cpp
-  BipedalLocomotion_ParametersHandler.h BipedalLocomotion_ParametersHandler.cpp
-  BipedalLocomotion_Planners.h BipedalLocomotion_Planners.cpp)
+    # Main module
+    bipedal_locomotion.h
+    bipedal_locomotion.cpp
+    # Support files
+    ParametersHandler.cpp
+    QuinticSpline.cpp
+    )
 
 target_link_libraries(pybind11_BipedalLocomotion PUBLIC
-  BipedalLocomotion::GenericContainer
-  BipedalLocomotion::ParametersHandler
-  BipedalLocomotion::Planners)
+    BipedalLocomotion::ParametersHandler
+    BipedalLocomotion::Planners
+    )
+
+target_include_directories(pybind11_BipedalLocomotion PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 # The generated Python dynamic module must have the same name as the pybind11
 # module, i.e. `bindings`.
