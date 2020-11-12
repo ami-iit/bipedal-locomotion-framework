@@ -162,6 +162,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
   "" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_Contact
+  "Compile Contact libraries?" ON
+  "FRAMEWORK_USE_manif" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
   "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif" OFF)
