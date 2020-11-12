@@ -16,5 +16,6 @@ All notable changes to this project are documented in this file.
 - Implement `Estimators` library (https://github.com/dic-iit/bipedal-locomotion-controllers/pull/23)
 - Renamed from ``bipedal-locomotion-controllers`` to ``bipedal-locomotion-framework`` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/40).
 - Implement `Contact` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/43 and https://github.com/dic-iit/bipedal-locomotion-framework/pull/45)
+- Added `CommonConversions` and `ManifConversions` libraries to handle type conversions.
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/

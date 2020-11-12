@@ -186,3 +186,6 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
   "Compile FloatingBaseEstimators libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
+  "Compile manif Conversions libraries?" ON
+  "FRAMEWORK_USE_manif" OFF)
