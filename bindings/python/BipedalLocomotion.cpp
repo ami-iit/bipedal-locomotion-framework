@@ -5,7 +5,6 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-
 #include <vector>
 
 #include "BipedalLocomotion_GenericContainer.h"
@@ -20,7 +19,7 @@ namespace
 {
 
 namespace py = ::pybind11;
-PYBIND11_MODULE(pybind, m)
+PYBIND11_MODULE(bindings, m)
 {
     BipedalLocomotion::bindings::BipedalLocomotionGenericContainerBindings(m);
     BipedalLocomotion::bindings::BipedalLocomotionParametersHandlerBindings(m);

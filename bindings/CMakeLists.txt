@@ -5,45 +5,35 @@
 option(FRAMEWORK_USES_PYTHON "Do you want to create the Python bindings" FALSE)
 
 if(FRAMEWORK_USES_PYTHON)
-    find_package(Python3 COMPONENTS Interpreter QUIET)
-    if (Python3_FOUND)
-        execute_process(COMMAND ${Python3_EXECUTABLE}
-            -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
-            OUTPUT_VARIABLE _PYTHON_INSTDIR)
-        string(STRIP ${_PYTHON_INSTDIR} FRAMEWORK_PYTHON_INSTALL_DIR)
-        # # Bindings are installed in `BipedalLocomotion` subdirectory.
-        # list(APPEND FRAMEWORK_BINARY_DIRS "${FRAMEWORK_PYTHON_INSTALL_DIR}/BipedalLocomotion")
-    endif()
-endif()
 
-# Setup installation directory for Python bindings.
-if (FRAMEWORK_USES_PYTHON)
-  set(PYTHON_INSTDIR ${FRAMEWORK_PYTHON_INSTALL_DIR}/BipedalLocomotion)
-endif()
+    # Find the necessary Python libraries
+    find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+    message(STATUS "Using Python: ${Python3_EXECUTABLE}")
 
-find_package(pybind11 QUIET)
-if (FRAMEWORK_USES_PYTHON)
-  if (${pybind11_FOUND})
-        add_subdirectory(python)
-    else()
-       MESSAGE(FATAL_ERROR "pybind11 not found, impossible to generate Bipedal-locomotion-framework bindings.")
-    endif()
-endif()
-
-# Install main __init__.py file.
-if (FRAMEWORK_USES_PYTHON)
-    if (WIN32)
-        set(NEW_LINE "\n\r")
-    else()
-        set(NEW_LINE "\n")
-    endif()
-    # Clear the file first if it exists.
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/__init__.py "")
-    # If pybind is enabled, add the corresponding import.
-    if (${FRAMEWORK_USES_PYTHON})
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/__init__.py "from . import pybind${NEW_LINE}")
+    # Install the resulting Python package for the active interpreter
+    if(NOT PYTHON_INSTDIR)
+        set(PYTHON_INSTDIR ${Python3_SITELIB}/bipedal_locomotion)
     endif()
 
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/__init__.py"
-             DESTINATION ${PYTHON_INSTDIR})
+    # Require pybind11
+    if(NOT FRAMEWORK_USE_pybind11)
+        message(FATAL_ERROR "pybind11 not found")
+    endif()
+
+    # Folder of the Python package within the build tree.
+    # It is used for the Python tests.
+    set(BIPEDAL_LOCOMOTION_PYTHON_PACKAGE "${CMAKE_BINARY_DIR}/bipedal_locomotion")
+
+    # Add the bindings directory
+    add_subdirectory(python)
+
+    # Create the __init__.py file
+    file(GENERATE
+         OUTPUT "${BIPEDAL_LOCOMOTION_PYTHON_PACKAGE}/__init__.py"
+         CONTENT "from . import bindings")
+
+     # Install the __init__.py file
+    install(FILES "${BIPEDAL_LOCOMOTION_PYTHON_PACKAGE}/__init__.py"
+            DESTINATION ${PYTHON_INSTDIR})
+
 endif()
