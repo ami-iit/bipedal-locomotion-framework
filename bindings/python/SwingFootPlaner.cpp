@@ -11,7 +11,7 @@
 
 #include "BipedalLocomotion/Planners/SwingFootPlanner.h"
 #include "BipedalLocomotion/System/Advanceable.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateSwingFootPlanner(pybind11::module& module)
 {

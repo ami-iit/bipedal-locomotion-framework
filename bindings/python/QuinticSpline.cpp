@@ -10,7 +10,7 @@
 #include <pybind11/stl.h>
 
 #include "BipedalLocomotion/Planners/QuinticSpline.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateQuinticSpline(pybind11::module& module)
 {
@@ -32,8 +32,7 @@ void BipedalLocomotion::bindings::CreateQuinticSpline(pybind11::module& module)
              py::overload_cast<const double&,
                                Eigen::Ref<Eigen::VectorXd>,
                                Eigen::Ref<Eigen::VectorXd>,
-                               Eigen::Ref<Eigen::VectorXd>>(
-                 &QuinticSpline::evaluatePoint),
+                               Eigen::Ref<Eigen::VectorXd>>(&QuinticSpline::evaluatePoint),
              py::arg("time"),
              py::arg("position"),
              py::arg("velocity"),

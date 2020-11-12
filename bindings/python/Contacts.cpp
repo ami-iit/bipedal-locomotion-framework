@@ -13,7 +13,7 @@
 #include "BipedalLocomotion/Planners/ContactList.h"
 #include "BipedalLocomotion/Planners/ContactPhase.h"
 #include "BipedalLocomotion/Planners/ContactPhaseList.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
 {

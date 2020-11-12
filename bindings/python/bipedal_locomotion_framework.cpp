@@ -8,7 +8,7 @@
 #include <pybind11/pybind11.h>
 
 #include "BipedalLocomotion/Planners/Contact.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 namespace BipedalLocomotion
 {

@@ -11,7 +11,7 @@
 
 #include "BipedalLocomotion/ParametersHandler/IParametersHandler.h"
 #include "BipedalLocomotion/ParametersHandler/StdImplementation.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateIParameterHandler(pybind11::module& module)
 {

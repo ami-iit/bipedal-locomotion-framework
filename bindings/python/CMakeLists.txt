@@ -4,8 +4,8 @@
 
 pybind11_add_module(pybind11_blf MODULE
     # Main module
-    bipedal_locomotion.h
-    bipedal_locomotion.cpp
+    bipedal_locomotion_framework.h
+    bipedal_locomotion_framework.cpp
     # Support files
     BaseTypes.cpp
     Contacts.cpp

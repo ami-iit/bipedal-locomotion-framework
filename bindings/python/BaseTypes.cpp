@@ -10,7 +10,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateBaseTypes(pybind11::module& module)
 {

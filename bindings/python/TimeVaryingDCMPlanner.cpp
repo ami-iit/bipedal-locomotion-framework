@@ -12,7 +12,7 @@
 #include "BipedalLocomotion/Planners/DCMPlanner.h"
 #include "BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h"
 #include "BipedalLocomotion/System/Advanceable.h"
-#include "bipedal_locomotion.h"
+#include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateTimeVaryingDCMPlanner(pybind11::module& module)
 {
