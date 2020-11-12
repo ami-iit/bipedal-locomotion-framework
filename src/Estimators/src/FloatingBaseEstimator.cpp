@@ -300,6 +300,28 @@ bool FloatingBaseEstimator::setContacts(const bool& lfInContact,
     return true;
 }
 
+bool FloatingBaseEstimator::setContactStatus(const std::string& name, 
+                                             const bool& contactStatus, 
+                                             const double& timeNow)
+{
+    auto idx = m_modelComp.kinDyn().model().getFrameIndex(name);
+    if (!m_modelComp.kinDyn().model().isValidFrameIndex(idx))
+    {
+        std::cerr << "[FloatingBaseEstimator::setContactStatus] Contact frame index: " << idx
+        << " not found in loaded model, skipping measurement." << std::endl;
+        return false;
+    }
+    
+    auto& contacts = m_meas.stampedContactsStatus;
+    
+    // operator[] creates a key-value pair if key does not already exist, 
+    // otherwise just an update is carried out
+    contacts[idx].first = timeNow;
+    contacts[idx].second = contactStatus;
+    
+    return true;
+}
+
 FloatingBaseEstimator::ModelComputations& FloatingBaseEstimator::modelComputations()
 {
     return m_modelComp;
@@ -651,16 +673,41 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
     iDynTree::Twist v_IMU;
     iDynTree::Vector3 imuLinVel, imuAngVel;
     iDynTree::toEigen(imuLinVel) = state.imuLinearVelocity;
-    iDynTree::toEigen(imuAngVel) = state.imuOrientation.toRotationMatrix()*(meas.gyro - state.gyroscopeBias);
+    if (m_useIMUForAngVelEstimate)
+    {
+        iDynTree::toEigen(imuAngVel) = state.imuOrientation.toRotationMatrix()*(meas.gyro - state.gyroscopeBias);
+    }
+    else
+    {
+        iDynTree::toEigen(imuAngVel) = state.imuAngularVelocity;
+    }
     v_IMU.setLinearVec3(imuLinVel);
     v_IMU.setAngularVec3(imuAngVel);
 
-    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, baseTwist))
+    iDynTree::Twist tempTwist;
+    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, tempTwist))
     {
         std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
                   << std::endl;
         return false;
     }
+    
+    if (m_useIMUVelForBaseVelComputation)
+    {
+        baseTwist = tempTwist;
+    }
+    
+    if (!m_modelComp.kinDyn().setRobotState(iDynTree::toEigen(basePose.asHomogeneousTransform()), 
+                                            iDynTree::make_span(meas.encoders.data(), meas.encoders.size()),
+                                            iDynTree::toEigen(baseTwist), 
+                                            iDynTree::make_span(meas.encodersSpeed.data(), meas.encodersSpeed.size()),
+                                            iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+    {
+        std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get kindyncomputations robot state"
+                  << std::endl;
+        return false;
+    }
+
     return true;
 }
 

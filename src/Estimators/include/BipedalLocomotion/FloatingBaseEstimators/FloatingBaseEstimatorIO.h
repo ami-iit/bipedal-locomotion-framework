@@ -12,6 +12,9 @@
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/Twist.h>
 
+#include <BipedalLocomotion/Contacts/Contact.h>
+#include <map>
+
 namespace BipedalLocomotion
 {
 namespace Estimators
@@ -34,6 +37,9 @@ struct InternalState
     Eigen::Vector3d rContactFramePosition; /**< Position of the right foot contact frame in the inertial frame*/
     Eigen::Vector3d accelerometerBias; /**< Bias of the accelerometer expressed in the IMU frame */
     Eigen::Vector3d gyroscopeBias; /**< Bias of the gyroscope expressed in the IMU frame */
+
+    Eigen::Vector3d imuAngularVelocity; /**< angular velocity of the IMU with respect to the inertial frame expressed in inertial frame, typically unused for strap-down IMU based EKF implementations*/
+    std::map<int, BipedalLocomotion::Contacts::EstimatedContact> supportFrameData; /**< contact measurements */
 };
 
 /**
@@ -59,6 +65,13 @@ struct Measurements
     Eigen::VectorXd encoders, encodersSpeed; /**< Joint position and joint velocity measurements */
     bool lfInContact{false}; /**< left foot contact state */
     bool rfInContact{false}; /**< right foot contact state */
+    
+    /** stamped contact status, 
+     * the usage of this map must be in a way 
+     * that every time an element is used, 
+     * it must be erased from the map 
+     */
+    std::map<int, std::pair<double, bool> > stampedContactsStatus;
 };
 
 } // namespace FloatingBaseEstimators

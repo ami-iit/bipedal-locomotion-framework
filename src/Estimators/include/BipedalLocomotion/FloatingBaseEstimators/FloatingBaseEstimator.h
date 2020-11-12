@@ -115,11 +115,14 @@ public:
          */
         const int& nrJoints() const { return m_nrJoints; }
         const std::string& baseLink() const { return m_baseLink; }
+        const iDynTree::FrameIndex& baseLinkIdx() const { return m_baseLinkIdx; }
+        const iDynTree::FrameIndex& baseIMUIdx() const { return m_baseImuIdx; }
         const std::string& baseLinkIMU() const { return m_baseImuFrame; }
         const std::string& leftFootContactFrame() const { return m_lFootContactFrame; }
         const std::string& rightFootContactFrame() const { return m_rFootContactFrame; }
         const iDynTree::Transform& base_H_IMU() const { return m_base_H_imu; }
         const bool& isModelSet() const { return m_modelSet; }
+        iDynTree::KinDynComputations& kinDyn()  { return m_kindyn; }
 
     private:
         std::string m_baseLink{""}; /**< name of the floating base link*/
@@ -153,6 +156,7 @@ public:
     * @return True in case of success, false otherwise.
     */
     bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, const iDynTree::Model& model);
+    
 
     /**
     * Set the polled IMU measurement
@@ -170,6 +174,17 @@ public:
     * @return True in case of success, false otherwise.
     */
     bool setContacts(const bool& lfInContact, const bool& rfInContact);
+
+    /**
+    * Set contact status
+    * 
+    * @param[in] name contact frame name
+    * @param[in] contactStatus flag to check active contact
+    * @param[in] timeNow  time of measurement update
+    */
+    bool setContactStatus(const std::string& name, 
+                          const bool& contactStatus, 
+                          const double& timeNow);
 
     /**
     * Set kinematic measurements
@@ -194,7 +209,7 @@ public:
      *
      * @note reset and advance estimator to get updated estimator output
      */
-    virtual bool resetEstimator(const FloatingBaseEstimators::InternalState& newState) final;
+    virtual bool resetEstimator(const FloatingBaseEstimators::InternalState& newState);
 
     /**
      * Reset the base pose estimate and consequently the internal state of the estimator
@@ -205,7 +220,7 @@ public:
      * * @note reset and advance estimator to get updated estimator output
      */
     virtual bool resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
-                                const Eigen::Vector3d& newBasePosition) final;
+                                const Eigen::Vector3d& newBasePosition);
 
     /**
     * Get estimator outputs
@@ -266,7 +281,7 @@ protected:
     * @param[in] dt sampling period in seconds
     * @return True in case of success, false otherwise.
     */
-    virtual bool updateKinematics(const FloatingBaseEstimators::Measurements& meas,
+    virtual bool updateKinematics(FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) { return true; };
 
     /**
@@ -359,7 +374,8 @@ protected:
     State m_estimatorState{State::NotInitialized}; /**< State of the estimator */
 
     double m_dt{0.01}; /**< Fixed time step of the estimator, in seconds */
-
+    bool m_useIMUForAngVelEstimate{true}; /**< by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
+    bool m_useIMUVelForBaseVelComputation{true};
 private:
     /**
     * Setup model related parameters
