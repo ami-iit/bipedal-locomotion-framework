@@ -11,6 +11,9 @@
 #include <type_traits>
 #include <string_view>
 
+//Eigen (for toEigen() methods)
+#include <Eigen/Core>
+
 namespace BipedalLocomotion {
 
 /**
@@ -286,6 +289,29 @@ struct is_container_const
     static constexpr bool value = std::is_const_v<Container> ||
                                   is_data_const<Container>::value;
 };
+
+/**
+ * is_eigen_matrix is a template metafunction to check if T is an Eigen matrix.
+ */
+template <typename T, typename = void, typename = void>
+struct is_eigen_matrix : std::false_type
+{
+};
+
+/**
+ * is_eigen_matrix is a template metafunction to check if T is an Eigen matrix. In this specialization, we first check if
+ * the template parameter inherits from Eigen::MatrixBase<Derived> (Eigen exploits CRTP). If this is the case,
+ * we check that neither the rows, nor the columns at compile time are identically equal to 1. If that is the case,
+ * is_eigen_matrix<T>::value is true.
+ */
+template <typename Derived>
+struct is_eigen_matrix<Derived,
+                       typename std::enable_if_t<std::is_base_of_v<Eigen::MatrixBase<Derived>, Derived>>,
+                       typename std::enable_if_t<Eigen::MatrixBase<Derived>::RowsAtCompileTime != 1 &&
+                                                 Eigen::MatrixBase<Derived>::ColsAtCompileTime != 1>>: std::true_type
+{
+};
+
 
 } // namespace BipedalLocomotion
 
