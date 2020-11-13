@@ -74,6 +74,9 @@ include(AddBipedalLocomotionLibrary)
 #Function to automatize the process of creating a new application
 include(AddBipedalLocomotionApplication)
 
+# macro to automatize the process of creating a YARP device
+include(AddBipedalLocomotionYARPDevice)
+
 #Utility to install ini files
 include(InstallIniFiles)
 

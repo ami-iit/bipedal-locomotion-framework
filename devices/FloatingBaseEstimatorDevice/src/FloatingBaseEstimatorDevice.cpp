@@ -111,7 +111,7 @@ bool FloatingBaseEstimatorDevice::setupRobotModel(yarp::os::Searchable& config)
         return false;
     }
 
-    m_model = modelLoader.model().copy();
+    m_model = modelLoader.model();
     return true;
 }
 
@@ -262,21 +262,21 @@ void FloatingBaseEstimatorDevice::run()
     // advance sensor bridge
     if (!m_robotSensorBridge->advance())
     {
-        std::cout << "Advance Sensor bridge failed." << std::endl;
+        yWarning() << "Advance Sensor bridge failed.";
         return;
     }
 
     // update estimator measurements
     if (!updateMeasurements())
     {
-        std::cout << "Measurement updates failed." << std::endl;
+        yWarning() << "Measurement updates failed.";
         return;
     }
 
     // advance estimator
     if (!m_estimator->advance())
     {
-        std::cout << "Advance estimator failed." << std::endl;
+        yWarning()  << "Advance estimator failed.";
         return;
     }
 
@@ -386,7 +386,7 @@ void FloatingBaseEstimatorDevice::publishBaseLinkState(const FloatingBaseEstimat
     size_t angVelOffset{9};
 
     auto basePos = estimatorOut.basePose.getPosition();
-    auto baseRPY = iDynTree::toEigen(estimatorOut.basePose.getRotation().asRPY());
+    Eigen::Vector3d baseRPY = iDynTree::toEigen(estimatorOut.basePose.getRotation().asRPY());
     auto baseLinearVel = estimatorOut.baseTwist.getLinearVec3();
     auto baseAngularVel = estimatorOut.baseTwist.getAngularVec3();
 
@@ -418,9 +418,9 @@ void FloatingBaseEstimatorDevice::publishInternalStateAndStdDev(const FloatingBa
 
     const auto& s = estimatorOut.state;
     const auto& d = estimatorOut.stateStdDev;
-    auto imuRPY = s.imuOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
-    auto rfRPY = s.rContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
-    auto lfRPY = s.lContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
+    Eigen::Vector3d imuRPY = s.imuOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
+    Eigen::Vector3d rfRPY = s.rContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
+    Eigen::Vector3d lfRPY = s.lContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
 
     Eigen::VectorXd internalstateAndStdDev;
     internalstateAndStdDev.resize(vecSize + vecSize);
