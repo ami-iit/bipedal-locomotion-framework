@@ -26,7 +26,7 @@ if (FRAMEWORK_COMPILE_matioCppConversions)
         NAME                   matioCppConversions
         IS_INTERFACE
         PUBLIC_HEADERS         include/BipedalLocomotion/Conversions/matioCppConversions.h
-        PUBLIC_LINK_LIBRARIES  Eigen3::Eigen matioCpp::matioCpp BipedalLocomotion::GenericContainer BipedalLocomotion::CommonConversions
+        PUBLIC_LINK_LIBRARIES  Eigen3::Eigen iDynTree::idyntree-core matioCpp::matioCpp BipedalLocomotion::GenericContainer BipedalLocomotion::CommonConversions
         INSTALLATION_FOLDER    Conversions
         )
 endif()
