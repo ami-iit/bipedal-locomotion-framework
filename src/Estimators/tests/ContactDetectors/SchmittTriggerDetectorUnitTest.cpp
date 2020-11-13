@@ -13,7 +13,7 @@
 
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 TEST_CASE("Schmitt Trigger Detector")
 {
@@ -39,61 +39,65 @@ TEST_CASE("Schmitt Trigger Detector")
     detector.resetContacts();
 
     // rise signal
-    detector.setTimedContactIntensity("right", 0.1, 120);
+    detector.setTimedTriggerInput("right", 0.1, 120);
     detector.advance();
-    detector.setTimedContactIntensity("right", 0.2, 120);
+    detector.setTimedTriggerInput("right", 0.2, 120);
     detector.advance();
-    detector.setTimedContactIntensity("right", 0.3, 120);
+    detector.setTimedTriggerInput("right", 0.3, 120);
     detector.advance();
 
     // contact state should turn true
-    auto rightContact = detector.get("right");
+    EstimatedContact rightContact;
+    REQUIRE(detector.get("right", rightContact));
     REQUIRE(rightContact.isActive);
+    REQUIRE(rightContact.switchTime == 0.3);
 
     // fall signal
-    detector.setTimedContactIntensity("right", 0.4, 7);
+    detector.setTimedTriggerInput("right", 0.4, 7);
     detector.advance();
-    detector.setTimedContactIntensity("right", 0.5, 7);
+    detector.setTimedTriggerInput("right", 0.5, 7);
     detector.advance();
-    detector.setTimedContactIntensity("right", 0.6, 7);
+    detector.setTimedTriggerInput("right", 0.6, 7);
     detector.advance();
 
     // contact state should turn false
-    rightContact = detector.get("right");
+    REQUIRE(detector.get("right", rightContact));
     REQUIRE(!rightContact.isActive);
+    REQUIRE(rightContact.switchTime == 0.6);
 
     // add a new contact
-    Contact newContact;
+    EstimatedContact newContact;
     SchmittTriggerParams params;
     params.offThreshold = 10;
     params.onThreshold = 100;
     params.switchOffAfter = 0.2;
     params.switchOnAfter = 0.2;
 
-    detector.addContact("left", false, params);
+    detector.addContact("left", false, params, 0.6);
     auto contacts = detector.get();
     REQUIRE(contacts.size() == 2);
 
     // test multiple measurement updates
-    std::unordered_map<std::string, std::pair<double, double> > timedForces;
-    timedForces["right"] = std::make_pair(0.7, 120);
-    timedForces["left"] = std::make_pair(0.7, 120);
-    detector.setTimedContactIntensities(timedForces);
+    std::unordered_map<std::string, SchmittTriggerInput > timedForces;
+    timedForces["right"] = {0.7, 120};
+    timedForces["left"] = {0.7, 120};
+    detector.setTimedTriggerInputs(timedForces);
     detector.advance();
 
-    timedForces["right"] = std::make_pair(0.8, 120);
-    timedForces["left"] = std::make_pair(0.8, 120);
-    detector.setTimedContactIntensities(timedForces);
+    timedForces["right"] = {0.8, 120};
+    timedForces["left"] = {0.8, 120};
+    detector.setTimedTriggerInputs(timedForces);
     detector.advance();
 
-    timedForces["right"] = std::make_pair(0.9, 120);
-    timedForces["left"] = std::make_pair(0.9, 120);
-    detector.setTimedContactIntensities(timedForces);
+    timedForces["right"] = {0.9, 120};
+    timedForces["left"] = {0.9, 120};
+    detector.setTimedTriggerInputs(timedForces);
     detector.advance();
 
     contacts = detector.get();
     REQUIRE(contacts["right"].isActive);
     REQUIRE(contacts["left"].isActive);
+    REQUIRE(contacts["right"].switchTime == 0.9);
 
     // Test removing contact
     REQUIRE(detector.removeContact("left"));
@@ -102,7 +106,6 @@ TEST_CASE("Schmitt Trigger Detector")
 
     // Test resetting contact
     detector.resetContact("right", false, params);
-    rightContact = detector.get("right");
+    REQUIRE(detector.get("right", rightContact));
     REQUIRE(!rightContact.isActive);
 }
-

@@ -19,6 +19,7 @@ namespace Estimators
 {
 
 struct SchmittTriggerParams;
+struct SchmittTriggerInput;
 
 /**
  * Schmitt Trigger thresholding based contact detector
@@ -32,23 +33,23 @@ public:
     ~SchmittTriggerDetector();
 
     /**
-     * Set contact force intensity and time stamp for an existing contact
-     * @param[in] contactName Internal state of the estimator
+     * Set trigger input and time stamp for an existing SchmittTrigger unit
+     * @param[in] contactName name of the contact
      * @param[in] time time of measurement
      * @param[in] force contact force intensity (typically contact normal force)
      * @return True in case of success, false otherwise.
      */
-    bool setTimedContactIntensity(const std::string& contactName,
-                                  const double& time,
-                                  const double& force);
+    bool setTimedTriggerInput(const std::string& contactName,
+                              const double& time,
+                              const double& triggerInput);
 
     /**
-     * Set contact force intensity and time stamp for existing contacts
-     * @param[in] timedForces container of timed force intesities, pair(first, second): (time, force)
-     * @note any contacts in the input container that does not already exist will be ignored
+     * Set trigger input and time stamp for existing units
+     * @param[in] timedInputs container of timed trigger inputs, pair(first, second): (time, force)
+     * @note any unit names in the input container that does not already exist will be ignored
      * @return True in case of success, false otherwise.
      */
-    bool setTimedContactIntensities(const std::unordered_map<std::string, std::pair<double, double>>& timedForces);
+    bool setTimedTriggerInputs(const std::unordered_map<std::string, SchmittTriggerInput>& timedInputs);
 
     /**
      * Add a contact whose contact state need to be tracked
@@ -61,6 +62,29 @@ public:
     bool addContact(const std::string& contactName,
                     const bool& initialState,
                     const SchmittTriggerParams& params);
+    
+    /**
+     * Add a contact whose contact state need to be tracked
+     * @param[in] contactName name of the contact
+     * @param[in] initialState initial contact state
+     * @param[in] params Schmitt Trigger parameters
+     * @param[in] time_now current time instant to initialize the Schmitt trigger timers
+     * @note this method does not reset the state and parameters if the contact already exists
+     * @return True in case of success, false otherwise.
+     */
+    bool addContact(const std::string& contactName,
+                    const bool& initialState,
+                    const SchmittTriggerParams& params,
+                    const double& time_now);
+    
+    /**
+     * Reset a contact's state
+     * @param[in] contactName name of the contact
+     * @param[in] initialState contact state
+     * @return True in case of success, false if contact does not exist/otherwise.
+     */
+    bool resetState(const std::string& contactName,
+                    const bool& state);
 
     /**
      * Reset a contact's parameters
@@ -114,6 +138,15 @@ struct SchmittTriggerParams
 };
 
 /**
+ * Struct holding Schmitt Trigger inputs
+ */
+struct SchmittTriggerInput
+{
+    double time{0.0};    /**< time stamp*/ 
+    double value{0.0};   /**< signal input*/
+};
+
+/**
  * Schmitt trigger unit that switches state using threshold and timing parameters
  */
 class SchmittTriggerUnit
@@ -124,6 +157,13 @@ public:
      * @param state current state
      */
     void setState(const bool& state);
+    
+    /**
+     * Set current state  of the Schmitt trigger
+     * @param state current state
+     * @param time_now time unit to set the timer parameters
+     */
+    void setState(const bool& state, const double& time_now);
 
     /**
      * Set configuration parameters of the Schmitt trigger
@@ -149,6 +189,13 @@ public:
      * @return state - true/false
      */
     bool getState();
+    
+    /**
+     * Get the current state of the Schmitt trigger
+     * @param[out] swtichTime
+     * @return state - true/false
+     */
+    bool getState(double& switchTime);
 
     /**
      * Get currently configuration of Schmitt trigger
@@ -159,8 +206,10 @@ public:
 private:
     SchmittTriggerParams params; /**< Schmitt Trigger parameters*/
     bool state{false}; /**< current state*/
+    double switchTime{0.}; /**> time instant at which the state was toggled */
     double previousTime{0.}; /**< previous update time*/
     double timer{0.}; /**< elapsed timer for current state*/
+    double initialTime{0.}; /**< initialization time*/
 };
 
 } // namespace Estimators

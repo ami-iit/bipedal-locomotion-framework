@@ -10,7 +10,7 @@
 
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Planners/Contact.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
 
 #include <iostream>
 #include <unordered_map>
@@ -20,9 +20,9 @@ namespace BipedalLocomotion
 namespace Estimators
 {
 
-using ContactStates = std::unordered_map<std::string, BipedalLocomotion::Planners::Contact>;
+using EstimatedContactList = std::unordered_map<std::string, BipedalLocomotion::Contacts::EstimatedContact>;
 
-class ContactDetector : public BipedalLocomotion::System::Advanceable<ContactStates>
+class ContactDetector : public BipedalLocomotion::System::Advanceable<EstimatedContactList>
 {
 public:
     virtual ~ContactDetector() { };
@@ -53,14 +53,22 @@ public:
     * Get contact states
     * @return container of contacts
     */
-    virtual const ContactStates& get() const final;
+    virtual const EstimatedContactList& get() const final;
 
     /**
      * Get state of specific contact
      * @param[in] contactName name of contact
-     * @return contact state if contact exists, false otherwise
+     * @param[out] contact estimated contact
+     * @return true if contact exists, false otherwise
      */
-    BipedalLocomotion::Planners::Contact get(const std::string& contactName);
+    bool get(const std::string& contactName, BipedalLocomotion::Contacts::EstimatedContact& contact) const;
+    
+    /**
+     * Get state of specific contact
+     * @param[in] contactName name of contact
+     * @return contact state if contact exists, a dummy contact otherwise
+     */
+    BipedalLocomotion::Contacts::EstimatedContact get(const std::string& contactName) const;
 
     /**
     * Determines the validity of the object retrieved with get()
@@ -95,7 +103,7 @@ protected:
     };
 
     State m_detectorState{State::NotInitialized}; /**< State of the estimator */
-    ContactStates m_contactStates;
+    EstimatedContactList m_contactStates;
 };
 
 

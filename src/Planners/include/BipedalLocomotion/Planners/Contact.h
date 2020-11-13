@@ -56,11 +56,6 @@ struct Contact
     std::string name {"Contact"};
 
     /**
-     * Current state of contact
-     */
-    bool isActive{false};
-
-    /**
      * Type of contact.
      */
     ContactType type {ContactType::FULL};

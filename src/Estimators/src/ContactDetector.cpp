@@ -8,7 +8,7 @@
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Estimators;
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 bool ContactDetector::initialize(std::weak_ptr<IParametersHandler> handler)
 {
@@ -41,7 +41,7 @@ bool ContactDetector::initialize(std::weak_ptr<IParametersHandler> handler)
         "Contact detector initialization is successful."
         << std::endl;
 
-    m_detectorState = State::NotInitialized;
+    m_detectorState = State::Initialized;
     return true;
 }
 
@@ -51,7 +51,19 @@ bool ContactDetector::customInitialization(std::weak_ptr<IParametersHandler> han
 }
 
 bool ContactDetector::advance()
-{
+{    
+    std::string_view printPrefix = "[ContactDetector::advance] ";
+    if (m_detectorState == State::NotInitialized)
+    {
+        std::cerr << printPrefix << "Please initialize the contact detector before running advance."
+        << std::endl;
+        return false;        
+    }    
+    else 
+    {
+        m_detectorState = State::Running;        
+    }
+    
     if (!updateContactStates())
     {
         return false;
@@ -68,29 +80,40 @@ bool ContactDetector::resetContacts()
 {
     for (auto& [name, contact] : m_contactStates)
     {
-        contact.deactivationTime = 0.0;
-        contact.activationTime = 0.0;
+        contact.switchTime = 0.0;
         contact.isActive = false;
     }
     return true;
 }
 
 
-const ContactStates& ContactDetector::get() const
+const EstimatedContactList& ContactDetector::get() const
 {
     return m_contactStates;
 }
 
-Contact ContactDetector::get(const std::string& contactName)
+bool ContactDetector::get(const std::string& contactName, EstimatedContact& contact) const
 {
     if ( m_contactStates.find(contactName) == m_contactStates.end() )
     {
-        return Contact();
+        std::cerr << "[ContactDetector::get] Contact not found.";
+        return false;
+    }
+
+    contact = m_contactStates.at(contactName);
+    return true;
+}
+
+EstimatedContact ContactDetector::get(const std::string& contactName) const 
+{
+    if ( m_contactStates.find(contactName) == m_contactStates.end() )
+    {
+        std::cerr << "[ContactDetector::get] Contact not found.";
+        return EstimatedContact();
     }
 
     return m_contactStates.at(contactName);
 }
-
 
 bool ContactDetector::isValid() const
 {
