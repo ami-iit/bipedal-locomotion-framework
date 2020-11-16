@@ -18,6 +18,8 @@ env:
   Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
   CasADi_TAG: 3.5.1
   manif_TAG: b2f777967f343b51ba954fa641c9a256564f536a
+  # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg  
+  VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
 
 jobs:
   build:
@@ -59,8 +61,6 @@ jobs:
         wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
         unzip vcpkg-robotology.zip -d C:/
         rm vcpkg-robotology.zip
-        # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
-        echo "::set-env name=VCPKG_INSTALLATION_ROOT::C:/robotology/vcpkg"
 
         # Install Catch2 and cppad
         cd C:/robotology/vcpkg
@@ -68,7 +68,7 @@ jobs:
         git checkout $env:vcpkg_TAG
         ./bootstrap-vcpkg.bat
         ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
-        echo "::set-env name=cppad_DIR::C:/robotology/vcpkg/installed/x64-windows"
+        echo "cppad_DIR=C:/robotology/vcpkg/installed/x64-windows" >> $GITHUB_ENV
 
 
     - name: Dependencies [macOS]
