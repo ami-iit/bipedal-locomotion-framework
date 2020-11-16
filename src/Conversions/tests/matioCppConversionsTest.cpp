@@ -9,6 +9,10 @@
 #include <catch2/catch.hpp>
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
 #include <iDynTree/Core/VectorDynSize.h>
+#include <unordered_map>
+#include <map>
+#include <set>
+
 
 using namespace BipedalLocomotion::Conversions;
 
@@ -40,7 +44,7 @@ void checkSameMatrix(const Matrix& a, const matioCpp::MultiDimensionalArray<type
     }
 }
 
-TEST_CASE("From vector to matio")
+TEST_CASE("To matio")
 {
     std::vector<double> stdVec = {1.0, 2.0, 3.0, 4.0, 5.0};
 
@@ -64,7 +68,7 @@ TEST_CASE("From vector to matio")
     checkSameMatrix(iDynTreeMatrix, toMatioMatrixiDynTree);
 
     iDynTree::MatrixFixSize<2,2> iDynTreeMatrixFixed;
-    iDynTreeMatrixFixed = iDynTreeMatrix;
+    iDynTree::toEigen(iDynTreeMatrixFixed) = iDynTree::toEigen(iDynTreeMatrix);
     auto toMatioMatrixiDynTreeFixed = tomatioCpp(iDynTreeMatrixFixed, "iDynTreeMatrixFixed");
     checkSameMatrix(iDynTreeMatrixFixed, toMatioMatrixiDynTreeFixed);
 
@@ -87,6 +91,46 @@ TEST_CASE("From vector to matio")
 
     auto matioChar = tomatioCpp('f', "char");
     REQUIRE(matioChar == 'f');
+
+    std::vector<std::string> stringVector = {"Huey", "Dewey", "Louie"};
+    auto matioCell = tomatioCpp(stringVector, "stringVector");
+    for (size_t i = 0; i < stringVector.size(); ++i)
+    {
+        REQUIRE(matioCell[i].asString()() == stringVector[i]);
+    }
+}
+
+TEST_CASE("to matio from iterators")
+{
+    std::unordered_map<std::string, int> unordered_map;
+    unordered_map["one"] = 1;
+    unordered_map["two"] = 2;
+    unordered_map["three"] = 3;
+
+    matioCpp::Struct toMatio = tomatioCppStruct(unordered_map.begin(), unordered_map.end(), "map");
+
+    REQUIRE(toMatio["one"].asElement<int>() == 1);
+    REQUIRE(toMatio["two"].asElement<int>() == 2);
+    REQUIRE(toMatio["three"].asElement<int>() == 3);
+
+    std::map<std::string, char> map;
+    map["a"] = 'a';
+    map["b"] = 'b';
+    map["c"] = 'c';
+
+    matioCpp::CellArray toMatioCell = toMatioCppCellArray(map.begin(), map.end(), "mapAsCell");
+    REQUIRE(toMatioCell[0].asElement<char>() == 'a');
+    REQUIRE(toMatioCell[0].name() == "a");
+    REQUIRE(toMatioCell[1].asElement<char>() == 'b');
+    REQUIRE(toMatioCell[1].name() == "b");
+    REQUIRE(toMatioCell[2].asElement<char>() == 'c');
+    REQUIRE(toMatioCell[2].name() == "c");
+
+    std::set<std::string> set({"Huey", "Dewey", "Louie"});
+    toMatioCell = toMatioCppCellArray(set.begin(), set.end(), "setAsCell");
+    REQUIRE(toMatioCell[0].asString()() == "Dewey");
+    REQUIRE(toMatioCell[1].asString()() == "Huey");
+    REQUIRE(toMatioCell[2].asString()() == "Louie");
 }
 
 TEST_CASE("From matioCpp to Eigen")

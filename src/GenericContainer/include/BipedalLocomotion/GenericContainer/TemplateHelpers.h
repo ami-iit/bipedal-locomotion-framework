@@ -312,6 +312,36 @@ struct is_eigen_matrix<Derived,
 {
 };
 
+/**
+ * Template metafunction to check if the input type is a pair
+ */
+template <typename, typename = void, typename = void>
+struct is_pair : std::false_type
+{ };
+
+/**
+ * Template metafunction to check if the input type is a pair
+ */
+template <typename T>
+struct is_pair<T, void_t<decltype(std::declval<T>().first)>, void_t<decltype(std::declval<T>().second)>> : std::true_type
+{ };
+
+/**
+ * Template metafunction to check if the input type is a pair iterator with a string as first element.
+ */
+template <typename, typename = void, typename = void>
+struct is_pair_iterator_string : std::false_type
+{ };
+
+/**
+ * Template metafunction to check if the input type is a pair iterator with a string as first element.
+ */
+template <typename T>
+struct is_pair_iterator_string<T,
+                               typename std::enable_if_t<is_pair<decltype(*std::declval<T>())>::value>,
+                               typename std::enable_if_t<std::is_convertible<decltype(std::declval<T>()->first), std::string>::value>> : std::true_type
+{ };
+
 
 } // namespace BipedalLocomotion
 

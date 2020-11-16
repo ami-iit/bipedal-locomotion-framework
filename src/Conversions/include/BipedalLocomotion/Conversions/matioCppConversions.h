@@ -152,7 +152,7 @@ inline matioCpp::Vector<matioCpp::Logical> tomatioCpp(const std::vector<bool>& i
  * @return A matioCpp::Element containing a copy of the input data
  */
 template<typename type, typename = std::enable_if_t<std::is_fundamental_v<type> && !std::is_same_v<type, bool>>>
-matioCpp::Element<type> tomatioCpp(type input, const std::string& name)
+matioCpp::Element<type> tomatioCpp(const type& input, const std::string& name)
 {
     return matioCpp::Element<type>(name, input);
 }
@@ -167,6 +167,93 @@ inline matioCpp::Element<matioCpp::Logical> tomatioCpp(bool input, const std::st
 {
     return matioCpp::Element<matioCpp::Logical>(name, input);
 }
+
+/**
+ * @brief Conversion from a vector of strings to a matioCpp::CellArray containing the input strings
+ * @param input The input vector of strings.
+ * @param name The name of the resulting matioCpp variable.
+ * @return A matioCpp::CellArray of dimensions nx1 (with n the number of strings)
+ */
+inline matioCpp::CellArray tomatioCpp(const std::vector<std::string>& input, const std::string& name)
+{
+    matioCpp::CellArray stringsArray(name, {input.size(), 1});
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        stringsArray.setElement(i, tomatioCpp(input[i], input[i]));
+    }
+
+    return stringsArray;
+}
+
+/**
+ * @brief Create a matioCpp::Struct starting from the begin and end iterators of a map-like container
+ * The dereferenced value of the iterator has to be a pair (like with std::maps and std::unordered_map)
+ * with the key being a string. For each key, there is the corresponding field in the Struct.
+ * @param begin The iterator to the first element
+ * @param end The iterator to the element after the last.
+ * @param name The name of the struct.
+ * @return The corresponding matioCpp::Struct
+ */
+template<class iterator,
+          typename = typename std::enable_if_t<is_pair_iterator_string<iterator>::value>>
+matioCpp::Struct tomatioCppStruct(iterator begin, iterator end, const std::string& name)
+{
+    matioCpp::Struct matioStruct(name);
+    for (iterator it = begin; it != end; it++)
+    {
+        bool ok = matioStruct.setField(tomatioCpp(it->second, it->first));
+        unused(ok);
+        assert(ok);
+    }
+
+    return matioStruct;
+}
+
+/**
+ * @brief Create a matioCpp::CellArray starting from the begin and end iterators of a container.
+ * If dereferenced value of the iterator is a pair (like with std::maps and std::unordered_map),
+ * only the "second" element is considered. The name of the imported variable in the CellArray
+ * is "imported_element_x", where "x" is the corresponding raw index. If the iterator is a pair,
+ * and "first" is a string, this will be used as a name.
+ * @param begin The iterator to the first element
+ * @param end The iterator to the element after the last.
+ * @param name The name of the CellArray.
+ * @return The corresponding matioCpp::CellArray.
+ */
+template<class iterator>
+matioCpp::CellArray toMatioCppCellArray(const iterator& begin, const iterator& end, const std::string& name)
+{
+    matioCpp::CellArray matioCellArray(name, {static_cast<size_t>(std::distance(begin, end)), 1});
+
+    size_t index = 0;
+    iterator it = begin;
+    while (it != end)
+    {
+        bool ok = false;
+        if constexpr (is_pair<decltype(*std::declval<iterator>())>::value)
+        {
+            std::string name = "imported_element_" + std::to_string(index);
+
+            if constexpr (std::is_convertible<decltype(std::declval<iterator>()->first), std::string>::value)
+            {
+                name = it->first;
+            }
+
+            ok = matioCellArray.setElement(index, tomatioCpp(it->second, name));
+        }
+        else
+        {
+            ok = matioCellArray.setElement(index, tomatioCpp(*it, "imported_element_" + std::to_string(index)));
+        }
+        unused(ok);
+        assert(ok);
+        index++;
+        it++;
+    }
+
+    return matioCellArray;
+}
+
 
 } //namespace Conversions
 } //namespace BipedalLocomotion
