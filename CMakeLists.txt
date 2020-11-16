@@ -71,6 +71,9 @@ include(AddBipedalLocomotionUnitTest)
 #Function to automatize the process of creating a new library
 include(AddBipedalLocomotionLibrary)
 
+#Function to automatize the process of creating a new application
+include(AddBipedalLocomotionApplication)
+
 #Utility to install ini files
 include(InstallIniFiles)
 
@@ -118,3 +121,5 @@ if (FRAMEWORK_USE_Python3)
 endif()
 
 add_subdirectory(bindings)
+
+add_subdirectory(utilities)

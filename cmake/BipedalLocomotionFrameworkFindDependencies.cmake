@@ -196,6 +196,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
+  "Compile joint-position-tracking application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
   "Do you want to generate and compile the Python bindings?" OFF
   "FRAMEWORK_HAS_Python3;FRAMEWORK_USE_pybind11" OFF)
