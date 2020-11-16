@@ -2980,7 +2980,7 @@ foreach (_${_PYTHON_PREFIX}_COMPONENT IN ITEMS Interpreter Compiler Development 
   endif()
 endforeach()
 
-include (${CMAKE_CURRENT_LIST_DIR}/../FindPackageHandleStandardArgs.cmake)
+include (FindPackageHandleStandardArgs)
 find_package_handle_standard_args (${_PYTHON_PREFIX}
                                    REQUIRED_VARS ${_${_PYTHON_PREFIX}_REQUIRED_VARS}
                                    VERSION_VAR ${_PYTHON_PREFIX}_VERSION
