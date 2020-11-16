@@ -91,6 +91,12 @@ public:
                                const IRobotControl::ControlMode& controlMode) = 0;
 
     /**
+     * Get the list of the controlled joints
+     * @return A vector containing the name of the controlled joints.
+     */
+    virtual std::vector<std::string> getJointList() const = 0;
+
+    /**
      * Destructor.
      */
     virtual ~IRobotControl() = default;

@@ -635,3 +635,8 @@ bool YarpRobotControl::checkMotionDone(bool& motionDone,
 
     return true;
 }
+
+std::vector<std::string> YarpRobotControl::getJointList() const
+{
+    return m_pimpl->axesName;
+}

@@ -105,6 +105,12 @@ public:
                        const IRobotControl::ControlMode& mode) final;
 
     /**
+     * Get the list of the controlled joints
+     * @return A vector containing the name of the controlled joints.
+     */
+    std::vector<std::string> getJointList() const final;
+
+    /**
      * Destructor
      */
     ~YarpRobotControl();
