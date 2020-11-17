@@ -306,6 +306,7 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
@@ -316,6 +317,7 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Build
