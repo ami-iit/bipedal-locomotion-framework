@@ -26,10 +26,6 @@ def test_se3():
     quaternion_not_normalized = np.array([1, 1, 0, 0])
     quaternion = quaternion_not_normalized / np.linalg.norm(quaternion_not_normalized)
 
-    # Setting a quaternion that is not normalized raises an exception
-    with pytest.raises(ValueError):
-        transform.quaternion = quaternion_not_normalized
-
     # Test the quaternion setter
     transform.quaternion = quaternion
     assert transform.quaternion == pytest.approx(quaternion)
