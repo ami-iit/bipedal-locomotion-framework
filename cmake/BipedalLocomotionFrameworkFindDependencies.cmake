@@ -150,11 +150,11 @@ checkandset_dependency(cppad)
 find_package(manif QUIET)
 checkandset_dependency(manif)
 
-find_package(pybind11 CONFIG QUIET)
-checkandset_dependency(pybind11)
-
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
+
+find_package(pybind11 2.2 CONFIG QUIET)
+checkandset_dependency(pybind11)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
