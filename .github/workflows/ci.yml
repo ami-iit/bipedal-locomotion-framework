@@ -17,7 +17,7 @@ env:
   Catch2_TAG: v2.11.3
   Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
   CasADi_TAG: 3.5.1
-  manif_TAG: b2f777967f343b51ba954fa641c9a256564f536a
+  manif_TAG: 44bdfebff0fbc56cb189f680212257dc7f20ea58
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg  
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
 
@@ -70,12 +70,14 @@ jobs:
         ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
         echo "cppad_DIR=C:/robotology/vcpkg/installed/x64-windows" >> $GITHUB_ENV
 
+        # Install pybind11
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports pybind11:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -269,7 +271,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
-        # Catch2
+        # CppAD
         git clone https://github.com/coin-or/CppAD.git
         cd CppAD
         mkdir -p build
@@ -280,6 +282,26 @@ jobs:
               -DBUILD_TESTING=OFF ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install Python dependencies
+      run: pip install pytest numpy scipy
+
+    # Ubuntu bionic has a too old version of pybind11 in the repo
+    - name: Install pybind11 [Ubuntu]
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        pip install pybind11
+        echo "CMAKE_PREFIX_PATH=$(python -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
+
+    - name: Check Python setup
+      shell: bash
+      run: |
+        echo "Default interpreter: $(which python)"
+        python -c 'import sys; print(sys.prefix)'
 
     # ===================
     # CMAKE-BASED PROJECT
@@ -295,6 +317,7 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Configure [Ubuntu]
@@ -307,6 +330,8 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
@@ -318,6 +343,8 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Build
