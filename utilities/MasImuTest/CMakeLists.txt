@@ -27,7 +27,7 @@ if(FRAMEWORK_COMPILE_MasImuTest)
   add_executable(${EXE_TARGET_NAME} ${${EXE_TARGET_NAME}_SRC} ${${EXE_TARGET_NAME}_HDR} ${${EXE_TARGET_NAME}_THRIFT_GEN_FILES})
 
   target_link_libraries(${EXE_TARGET_NAME} PUBLIC ${YARP_LIBRARIES} ${iDynTree_LIBRARIES}
-      BipedalLocomotion::GenericContainer BipedalLocomotion::YarpUtilities BipedalLocomotion::ParametersHandlerYarpImplementation matioCpp::matioCpp)
+      BipedalLocomotion::GenericContainer BipedalLocomotion::YarpUtilities BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::matioCppConversions)
   target_compile_features(${EXE_TARGET_NAME} PUBLIC cxx_std_17)
 
   # Specify include directories for both compilation and installation process.

@@ -95,6 +95,8 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         std::vector<yarp::sig::Vector> m_gyroData;
         std::vector<yarp::sig::Vector> m_accData;
 
+        std::string m_output;
+
         bool m_completed{false};
 
         void reserveData();
@@ -135,7 +137,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         void setCompleted();
 
-        void printResults() const;
+        std::string printResults();
 
         bool saveResults();
 
@@ -162,7 +164,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
     void reset();
 
-    void printResultsPrivate() const;
+    void printResultsPrivate();
 
 public:
 
