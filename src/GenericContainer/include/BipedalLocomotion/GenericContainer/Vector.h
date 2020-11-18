@@ -658,7 +658,7 @@ typename Vector<typename container_data<Class>::type>::resize_function_type Defa
 
         Class* inputPtr = &input;
         resize_function resizeLambda =
-            [inputPtr](index_type newSize) -> iDynTree::Span<typename Class::value_type>
+            [inputPtr](index_type newSize) -> iDynTree::Span<value_type>
         {
             inputPtr->resize(newSize);
             return iDynTree::make_span(*inputPtr);
