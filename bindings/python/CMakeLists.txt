@@ -31,7 +31,7 @@ set_target_properties(pybind11_blf PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${BLF_PYTHON_PACKAGE}"
     OUTPUT_NAME "bindings")
 
-if(FRAMEWORK_COMPILE_tests)
+if(FRAMEWORK_TEST_PYTHON_BINDINGS)
     add_subdirectory(tests)
 endif()
 

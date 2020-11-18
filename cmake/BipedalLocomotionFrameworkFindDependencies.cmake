@@ -156,6 +156,9 @@ checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Develo
 find_package(pybind11 2.2 CONFIG QUIET)
 checkandset_dependency(pybind11)
 
+find_package(pytest QUIET)
+checkandset_dependency(pytest)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -201,5 +204,9 @@ framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
-  "Do you want to generate and compile the Python bindings?" OFF
-  "FRAMEWORK_HAS_Python3;FRAMEWORK_USE_pybind11" OFF)
+  "Do you want to generate and compile the Python bindings?" ON
+  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11" OFF)
+
+framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
+  "Do you want to test the Python bindings?" ON
+  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_USE_pytest" OFF)
