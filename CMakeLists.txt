@@ -74,10 +74,14 @@ include(AddBipedalLocomotionLibrary)
 #Function to automatize the process of creating a new application
 include(AddBipedalLocomotionApplication)
 
+# macro to automatize the process of creating a YARP device
+include(AddBipedalLocomotionYARPDevice)
+
 #Utility to install ini files
 include(InstallIniFiles)
 
 add_subdirectory(src)
+add_subdirectory(devices)
 
 #Creates the interface target BipedalLocomotion::Framework that depends on all the targets.
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
