@@ -19,5 +19,6 @@ All notable changes to this project are documented in this file.
 - Added `CommonConversions` and `ManifConversions` libraries to handle type conversions.
 - Implement the `JointPositionTracking` application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/136)
 - Initial implementation of Python bindings using pybind11 (https://github.com/dic-iit/bipedal-locomotion-framework/pull/134)
+- Implement `FloatingBaseEstimatorDevice` YARP device for wrapping floating base estimation algorithms. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/130)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
