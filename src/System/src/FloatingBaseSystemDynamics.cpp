@@ -9,8 +9,10 @@
 #include <iDynTree/Core/Twist.h>
 #include <iDynTree/Core/EigenHelpers.h>
 
+#include <BipedalLocomotion/Conversions/CommonConversions.h>
 #include <BipedalLocomotion/System/FloatingBaseSystemDynamics.h>
 
+using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ParametersHandler;
 
@@ -41,13 +43,13 @@ bool FloatingBaseDynamicalSystem::initalize(std::weak_ptr<IParametersHandler> ha
 FloatingBaseDynamicalSystem::FloatingBaseDynamicalSystem()
 {
     // set the gravity vector
-    m_gravity.zero();
+    m_gravity.setZero();
     m_gravity(2) = -9.81;
 }
 
 void FloatingBaseDynamicalSystem::setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity)
 {
-    iDynTree::toEigen(m_gravity) = gravity;
+    m_gravity = gravity;
 }
 
 bool FloatingBaseDynamicalSystem::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
@@ -66,7 +68,6 @@ bool FloatingBaseDynamicalSystem::setKinDyn(std::shared_ptr<iDynTree::KinDynComp
     // resize matrices
     m_massMatrix.resize(m_actuatedDoFs + m_baseDoFs, m_actuatedDoFs + m_baseDoFs);
     m_jacobianMatrix.resize(m_baseDoFs, m_actuatedDoFs + m_baseDoFs);
-    m_generalizedBiasForces.resize(m_kinDyn->model());
     m_generalizedRobotAcceleration.resize(m_actuatedDoFs + m_baseDoFs);
     m_knownCoefficent.resize(m_actuatedDoFs + m_baseDoFs);
 
@@ -142,29 +143,9 @@ bool FloatingBaseDynamicalSystem::dynamics(const double& time,
     jointVelocityOutput = jointVelocity;
 
     // update kindyncomputations object
-    // convert the objects in iDynTree objects. This will solve as soon as the kinDyn object can
-    // take spans as input
-    iDynTree::Twist baseTwist;
-    iDynTree::toEigen(baseTwist.getLinearVec3()) = baseVelocity.head<3>();
-    iDynTree::toEigen(baseTwist.getAngularVec3()) = baseVelocity.tail<3>();
-
-    iDynTree::Rotation baseRot;
-    iDynTree::toEigen(baseRot) = baseOrientation;
-
-    iDynTree::Position basePos;
-    iDynTree::toEigen(basePos) = basePosition;
-
-    iDynTree::VectorDynSize jointPos(jointVelocityOutput.size());
-    iDynTree::toEigen(jointPos) = jointPositions;
-
-    iDynTree::VectorDynSize jointVel(jointVelocityOutput.size());
-    iDynTree::toEigen(jointVel) = jointVelocity;
-
-    if (!m_kinDyn->setRobotState(iDynTree::Transform(baseRot, basePos),
-                                 jointPos,
-                                 baseTwist,
-                                 jointVel,
-                                 m_gravity))
+    const Eigen::Matrix4d baseTransform = Conversions::toEigenPose(baseOrientation, basePosition);
+    if (!m_kinDyn->setRobotState(baseTransform, jointPositions,
+                                 baseVelocity, jointVelocity, m_gravity))
     {
         std::cerr << "[FloatingBaseDynamicalSystem::dynamics] Unable to update the kindyn object."
                   << std::endl;
@@ -180,20 +161,17 @@ bool FloatingBaseDynamicalSystem::dynamics(const double& time,
     }
 
     // compute the generalized bias forces
-    if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
+    // here we want to compute the robot acceleration as
+    // robotAcceleration = M^-1 (-h + J' F + B tau) = M^-1 * m_knownCoefficent
+
+    if (!m_kinDyn->generalizedBiasForces(m_knownCoefficent))
     {
         std::cerr << "[FloatingBaseDynamicalSystem::dynamics] Unable to get the bias forces."
                   << std::endl;
         return false;
     }
 
-    // here we want to compute the robot acceleration as
-    // robotAcceleration = M^-1 (-h + J' F + B tau) = M^-1 * m_knownCoefficent
-
-    // add the generalized bias forces to the known coefficent
-    m_knownCoefficent.head<m_baseDoFs>() = -iDynTree::toEigen(m_generalizedBiasForces.baseWrench());
-    m_knownCoefficent.tail(m_actuatedDoFs)
-        = -iDynTree::toEigen(m_generalizedBiasForces.jointTorques());
+    m_knownCoefficent *= -1;
 
     // add the contact wrench to the knownCoefficent
     for (const auto& contactWrench : contactWrenches)
@@ -221,7 +199,7 @@ bool FloatingBaseDynamicalSystem::dynamics(const double& time,
         contactPtr->setState(m_kinDyn->getFrameVel(contactWrench.index()),
                              m_kinDyn->getWorldTransform(contactWrench.index()));
 
-        m_knownCoefficent += iDynTree::toEigen(m_jacobianMatrix).transpose()
+        m_knownCoefficent += m_jacobianMatrix.transpose()
             * iDynTree::toEigen(contactPtr->getContactWrench());
     }
 
@@ -236,12 +214,9 @@ bool FloatingBaseDynamicalSystem::dynamics(const double& time,
     // https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html)
     if (m_useMassMatrixRegularizationTerm)
         m_generalizedRobotAcceleration
-            = (iDynTree::toEigen(m_massMatrix) + m_massMatrixReglarizationTerm)
-                  .llt()
-                  .solve(m_knownCoefficent);
+            = (m_massMatrix + m_massMatrixReglarizationTerm).llt().solve(m_knownCoefficent);
     else
-        m_generalizedRobotAcceleration
-            = iDynTree::toEigen(m_massMatrix).llt().solve(m_knownCoefficent);
+        m_generalizedRobotAcceleration = m_massMatrix.llt().solve(m_knownCoefficent);
 
     // split the acceleration in base and joint acceleration
     baseAcceleration = m_generalizedRobotAcceleration.head<m_baseDoFs>();
