@@ -115,7 +115,11 @@ install_basic_package_files(${PROJECT_NAME}
 
 include(AddUninstallTarget)
 
-include(GenerateAndAddUrdfModel)
-add_subdirectory(Python)
+if (FRAMEWORK_USE_Python3)
+    include(GenerateAndAddUrdfModel)
+    add_subdirectory(Python)
+endif()
+
+add_subdirectory(bindings)
 
 add_subdirectory(utilities)

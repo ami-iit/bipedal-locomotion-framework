@@ -150,6 +150,15 @@ checkandset_dependency(cppad)
 find_package(manif QUIET)
 checkandset_dependency(manif)
 
+find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
+checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
+
+find_package(pybind11 2.2 CONFIG QUIET)
+checkandset_dependency(pybind11)
+
+find_package(pytest QUIET)
+checkandset_dependency(pytest)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -193,3 +202,11 @@ framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
 framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "Compile joint-position-tracking application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
+  "Do you want to generate and compile the Python bindings?" ON
+  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11" OFF)
+
+framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
+  "Do you want to test the Python bindings?" ON
+  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_USE_pytest" OFF)

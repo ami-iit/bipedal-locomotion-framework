@@ -59,6 +59,14 @@ struct Contact
      * Type of contact.
      */
     ContactType type {ContactType::FULL};
+
+    /**
+     * @brief The equality operator.
+     *
+     * @param other The other object used for the comparison.
+     * @return True if the contacts are the same, false otherwise.
+     */
+    bool operator==(const Contact& other) const;
 };
 
 }

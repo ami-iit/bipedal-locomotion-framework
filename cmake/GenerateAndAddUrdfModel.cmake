@@ -2,15 +2,9 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-find_package(PythonInterp 3.6 QUIET)
-checkandset_dependency(PythonInterp)
-
-find_package(PythonLibs 3.6 QUIET)
-checkandset_dependency(PythonLibs)
-
 framework_dependent_option(FRAMEWORK_GENERATE_urdf_models
   "Generate URDF Models?" ON
-  "FRAMEWORK_HAS_PythonInterp;FRAMEWORK_HAS_PythonLibs" OFF)
+  "FRAMEWORK_HAS_Python3" OFF)
 
 
 function(generate_and_add_urdf_model)
