@@ -56,7 +56,7 @@ macro(checkandset_dependency package)
       find_package(${package} ${CSD_MINIMUM_VERSION} COMPONENTS ${CSD_COMPONENTS} REQUIRED)
     else ()
       find_package(${package} ${CSD_MINIMUM_VERSION} REQUIRED)
-      endif ()
+    endif ()
   endif()
 
   # FRAMEWORK_USE_SYSTEM_${package}
@@ -159,6 +159,9 @@ checkandset_dependency(pybind11)
 find_package(pytest QUIET)
 checkandset_dependency(pytest)
 
+find_package(matioCpp QUIET)
+checkandset_dependency(matioCpp)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
@@ -198,6 +201,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
+  "Compile matioCpp Conversions libraries?" ON
+  "FRAMEWORK_USE_matioCpp" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "Compile joint-position-tracking application?" ON
