@@ -11,10 +11,13 @@
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/JointPositionTracking/Module.h>
+
+#include <yarp/dev/IEncoders.h>
 
 using Vector1d = Eigen::Matrix<double, 1, 1>;
 
@@ -28,24 +31,29 @@ double Module::getPeriod()
 
 bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
-    // create the polydriver
-    m_robotDevice = std::make_shared<yarp::dev::PolyDriver>();
-
-    auto robotInterfaceOptions = handler->getGroup("ROBOT_INTERFACE");
-
-    if (robotInterfaceOptions.lock() == nullptr)
+    auto ptr = handler->getGroup("ROBOT_INTERFACE").lock();
+    if (ptr == nullptr)
     {
         std::cerr << "[Module::createPolydriver] Robot interface options is empty." << std::endl;
         return false;
     }
+    ptr->setParameter("local_name", this->getName());
+    m_robotDevice = RobotInterface::constructYarpRobotDevice(ptr);
+    if (m_robotDevice == nullptr)
+    {
+        std::cerr << "[Module::createPolydriver] the robot polydriver has not been constructed."
+                  << std::endl;
+        return false;
+    }
 
-    std::vector<std::string> jointsList;
-    robotInterfaceOptions.lock()->getParameter("joints_list", jointsList);
+    // check the number of controlled joints
+    int controlBoardDOFs = 0;
+    yarp::dev::IEncoders* axis;
+    m_robotDevice->view(axis);
+    if (axis != nullptr)
+        axis->getAxes(&controlBoardDOFs);
 
-    std::vector<std::string> controlBoards;
-    robotInterfaceOptions.lock()->getParameter("remote_control_boards", controlBoards);
-
-    if(jointsList.size() != 1 || controlBoards.size() != 1)
+    if (controlBoardDOFs != 1)
     {
         std::cerr << "[Module::createPolydriver] The current implementation can be used to control "
                      "only one joint. Please be sure that the size of the joint_list and "
@@ -54,35 +62,6 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
         return false;
     }
 
-    std::string robotName;
-    robotInterfaceOptions.lock()->getParameter("robot_name", robotName);
-
-    // open the remotecontrolboardremepper YARP device
-    yarp::os::Property options;
-    options.put("device", "remotecontrolboardremapper");
-
-    options.addGroup("axesNames");
-    yarp::os::Bottle& bot = options.findGroup("axesNames").addList();
-    for (const auto& joint : jointsList)
-        bot.addString(joint);
-
-    yarp::os::Bottle remoteControlBoards;
-
-    yarp::os::Bottle& remoteControlBoardsList = remoteControlBoards.addList();
-    for (const auto& controlBoard : controlBoards)
-        remoteControlBoardsList.addString("/" + robotName + "/" + controlBoard);
-
-    options.put("remoteControlBoards", remoteControlBoards.get(0));
-    options.put("localPortPrefix", "/" + this->getName() + "/remoteControlBoard");
-    yarp::os::Property& remoteControlBoardsOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
-    remoteControlBoardsOpts.put("writeStrict", "on");
-
-    if (!m_robotDevice->open(options))
-    {
-        std::cerr << "[Module::createPolydriver] Could not open remotecontrolboardremapper object."
-                  << std::endl;
-        return false;
-    }
     return true;
 }
 
