@@ -100,6 +100,15 @@ bool MasImuTest::MasImuData::setupModel()
 
     ok = m_kinDyn.loadRobotModel(reducedModelLoader.model());
 
+    m_frame = m_kinDyn.getFrameIndex(m_frameName);
+
+    if (m_frame == iDynTree::FRAME_INVALID_INDEX)
+    {
+        yError() << errorPrefix << "The frame " << m_frameName << " does not exists in the reduced robot model."
+                 << ". Configuration failed.";
+        return false;
+    }
+
     if (!ok)
     {
         yError() << errorPrefix << "Failed to load the reduced model. Configuration failed.";
