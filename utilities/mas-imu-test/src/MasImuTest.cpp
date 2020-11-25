@@ -559,19 +559,31 @@ double MasImuTest::MasImuData::maxVariation()
     return maxVariation;
 }
 
-bool MasImuTest::MasImuData::setup(const std::string &testName, ParametersHandler::YarpImplementation::shared_ptr group,
-                                   std::shared_ptr<CommonData> commonDataPtr, const std::string& logPrefix)
+bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared_ptr group,
+                                   std::shared_ptr<CommonData> commonDataPtr)
 {
-    m_testName = testName;
-    m_logPrefix = logPrefix;
     m_commonDataPtr = commonDataPtr;
     m_group = group;
+
+    bool ok = group->getParameter("pretty_name", m_testName);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::MasImuData::setup] Failed to fetch \"pretty_name\" from configuration files.";
+        return false;
+    }
 
     reserveData();
 
     std::string errorPrefix = "[MasImuTest::MasImuData::setup](" + m_testName +") ";
 
-    bool ok = setupModel();
+    ok = group->getParameter("log_prefix", m_logPrefix);
+    if (!ok)
+    {
+        yError() << "[MasImuTest::MasImuData::setup] Failed to fetch \"log_prefix\" from configuration files.";
+        return false;
+    }
+
+    ok = setupModel();
     if (!ok)
     {
         yError() << errorPrefix << "setupModel failed.";
@@ -811,20 +823,20 @@ std::string MasImuTest::MasImuData::printResults()
     return m_output;
 }
 
-bool MasImuTest::MasImuData::saveResults()
+bool MasImuTest::MasImuData::saveResults(matioCpp::Struct& logStruct)
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::saveResults](" + m_testName +") ";
 
-    matioCpp::StructArray dataArray(m_logPrefix + "_data", {m_errorData.size(), 1}, {"RotationError",
-                                                                                     "RotationFromIMU",
-                                                                                     "RotationFromIMUInInertial",
-                                                                                     "RotationFromIMUInInertialYawFiltered",
-                                                                                     "RotationFromEncoders",
-                                                                                     "JointPositions_rad",
-                                                                                     "RPYfromIMUinDeg",
-                                                                                     "RPYfromIMUinDegRemapped",
-                                                                                     "AngularVelocity_deg_s",
-                                                                                     "Accelerometer"});
+    matioCpp::StructArray dataArray("data", {m_errorData.size(), 1}, {"RotationError",
+                                                                      "RotationFromIMU",
+                                                                      "RotationFromIMUInInertial",
+                                                                      "RotationFromIMUInInertialYawFiltered",
+                                                                      "RotationFromEncoders",
+                                                                      "JointPositions_rad",
+                                                                      "RPYfromIMUinDeg",
+                                                                      "RPYfromIMUinDegRemapped",
+                                                                      "AngularVelocity_deg_s",
+                                                                      "Accelerometer"});
 
     for (size_t i = 0; i < m_errorData.size(); ++i)
     {
@@ -897,8 +909,9 @@ bool MasImuTest::MasImuData::saveResults()
     options.push_back(tomatioCpp(m_frameName, "FrameName"));
     options.push_back(tomatioCpp(m_consideredJointNames, "ConsideredJoints"));
     options.push_back(tomatioCpp(m_imuWorld, "I_R_world"));
+    options.push_back(tomatioCpp(m_rpyMapping, "RPYMapping"));
 
-    matioCpp::Struct optionsStruct(m_logPrefix + "_options", options);
+    matioCpp::Struct optionsStruct("options", options);
 
     if (!optionsStruct.isValid())
     {
@@ -906,32 +919,13 @@ bool MasImuTest::MasImuData::saveResults()
         return false;
     }
 
-    matioCpp::String outputString(m_logPrefix + "_outputString", m_output);
+    matioCpp::String outputString("outputString", m_output);
 
-    yInfo() << errorPrefix << "Saving data";
+    matioCpp::Struct testStruct(m_logPrefix, {dataArray, optionsStruct, outputString});
 
-    matioCpp::File outputFile(m_commonDataPtr->outputFile);
-    if (!(outputFile.isOpen()))
+    if (!logStruct.setField(testStruct))
     {
-        yError() << errorPrefix << "Failed to open file.";
-        return false;
-    }
-
-    if (!outputFile.write(dataArray))
-    {
-        yError() << errorPrefix << "Failed to write the data array to file.";
-        return false;
-    }
-
-    if (!outputFile.write(optionsStruct))
-    {
-        yError() << errorPrefix << "Failed to write the options struct to file.";
-        return false;
-    }
-
-    if (!outputFile.write(outputString))
-    {
-        yError() << errorPrefix << "Failed to write the output string to file.";
+        yError() << errorPrefix << "Failed to add the \"" << m_logPrefix << "\" field to logging struct.";
         return false;
     }
 
@@ -948,12 +942,6 @@ bool MasImuTest::MasImuData::close()
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::close](" + m_testName +") ";
 
-    if (!saveResults())
-    {
-        yError() << errorPrefix << "Unable to save the results.";
-        return false;
-    }
-
     if(!m_orientationDriver.close())
     {
         yError() << errorPrefix << "Unable to close the orientation driver.";
@@ -969,6 +957,11 @@ bool MasImuTest::MasImuData::close()
     return true;
 }
 
+const std::string &MasImuTest::MasImuData::name()
+{
+    return m_testName;
+}
+
 
 void MasImuTest::reset()
 {
@@ -981,6 +974,27 @@ void MasImuTest::printResultsPrivate()
 {
     yInfo() << m_leftIMU.printResults();
     yInfo() << m_rightIMU.printResults();
+}
+
+void MasImuTest::saveResultsPrivate()
+{
+    matioCpp::Struct testData("tests");
+
+    bool okL = m_leftIMU.saveResults(testData);
+    if (!okL)
+    {
+        yError() << "[MasImuTest::saveResultsPrivate] Failed to save the " << m_leftIMU.name() << " data.";
+    }
+    bool okR = m_rightIMU.saveResults(testData);
+    if (!okR)
+    {
+        yError() << "[MasImuTest::saveResultsPrivate] Failed to save the " << m_rightIMU.name() << " data.";
+    }
+
+    if (!m_outputFile.write(testData))
+    {
+        yError() << "[MasImuTest::saveResultsPrivate] Failed to save data struct to file.";
+    }
 }
 
 double MasImuTest::getPeriod()
@@ -1173,7 +1187,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    ok = m_leftIMU.setup("Left IMU Test", leftLegGroup, m_commonDataPtr, "left");
+    ok = m_leftIMU.setup(leftLegGroup, m_commonDataPtr);
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
@@ -1187,7 +1201,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    ok = m_rightIMU.setup("Right IMU Test", rightLegGroup, m_commonDataPtr, "right");
+    ok = m_rightIMU.setup(rightLegGroup, m_commonDataPtr);
     if (!ok)
     {
         yError() << "[MasImuTest::configure] Configuration failed.";
@@ -1196,10 +1210,9 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 
     matioCpp::File::Delete(outputFileName);
 
-    matioCpp::File outputFile = matioCpp::File::Create(outputFileName);
-    m_commonDataPtr->outputFile = outputFileName;
+    m_outputFile = matioCpp::File::Create(outputFileName);
 
-    if (!(outputFile.isOpen()))
+    if (!(m_outputFile.isOpen()))
     {
         yError() << "[MasImuTest::configure] Failed to create new file with the name " << outputFileName <<".";
         return false;
@@ -1216,7 +1229,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     settings.push_back(tomatioCpp(m_commonDataPtr->maxSamples, "max_samples"));
     settings.push_back(tomatioCpp(m_commonDataPtr->masTimeout, "mas_timeout"));
 
-    if (!outputFile.write(matioCpp::Struct("settings", settings)))
+    if (!m_outputFile.write(matioCpp::Struct("settings", settings)))
     {
         yError() << "[MasImuTest::configure] Error while writing the settings to file";
         return false;
@@ -1257,6 +1270,8 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
 bool MasImuTest::close()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
+
+    saveResultsPrivate();
 
     m_rpcPort.close();
 

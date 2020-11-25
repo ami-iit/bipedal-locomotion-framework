@@ -52,8 +52,12 @@ The configuration file presents the following data:
 - ``mas_timeout    0.02`` Timeout for reading the MAS IMU sensor. A warning is thrown if this timeout is not respected.
 - ``auto_start    true`` The test start automatically without having to use the RPC interface.
 - ``file_name     masImuTestOutput.mat`` The name of the mat file where data is logged.
+- ``tests     ("LEFT_LEG", "RIGHT_LEG")`` The set of tests to be performed. The name should correspond to a group with the structure described below.
+
 
 The following part of the configuration file contains two part which are equivalent, one for the left leg, having the tag ``[LEFT_LEG]`` and one for the right leg. We will detail here only the part for the left leg since the other is equivalent.
+- ``pretty_name    "Left IMU Test"`` A pretty name for the test
+- ``log_prefix    left`` The name used for the test in the logged data (it should start with a letter, and contain only alphanumeric charachters or "_").
 - ``remote    left_leg/inertials`` The remote port from where the output of the IMU is streamed.
 - ``imu_frame    l_foot_ft_acc_3b13`` The name of the frame in the URDF corresponding to the IMU to check.
 - ``imu_sensor_name    l_foot_ft_eul_3b13`` The name of the IMU sensor to check.

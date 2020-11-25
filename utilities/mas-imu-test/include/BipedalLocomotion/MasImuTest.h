@@ -57,7 +57,6 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         int maxSamples;
         double minJointVariationRad;
         double masTimeout;
-        std::string outputFile;
     };
 
     class MasImuData
@@ -128,9 +127,8 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
     public:
 
-        bool setup(const std::string& testName,
-                   BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group,
-                   std::shared_ptr<CommonData> commonDataPtr, const std::string &logPrefix);
+        bool setup(BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group,
+                   std::shared_ptr<CommonData> commonDataPtr);
 
         bool firstRun();
 
@@ -144,11 +142,13 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         std::string printResults();
 
-        bool saveResults();
+        bool saveResults(matioCpp::Struct &logStruct);
 
         void reset();
 
         bool close();
+
+        const std::string& name();
     };
 
     enum class State
@@ -165,11 +165,14 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
     MasImuData m_leftIMU, m_rightIMU;
     State m_state{State::STARTED};
     std::mutex m_mutex;
-    yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
+    yarp::os::Port m_rpcPort;
+    matioCpp::File m_outputFile;
 
     void reset();
 
     void printResultsPrivate();
+
+    void saveResultsPrivate();
 
 public:
 
