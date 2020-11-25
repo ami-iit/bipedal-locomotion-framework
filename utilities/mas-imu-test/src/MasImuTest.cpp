@@ -957,7 +957,7 @@ bool MasImuTest::MasImuData::close()
     return true;
 }
 
-const std::string &MasImuTest::MasImuData::name()
+const std::string &MasImuTest::MasImuData::name() const
 {
     return m_testName;
 }
@@ -966,29 +966,33 @@ const std::string &MasImuTest::MasImuData::name()
 void MasImuTest::reset()
 {
     m_state = State::PREPARED;
-    m_leftIMU.reset();
-    m_rightIMU.reset();
+    for (std::unique_ptr<MasImuData>& test : m_tests)
+    {
+        test->reset();
+    }
 }
 
 void MasImuTest::printResultsPrivate()
 {
-    yInfo() << m_leftIMU.printResults();
-    yInfo() << m_rightIMU.printResults();
+    for (std::unique_ptr<MasImuData>& test : m_tests)
+    {
+        yInfo() << test->printResults();
+    }
 }
 
 void MasImuTest::saveResultsPrivate()
 {
     matioCpp::Struct testData("tests");
 
-    bool okL = m_leftIMU.saveResults(testData);
-    if (!okL)
+    bool ok = false;
+
+    for (std::unique_ptr<MasImuData>& test : m_tests)
     {
-        yError() << "[MasImuTest::saveResultsPrivate] Failed to save the " << m_leftIMU.name() << " data.";
-    }
-    bool okR = m_rightIMU.saveResults(testData);
-    if (!okR)
-    {
-        yError() << "[MasImuTest::saveResultsPrivate] Failed to save the " << m_rightIMU.name() << " data.";
+        ok = test->saveResults(testData);
+        if (!ok)
+        {
+            yError() << "[MasImuTest::saveResultsPrivate] Failed to save the " << test->name() << " data.";
+        }
     }
 
     if (!m_outputFile.write(testData))
@@ -1009,22 +1013,21 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::RUNNING)
     {
-
-        bool ok = m_leftIMU.addSample();
-        if (!ok)
+        bool ok = false;
+        bool allCompleted = true;
+        for (std::unique_ptr<MasImuData>& test : m_tests)
         {
-            yError() << "[MasImuTest::updateModule] Failed to add data. Marking it as completed.";
-            m_leftIMU.setCompleted();
+            ok = test->addSample();
+            if (!ok)
+            {
+                yError() << "[MasImuTest::updateModule] Failed to add data to "<< test->name() <<". Marking it as completed.";
+                test->setCompleted();
+            }
+
+            allCompleted = allCompleted && test->isCompleted();
         }
 
-        ok = m_rightIMU.addSample();
-        if (!ok)
-        {
-            yError() << "[MasImuTest::updateModule] Failed to add data. Marking it as completed.";
-            m_rightIMU.setCompleted();
-        }
-
-        if (m_leftIMU.isCompleted() && m_rightIMU.isCompleted())
+        if (allCompleted)
         {
             printResultsPrivate();
             m_state = State::PREPARED;
@@ -1034,10 +1037,14 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::FIRST_RUN)
     {
-        bool okL = m_leftIMU.firstRun();
-        bool okR = m_rightIMU.firstRun();
+        bool ok = false;
 
-        if (!okL || !okR)
+        for (std::unique_ptr<MasImuData>& test : m_tests)
+        {
+            ok = ok && test->firstRun();
+        }
+
+        if (!ok)
         {
             yError() << "[MasImuTest::updateModule] Failed to perform first run.";
             m_state = State::PREPARED;
@@ -1180,32 +1187,25 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
         return false;
     }
 
-    auto leftLegGroup = m_parametersPtr->getGroup("LEFT_LEG").lock();
-    if (!leftLegGroup)
+    std::vector<std::string> tests;
+    ok = m_parametersPtr->getParameter("tests", tests);
+    if (!ok || tests.size() == 0)
     {
-        yError() << "[MasImuTest::configure] LEFT_LEG group not available. Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"tests\".";
         return false;
     }
 
-    ok = m_leftIMU.setup(leftLegGroup, m_commonDataPtr);
-    if (!ok)
+    for (size_t t = 0; t < tests.size(); ++t)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
-        return false;
-    }
+        auto testGroup = m_parametersPtr->getGroup(tests[t]).lock();
+        if (!testGroup)
+        {
+            yError() << "[MasImuTest::configure] " << tests[t] <<" group not available. Configuration failed.";
+            return false;
+        }
 
-    auto rightLegGroup = m_parametersPtr->getGroup("RIGHT_LEG").lock();
-    if (!leftLegGroup)
-    {
-        yError() << "[MasImuTest::configure] RIGHT_LEG group not available. Configuration failed.";
-        return false;
-    }
-
-    ok = m_rightIMU.setup(rightLegGroup, m_commonDataPtr);
-    if (!ok)
-    {
-        yError() << "[MasImuTest::configure] Configuration failed.";
-        return false;
+        m_tests.push_back(std::make_unique<MasImuData>());
+        ok = m_tests.back()->setup(testGroup, m_commonDataPtr);
     }
 
     matioCpp::File::Delete(outputFileName);
@@ -1275,18 +1275,20 @@ bool MasImuTest::close()
 
     m_rpcPort.close();
 
-    bool okL = m_leftIMU.close();
-    if (!okL)
+    bool ok = false;
+    bool allOk = true;
+
+    for (std::unique_ptr<MasImuData>& test : m_tests)
     {
-        yError() << "[MasImuTest::close] Failed to close left leg part.";
-    }
-    bool okR = m_rightIMU.close();
-    if (!okR)
-    {
-        yError() << "[MasImuTest::close] Failed to close right leg part.";
+        ok = test->close();
+        if (!ok)
+        {
+            yError() << "[MasImuTest::close] Failed to close " << test->name() << ".";
+        }
+        allOk = allOk & ok;
     }
 
-    return okL && okR;
+    return allOk;
 
 }
 

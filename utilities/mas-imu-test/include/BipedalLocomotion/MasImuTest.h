@@ -148,7 +148,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
         bool close();
 
-        const std::string& name();
+        const std::string& name() const;
     };
 
     enum class State
@@ -162,7 +162,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
     BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_parametersPtr;
     std::shared_ptr<CommonData> m_commonDataPtr;
     double m_period;
-    MasImuData m_leftIMU, m_rightIMU;
+    std::vector<std::unique_ptr<MasImuData>> m_tests;
     State m_state{State::STARTED};
     std::mutex m_mutex;
     yarp::os::Port m_rpcPort;
