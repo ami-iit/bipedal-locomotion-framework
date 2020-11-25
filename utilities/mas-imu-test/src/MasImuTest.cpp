@@ -18,6 +18,8 @@
 #include <cassert>
 #include <cmath>
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::GenericContainer;
@@ -33,6 +35,7 @@ void MasImuTest::MasImuData::reserveData()
     m_rotationFromEncodersData.reserve(m_commonDataPtr->maxSamples);
     m_jointsPositionData.reserve(m_commonDataPtr->maxSamples);
     m_rpyImuData.reserve(m_commonDataPtr->maxSamples);
+    m_rpyRemappedData.reserve(m_commonDataPtr->maxSamples);
     m_gyroData.reserve(m_commonDataPtr->maxSamples);
     m_accData.reserve(m_commonDataPtr->maxSamples);
 }
@@ -48,6 +51,7 @@ void MasImuTest::MasImuData::clearData()
     m_rpyImuData.clear();
     m_gyroData.clear();
     m_accData.clear();
+    m_rpyRemappedData.clear();
 }
 
 bool MasImuTest::MasImuData::setupModel()
@@ -200,6 +204,62 @@ bool MasImuTest::MasImuData::setupOrientationSensor()
     }
 
     m_rpyInDeg.resize(3);
+
+    std::vector<std::string> rpy_shuffling;
+    ok = m_group->getParameter("rpy_shuffling", rpy_shuffling);
+
+    if (!ok)
+    {
+        yError() << errorPrefix << "Setup failed.";
+        return false;
+    }
+
+    if (rpy_shuffling.size() != 3)
+    {
+        yError() << errorPrefix << "The rpy_shuffling parameter is supposed to a list of three strings.";
+        return false;
+    }
+
+    m_rpyMapping.setZero();
+
+    for (size_t i = 0; i < 3; ++i)
+    {
+        std::string angle = rpy_shuffling[i];
+        double sign = +1;
+        if (angle.size() == 0)
+        {
+            yError() << errorPrefix << "The rpy_shuffling parameter contains a null string at position " << i << " (0-based).";
+            return false;
+        }
+
+        if (angle[0] == '-')
+        {
+            sign = -1;
+            angle.erase(angle.begin());
+        }
+
+        std::transform(angle.begin(), angle.end(), angle.begin(),
+                       [](unsigned char c){ return std::tolower(c); });
+
+        if (angle == "roll")
+        {
+            m_rpyMapping(i,0) = sign;
+        }
+        else if (angle == "pitch")
+        {
+            m_rpyMapping(i,1) = sign;
+        }
+        else if (angle == "yaw")
+        {
+            m_rpyMapping(i,2) = sign;
+        }
+        else
+        {
+            yError() << errorPrefix << "\"" << rpy_shuffling[i]
+                     << "\" is not a recognized keyword in rpy_shuffling. Use only \"roll\", \"pitch\" or \"yaw\", eventually with a \"-\" in front." ;
+            return false;
+        }
+    }
 
     return true;
 }
@@ -425,11 +485,11 @@ bool MasImuTest::MasImuData::getFeedback()
                 m_positionFeedbackInRad(j) = iDynTree::deg2rad(m_positionFeedbackDeg(j));
             }
 
-            m_rpyInRad(0) = iDynTree::deg2rad(m_rpyInDeg[0]);
-            m_rpyInRad(1) = iDynTree::deg2rad(m_rpyInDeg[1]);
-            m_rpyInRad(2) = iDynTree::deg2rad(m_rpyInDeg[2]);
+            m_rpyInDegRemapped = m_rpyMapping * to_eigen(m_rpyInDeg);
 
-            m_rotationFeedback = iDynTree::Rotation::RPY(m_rpyInRad(0), m_rpyInRad(1), m_rpyInRad(2));
+            m_rotationFeedback = iDynTree::Rotation::RPY(iDynTree::deg2rad(m_rpyInDegRemapped(0)),
+                                                         iDynTree::deg2rad(m_rpyInDegRemapped(1)),
+                                                         iDynTree::deg2rad(m_rpyInDegRemapped(2)));
 
             return true;
         }
@@ -610,6 +670,7 @@ bool MasImuTest::MasImuData::addSample()
     }
 
     m_rpyImuData.push_back(m_rpyInDeg);
+    m_rpyRemappedData.push_back(m_rpyInDegRemapped);
     m_jointsPositionData.push_back(m_positionFeedbackInRad);
     m_rotationFromEncodersData.push_back(m_rotationFromEncoders);
     m_rotationFeedbackData.push_back(m_rotationFeedback);
@@ -761,6 +822,7 @@ bool MasImuTest::MasImuData::saveResults()
                                                                                      "RotationFromEncoders",
                                                                                      "JointPositions_rad",
                                                                                      "RPYfromIMUinDeg",
+                                                                                     "RPYfromIMUinDegRemapped",
                                                                                      "AngularVelocity_deg_s",
                                                                                      "Accelerometer"});
 
@@ -775,37 +837,43 @@ bool MasImuTest::MasImuData::saveResults()
 
         if(!el.setField(tomatioCpp(m_rotationFeedbackData[i], "RotationFromIMU")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field RotationFromIMU.";
             return false;
         }
 
         if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialData[i], "RotationFromIMUInInertial")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertial.";
             return false;
         }
 
         if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialYawFilteredData[i], "RotationFromIMUInInertialYawFiltered")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertialYawFiltered.";
             return false;
         }
 
         if(!el.setField(tomatioCpp(m_rotationFromEncodersData[i], "RotationFromEncoders")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field RotationFromEncoders.";
             return false;
         }
 
         if(!el.setField(tomatioCpp(m_jointsPositionData[i], "JointPositions_rad")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field JointPositions_rad.";
             return false;
         }
 
         if(!el.setField(tomatioCpp(m_rpyImuData[i], "RPYfromIMUinDeg")))
         {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
+            yError() << errorPrefix << "Failed to set the field RPYfromIMUinDeg.";
+            return false;
+        }
+
+        if(!el.setField(tomatioCpp(m_rpyRemappedData[i], "RPYfromIMUinDegRemapped")))
+        {
+            yError() << errorPrefix << "Failed to set the field RPYfromIMUinDegRemapped.";
             return false;
         }
 

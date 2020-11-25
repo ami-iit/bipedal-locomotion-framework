@@ -28,6 +28,9 @@
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/Transform.h>
 
+// Eigen
+#include <Eigen/Core>
+
 // matioCpp
 #include <matioCpp/matioCpp.h>
 
@@ -74,13 +77,14 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         yarp::dev::IThreeAxisLinearAccelerometers* m_accInterface;
         yarp::dev::IEncodersTimed* m_encodersInterface;
         size_t m_imuSensorIndex, m_gyroSensorIndex, m_accSensorIndex;
-        yarp::sig::Vector m_positionFeedbackDeg; /**< Current joint position [deg]. */
+        yarp::sig::Vector m_positionFeedbackDeg;
         yarp::sig::Vector m_rpyInDeg, m_gyroInDeg_s, m_acc;
-        iDynTree::Vector3 m_rpyInRad;
+        Eigen::Vector3d m_rpyInDegRemapped;
         iDynTree::VectorDynSize m_positionFeedbackInRad;
         iDynTree::VectorDynSize m_previousPositionFeedbackInRad;
         iDynTree::VectorDynSize m_dummyVelocity;
         iDynTree::Rotation m_rotationFeedback;
+        Eigen::Matrix3Xd m_rpyMapping;
 
         iDynTree::Rotation m_rotationFromEncoders;
         iDynTree::Rotation m_imuWorld; //i_R_imuworld
@@ -91,6 +95,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialData;
         std::vector<iDynTree::Rotation> m_rotationFeedbackInInertialYawFilteredData;
         std::vector<yarp::sig::Vector> m_rpyImuData;
+        std::vector<Eigen::Vector3d> m_rpyRemappedData;
         std::vector<iDynTree::Rotation> m_rotationFromEncodersData;
         std::vector<yarp::sig::Vector> m_gyroData;
         std::vector<yarp::sig::Vector> m_accData;

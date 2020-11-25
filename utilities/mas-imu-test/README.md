@@ -60,3 +60,4 @@ The following part of the configuration file contains two part which are equival
 - ``gyro_sensor_name    l_foot_ft_gyro_3b13`` The name of the gyro sensor attached to the IMU sensor.
 - ``acc_sensor_name    l_foot_ft_acc_3b13`` The name of the accelerometer attached to the IMU sensor.
 - ``remote_control_boards    ("left_leg")`` The comma-separated list of control boards including all the joints connecting the sensor under testing to the base link.
+- ``rpy_shuffling ("roll", "pitch", "yaw")`` It allows shuffling the rpy order. Use only the "roll", "pitch", "yaw" keywords. It is possible to prepend "-", e.g. "-pitch" to change the sign.
