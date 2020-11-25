@@ -5,4 +5,4 @@
 
 add_subdirectory(joint-position-tracking)
 add_subdirectory(joint-trajectory-player)
-add_subdirectory(MasImuTest)
+add_subdirectory(mas-imu-test)
