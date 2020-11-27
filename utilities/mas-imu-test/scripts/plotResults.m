@@ -7,16 +7,13 @@ robotName='iCubGenova04';
 modelPath = [icubModelsInstallPrefix '/share/iCub/robots/' robotName '/'];
 fileName='model.urdf';
 
-datasets = {left_data, right_data};
-options = {left_options, right_options};
+tests_fields = fieldnames(tests);
 
-
-
-for dataIndex = 1 : length(datasets)
-    data = datasets{dataIndex};
-    opt = options{dataIndex};
-    rpyImu = zeros(3, length(datasets));
-    rpyFK = zeros(3, length(datasets),1);
+for testIndex = 1 : numel(tests_fields)
+    data = tests.(tests_fields{testIndex}).data;
+    opt = tests.(tests_fields{testIndex}).options;
+    rpyImu = zeros(3, size(data, 1));
+    rpyFK = zeros(3, size(data, 1));
     
     jointOrder = opt.ConsideredJoints;
     world_H_base = eye(4);
@@ -45,8 +42,7 @@ for dataIndex = 1 : length(datasets)
     or = frameTransform(1:3, 4);
     acc = frameTransform * [data(1).Accelerometer'/9.81/2; 1]; 
     gravity = plot3([or(1) acc(1)], [or(2) acc(2)], [or(3) acc(3)], 'm', 'linewidth', 7);
-    pause
-
+    
     for i = 2 : length(data)
         joints_positions = data(i).JointPositions_rad;
         iDynTreeWrappers.setRobotState(KinDynModel,world_H_base,joints_positions,zeros(6,1),zeros(size(joints_positions)),[0,0,-9.81]);
@@ -76,7 +72,7 @@ for dataIndex = 1 : length(datasets)
     title('IMU')
     legend('Roll', 'Pitch', 'Yaw')
 
-    if (dataIndex ~= length(datasets))
+    if (testIndex ~= numel(tests_fields))
         pause
     end
     

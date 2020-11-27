@@ -827,82 +827,93 @@ bool MasImuTest::MasImuData::saveResults(matioCpp::Struct& logStruct)
 {
     std::string errorPrefix = "[MasImuTest::MasImuData::saveResults](" + m_testName +") ";
 
-    matioCpp::StructArray dataArray("data", {m_errorData.size(), 1}, {"RotationError",
-                                                                      "RotationFromIMU",
-                                                                      "RotationFromIMUInInertial",
-                                                                      "RotationFromIMUInInertialYawFiltered",
-                                                                      "RotationFromEncoders",
-                                                                      "JointPositions_rad",
-                                                                      "RPYfromIMUinDeg",
-                                                                      "RPYfromIMUinDegRemapped",
-                                                                      "AngularVelocity_deg_s",
-                                                                      "Accelerometer"});
+    std::vector<matioCpp::Variable> testStructVariables;
 
-    for (size_t i = 0; i < m_errorData.size(); ++i)
+    if (addedSamples() == 0)
     {
-        matioCpp::StructArrayElement el = dataArray[{i, 0}];
-        if (!el.setField(tomatioCpp(m_errorData[i], "RotationError")))
-        {
-            yError() << errorPrefix << "Failed to set the field RotationError.";
-            return false;
-        }
+        yWarning() << errorPrefix << "No samples added. No data will be saved";
+    }
+    else
+    {
+        matioCpp::StructArray dataArray("data", {m_errorData.size(), 1}, {"RotationError",
+                                                                          "RotationFromIMU",
+                                                                          "RotationFromIMUInInertial",
+                                                                          "RotationFromIMUInInertialYawFiltered",
+                                                                          "RotationFromEncoders",
+                                                                          "JointPositions_rad",
+                                                                          "RPYfromIMUinDeg",
+                                                                          "RPYfromIMUinDegRemapped",
+                                                                          "AngularVelocity_deg_s",
+                                                                          "Accelerometer"});
 
-        if(!el.setField(tomatioCpp(m_rotationFeedbackData[i], "RotationFromIMU")))
+        for (size_t i = 0; i < m_errorData.size(); ++i)
         {
-            yError() << errorPrefix << "Failed to set the field RotationFromIMU.";
-            return false;
-        }
+            matioCpp::StructArrayElement el = dataArray[{i, 0}];
+            if (!el.setField(tomatioCpp(m_errorData[i], "RotationError")))
+            {
+                yError() << errorPrefix << "Failed to set the field RotationError.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialData[i], "RotationFromIMUInInertial")))
-        {
-            yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertial.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rotationFeedbackData[i], "RotationFromIMU")))
+            {
+                yError() << errorPrefix << "Failed to set the field RotationFromIMU.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialYawFilteredData[i], "RotationFromIMUInInertialYawFiltered")))
-        {
-            yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertialYawFiltered.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialData[i], "RotationFromIMUInInertial")))
+            {
+                yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertial.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_rotationFromEncodersData[i], "RotationFromEncoders")))
-        {
-            yError() << errorPrefix << "Failed to set the field RotationFromEncoders.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rotationFeedbackInInertialYawFilteredData[i], "RotationFromIMUInInertialYawFiltered")))
+            {
+                yError() << errorPrefix << "Failed to set the field RotationFromIMUInInertialYawFiltered.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_jointsPositionData[i], "JointPositions_rad")))
-        {
-            yError() << errorPrefix << "Failed to set the field JointPositions_rad.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rotationFromEncodersData[i], "RotationFromEncoders")))
+            {
+                yError() << errorPrefix << "Failed to set the field RotationFromEncoders.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_rpyImuData[i], "RPYfromIMUinDeg")))
-        {
-            yError() << errorPrefix << "Failed to set the field RPYfromIMUinDeg.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_jointsPositionData[i], "JointPositions_rad")))
+            {
+                yError() << errorPrefix << "Failed to set the field JointPositions_rad.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_rpyRemappedData[i], "RPYfromIMUinDegRemapped")))
-        {
-            yError() << errorPrefix << "Failed to set the field RPYfromIMUinDegRemapped.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rpyImuData[i], "RPYfromIMUinDeg")))
+            {
+                yError() << errorPrefix << "Failed to set the field RPYfromIMUinDeg.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_gyroData[i], "AngularVelocity_deg_s")))
-        {
-            yError() << errorPrefix << "Failed to set the field AngularVelocity_deg_s.";
-            return false;
-        }
+            if(!el.setField(tomatioCpp(m_rpyRemappedData[i], "RPYfromIMUinDegRemapped")))
+            {
+                yError() << errorPrefix << "Failed to set the field RPYfromIMUinDegRemapped.";
+                return false;
+            }
 
-        if(!el.setField(tomatioCpp(m_accData[i], "Accelerometer")))
-        {
-            yError() << errorPrefix << "Failed to set the field Accelerometer.";
-            return false;
+            if(!el.setField(tomatioCpp(m_gyroData[i], "AngularVelocity_deg_s")))
+            {
+                yError() << errorPrefix << "Failed to set the field AngularVelocity_deg_s.";
+                return false;
+            }
+
+            if(!el.setField(tomatioCpp(m_accData[i], "Accelerometer")))
+            {
+                yError() << errorPrefix << "Failed to set the field Accelerometer.";
+                return false;
+            }
         }
+        testStructVariables.push_back(dataArray);
     }
 
     std::vector<matioCpp::Variable> options;
+    options.push_back(tomatioCpp(m_testName, "TestName"));
     options.push_back(tomatioCpp(m_imuName, "IMUSensorName"));
     options.push_back(tomatioCpp(m_gyroName, "GyroName"));
     options.push_back(tomatioCpp(m_accName, "AccelerometerName"));
@@ -918,10 +929,12 @@ bool MasImuTest::MasImuData::saveResults(matioCpp::Struct& logStruct)
         yError() << errorPrefix << "Failed to create the options struct.";
         return false;
     }
+    testStructVariables.push_back(optionsStruct);
 
     matioCpp::String outputString("outputString", m_output);
+    testStructVariables.push_back(outputString);
 
-    matioCpp::Struct testStruct(m_logPrefix, {dataArray, optionsStruct, outputString});
+    matioCpp::Struct testStruct(m_logPrefix, testStructVariables);
 
     if (!logStruct.setField(testStruct))
     {
@@ -1037,7 +1050,7 @@ bool MasImuTest::updateModule()
 
     if (m_state == State::FIRST_RUN)
     {
-        bool ok = false;
+        bool ok = true;
 
         for (std::unique_ptr<MasImuData>& test : m_tests)
         {

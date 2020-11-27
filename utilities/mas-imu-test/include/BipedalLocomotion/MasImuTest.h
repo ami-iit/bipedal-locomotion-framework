@@ -83,7 +83,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         iDynTree::VectorDynSize m_previousPositionFeedbackInRad;
         iDynTree::VectorDynSize m_dummyVelocity;
         iDynTree::Rotation m_rotationFeedback;
-        Eigen::Matrix3Xd m_rpyMapping;
+        Eigen::Matrix3d m_rpyMapping;
 
         iDynTree::Rotation m_rotationFromEncoders;
         iDynTree::Rotation m_imuWorld; //i_R_imuworld
