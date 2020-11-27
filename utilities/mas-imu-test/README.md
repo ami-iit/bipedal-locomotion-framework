@@ -24,9 +24,44 @@ Simply run
 ```
 blf-mas-imu-test
 ```
-in a terminal. The test should run automatically.
+in a terminal. The test should run automatically. Then, move the limbs (in the way you prefer) where each IMU you want to test is located. 
+For each IMU to test, the module prints a status message like
+```
+[INFO][MasImuTest::MasImuData::addSample](Left IMU Test)  Sample  3 / 500 
+```
+every time a joint in the kinematic chain from the root link to the IMU is moved.
+When all the tests are completed, a summary similar to the following is printed.
+```
+[INFO][MasImuTest::MasImuData::printResults](Left IMU Test)  Inertial calibration matrix:
+ --------------------------------------
+ 0.99305 -0.0163568 0.116548
+0.00289557 -0.986599 -0.163135
+0.117654 0.162339 -0.979696
+ RPY [deg]: (170.591379, -6.756744, 0.167065)
+ --------------------------------------
+ Results ( 500  samples) :
+ --------------------------------------
+ --------------Mean Rotation-----------
+ 0.961574 0.274212 0.0134994
+-0.258299 0.88692 0.382954
+0.0930379 -0.371726 0.923669
+ RPY [deg]: (-21.922084, -5.338397, -15.035917)
+ ----------------Min Error-------------
+ Index:  358 
+ 0.999966 -0.000548794 0.0082332
+0.00045783 0.999939 0.0110462
+-0.00823876 -0.0110421 0.999905
+ RPY [deg]: (-0.632700, 0.472051, 0.026233)
+ ----------------Max Error-------------
+ Index:  153 
+ 0.31468 0.103543 0.943533
+-0.00670651 -0.993765 0.111292
+0.949174 -0.0413493 -0.312024
+ RPY [deg]: (-172.451167, -71.654180, -1.220911)
+ --------------------------------------
+ ```
 
-#### Insert here some real output
+When the test closes normally, it saves a ``.mat`` file with all the data and the settings saved in.
 
 The test has also an RPC interface. It is possible to launch it by running
 ```
@@ -37,6 +72,38 @@ in a terminal. Then the following commands are available:
 - ``startTest`` Manually start the test.
 - ``stopTest`` Manually stop the test.
 - ``printResults`` If the test is stopped, print the results.
+
+## Plotting
+In the folder ``scripts``, a Matlab script is provided. Load in the workspace the saved ``.mat`` file and simply run the script ``plotResults`` from Matlab.
+You may need to edit these lines
+```matlab
+%% Settings
+
+robotName='iCubGenova04'; %% Name of the robot
+
+meshFilePrefix = [getenv('ROBOTOLOGY_SUPERBUILD_INSTALL_PREFIX') '/share']; %% Path to the model meshes
+
+modelPath = [getenv('ROBOTOLOGY_SUPERBUILD_INSTALL_PREFIX') '/share/iCub/robots/' robotName '/'];  %% Path to the robot model
+
+fileName='model.urdf'; %% Name of the urdf file
+```
+according to your environment. If you installed ``BipedalLocomotionFramework`` via the ``robotology-superbuild``, you may need to change only the robot name.
+
+The script should start playing the data on a 3D version of the robot. You should be able to see two frames. One with long and thin axis is the expected frame orientation from forward kinematics. 
+The other has short and thick axis. This is the estimated one via the IMU. These two should match.
+In addition, you should be able to see a magenta line indicating the accelerometer measurement (scaled).
+
+It also prints the expected RPY values vs the measured ones.
+
+### Example of not aligned frames
+
+(The magenta vector is disabled for this image.)
+
+![ezgif-2-38372e5d4323](https://user-images.githubusercontent.com/18591940/100088488-7a5b5780-2e50-11eb-8b85-603f806f8105.gif)
+
+### Example of aligned frames
+
+![left](https://user-images.githubusercontent.com/18591940/100474051-0cc55a80-30e0-11eb-9e45-1b4f95820bf3.gif)
 
 ## Configuration file explanation
 The configuration file presents the following data:
