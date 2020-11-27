@@ -8,4 +8,5 @@ add_bipedal_locomotion_library(
   NAME                  Math
   PUBLIC_HEADERS        ${H_PREFIX}/AlgebraicRiccatiEquation.h
   SOURCES               src/AlgebraicRiccatiEquation.cpp
-  PUBLIC_LINK_LIBRARIES Eigen3::Eigen)
+  PUBLIC_LINK_LIBRARIES Eigen3::Eigen
+  SUBDIRECTORIES        tests)
