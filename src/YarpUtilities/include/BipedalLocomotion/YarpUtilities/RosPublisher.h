@@ -54,8 +54,8 @@ public:
      * @param[in] jointList list of joints
      * @param[in] jointPositions list of joint positions in m or rad with the same size as the joints list
      */
-    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<std::string>& jointList,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointPositions);
+    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<const std::string>::Ref jointList,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointPositions);
     
     /**
      * Publish the joint states over the configured joint states topic 
@@ -64,9 +64,9 @@ public:
      * @param[in] jointPositions list of joint positions in m or rad with the same size as the joints list
      * @param[in] jointVelocities list of joint velocities in m/s or rad/s with the same size as the joints list
      */
-    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<std::string>& jointList,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointPositions,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointVelocities);
+    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<const std::string>::Ref jointList,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointPositions,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointVelocities);
     
     /**
      * Publish the joint states over the configured joint states topic 
@@ -76,10 +76,10 @@ public:
      * @param[in] jointVelocities list of joint velocities in m/s or rad/s with the same size as the joints list
      * @param[in] jointPositions list of joint torques/forces in Nm or N with the same size as the joints list
      */
-    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<std::string>& jointList,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointPositions,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointVelocities,
-                            const BipedalLocomotion::GenericContainer::Vector<double>& jointEfforts);
+    bool publishJointStates(const BipedalLocomotion::GenericContainer::Vector<const std::string>::Ref jointList,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointPositions,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointVelocities,
+                            const BipedalLocomotion::GenericContainer::Vector<const double>::Ref jointEfforts);
     
     /**
      * Publish the wrenches over the configured wrench topic associated to the frame
@@ -87,7 +87,7 @@ public:
      * @param[in] wrench6d 6d wrench as force-torque in N-Nm
      */
     bool publishWrench(const std::string& frameName, 
-                       BipedalLocomotion::GenericContainer::Vector<double>& wrench6d);
+                       BipedalLocomotion::GenericContainer::Vector<const double>::Ref wrench6d);
     
     /**
      * Publish transforms to the transform server
@@ -96,7 +96,7 @@ public:
      * @param[in] transformAsVector16d 4x4 transform as a vector data
      */
     bool publishTransform(const std::string& target, const std::string& source, 
-                          const BipedalLocomotion::GenericContainer::Vector<double>& transformAsVector16d);
+                          const BipedalLocomotion::GenericContainer::Vector<const double>::Ref transformAsVector16d);
     
     /**
      * configure which transform server to connect to

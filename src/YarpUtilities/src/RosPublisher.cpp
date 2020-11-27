@@ -275,7 +275,7 @@ bool RosPublisher::configureTransformServer(const std::string& transformServerPo
 
 bool RosPublisher::publishTransform(const std::string& target, 
                                     const std::string& source, 
-                                    const BipedalLocomotion::GenericContainer::Vector<double>& transformAsVector16d)
+                                    const BipedalLocomotion::GenericContainer::Vector<const double>::Ref transformAsVector16d)
 {
     std::string_view printPrefix = "[RosPublisher::publishTransform] ";
     
@@ -316,31 +316,28 @@ bool RosPublisher::publishTransform(const std::string& target,
     return true;
 }
 
-bool RosPublisher::publishJointStates(const GenericContainer::Vector<std::string>& jointList,
-                                      const GenericContainer::Vector<double>& jointPositions)
+bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
+                                      const GenericContainer::Vector<const double>::Ref jointPositions)
 {        
     std::vector<double> jointVelocities(jointList.size(), 0.0);
     std::vector<double> jointEfforts(jointList.size(), 0.0);
      
-    return publishJointStates(jointList, jointPositions, 
-                              GenericContainer::make_vector(jointVelocities), 
-                              GenericContainer::make_vector(jointEfforts));
+    return publishJointStates(jointList, jointPositions, jointVelocities, jointEfforts);
 }
 
-bool RosPublisher::publishJointStates(const GenericContainer::Vector<std::string>& jointList,
-                                      const GenericContainer::Vector<double>& jointPositions,
-                                      const GenericContainer::Vector<double>& jointVelocities)
+bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
+                                      const GenericContainer::Vector<const double>::Ref jointPositions,
+                                      const GenericContainer::Vector<const double>::Ref jointVelocities)
 {
     std::vector<double> jointEfforts(jointList.size(), 0.0);
      
-    return publishJointStates(jointList, jointPositions, jointVelocities, 
-                              GenericContainer::make_vector(jointEfforts));
+    return publishJointStates(jointList, jointPositions, jointVelocities, jointEfforts);
 }
 
-bool RosPublisher::publishJointStates(const GenericContainer::Vector<std::string>& jointList,
-                                      const GenericContainer::Vector<double>& jointPositions,
-                                      const GenericContainer::Vector<double>& jointVelocities,
-                                      const GenericContainer::Vector<double>& jointEfforts)
+bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
+                                      const GenericContainer::Vector<const double>::Ref jointPositions,
+                                      const GenericContainer::Vector<const double>::Ref jointVelocities,
+                                      const GenericContainer::Vector<const double>::Ref jointEfforts)
 {
     std::string_view printPrefix = "[RosPublisher::publishJointStates] ";
     
@@ -386,7 +383,7 @@ bool RosPublisher::publishJointStates(const GenericContainer::Vector<std::string
 }
 
 bool RosPublisher::publishWrench(const std::string& frame, 
-                                 BipedalLocomotion::GenericContainer::Vector<double>& wrench6d)
+                                 BipedalLocomotion::GenericContainer::Vector<const double>::Ref wrench6d)
 {
     std::string_view printPrefix = "[RosPublisher::publishWrench] ";
     
