@@ -12,7 +12,7 @@ function(add_bipedal_yarp_device)
     PUBLIC_LINK_LIBRARIES
     PRIVATE_LINK_LIBRARIES    
     TYPE
-    INI)
+    CONFIGURE_PACKAGE_NAME)
 
   set(prefix "bipedal_yarp")
 
@@ -24,10 +24,14 @@ function(add_bipedal_yarp_device)
 
   set(name ${${prefix}_NAME})
   set(type ${${prefix}_TYPE})
-  set(ini ${${prefix}_INI})
+  set(ini_package ${${prefix}_CONFIGURE_PACKAGE_NAME})
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
+  
+  set(YARP_FORCE_DYNAMIC_PLUGINS ON)
+  # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
+  yarp_configure_plugins_installation(${ini_package})
 
   yarp_prepare_plugin(${name} CATEGORY device
                               TYPE ${type}
@@ -47,11 +51,9 @@ function(add_bipedal_yarp_device)
   # Specify installation targets, typology and destination folders.
   yarp_install(TARGETS ${name}
                COMPONENT runtime
-               LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}/
-               ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR}/)
-  yarp_install(FILES ${ini}
-               COMPONENT runtime
-               DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR}/)
+               LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
+               ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR}
+               YARP_INI DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
   add_subdirectory(app)
 
