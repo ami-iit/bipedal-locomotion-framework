@@ -73,8 +73,7 @@ public:
      *                     "5X5_50", "5X5_100", "5X5_250", "5X5_1000",
      *                     "6X6_50", "6X6_100", "6X6_250", "6X6_1000",
      *                     "7X7_50", "7X7_100", "7X7_250", "7X7_1000",
-     *                     "ARUCO_ORIGINAL", 
-     *                     "APRILTAG_16h5", "APRILTAG_25h9", "APRILTAG_36h10","APRILTAG_36h11")
+     *                     "ARUCO_ORIGINAL")
      * options coherent with https://docs.opencv.org/master/d9/d6a/group__aruco.html#gac84398a9ed9dd01306592dd616c2c975
      * - "marker_length" marker length in m
      * - "camera_matrix" 9d vector representing the camera calbration matrix in row major order

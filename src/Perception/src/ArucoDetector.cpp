@@ -66,11 +66,7 @@ public:
                                                                                          {"7X7_100", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_7X7_100},
                                                                                          {"7X7_250", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_7X7_250},
                                                                                          {"7X7_1000",cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_7X7_1000},
-                                                                                         {"ARUCO_ORIGINAL",cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_ARUCO_ORIGINAL},
-                                                                                         {"APRILTAG_16h5", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_APRILTAG_16h5},
-                                                                                         {"APRILTAG_25h9", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_APRILTAG_25h9},
-                                                                                         {"APRILTAG_36h10",cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_APRILTAG_36h10},
-                                                                                         {"APRILTAG_36h11", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_APRILTAG_36h11} };
+                                                                                         {"ARUCO_ORIGINAL",cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_ARUCO_ORIGINAL} };
 };
 
 ArucoDetector::ArucoDetector() :
@@ -109,8 +105,7 @@ bool ArucoDetector::initialize(std::weak_ptr<IParametersHandler> handler)
         << "\"6X6_50\", \"6X6_100\", \"6X6_250\", \"6X6_1000\", \n"
         << "\"7X7_50\", \"7X7_100\", \"7X7_250\", \"7X7_1000\", \n"
         << " \"ARUCO_ORIGINAL\", \n"
-        << " \"APRILTAG_16h5\", \"APRILTAG_25h9\", \"APRILTAG_36h10\",\"APRILTAG_36h11\". \n"
-        << "options coherent with https://docs.opencv.org/master/d9/d6a/group__aruco.html#gac84398a9ed9dd01306592dd616c2c975"
+        << "options coherent with v3.4.0 in https://docs.opencv.org/3.4.1/d9/d6a/group__aruco.html"
         << std::endl;
         return false;
     }
