@@ -20,7 +20,7 @@
 #include <yarp/rosmsg/geometry_msgs/WrenchStamped.h>
 
 #include <unordered_map>
-#include <algorithm>
+#include <chrono>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion;
@@ -64,6 +64,19 @@ public:
         return true;
     }
     
+            
+    template <typename PublisherMsg>
+    void configurePublisher(std::unique_ptr<yarp::os::Publisher<PublisherMsg> >& ptr)
+    {
+        if (ptr == nullptr)
+        {
+            ptr = std::make_unique< yarp::os::Publisher <PublisherMsg> >();
+        }
+        
+        ptr->close();
+    }
+    
+    
     /**
      * Utility function to load vector parameters
      */
@@ -77,14 +90,16 @@ public:
             return false;
         }
 
-        if (!handle->getParameter(param, GenericContainer::make_vector(vec, GenericContainer::VectorResizeMode::Resizable)))
+        if (!handle->getParameter(param, vec))
         {
             std::cerr << prefix << "The parameter handler could not find \"" << param << "\" in the configuration file. This is a required parameter." << std::endl;
             return false;
         }
         return true;
     }
-          
+    
+    void resizeJointStateBuffer(const std::size_t& size);
+    
     std::string nodeName; /**< name of the ROS node */
     std::unique_ptr<yarp::os::Node> node; /**< YARP object for a ROS node */
                 
@@ -96,12 +111,20 @@ public:
     
     bool publishTF{false}; /**< flag to enable publishing transforms to YARP transform server */    
     bool initialized{false}; /**< flag to chekc if the publisher was initialized */
+    
+    // placeholder variables
+    yarp::sig::Matrix pose; /**< placeholder variable for publishing transform data*/
+    std::vector<double> jointStateZero; /**< placeholder variable for zero joint state data*/
+    
+    std::chrono::nanoseconds timeInNanoSeconds; /**< chrono nanoseconds conversion from YARP to ROS timestamp*/
 };
 
 RosPublisher::RosPublisher(const std::string& nodeName) : m_pimpl(std::make_unique<Impl>())
 {    
     m_pimpl->nodeName = nodeName;
     m_pimpl->node = std::make_unique<yarp::os::Node>(m_pimpl->nodeName);                    
+    
+    m_pimpl->pose.resize(4, 4);
     
     std::cout <<  "[RosPublisher] Ensure roscore is running and yarpserver was run with --ros option." << std::endl;
 }
@@ -186,13 +209,8 @@ bool RosPublisher::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler
 }
 
 bool RosPublisher::configureJointStatePublisher(const std::string& topicName)
-{
-    if (m_pimpl->jointStatePublisher.ptr == nullptr)
-    {
-        m_pimpl->jointStatePublisher.ptr = std::make_unique< yarp::os::Publisher<JointStateMsg> >();
-    }
-    
-    m_pimpl->jointStatePublisher.ptr->close();
+{   
+    m_pimpl->configurePublisher(m_pimpl->jointStatePublisher.ptr);
     
     m_pimpl->jointStatePublisher.topic = topicName;
     if (!m_pimpl->openPublisher(m_pimpl->jointStatePublisher.ptr.get(), m_pimpl->jointStatePublisher.topic))
@@ -213,12 +231,7 @@ bool RosPublisher::configureWrenchPublisher(const std::string& frameName,
         m_pimpl->wrenchPublisherMap[frameName] = WrenchPublisherDetails();
     }
     
-    if (m_pimpl->wrenchPublisherMap.at(frameName).ptr == nullptr)
-    {
-        m_pimpl->wrenchPublisherMap.at(frameName).ptr = std::make_unique< yarp::os::Publisher<WrenchStampedMsg> >();
-    }
-    
-    m_pimpl->wrenchPublisherMap.at(frameName).ptr->close();
+    m_pimpl->configurePublisher(m_pimpl->wrenchPublisherMap.at(frameName).ptr);
     m_pimpl->wrenchPublisherMap.at(frameName).topic = topicName;
     if (!m_pimpl->openPublisher(m_pimpl->wrenchPublisherMap.at(frameName).ptr.get(), m_pimpl->wrenchPublisherMap.at(frameName).topic))
     {
@@ -296,17 +309,16 @@ bool RosPublisher::publishTransform(const std::string& target,
         std::cerr << printPrefix << "Malformed Transform data. Expecting a 16d vector." << std::endl;
         return false;
     }
-    
-    yarp::sig::Matrix pose(4, 4);
+        
     for (size_t i = 0; i < 4; i++)
     {
         for (size_t j = 0; j < 4; j++)
         {
-            pose(i, j) = transformAsVector16d( (i*4) + j);
+            m_pimpl->pose(i, j) = transformAsVector16d( (i*4) + j);
         }
     }
     
-    if (!m_pimpl->transformInterface->setTransform(target, source, pose))
+    if (!m_pimpl->transformInterface->setTransform(target, source, m_pimpl->pose))
     {
         std::cerr << printPrefix << "Could not publish transform for source: " 
                   << source << " and target: " << target << " frames." << std::endl;
@@ -316,22 +328,27 @@ bool RosPublisher::publishTransform(const std::string& target,
     return true;
 }
 
+void RosPublisher::Impl::resizeJointStateBuffer(const std::size_t& size)
+{
+    if (jointStateZero.size() != size)
+    {
+        jointStateZero.resize(size, 0.0);
+    }
+}
+
 bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
                                       const GenericContainer::Vector<const double>::Ref jointPositions)
-{        
-    std::vector<double> jointVelocities(jointList.size(), 0.0);
-    std::vector<double> jointEfforts(jointList.size(), 0.0);
-     
-    return publishJointStates(jointList, jointPositions, jointVelocities, jointEfforts);
+{   
+    m_pimpl->resizeJointStateBuffer(jointList.size());
+    return publishJointStates(jointList, jointPositions, m_pimpl->jointStateZero, m_pimpl->jointStateZero);
 }
 
 bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
                                       const GenericContainer::Vector<const double>::Ref jointPositions,
                                       const GenericContainer::Vector<const double>::Ref jointVelocities)
-{
-    std::vector<double> jointEfforts(jointList.size(), 0.0);
-     
-    return publishJointStates(jointList, jointPositions, jointVelocities, jointEfforts);
+{   
+    m_pimpl->resizeJointStateBuffer(jointList.size());
+    return publishJointStates(jointList, jointPositions, jointVelocities, m_pimpl->jointStateZero);
 }
 
 bool RosPublisher::publishJointStates(const GenericContainer::Vector<const std::string>::Ref jointList,
@@ -431,13 +448,12 @@ yarp::rosmsg::TickTime RosPublisher::Impl::getTimeStampFromYarp()
 {
     std::string_view printPrefix = "[RosPublisher::Impl::getTimeStampFromYarp] ";
     yarp::rosmsg::TickTime rosTickTime;
-    double yarpTimeStamp = yarp::os::Time::now();
+    
+    std::chrono::duration<double> timeStamp(yarp::os::Time::now());
+    uint64_t nsec_part = std::chrono::duration_cast<std::chrono::nanoseconds>(timeStamp).count() % 1000000000UL;
+    uint64_t sec_part = std::chrono::duration_cast<std::chrono::seconds>(timeStamp).count();
 
-    uint64_t time = static_cast<uint64_t>(yarpTimeStamp * 1000000000UL);
-    uint64_t nsec_part = time % 1000000000UL;
-    uint64_t sec_part = time / 1000000000UL;
-
-    if (sec_part > UINT_MAX) {
+    if (sec_part > std::numeric_limits<unsigned int>::max()) {
         std::cerr << printPrefix
                   << "Timestamp exceeded the 64 bit representation, resetting it to 0" << std::endl;
         sec_part = 0;

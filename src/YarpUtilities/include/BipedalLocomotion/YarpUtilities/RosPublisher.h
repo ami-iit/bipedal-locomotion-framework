@@ -84,7 +84,7 @@ public:
     /**
      * Publish the wrenches over the configured wrench topic associated to the frame
      * @param[in] frameName frame at which the wrench will be expressed
-     * @param[in] wrench6d 6d wrench as force-torque in N-Nm
+     * @param[in] wrench6d 6d wrench as force-torque in N-Nm with serialziation as fx fy fz tx ty tz
      */
     bool publishWrench(const std::string& frameName, 
                        BipedalLocomotion::GenericContainer::Vector<const double>::Ref wrench6d);
@@ -93,25 +93,25 @@ public:
      * Publish transforms to the transform server
      * @param[in] target  target frame for the transform
      * @param[in] source source frame of the transform
-     * @param[in] transformAsVector16d 4x4 transform as a vector data
+     * @param[in] transformAsVector16d 4x4 transform as a vector data in row-major order
      */
     bool publishTransform(const std::string& target, const std::string& source, 
                           const BipedalLocomotion::GenericContainer::Vector<const double>::Ref transformAsVector16d);
     
     /**
-     * configure which transform server to connect to
+     * Configure which transform server to connect to
      * @param[in] transformServerPort name of the transform server port
      */
     bool configureTransformServer(const std::string& transformServerPort);
     
     /**
-     * configure the topic over which joint states are published
+     * Configure the topic over which joint states are published
      * @param[in] topicName topic name      
      */
     bool configureJointStatePublisher(const std::string& topicName);    
     
     /**
-     * add or reconfigure a wrench publisher
+     * Add or reconfigure a wrench publisher
      * @param[in] frameName frame name
      * @param[in] topicName topic name      
      */
@@ -119,7 +119,7 @@ public:
                                   const std::string& topicName);
     
     /**
-     * remove wrench publisher
+     * Remove wrench publisher
      * @param[in] frameName frame name 
      */
     bool removeWrenchPublisher(const std::string& frameName);
