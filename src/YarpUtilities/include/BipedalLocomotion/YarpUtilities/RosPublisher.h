@@ -22,6 +22,14 @@ namespace BipedalLocomotion
 namespace YarpUtilities
 {
 
+/**
+ * The class internally contains a YARP based ROS node and a set of publishers.
+ * Current implementation consists of 
+ *  - Joint states publisher
+ *  - Wrenches publisher
+ *  - Transform broadcaster
+ * Although the class might be ROS independent, in order to run the code, ROS is required and usual YARP-ROS connections need to be made.
+ */
 class RosPublisher 
 {
 public:
@@ -38,6 +46,12 @@ public:
     
     /**
      * Configures the publishers and ROS topics for publishing messages
+     * The parameters used to configure the RosPublisher,
+     * - "joint_states_topic" name of the topic over which the joint states need to be published
+     * - "transform_server_port" name of the already running transform server's remote port
+     * - "WrenchPublishers" is group with the following parameters,
+     *      - "frame_names" a list containing the frames at which the published wrenches should be expressed
+     *      - "topics" a list containing the topics over which the wrenches need to be published. Must be the same size and order as frame_names.
      * @param[in] handler Parameter handler
      * @note this method needs to be called after construction and before publishing  
      */
