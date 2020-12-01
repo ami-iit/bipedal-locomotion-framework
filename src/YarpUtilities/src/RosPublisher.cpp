@@ -115,8 +115,6 @@ public:
     // placeholder variables
     yarp::sig::Matrix pose; /**< placeholder variable for publishing transform data*/
     std::vector<double> jointStateZero; /**< placeholder variable for zero joint state data*/
-    
-    std::chrono::nanoseconds timeInNanoSeconds; /**< chrono nanoseconds conversion from YARP to ROS timestamp*/
 };
 
 RosPublisher::RosPublisher(const std::string& nodeName) : m_pimpl(std::make_unique<Impl>())
