@@ -447,18 +447,19 @@ yarp::rosmsg::TickTime RosPublisher::Impl::getTimeStampFromYarp()
     std::string_view printPrefix = "[RosPublisher::Impl::getTimeStampFromYarp] ";
     yarp::rosmsg::TickTime rosTickTime;
     
-    std::chrono::duration<double> timeStamp(yarp::os::Time::now());
-    uint64_t nsec_part = std::chrono::duration_cast<std::chrono::nanoseconds>(timeStamp).count() % 1000000000UL;
-    uint64_t sec_part = std::chrono::duration_cast<std::chrono::seconds>(timeStamp).count();
-
-    if (sec_part > std::numeric_limits<unsigned int>::max()) {
+    double yarpTimeNow{yarp::os::Time::now()};
+    std::chrono::duration<double> timeStamp(yarpTimeNow);
+    uint64_t secPart = std::chrono::duration_cast<std::chrono::seconds>(timeStamp).count();
+    uint64_t nsecPart = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::duration<double>(yarpTimeNow - secPart)).count();
+    
+    if (secPart > std::numeric_limits<unsigned int>::max()) {
         std::cerr << printPrefix
                   << "Timestamp exceeded the 64 bit representation, resetting it to 0" << std::endl;
-        sec_part = 0;
+        secPart = 0;
     }
 
-    rosTickTime.sec = static_cast<unsigned>(sec_part);
-    rosTickTime.nsec = static_cast<unsigned>(nsec_part);
+    rosTickTime.sec = static_cast<unsigned>(secPart);
+    rosTickTime.nsec = static_cast<unsigned>(nsecPart);
 
     return rosTickTime;
 }
