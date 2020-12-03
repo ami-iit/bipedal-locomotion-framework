@@ -4,6 +4,6 @@
 
 
 add_bipedal_test(
-  NAME AlgebraicRiccatiEquation
-  SOURCES AlgebraicRiccatiEquationTest.cpp
+  NAME CARE
+  SOURCES CARETest.cpp
   LINKS BipedalLocomotion::Math)
