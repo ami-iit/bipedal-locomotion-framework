@@ -27,6 +27,7 @@ struct CARE::Impl
     Eigen::MatrixXd rhs;
     Eigen::MatrixXd Z;
     Eigen::MatrixXd ZOld;
+    Eigen::MatrixXd ZInverse;
 
     Eigen::MatrixXd identity;
     Eigen::MatrixXd solution;
@@ -38,8 +39,10 @@ struct CARE::Impl
         // resize the Hamiltonian matrix
         Z.resize(2 * n, 2 * n);
         ZOld.resize(2 * n, 2 * n);
+        ZInverse.resize(2 * n, 2 * n);
 
-        identity = Eigen::MatrixXd::Identity(n, n);
+        identity.resize(n, n);
+        identity.setIdentity();
         lhs.resize(2 * n, n);
         rhs.resize(2 * n, n);
     }
@@ -118,6 +121,8 @@ bool CARE::setMatrices(Eigen::Ref<const Eigen::MatrixXd> A,
 
 bool CARE::solve()
 {
+    const std::size_t n = m_pimpl->A.rows();
+
     // compute cholesky decomposition
     Eigen::LLT<Eigen::MatrixXd> R_cholesky(m_pimpl->R);
     if (R_cholesky.info() != Eigen::Success)
@@ -150,7 +155,8 @@ bool CARE::solve()
         // the iterations with this)
         const double ck = std::pow(std::abs(m_pimpl->Z.determinant()), -1.0 / p);
         m_pimpl->Z *= ck;
-        m_pimpl->Z = m_pimpl->Z - 0.5 * (m_pimpl->Z - m_pimpl->Z.inverse());
+        m_pimpl->ZInverse = m_pimpl->Z.inverse();
+        m_pimpl->Z = m_pimpl->Z - 0.5 * (m_pimpl->Z - m_pimpl->ZInverse);
         relativeNorm = (m_pimpl->Z - m_pimpl->ZOld).norm();
     }
 
