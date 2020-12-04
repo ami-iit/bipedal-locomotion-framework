@@ -137,8 +137,10 @@ bool CARE::solve()
     // Z  = |                  |
     //      |_Q       -  A'   _|
 
-    m_pimpl->Z << m_pimpl->A, m_pimpl->B * R_cholesky.solve(m_pimpl->B.transpose()),
-                  m_pimpl->Q, -m_pimpl->A.transpose();
+    m_pimpl->Z.block(0, 0, n, n) = m_pimpl->A;
+    m_pimpl->Z.block(0, n, n, n) = m_pimpl->B * R_cholesky.solve(m_pimpl->B.transpose());
+    m_pimpl->Z.block(n, 0, n, n) = m_pimpl->Q;
+    m_pimpl->Z.block(n, n, n, n) = -m_pimpl->A.transpose();
 
     double relativeNorm = m_pimpl->tolerance;
     std::size_t iteration = 0;
@@ -160,17 +162,15 @@ bool CARE::solve()
         relativeNorm = (m_pimpl->Z - m_pimpl->ZOld).norm();
     }
 
-    const std::size_t n = m_pimpl->A.rows();
-
     Eigen::Ref<const Eigen::MatrixXd> W11 = m_pimpl->Z.block(0, 0, n, n);
     Eigen::Ref<const Eigen::MatrixXd> W12 = m_pimpl->Z.block(0, n, n, n);
     Eigen::Ref<const Eigen::MatrixXd> W21 = m_pimpl->Z.block(n, 0, n, n);
     Eigen::Ref<const Eigen::MatrixXd> W22 = m_pimpl->Z.block(n, n, n, n);
 
-    m_pimpl->lhs << W12,
-                    W22 + m_pimpl->identity;
-    m_pimpl->rhs << W11 + m_pimpl->identity,
-                    W21;
+    m_pimpl->lhs.topRows(n) = W12;
+    m_pimpl->lhs.bottomRows(n) = W22 + m_pimpl->identity;
+    m_pimpl->rhs.topRows(n) = W11 + m_pimpl->identity;
+    m_pimpl->rhs.bottomRows(n) = W21;
 
     Eigen::JacobiSVD<Eigen::MatrixXd> svd(m_pimpl->lhs, Eigen::ComputeThinU | Eigen::ComputeThinV);
     m_pimpl->solution = svd.solve(m_pimpl->rhs);
