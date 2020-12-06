@@ -39,11 +39,8 @@ struct SensorBridgeOptions
     bool isSixAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isThreeAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isCartesianWrenchEnabled{false}; /**< flag to connect cartesian wrench measurement sources */
-    bool isCameraEnabled{false}; /**< flag to connect camera sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbImgDimensions; /**< dimensions of the images available through rgb camera streams, to be configured at initialization */
-    std::unordered_map<std::string, std::pair<std::size_t, std::size_t> > rgbdImgDimensions; /**< dimensions of the depth images available through rgbd camera streams, to be configured at initialization */
 };
 
 /**
@@ -60,8 +57,6 @@ struct SensorLists
     std::vector<std::string> sixAxisForceTorqueSensorsList; /**< list of six axis force torque sensors attached to the bridge */
     std::vector<std::string> threeAxisForceTorqueSensorsList; /**< list of three axis force torque sensors attached to the bridge */
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached to the bridge */
-    std::vector<std::string> rgbCamerasList; /**< list of rgb cameras attached to the bridge */
-    std::vector<std::string> rgbdCamerasList; /**< list of RGBD cameras attached to the bridge */
 };
 
 
@@ -155,20 +150,6 @@ public:
      * @return  true/false in case of success/failure
      */
     virtual bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) { return false; };
-
-    /**
-     * Get rgb cameras
-     * @param[out] rgbCamerasList list of rgb cameras attached to the bridge
-     * @return  true/false in case of success/failure
-     */
-    virtual bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) { return false; };
-
-    /**
-     * Get RGBD cameras
-     * @param[out] rgbdCamerasList list of rgbd cameras attached to the bridge
-     * @return  true/false in case of success/failure
-     */
-    virtual bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) { return false; };
 
     /**
      * Get joint position  in radians
@@ -313,38 +294,6 @@ public:
     virtual bool getCartesianWrench(const std::string& cartesianWrenchName,
                                     Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
                                     double* receiveTimeInSeconds = nullptr) { return false; };
-
-    /**
-     * Get color image from the camera
-     * @param[in] camName name of the camera
-     * @param[out] colorImg image as Eigen matrix object
-     * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
-     * @warning the size is decided at the configuration and remains fixed,
-     * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "colorImg" to this method
-     *
-     * @return true/false in case of success/failure
-     */
-    virtual bool getColorImage(const std::string& camName,
-                               Eigen::Ref<Eigen::MatrixXd> colorImg,
-                               double* receiveTimeInSeconds = nullptr) { return false; };
-
-    /**
-     * Get depth image
-     * @param[in] camName name of the gyroscope
-     * @param[out] depthImg depth image as a Eigen matrix object
-     * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
-     * @warning the size is decided at the configuration and remains fixed,
-     * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "depthImg" to this method
-     *
-     * @return true/false in case of success/failure
-     */
-    virtual bool getDepthImage(const std::string& camName,
-                               Eigen::Ref<Eigen::MatrixXd> depthImg,
-                               double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**
      * Destructor

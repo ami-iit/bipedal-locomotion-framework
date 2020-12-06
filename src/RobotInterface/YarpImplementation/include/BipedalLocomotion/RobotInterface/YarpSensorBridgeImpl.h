@@ -51,8 +51,8 @@ struct YarpSensorBridge::Impl
      */
     struct ControlBoardRemapperInterfaces
     {
-        yarp::dev::IEncodersTimed* encoders;
-        yarp::dev::IAxisInfo* axis;
+        yarp::dev::IEncodersTimed* encoders{nullptr};
+        yarp::dev::IAxisInfo* axis{nullptr};
     };
 
     ControlBoardRemapperInterfaces controlBoardRemapperInterfaces;
@@ -62,10 +62,10 @@ struct YarpSensorBridge::Impl
      */
     struct WholeBodyMASInertialsInterface
     {
-        yarp::dev::IThreeAxisLinearAccelerometers* accelerometers;
-        yarp::dev::IThreeAxisGyroscopes* gyroscopes;
-        yarp::dev::IThreeAxisMagnetometers* magnetometers;
-        yarp::dev::IOrientationSensors* orientationSensors;
+        yarp::dev::IThreeAxisLinearAccelerometers* accelerometers{nullptr};
+        yarp::dev::IThreeAxisGyroscopes* gyroscopes{nullptr};
+        yarp::dev::IThreeAxisMagnetometers* magnetometers{nullptr};
+        yarp::dev::IOrientationSensors* orientationSensors{nullptr};
     };
 
     WholeBodyMASInertialsInterface wholeBodyMASInertialsInterface;
@@ -75,7 +75,7 @@ struct YarpSensorBridge::Impl
      */
     struct WholeBodyMASForceTorquesInterface
     {
-        yarp::dev::ISixAxisForceTorqueSensors* sixAxisFTSensors;
+        yarp::dev::ISixAxisForceTorqueSensors* sixAxisFTSensors{nullptr};
     };
 
     WholeBodyMASForceTorquesInterface wholeBodyMASForceTorquesInterface;
@@ -107,16 +107,12 @@ struct YarpSensorBridge::Impl
 
     std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyAnalogIMUInterface; /** < map  of IMU sensors attached through generic sensor interfaces */
     std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyCartesianWrenchInterface; /** < map  of cartesian wrench streams attached through generic sensor interfaces */
-    std::unordered_map<std::string, yarp::dev::IAnalogSensor*> wholeBodyAnalogSixAxisFTSensorsInterface; /** < map  of six axis force torque sensors attached through analog sensor interfaces */
-    std::unordered_map<std::string, yarp::dev::IFrameGrabberImage*> wholeBodyFrameGrabberInterface; /** < map of cameras attached through frame grabber interfaces */
-    std::unordered_map<std::string, yarp::dev::IRGBDSensor*> wholeBodyRGBDInterface; /** < map of cameras attached through RGBD interfaces */
+    std::unordered_map<std::string, yarp::dev::IAnalogSensor*> wholeBodyAnalogSixAxisFTSensorsInterface; /** < map  of six axis force torque sensors attached through analog sensor interfaces */    
 
     std::unordered_map<std::string, StampedYARPVector> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
     std::unordered_map<std::string, StampedYARPVector> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
     std::unordered_map<std::string, StampedYARPVector> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
     std::unordered_map<std::string, StampedYARPVector> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
-    std::unordered_map<std::string, StampedYARPImage> wholeBodyCameraRGBImages; /** < map holding images **/
-    std::unordered_map<std::string, StampedYARPImage> wholeBodyCameraDepthImages; /** < map holding images **/
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
@@ -308,88 +304,7 @@ struct YarpSensorBridge::Impl
         }
 
         return true;
-    }
-
-    /**
-     * Configure cameras meta data
-     */
-    bool configureCameras(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                          SensorBridgeMetaData& metaData)
-    {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureCameras] ";
-        auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
-
-        if (ptr->getParameter("rgb_cameras_list", metaData.sensorsList.rgbCamerasList))
-        {
-            metaData.bridgeOptions.isCameraEnabled = true;
-
-            std::vector<int> rgbWidth, rgbHeight;
-            if (ptr->getParameter("rgb_image_width", rgbWidth))
-            {
-                std::cerr << logPrefix << " Required parameter \"rgb_image_width\" not available in the configuration"
-                      << std::endl;
-                return false;
-            }
-
-            if (ptr->getParameter("rgb_image_height", rgbHeight))
-            {
-                std::cerr << logPrefix << " Required parameter \"rgb_image_height\" not available in the configuration"
-                      << std::endl;
-                return false;
-            }
-
-            if ( (rgbWidth.size() != metaData.sensorsList.rgbCamerasList.size()) ||
-                (rgbHeight.size() != metaData.sensorsList.rgbCamerasList.size()) )
-            {
-                std::cerr << logPrefix << " Parameters list size mismatch" << std::endl;
-                return false;
-            }
-
-            for (int idx = 0; idx < rgbHeight.size(); idx++)
-            {
-                std::pair<int, int> imgDimensions(rgbWidth[idx], rgbHeight[idx]);
-                auto cameraName{metaData.sensorsList.rgbCamerasList[idx]};
-                metaData.bridgeOptions.rgbImgDimensions[cameraName] = imgDimensions;
-            }
-        }
-
-        if (ptr->getParameter("rgbd_cameras_list", metaData.sensorsList.rgbdCamerasList))
-        {
-            metaData.bridgeOptions.isCameraEnabled = true;
-
-            std::vector<int> rgbdCamWidth, rgbdCamHeight;
-            if (ptr->getParameter("rgbd_image_width", rgbdCamWidth))
-            {
-                std::cerr << logPrefix << " Required parameter \"rgbd_image_width\" not available in the configuration"
-                          << std::endl;
-                return false;
-            }
-
-            if (ptr->getParameter("rgbd_image_height", rgbdCamHeight))
-            {
-                std::cerr << logPrefix << " Required parameter \"rgbd_image_height\" not available in the configuration"
-                          << std::endl;
-                return false;
-            }
-
-            if ( (rgbdCamWidth.size() != metaData.sensorsList.rgbdCamerasList.size()) ||
-                (rgbdCamHeight.size() != metaData.sensorsList.rgbdCamerasList.size()) )
-            {
-                std::cerr << logPrefix << " Parameters list size mismatch" << std::endl;
-                return false;
-            }
-
-            for (int idx = 0; idx < rgbdCamHeight.size(); idx++)
-            {
-                std::pair<int, int> imgDimensions(rgbdCamWidth[idx], rgbdCamHeight[idx]);
-                auto cameraName{metaData.sensorsList.rgbdCamerasList[idx]};
-                metaData.bridgeOptions.rgbdImgDimensions[cameraName] = imgDimensions;
-            }
-        }
-
-        return true;
-    }
+    }    
 
     /**
      * Attach device with IGenericSensor or IAnalogSensor interfaces
@@ -485,17 +400,19 @@ struct YarpSensorBridge::Impl
      */
     template <typename MASSensorType>
     bool attachAndCheckMASSensors(const yarp::dev::PolyDriverList& devList,
-                                  MASSensorType* sensorInterface,
+                                  MASSensorType*& sensorInterface,
                                   const std::vector<std::string>& sensorList,
                                   const std::string_view interfaceName)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAndCheckMASSensors] ";
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAndCheckMASSensors] ";                
+
         if (!attachRemappedMASSensor(devList, sensorInterface))
         {
             std::cerr << logPrefix << " Could not find " << interfaceName << " interface." << std::endl;
             return false;
         }
 
+        
         if (!checkAttachedMASSensors(devList, sensorInterface, sensorList))
         {
             std::cerr << logPrefix << " Could not find atleast one of the required sensors." << std::endl;
@@ -511,7 +428,7 @@ struct YarpSensorBridge::Impl
      */
     template <typename MASSensorType>
     bool attachRemappedMASSensor(const yarp::dev::PolyDriverList& devList,
-                                 MASSensorType* masSensorInterface)
+                                 MASSensorType*& masSensorInterface)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachRemappedMASSensor] ";
         bool broken{false};
@@ -543,7 +460,7 @@ struct YarpSensorBridge::Impl
      */
     template <typename MASSensorType>
     bool checkAttachedMASSensors(const yarp::dev::PolyDriverList& devList,
-                                 MASSensorType* sensorInterface,
+                                 MASSensorType*& sensorInterface,
                                  const std::vector<std::string>& sensorList)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::checkAttachedMASSensors] ";
@@ -608,8 +525,13 @@ struct YarpSensorBridge::Impl
      *  Get number of MAS Sensors
      */
     template <typename MASSensorType>
-    std::size_t getNumberOfMASSensors(MASSensorType* sensorInterface)
+    std::size_t getNumberOfMASSensors(MASSensorType*& sensorInterface) 
     {
+        if (sensorInterface == nullptr)
+        { 
+            return -1;
+        }
+        
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
             return sensorInterface->getNrOfThreeAxisGyroscopes();
@@ -638,10 +560,15 @@ struct YarpSensorBridge::Impl
      *  Get name of MAS Sensors
      */
     template <typename MASSensorType>
-    bool getMASSensorName(MASSensorType* sensorInterface,
+    bool getMASSensorName(MASSensorType*& sensorInterface,
                           const std::size_t& sensIdx,
-                          std::string& sensorName)
+                          std::string& sensorName) 
     {
+        if (sensorInterface == nullptr)
+        { 
+            return false;
+        }
+        
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
             return sensorInterface->getThreeAxisGyroscopeName(sensIdx, sensorName);
@@ -669,8 +596,13 @@ struct YarpSensorBridge::Impl
      * Get all sensor names in a MAS Inerface
      */
     template <typename MASSensorType>
-    std::vector<std::string> getAllSensorsInMASInterface(MASSensorType* sensorInterface)
+    std::vector<std::string> getAllSensorsInMASInterface(MASSensorType* sensorInterface) 
     {
+        if (sensorInterface == nullptr)
+        { 
+            return {};
+        }
+        
         std::vector<std::string> availableSensorNames;
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
@@ -725,36 +657,7 @@ struct YarpSensorBridge::Impl
         return availableSensorNames;
     }
 
-    /**
-     * Attach cameras
-     */
-    template <typename CameraType>
-    bool attachCamera(const yarp::dev::PolyDriverList& devList,
-                      const std::string sensorName,
-                      std::unordered_map<std::string, CameraType* >& sensorMap)
-    {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachCamera] ";
-        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
-        {
-            if (sensorName != devList[devIdx]->key)
-            {
-                continue;
-            }
-
-            CameraType* cameraInterface{nullptr};
-            if (devList[devIdx]->poly->view(cameraInterface))
-            {
-                if (cameraInterface == nullptr)
-                {
-                    std::cerr << logPrefix << " Could not view interface." << std::endl;
-                    return false;
-                }
-                sensorMap[devList[devIdx]->key] = cameraInterface;
-            }
-        }
-        return true;
-    }
-
+    
     /**
      * Check if sensor is available in the relevant sensor map
      */
@@ -809,7 +712,7 @@ struct YarpSensorBridge::Impl
      *  Attach generic IMU sensor types and MAS inertials
      */
     bool attachAllInertials(const yarp::dev::PolyDriverList& devList)
-    {
+    {        
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllInertials] ";
         if (metaData.bridgeOptions.isIMUEnabled)
         {
@@ -824,7 +727,7 @@ struct YarpSensorBridge::Impl
                 return false;
             }
         }
-
+        
         if (metaData.bridgeOptions.isLinearAccelerometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisLinearAccelerometers"};
@@ -864,6 +767,7 @@ struct YarpSensorBridge::Impl
                 return false;
             }
         }
+        
         return true;
     }
 
@@ -1066,108 +970,7 @@ struct YarpSensorBridge::Impl
 
         }
         return true;
-    }
-
-    /**
-     * Attach all cameras
-     */
-    bool attachAllCameras(const yarp::dev::PolyDriverList& devList)
-    {
-        if (!metaData.bridgeOptions.isCameraEnabled)
-        {
-            // do nothing
-            return true;
-        }
-
-        std::string_view interfaceType{"RGB Cameras"};
-        if (!attachAllCamerasOfSpecificType(devList,
-                                            metaData.sensorsList.rgbCamerasList,
-                                            metaData.bridgeOptions.rgbImgDimensions,
-                                            interfaceType,
-                                            wholeBodyFrameGrabberInterface,
-                                            wholeBodyCameraRGBImages))
-        {
-            return false;
-        }
-
-        std::string_view interfaceTypeDepth{"RGBD Cameras"};
-        if (!attachAllCamerasOfSpecificType(devList,
-                                            metaData.sensorsList.rgbdCamerasList,
-                                            metaData.bridgeOptions.rgbdImgDimensions,
-                                            interfaceTypeDepth,
-                                            wholeBodyRGBDInterface,
-                                            wholeBodyCameraDepthImages))
-        {
-            return false;
-        }
-
-        // resize also rgb images of RGBD cameras
-        if (!resizeImageBuffers(metaData.sensorsList.rgbdCamerasList,
-                                metaData.bridgeOptions.rgbdImgDimensions,
-                                wholeBodyCameraRGBImages))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Attach all cameras of specific type and resize image buffers
-     */
-    template <typename CameraType>
-    bool attachAllCamerasOfSpecificType(const yarp::dev::PolyDriverList& devList,
-                                        const std::vector<std::string>& camList,
-                                        const std::unordered_map<std::string, std::pair<std::size_t, std::size_t> >& imgDimensionsMap,
-                                        std::string_view interfaceType,
-                                        std::unordered_map<std::string, CameraType* >& sensorMap,
-                                        std::unordered_map<std::string, StampedYARPImage>& imgBuffersMap)
-    {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllCamerasOfSpecificType] ";
-        for (auto cam : camList)
-        {
-            if (!attachCamera(devList, cam, sensorMap))
-            {
-                return false;
-            }
-        }
-
-        if (sensorMap.size() != camList.size())
-        {
-            std::cout << logPrefix << " could not attach all desired cameras of type " << interfaceType  << "." << std::endl;
-            return false;
-        }
-
-        if (!resizeImageBuffers(camList,
-                                imgDimensionsMap,
-                                imgBuffersMap))
-        {
-            std::cout << logPrefix << " Failed to resize camera buffers of type " << interfaceType  << "." << std::endl;
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Resize image buffers
-     */
-    bool resizeImageBuffers(const std::vector<std::string>& camList,
-                            const std::unordered_map<std::string, std::pair<std::size_t, std::size_t> >& imgDimensionsMap,
-                            std::unordered_map<std::string, StampedYARPImage>& imgBuffersMap)
-    {
-        for (const auto& cam : camList)
-        {
-            auto iter = imgDimensionsMap.find(cam);
-            if (iter == imgDimensionsMap.end())
-            {
-                return false;
-            }
-
-            auto imgDim = iter->second;
-            imgBuffersMap[cam].first.resize(imgDim.first, imgDim.second);
-        }
-        return true;
-    }
+    }    
 
     /**
      * utility function
@@ -1358,61 +1161,6 @@ struct YarpSensorBridge::Impl
         return allSensorsReadCorrectly;
     }
 
-    template<typename CameraType>
-    bool readCameraImage(const std::string& cameraName,
-                         const std::string& imageType,
-                         std::unordered_map<std::string, CameraType*>& interfaceMap,
-                         std::unordered_map<std::string, StampedYARPImage>& imageMap)
-    {
-        bool ok{true};
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readCameraImage] ";
-
-        if (!checkSensor(interfaceMap, cameraName))
-        {
-            return false;
-        }
-
-        auto iter = interfaceMap.find(cameraName);
-        auto interface = iter->second;
-
-        // StampedYARPImage is defined as a pair of yarp::sig::image and double
-        yarp::os::Stamp* txTimestamp{nullptr};
-        if constexpr (std::is_same_v<CameraType, yarp::dev::IFrameGrabberImage>)
-        {
-            if (imageType != "RGB")
-            {
-                std::cerr << logPrefix << " Frame Grabber " << cameraName << "handles only RGB image" << std::endl;
-                return false;
-            }
-            yarp::sig::ImageOf<yarp::sig::PixelRgb>& img =  dynamic_cast<yarp::sig::ImageOf<yarp::sig::PixelRgb>&> (imageMap[cameraName].first);
-            ok = interface->getImage(img);
-        }
-        else if constexpr (std::is_same_v<CameraType, yarp::dev::IRGBDSensor>)
-        {
-            if (imageType == "RGB")
-            {
-                yarp::sig::FlexImage& img =  dynamic_cast<yarp::sig::FlexImage&> (imageMap[cameraName].first);
-                img.setPixelCode(VOCAB_PIXEL_RGB);
-                ok = interface->getRgbImage(img, txTimestamp);
-
-            }
-            else if (imageType == "DEPTH")
-            {
-                yarp::sig::ImageOf<yarp::sig::PixelFloat>& img =  dynamic_cast<yarp::sig::ImageOf<yarp::sig::PixelFloat>&> (imageMap[cameraName].first);
-                ok = interface->getDepthImage(img, txTimestamp);
-            }
-        }
-
-        if (!ok)
-        {
-            std::cerr << logPrefix << " Unable to read from " << cameraName << ", use previous image" << std::endl;
-            return false;
-        }
-
-        imageMap[cameraName].second = yarp::os::Time::now();
-        return true;
-    }
-
     /**
      * Read control board remapper interfaces
      */
@@ -1600,75 +1348,7 @@ struct YarpSensorBridge::Impl
                                  failedSensorReads,
                                  checkForNAN);
     }
-
-    bool readAllFrameGrabberCameras(std::vector<std::string>& failedSensorReads)
-    {
-        if (!metaData.bridgeOptions.isCameraEnabled)
-        {
-            // do nothing
-            return true;
-        }
-
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllFrameGrabberCameras] ";
-        bool allRGBCamerasReadCorrectly{true};
-        failedSensorReads.clear();
-        for( auto const& camera : wholeBodyFrameGrabberInterface )
-        {
-            std::string imageType{"RGB"};
-            const auto& cameraName = camera.first;
-            bool ok = readCameraImage(cameraName,
-                                      imageType,
-                                      wholeBodyFrameGrabberInterface,
-                                      wholeBodyCameraRGBImages);
-            if (!ok)
-            {
-                std::cerr << logPrefix << " Read RGB image failed for " << cameraName << std::endl;
-                failedSensorReads.emplace_back(cameraName);
-            }
-            allRGBCamerasReadCorrectly = ok && allRGBCamerasReadCorrectly;
-        }
-
-        return allRGBCamerasReadCorrectly;
-    }
-
-    bool readAllRGBDCameras(std::vector<std::string>& failedSensorReads)
-    {
-        if (!metaData.bridgeOptions.isCameraEnabled)
-        {
-            // do nothing
-            return true;
-        }
-
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllRGBDCameras] ";
-        bool allRGBDCamerasReadCorrectly{true};
-        failedSensorReads.clear();
-        for( auto const& camera : wholeBodyRGBDInterface )
-        {
-            std::string imageType{"RGB"};
-            const auto& cameraName = camera.first;
-            bool ok = readCameraImage(cameraName,
-                                      imageType,
-                                      wholeBodyRGBDInterface,
-                                      wholeBodyCameraRGBImages);
-
-            imageType = "DEPTH";
-            ok = readCameraImage(cameraName,
-                                 imageType,
-                                 wholeBodyRGBDInterface,
-                                 wholeBodyCameraDepthImages) && ok;
-
-            if (!ok)
-            {
-                std::cerr << logPrefix << " Read RGB/Depth image failed for " << cameraName << std::endl;
-                failedSensorReads.emplace_back(cameraName);
-            }
-
-            allRGBDCamerasReadCorrectly = ok && allRGBDCamerasReadCorrectly;
-        }
-
-        return allRGBDCamerasReadCorrectly;
-    }
-
+    
     bool readAllSensors(std::vector<std::string>& failedReadAllSensors)
     {
         failedReadAllSensors.clear();
@@ -1713,16 +1393,7 @@ struct YarpSensorBridge::Impl
         {
             failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
         }
-
-        if (!readAllRGBDCameras(failedReads))
-        {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
-        }
-
-        if (!readAllFrameGrabberCameras(failedReads))
-        {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
-        }
+        
         return true;
     }
 };

@@ -80,24 +80,12 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
         std::cout << logPrefix << " Skipping the configuration of CartesianWrenches. YarpSensorBridge will not stream relevant measures." << std::endl;
     }
 
-    bool useCameras{false};
-    ret = m_pimpl->subConfigLoader("stream_cameras", "Cameras",
-                                    &YarpSensorBridge::Impl::configureCameras,
-                                    handler,
-                                    m_pimpl->metaData,
-                                    useCameras);
-    if (!ret)
-    {
-        std::cout << logPrefix << " Skipping the configuration of Cameras. YarpSensorBridge will not stream relevant measures." << std::endl;
-    }
-
-
     m_pimpl->bridgeInitialized = true;
     return true;
 }
 
 bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDriversList)
-{
+{    
     constexpr std::string_view logPrefix = "[YarpSensorBridge::setDriversList] ";
 
     if (!m_pimpl->bridgeInitialized)
@@ -106,13 +94,12 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
                   << std ::endl;
         return false;
     }
-
+        
     bool ret{true};
     ret = ret && m_pimpl->attachRemappedRemoteControlBoard(deviceDriversList);
     ret = ret && m_pimpl->attachAllInertials(deviceDriversList);
     ret = ret && m_pimpl->attachAllSixAxisForceTorqueSensors(deviceDriversList);
     ret = ret && m_pimpl->attachCartesianWrenchInterface(deviceDriversList);
-    ret = ret && m_pimpl->attachAllCameras(deviceDriversList);
 
     if (!ret)
     {
@@ -223,26 +210,6 @@ bool YarpSensorBridge::getCartesianWrenchesList(std::vector<std::string>& cartes
         return false;
     }
     cartesianWrenchesList = m_pimpl->metaData.sensorsList.cartesianWrenchesList;
-    return true;
-}
-
-bool YarpSensorBridge::getRGBCamerasList(std::vector<std::string>& rgbCamerasList)
-{
-    if (!m_pimpl->checkValid("[YarpSensorBridge::getRGBCamerasList]"))
-    {
-        return false;
-    }
-    rgbCamerasList = m_pimpl->metaData.sensorsList.rgbCamerasList;
-    return true;
-}
-
-bool YarpSensorBridge::getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList)
-{
-    if (!m_pimpl->checkValid("[YarpSensorBridge::getRGBDCamerasList]"))
-    {
-        return false;
-    }
-    rgbdCamerasList = m_pimpl->metaData.sensorsList.rgbdCamerasList;
     return true;
 }
 
@@ -412,42 +379,6 @@ bool YarpSensorBridge::getCartesianWrench(const std::string& cartesianWrenchName
     cartesianWrenchMeasurement = yarp::eigen::toEigen(iter->second.first);
     receiveTimeInSeconds = &iter->second.second;
     return true;
-}
-
-bool YarpSensorBridge::getColorImage(const std::string& camName,
-                                     Eigen::Ref<Eigen::MatrixXd> colorImg,
-                                     double* receiveTimeInSeconds)
-{
-    if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getColorImage ",
-                                           m_pimpl->wholeBodyCameraRGBImages, camName))
-    {
-        return false;
-    }
-
-    auto iter = m_pimpl->wholeBodyCameraRGBImages.find(camName);
-    // TODO understand the conversion from YARP image to Eigen
-    receiveTimeInSeconds = &iter->second.second;
-
-    std::cerr << "This method is currently unimplemented. Need to implement toEigen for yarp images" << std::endl;
-    return false;
-}
-
-bool YarpSensorBridge::getDepthImage(const std::string& camName,
-                                     Eigen::Ref<Eigen::MatrixXd> depthImg,
-                                     double* receiveTimeInSeconds)
-{
-    if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getDepthImage ",
-                                           m_pimpl->wholeBodyCameraDepthImages, camName))
-    {
-        return false;
-    }
-
-    auto iter = m_pimpl->wholeBodyCameraDepthImages.find(camName);
-    // TODO understand the conversion from YARP image to Eigen
-    receiveTimeInSeconds = &iter->second.second;
-
-    std::cerr << "This method is currently unimplemented. Need to implement toEigen for yarp images" << std::endl;
-    return false;
 }
 
 bool YarpSensorBridge::getThreeAxisForceTorqueMeasurement(const std::string& ftName,

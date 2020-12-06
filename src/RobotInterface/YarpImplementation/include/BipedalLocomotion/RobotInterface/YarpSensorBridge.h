@@ -191,20 +191,6 @@ public:
     bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) final;
 
     /**
-     * Get rgb cameras
-     * @param[out] rgbCamerasList list of rgb cameras attached to the bridge
-     * @return  true/false in case of success/failure
-     */
-    bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) final;
-
-    /**
-     * Get RGBD cameras
-     * @param[out] rgbdCamerasList list of depth cameras attached to the bridge
-     * @return  true/false in case of success/failure
-     */
-    bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) final;
-
-    /**
      * Get joint position  in radians
      * @param[in] jointName name of the joint
      * @param[out] jointPosition joint position in radians
@@ -347,38 +333,6 @@ public:
     bool getCartesianWrench(const std::string& cartesianWrenchName,
                             Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
                             double* receiveTimeInSeconds = nullptr) final;
-
-    /**
-     * Get color image from the camera
-     * @param[in] camName name of the camera
-     * @param[out] colorImg image as Eigen matrix object
-     * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
-     * @warning the size is decided at the configuration and remains fixed,
-     * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "colorImg" to this method
-     *
-     * @return true/false in case of success/failure
-     */
-    bool getColorImage(const std::string& camName,
-                       Eigen::Ref<Eigen::MatrixXd> colorImg,
-                       double* receiveTimeInSeconds = nullptr) final;
-
-    /**
-     * Get depth image
-     * @param[in] camName name of the gyroscope
-     * @param[out] depthImg depth image as a Eigen matrix object
-     * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
-     * @warning the size is decided at the configuration and remains fixed,
-     * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "depthImg" to this method
-     *
-     * @return true/false in case of success/failure
-     */
-    bool getDepthImage(const std::string& camName,
-                       Eigen::Ref<Eigen::MatrixXd> depthImg,
-                       double* receiveTimeInSeconds = nullptr) final;
 
 private:
     /** Private implementation */
