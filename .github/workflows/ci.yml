@@ -13,11 +13,14 @@ env:
   vcpkg_TAG: 76a7e9248fb3c57350b559966dcaa2d52a5e4458
   YCM_TAG: v0.11.1
   YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
-  iDynTree_TAG: v1.1.0
+  iDynTree_TAG: 7e3b33fed0025e2096d244cc904e3cbbf593faa4
   Catch2_TAG: v2.11.3
   Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
   CasADi_TAG: 3.5.1
-  manif_TAG: b2f777967f343b51ba954fa641c9a256564f536a
+  manif_TAG: 44bdfebff0fbc56cb189f680212257dc7f20ea58
+  matioCpp_TAG: 6db196335cd35489f2627cfdce67808c16389be9
+  # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg  
+  VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
 
 jobs:
   build:
@@ -59,23 +62,23 @@ jobs:
         wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
         unzip vcpkg-robotology.zip -d C:/
         rm vcpkg-robotology.zip
-        # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
-        echo "::set-env name=VCPKG_INSTALLATION_ROOT::C:/robotology/vcpkg"
 
         # Install Catch2 and cppad
         cd C:/robotology/vcpkg
         git fetch
         git checkout $env:vcpkg_TAG
         ./bootstrap-vcpkg.bat
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows
-        echo "::set-env name=cppad_DIR::C:/robotology/vcpkg/installed/x64-windows"
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows matio:x64-windows
+        echo "cppad_DIR=C:/robotology/vcpkg/installed/x64-windows" >> $GITHUB_ENV
 
+        # Install pybind11
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports pybind11:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio
 
     - name: Dependencies [Ubuntu]
       if: matrix.os == 'ubuntu-latest'
@@ -83,7 +86,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -91,7 +95,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -184,6 +188,19 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # matioCpp
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/dic-iit/matio-cpp
+        cd matio-cpp
+        git checkout ${matioCpp_TAG}
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
 
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest')
@@ -238,6 +255,16 @@ jobs:
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # matioCpp
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/dic-iit/matio-cpp
+        cd matio-cpp
+        git checkout ${matioCpp_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
     - name: Source-based Dependencies [Ubuntu]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
       shell: bash
@@ -269,7 +296,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
-        # Catch2
+        # CppAD
         git clone https://github.com/coin-or/CppAD.git
         cd CppAD
         mkdir -p build
@@ -280,6 +307,26 @@ jobs:
               -DBUILD_TESTING=OFF ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install Python dependencies
+      run: pip install pytest numpy scipy
+
+    # Ubuntu bionic has a too old version of pybind11 in the repo
+    - name: Install pybind11 [Ubuntu]
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        pip install pybind11
+        echo "CMAKE_PREFIX_PATH=$(python -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
+
+    - name: Check Python setup
+      shell: bash
+      run: |
+        echo "Default interpreter: $(which python)"
+        python -c 'import sys; print(sys.prefix)'
 
     # ===================
     # CMAKE-BASED PROJECT
@@ -295,6 +342,7 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Configure [Ubuntu]
@@ -306,6 +354,9 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
@@ -316,6 +367,9 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Build

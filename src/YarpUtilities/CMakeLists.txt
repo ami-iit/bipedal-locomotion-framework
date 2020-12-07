@@ -7,9 +7,9 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
 
   add_bipedal_locomotion_library(
     NAME                   YarpUtilities
-    SOURCES                src/Helper.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp
-    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer
+    SOURCES                src/Helper.cpp src/RosPublisher.cpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp include/BipedalLocomotion/YarpUtilities/RosPublisher.h
+    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer BipedalLocomotion::ParametersHandler
     SUBDIRECTORIES         tests)
 
 endif()

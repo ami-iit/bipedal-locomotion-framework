@@ -5,10 +5,11 @@
 add_subdirectory(GenericContainer)
 add_subdirectory(YarpUtilities)
 add_subdirectory(ParametersHandler)
+add_subdirectory(Conversions)
 add_subdirectory(Estimators)
 add_subdirectory(System)
 add_subdirectory(Planners)
 add_subdirectory(ContactModels)
 add_subdirectory(AutoDiff)
 add_subdirectory(RobotInterface)
-
+add_subdirectory(Math)

@@ -20,9 +20,6 @@
 #include <iostream>
 #include <memory>
 
-//Eigen (for toEigen() methods)
-#include <Eigen/Core>
-
 namespace BipedalLocomotion {
 namespace GenericContainer {
 
@@ -588,14 +585,15 @@ struct is_vector_constructible : std::false_type
 
 /**
  * is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructible given a type T.
- * This specialization first checks if T is an array, or if it is possible to deduce the type of vector.
+ * This specialization first checks if T is an array, or if it is possible to deduce the type of vector,
+ * and that it is not an Eigen matrix (Eigen defines the size() method also for matrices).
  * If not, this specialization is not used (SFINAE). Otherwise, given the vector type, it checks if a iDynTree::Span is construbile
  * or if the methods <code>data()<\code> and <code>size()<\code> are available. In addition, the type has not to be <code>bool<\code>.
  * If all the above checks are true, <code>is_vector_constructible<T>::value = true<\code>.
  */
 template <typename T>
     struct is_vector_constructible<T,
-    typename std::enable_if<(std::is_array<T>::value || has_type_member<T>::value || is_data_available<T>::value)>::type,
+                               typename std::enable_if<(std::is_array<T>::value || has_type_member<T>::value || is_data_available<T>::value) && !is_eigen_matrix<T>::value>::type,
     typename std::enable_if<(is_span_constructible<T>::value ||(is_data_available<T>::value && is_size_available<T>::value)) &&
                              !std::is_same<typename container_data<T>::type, bool>::value>::type> : std::true_type
 {
@@ -658,7 +656,7 @@ typename Vector<typename container_data<Class>::type>::resize_function_type Defa
 
         Class* inputPtr = &input;
         resize_function resizeLambda =
-            [inputPtr](index_type newSize) -> iDynTree::Span<typename Class::value_type>
+            [inputPtr](index_type newSize) -> iDynTree::Span<value_type>
         {
             inputPtr->resize(newSize);
             return iDynTree::make_span(*inputPtr);

@@ -22,5 +22,11 @@ All notable changes to this project are documented in this file.
 - Implement the `IRobotControl` interface and the YARP specialization (https://github.com/dic-iit/bipedal-locomotion-framework/pull/97)
 - Add `SensorBridge` interface (https://github.com/dic-iit/bipedal-locomotion-framework/pull/87)
 - Add the `YarpSensorBridge` Implementation (https://github.com/dic-iit/bipedal-locomotion-framework/pull/106)
+- Added `CommonConversions`, `ManifConversions`, and `matioCppConversions` libraries to handle type conversions. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/138 and https://github.com/dic-iit/bipedal-locomotion-framework/pull/143)
+- Implement the `JointPositionTracking` application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/136)
+- Initial implementation of Python bindings using pybind11 (https://github.com/dic-iit/bipedal-locomotion-framework/pull/134)
+- Implement `FloatingBaseEstimatorDevice` YARP device for wrapping floating base estimation algorithms. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/130)
+- Implement Continuous algebraic Riccati equation function (https://github.com/dic-iit/bipedal-locomotion-framework/pull/157)
+- Implement YARP based `ROSPublisher` in the `YarpUtilities` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/156)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/

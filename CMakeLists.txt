@@ -71,10 +71,17 @@ include(AddBipedalLocomotionUnitTest)
 #Function to automatize the process of creating a new library
 include(AddBipedalLocomotionLibrary)
 
+#Function to automatize the process of creating a new application
+include(AddBipedalLocomotionApplication)
+
+# macro to automatize the process of creating a YARP device
+include(AddBipedalLocomotionYARPDevice)
+
 #Utility to install ini files
 include(InstallIniFiles)
 
 add_subdirectory(src)
+add_subdirectory(devices)
 
 #Creates the interface target BipedalLocomotion::Framework that depends on all the targets.
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
@@ -98,6 +105,10 @@ if (FRAMEWORK_USE_manif)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES manif)
 endif()
 
+if (FRAMEWORK_USE_matioCpp)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES matioCpp)
+endif()
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
@@ -112,5 +123,11 @@ install_basic_package_files(${PROJECT_NAME}
 
 include(AddUninstallTarget)
 
-include(GenerateAndAddUrdfModel)
-add_subdirectory(Python)
+if (FRAMEWORK_USE_Python3)
+    include(GenerateAndAddUrdfModel)
+    add_subdirectory(Python)
+endif()
+
+add_subdirectory(bindings)
+
+add_subdirectory(utilities)

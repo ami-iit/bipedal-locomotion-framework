@@ -16,11 +16,7 @@
 
 #include <Eigen/Dense>
 
-#include <iDynTree/Core/MatrixFixSize.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/FreeFloatingState.h>
 
 namespace BipedalLocomotion
 {
@@ -68,12 +64,11 @@ class FloatingBaseDynamicalSystem
                                                                kinDynComputations object */
     std::size_t m_actuatedDoFs{0}; /**< Number of actuated degree of freedom */
 
-    iDynTree::Vector3 m_gravity; /**< Gravity vector */
+    Eigen::Vector3d m_gravity; /**< Gravity vector */
 
-    iDynTree::MatrixDynSize m_massMatrix; /**< Floating-base mass matrix  */
-    iDynTree::FreeFloatingGeneralizedTorques m_generalizedBiasForces; /**< Coriolis and
-                                                                         Gravitational term  */
-    iDynTree::MatrixDynSize m_jacobianMatrix; /**< Jacobian Matrix  */
+    Eigen::MatrixXd m_massMatrix; /**< Floating-base mass matrix  */
+
+    Eigen::MatrixXd m_jacobianMatrix; /**< Jacobian Matrix  */
 
     // quantities useful to avoid dynamic allocation in the dynamic allocation in the
     // FloatingBaseDynamicalSystem::dynamics method
