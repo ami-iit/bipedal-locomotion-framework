@@ -41,7 +41,7 @@ public:
     /**
      * Initialize the continuous algebraic riccati equation solver.
      * @param handler pointer to the parameter handler.
-     * @note The following parameters are required by the class:
+     * @note The following parameters are optional:
      * |  Parameter Name  |    Type   |                                  Description                                 | Mandatory |
      * |:----------------:|:---------:|:----------------------------------------------------------------------------:|:---------:|
      * |    `tolerance`   |  `double` |               Tolerance of the solution (default value `1e-9`)               |     No    |
