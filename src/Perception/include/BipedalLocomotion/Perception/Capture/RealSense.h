@@ -1,5 +1,5 @@
 /**
- * @file RealSenseD435.h
+ * @file RealSense.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -54,7 +54,7 @@ class RealSense : public BipedalLocomotion::RobotInterface::ICameraBridge,
                           double* receiveTimeInSeconds = nullptr);
                            
     bool getPointCloud(const std::string& pclDevName,
-                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr& coloredPointCloud,
+                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
                        double* receiveTimeInSeconds = nullptr) final;
 
 private:

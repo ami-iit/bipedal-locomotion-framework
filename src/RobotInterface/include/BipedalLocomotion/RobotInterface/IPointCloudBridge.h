@@ -67,7 +67,7 @@ public:
 
 
     virtual bool getPointCloud(const std::string& pclDev,
-                               pcl::PointCloud<pcl::PointXYZRGB>::Ptr& coloredPointCloud,
+                               pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
                                double* receiveTimeInSeconds = nullptr) { return false; };
 
     /**

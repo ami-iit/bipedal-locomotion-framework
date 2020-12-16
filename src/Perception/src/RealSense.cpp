@@ -1,5 +1,5 @@
 /**
- * @file RealSenseD435.h
+ * @file RealSense.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -52,6 +52,8 @@ struct RealSense::Impl
     rs2::frame irFrame;
     
     rs2::colorizer color_map;
+    bool doAlignToColor{false};
+    std::unique_ptr<rs2::align> alignToColor;
 
     std::string camName{"RealSense"};
 };
@@ -67,7 +69,7 @@ RealSense::~RealSense()
 
 bool RealSense::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    constexpr std::string_view logPrefix = "[YarpCameraBridge::Impl::configureCameras] ";
+    constexpr std::string_view logPrefix = "[RealSense::initialize] ";
     auto ptr = handler.lock();
     if (ptr == nullptr) { return false; }
 
@@ -118,12 +120,22 @@ bool RealSense::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::I
         std::cout << logPrefix << " Parameter \"stream_pcl\" not available in the configuration." 
                   << "PCL stream will not be available." << std::endl;
     }
+        
+    if (!ptr->getParameter("align_frames_to_color", m_pimpl->doAlignToColor))
+    {
+        std::cout << logPrefix << " Parameter \"align_frames_to_color\" not available in the configuration." 
+                  << "Frames will not be aligned to color frame." << std::endl;
+    }
     
     if (!m_pimpl->startStream())
     {
         return false;
     }
-         
+    
+    if (m_pimpl->doAlignToColor)
+    {
+        m_pimpl->alignToColor = std::make_unique<rs2::align>(RS2_STREAM_COLOR);
+    }
     return true;
 }
 
@@ -186,7 +198,10 @@ bool RealSense::getColorImage(const std::string& camName,
     }
     
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
-
+    if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
+    {
+        m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
+    }
     m_pimpl->colorFrame = m_pimpl->frames.get_color_frame();
     colorImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
                        CV_8UC3, (void*)m_pimpl->colorFrame.get_data(), cv::Mat::AUTO_STEP);
@@ -211,7 +226,10 @@ bool RealSense::getDepthImage(const std::string& camName,
     }
     
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
-    
+    if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
+    {
+        m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
+    }
     m_pimpl->depthFrame = m_pimpl->frames.get_depth_frame();
     
     depthImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
@@ -236,7 +254,10 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
     }
     
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
-    
+    if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
+    {
+        m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
+    }
     m_pimpl->depthFrame = m_pimpl->frames.get_depth_frame().apply_filter(m_pimpl->color_map);
     
     depthImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
@@ -261,7 +282,10 @@ bool RealSense::getInfraredImage(const std::string& camName,
     }
     
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
-
+    if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
+    {
+        m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
+    }
     m_pimpl->irFrame = m_pimpl->frames.get_infrared_frame();
     irImage = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
                                CV_8UC1, (void*)m_pimpl->irFrame.get_data(), cv::Mat::AUTO_STEP);
@@ -270,7 +294,7 @@ bool RealSense::getInfraredImage(const std::string& camName,
 }
 
 bool RealSense::getPointCloud(const std::string& pclDevName,
-                              pcl::PointCloud<pcl::PointXYZRGB>::Ptr& coloredPointCloud,
+                              pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
                               double* receiveTimeInSeconds)
 {        
     if (!isValid() || !m_pimpl->isValidCamera(pclDevName))
@@ -292,6 +316,10 @@ bool RealSense::getPointCloud(const std::string& pclDevName,
     
     // Wait for the next set of frames from the camera
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
+    if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
+    {
+        m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
+    }
     m_pimpl->depthFrame = m_pimpl->frames.get_depth_frame();
 
     // Generate the pointcloud and texture mappings
