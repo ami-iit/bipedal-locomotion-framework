@@ -4,16 +4,7 @@
 
 set(H_PREFIX include/BipedalLocomotion/RobotInterface)
 
-if (FRAMEWORK_COMPILE_RobotInterface AND FRAMEWORK_COMPILE_Perception)
-
-add_bipedal_locomotion_library(
-    NAME                   RobotInterface
-    SOURCES                src/IRobotControl.cpp
-    PUBLIC_HEADERS         ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/ICameraBridge.h ${H_PREFIX}/IPointCloudBridge.h ${H_PREFIX}/IRobotControl.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen ${OpenCV_LIBS} ${PCL_LIBRARIES}
-    SUBDIRECTORIES         YarpImplementation tests)
-
-elseif (FRAMEWORK_COMPILE_RobotInterface)
+if (FRAMEWORK_COMPILE_RobotInterface)
 
 add_bipedal_locomotion_library(
     NAME                   RobotInterface
@@ -22,3 +13,13 @@ add_bipedal_locomotion_library(
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
     SUBDIRECTORIES         YarpImplementation tests)
 endif()
+
+if (FRAMEWORK_COMPILE_Perception)
+
+add_bipedal_locomotion_library(
+    NAME                   PerceptionInterface
+    IS_INTERFACE
+    PUBLIC_HEADERS         ${H_PREFIX}/ICameraBridge.h ${H_PREFIX}/IPointCloudBridge.h
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler ${OpenCV_LIBS} ${PCL_LIBRARIES})
+endif()
+
