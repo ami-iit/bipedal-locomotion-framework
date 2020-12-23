@@ -28,10 +28,13 @@ class Step:
                          width (y-dimension) and height (z-dimension) of the step.
         """
         self.name = 's_' + str(step_index)
+<<<<<<< Updated upstream
 
         if ((len(size) != 3) and all(element > 0 for element in size)):
             raise ValueError('The size has to be a 3d-vector containing only positive numbers.')
 
+=======
+>>>>>>> Stashed changes
         self.length = size[0]
         self.width = size[1]
         self.height = size[2]
@@ -115,7 +118,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='generate_stairs_urdf.py is a python script useful to generate a simple urdf model of stair.')
     parser.add_argument('--step_length', type = float, default = 0.2, required = False, help='Length of the single step in meters (x-axis). E.g. 0.2')
-    parser.add_argument('--step_width', type = float, default = 0.2, required = False, help='Width of the single step in meters (y-axis). E.g. 0.3')
+    parser.add_argument('--step_width', type = float, default = 0.3, required = False, help='Width of the single step in meters (y-axis). E.g. 0.3')
     parser.add_argument('--step_height', type = float, default = 0.03, required = False, help='Height of the single step in meters (z-axis). E.g. 0.025')
     parser.add_argument('--steps_number', type = int, default = 1, required = False, help='Number of steps')
     parser.add_argument('--install_folder', type = str, default = './', required = False, help='File output')

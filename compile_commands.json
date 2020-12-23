@@ -1,0 +1,607 @@
+[
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build",
+  "command": "/usr/bin/c++ -DCatchTestMain_EXPORTS -O3 -DNDEBUG -fPIC -o CMakeFiles/CatchTestMain.dir/Testing/Catch2Main.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/Testing/Catch2Main.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/Testing/Catch2Main.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/GenericContainer/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/GenericContainerPlusYarpUnitTests.dir/GenericContainerTestPlusYarp.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/tests/GenericContainerTestPlusYarp.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/tests/GenericContainerTestPlusYarp.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/GenericContainer/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/GenericContainerUnitTests.dir/GenericContainerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/tests/GenericContainerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/tests/GenericContainerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/YarpUtilities",
+  "command": "/usr/bin/c++ -DYarpUtilities_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/YarpUtilities.dir/src/Helper.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/src/Helper.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/src/Helper.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/YarpUtilities/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/YarpUtilitiesUnitTests.dir/YarpUtilitiesTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/tests/YarpUtilitiesTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/tests/YarpUtilitiesTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler",
+  "command": "/usr/bin/c++ -DParametersHandler_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/ParametersHandler.dir/src/StdImplementation.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/src/StdImplementation.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/src/StdImplementation.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ParametersHandlerYarpUnitTests.dir/ParametersHandlerYarpTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/tests/ParametersHandlerYarpTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/tests/ParametersHandlerYarpTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ParametersHandlerUnitTests.dir/ParametersHandlerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/tests/ParametersHandlerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/tests/ParametersHandlerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/YarpImplementation",
+  "command": "/usr/bin/c++ -DParametersHandlerYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/ParametersHandlerYarpImplementation.dir/src/YarpImplementation.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/src/YarpImplementation.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/src/YarpImplementation.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DFloatingBaseEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/FloatingBaseEstimators.dir/src/FloatingBaseEstimator.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/src/FloatingBaseEstimator.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/src/FloatingBaseEstimator.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Estimators.dir/src/RecursiveLeastSquare.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/src/RecursiveLeastSquare.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/src/RecursiveLeastSquare.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/BareBonesBaseEstimatorUnitTests.dir/FloatingBaseEstimatorTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/tests/FloatingBaseEstimatorTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/tests/FloatingBaseEstimatorTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/RecursiveLeastSquareUnitTests.dir/RecursiveLeastSquareTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/tests/RecursiveLeastSquareTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/tests/RecursiveLeastSquareTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/System.dir/src/FloatingBaseSystemDynamics.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/FloatingBaseSystemDynamics.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/FloatingBaseSystemDynamics.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/System.dir/src/VariablesHandler.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/VariablesHandler.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/VariablesHandler.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/System.dir/src/ContactWrench.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/ContactWrench.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/ContactWrench.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/System.dir/src/LinearTimeInvariantSystem.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/LinearTimeInvariantSystem.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/LinearTimeInvariantSystem.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/System.dir/src/FloatingBaseSystemKinematics.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/FloatingBaseSystemKinematics.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/src/FloatingBaseSystemKinematics.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/IntegratorTestUnitTests.dir/IntegratorTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/tests/IntegratorTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/tests/IntegratorTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/VariablesHandlerUnitTests.dir/VariablesHandlerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/tests/VariablesHandlerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/tests/VariablesHandlerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Planners.dir/src/ConvexHullHelper.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ConvexHullHelper.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ConvexHullHelper.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Planners.dir/src/DCMPlanner.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/DCMPlanner.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/DCMPlanner.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Planners.dir/src/TimeVaryingDCMPlanner.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/TimeVaryingDCMPlanner.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/TimeVaryingDCMPlanner.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Planners.dir/src/QuinticSpline.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/QuinticSpline.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/QuinticSpline.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Planners.dir/src/SwingFootPlanner.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/SwingFootPlanner.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/SwingFootPlanner.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Contact.dir/src/ContactList.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactList.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactList.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Contact.dir/src/ContactPhase.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactPhase.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactPhase.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/Contact.dir/src/ContactPhaseList.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactPhaseList.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/src/ContactPhaseList.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ContactListUnitTests.dir/ContactListTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ContactListTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ContactListTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ContactPhaseListUnitTests.dir/ContactPhaseListTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ContactPhaseListTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ContactPhaseListTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ConvexHullHelperUnitTests.dir/ConvexHullHelperTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ConvexHullHelperTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/ConvexHullHelperTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/TimeVaryingDCMPlannerUnitTests.dir/TimeVaryingDCMPlannerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/TimeVaryingDCMPlannerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/TimeVaryingDCMPlannerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/SO3PlannerUnitTests.dir/SO3PlannerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/SO3PlannerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/SO3PlannerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/QuinticSplineUnitTests.dir/QuinticSplineTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/QuinticSplineTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/QuinticSplineTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/SwingFootPlannerUnitTests.dir/SwingFootPlannerTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/SwingFootPlannerTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/tests/SwingFootPlannerTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ContactModels",
+  "command": "/usr/bin/c++ -DContactModels_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/ContactModels.dir/src/ContactModel.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/src/ContactModel.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/src/ContactModel.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ContactModels",
+  "command": "/usr/bin/c++ -DContactModels_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/ContactModels.dir/src/ContinuousContactModel.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/src/ContinuousContactModel.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/src/ContinuousContactModel.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ContactModels/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/ContinousContactModelUnitTests.dir/ContinousContactModelTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/tests/ContinousContactModelTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/tests/ContinousContactModelTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/AutoDiff/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/lib/pkgconfig/../../include -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/CppADTestUnitTests.dir/CppADTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/tests/CppADTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/tests/CppADTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface",
+  "command": "/usr/bin/c++ -DRobotInterface_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/RobotInterface.dir/src/IRobotControl.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/src/IRobotControl.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/src/IRobotControl.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/YarpImplementation",
+  "command": "/usr/bin/c++ -DRobotInterfaceYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/RobotInterfaceYarpImplementation.dir/src/YarpRobotControl.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/src/YarpRobotControl.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/src/YarpRobotControl.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/YarpImplementation",
+  "command": "/usr/bin/c++ -DRobotInterfaceYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/RobotInterfaceYarpImplementation.dir/src/YarpSensorBridge.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/src/YarpSensorBridge.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/src/YarpSensorBridge.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/tests/DummyImplementation",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/DummySensorBridgeUnitTests.dir/DummySensorBridgeTest.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/tests/DummyImplementation/DummySensorBridgeTest.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/tests/DummyImplementation/DummySensorBridgeTest.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/DCMWalkingApplication.dir/src/main.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/main.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/main.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/DCMWalkingApplication.dir/src/Module.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Module.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Module.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -o CMakeFiles/DCMWalkingApplication.dir/thrifts/BipedalLocomotion/DCMWalkingPipeline/Commands.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline/thrifts/BipedalLocomotion/DCMWalkingPipeline/Commands.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline/thrifts/BipedalLocomotion/DCMWalkingPipeline/Commands.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -DDCMWalkingPipeline_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/DCMWalkingPipeline.dir/src/Pipeline.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Pipeline.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Pipeline.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -DDCMWalkingPipeline_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -o CMakeFiles/DCMWalkingPipeline.dir/src/Homing.cpp.o -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Homing.cpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/src/Homing.cpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/GenericContainer/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include/BipedalLocomotion/GenericContainer/Vector.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include/BipedalLocomotion/GenericContainer/Vector.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include/BipedalLocomotion/GenericContainer/TemplateHelpers.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include/BipedalLocomotion/GenericContainer/TemplateHelpers.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/YarpUtilities",
+  "command": "/usr/bin/c++ -DYarpUtilities_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include/BipedalLocomotion/YarpUtilities/Helper.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include/BipedalLocomotion/YarpUtilities/Helper.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/YarpUtilities",
+  "command": "/usr/bin/c++ -DYarpUtilities_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include/BipedalLocomotion/YarpUtilities/Helper.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include/BipedalLocomotion/YarpUtilities/Helper.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler",
+  "command": "/usr/bin/c++ -DParametersHandler_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/StdImplementation.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/StdImplementation.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/IParametersHandler.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/IParametersHandler.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler",
+  "command": "/usr/bin/c++ -DParametersHandler_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/StdImplementation.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include/BipedalLocomotion/ParametersHandler/StdImplementation.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include/BipedalLocomotion/ParametersHandler/YarpImplementation.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include/BipedalLocomotion/ParametersHandler/YarpImplementation.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include/BipedalLocomotion/ParametersHandler/YarpImplementation.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include/BipedalLocomotion/ParametersHandler/YarpImplementation.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests/ConfigFolderPath.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ParametersHandler/tests/ConfigFolderPath.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DFloatingBaseEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimator.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimator.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DFloatingBaseEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Advanceable.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Advanceable.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DFloatingBaseEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimatorParams.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimatorParams.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DFloatingBaseEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimatorIO.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/FloatingBaseEstimatorIO.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators",
+  "command": "/usr/bin/c++ -DEstimators_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include/BipedalLocomotion/Estimators/RecursiveLeastSquare.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Estimators/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests/ResourceFolderPath.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Estimators/tests/ResourceFolderPath.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FloatingBaseSystemDynamics.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FloatingBaseSystemDynamics.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/DynamicalSystem.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/DynamicalSystem.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/DynamicalSystem.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/DynamicalSystem.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ContactWrench.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ContactWrench.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ContactModels",
+  "command": "/usr/bin/c++ -DContactModels_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include/BipedalLocomotion/ContactModels/ContactModel.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include/BipedalLocomotion/ContactModels/ContactModel.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/VariablesHandler.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/VariablesHandler.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/LinearTimeInvariantSystem.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/LinearTimeInvariantSystem.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System",
+  "command": "/usr/bin/c++ -DSystem_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FloatingBaseSystemKinematics.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FloatingBaseSystemKinematics.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ForwardEuler.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ForwardEuler.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FixedStepIntegrator.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FixedStepIntegrator.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Integrator.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Integrator.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Integrator.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/Integrator.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FixedStepIntegrator.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/FixedStepIntegrator.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/System/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ForwardEuler.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include/BipedalLocomotion/System/ForwardEuler.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ConvexHullHelper.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ConvexHullHelper.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/DCMPlanner.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/DCMPlanner.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactPhaseList.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactPhaseList.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/Contact.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/Contact.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactList.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactList.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DContact_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactPhase.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/ContactPhase.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/QuinticSpline.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/QuinticSpline.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners",
+  "command": "/usr/bin/c++ -DPlanners_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SwingFootPlanner.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SwingFootPlanner.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SO3Planner.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SO3Planner.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/Planners/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SO3Planner.tpp",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include/BipedalLocomotion/Planners/SO3Planner.tpp"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/ContactModels",
+  "command": "/usr/bin/c++ -DContactModels_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include/BipedalLocomotion/ContactModels/ContinuousContactModel.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include/BipedalLocomotion/ContactModels/ContinuousContactModel.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/AutoDiff/tests",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/include -isystem /usr/include/eigen3 -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/lib/pkgconfig/../../include -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/include/BipedalLocomotion/AutoDiff/CppAD.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/AutoDiff/include/BipedalLocomotion/AutoDiff/CppAD.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface",
+  "command": "/usr/bin/c++ -DRobotInterface_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include/BipedalLocomotion/RobotInterface/IRobotControl.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include/BipedalLocomotion/RobotInterface/IRobotControl.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/YarpImplementation",
+  "command": "/usr/bin/c++ -DRobotInterfaceYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpRobotControl.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpRobotControl.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/YarpImplementation",
+  "command": "/usr/bin/c++ -DRobotInterfaceYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/YarpImplementation",
+  "command": "/usr/bin/c++ -DRobotInterfaceYarpImplementation_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpSensorBridge.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include/BipedalLocomotion/RobotInterface/YarpSensorBridge.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/tests/DummyImplementation",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include/BipedalLocomotion/RobotInterface/ISensorBridge.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include/BipedalLocomotion/RobotInterface/ISensorBridge.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/RobotInterface/tests/DummyImplementation",
+  "command": "/usr/bin/c++ -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/tests/DummyImplementation/DummySensorBridge.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/tests/DummyImplementation/DummySensorBridge.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Module.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Module.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -DDCMWalkingPipeline_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Homing.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Homing.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/YarpUtilities/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/YarpImplementation/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/RobotInterface/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline/thrifts/BipedalLocomotion/DCMWalkingPipeline/Commands.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline/thrifts/BipedalLocomotion/DCMWalkingPipeline/Commands.h"
+},
+
+{
+  "directory": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline",
+  "command": "/usr/bin/c++ -DDCMWalkingPipeline_EXPORTS -D_USE_MATH_DEFINES -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/build/src/DCMWalkingPipeline -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ParametersHandler/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/GenericContainer/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/Planners/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/System/include -I/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/ContactModels/include -isystem /home/gromualdi/robot-code/robotology-superbuild/build/install/include -isystem /usr/include/eigen3 -O3 -DNDEBUG -fPIC -std=gnu++1z -c /home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Pipeline.h",
+  "file": "/home/gromualdi/robot-code/bipedal-locomotion-framework_spline/src/DCMWalkingPipeline/include/BipedalLocomotion/DCMWalkingPipeline/Pipeline.h"
+}
+]

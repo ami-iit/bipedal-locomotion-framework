@@ -80,6 +80,8 @@ struct SensorBridgeMetaData
  */
 class ISensorBridge
 {
+    const Eigen::VectorXd EmptyVector;
+
 public:
     using unique_ptr = std::unique_ptr<ISensorBridge>;
 
@@ -183,17 +185,19 @@ public:
 
     /**
      * Get all joints' positions in radians
-     * @param[out] parameter all joints' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointPositions" to this method
      *
-     * @return true/false in case of success/failure
+     * @return all joints' position in radians
      */
-    virtual bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                   double* receiveTimeInSeconds = nullptr) { return false; };
+    virtual Eigen::Ref<const Eigen::VectorXd>
+    getJointPositions(double* receiveTimeInSeconds = nullptr) const
+    {
+        return EmptyVector;
+    };
 
     /**
      * Get joint velocity in rad/s
@@ -217,8 +221,11 @@ public:
      *
      * @return true/false in case of success/failure
      */
-    virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                    double* receiveTimeInSeconds = nullptr) { return false; };
+    virtual Eigen::Ref<const Eigen::VectorXd>
+    getJointVelocities(double* receiveTimeInSeconds = nullptr) const
+    {
+        return EmptyVector;
+    };
 
     /**
      * Get IMU measurement

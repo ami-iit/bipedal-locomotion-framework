@@ -106,13 +106,11 @@ public:
     virtual bool getJointPosition(const std::string& jointName,
                                   double& jointPosition,
                                   double* receiveTimeInSeconds = nullptr) override { return true; };
-    virtual bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                   double* receiveTimeInSeconds = nullptr) override { return true; };
+
     virtual bool getJointVelocity(const std::string& jointName,
                                   double& jointVelocity,
                                   double* receiveTimeInSeconds = nullptr) override { return true; };
-    virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                    double* receiveTimeInSeconds = nullptr) override { return true; };
+
     virtual bool getIMUMeasurement(const std::string& imuName,
                                    Eigen::Ref<Vector12d> imuMeasurement,
                                    double* receiveTimeInSeconds = nullptr) override { return true; };

@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<robot name="stair">
+    <link name="world"/>
+    <link name="s_0">
+        <inertial>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <mass value="1"/>
+            <inertia ixx="0.0135416666667" ixy="0.0" ixz="0.0" iyy="0.0433333333333" iyz="0.0" izz="0.0302083333333"/>
+        </inertial>
+        <visual>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="s_1">
+        <inertial>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <mass value="1"/>
+            <inertia ixx="0.0135416666667" ixy="0.0" ixz="0.0" iyy="0.0433333333333" iyz="0.0" izz="0.0302083333333"/>
+        </inertial>
+        <visual>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="s_2">
+        <inertial>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <mass value="1"/>
+            <inertia ixx="0.0135416666667" ixy="0.0" ixz="0.0" iyy="0.0433333333333" iyz="0.0" izz="0.0302083333333"/>
+        </inertial>
+        <visual>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="s_3">
+        <inertial>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <mass value="1"/>
+            <inertia ixx="0.0135416666667" ixy="0.0" ixz="0.0" iyy="0.0433333333333" iyz="0.0" izz="0.0302083333333"/>
+        </inertial>
+        <visual>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="s_4">
+        <inertial>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <mass value="1"/>
+            <inertia ixx="0.0135416666667" ixy="0.0" ixz="0.0" iyy="0.0433333333333" iyz="0.0" izz="0.0302083333333"/>
+        </inertial>
+        <visual>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.1"/>
+            <geometry>
+                <box size="0.3 0.025 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_s_0_s_1" type="fixed">
+        <origin rpy="0 0 0" xyz="0.3 0 0.2"/>
+        <parent link="s_0"/>
+        <child link="s_1"/>
+    </joint>
+    <joint name="joint_s_1_s_2" type="fixed">
+        <origin rpy="0 0 0" xyz="0.3 0 0.2"/>
+        <parent link="s_1"/>
+        <child link="s_2"/>
+    </joint>
+    <joint name="joint_s_2_s_3" type="fixed">
+        <origin rpy="0 0 0" xyz="0.3 0 0.2"/>
+        <parent link="s_2"/>
+        <child link="s_3"/>
+    </joint>
+    <joint name="joint_s_3_s_4" type="fixed">
+        <origin rpy="0 0 0" xyz="0.3 0 0.2"/>
+        <parent link="s_3"/>
+        <child link="s_4"/>
+    </joint>
+    <joint name="joint_world_s_0" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="world"/>
+        <child link="s_0"/>
+    </joint>
+</robot>

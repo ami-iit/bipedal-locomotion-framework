@@ -217,17 +217,15 @@ public:
 
     /**
      * Get all joints' positions in radians
-     * @param[out] parameter all joints' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointPositions" to this method
      *
-     * @return true/false in case of success/failure
+     * @return joints' position in radians.
      */
-    bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                           double* receiveTimeInSeconds = nullptr) final;
+    Eigen::Ref<const Eigen::VectorXd> getJointPositions(double* receiveTimeInSeconds = nullptr) const final;
 
     /**
      * Get joint velocity in rad/s
@@ -242,17 +240,15 @@ public:
 
     /**
      * Get all joints' velocities in rad/s
-     * @param[out] parameter all joints' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointVelocties" to this method
      *
-     * @return true/false in case of success/failure
+     * @return all joints' velocities in radians per second
      */
-    bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                            double* receiveTimeInSeconds = nullptr) final;
+    Eigen::Ref<const Eigen::VectorXd> getJointVelocities(double* receiveTimeInSeconds = nullptr) const final;
 
     /**
      * Get IMU measurement

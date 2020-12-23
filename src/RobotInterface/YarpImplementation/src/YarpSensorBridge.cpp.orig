@@ -30,10 +30,16 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
         return false;
     }
 
+<<<<<<< Updated upstream
 
     if(!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
     {
         std::cerr << logPrefix << "Unable to get check_for_nan."
+=======
+    if (!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
+    {
+        std::cerr << logPrefix << "Unable to load the check_for_nan parameter."
+>>>>>>> Stashed changes
                   << std ::endl;
         return false;
     }
@@ -265,7 +271,8 @@ bool YarpSensorBridge::getJointPosition(const std::string& jointName,
     return true;
 }
 
-Eigen::Ref<const Eigen::VectorXd> YarpSensorBridge::getJointPositions(double* receiveTimeInSeconds) const
+Eigen::Ref<const Eigen::VectorXd>
+YarpSensorBridge::getJointPositions(double* receiveTimeInSeconds) const
 {
     receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
     return yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointPositions);
@@ -290,7 +297,8 @@ bool YarpSensorBridge::getJointVelocity(const std::string& jointName,
     return true;
 }
 
-Eigen::Ref<const Eigen::VectorXd> YarpSensorBridge::getJointVelocities(double* receiveTimeInSeconds) const
+Eigen::Ref<const Eigen::VectorXd>
+YarpSensorBridge::getJointVelocities(double* receiveTimeInSeconds) const
 {
     receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
     return yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointVelocities);

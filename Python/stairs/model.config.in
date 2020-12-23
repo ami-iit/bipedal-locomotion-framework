@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<model>
+    <name></name>
+
+    <version>1.0</version>
+
+    <sdf version='1.7'>stairs.urdf</sdf>
+
+    <author>
+        <name>Giulio Romualdi</name>
+        <email>giulio.romualdi@iit.it</email>
+    </author>
+
+    <description>
+        Model for the iCub humanoid robot. For more information check icub.org .
+    </description>
+</model>
