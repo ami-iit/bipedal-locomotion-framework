@@ -117,10 +117,10 @@ TEST_CASE("SE3 Task")
             SO3Controller.setGains({kp, kd});
             R3Controller.setGains({kp, kd});
 
-            SO3Controller.setFeedForward(desiredAcceleration.asSO3());
-            R3Controller.setFeedForward(desiredAcceleration.coeffs().head<3>());
-            SO3Controller.setDesiredState({desiredPose.quat(), desiredVelocity.asSO3()});
-            R3Controller.setDesiredState({desiredPose.translation(), desiredVelocity.coeffs().head<3>()});
+            SO3Controller.setFeedForward(desiredAcceleration.w());
+            R3Controller.setFeedForward(desiredAcceleration.v());
+            SO3Controller.setDesiredState({desiredPose.quat(), desiredVelocity.w()});
+            R3Controller.setDesiredState({desiredPose.translation(), desiredVelocity.v()});
 
             SO3Controller.setState({BipedalLocomotion::Conversions::toManifRot(
                         kinDyn->getWorldTransform(controlledFrame).getRotation()),
