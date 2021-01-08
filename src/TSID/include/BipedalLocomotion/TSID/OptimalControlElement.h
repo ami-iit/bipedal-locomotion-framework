@@ -8,7 +8,11 @@
 #ifndef BIPEDAL_LOCOMOTION_TSID_OPTIMAL_CONTROL_ELEMENT_H
 #define BIPEDAL_LOCOMOTION_TSID_OPTIMAL_CONTROL_ELEMENT_H
 
+#include <memory>
+
 #include <Eigen/Dense>
+
+#include <iDynTree/KinDynComputations.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
@@ -33,7 +37,24 @@ protected:
 
     std::string m_description{"Generic Optimal Control Element"}; /**<String describing the content
                                                                      of the element*/
+
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
+                                                               object */
+
+    /**
+     * Extract the submatrix A associated to a given variable.
+     */
+    Eigen::Ref<Eigen::MatrixXd>
+    subA(const System::VariablesHandler::VariableDescription& description);
+
 public:
+    /**
+     * Set the kinDynComputations object.
+     * @param kinDyn pointer to a kinDynComputations object.
+     * @return True in case of success, false otherwise.
+     */
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+
     /**
      * Initialize the optimal control element.
      * @param paramHandler a pointer to the parameter handler containing all the information

@@ -11,6 +11,17 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::TSID;
 
+Eigen::Ref<Eigen::MatrixXd> OptimalControlElement::subA(const VariablesHandler::VariableDescription& description)
+{
+    return m_A.block(0, description.offset, 6, description.size);
+}
+
+bool OptimalControlElement::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    m_kinDyn = kinDyn;
+    return (m_kinDyn != nullptr) && (m_kinDyn->isValid());
+}
+
 bool OptimalControlElement::initialize(std::weak_ptr<IParametersHandler> paramHandler,
                                        const VariablesHandler& variablesHandler)
 {
