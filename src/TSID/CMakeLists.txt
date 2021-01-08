@@ -2,10 +2,16 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-set(H_PREFIX include/BipedalLocomotion/TSID)
+if(FRAMEWORK_COMPILE_TSID)
 
-add_bipedal_locomotion_library(
-  NAME                  TSID
-  PUBLIC_HEADERS        ${H_PREFIX}/OptimalControlElement.h
-  SOURCES               src/OptimalControlElement.cpp
-  PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System)
+  set(H_PREFIX include/BipedalLocomotion/TSID)
+
+  add_bipedal_locomotion_library(
+    NAME                  TSID
+    PUBLIC_HEADERS        ${H_PREFIX}/OptimalControlElement.h ${H_PREFIX}/SE3Task.h
+    SOURCES               src/OptimalControlElement.cpp src/SE3Task.cpp
+    PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System LieGroupControllers::LieGroupControllers MANIF::manif iDynTree::idyntree-high-level iDynTree::idyntree-model
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::ManifConversions
+    SUBDIRECTORIES         tests)
+
+endif()
