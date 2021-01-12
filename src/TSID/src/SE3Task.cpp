@@ -59,7 +59,8 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         return false;
     }
 
-    if (m_robotAccelerationVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + 6)
+    if (m_robotAccelerationVariable.size
+        != m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize)
     {
         std::cerr << errorPrefix << descriptionPrefix << frameName
                   << " - Error while retrieving the robot acceleration variable." << std::endl;
@@ -101,9 +102,9 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     m_description = std::string(descriptionPrefix) + frameName + ".";
 
     // resize the matrices
-    m_A.resize(6, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_spatialVelocitySize, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(6);
+    m_b.resize(m_spatialVelocitySize);
 
     return true;
 }

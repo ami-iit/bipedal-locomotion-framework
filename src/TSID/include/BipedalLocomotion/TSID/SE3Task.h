@@ -55,6 +55,8 @@ class SE3Task : public Task
 
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
 
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
+
 public:
     /**
      * Initialize the planner.
