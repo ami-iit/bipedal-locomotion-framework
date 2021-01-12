@@ -111,6 +111,10 @@ if (FRAMEWORK_USE_matioCpp)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES matioCpp)
 endif()
 
+if (FRAMEWORK_USE_LieGroupControllers)
+  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES LieGroupControllers)
+endif()
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
