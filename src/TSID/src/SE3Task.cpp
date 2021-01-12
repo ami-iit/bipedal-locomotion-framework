@@ -30,6 +30,17 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         return false;
     }
 
+    if (m_kinDyn->getFrameVelocityRepresentation()
+        != iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION)
+    {
+        std::cerr << errorPrefix << descriptionPrefix << frameName
+                  << " - The task supports only quantities expressed in MIXED representation. "
+                     "Please provide a KinDynComputations with Frame velocity representation set "
+                     "to MIXED_REPRESENTATION."
+                  << std::endl;
+        return false;
+    }
+
     auto ptr = paramHandler.lock();
     if(ptr == nullptr)
     {

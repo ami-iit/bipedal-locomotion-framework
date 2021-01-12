@@ -39,6 +39,9 @@ TEST_CASE("SE3 Task")
     parameterHandler->setParameter("kp_angular", kp);
     parameterHandler->setParameter("kd_angular", kd);
 
+    // set the velocity representation
+    REQUIRE(kinDyn->setFrameVelocityRepresentation(iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
+
     for (std::size_t numberOfJoints = 6; numberOfJoints < 1000; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
