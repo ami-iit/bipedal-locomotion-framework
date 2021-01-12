@@ -59,7 +59,7 @@ public:
      * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
-     * |            `frame_name`            | `string` |                       Name of the farme controlled by the SE3Task                      |    Yes    |
+     * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
      * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
      * |             `kd_linear`            | `double` |                         Gain of the linear velocity controller                         |    Yes    |
      * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
