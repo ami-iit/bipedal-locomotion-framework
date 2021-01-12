@@ -5,12 +5,12 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_TSID_OPTIMAL_SE3_TASK_H
-#define BIPEDAL_LOCOMOTION_TSID_OPTIMAL_SE3_TASK_H
+#ifndef BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H
+#define BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/TSID/OptimalControlElement.h>
+#include <BipedalLocomotion/TSID/Task.h>
 
 #include <LieGroupControllers/ProportionalDerivativeController.h>
 
@@ -36,7 +36,7 @@ namespace TSID
  * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
-class SE3Task : public OptimalControlElement
+class SE3Task : public Task
 {
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */
@@ -49,8 +49,6 @@ class SE3Task : public OptimalControlElement
                                                                                   (base + joint) */
 
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
-    Eigen::MatrixXd m_jacobian; /**< Jacobian matrix (here the jacobian is described by the so
-                                   called MIXED representation) */
 
 public:
     /**
@@ -92,4 +90,4 @@ public:
 } // namespace TSID
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_TSID_OPTIMAL_SE3_TASK_H
+#endif // BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H

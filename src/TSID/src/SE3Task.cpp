@@ -93,7 +93,6 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     m_A.resize(6, variablesHandler.getNumberOfVariables());
     m_A.setZero();
     m_b.resize(6);
-    m_jacobian.resize(6, m_robotAccelerationVariable.size);
 
     return true;
 }
@@ -119,12 +118,12 @@ bool SE3Task::update()
 
     // Workaround because matrix view is not compatible with Eigen::Ref
     // https://github.com/robotology/idyntree/issues/797
-    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
+    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
+                                                this->subA(m_robotAccelerationVariable)))
     {
         std::cerr << "[SE3Task::update] Unable to get the jacobian." << std::endl;
         return false;
     }
-    this->subA(m_robotAccelerationVariable) = m_jacobian;
 
     return true;
 }
