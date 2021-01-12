@@ -77,6 +77,14 @@ jobs:
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
+
+        # https://github.com/actions/virtual-environments/issues/2322
+        rm -f /usr/local/bin/2to3
+
+        # https://github.com/actions/virtual-environments/issues/2391
+        brew unlink gcc@8
+        brew unlink gcc@9
+
         brew update
         brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio
 
