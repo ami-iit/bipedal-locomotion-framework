@@ -1,17 +1,18 @@
 /**
- * @file OptimalControlElement.h
+ * @file Task.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_TSID_OPTIMAL_CONTROL_ELEMENT_H
-#define BIPEDAL_LOCOMOTION_TSID_OPTIMAL_CONTROL_ELEMENT_H
+#ifndef BIPEDAL_LOCOMOTION_TSID_TASK_H
+#define BIPEDAL_LOCOMOTION_TSID_TASK_H
 
 #include <memory>
 
 #include <Eigen/Dense>
 
+#include <iDynTree/Core/MatrixView.h>
 #include <iDynTree/KinDynComputations.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
@@ -23,13 +24,13 @@ namespace TSID
 {
 
 /**
- * OptimalControlElement describes a control problem element. The element is described by a matrix
+ * Task describes a control problem element. The element is described by a matrix
  * \f$A\f$ and a vector \f$b\f$. This class describes both a linear equality constraint and a linear
  * inequality constraint. In case of equality constraint \f$ A \f$ and \f$ b \f$ represents: \f$ Ax
  * = b\f$ In case of inequality constraint \f$ A \f$ and \f$ b \f$ represents: \f$ Ax \le b \f$
  * @note Please inherit this class if you want to build your own optimal control problem.
  */
-class OptimalControlElement
+class Task
 {
 protected:
     Eigen::MatrixXd m_A; /**< Element Matrix */
@@ -44,8 +45,14 @@ protected:
     /**
      * Extract the submatrix A associated to a given variable.
      */
-    Eigen::Ref<Eigen::MatrixXd>
+    iDynTree::MatrixView<double>
     subA(const System::VariablesHandler::VariableDescription& description);
+
+    /**
+     * Extract the submatrix A associated to a given variable.
+     */
+    iDynTree::MatrixView<const double>
+    subA(const System::VariablesHandler::VariableDescription& description) const;
 
 public:
     /**
@@ -62,7 +69,7 @@ public:
      * version of the model for further details.
      * @param variablesHandler class containing the list of all the optimization parameter used in
      * the optimization problem. Please use the same variables handler to initialize all the
-     * OptimalControlElements
+     * Tasks.
      * @return True in case of success, false otherwise.
      */
     virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler,
@@ -88,7 +95,7 @@ public:
 
     /**
      * Get the description of the element.
-     * @return a string containing the description of the OptimalControlElement.
+     * @return a string containing the description of the element.
      */
     const std::string& getDescription() const;
 };
@@ -96,4 +103,4 @@ public:
 } // namespace TSID
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_TSID_OPTIMAL_CONTROL_ELEMENT_H
+#endif // BIPEDAL_LOCOMOTION_TSID_TASK_H
