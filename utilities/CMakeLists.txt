@@ -4,3 +4,5 @@
 
 
 add_subdirectory(joint-position-tracking)
+
+add_subdirectory(joint-trajectory-player)
