@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     // prepare and configure the resource finder
     yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
 
-    rf.setDefaultConfigFile("jointTrajectoryPlayerOptions.ini");
+    rf.setDefaultConfigFile("blf-joint-trajectory-player-options.ini");
 
     rf.configure(argc, argv);
 
