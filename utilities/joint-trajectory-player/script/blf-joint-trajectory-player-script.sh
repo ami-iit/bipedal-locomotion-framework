@@ -9,12 +9,7 @@ echo "Welcome to the JointPositionTrackingTest. I will first move the robot and 
 
 echo "I'm going to move the robot. Watch out!"
 
-blf-joint-position-tracking --from blf-joint-position-tracking-options.ini
+blf-joint-trajectory-player --from blf-joint-trajectory-player-options.ini
 
 echo "The trajectory is terminated."
 
-echo "Plot data"
-
-python3 "$pythonScriptRootPath"/blf_joint_position_tracking_plot_dataset.py --dataset `ls -t Dataset* | head -1`
-
-echo "Done. Thanks for using the script."

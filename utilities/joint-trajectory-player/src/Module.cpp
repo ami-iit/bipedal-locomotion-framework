@@ -19,6 +19,8 @@
 
 #include <yarp/dev/IEncoders.h>
 
+#include <iDynTree/Core/EigenHelpers.h>
+
 using Vector1d = Eigen::Matrix<double, 1, 1>;
 
 using namespace BipedalLocomotion;
@@ -189,11 +191,12 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
 
     minValue *= M_PI / 180;
-
-    double trajectoryDuration = 5;
-    if(!parametersHandler->getParameter("trajectory_duration", trajectoryDuration))
-        return false;
     */
+
+    double initialTrajDuration = 5;
+    if(!parametersHandler->getParameter("initial_trajectory_duration", initialTrajDuration))
+        return false;
+    
 
     std::string trajectoryFile;
     if(!parametersHandler->getParameter("trajectory_file", trajectoryFile))
@@ -203,11 +206,14 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     this->initializeRobotControl(parametersHandler);
     this->instantiateSensorBridge(parametersHandler);
 
+    m_qDesired.clear();
     auto data = readStateFromFile(trajectoryFile, m_numOfJoints);
     if(!data.first)
     {
         return false;
     }
+    m_qDesired = data.second;
+    
 
     /*
     m_setPoints.push_back((maxValue + minValue) / 2);
@@ -216,31 +222,31 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_setPoints.push_back((maxValue + minValue) / 2);
     */
 
-    m_spline.setAdvanceTimeStep(m_dT);
-    m_spline.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
-    m_spline.setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
+    //m_spline.setAdvanceTimeStep(m_dT);
+    //m_spline.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
+    //m_spline.setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
 
-    m_timeKnots.clear();
-    m_timeKnots.push_back(0);
-    //m_timeKnots.push_back(trajectoryDuration);
+    //m_timeKnots.clear();
+    //m_timeKnots.push_back(0);
+    //m_timeKnots.push_back(initialTrajDuration);
 
-    if (!m_sensorBridge.advance())
-    {
-        std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
-        return false;
-    }
-    m_sensorBridge.getJointPositions(m_currentJointPos);
+    //if (!m_sensorBridge.advance())
+    //{
+    //    std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
+    //    return false;
+    //}
+    //m_sensorBridge.getJointPositions(m_currentJointPos);
 
     // the trajectory will bring the robot in the initial configuration
-    m_setPoints.push_back(m_currentJointPos[0]);
-    m_currentSetPoint = m_setPoints.begin();
+    //m_setPoints.push_back(m_currentJointPos[0]);
+    //m_currentSetPoint = m_setPoints.begin();
 
-    m_trajectoryKnots.push_back(m_currentJointPos);
-    m_trajectoryKnots.push_back(Vector1d::Constant(*m_currentSetPoint));
+    //m_trajectoryKnots.push_back(m_currentJointPos);
+    //m_trajectoryKnots.push_back(Vector1d::Constant(*m_currentSetPoint));
 
-    m_spline.setKnots(m_trajectoryKnots, m_timeKnots);
+    //m_spline.setKnots(m_trajectoryKnots, m_timeKnots);
 
-    m_initTrajectoryTime = yarp::os::Time::now();
+    //m_initTrajectoryTime = yarp::os::Time::now();
 
     std::cout << "[Module::configure] Starting the experiment." << std::endl;
 
@@ -268,6 +274,21 @@ bool Module::generateNewTrajectory()
     return true;
 }
 
+bool Module::advanceReferenceSignals()
+{
+    // check if vector is not initialized
+    if(m_qDesired.empty())
+    {
+        std::cerr << "[jointControlModule::advanceReferenceSignals] Cannot advance empty reference signals." << std::endl;
+        return false;
+    }
+
+    m_qDesired.pop_front();
+    m_qDesired.push_back(m_qDesired.back());
+
+    return true;
+}
+
 bool Module::updateModule()
 {
     if (!m_sensorBridge.advance())
@@ -276,60 +297,25 @@ bool Module::updateModule()
         return false;
     }
 
-    m_sensorBridge.getJointPositions(m_currentJointPos);
-
     // set the reference
-    m_robotControl.setReferences(m_spline.get().position,
-                                 RobotInterface::IRobotControl::ControlMode::PositionDirect);
-
-    m_logJointPos.push_back(m_currentJointPos[0]);
-    m_logDesiredJointPos.push_back(m_spline.get().position[0]);
-
-    // advance the spline
-    m_spline.advance();
-
-    const double now = yarp::os::Time::now();
-    if (now - m_initTrajectoryTime > m_timeKnots.back() + 2)
+    if(!m_robotControl.setReferences(iDynTree::toEigen(m_qDesired.front()),
+                                 RobotInterface::IRobotControl::ControlMode::PositionDirect))
     {
-        std::cout << "[Module::updateModule] Generate a new trajectory." << std::endl;
-
-        if (!generateNewTrajectory())
-        {
-            std::cerr << "[Module::updateModule] Experiment finished." << std::endl;
-            return false;
-        }
+        std::cerr << "[Module::updateModule] Error while setting the reference position to iCub." << std::endl;
+        return false;
     }
+
+    advanceReferenceSignals();
+
+    m_sensorBridge.getJointPositions(m_currentJointPos);
 
     return true;
 }
 
 bool Module::close()
 {
-    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
-
-    // set the file name
-    std::time_t t = std::time(nullptr);
-    std::tm tm = *std::localtime(&t);
-
-    std::ofstream stream; /**< std stream. */
-    std::stringstream fileName;
-
-    fileName << "Dataset_" << m_robotControl.getJointList().front() << "_"
-             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".txt";
-    stream.open(fileName.str().c_str());
-
-    const auto minSize = std::min(m_logJointPos.size(), m_logDesiredJointPos.size());
-
-    stream << "desired_joint, measured_joint" << std::endl;
-    for (int i = 0; i < minSize; i++)
-        stream << m_logDesiredJointPos[i] << ", " << m_logJointPos[i] << std::endl;
-
-    stream.close();
-
-    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
-
     // switch back in position control
-    m_robotControl.setReferences(m_spline.get().position,
+    m_robotControl.setReferences(m_currentJointPos,
                                  RobotInterface::IRobotControl::ControlMode::Position);
 
     return true;

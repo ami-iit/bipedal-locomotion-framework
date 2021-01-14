@@ -12,6 +12,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <deque>
+
+
+// iDynTree
+#include <iDynTree/Core/VectorDynSize.h>
+
 
 // YARP
 #include <yarp/os/RFModule.h>
@@ -48,6 +54,7 @@ class Module : public yarp::os::RFModule
     std::vector<Eigen::VectorXd> m_trajectoryKnots;
 
     double m_initTrajectoryTime;
+    std::deque<iDynTree::VectorDynSize> m_qDesired; /**< Vector containing the results of the IK alg */
 
     bool generateNewTrajectory();
 
@@ -62,6 +69,12 @@ class Module : public yarp::os::RFModule
 
     std::vector<double> m_logJointPos;
     std::vector<double> m_logDesiredJointPos;
+
+    /**
+     * Advance the reference signal.
+     * @return true in case of success and false otherwise.
+     */
+    bool advanceReferenceSignals();
 
 public:
     /**
