@@ -10,6 +10,18 @@
 
 using namespace BipedalLocomotion::System;
 
+bool VariablesHandler::VariableDescription::isValid() const
+{
+    return (offset >= 0) && (size >= 0);
+}
+
+VariablesHandler::VariableDescription VariablesHandler::VariableDescription::InvalidVariable()
+{
+    VariablesHandler::VariableDescription tmp;
+    tmp.offset = tmp.size = -1;
+    return tmp;
+}
+
 bool VariablesHandler::addVariable(const std::string& name, const std::size_t& size) noexcept
 {
     // if the variable already exist cannot be added again.
@@ -20,7 +32,7 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
         return false;
     }
 
-    iDynTree::IndexRange indexRange;
+    VariablesHandler::VariableDescription indexRange;
     indexRange.size = size;
     indexRange.offset = m_numberOfVariables;
     m_variables.emplace(name, indexRange);
@@ -29,7 +41,8 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
     return true;
 }
 
-iDynTree::IndexRange VariablesHandler::getVariable(const std::string& name) const noexcept
+VariablesHandler::VariableDescription VariablesHandler::getVariable(const std::string& name) const
+    noexcept
 {
     auto variable = m_variables.find(name);
 
@@ -39,7 +52,14 @@ iDynTree::IndexRange VariablesHandler::getVariable(const std::string& name) cons
     if (variable != m_variables.end())
         return variable->second;
     else
-        return iDynTree::IndexRange::InvalidRange();
+        return VariablesHandler::VariableDescription::InvalidVariable();
+}
+
+bool VariablesHandler::getVariable(const std::string& name,
+                                   VariablesHandler::VariableDescription& description) const
+    noexcept
+{
+    return (description = this->getVariable(name)).isValid();
 }
 
 const std::size_t& VariablesHandler::getNumberOfVariables() const noexcept

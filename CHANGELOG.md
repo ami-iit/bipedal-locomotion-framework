@@ -28,6 +28,8 @@ All notable changes to this project are documented in this file.
 - Implement `FloatingBaseEstimatorDevice` YARP device for wrapping floating base estimation algorithms. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/130)
 - Implement Continuous algebraic Riccati equation function (https://github.com/dic-iit/bipedal-locomotion-framework/pull/157)
 - Implement YARP based `ROSPublisher` in the `YarpUtilities` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/156)
-- Implement the `JointTrajectoryPlayer` application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/169)
+- Implement example YARP device `ROSPublisherTestDevice` for understanding the usage of `ROSPublisher`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/160)
+- Implement `TSID` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/167)
+- Implement the `JointTrajectoryPlayer` application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/169)29ed234a1c
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/

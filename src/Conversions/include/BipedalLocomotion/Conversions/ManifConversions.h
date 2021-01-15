@@ -57,7 +57,46 @@ namespace Conversions
     inline manif::SE3d toManifPose(const iDynTree::Transform& H)
     {
         return toManifPose(iDynTree::toEigen(H.getRotation()),
-                           iDynTree::toEigen(H.getPosition()));;
+                           iDynTree::toEigen(H.getPosition()));
+    }
+
+    /**
+     * @brief Convert rotation matrix to manif SO3 object
+     *
+     * @param rotation reference to 3x3 Eigen matrix
+     * @return pose as manif SO3 object
+     */
+    template <class Scalar>
+    manif::SO3<Scalar> toManifRot(const Eigen::Matrix<Scalar, 3, 3>& rotation)
+    {
+        Eigen::Quaternion<Scalar> quat = Eigen::Quaternion<Scalar>(rotation);
+        quat.normalize(); // SO3 constructor expects normalized quaternion
+        return manif::SO3<Scalar>(quat);
+    }
+
+    /**
+     * @brief Convert rotation matrix to manif SO3d object
+     *
+     * @param rotation Eigen ref of 3x3 rotation matrix
+     * @param translation Eigen ref of 3x1 translation vector
+     * @return pose as manif SO3d object
+     */
+    inline manif::SO3d toManifRot(Eigen::Ref<const Eigen::Matrix3d> rotation)
+    {
+        Eigen::Quaterniond quat = Eigen::Quaterniond(rotation);
+        quat.normalize(); // SO3 constructor expects normalized quaternion
+        return manif::SO3d(quat);
+    }
+
+    /**
+     * @brief Convert iDynTree rotation object to manif SE3d object
+     *
+     * @param R reference to iDynTree rotation object
+     * @return pose as manif SO3d object
+     */
+    inline manif::SO3d toManifRot(const iDynTree::Rotation& R)
+    {
+        return toManifRot(iDynTree::toEigen(R));
     }
 
 } // namespace Conversions
