@@ -10,8 +10,3 @@ add_bipedal_locomotion_application(
   )
 
 install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/config)
-
-install(FILES script/blf-joint-trajectory-player-script.sh
-  PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-  DESTINATION "${CMAKE_INSTALL_BINDIR}")
-

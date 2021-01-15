@@ -41,10 +41,9 @@ class Module : public yarp::os::RFModule
 
     int m_numOfJoints; /**< Number of joints to control. */
 
-    std::vector<double> m_setPoints;
-    std::vector<double>::const_iterator m_currentSetPoint;
-
     std::deque<Eigen::VectorXd> m_qDesired; /**< Vector containing the results of the IK alg */
+
+    std::vector<Eigen::VectorXd> m_logJointPos;
 
     bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
@@ -52,7 +51,8 @@ class Module : public yarp::os::RFModule
 
     bool instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    std::vector<Eigen::VectorXd> m_logJointPos;
+    std::pair<bool, std::deque<Eigen::VectorXd>>
+    readStateFromFile(const std::string& filename, const std::size_t num_fields);
 
     /**
      * Advance the reference signal.

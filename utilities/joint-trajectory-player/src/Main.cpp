@@ -1,6 +1,6 @@
 /**
  * @file Main.cpp
- * @authors Giulio Romualdi, Ines Sorrentino
+ * @authors Ines Sorrentino
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */

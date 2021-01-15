@@ -1,6 +1,6 @@
 /**
  * @file Module.cpp
- * @authors Giulio Romualdi, Ines Sorrentino
+ * @authors Ines Sorrentino
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
@@ -104,7 +104,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
 }
 
 std::pair<bool, std::deque<Eigen::VectorXd>>
-readStateFromFile(const std::string& filename, const std::size_t num_fields)
+Module::readStateFromFile(const std::string& filename, const std::size_t num_fields)
 {
     std::deque<Eigen::VectorXd> data;
 
@@ -164,10 +164,6 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     this->setName(name.c_str());
 
     if (!parametersHandler->getParameter("sampling_time", m_dT))
-        return false;
-
-    double initialTrajDuration = 5;
-    if (!parametersHandler->getParameter("initial_trajectory_duration", initialTrajDuration))
         return false;
 
     std::string trajectoryFile;
