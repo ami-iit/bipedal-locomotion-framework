@@ -9,17 +9,15 @@
 #include <iomanip>
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/JointTrajectoryPlayer/Module.h>
 
 #include <yarp/dev/IEncoders.h>
-
-#include <iDynTree/Core/EigenHelpers.h>
 
 using Vector1d = Eigen::Matrix<double, 1, 1>;
 
@@ -48,24 +46,12 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
         return false;
     }
 
-    
     // check the number of controlled joints
     m_numOfJoints = 0;
     yarp::dev::IEncoders* axis;
     m_robotDevice->view(axis);
     if (axis != nullptr)
         axis->getAxes(&m_numOfJoints);
-
-    /*
-    if (controlBoardDOFs != 1)
-    {
-        std::cerr << "[Module::createPolydriver] The current implementation can be used to control "
-                     "only one joint. Please be sure that the size of the joint_list and "
-                     "remote_control_boards is equal to one."
-                  << std::endl;
-        return false;
-    }
-    */
 
     return true;
 }
@@ -117,9 +103,10 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
     return true;
 }
 
-std::pair<bool, std::deque<iDynTree::VectorDynSize>> readStateFromFile(const std::string& filename, const std::size_t num_fields)
+std::pair<bool, std::deque<Eigen::VectorXd>>
+readStateFromFile(const std::string& filename, const std::size_t num_fields)
 {
-    std::deque<iDynTree::VectorDynSize> data;
+    std::deque<Eigen::VectorXd> data;
 
     std::ifstream istrm(filename);
 
@@ -127,8 +114,7 @@ std::pair<bool, std::deque<iDynTree::VectorDynSize>> readStateFromFile(const std
     {
         std::cout << "Failed to open " << filename << '\n';
         return std::make_pair(false, data);
-    }
-    else
+    } else
     {
         std::vector<std::string> istrm_strings;
         std::string line;
@@ -137,7 +123,7 @@ std::pair<bool, std::deque<iDynTree::VectorDynSize>> readStateFromFile(const std
             istrm_strings.push_back(line);
         }
 
-        iDynTree::VectorDynSize vector;
+        Eigen::VectorXd vector;
         vector.resize(num_fields);
         std::size_t found_lines = 0;
         for (auto line : istrm_strings)
@@ -153,7 +139,10 @@ std::pair<bool, std::deque<iDynTree::VectorDynSize>> readStateFromFile(const std
             }
             if (num_fields != found_fields)
             {
-                std::cout << "Malformed input file " << filename << '\n';
+                std::cout << "[Module::readStateFromFile] Malformed input file " << filename
+                          << std::endl;
+                std::cout << "[Module::readStateFromFile] Expected " << num_fields
+                          << " columns, found " << found_fields << std::endl;
 
                 return std::make_pair(false, data);
             }
@@ -167,153 +156,137 @@ std::pair<bool, std::deque<iDynTree::VectorDynSize>> readStateFromFile(const std
 
 bool Module::configure(yarp::os::ResourceFinder& rf)
 {
-    m_currentJointPos.resize(1);
-
     auto parametersHandler = std::make_shared<ParametersHandler::YarpImplementation>(rf);
 
     std::string name;
-    if(!parametersHandler->getParameter("name", name))
+    if (!parametersHandler->getParameter("name", name))
         return false;
     this->setName(name.c_str());
 
-    if(!parametersHandler->getParameter("sampling_time", m_dT))
+    if (!parametersHandler->getParameter("sampling_time", m_dT))
         return false;
-
-    /*
-    double maxValue = 0;
-    if(!parametersHandler->getParameter("max_angle_deg", maxValue))
-        return false;
-
-    maxValue *= M_PI / 180;
-
-    double minValue = 0;
-    if(!parametersHandler->getParameter("min_angle_deg", minValue))
-        return false;
-
-    minValue *= M_PI / 180;
-    */
 
     double initialTrajDuration = 5;
-    if(!parametersHandler->getParameter("initial_trajectory_duration", initialTrajDuration))
+    if (!parametersHandler->getParameter("initial_trajectory_duration", initialTrajDuration))
         return false;
-    
 
     std::string trajectoryFile;
-    if(!parametersHandler->getParameter("trajectory_file", trajectoryFile))
+    if (!parametersHandler->getParameter("trajectory_file", trajectoryFile))
         return false;
 
     this->createPolydriver(parametersHandler);
     this->initializeRobotControl(parametersHandler);
     this->instantiateSensorBridge(parametersHandler);
 
+    m_currentJointPos.resize(m_robotControl.getJointList().size());
+
     m_qDesired.clear();
     auto data = readStateFromFile(trajectoryFile, m_numOfJoints);
-    if(!data.first)
+    if (!data.first)
     {
         return false;
     }
     m_qDesired = data.second;
-    
 
-    /*
-    m_setPoints.push_back((maxValue + minValue) / 2);
-    m_setPoints.push_back(maxValue);
-    m_setPoints.push_back(minValue);
-    m_setPoints.push_back((maxValue + minValue) / 2);
-    */
-
-    //m_spline.setAdvanceTimeStep(m_dT);
-    //m_spline.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
-    //m_spline.setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
-
-    //m_timeKnots.clear();
-    //m_timeKnots.push_back(0);
-    //m_timeKnots.push_back(initialTrajDuration);
-
-    //if (!m_sensorBridge.advance())
-    //{
-    //    std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
-    //    return false;
-    //}
-    //m_sensorBridge.getJointPositions(m_currentJointPos);
-
-    // the trajectory will bring the robot in the initial configuration
-    //m_setPoints.push_back(m_currentJointPos[0]);
-    //m_currentSetPoint = m_setPoints.begin();
-
-    //m_trajectoryKnots.push_back(m_currentJointPos);
-    //m_trajectoryKnots.push_back(Vector1d::Constant(*m_currentSetPoint));
-
-    //m_spline.setKnots(m_trajectoryKnots, m_timeKnots);
-
-    //m_initTrajectoryTime = yarp::os::Time::now();
+    // check if vector is not initialized
+    if (m_qDesired.empty())
+    {
+        std::cerr << "[Module::configure] Cannot advance empty reference signals." << std::endl;
+        return false;
+    }
 
     std::cout << "[Module::configure] Starting the experiment." << std::endl;
 
-    return true;
-}
-
-bool Module::generateNewTrajectory()
-{
-    double initTrajectory = *m_currentSetPoint;
-
-    // the trajectory is ended
-    if (std::next(m_currentSetPoint, 1) == m_setPoints.end())
-        return false;
-
-    std::advance(m_currentSetPoint, 1);
-    double endTrajectory = *m_currentSetPoint;
-
-    m_trajectoryKnots[0] = Vector1d::Constant(initTrajectory);
-    m_trajectoryKnots[1] = Vector1d::Constant(endTrajectory);
-
-    m_spline.setKnots(m_trajectoryKnots, m_timeKnots);
-
-    m_initTrajectoryTime = yarp::os::Time::now();
+    // Reach the first position of the desired trajectory in position control
+    m_robotControl.setReferences(m_qDesired.front(),
+                                 RobotInterface::IRobotControl::ControlMode::Position);
 
     return true;
 }
 
 bool Module::advanceReferenceSignals()
 {
-    // check if vector is not initialized
-    if(m_qDesired.empty())
+    m_qDesired.pop_front();
+
+    // check if the vector is empty. If true the trajectory is ended
+    if (m_qDesired.empty())
     {
-        std::cerr << "[jointControlModule::advanceReferenceSignals] Cannot advance empty reference signals." << std::endl;
         return false;
     }
-
-    m_qDesired.pop_front();
-    m_qDesired.push_back(m_qDesired.back());
 
     return true;
 }
 
 bool Module::updateModule()
 {
-    if (!m_sensorBridge.advance())
+    bool isMotionDone;
+    bool isMimeExpired;
+    std::vector<std::pair<std::string, double>> jointlist;
+
+    m_robotControl.checkMotionDone(isMotionDone, isMimeExpired, jointlist);
+
+    if (isMotionDone)
     {
-        std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
-        return false;
+        if (!m_sensorBridge.advance())
+        {
+            std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
+            return false;
+        }
+
+        if (!m_sensorBridge.getJointPositions(m_currentJointPos))
+        {
+            std::cerr << "[Module::updateModule] Error in reading current position." << std::endl;
+            return false;
+        }
+
+        // set the reference
+        if (!m_robotControl
+                 .setReferences(m_qDesired.front(),
+                                RobotInterface::IRobotControl::ControlMode::PositionDirect))
+        {
+            std::cerr << "[Module::updateModule] Error while setting the reference position to "
+                         "iCub."
+                      << std::endl;
+            return false;
+        }
+
+        m_logJointPos.push_back(m_currentJointPos);
+
+        if (!advanceReferenceSignals())
+        {
+            std::cout << "[Module::updateModule] Experiment finished." << std::endl;
+
+            return false;
+        }
     }
-
-    // set the reference
-    if(!m_robotControl.setReferences(iDynTree::toEigen(m_qDesired.front()),
-                                 RobotInterface::IRobotControl::ControlMode::PositionDirect))
-    {
-        std::cerr << "[Module::updateModule] Error while setting the reference position to iCub." << std::endl;
-        return false;
-    }
-
-    advanceReferenceSignals();
-
-    m_sensorBridge.getJointPositions(m_currentJointPos);
 
     return true;
 }
 
 bool Module::close()
 {
+    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
+
+    // set the file name
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+
+    std::ofstream stream; /**< std stream. */
+    std::stringstream fileName;
+
+    fileName << "Dataset_Measured_" << m_robotControl.getJointList().front() << "_"
+             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".txt";
+    stream.open(fileName.str().c_str());
+
+    const auto sizeTraj = m_logJointPos.size();
+
+    for (int i = 0; i < sizeTraj; i++)
+        stream << m_logJointPos[i].transpose() << std::endl;
+
+    stream.close();
+
+    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
+
     // switch back in position control
     m_robotControl.setReferences(m_currentJointPos,
                                  RobotInterface::IRobotControl::ControlMode::Position);

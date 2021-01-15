@@ -1,6 +1,6 @@
 /**
  * @file Module.h
- * @authors Giulio Romualdi, Ines Sorrentino
+ * @authors Ines Sorrentino
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
@@ -9,15 +9,10 @@
 #define BIPEDAL_LOCOMOTION_UTILITIES_JOINT_TRAJECTORY_PLAYER_MODULE_H
 
 // std
+#include <deque>
 #include <memory>
 #include <string>
 #include <vector>
-#include <deque>
-
-
-// iDynTree
-#include <iDynTree/Core/VectorDynSize.h>
-
 
 // YARP
 #include <yarp/os/RFModule.h>
@@ -41,34 +36,23 @@ class Module : public yarp::os::RFModule
 
     std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice;
 
-    BipedalLocomotion::RobotInterface::YarpRobotControl m_robotControl;
-    BipedalLocomotion::RobotInterface::YarpSensorBridge m_sensorBridge;
+    RobotInterface::YarpRobotControl m_robotControl;
+    RobotInterface::YarpSensorBridge m_sensorBridge;
 
     int m_numOfJoints; /**< Number of joints to control. */
 
     std::vector<double> m_setPoints;
     std::vector<double>::const_iterator m_currentSetPoint;
 
-    BipedalLocomotion::Planners::QuinticSpline m_spline;
-    std::vector<double> m_timeKnots;
-    std::vector<Eigen::VectorXd> m_trajectoryKnots;
+    std::deque<Eigen::VectorXd> m_qDesired; /**< Vector containing the results of the IK alg */
 
-    double m_initTrajectoryTime;
-    std::deque<iDynTree::VectorDynSize> m_qDesired; /**< Vector containing the results of the IK alg */
+    bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    bool generateNewTrajectory();
+    bool initializeRobotControl(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    bool createPolydriver(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    bool initializeRobotControl(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
-
-    bool instantiateSensorBridge(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
-
-    std::vector<double> m_logJointPos;
-    std::vector<double> m_logDesiredJointPos;
+    std::vector<Eigen::VectorXd> m_logJointPos;
 
     /**
      * Advance the reference signal.
