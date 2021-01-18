@@ -29,7 +29,7 @@ All notable changes to this project are documented in this file.
 - Implement Continuous algebraic Riccati equation function (https://github.com/dic-iit/bipedal-locomotion-framework/pull/157)
 - Implement YARP based `ROSPublisher` in the `YarpUtilities` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/156)
 - Implement example YARP device `ROSPublisherTestDevice` for understanding the usage of `ROSPublisher`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/160)
-- Implement `TSID` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/167)
+- Implement `TSID` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/167, https://github.com/dic-iit/bipedal-locomotion-framework/pull/170)
 - Implement `ContactDetectors` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/142)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
