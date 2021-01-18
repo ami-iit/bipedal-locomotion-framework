@@ -19,8 +19,6 @@
 
 #include <yarp/dev/IEncoders.h>
 
-using Vector1d = Eigen::Matrix<double, 1, 1>;
-
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::JointTrajectoryPlayer;
 
@@ -45,13 +43,6 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
                   << std::endl;
         return false;
     }
-
-    // check the number of controlled joints
-    m_numOfJoints = 0;
-    yarp::dev::IEncoders* axis;
-    m_robotDevice->view(axis);
-    if (axis != nullptr)
-        axis->getAxes(&m_numOfJoints);
 
     return true;
 }
@@ -104,7 +95,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
 }
 
 std::pair<bool, std::deque<Eigen::VectorXd>>
-Module::readStateFromFile(const std::string& filename, const std::size_t num_fields)
+Module::readStateFromFile(const std::string& filename, const std::size_t numFields)
 {
     std::deque<Eigen::VectorXd> data;
 
@@ -124,7 +115,7 @@ Module::readStateFromFile(const std::string& filename, const std::size_t num_fie
         }
 
         Eigen::VectorXd vector;
-        vector.resize(num_fields);
+        vector.resize(numFields);
         std::size_t found_lines = 0;
         for (auto line : istrm_strings)
         {
@@ -137,11 +128,11 @@ Module::readStateFromFile(const std::string& filename, const std::size_t num_fie
                 vector(found_fields) = std::stod(number_str);
                 found_fields++;
             }
-            if (num_fields != found_fields)
+            if (numFields != found_fields)
             {
                 std::cout << "[Module::readStateFromFile] Malformed input file " << filename
                           << std::endl;
-                std::cout << "[Module::readStateFromFile] Expected " << num_fields
+                std::cout << "[Module::readStateFromFile] Expected " << numFields
                           << " columns, found " << found_fields << std::endl;
 
                 return std::make_pair(false, data);
@@ -168,13 +159,23 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     std::string trajectoryFile;
     if (!parametersHandler->getParameter("trajectory_file", trajectoryFile))
+    {
+        std::cerr << "[Module::configure] trajectory_file parameter not specified." << std::endl;
         return false;
+    }
 
     this->createPolydriver(parametersHandler);
     this->initializeRobotControl(parametersHandler);
     this->instantiateSensorBridge(parametersHandler);
 
-    m_currentJointPos.resize(m_robotControl.getJointList().size());
+    m_numOfJoints = m_robotControl.getJointList().size();
+    if (m_numOfJoints == 0)
+    {
+        std::cerr << "[Module::configure] No joints to control." << std::endl;
+        return false;
+    }
+
+    m_currentJointPos.resize(m_numOfJoints);
 
     m_qDesired.clear();
     auto data = readStateFromFile(trajectoryFile, m_numOfJoints);
@@ -197,6 +198,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_robotControl.setReferences(m_qDesired.front(),
                                  RobotInterface::IRobotControl::ControlMode::Position);
 
+    m_state = State::positioning;
+
     return true;
 }
 
@@ -216,13 +219,30 @@ bool Module::advanceReferenceSignals()
 bool Module::updateModule()
 {
     bool isMotionDone;
-    bool isMimeExpired;
+    bool isTimeExpired;
     std::vector<std::pair<std::string, double>> jointlist;
 
-    m_robotControl.checkMotionDone(isMotionDone, isMimeExpired, jointlist);
-
-    if (isMotionDone)
+    switch (m_state)
     {
+    case State::positioning:
+        if (!m_robotControl.checkMotionDone(isMotionDone, isTimeExpired, jointlist))
+        {
+            std::cerr << "";
+            return false;
+        }
+        if (isTimeExpired)
+        {
+            std::cerr << "Printa lista giunti che non hanno finito (primo nome del giunto secondo "
+                         "errore in radianti)";
+            return false;
+        }
+        if (isMotionDone)
+        {
+            m_state = State::running;
+        }
+        break;
+
+    case State::running:
         if (!m_sensorBridge.advance())
         {
             std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
@@ -254,6 +274,12 @@ bool Module::updateModule()
 
             return false;
         }
+        break;
+
+    default:
+        std::cerr << "";
+        return false;
+        break;
     }
 
     return true;

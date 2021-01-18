@@ -32,18 +32,18 @@ class Module : public yarp::os::RFModule
     double m_dT; /**< RFModule period. */
     std::string m_robot; /**< Robot name. */
 
-    Eigen::VectorXd m_currentJointPos;
+    Eigen::VectorXd m_currentJointPos; /**< Current joint positions. */
 
     std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice;
 
-    RobotInterface::YarpRobotControl m_robotControl;
-    RobotInterface::YarpSensorBridge m_sensorBridge;
+    RobotInterface::YarpRobotControl m_robotControl; /**< Robot control object. */
+    RobotInterface::YarpSensorBridge m_sensorBridge; /**< Sensor bridge object. */
 
     int m_numOfJoints; /**< Number of joints to control. */
 
     std::deque<Eigen::VectorXd> m_qDesired; /**< Vector containing the results of the IK alg */
 
-    std::vector<Eigen::VectorXd> m_logJointPos;
+    std::vector<Eigen::VectorXd> m_logJointPos; /**< Measured joint positions. */
 
     bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
@@ -53,6 +53,9 @@ class Module : public yarp::os::RFModule
 
     std::pair<bool, std::deque<Eigen::VectorXd>>
     readStateFromFile(const std::string& filename, const std::size_t num_fields);
+
+    enum class State {idle, positioning, running};
+    State m_state{State::idle};
 
     /**
      * Advance the reference signal.
