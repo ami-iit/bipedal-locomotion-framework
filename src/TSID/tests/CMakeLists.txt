@@ -6,3 +6,8 @@ add_bipedal_test(
   NAME SE3Task
   SOURCES SE3TaskTest.cpp
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions)
+
+add_bipedal_test(
+  NAME JointRegularizationTask
+  SOURCES JointRegularizationTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
