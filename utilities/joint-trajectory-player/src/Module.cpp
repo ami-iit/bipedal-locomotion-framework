@@ -5,7 +5,6 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <fstream>
 #include <iomanip>
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
@@ -18,6 +17,8 @@
 #include <BipedalLocomotion/JointTrajectoryPlayer/Module.h>
 
 #include <yarp/dev/IEncoders.h>
+
+#include <BipedalLocomotion/Conversions/matioCppConversions.h>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::JointTrajectoryPlayer;
@@ -94,54 +95,28 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
     return true;
 }
 
-std::pair<bool, std::deque<Eigen::VectorXd>>
-Module::readStateFromFile(const std::string& filename, const std::size_t numFields)
+bool Module::readStateFromFile(const std::string& filename, const std::size_t numFields)
 {
     std::deque<Eigen::VectorXd> data;
 
-    std::ifstream istrm(filename);
+    matioCpp::File input(filename);
 
-    if (!istrm.is_open())
+    if (!input.isOpen())
     {
-        std::cout << "Failed to open " << filename << '\n';
-        return std::make_pair(false, data);
+        std::cout << "[Module::readStateFromFile] Failed to open " << filename << "." << std::endl;
+        return false;
     } else
     {
-        std::vector<std::string> istrm_strings;
-        std::string line;
-        while (std::getline(istrm, line))
+        m_traj = input.read("traj").asMultiDimensionalArray<double>(); // Read a multi dimensional
+                                                                       // array named "traj"
+        if (!m_traj.isValid())
         {
-            istrm_strings.push_back(line);
+            std::cerr << "[Module::readStateFromFile] Error reading input file: " << filename << "."
+                      << std::endl;
+            return false;
         }
 
-        Eigen::VectorXd vector;
-        vector.resize(numFields);
-        std::size_t found_lines = 0;
-        for (auto line : istrm_strings)
-        {
-            std::size_t found_fields = 0;
-            std::string number_str;
-            std::istringstream iss(line);
-
-            while (iss >> number_str)
-            {
-                vector(found_fields) = std::stod(number_str);
-                found_fields++;
-            }
-            if (numFields != found_fields)
-            {
-                std::cout << "[Module::readStateFromFile] Malformed input file " << filename
-                          << std::endl;
-                std::cout << "[Module::readStateFromFile] Expected " << numFields
-                          << " columns, found " << found_fields << std::endl;
-
-                return std::make_pair(false, data);
-            }
-            data.push_back(vector);
-            found_lines++;
-        }
-
-        return std::make_pair(true, data);
+        return true;
     }
 }
 
@@ -160,7 +135,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     std::string trajectoryFile;
     if (!parametersHandler->getParameter("trajectory_file", trajectoryFile))
     {
-        std::cerr << "[Module::configure] trajectory_file parameter not specified." << std::endl;
+        std::cerr << "[Module::configure] Trajectory_file parameter not specified." << std::endl;
         return false;
     }
 
@@ -175,43 +150,22 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
+    m_axisList = m_robotControl.getJointList();
+
     m_currentJointPos.resize(m_numOfJoints);
 
-    m_qDesired.clear();
-    auto data = readStateFromFile(trajectoryFile, m_numOfJoints);
-    if (!data.first)
+    if (!readStateFromFile(trajectoryFile, m_numOfJoints))
     {
-        return false;
-    }
-    m_qDesired = data.second;
-
-    // check if vector is not initialized
-    if (m_qDesired.empty())
-    {
-        std::cerr << "[Module::configure] Cannot advance empty reference signals." << std::endl;
         return false;
     }
 
     std::cout << "[Module::configure] Starting the experiment." << std::endl;
 
     // Reach the first position of the desired trajectory in position control
-    m_robotControl.setReferences(m_qDesired.front(),
+    m_robotControl.setReferences(Conversions::toEigen(m_traj).row(m_idxTraj),
                                  RobotInterface::IRobotControl::ControlMode::Position);
 
     m_state = State::positioning;
-
-    return true;
-}
-
-bool Module::advanceReferenceSignals()
-{
-    m_qDesired.pop_front();
-
-    // check if the vector is empty. If true the trajectory is ended
-    if (m_qDesired.empty())
-    {
-        return false;
-    }
 
     return true;
 }
@@ -255,9 +209,22 @@ bool Module::updateModule()
             return false;
         }
 
+        for (int i = 0; i < m_numOfJoints; i++)
+        {
+            m_logJointPos[m_axisList[i]].push_back(m_currentJointPos[i]);
+        }
+
+        m_idxTraj++;
+        if (m_idxTraj == Conversions::toEigen(m_traj).rows())
+        {
+            std::cout << "[Module::updateModule] Experiment finished." << std::endl;
+
+            return false;
+        }
+
         // set the reference
         if (!m_robotControl
-                 .setReferences(m_qDesired.front(),
+                 .setReferences(Conversions::toEigen(m_traj).row(m_idxTraj),
                                 RobotInterface::IRobotControl::ControlMode::PositionDirect))
         {
             std::cerr << "[Module::updateModule] Error while setting the reference position to "
@@ -266,14 +233,6 @@ bool Module::updateModule()
             return false;
         }
 
-        m_logJointPos.push_back(m_currentJointPos);
-
-        if (!advanceReferenceSignals())
-        {
-            std::cout << "[Module::updateModule] Experiment finished." << std::endl;
-
-            return false;
-        }
         break;
 
     default:
@@ -293,19 +252,19 @@ bool Module::close()
     std::time_t t = std::time(nullptr);
     std::tm tm = *std::localtime(&t);
 
-    std::ofstream stream; /**< std stream. */
     std::stringstream fileName;
 
     fileName << "Dataset_Measured_" << m_robotControl.getJointList().front() << "_"
-             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".txt";
-    stream.open(fileName.str().c_str());
+             << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
 
-    const auto sizeTraj = m_logJointPos.size();
+    matioCpp::File file = matioCpp::File::Create(fileName.str().c_str());
 
-    for (int i = 0; i < sizeTraj; i++)
-        stream << m_logJointPos[i].transpose() << std::endl;
-
-    stream.close();
+    for (auto& [key, value] : m_logJointPos)
+    {
+        matioCpp::Vector<double> out(key);
+        out = value;
+        file.write(out);
+    }
 
     std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
 

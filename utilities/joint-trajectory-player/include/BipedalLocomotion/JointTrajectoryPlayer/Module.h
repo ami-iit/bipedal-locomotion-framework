@@ -17,6 +17,8 @@
 // YARP
 #include <yarp/os/RFModule.h>
 
+#include <matioCpp/matioCpp.h>
+
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
@@ -43,7 +45,13 @@ class Module : public yarp::os::RFModule
 
     std::deque<Eigen::VectorXd> m_qDesired; /**< Vector containing the results of the IK alg */
 
-    std::vector<Eigen::VectorXd> m_logJointPos; /**< Measured joint positions. */
+    std::unordered_map<std::string, std::vector<double>> m_logJointPos; /**< Measured joint
+                                                                           positions. */
+
+    std::vector<std::string> m_axisList; /**< Axis name list. */
+
+    matioCpp::MultiDimensionalArray<double> m_traj;
+    unsigned int m_idxTraj{0};
 
     bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
@@ -51,17 +59,16 @@ class Module : public yarp::os::RFModule
 
     bool instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
-    std::pair<bool, std::deque<Eigen::VectorXd>>
-    readStateFromFile(const std::string& filename, const std::size_t num_fields);
+    bool readStateFromFile(const std::string& filename, const std::size_t numFields);
+    
 
-    enum class State {idle, positioning, running};
+    enum class State
+    {
+        idle,
+        positioning,
+        running
+    };
     State m_state{State::idle};
-
-    /**
-     * Advance the reference signal.
-     * @return true in case of success and false otherwise.
-     */
-    bool advanceReferenceSignals();
 
 public:
     /**
