@@ -36,22 +36,29 @@ class Module : public yarp::os::RFModule
 
     Eigen::VectorXd m_currentJointPos; /**< Current joint positions. */
 
-    std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice;
+    std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice; /**< PolyDriver. */
 
     RobotInterface::YarpRobotControl m_robotControl; /**< Robot control object. */
     RobotInterface::YarpSensorBridge m_sensorBridge; /**< Sensor bridge object. */
 
     int m_numOfJoints; /**< Number of joints to control. */
 
-    std::deque<Eigen::VectorXd> m_qDesired; /**< Vector containing the results of the IK alg */
-
     std::unordered_map<std::string, std::vector<double>> m_logJointPos; /**< Measured joint
                                                                            positions. */
 
     std::vector<std::string> m_axisList; /**< Axis name list. */
 
-    matioCpp::MultiDimensionalArray<double> m_traj;
-    unsigned int m_idxTraj{0};
+    matioCpp::MultiDimensionalArray<double> m_traj; /**< Joint trajectory. */
+
+    unsigned int m_idxTraj{0}; /**< Index to iterate the trajectory. */
+
+    enum class State
+    {
+        idle,
+        positioning,
+        running
+    };
+    State m_state{State::idle}; /** State machine */
 
     bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
@@ -60,15 +67,6 @@ class Module : public yarp::os::RFModule
     bool instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
 
     bool readStateFromFile(const std::string& filename, const std::size_t numFields);
-    
-
-    enum class State
-    {
-        idle,
-        positioning,
-        running
-    };
-    State m_state{State::idle};
 
 public:
     /**
