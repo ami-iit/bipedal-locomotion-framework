@@ -62,9 +62,10 @@ TEST_CASE("Bare Bones Base Estimator")
 
     auto model = mdl_ldr.model().copy();
 
+    auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     // Instantiate the estimator
     FloatingBaseEstimator estimator;
-    REQUIRE(estimator.initialize(parameterHandler, model));
+    REQUIRE(estimator.initialize(parameterHandler, kinDyn, model));
     REQUIRE(estimator.modelComputations().isModelSet());
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");

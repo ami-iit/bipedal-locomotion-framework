@@ -12,8 +12,16 @@
 using namespace BipedalLocomotion::Estimators;
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                       std::shared_ptr<iDynTree::KinDynComputations> kindyn,
                                        const iDynTree::Model& model)
 {
+    if (!m_modelComp.setKinDynObject(kindyn))
+    {
+        std::cerr << "[FloatingBaseEstimator::initialize] The pointer to KinDynComputations object could not be set."
+        << std::endl;
+        return false;
+    }
+    
     if (!m_modelComp.setModel(model))
     {
         std::cerr << "[FloatingBaseEstimator::initialize] The model could not be loaded."
@@ -118,9 +126,29 @@ bool FloatingBaseEstimator::advance()
     return ok;
 }
 
+bool FloatingBaseEstimator::ModelComputations::setKinDynObject(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if (kinDyn != nullptr)
+    {
+        m_kindyn = kinDyn;
+        m_validKinDyn = true;
+        return true;
+    }
+    
+    std::cerr << "[FloatingBaseEstimator::ModelComputations::setModel] Invalid KinDynComputations object." << std::endl;
+    return false;
+}
+
 bool FloatingBaseEstimator::ModelComputations::setModel(const iDynTree::Model& model)
 {
-    if (!m_kindyn.loadRobotModel(model))
+    if (!isKinDynValid())
+    {
+        std::cerr << "[FloatingBaseEstimator::ModelComputations::setModel] Please set kindyn object before calling this method."
+        << std::endl;
+        return false;
+    }
+    
+    if (!m_kindyn->loadRobotModel(model))
     {
         return false;
     }
@@ -133,7 +161,7 @@ bool FloatingBaseEstimator::ModelComputations::setModel(const iDynTree::Model& m
 bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& baseLink,
                                                                  const std::string& imuFrame)
 {
-    m_baseLinkIdx = m_kindyn.model().getFrameIndex(baseLink);
+    m_baseLinkIdx = m_kindyn->model().getFrameIndex(baseLink);
     if (m_baseLinkIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified base link not available in the loaded URDF Model."
@@ -141,7 +169,7 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
         return false;
     }
 
-    m_baseImuIdx = m_kindyn.model().getFrameIndex(imuFrame);
+    m_baseImuIdx = m_kindyn->model().getFrameIndex(imuFrame);
     if (m_baseImuIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU frame not available in the loaded URDF Model."
@@ -149,7 +177,7 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
         return false;
     }
 
-    if (m_baseLinkIdx != m_kindyn.model().getFrameLink(m_baseImuIdx))
+    if (m_baseLinkIdx != m_kindyn->model().getFrameLink(m_baseImuIdx))
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU not rigidly attached to the base link. Please specify a base link colocated IMU."
         << std::endl;
@@ -157,23 +185,23 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
     }
 
 
-    if (m_kindyn.model().getDefaultBaseLink() != m_baseLinkIdx)
+    if (m_kindyn->model().getDefaultBaseLink() != m_baseLinkIdx)
     {
-        auto model = m_kindyn.model();
+        auto model = m_kindyn->model();
         model.setDefaultBaseLink(m_baseLinkIdx);
         setModel(model);
     }
 
     m_baseLink = baseLink;
     m_baseImuFrame = imuFrame;
-    m_base_H_imu = m_kindyn.model().getFrameTransform(m_baseImuIdx);
+    m_base_H_imu = m_kindyn->model().getFrameTransform(m_baseImuIdx);
     return true;
 }
 
 bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::string& lFootContactFrame,
                                                                     const std::string& rFootContactFrame)
 {
-    m_lFootContactIdx = m_kindyn.model().getFrameIndex(lFootContactFrame);
+    m_lFootContactIdx = m_kindyn->model().getFrameIndex(lFootContactFrame);
     if (m_lFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified left foot contact frame not available in the loaded URDF Model."
@@ -181,7 +209,7 @@ bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::s
         return false;
     }
 
-    m_rFootContactIdx = m_kindyn.model().getFrameIndex(rFootContactFrame);
+    m_rFootContactIdx = m_kindyn->model().getFrameIndex(rFootContactFrame);
     if (m_rFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified right foot contact frame not available in the loaded URDF Model."
@@ -238,13 +266,13 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
         return false;
     }
 
-    if (!m_kindyn.setJointPos(encoders))
+    if (!m_kindyn->setJointPos(encoders))
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] Failed setting joint positions." << std::endl;
         return false;
     }
-    IMU_H_l_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
-    IMU_H_r_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
+    IMU_H_l_foot = m_kindyn->getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
+    IMU_H_r_foot = m_kindyn->getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
 
     return true;
 }
@@ -260,8 +288,8 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
         return false;
     }
 
-    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_lFootContactIdx, J_IMULF);
-    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_rFootContactIdx, J_IMURF);
+    m_kindyn->getRelativeJacobian(m_baseImuIdx, m_lFootContactIdx, J_IMULF);
+    m_kindyn->getRelativeJacobian(m_baseImuIdx, m_rFootContactIdx, J_IMURF);
 
     return true;
 }
@@ -304,8 +332,8 @@ bool FloatingBaseEstimator::setContactStatus(const std::string& name,
                                              const bool& contactStatus, 
                                              const double& timeNow)
 {
-    auto idx = m_modelComp.kinDyn().model().getFrameIndex(name);
-    if (!m_modelComp.kinDyn().model().isValidFrameIndex(idx))
+    auto idx = m_modelComp.kinDyn()->model().getFrameIndex(name);
+    if (!m_modelComp.kinDyn()->model().isValidFrameIndex(idx))
     {
         std::cerr << "[FloatingBaseEstimator::setContactStatus] Contact frame index: " << idx
         << " not found in loaded model, skipping measurement." << std::endl;
@@ -697,11 +725,11 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
         baseTwist = tempTwist;
     }
     
-    if (!m_modelComp.kinDyn().setRobotState(iDynTree::toEigen(basePose.asHomogeneousTransform()), 
-                                            iDynTree::make_span(meas.encoders.data(), meas.encoders.size()),
-                                            iDynTree::toEigen(baseTwist), 
-                                            iDynTree::make_span(meas.encodersSpeed.data(), meas.encodersSpeed.size()),
-                                            iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+    if (!m_modelComp.kinDyn()->setRobotState(iDynTree::toEigen(basePose.asHomogeneousTransform()), 
+                                             iDynTree::make_span(meas.encoders.data(), meas.encoders.size()),
+                                             iDynTree::toEigen(baseTwist), 
+                                             iDynTree::make_span(meas.encodersSpeed.data(), meas.encodersSpeed.size()),
+                                             iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
     {
         std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get kindyncomputations robot state"
                   << std::endl;

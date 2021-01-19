@@ -205,7 +205,8 @@ bool FloatingBaseEstimatorDevice::setupBaseEstimator(yarp::os::Searchable& confi
     originalHandler->set(config);
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 
-    if (!m_estimator->initialize(parameterHandler, m_model))
+    m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    if (!m_estimator->initialize(parameterHandler, m_kinDyn, m_model))
     {
         yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Could not configure estimator";
         return false;

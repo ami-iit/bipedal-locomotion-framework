@@ -75,6 +75,7 @@ private:
     } m_comms;
 
     iDynTree::Model m_model;
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::Estimators::FloatingBaseEstimator> m_estimator;
     std::unique_ptr<iDynTree::ContactStateMachine> m_lFootCSM, m_rFootCSM;

@@ -20,7 +20,7 @@ class LeggedOdometry::Impl
 public:
 
     bool changeFixedFrame(const iDynTree::FrameIndex& newIdx,
-                          iDynTree::KinDynComputations& kinDyn);
+                          std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
     bool updateInternalState(FloatingBaseEstimators::Measurements& meas,
                              FloatingBaseEstimator::ModelComputations& modelComp,
                              FloatingBaseEstimators::InternalState& state,
@@ -115,7 +115,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     }
     else
     {
-        m_pimpl->m_initialFixedFrameIdx = m_modelComp.kinDyn().model().getFrameIndex(m_pimpl->m_initialFixedFrame);
+        m_pimpl->m_initialFixedFrameIdx = m_modelComp.kinDyn()->model().getFrameIndex(m_pimpl->m_initialFixedFrame);
         if (m_pimpl->m_initialFixedFrameIdx == iDynTree::FRAME_INVALID_INDEX)
         {
             std::cerr << printPrefix << "Specified fixed frame not available in the loaded URDF Model."
@@ -135,7 +135,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     }
     else
     {
-        m_pimpl->m_initialRefFrameForWorldIdx = m_modelComp.kinDyn().model().getFrameIndex(m_pimpl->m_initialRefFrameForWorld);
+        m_pimpl->m_initialRefFrameForWorldIdx = m_modelComp.kinDyn()->model().getFrameIndex(m_pimpl->m_initialRefFrameForWorld);
         if (m_pimpl->m_initialRefFrameForWorldIdx == iDynTree::FRAME_INVALID_INDEX)
         {
             std::cerr << printPrefix << "Specified reference frame for world not available in the loaded URDF Model."
@@ -162,7 +162,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     refFrame_p_world << initialWorldPositionInRefFrame[0], initialWorldPositionInRefFrame[1], initialWorldPositionInRefFrame[2];
     m_pimpl->m_refFrame_H_world = manif::SE3d(refFrame_p_world, refFrame_quat_world);
         
-    auto nrJoints = m_modelComp.kinDyn().getNrOfDegreesOfFreedom();
+    auto nrJoints = m_modelComp.kinDyn()->getNrOfDegreesOfFreedom();
     m_pimpl->m_contactJacobian.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim + nrJoints);
     m_pimpl->m_contactJacobianBase.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim);
     m_pimpl->m_contactJacobianShape.resize(m_pimpl->m_spatialDim, nrJoints);
@@ -192,7 +192,7 @@ void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::M
             newContact.setContactStateStamped(measContact);
             newContact.lastUpdateTime = measContact.first;
             newContact.index = idx;
-            newContact.name = modelComp.kinDyn().getFrameName(idx);
+            newContact.name = modelComp.kinDyn()->getFrameName(idx);
             contactStates[idx] = newContact;
         }
     }
@@ -245,7 +245,7 @@ bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
                                     const Eigen::Vector3d& newIMUPosition)
 {    
     manif::SE3d world_H_imu = manif::SE3d(newIMUPosition, newIMUOrientation);
-    manif::SE3d refFrame_H_imu  = toManifPose(modelComputations().kinDyn().
+    manif::SE3d refFrame_H_imu  = toManifPose(modelComputations().kinDyn()->
                                               getRelativeTransform(m_pimpl->m_initialRefFrameForWorldIdx,
                                                                    m_modelComp.baseIMUIdx()));
     m_pimpl->m_refFrame_H_world = refFrame_H_imu*(world_H_imu.inverse());
@@ -264,7 +264,7 @@ bool LeggedOdometry::resetEstimator(const std::string refFrameForWorld,
                                     const Eigen::Vector3d& worldPositionInRefFrame)
 {
     std::string_view printPrefix = "[LeggedOdometry::resetEstimator] ";
-    auto refFrameIdx = m_modelComp.kinDyn().model().getFrameIndex(refFrameForWorld);
+    auto refFrameIdx = m_modelComp.kinDyn()->model().getFrameIndex(refFrameForWorld);
     if (refFrameIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << printPrefix << "Frame unavailable in the loaded URDF model." << std::endl;
@@ -282,7 +282,7 @@ void LeggedOdometry::Impl::resetInternal(FloatingBaseEstimator::ModelComputation
 {
     m_currentFixedFrameIdx = m_initialFixedFrameIdx;
 
-    manif::SE3d refFrame_H_fixedFrame  = toManifPose(modelComp.kinDyn().
+    manif::SE3d refFrame_H_fixedFrame  = toManifPose(modelComp.kinDyn()->
                                                      getRelativeTransform(m_initialRefFrameForWorldIdx,
                                                                           m_initialFixedFrameIdx));
 
@@ -299,7 +299,7 @@ bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measureme
                                                FloatingBaseEstimators::Output& out)
 {
     const std::string_view printPrefix = "[LeggedOdometry::Impl::updateInternalState] ";
-    manif::SE3d fixedFrame_H_imu = toManifPose(modelComp.kinDyn().
+    manif::SE3d fixedFrame_H_imu = toManifPose(modelComp.kinDyn()->
                                                getRelativeTransform(m_currentFixedFrameIdx,
                                                                     modelComp.baseIMUIdx()));
     manif::SE3d world_H_imu = m_world_H_fixedFrame*fixedFrame_H_imu;
@@ -315,7 +315,7 @@ bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measureme
         }
         else
         {
-            manif::SE3d fixedFrame_H_contact = toManifPose(modelComp.kinDyn().
+            manif::SE3d fixedFrame_H_contact = toManifPose(modelComp.kinDyn()->
                                                        getRelativeTransform(m_currentFixedFrameIdx, idx));
             contact.pose = m_world_H_fixedFrame*fixedFrame_H_contact;
         }
@@ -348,7 +348,7 @@ bool LeggedOdometry::Impl::computeBaseIMUVelocityUsingFixedFrameConstraint(Float
                                                                            FloatingBaseEstimators::Output& out)
 {
     const std::string_view printPrefix = "[LeggedOdometry::Impl::computeBaseIMUVelocityUsingFixedFrameConstraint] ";
-    if (!modelComp.kinDyn().getFrameFreeFloatingJacobian(m_currentFixedFrameIdx, m_contactJacobian))
+    if (!modelComp.kinDyn()->getFrameFreeFloatingJacobian(m_currentFixedFrameIdx, m_contactJacobian))
     {
         std::cerr << printPrefix << "Could not compute contact Jacobian."
         << std::endl;
@@ -356,7 +356,7 @@ bool LeggedOdometry::Impl::computeBaseIMUVelocityUsingFixedFrameConstraint(Float
     }
         
     m_contactJacobianBase = m_contactJacobian.block<6, 6>(m_baseOffset, m_baseOffset);
-    m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn().getNrOfDegreesOfFreedom());
+    m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
 
     m_vBase = -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
     
@@ -382,7 +382,7 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     // initialization step
     if (!m_pimpl->m_odometryInitialized)
     {
-        if (!m_modelComp.kinDyn().setJointPos(iDynTree::make_span(meas.encoders.data(), meas.encoders.size())))
+        if (!m_modelComp.kinDyn()->setJointPos(iDynTree::make_span(meas.encoders.data(), meas.encoders.size())))
         {
             std::cerr << printPrefix << "Unable to set joint positions."
             << std::endl;
@@ -427,7 +427,7 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
 
 
 bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
-                                            iDynTree::KinDynComputations& kinDyn)
+                                            std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
     if (newIdx == iDynTree::FRAME_INVALID_INDEX)
@@ -437,12 +437,12 @@ bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
             return false;
     }
 
-    manif::SE3d oldFixed_H_newFixed  = toManifPose(kinDyn.getRelativeTransform(m_currentFixedFrameIdx, newIdx));
+    manif::SE3d oldFixed_H_newFixed  = toManifPose(kinDyn->getRelativeTransform(m_currentFixedFrameIdx, newIdx));
     m_world_H_fixedFrame = (m_world_H_fixedFrame*oldFixed_H_newFixed);
     m_prevFixedFrameIdx = m_currentFixedFrameIdx;
     m_currentFixedFrameIdx = newIdx;
     
-    std::cout << printPrefix << "Fixed frame changed to " << kinDyn.model().getFrameName(m_currentFixedFrameIdx) << "." << std::endl;    
+    std::cout << printPrefix << "Fixed frame changed to " << kinDyn->model().getFrameName(m_currentFixedFrameIdx) << "." << std::endl;    
     return true;
 }
 
