@@ -181,13 +181,19 @@ bool Module::updateModule()
     case State::positioning:
         if (!m_robotControl.checkMotionDone(isMotionDone, isTimeExpired, jointlist))
         {
-            std::cerr << "";
+            std::cerr << "[Module::updateModule] Impossible to check if the motion is done."
+                      << std::endl;
             return false;
         }
         if (isTimeExpired)
         {
-            std::cerr << "Printa lista giunti che non hanno finito (primo nome del giunto secondo "
-                         "errore in radianti)";
+            std::cerr << "[Module::updateModule] List of joints not finishing in time: "
+                      << std::endl;
+            for (int i = 0; i < jointlist.size(); i++)
+            {
+                std::cerr << "Joint " << jointlist[i].first << "--> Error  " << jointlist[i].second << " rad"
+                          << std::endl;
+            }
             return false;
         }
         if (isMotionDone)
@@ -236,7 +242,7 @@ bool Module::updateModule()
         break;
 
     default:
-        std::cerr << "";
+        std::cerr << "[Module::updateModule] Cannot pro";
         return false;
         break;
     }
