@@ -5,9 +5,9 @@ The **joint-trajectory-player** is a simple tool for playing a joint trajectory 
 ## :running: How to use the application
 The application can be launched with the following command:
 ```
-blf-joint-trajectory-player --from [`blf-joint-position-tracking-options.ini`](./config/robots/iCubGazeboV3/blf-joint-trajectory-player-options.ini) --trajectory_file mat_file_where_you_saved_the_joint_trajectory.mat
+blf-joint-trajectory-player --from blf-joint-trajectory-player-options.ini --trajectory_file file_of_the_joint_trajectory.mat
 ```
-The trajectory file must have a field called `traj` containing the trajectory stored as a matrix in row major order.
+The `.mat` file must have a field called `traj` containing the trajectory stored as a matrix in row major order.
 If you correctly installed the framework you can run the application from any folder.
 
 The [`blf-joint-trajectory-player-options.ini`](./config/robots/iCubGazeboV3/blf-joint-trajectory-player-options.ini) file contains some parameters that you may modify to control a given set of joints:
