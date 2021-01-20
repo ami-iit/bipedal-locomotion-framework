@@ -1,4 +1,4 @@
-# joint-trajectory-player*
+# joint-trajectory-player
 
 The **joint-trajectory-player** is a simple tool for playing a joint trajectory on a robot in a `YARP` environment. The tool allows you to save the measured joint positions and measured currents.
 
