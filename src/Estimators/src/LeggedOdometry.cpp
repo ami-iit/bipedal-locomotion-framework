@@ -161,7 +161,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     Eigen::Vector3d refFrame_p_world;
     refFrame_p_world << initialWorldPositionInRefFrame[0], initialWorldPositionInRefFrame[1], initialWorldPositionInRefFrame[2];
     m_pimpl->m_refFrame_H_world = manif::SE3d(refFrame_p_world, refFrame_quat_world);
-        
+            
     auto nrJoints = m_modelComp.kinDyn()->getNrOfDegreesOfFreedom();
     m_pimpl->m_contactJacobian.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim + nrJoints);
     m_pimpl->m_contactJacobianBase.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim);
@@ -183,13 +183,13 @@ void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::M
         
         if (contactStates.find(idx) != contactStates.end())
         {
-            contactStates.at(idx).setContactStateStamped(measContact);
+            contactStates.at(idx).setContactStateStamped(std::make_pair(measContact.second, measContact.first));
             contactStates.at(idx).lastUpdateTime = measContact.first;
         }
         else
         {
             BipedalLocomotion::Contacts::EstimatedContact newContact;
-            newContact.setContactStateStamped(measContact);
+            newContact.setContactStateStamped(std::make_pair(measContact.second, measContact.first));
             newContact.lastUpdateTime = measContact.first;
             newContact.index = idx;
             newContact.name = modelComp.kinDyn()->getFrameName(idx);
@@ -214,12 +214,12 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestContact(const std::map<int, 
     for (auto& [idx, contact] : contacts)
     {
         if (contact.isActive)
-        {            
+        {   
             atleastOneActiveContact = true;
             if (contact.switchTime > latestTime)
             {
                 latestContactIdx = idx;
-                latestTime = contact.switchTime;                
+                latestTime = contact.switchTime;
             }
         }
     }
@@ -229,8 +229,7 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestContact(const std::map<int, 
         std::cerr << printPrefix << "No active contacts." << std::endl;
         return iDynTree::FRAME_INVALID_INDEX;
     }
-            
-    return contacts.at(latestContactIdx).index;
+    return latestContactIdx;
 }
 
 
@@ -390,6 +389,13 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
         }
         
         m_pimpl->resetInternal(m_modelComp);
+        
+        // update internal states
+        if (!m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut))
+        {
+            std::cerr << printPrefix << "Could not update internal state of the estimator." << std::endl;
+            return false;
+        }
         return true;
     }
 

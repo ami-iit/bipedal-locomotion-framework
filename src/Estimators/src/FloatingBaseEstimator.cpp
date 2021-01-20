@@ -330,7 +330,7 @@ bool FloatingBaseEstimator::setContacts(const bool& lfInContact,
 
 bool FloatingBaseEstimator::setContactStatus(const std::string& name, 
                                              const bool& contactStatus, 
-                                             const double& timeNow)
+                                             const double& switchTime)
 {
     auto idx = m_modelComp.kinDyn()->model().getFrameIndex(name);
     if (!m_modelComp.kinDyn()->model().isValidFrameIndex(idx))
@@ -344,7 +344,7 @@ bool FloatingBaseEstimator::setContactStatus(const std::string& name,
     
     // operator[] creates a key-value pair if key does not already exist, 
     // otherwise just an update is carried out
-    contacts[idx].first = timeNow;
+    contacts[idx].first = switchTime;
     contacts[idx].second = contactStatus;
     
     return true;
