@@ -191,8 +191,8 @@ bool Module::updateModule()
                       << std::endl;
             for (int i = 0; i < jointlist.size(); i++)
             {
-                std::cerr << "Joint " << jointlist[i].first << "--> Error  " << jointlist[i].second << " rad"
-                          << std::endl;
+                std::cerr << "Joint " << jointlist[i].first << "--> Error  " << jointlist[i].second
+                          << " rad" << std::endl;
             }
             return false;
         }
@@ -242,7 +242,7 @@ bool Module::updateModule()
         break;
 
     default:
-        std::cerr << "[Module::updateModule] Cannot pro";
+        std::cerr << "[Module::updateModule] The program is in an unknown state. Cannot proceed.";
         return false;
         break;
     }
