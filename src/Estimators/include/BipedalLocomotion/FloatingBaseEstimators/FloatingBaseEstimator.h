@@ -43,14 +43,7 @@ public:
     */
     class ModelComputations
     {
-    public:
-        /**
-        * Set the reduced model
-        * @param[in] model reduced iDynTree model
-        * @return True in case of success, false otherwise.
-        */
-        bool setModel(const iDynTree::Model& model);
-        
+    public:                
         /**
         * Set the shared kindyn object
         * @param[in] kinDyn shared pointer of the common KinDynComputations resource        
@@ -131,7 +124,6 @@ public:
         const std::string& leftFootContactFrame() const { return m_lFootContactFrame; }
         const std::string& rightFootContactFrame() const { return m_rFootContactFrame; }
         const iDynTree::Transform& base_H_IMU() const { return m_base_H_imu; }
-        const bool& isModelSet() const { return m_modelSet; }
         const bool& isKinDynValid() const { return m_validKinDyn; }
         std::shared_ptr<iDynTree::KinDynComputations> kinDyn() const { return m_kindyn; }
         
@@ -148,7 +140,6 @@ public:
         std::shared_ptr<iDynTree::KinDynComputations> m_kindyn{nullptr}; /**< KinDynComputations object to do the model specific computations */
         iDynTree::Transform m_base_H_imu; /**< Rigid body transform of IMU frame with respect to the base link frame */
         int m_nrJoints{0}; /**< number of joints in the loaded reduced model */
-        bool m_modelSet{false};
         bool m_validKinDyn{false};
     };
 
@@ -163,14 +154,12 @@ public:
     *      - right_foot_contact_frame [PARAMETER|REQUIRED|right foot contact frame from the URDF model| Exists in "ModelInfo" GROUP]
     * @param[in] handler configure the generic parameters for the estimator
     * @param[in] kindyn shared pointer of iDynTree kindyncomputations object (model will be loaded internally)
-    * @param[in] model reduced iDynTree model required by the estimator
     * @note any custom initialization of parameters or the algorithm implementation is not done here,
     *       it must be done in customInitialization() by the child class implementing the algorithm
     * @return True in case of success, false otherwise.
     */
     bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, 
-                    std::shared_ptr<iDynTree::KinDynComputations> kindyn,
-                    const iDynTree::Model& model);
+                    std::shared_ptr<iDynTree::KinDynComputations> kindyn);
     
 
     /**

@@ -12,8 +12,7 @@
 using namespace BipedalLocomotion::Estimators;
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                                       std::shared_ptr<iDynTree::KinDynComputations> kindyn,
-                                       const iDynTree::Model& model)
+                                       std::shared_ptr<iDynTree::KinDynComputations> kindyn)
 {
     if (!m_modelComp.setKinDynObject(kindyn))
     {
@@ -22,13 +21,6 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
         return false;
     }
     
-    if (!m_modelComp.setModel(model))
-    {
-        std::cerr << "[FloatingBaseEstimator::initialize] The model could not be loaded."
-        << std::endl;
-        return false;
-    }
-
     if (!initialize(handler))
     {
         return false;
@@ -39,9 +31,10 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    if (!m_modelComp.isModelSet())
+    if (!m_modelComp.isKinDynValid())
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] The model does not seem to be loaded. Please call initialize(handler, model) to set the model."
+        std::cerr << "[FloatingBaseEstimator::initialize] The kindyn object with valid does not seem to be loaded."
+        << "Please call initialize(handler, kindyncomputations) to set the kindyn object."
         << std::endl;
         return false;
     }
@@ -131,31 +124,17 @@ bool FloatingBaseEstimator::ModelComputations::setKinDynObject(std::shared_ptr<i
     if (kinDyn != nullptr)
     {
         m_kindyn = kinDyn;
-        m_validKinDyn = true;
-        return true;
+        
+        if (m_kindyn->isValid())
+        {
+            m_nrJoints = m_kindyn->getNrOfDegreesOfFreedom();
+            m_validKinDyn = true;
+            return true;
+        }
     }
     
-    std::cerr << "[FloatingBaseEstimator::ModelComputations::setModel] Invalid KinDynComputations object." << std::endl;
+    std::cerr << "[FloatingBaseEstimator::ModelComputations::setKinDynObject] Invalid KinDynComputations object." << std::endl;
     return false;
-}
-
-bool FloatingBaseEstimator::ModelComputations::setModel(const iDynTree::Model& model)
-{
-    if (!isKinDynValid())
-    {
-        std::cerr << "[FloatingBaseEstimator::ModelComputations::setModel] Please set kindyn object before calling this method."
-        << std::endl;
-        return false;
-    }
-    
-    if (!m_kindyn->loadRobotModel(model))
-    {
-        return false;
-    }
-
-    m_nrJoints = model.getNrOfDOFs();
-    m_modelSet = true;
-    return true;
 }
 
 bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& baseLink,
@@ -189,7 +168,7 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
     {
         auto model = m_kindyn->model();
         model.setDefaultBaseLink(m_baseLinkIdx);
-        setModel(model);
+        m_kindyn->loadRobotModel(model);
     }
 
     m_baseLink = baseLink;
