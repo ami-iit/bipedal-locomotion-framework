@@ -196,10 +196,12 @@ public:
     * @param[in] name contact frame name
     * @param[in] contactStatus flag to check active contact
     * @param[in] switchTime  time of switching contact
+    * @param[in] timeNow  current measurement update time
     */
     bool setContactStatus(const std::string& name, 
                           const bool& contactStatus, 
-                          const double& switchTime);
+                          const double& switchTime,
+                          double timeNow = 0.);
 
     /**
     * Set kinematic measurements

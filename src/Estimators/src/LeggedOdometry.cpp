@@ -28,7 +28,7 @@ public:
     void updateInternalContactStates(FloatingBaseEstimators::Measurements& meas,
                                      FloatingBaseEstimator::ModelComputations& modelComp,
                                      std::map<int, EstimatedContact>& contacts);
-    iDynTree::FrameIndex getLatestContact(const std::map<int, EstimatedContact>& contacts);
+    iDynTree::FrameIndex getLatestSwitchedContact(const std::map<int, EstimatedContact>& contacts);
     bool computeBaseIMUVelocityUsingFixedFrameConstraint(FloatingBaseEstimators::Measurements& meas,
                                                          FloatingBaseEstimator::ModelComputations& modelComp,
                                                          FloatingBaseEstimators::Output& out);
@@ -183,14 +183,14 @@ void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::M
         
         if (contactStates.find(idx) != contactStates.end())
         {
-            contactStates.at(idx).setContactStateStamped(std::make_pair(measContact.second, measContact.first));
-            contactStates.at(idx).lastUpdateTime = measContact.first;
+            contactStates.at(idx).setContactStateStamped({measContact.isActive, measContact.switchTime});
+            contactStates.at(idx).lastUpdateTime = measContact.lastUpdateTime;
         }
         else
         {
             BipedalLocomotion::Contacts::EstimatedContact newContact;
-            newContact.setContactStateStamped(std::make_pair(measContact.second, measContact.first));
-            newContact.lastUpdateTime = measContact.first;
+            newContact.setContactStateStamped({measContact.isActive, measContact.switchTime});
+            newContact.lastUpdateTime = measContact.lastUpdateTime;
             newContact.index = idx;
             newContact.name = modelComp.kinDyn()->getFrameName(idx);
             contactStates[idx] = newContact;
@@ -199,7 +199,7 @@ void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::M
     meas.stampedContactsStatus.clear();
 }
 
-iDynTree::FrameIndex LeggedOdometry::Impl::getLatestContact(const std::map<int, BipedalLocomotion::Contacts::EstimatedContact>& contacts)
+iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::map<int, BipedalLocomotion::Contacts::EstimatedContact>& contacts)
 {
     std::string_view printPrefix = "[LeggedOdometry::Impl::getLatestContact] ";
     if (contacts.size() < 1)
@@ -402,7 +402,7 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     // run step
     m_pimpl->updateInternalContactStates(meas, m_modelComp, m_state.supportFrameData);
     // change fixed frame depending on switch times
-    auto newIdx = m_pimpl->getLatestContact(m_state.supportFrameData);
+    auto newIdx = m_pimpl->getLatestSwitchedContact(m_state.supportFrameData);
     if (newIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << printPrefix << "The assumption of atleast one active contact is broken. This may lead ot unexpected results." << std::endl;

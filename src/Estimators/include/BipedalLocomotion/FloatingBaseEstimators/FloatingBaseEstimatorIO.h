@@ -71,7 +71,7 @@ struct Measurements
      * that every time an element is used, 
      * it must be erased from the map 
      */
-    std::map<int, std::pair<double, bool> > stampedContactsStatus;
+    std::map<int, BipedalLocomotion::Contacts::EstimatedContact > stampedContactsStatus;
 };
 
 } // namespace FloatingBaseEstimators
