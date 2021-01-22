@@ -130,9 +130,9 @@ endmacro()
 ################################################################################
 # Find all packages
 
-find_package(iDynTree 0.11.105 REQUIRED) #Right now, all the packages built in the framework
-                                         #depend directly or indirectly from iDynTree and Eigen
-                                         #(which is an iDynTree dependency by the way)
+find_package(iDynTree 1.1.0 REQUIRED) #Right now, all the packages built in the framework
+                                      #depend directly or indirectly from iDynTree and Eigen
+                                      #(which is an iDynTree dependency by the way)
 find_package(Eigen3 3.2.92 REQUIRED)
 
 find_package(YARP QUIET)
@@ -228,3 +228,8 @@ framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
   "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_USE_pytest" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
+  "Compile test on the MAS IMU?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_matioCppConversions" OFF)
+
