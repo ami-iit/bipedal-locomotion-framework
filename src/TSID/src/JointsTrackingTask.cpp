@@ -113,22 +113,22 @@ bool JointsTrackingTask::update()
     return true;
 }
 
-bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition)
+bool JointsTrackingTask::setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition)
 {
-    return this->setReferenceTrajectory(jointPosition, m_zero, m_zero);
+    return this->setSetpoint(jointPosition, m_zero, m_zero);
 }
 
-bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                                Eigen::Ref<const Eigen::VectorXd> jointVelocity)
+bool JointsTrackingTask::setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity)
 {
-    return this->setReferenceTrajectory(jointPosition, jointVelocity, m_zero);
+    return this->setSetpoint(jointPosition, jointVelocity, m_zero);
 }
 
-bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                                Eigen::Ref<const Eigen::VectorXd> jointVelocity,
-                                                Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
+bool JointsTrackingTask::setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity,
+                                     Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
 {
-    constexpr std::string_view errorPrefix = "[JointsTrackingTask::setReferenceTrajectory] ";
+    constexpr std::string_view errorPrefix = "[JointsTrackingTask::setSetpoint] ";
 
     if (jointPosition.size() != m_kinDyn->getNrOfDegreesOfFreedom()
         || jointVelocity.size() != m_kinDyn->getNrOfDegreesOfFreedom()

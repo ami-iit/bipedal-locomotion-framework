@@ -63,33 +63,33 @@ public:
     bool update() override;
 
     /**
-     * Set the desired reference trajectory.
+     * Set the desired setpoint.
      * @param jointPosition vector containing the desired joint position in radians.
      * @note The desired velocity and acceleration are implicitly set to zero.
      * @return True in case of success, false otherwise.
      */
-    bool setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition);
+    bool setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition);
 
     /**
-     * Set the desired reference trajectory.
+     * Set the desired setpoint.
      * @param jointPosition vector containing the desired joint position in radians.
      * @param jointVelocity vector containing the desired joint velocity in radians per second.
      * @note The desired acceleration is implicitly set to zero.
      * @return True in case of success, false otherwise.
      */
-    bool setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                Eigen::Ref<const Eigen::VectorXd> jointVelocity);
+    bool setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                     Eigen::Ref<const Eigen::VectorXd> jointVelocity);
 
     /**
-     * Set the desired reference trajectory.
+     * Set the desired setpoint.
      * @param jointPosition vector containing the desired joint position in radians.
      * @param jointVelocity vector containing the desired joint velocity in radians per second.
      * @param jointAcceleration vector containing the desired joint velocity in radians per second square.
      * @return True in case of success, false otherwise.
      */
-    bool setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                Eigen::Ref<const Eigen::VectorXd> jointVelocity,
-                                Eigen::Ref<const Eigen::VectorXd> jointAcceleration);
+    bool setSetpoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                     Eigen::Ref<const Eigen::VectorXd> jointVelocity,
+                     Eigen::Ref<const Eigen::VectorXd> jointAcceleration);
 };
 
 } // namespace TSID

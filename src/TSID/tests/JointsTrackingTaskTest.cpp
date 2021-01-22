@@ -87,7 +87,7 @@ TEST_CASE("Joint Regularization task")
             REQUIRE(task.setKinDyn(kinDyn));
             REQUIRE(task.initialize(parameterHandler, variablesHandler));
 
-            REQUIRE(task.setReferenceTrajectory(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
+            REQUIRE(task.setSetpoint(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
 
             REQUIRE(task.update());
 
