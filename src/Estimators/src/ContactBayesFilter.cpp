@@ -29,12 +29,12 @@ public:
     Eigen::Vector3d pointOnGroundPlane{0.0, 0.0, 0.0}; //assume plane is defined by level set z = 0
     
     // gains for sigmoid
-    double meanContactDistance{0.0154};
-    double scaledDeviationContactDistance{0.009}; // 0.004    
-    double meanContactVelocityNorm{0.01}; // 0.004
-    double scaledDeviationContactVelocityNorm{0.2}; // 0.01
-    double meanSwingVelocityNorm{0.35};
-    double scaledDeviationSwingVelocityNorm{0.72};                   
+    double meanContactDistance{0.034};
+    double scaledDeviationContactDistance{0.00723}; // 0.004
+    double meanContactVelocityNorm{0.03}; // 0.004
+    double scaledDeviationContactVelocityNorm{2.0}; // 0.01
+    double meanSwingVelocityNorm{0.5};
+    double scaledDeviationSwingVelocityNorm{1.52};
     double contactProbabilityThreshold{0.57};
     bool useVertexContacts{true};
     
@@ -99,7 +99,11 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
     
     auto cbmHandler = orignalhandle->getGroup("ContactBayesFilter");
     auto handle = cbmHandler.lock();
-    
+    if (handle == nullptr)
+    {
+        return false;
+    }
+
     if (!handle->getParameter("no_collision_meshes", m_pimpl->noCollisionMeshes))
     {
         m_pimpl->noCollisionMeshes = false;
