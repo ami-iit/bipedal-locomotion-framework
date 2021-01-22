@@ -1,38 +1,33 @@
 /**
- * @file JointRegularizationTask.cpp
+ * @file JointsTrackingTask.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/TSID/JointRegularizationTask.h>
+#include <BipedalLocomotion/TSID/JointsTrackingTask.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::TSID;
 
-bool JointRegularizationTask::initialize(
+bool JointsTrackingTask::initialize(
     std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler,
     const System::VariablesHandler& variablesHandler)
 {
-    constexpr std::string_view errorPrefix = "[JointRegularizationTask::initialize] ";
-
-    constexpr std::string_view descriptionPrefix = "JointRegularizationTask Optimal Control "
-                                                   "Element";
+    constexpr std::string_view errorPrefix = "[JointsTrackingTask::initialize] ";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
-        std::cerr << errorPrefix << descriptionPrefix
-                  << " - KinDynComputations object is not valid." << std::endl;
+        std::cerr << errorPrefix << "KinDynComputations object is not valid." << std::endl;
         return false;
     }
 
     auto ptr = paramHandler.lock();
     if (ptr == nullptr)
     {
-        std::cerr << errorPrefix << descriptionPrefix << " - The parameter handler is not valid."
-                  << std::endl;
+        std::cerr << errorPrefix << "The parameter handler is not valid." << std::endl;
         return false;
     }
 
@@ -41,15 +36,15 @@ bool JointRegularizationTask::initialize(
     if (!ptr->getParameter("robot_acceleration_variable_name", robotAccelerationVariableName)
         || !variablesHandler.getVariable(robotAccelerationVariableName, robotAccelerationVariable))
     {
-        std::cerr << errorPrefix << descriptionPrefix
-                  << " - Error while retrieving the robot acceleration variable." << std::endl;
+        std::cerr << errorPrefix << "Error while retrieving the robot acceleration variable."
+                  << std::endl;
         return false;
     }
 
     if (robotAccelerationVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + 6)
     {
-        std::cerr << errorPrefix << descriptionPrefix
-                  << " - Error while retrieving the robot acceleration variable." << std::endl;
+        std::cerr << errorPrefix << "Error while retrieving the robot acceleration variable."
+                  << std::endl;
         return false;
     }
 
@@ -58,23 +53,20 @@ bool JointRegularizationTask::initialize(
     m_kd.resize(m_kinDyn->getNrOfDegreesOfFreedom());
     if (!ptr->getParameter("kp", m_kp))
     {
-        std::cerr << errorPrefix << descriptionPrefix
-                  << " - Error while retrieving the proportional gain." << std::endl;
+        std::cerr << errorPrefix << "Error while retrieving the proportional gain." << std::endl;
         return false;
     }
 
     if (!ptr->getParameter("kd", m_kd))
     {
-        std::cout << errorPrefix << descriptionPrefix
-                  << " - Error while retrieving the derivative gain." << std::endl;
-        std::cout << errorPrefix << descriptionPrefix << " - The default kd will be set."
-                  << std::endl;
+        std::cout << errorPrefix << "Error while retrieving the derivative gain." << std::endl;
+        std::cout << errorPrefix << "The default kd will be set." << std::endl;
 
         m_kd = 2 * m_kp.cwiseSqrt();
     }
 
     // set the description
-    m_description = std::string(descriptionPrefix);
+    m_description = "Joint tracking task";
 
     // resize the matrices
     m_A.resize(m_kinDyn->getNrOfDegreesOfFreedom(), variablesHandler.getNumberOfVariables());
@@ -98,9 +90,9 @@ bool JointRegularizationTask::initialize(
     return true;
 }
 
-bool JointRegularizationTask::update()
+bool JointsTrackingTask::update()
 {
-    constexpr std::string_view errorPrefix = "[JointRegularizationTask::update] ";
+    constexpr std::string_view errorPrefix = "[JointsTrackingTask::update] ";
 
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
@@ -121,24 +113,22 @@ bool JointRegularizationTask::update()
     return true;
 }
 
-bool JointRegularizationTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition)
+bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition)
 {
     return this->setReferenceTrajectory(jointPosition, m_zero, m_zero);
 }
 
-bool JointRegularizationTask::setReferenceTrajectory(
-    Eigen::Ref<const Eigen::VectorXd> jointPosition,
-    Eigen::Ref<const Eigen::VectorXd> jointVelocity)
+bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                                                Eigen::Ref<const Eigen::VectorXd> jointVelocity)
 {
     return this->setReferenceTrajectory(jointPosition, jointVelocity, m_zero);
 }
 
-bool JointRegularizationTask::setReferenceTrajectory(
-    Eigen::Ref<const Eigen::VectorXd> jointPosition,
-    Eigen::Ref<const Eigen::VectorXd> jointVelocity,
-    Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
+bool JointsTrackingTask::setReferenceTrajectory(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                                                Eigen::Ref<const Eigen::VectorXd> jointVelocity,
+                                                Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
 {
-    constexpr std::string_view errorPrefix = "[JointRegularizationTask::setReferenceTrajectory] ";
+    constexpr std::string_view errorPrefix = "[JointsTrackingTask::setReferenceTrajectory] ";
 
     if (jointPosition.size() != m_kinDyn->getNrOfDegreesOfFreedom()
         || jointVelocity.size() != m_kinDyn->getNrOfDegreesOfFreedom()

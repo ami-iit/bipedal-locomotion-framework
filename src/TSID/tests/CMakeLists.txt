@@ -8,6 +8,6 @@ add_bipedal_test(
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions)
 
 add_bipedal_test(
-  NAME JointRegularizationTask
-  SOURCES JointRegularizationTaskTest.cpp
+  NAME JointsTrackingTask
+  SOURCES JointsTrackingTaskTest.cpp
   LINKS BipedalLocomotion::TSID)

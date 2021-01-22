@@ -1,5 +1,5 @@
 /**
- * @file JointRegularizationTaskTest.cpp
+ * @file JointsTrackingTaskTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -11,7 +11,7 @@
 // BipedalLocomotion
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
-#include <BipedalLocomotion/TSID/JointRegularizationTask.h>
+#include <BipedalLocomotion/TSID/JointsTrackingTask.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/ModelTestUtils.h>
@@ -83,7 +83,7 @@ TEST_CASE("Joint Regularization task")
             parameterHandler->setParameter("kd", kd);
 
 
-            JointRegularizationTask task;
+            JointsTrackingTask task;
             REQUIRE(task.setKinDyn(kinDyn));
             REQUIRE(task.initialize(parameterHandler, variablesHandler));
 

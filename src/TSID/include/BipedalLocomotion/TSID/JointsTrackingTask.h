@@ -1,5 +1,5 @@
 /**
- * @file JointRegularizationTask.h
+ * @file JointsTrackingTask.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
@@ -18,7 +18,7 @@ namespace TSID
 {
 
 /**
- * JointRegularizationTask is a concrete implementation of the Task. Please use this element if you
+ * JointsTrackingTask is a concrete implementation of the Task. Please use this element if you
  * want to control the desired joint position of the robot.
  * The task represents the following equation
  * \f[
@@ -28,7 +28,7 @@ namespace TSID
  * The desired joint acceleration is chosen such that the joint will converge to the desired
  * trajectory and it is computed with a standard standard PD controller in \f$\mathbb{R}^n\f$.
  */
-class JointRegularizationTask : public Task
+class JointsTrackingTask : public Task
 {
     Eigen::VectorXd m_kp; /**< Proportional gain. */
     Eigen::VectorXd m_kd; /**< Derivative gain. */
