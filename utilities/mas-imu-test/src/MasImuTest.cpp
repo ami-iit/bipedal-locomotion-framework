@@ -1073,14 +1073,14 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     bool ok = m_parametersPtr->getParameter("name", m_commonDataPtr->prefix);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"name\".";
         return false;
     }
 
     ok = m_parametersPtr->getParameter("period", m_period);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"period\".";
         return false;
     }
 
@@ -1093,14 +1093,14 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     ok = m_parametersPtr->getParameter("robot", m_commonDataPtr->robotName);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"robot\".";
         return false;
     }
     std::string robotModelName;
     ok = m_parametersPtr->getParameter("model", robotModelName);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"model\".";
         return false;
     }
     std::string pathToModel = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName(robotModelName);
@@ -1108,7 +1108,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     iDynTree::ModelLoader modelLoader;
     if (!modelLoader.loadModelFromFile(pathToModel))
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed. Failed to load the specified model.";
         return false;
     }
 
@@ -1118,7 +1118,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     ok = m_parametersPtr->getParameter("base_link", baseLink);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed  while reading \"base_link\".";
         return false;
     }
 
@@ -1158,7 +1158,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     ok = m_parametersPtr->getParameter("filter_yaw", m_commonDataPtr->filterYaw);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"filter_yaw\".";
         return false;
     }
 
@@ -1166,7 +1166,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     ok = m_parametersPtr->getParameter("min_joint_variation_deg", minJointVariationInDeg);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"min_joint_variation_deg\".";
         return false;
     }
     m_commonDataPtr->minJointVariationRad = iDynTree::deg2rad(minJointVariationInDeg);
@@ -1254,7 +1254,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     ok = m_parametersPtr->getParameter("auto_start", autoStart);
     if (!ok)
     {
-        yError() << "[MasImuTest::configure] Configuration failed.";
+        yError() << "[MasImuTest::configure] Configuration failed while reading \"auto_start\".";
         return false;
     }
 
@@ -1267,7 +1267,7 @@ bool MasImuTest::configure(yarp::os::ResourceFinder &rf)
     {
         m_state = State::FIRST_RUN;
 
-        yInfo() << "[MasImuTest::startTest] Started!";
+        yInfo() << "[MasImuTest::configure] Started!";
     }
 
     return true;
