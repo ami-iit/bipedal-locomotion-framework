@@ -66,7 +66,6 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
         BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr m_group;
         iDynTree::FrameIndex m_frame;
         std::string m_frameName, m_imuName, m_gyroName, m_accName;
-        iDynTree::LinkIndex m_link;
         std::vector<iDynTree::LinkIndex> m_consideredJointIndexes;
         std::vector<std::string> m_consideredJointNames;
         iDynTree::KinDynComputations m_kinDyn;

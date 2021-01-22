@@ -74,14 +74,14 @@ bool MasImuTest::MasImuData::setupModel()
         return false;
     }
 
-    m_link = m_commonDataPtr->fullModel.getFrameLink(m_frame);
-    assert(m_link != iDynTree::LINK_INVALID_INDEX);
+    iDynTree::LinkIndex link = m_commonDataPtr->fullModel.getFrameLink(m_frame);
+    assert(link != iDynTree::LINK_INVALID_INDEX);
 
     m_consideredJointIndexes.clear();
     m_consideredJointNames.clear();
 
     iDynTree::LinkIndex baseLinkIndex = m_commonDataPtr->traversal.getBaseLink()->getIndex();
-    iDynTree::LinkIndex currentLink = m_link;
+    iDynTree::LinkIndex currentLink = link;
     while (currentLink != baseLinkIndex) {
         const iDynTree::IJoint* joint = m_commonDataPtr->traversal.getParentJointFromLinkIndex(currentLink);
         assert(joint);
@@ -105,13 +105,6 @@ bool MasImuTest::MasImuData::setupModel()
     ok = m_kinDyn.loadRobotModel(reducedModelLoader.model());
 
     m_frame = m_kinDyn.getFrameIndex(m_frameName);
-
-    if (m_frame == iDynTree::FRAME_INVALID_INDEX)
-    {
-        yError() << errorPrefix << "The frame " << m_frameName << " does not exists in the reduced robot model."
-                 << ". Configuration failed.";
-        return false;
-    }
 
     if (!ok)
     {
