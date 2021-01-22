@@ -8,8 +8,8 @@ if(FRAMEWORK_COMPILE_TSID)
 
   add_bipedal_locomotion_library(
     NAME                  TSID
-    PUBLIC_HEADERS        ${H_PREFIX}/Task.h ${H_PREFIX}/SE3Task.h
-    SOURCES               src/Task.cpp src/SE3Task.cpp
+    PUBLIC_HEADERS        ${H_PREFIX}/Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/JointsTrackingTask.h
+    SOURCES               src/Task.cpp src/SE3Task.cpp src/JointsTrackingTask.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System LieGroupControllers::LieGroupControllers MANIF::manif iDynTree::idyntree-high-level iDynTree::idyntree-model
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::ManifConversions
     SUBDIRECTORIES         tests)

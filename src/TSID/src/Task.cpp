@@ -13,13 +13,13 @@ using namespace BipedalLocomotion::TSID;
 
 iDynTree::MatrixView<double> Task::subA(const VariablesHandler::VariableDescription& description)
 {
-    return iDynTree::MatrixView<double>(m_A).block(0, description.offset, 6, description.size);
+    return iDynTree::MatrixView<double>(m_A).block(0, description.offset, m_A.rows(), description.size);
 }
 
 iDynTree::MatrixView<const double>
 Task::subA(const VariablesHandler::VariableDescription& description) const
 {
-    return iDynTree::MatrixView<const double>(m_A).block(0, description.offset, 6, description.size);
+    return iDynTree::MatrixView<const double>(m_A).block(0, description.offset, m_A.rows(), description.size);
 }
 
 bool Task::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
