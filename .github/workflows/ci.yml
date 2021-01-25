@@ -405,6 +405,20 @@ jobs:
               -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
 
+    - name: Check build if some dependencies are not enabled [Ubuntu]
+      if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
+      shell: bash
+      run: |
+        cd build
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers; do
+            echo "Testing ${missing_dep} as missing dependency."
+            # Deselect missing dependency and build
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
+            cmake --build . --config ${{ matrix.build_type }}
+            # Enable again dependency
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
+        done
+
     - name: Build
       shell: bash
       run: |
