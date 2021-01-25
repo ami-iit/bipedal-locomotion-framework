@@ -5,21 +5,6 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license. See the accompanying LICENSE file for details.
 
-
-find_package(Catch2 QUIET)
-checkandset_dependency(Catch2)
-
-find_package(VALGRIND QUIET)
-checkandset_dependency(VALGRIND)
-
-framework_dependent_option(FRAMEWORK_COMPILE_tests
-  "Compile tests?" ON
-  "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
-
-framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
-  "Run Valgrind tests?" OFF
-  "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)
-
 if (FRAMEWORK_RUN_Valgrind_tests)
     set(CTEST_MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
     set(MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})

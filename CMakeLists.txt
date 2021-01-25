@@ -18,7 +18,7 @@ include(CTest)
 option(BUILD_DEVICE_EXAMPLES "Create example devices using CMake" OFF)
 
 # Check BipedalLocomotionFramework dependencies, find necessary libraries.
-include(BipedalLocomotionFrameworkFindDependencies)
+include(BipedalLocomotionFrameworkDependencies)
 
 #set default build type to "Release" in single-config generators
 if(NOT CMAKE_CONFIGURATION_TYPES)
