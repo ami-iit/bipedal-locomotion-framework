@@ -37,7 +37,7 @@ TEST_CASE("Joint Regularization task")
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 1000; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
