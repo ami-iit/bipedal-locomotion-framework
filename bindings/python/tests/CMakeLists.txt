@@ -7,6 +7,6 @@
 # the tests always load the Python package from the build-tree even if BFL is installed
 # elsewhere.
 add_test(NAME PythonBindingsUnitTest
-    COMMAND ${pytest_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${Python3_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 )
