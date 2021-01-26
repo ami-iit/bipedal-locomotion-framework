@@ -402,6 +402,7 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
               -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
+              -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Build
