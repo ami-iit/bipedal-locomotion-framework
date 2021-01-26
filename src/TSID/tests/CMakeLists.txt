@@ -11,3 +11,8 @@ add_bipedal_test(
   NAME JointsTrackingTask
   SOURCES JointsTrackingTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
+
+add_bipedal_test(
+  NAME DynamicsTask
+  SOURCES DynamicsTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
