@@ -49,6 +49,8 @@ public:
                         const Eigen::Quaterniond& worldOrientationInRefFrame,
                         const Eigen::Vector3d& worldPositionInRefFrame);
 
+    int getFixedFrameIdx();
+
 protected:
     /**
     * These custom parameter specifications should be specified by the derived class.

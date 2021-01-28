@@ -15,6 +15,26 @@ using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion::Contacts;
 
+namespace BipedalLocomotion
+{
+    namespace Estimators
+    {
+        enum class LOSwitching
+        {
+            latest,
+            lastActive
+        };
+
+        enum class LOVelComputation
+        {
+            singleFrame,
+            multiFrameAverage,
+            multiFrameLeastSquare,
+            multiFrameLeastSquareWithJVel
+        };
+    }
+}
+
 class LeggedOdometry::Impl
 {
 public:
@@ -29,9 +49,37 @@ public:
                                      FloatingBaseEstimator::ModelComputations& modelComp,
                                      std::map<int, EstimatedContact>& contacts);
     iDynTree::FrameIndex getLatestSwitchedContact(const std::map<int, EstimatedContact>& contacts);
-    bool computeBaseIMUVelocityUsingFixedFrameConstraint(FloatingBaseEstimators::Measurements& meas,
+    iDynTree::FrameIndex getLastActiveContact(const std::map<int, EstimatedContact>& contacts,  const int& activeIndex);
+
+    /**
+     *  Single fixed frame
+     */
+    bool computeBaseVelocityUsingFixedFrameConstraint(FloatingBaseEstimators::Measurements& meas,
                                                          FloatingBaseEstimator::ModelComputations& modelComp,
                                                          FloatingBaseEstimators::Output& out);
+    /**
+     * All fixed frame least square solution with joint velocities in the solution vector
+     */
+    bool computeBaseVelocityUsingAllFixedFrameConstraint(const FloatingBaseEstimators::InternalState& state,
+                                                         FloatingBaseEstimators::Measurements& meas,
+                                                         FloatingBaseEstimator::ModelComputations& modelComp,
+                                                         FloatingBaseEstimators::Output& out);
+    /**
+     * All fixed frame weighted average (of single fixed frame method)
+     */
+    bool computeBaseVelocityUsingAllFixedFrameAverage(const FloatingBaseEstimators::InternalState& state,
+                                                      FloatingBaseEstimators::Measurements& meas,
+                                                      FloatingBaseEstimator::ModelComputations& modelComp,
+                                                      FloatingBaseEstimators::Output& out);
+
+    /**
+     * All fixed frame least square solution without joint velocities in the solution vector
+     */
+    bool computeBaseVelocityUsingAllFixedFrames(const FloatingBaseEstimators::InternalState& state,
+                                                FloatingBaseEstimators::Measurements& meas,
+                                                FloatingBaseEstimator::ModelComputations& modelComp,
+                                                FloatingBaseEstimators::Output& out);
+
     void resetInternal(FloatingBaseEstimator::ModelComputations& modelComp);
 
     // parameters
@@ -47,7 +95,9 @@ public:
     iDynTree::FrameIndex m_currentFixedFrameIdx{iDynTree::FRAME_INVALID_INDEX};
 
     manif::SE3d m_world_H_fixedFrame; /**< Pose of fixed frame wrt world */
-    
+    LOSwitching switching{LOSwitching::lastActive};
+    LOVelComputation velComp{LOVelComputation::multiFrameLeastSquare};
+
     Eigen::MatrixXd m_contactJacobian; /**< mixed velocity jacobian of fixed frame with respect to floating base */
     Eigen::MatrixXd m_contactJacobianBase; /**< base sub-block of mixed velocity jacobian of fixed frame with respect to floating base */
     Eigen::MatrixXd m_contactJacobianShape; /**< shape sub-block of mixed velocity jacobian of fixed frame with respect to floating base */
@@ -55,6 +105,13 @@ public:
     const int m_spatialDim{6};
     const int m_baseOffset{0}; /**< offset in contact Jacobian for the base sub-block*/
     const int m_shapeOffset{6}; /**< offset in contact Jacobian for the shape sub-block*/
+
+    // for velocity computations
+    double wLin{1.0};
+    double wAng{0.5};
+    double wJVel{10.0};
+    double reg{1e-6};
+    Eigen::VectorXd m_sDotFilt;
 };
 
 LeggedOdometry::LeggedOdometry() : m_pimpl(std::make_unique<Impl>())
@@ -69,13 +126,13 @@ LeggedOdometry::LeggedOdometry() : m_pimpl(std::make_unique<Impl>())
     m_state.accelerometerBias.setZero();
     m_state.gyroscopeBias.setZero();
     m_state.imuAngularVelocity.setZero();
-    
+
     m_useIMUForAngVelEstimate = false;
     m_useIMUVelForBaseVelComputation = false;
-    
+
     m_statePrev = m_state;
     m_estimatorOut.state = m_state;
-    
+
     m_estimatorOut.baseTwist.zero();
     m_estimatorOut.basePose.Identity();
 
@@ -83,11 +140,11 @@ LeggedOdometry::LeggedOdometry() : m_pimpl(std::make_unique<Impl>())
     m_meas.gyro.setZero();  // unused
     m_meas.lfInContact = false;
     m_meas.rfInContact = false;
-    
+
     m_pimpl->m_vBase.resize(m_pimpl->m_spatialDim);
     m_pimpl->m_vBase.setZero();
 
-    m_measPrev = m_meas;    
+    m_measPrev = m_meas;
 }
 
 LeggedOdometry::~LeggedOdometry() = default;
@@ -102,10 +159,10 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
         << std::endl;
         return false;
     }
-    
+
     auto loHandler = handle->getGroup("LeggedOdom");
     auto lohandle = loHandler.lock();
-    
+
     if (!lohandle->getParameter("initial_fixed_frame", m_pimpl->m_initialFixedFrame))
     {
         std::cerr <<  printPrefix <<
@@ -161,7 +218,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     Eigen::Vector3d refFrame_p_world;
     refFrame_p_world << initialWorldPositionInRefFrame[0], initialWorldPositionInRefFrame[1], initialWorldPositionInRefFrame[2];
     m_pimpl->m_refFrame_H_world = manif::SE3d(refFrame_p_world, refFrame_quat_world);
-            
+
     auto nrJoints = m_modelComp.kinDyn()->getNrOfDegreesOfFreedom();
     m_pimpl->m_contactJacobian.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim + nrJoints);
     m_pimpl->m_contactJacobianBase.resize(m_pimpl->m_spatialDim, m_pimpl->m_spatialDim);
@@ -175,12 +232,12 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
 void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::Measurements& meas,
                                                        FloatingBaseEstimator::ModelComputations& modelComp,
                                                        std::map<int, EstimatedContact>& contactStates)
-{    
+{
     for (auto& obs : meas.stampedContactsStatus)
     {
         auto& measContact = obs.second;
         auto& idx = obs.first;
-        
+
         if (contactStates.find(idx) != contactStates.end())
         {
             contactStates.at(idx).setContactStateStamped({measContact.isActive, measContact.switchTime});
@@ -214,7 +271,7 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::m
     for (auto& [idx, contact] : contacts)
     {
         if (contact.isActive)
-        {   
+        {
             atleastOneActiveContact = true;
             if (contact.switchTime > latestTime)
             {
@@ -223,7 +280,7 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::m
             }
         }
     }
-        
+
     if (!atleastOneActiveContact)
     {
         std::cerr << printPrefix << "No active contacts." << std::endl;
@@ -232,6 +289,47 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::m
     return latestContactIdx;
 }
 
+iDynTree::FrameIndex LeggedOdometry::Impl::getLastActiveContact(const std::map<int, BipedalLocomotion::Contacts::EstimatedContact>& contacts, const int& activeIndex)
+{
+    std::string_view printPrefix = "[LeggedOdometry::Impl::getLastActiveContact] ";
+    if (contacts.size() < 1)
+    {
+        std::cerr << printPrefix << "No contact data available." << std::endl;
+        return iDynTree::FRAME_INVALID_INDEX;
+    }
+
+    bool atleastOneActiveContact{false};
+    if (contacts.find(activeIndex) != contacts.end())
+    {
+        if (contacts.at(activeIndex).isActive)
+        {
+            return activeIndex;
+        }
+    }
+
+    double latestTime{std::numeric_limits<double>::max()}; // assuming time cannot be negative
+    int latestContactIdx{-1};
+    for (auto& [idx, contact] : contacts)
+    {
+        if (contact.isActive)
+        {
+            atleastOneActiveContact = true;
+            if (contact.switchTime < latestTime)
+            {
+                latestContactIdx = idx;
+                latestTime = contact.switchTime;
+            }
+        }
+    }
+
+    if (!atleastOneActiveContact)
+    {
+        std::cerr << printPrefix << "No active contacts." << std::endl;
+        return iDynTree::FRAME_INVALID_INDEX;
+    }
+
+    return latestContactIdx;
+}
 
 bool LeggedOdometry::resetEstimator()
 {
@@ -242,18 +340,18 @@ bool LeggedOdometry::resetEstimator()
 
 bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation, 
                                     const Eigen::Vector3d& newIMUPosition)
-{    
+{
     manif::SE3d world_H_imu = manif::SE3d(newIMUPosition, newIMUOrientation);
     manif::SE3d refFrame_H_imu  = toManifPose(modelComputations().kinDyn()->
                                               getRelativeTransform(m_pimpl->m_initialRefFrameForWorldIdx,
                                                                    m_modelComp.baseIMUIdx()));
     m_pimpl->m_refFrame_H_world = refFrame_H_imu*(world_H_imu.inverse());
-    
+
     m_state.imuOrientation = newIMUOrientation;
     m_state.imuPosition = newIMUPosition;
-    
+
     m_statePrev = m_state;
-    
+
     m_pimpl->resetInternal(m_modelComp);
     return true;
 }
@@ -268,12 +366,12 @@ bool LeggedOdometry::resetEstimator(const std::string refFrameForWorld,
     {
         std::cerr << printPrefix << "Frame unavailable in the loaded URDF model." << std::endl;
         return false;
-        
+
     }
     m_pimpl->m_refFrame_H_world = manif::SE3d(worldPositionInRefFrame, worldOrientationInRefFrame);
     m_pimpl->m_initialRefFrameForWorldIdx = refFrameIdx;    
     resetEstimator();
-    
+
     return true;
 }
 
@@ -288,9 +386,12 @@ void LeggedOdometry::Impl::resetInternal(FloatingBaseEstimator::ModelComputation
     m_world_H_fixedFrame = m_refFrame_H_world.inverse()*refFrame_H_fixedFrame;
 
     m_prevFixedFrameIdx = m_currentFixedFrameIdx;
-    m_odometryInitialized = true;
 }
 
+int LeggedOdometry::getFixedFrameIdx()
+{
+    return m_pimpl->m_currentFixedFrameIdx;
+}
 
 bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measurements& meas,
                                                FloatingBaseEstimator::ModelComputations& modelComp,
@@ -300,8 +401,9 @@ bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measureme
     const std::string_view printPrefix = "[LeggedOdometry::Impl::updateInternalState] ";
     manif::SE3d fixedFrame_H_imu = toManifPose(modelComp.kinDyn()->
                                                getRelativeTransform(m_currentFixedFrameIdx,
-                                                                    modelComp.baseIMUIdx()));
+                                                                    modelComp.kinDyn()->model().getFrameIndex(modelComp.baseLinkIMU())));
     manif::SE3d world_H_imu = m_world_H_fixedFrame*fixedFrame_H_imu;
+
     state.imuOrientation = world_H_imu.quat();
     state.imuPosition = world_H_imu.translation();
 
@@ -318,47 +420,284 @@ bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measureme
                                                        getRelativeTransform(m_currentFixedFrameIdx, idx));
             contact.pose = m_world_H_fixedFrame*fixedFrame_H_contact;
         }
-        
+
         // TODO{@prashanthr05} deprecate and remove the following in future versions
         if (contact.name == modelComp.leftFootContactFrame())
         {
             state.lContactFrameOrientation = contact.pose.quat();
             state.lContactFramePosition = contact.pose.translation();
         }
-        
+
         if (contact.name == modelComp.rightFootContactFrame())
         {
             state.rContactFrameOrientation = contact.pose.quat();
             state.rContactFramePosition = contact.pose.translation();
         }
     }
-    
-    // compute base velocity
-    if (!computeBaseIMUVelocityUsingFixedFrameConstraint(meas, modelComp, out))
+
+    if (m_odometryInitialized)
     {
-        std::cerr << printPrefix << "Could not compute base colocated IMU velocity using fixed frame constraints." << std::endl;
-        return false;  
+        bool ok{false};
+        // compute base velocity
+        if (velComp == LOVelComputation::singleFrame)
+        {
+            ok = computeBaseVelocityUsingFixedFrameConstraint(meas, modelComp, out);
+        }
+        else if (velComp == LOVelComputation::multiFrameLeastSquare)
+        {
+            ok = computeBaseVelocityUsingAllFixedFrames(state, meas, modelComp, out);
+        }
+        else if (velComp == LOVelComputation::multiFrameLeastSquareWithJVel)
+        {
+            ok = computeBaseVelocityUsingAllFixedFrameConstraint(state, meas, modelComp, out);
+        }
+        else if (velComp == LOVelComputation::multiFrameAverage)
+        {
+            ok = computeBaseVelocityUsingAllFixedFrameAverage(state, meas, modelComp, out);
+        }
+
+        if (!ok)
+        {
+            std::cerr << printPrefix << "Could not compute base velocity using fixed frame constraints." << std::endl;
+            return false;
+        }
     }
     return true;
 }
 
-bool LeggedOdometry::Impl::computeBaseIMUVelocityUsingFixedFrameConstraint(FloatingBaseEstimators::Measurements& meas,
+bool LeggedOdometry::Impl::computeBaseVelocityUsingFixedFrameConstraint(FloatingBaseEstimators::Measurements& meas,
                                                                            FloatingBaseEstimator::ModelComputations& modelComp,
                                                                            FloatingBaseEstimators::Output& out)
 {
     const std::string_view printPrefix = "[LeggedOdometry::Impl::computeBaseIMUVelocityUsingFixedFrameConstraint] ";
+
+    // here we do the computations with respect to the base link frame and not the base link IMU frame
+    // accordingly, since `m_useIMUVelForBaseVelComputation` is set to false, the IMU velocity in the internal state
+    // remains un-updated, we directly update the base twist in the output
     if (!modelComp.kinDyn()->getFrameFreeFloatingJacobian(m_currentFixedFrameIdx, m_contactJacobian))
     {
         std::cerr << printPrefix << "Could not compute contact Jacobian."
         << std::endl;
         return false;
     }
-        
+
     m_contactJacobianBase = m_contactJacobian.block<6, 6>(m_baseOffset, m_baseOffset);
     m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
 
     m_vBase = -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
-    
+
+    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
+    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
+    out.baseTwist.setLinearVec3(vLin);
+    out.baseTwist.setAngularVec3(vAng);
+
+    return true;
+}
+
+bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameConstraint(const FloatingBaseEstimators::InternalState& state,
+                                                                              FloatingBaseEstimators::Measurements& meas,
+                                                                              FloatingBaseEstimator::ModelComputations& modelComp,
+                                                                              FloatingBaseEstimators::Output& out)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::Impl::computeBaseIMUVelocityUsingAllFixedFrameConstraint] ";
+
+    // here we do the computations with respect to the base link frame and not the base link IMU frame
+    // accordingly, since `m_useIMUVelForBaseVelComputation` is set to false, the IMU velocity in the internal state
+    // remains un-updated, we directly update the base twist in the output
+
+    std::size_t nrContacts{0};
+    std::size_t nrJoints{modelComp.kinDyn()->getNrOfDegreesOfFreedom()};
+
+    // run two loops (alteratively once can do conservative resize of the matrices)
+    for (auto& [idx, contact] : state.supportFrameData)
+    {
+        if (contact.isActive)
+        {
+            nrContacts++;
+        }
+    }
+
+    if (nrContacts == 0)
+    {
+        std::cerr << printPrefix << "No contacts available. Unable to compute base velocity."
+                << std::endl;
+        return false;
+    }
+
+
+    // given number of contacts resize the matrices for weighted least square
+    int n = m_spatialDim*nrContacts + nrJoints;
+    int m = m_spatialDim + nrJoints;
+    Eigen::MatrixXd A(n, m);
+
+    // Set zero contact velocities and joint velocities
+    Eigen::VectorXd y(n);
+    y.head(n-nrJoints).setZero();
+    y.tail(nrJoints) = meas.encodersSpeed;
+
+    Eigen::MatrixXd W = Eigen::MatrixXd::Identity(n, n);
+    Eigen::MatrixXd Delta = reg*Eigen::MatrixXd::Identity(m, m);
+
+    // run another loop to populate matrices
+    std::size_t cIdx{0};
+    for (auto& [idx, contact] : state.supportFrameData)
+    {
+        if (contact.isActive)
+        {
+            if (!modelComp.kinDyn()->getFrameFreeFloatingJacobian(idx, m_contactJacobian))
+            {
+                std::cerr << printPrefix << "Could not compute contact Jacobian."
+                << std::endl;
+                return false;
+            }
+
+            A.block(m_spatialDim*cIdx, m_baseOffset, m_spatialDim, m) = m_contactJacobian;
+            int vec3Offset{3};
+            W.block(m_spatialDim*cIdx, m_spatialDim*cIdx, vec3Offset, vec3Offset) *= wLin;
+            W.block(m_spatialDim*cIdx+vec3Offset, m_spatialDim*cIdx+vec3Offset, vec3Offset, vec3Offset) *= wAng;
+            cIdx ++;
+        }
+    }
+
+
+    A.bottomRows(nrJoints) << Eigen::MatrixXd::Zero( nrJoints, m_spatialDim), Eigen::MatrixXd::Identity(nrJoints, nrJoints);
+    W.bottomRightCorner(nrJoints, nrJoints) *= wJVel;
+
+    // least square solution
+    Eigen::MatrixXd S = (A.transpose()*W*A + Delta).inverse();
+    Eigen::VectorXd xOptimal = S*A.transpose()*W*y;
+
+    m_vBase = xOptimal.head(m_spatialDim);
+    m_sDotFilt = xOptimal.tail(nrJoints);
+
+    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
+    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
+    out.baseTwist.setLinearVec3(vLin);
+    out.baseTwist.setAngularVec3(vAng);
+    return true;
+}
+
+
+bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameAverage(const FloatingBaseEstimators::InternalState& state,
+                                                                        FloatingBaseEstimators::Measurements& meas,
+                                                                        FloatingBaseEstimator::ModelComputations& modelComp,
+                                                                        FloatingBaseEstimators::Output& out)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::Impl::computeBaseIMUVelocityUsingAllFixedFrameConstraint] ";
+
+    // here we do the computations with respect to the base link frame and not the base link IMU frame
+    // accordingly, since `m_useIMUVelForBaseVelComputation` is set to false, the IMU velocity in the internal state
+    // remains un-updated, we directly update the base twist in the output
+
+    std::size_t nrContacts{0};
+    // run two loops (alteratively once can do conservative resize of the matrices)
+    Eigen::VectorXd sumV = Eigen::MatrixXd::Zero(6, 1);
+    for (auto& [idx, contact] : state.supportFrameData)
+    {
+        if (contact.isActive)
+        {
+            nrContacts++;
+            if (!modelComp.kinDyn()->getFrameFreeFloatingJacobian(idx, m_contactJacobian))
+            {
+                std::cerr << printPrefix << "Could not compute contact Jacobian."
+                << std::endl;
+                return false;
+            }
+
+            m_contactJacobianBase = m_contactJacobian.block<6, 6>(m_baseOffset, m_baseOffset);
+            m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
+
+            sumV = -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
+        }
+    }
+
+    if (nrContacts == 0)
+    {
+        std::cerr << printPrefix << "No contacts available. Unable to compute base velocity."
+                << std::endl;
+        return false;
+    }
+
+    m_vBase = sumV/nrContacts;
+    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
+    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
+    out.baseTwist.setLinearVec3(vLin);
+    out.baseTwist.setAngularVec3(vAng);
+    return true;
+}
+
+
+bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrames(const FloatingBaseEstimators::InternalState& state,
+                                                                  FloatingBaseEstimators::Measurements& meas,
+                                                                  FloatingBaseEstimator::ModelComputations& modelComp,
+                                                                  FloatingBaseEstimators::Output& out)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrames] ";
+
+    // here we do the computations with respect to the base link frame and not the base link IMU frame
+    // accordingly, since `m_useIMUVelForBaseVelComputation` is set to false, the IMU velocity in the internal state
+    // remains un-updated, we directly update the base twist in the output
+
+    std::size_t nrContacts{0};
+    // run two loops (alteratively once can do conservative resize of the matrices)
+    for (auto& [idx, contact] : state.supportFrameData)
+    {
+        if (contact.isActive)
+        {
+            nrContacts++;
+        }
+    }
+
+    if (nrContacts == 0)
+    {
+        std::cerr << printPrefix << "No contacts available. Unable to compute base velocity."
+                << std::endl;
+        return false;
+    }
+
+
+    // given number of contacts resize the matrices for weighted least square
+    int n = m_spatialDim*nrContacts;
+    int m = m_spatialDim;
+    Eigen::MatrixXd A(n, m);
+    Eigen::VectorXd y(n);
+
+    Eigen::MatrixXd W = Eigen::MatrixXd::Identity(n, n);
+    Eigen::MatrixXd Delta = reg*Eigen::MatrixXd::Identity(m, m);
+
+    // run another loop to populate matrices
+    std::size_t cIdx{0};
+    for (auto& [idx, contact] : state.supportFrameData)
+    {
+        if (contact.isActive)
+        {
+            if (!modelComp.kinDyn()->getFrameFreeFloatingJacobian(idx, m_contactJacobian))
+            {
+                std::cerr << printPrefix << "Could not compute contact Jacobian."
+                << std::endl;
+                return false;
+            }
+
+            m_contactJacobianBase = m_contactJacobian.block<6, 6>(m_baseOffset, m_baseOffset);
+            m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
+
+            A.block(m_spatialDim*cIdx, m_baseOffset, m_spatialDim, m_spatialDim) = m_contactJacobianBase;
+            y.segment(m_spatialDim*cIdx, m_spatialDim) = - m_contactJacobianShape*meas.encodersSpeed;
+
+            int vec3Offset{3};
+            W.block(m_spatialDim*cIdx, m_spatialDim*cIdx, vec3Offset, vec3Offset) *= wLin;
+            W.block(m_spatialDim*cIdx+vec3Offset, m_spatialDim*cIdx+vec3Offset, vec3Offset, vec3Offset) *= wAng;
+
+            cIdx ++;
+        }
+    }
+
+    // least square solution
+    Eigen::MatrixXd S = (A.transpose()*W*A + Delta).inverse();
+    Eigen::VectorXd xOptimal = S*A.transpose()*W*y;
+
+    m_vBase = xOptimal;
+
     iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
     iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
     out.baseTwist.setLinearVec3(vLin);
@@ -377,7 +716,7 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
         << std::endl;
         return false;
     }
-    
+
     // initialization step
     if (!m_pimpl->m_odometryInitialized)
     {
@@ -387,41 +726,54 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
             << std::endl;
             return false;
         }
-        
+
         m_pimpl->resetInternal(m_modelComp);
-        
+
         // update internal states
         if (!m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut))
         {
             std::cerr << printPrefix << "Could not update internal state of the estimator." << std::endl;
             return false;
         }
+
+        m_pimpl->m_odometryInitialized = true;
+        std::cout << printPrefix << "Initialized LeggedOdometry." << std::endl;
         return true;
     }
 
     // run step
     m_pimpl->updateInternalContactStates(meas, m_modelComp, m_state.supportFrameData);
+
     // change fixed frame depending on switch times
-    auto newIdx = m_pimpl->getLatestSwitchedContact(m_state.supportFrameData);
+    iDynTree::FrameIndex newIdx{iDynTree::FRAME_INVALID_INDEX};
+    if (m_pimpl->switching == LOSwitching::latest)
+    {
+        newIdx = m_pimpl->getLatestSwitchedContact(m_state.supportFrameData);
+    }
+    else if (m_pimpl->switching == LOSwitching::lastActive)
+    {
+        newIdx = m_pimpl->getLastActiveContact(m_state.supportFrameData, m_pimpl->m_currentFixedFrameIdx);
+    }
+
     if (newIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << printPrefix << "The assumption of atleast one active contact is broken. This may lead ot unexpected results." << std::endl;
-        return false;        
+        return false;
     }
-    
+
     if (newIdx != m_pimpl->m_currentFixedFrameIdx)
     {
         if (!m_pimpl->changeFixedFrame(newIdx, m_modelComp.kinDyn()))
         {
             std::cerr << printPrefix << "Unable to change new fixed frame." << std::endl;
             return false;
-        }        
+        }
     }
-    
+
     // TODO{@prashanthr05} remove contacts if outdated
     // should we do this  in a top-level at FloatingBaseEstimators.cpp ?
     // since it might be useful also for other estimators
-    
+
     // update internal states
     if (!m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut))
     {
@@ -444,11 +796,12 @@ bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
     }
 
     manif::SE3d oldFixed_H_newFixed  = toManifPose(kinDyn->getRelativeTransform(m_currentFixedFrameIdx, newIdx));
+
     m_world_H_fixedFrame = (m_world_H_fixedFrame*oldFixed_H_newFixed);
     m_prevFixedFrameIdx = m_currentFixedFrameIdx;
     m_currentFixedFrameIdx = newIdx;
-    
-    std::cout << printPrefix << "Fixed frame changed to " << kinDyn->model().getFrameName(m_currentFixedFrameIdx) << "." << std::endl;    
+
+    std::cout << printPrefix << "Fixed frame changed to " << kinDyn->model().getFrameName(m_currentFixedFrameIdx) << "." << std::endl;
     return true;
 }
 

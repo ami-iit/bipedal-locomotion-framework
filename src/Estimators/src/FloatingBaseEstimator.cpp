@@ -110,6 +110,18 @@ bool FloatingBaseEstimator::advance()
 
     ok = ok && updateBaseStateFromIMUState(m_state, m_measPrev,
                                            m_estimatorOut.basePose, m_estimatorOut.baseTwist);
+
+    if (!m_modelComp.kinDyn()->setRobotState(iDynTree::toEigen(m_estimatorOut.basePose.asHomogeneousTransform()),
+                                             iDynTree::make_span(m_meas.encoders.data(), m_meas.encoders.size()),
+                                             iDynTree::toEigen(m_estimatorOut.baseTwist),
+                                             iDynTree::make_span(m_meas.encodersSpeed.data(), m_meas.encodersSpeed.size()),
+                                             iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+    {
+        std::cerr << "[FloatingBaseEstimator::advance]" << " Failed to get kindyncomputations robot state"
+                  << std::endl;
+        return false;
+    }
+
     m_statePrev = m_state;
     m_measPrev = m_meas;
 
@@ -706,17 +718,6 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
         baseTwist = tempTwist;
     }
     
-    if (!m_modelComp.kinDyn()->setRobotState(iDynTree::toEigen(basePose.asHomogeneousTransform()), 
-                                             iDynTree::make_span(meas.encoders.data(), meas.encoders.size()),
-                                             iDynTree::toEigen(baseTwist), 
-                                             iDynTree::make_span(meas.encodersSpeed.data(), meas.encodersSpeed.size()),
-                                             iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
-    {
-        std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get kindyncomputations robot state"
-                  << std::endl;
-        return false;
-    }
-
     return true;
 }
 
