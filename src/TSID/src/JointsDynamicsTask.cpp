@@ -17,7 +17,7 @@ using namespace BipedalLocomotion::TSID;
 bool JointsDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler,
                                     const System::VariablesHandler& variablesHandler)
 {
-    constexpr std::string_view errorPrefix = "[BaseDynamicsTask::initialize] ";
+    constexpr std::string_view errorPrefix = "[JointsDynamicsTask::initialize] ";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -147,13 +147,13 @@ bool JointsDynamicsTask::update()
 {
     if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
     {
-        std::cerr << "[BaseDynamicsTask::update] Unable to get the bias forces." << std::endl;
+        std::cerr << "[JointsDynamicsTask::update] Unable to get the bias forces." << std::endl;
         return false;
     }
 
     if (!m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix))
     {
-        std::cerr << "[BaseDynamicsTask::update] Unable to get the mass matrix." << std::endl;
+        std::cerr << "[JointsDynamicsTask::update] Unable to get the mass matrix." << std::endl;
         return false;
     }
 
@@ -165,7 +165,7 @@ bool JointsDynamicsTask::update()
     {
         if (!m_kinDyn->getFrameFreeFloatingJacobian(contactWrench.frameIndex, m_jacobian))
         {
-            std::cerr << "[BaseDynamicsTask::update] Unable to get contact wrench associated to "
+            std::cerr << "[JointsDynamicsTask::update] Unable to get contact wrench associated to "
                          "frame named "
                       << m_kinDyn->model().getFrameName(contactWrench.frameIndex) << "."
                       << std::endl;
