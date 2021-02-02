@@ -525,11 +525,11 @@ struct YarpSensorBridge::Impl
      *  Get number of MAS Sensors
      */
     template <typename MASSensorType>
-    std::size_t getNumberOfMASSensors(MASSensorType*& sensorInterface) 
+    std::size_t getNumberOfMASSensors(MASSensorType*& sensorInterface)
     {
         if (sensorInterface == nullptr)
         { 
-            return -1;
+            return 0;
         }
         
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
@@ -562,7 +562,7 @@ struct YarpSensorBridge::Impl
     template <typename MASSensorType>
     bool getMASSensorName(MASSensorType*& sensorInterface,
                           const std::size_t& sensIdx,
-                          std::string& sensorName) 
+                          std::string& sensorName)
     {
         if (sensorInterface == nullptr)
         { 
@@ -596,7 +596,7 @@ struct YarpSensorBridge::Impl
      * Get all sensor names in a MAS Inerface
      */
     template <typename MASSensorType>
-    std::vector<std::string> getAllSensorsInMASInterface(MASSensorType* sensorInterface) 
+    std::vector<std::string> getAllSensorsInMASInterface(MASSensorType* sensorInterface)
     {
         if (sensorInterface == nullptr)
         { 
@@ -712,7 +712,7 @@ struct YarpSensorBridge::Impl
      *  Attach generic IMU sensor types and MAS inertials
      */
     bool attachAllInertials(const yarp::dev::PolyDriverList& devList)
-    {        
+    {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllInertials] ";
         if (metaData.bridgeOptions.isIMUEnabled)
         {
@@ -727,7 +727,7 @@ struct YarpSensorBridge::Impl
                 return false;
             }
         }
-        
+
         if (metaData.bridgeOptions.isLinearAccelerometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisLinearAccelerometers"};

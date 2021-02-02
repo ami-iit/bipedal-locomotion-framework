@@ -85,7 +85,7 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
 }
 
 bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDriversList)
-{    
+{
     constexpr std::string_view logPrefix = "[YarpSensorBridge::setDriversList] ";
 
     if (!m_pimpl->bridgeInitialized)
@@ -94,7 +94,7 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
                   << std ::endl;
         return false;
     }
-        
+
     bool ret{true};
     ret = ret && m_pimpl->attachRemappedRemoteControlBoard(deviceDriversList);
     ret = ret && m_pimpl->attachAllInertials(deviceDriversList);
