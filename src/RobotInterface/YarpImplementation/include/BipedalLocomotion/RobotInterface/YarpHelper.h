@@ -64,6 +64,22 @@ struct PolyDriverDescriptor
 PolyDriverDescriptor constructRemoteControlBoardRemapper(
     std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
+/**
+ * Helper function that can be used to build a GenericSensorClient device.
+ * @param handler pointer to a parameter handler interface.
+ * @note the following parameters are required by the function
+ * |       Parameter Name      |   Type   |                                          Description                                         | Mandatory |
+ * |:-------------------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
+ * |       `description`       | `string` |          Description of the genericSensorClient. It is the device name                       |    Yes    |
+ * |     `remote_port_name`    | `string` |                           Name of the port associate to the remote                           |    Yes    |
+ * |       `local_prefix`      | `string` |                     Prefix of the local port (e.g. the application name)                     |    Yes    |
+ * | `local_port_name_suffix`  | `string` |  Suffix of the local port. The local port name is `/<local_prefix><local_port_name_suffix>`  |    Yes    |
+ * @note The genericSensorClient device is implement in [whole-body-estimators](https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient).
+ * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
+ */
+PolyDriverDescriptor constructGenericSensorClient(
+    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
 
