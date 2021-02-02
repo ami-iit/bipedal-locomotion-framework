@@ -380,8 +380,8 @@ protected:
     State m_estimatorState{State::NotInitialized}; /**< State of the estimator */
 
     double m_dt{0.01}; /**< Fixed time step of the estimator, in seconds */
-    bool m_useIMUForAngVelEstimate{true}; /**< by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
-    bool m_useIMUVelForBaseVelComputation{true};
+    bool m_useIMUForAngVelEstimate{true}; /**< Use IMU measurements as internal state imu angular velocity by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
+    bool m_useIMUVelForBaseVelComputation{true}; /**< Compute base velocity using inertnal state IMU velocity. by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
 private:
     /**
     * Setup model related parameters

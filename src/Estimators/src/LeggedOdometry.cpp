@@ -21,16 +21,16 @@ namespace BipedalLocomotion
     {
         enum class LOSwitching
         {
-            latest,
-            lastActive
+            latest, /**< recently switched contact frame index */
+            lastActive /**< earliest switched contact frame index */
         };
 
         enum class LOVelComputation
         {
-            singleFrame,
-            multiFrameAverage,
-            multiFrameLeastSquare,
-            multiFrameLeastSquareWithJVel
+            singleFrame,  /**< use fixed frame holonomic constraint for base velocity computation */
+            multiFrameAverage, /**< use all fixed frame holonomic constraint average contribution to base velocity computation */
+            multiFrameLeastSquare, /**< use all fixed frame holonomic constraint for base velocity computation usig least square fit */
+            multiFrameLeastSquareWithJVel /**< use all fixed frame holonomic constraint for base velocity computation usig least square fit with joint velocity regularization*/
         };
     }
 }
@@ -38,13 +38,21 @@ namespace BipedalLocomotion
 class LeggedOdometry::Impl
 {
 public:
-
+    /**
+     *  Change fixed frame for the legged odometry
+     */
     bool changeFixedFrame(const iDynTree::FrameIndex& newIdx,
                           std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    /**
+     *  Update internal state of the legged odometry block
+     */
     bool updateInternalState(FloatingBaseEstimators::Measurements& meas,
                              FloatingBaseEstimator::ModelComputations& modelComp,
                              FloatingBaseEstimators::InternalState& state,
                              FloatingBaseEstimators::Output& out);
+    /**
+     *  Update internal contact states
+     */
     void updateInternalContactStates(FloatingBaseEstimators::Measurements& meas,
                                      FloatingBaseEstimator::ModelComputations& modelComp,
                                      std::map<int, EstimatedContact>& contacts);
@@ -65,7 +73,7 @@ public:
                                                          FloatingBaseEstimator::ModelComputations& modelComp,
                                                          FloatingBaseEstimators::Output& out);
     /**
-     * All fixed frame weighted average (of single fixed frame method)
+     * All fixed frames average
      */
     bool computeBaseVelocityUsingAllFixedFrameAverage(const FloatingBaseEstimators::InternalState& state,
                                                       FloatingBaseEstimators::Measurements& meas,
@@ -80,6 +88,9 @@ public:
                                                 FloatingBaseEstimator::ModelComputations& modelComp,
                                                 FloatingBaseEstimators::Output& out);
 
+    /**
+     * Reset internal state of the legged odometry block
+     */
     void resetInternal(FloatingBaseEstimator::ModelComputations& modelComp);
 
     // parameters
@@ -95,8 +106,8 @@ public:
     iDynTree::FrameIndex m_currentFixedFrameIdx{iDynTree::FRAME_INVALID_INDEX};
 
     manif::SE3d m_world_H_fixedFrame; /**< Pose of fixed frame wrt world */
-    LOSwitching switching{LOSwitching::lastActive};
-    LOVelComputation velComp{LOVelComputation::multiFrameLeastSquare};
+    LOSwitching switching{LOSwitching::lastActive};  /**< contact switching pattern */
+    LOVelComputation velComp{LOVelComputation::multiFrameLeastSquare}; /**< base velocity estimation method*/
 
     Eigen::MatrixXd m_contactJacobian; /**< mixed velocity jacobian of fixed frame with respect to floating base */
     Eigen::MatrixXd m_contactJacobianBase; /**< base sub-block of mixed velocity jacobian of fixed frame with respect to floating base */
@@ -210,6 +221,62 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
         {
             std::cerr << printPrefix << "The parameter handler could not find \"initial_world_position_in_ref_frame\" in the configuration file. Setting to zero." << std::endl;
         }
+    }
+
+    std::string switching;
+    if (!lohandle->getParameter("switching_pattern", switching))
+    {
+        std::vector<std::string> options{"latest", "lastActive"};
+        if (switching == options[0])
+        {
+            m_pimpl->switching = LOSwitching::latest;
+        }
+        else
+        {
+            m_pimpl->switching = LOSwitching::lastActive;
+        }
+    }
+
+    std::string velComp;
+    if (!lohandle->getParameter("vel_computation_method", velComp))
+    {
+        std::vector<std::string> options{"single", "multiAvg", "multLSJvel", "multiLS"};
+        if (velComp == options[0])
+        {
+            m_pimpl->velComp = LOVelComputation::singleFrame;
+        }
+        else if (velComp == options[1])
+        {
+            m_pimpl->velComp = LOVelComputation::multiFrameAverage;
+        }
+        else if (velComp == options[2])
+        {
+            m_pimpl->velComp = LOVelComputation::multiFrameLeastSquareWithJVel;
+        }
+        else
+        {
+            m_pimpl->velComp = LOVelComputation::multiFrameLeastSquare;
+        }
+    }
+
+    if (!lohandle->getParameter("wLin", m_pimpl->wLin))
+    {
+        m_pimpl->wLin = 1.0;
+    }
+
+    if (!lohandle->getParameter("wAng", m_pimpl->m_initialFixedFrame))
+    {
+        m_pimpl->wAng = 0.5;
+    }
+
+    if (!lohandle->getParameter("wJVel", m_pimpl->m_initialFixedFrame))
+    {
+        m_pimpl->wJVel = 10.0;
+    }
+
+    if (!lohandle->getParameter("reg", m_pimpl->m_initialFixedFrame))
+    {
+        m_pimpl->reg = 1e-6;
     }
 
     Eigen::Quaterniond refFrame_quat_world = Eigen::Quaterniond(initialWorldOrientationInRefFrame[0], initialWorldOrientationInRefFrame[1],
@@ -607,7 +674,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameAverage(const Fl
             m_contactJacobianBase = m_contactJacobian.block<6, 6>(m_baseOffset, m_baseOffset);
             m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
 
-            sumV = -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
+            sumV += -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
         }
     }
 
