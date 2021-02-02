@@ -20,6 +20,7 @@
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 namespace BipedalLocomotion
 {
@@ -33,7 +34,7 @@ class Module : public yarp::os::RFModule
 
     Eigen::VectorXd m_currentJointPos;
 
-    std::shared_ptr<yarp::dev::PolyDriver> m_robotDevice;
+    BipedalLocomotion::RobotInterface::PolyDriverDescriptor m_controlBoard;
 
     BipedalLocomotion::RobotInterface::YarpRobotControl m_robotControl;
     BipedalLocomotion::RobotInterface::YarpSensorBridge m_sensorBridge;

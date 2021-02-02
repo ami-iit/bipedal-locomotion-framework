@@ -7,16 +7,34 @@
 
 #include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
-std::shared_ptr<yarp::dev::PolyDriver> BipedalLocomotion::RobotInterface::constructYarpRobotDevice(
+using namespace BipedalLocomotion::RobotInterface;
+
+PolyDriverDescriptor::PolyDriverDescriptor(const std::string& key,
+                                           std::shared_ptr<yarp::dev::PolyDriver> poly)
+    : key(key)
+    , poly(poly)
+{
+}
+
+PolyDriverDescriptor::PolyDriverDescriptor() = default;
+
+bool PolyDriverDescriptor::isValid() const
+{
+    return ((!key.empty()) && (poly != nullptr));
+}
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBoardRemapper(
     std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    auto robotDevice = std::make_shared<yarp::dev::PolyDriver>();
+    constexpr std::string_view errorPrefix = "[constructRemoteControlBoardRemapper] ";
+
     auto ptr = handler.lock();
+
 
     if (ptr == nullptr)
     {
-        std::cerr << "[constructYarpRobotDevice] IParametershandler is empty." << std::endl;
-        return robotDevice;
+        std::cerr << errorPrefix << "IParametershandler is empty." << std::endl;
+        return PolyDriverDescriptor();
     }
 
     bool ok = true;
@@ -30,15 +48,14 @@ std::shared_ptr<yarp::dev::PolyDriver> BipedalLocomotion::RobotInterface::constr
     std::string robotName;
     ok = ok && ptr->getParameter("robot_name", robotName);
 
-    std::string localName;
-    ok = ok && ptr->getParameter("local_name", localName);
+    std::string localPrefix;
+    ok = ok && ptr->getParameter("local_prefix", localPrefix);
 
     if (!ok)
     {
-        std::cerr << "[constructYarpRobotDevice] Unable to get all the parameters from "
-                     "configuration file."
+        std::cerr << errorPrefix << "Unable to get all the parameters from configuration file."
                   << std::endl;
-        return robotDevice;
+        return PolyDriverDescriptor();
     }
 
     // open the remotecontrolboardremepper YARP device
@@ -57,16 +74,17 @@ std::shared_ptr<yarp::dev::PolyDriver> BipedalLocomotion::RobotInterface::constr
         remoteControlBoardsList.addString("/" + robotName + "/" + controlBoard);
 
     options.put("remoteControlBoards", remoteControlBoards.get(0));
-    options.put("localPortPrefix", "/" + localName + "/remoteControlBoard");
+    options.put("localPortPrefix", "/" + localPrefix + "/remoteControlBoard");
     yarp::os::Property& remoteControlBoardsOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
     remoteControlBoardsOpts.put("writeStrict", "on");
 
-    if (!robotDevice->open(options) && !robotDevice->isValid())
+    PolyDriverDescriptor device("remoteControlBoards", std::make_shared<yarp::dev::PolyDriver>());
+
+    if (!device.poly->open(options) && !device.poly->isValid())
     {
-        std::cerr << "[configureRobot] Could not open remotecontrolboardremapper object."
-                  << std::endl;
-        return robotDevice;
+        std::cerr << errorPrefix << "Could not open polydriver object." << std::endl;
+        return PolyDriverDescriptor();
     }
 
-    return robotDevice;
+    return device;
 }

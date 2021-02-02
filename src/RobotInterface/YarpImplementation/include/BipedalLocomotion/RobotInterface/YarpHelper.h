@@ -10,6 +10,7 @@
 
 // std
 #include <memory>
+#include <string>
 
 // YARP
 #include <yarp/dev/PolyDriver.h>
@@ -22,6 +23,33 @@ namespace RobotInterface
 {
 
 /**
+ * PolyDriverDescriptor describes a PolyDriver.
+ * @note Please be careful with the namespaces then to avoid clashes with YARP
+ * [PolyDriverDescriptor](https://www.yarp.it/git-master/classyarp_1_1dev_1_1PolyDriverDescriptor.html).
+ */
+struct PolyDriverDescriptor
+{
+    std::string key{""}; /**< key associated to the polydriver */
+    std::shared_ptr<yarp::dev::PolyDriver> poly{nullptr}; /**< Pointer associated to the polydriver. */
+
+    /**
+     * Constructor.
+     */
+    PolyDriverDescriptor(const std::string& key, std::shared_ptr<yarp::dev::PolyDriver> poly);
+
+    /**
+     * Constructor.
+     */
+    PolyDriverDescriptor();
+
+    /**
+     * Check if the poly driver descriptor is valid.
+     * @return True if the polydriver is valid, false otherwise.
+     */
+    bool isValid() const;
+};
+
+/**
  * Helper function that can be used to build a RemoteControlBoardRemapper device.
  * @param handler pointer to a parameter handler interface.
  * @note the following parameters are required by the function
@@ -30,10 +58,10 @@ namespace RobotInterface
  * |      `joints_list`      | `vector<string>` |                List of the controlled joints               |    Yes    |
  * | `remote_control_boards` | `vector<string>` | List of the remote control boards associated to the joints |    Yes    |
  * |       `robot_name`      |     `string`     |                      Name of the robot                     |    Yes    |
- * |       `local_name`      |     `string`     |                Name of the local application               |    Yes    |
- * @return A shared_ptr to the PolyDriver. If one of the parameters is missing a nullptr is returned.
+ * |      `local_prefix`     |     `string`     |    Prefix of the local port (e.g. the application name)    |    Yes    |
+ * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
  */
-std::shared_ptr<yarp::dev::PolyDriver> constructYarpRobotDevice(
+PolyDriverDescriptor constructRemoteControlBoardRemapper(
     std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
 } // namespace RobotInterface
