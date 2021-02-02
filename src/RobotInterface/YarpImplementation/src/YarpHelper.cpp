@@ -88,3 +88,54 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
 
     return device;
 }
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorClient(
+    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    constexpr std::string_view errorPrefix = "[constructGenericSensorClient] ";
+
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        std::cerr << errorPrefix << "IParametershandler is empty." << std::endl;
+        return PolyDriverDescriptor();
+    }
+
+    bool ok = true;
+
+    std::string description;
+    ok = ok && ptr->getParameter("description", description);
+
+    std::string remotePortName;
+    ok = ok && ptr->getParameter("remote_port_name", remotePortName);
+
+    std::string localPrefix;
+    ok = ok && ptr->getParameter("local_prefix", localPrefix);
+
+    std::string localPortNamePostfix;
+    ok = ok && ptr->getParameter("local_port_name_postfix", localPortNamePostfix);
+
+    if (!ok)
+    {
+        std::cerr << errorPrefix << "Unable to get all the parameters from configuration file."
+                  << std::endl;
+        return PolyDriverDescriptor();
+    }
+
+    // open the YARP device
+    yarp::os::Property options;
+    options.put("device", "genericSensorClient");
+    options.put("remote", remotePortName);
+    options.put("local", "/" + localPrefix + localPortNamePostfix);
+
+    PolyDriverDescriptor device(description, std::make_shared<yarp::dev::PolyDriver>());
+
+    if (!device.poly->open(options) && !device.poly->isValid())
+    {
+        std::cerr << errorPrefix << "Could not open polydriver object." << std::endl;
+        return PolyDriverDescriptor();
+    }
+
+    return device;
+}
