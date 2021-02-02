@@ -64,13 +64,6 @@ bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParamete
                   << std::endl;
         return false;
     }
-    if (!m_robotControl.initialize(handler->getGroup("PID")))
-    {
-        std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
-                     "control board"
-                  << std::endl;
-        return false;
-    }
 
     return true;
 }
@@ -139,9 +132,21 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
-    this->createPolydriver(parametersHandler);
-    this->initializeRobotControl(parametersHandler);
-    this->instantiateSensorBridge(parametersHandler);
+    if (!this->createPolydriver(parametersHandler))
+    {
+        std::cerr << "[Module::configure] Unable to create the polydriver." << std::endl;
+        return false;
+    }
+    if (!this->initializeRobotControl(parametersHandler))
+    {
+        std::cerr << "[Module::configure] Unable to initialize the robotControl interface." << std::endl;
+        return false;
+    }
+    if (!this->instantiateSensorBridge(parametersHandler))
+    {
+        std::cerr << "[Module::configure] Unable toinitialize the sensorBridge interface." << std::endl;
+        return false;
+    }
 
     m_numOfJoints = m_robotControl.getJointList().size();
     if (m_numOfJoints == 0)
@@ -244,7 +249,6 @@ bool Module::updateModule()
     default:
         std::cerr << "[Module::updateModule] The program is in an unknown state. Cannot proceed.";
         return false;
-        break;
     }
 
     return true;
@@ -263,7 +267,7 @@ bool Module::close()
     fileName << "Dataset_Measured_" << m_robotControl.getJointList().front() << "_"
              << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
 
-    matioCpp::File file = matioCpp::File::Create(fileName.str().c_str());
+    matioCpp::File file = matioCpp::File::Create(fileName.str());
 
     for (auto& [key, value] : m_logJointPos)
     {
