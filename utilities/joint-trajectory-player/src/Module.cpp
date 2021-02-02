@@ -36,9 +36,9 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
         std::cerr << "[Module::createPolydriver] Robot interface options is empty." << std::endl;
         return false;
     }
-    ptr->setParameter("local_name", this->getName());
-    m_robotDevice = RobotInterface::constructYarpRobotDevice(ptr);
-    if (m_robotDevice == nullptr)
+    ptr->setParameter("local_prefix", this->getName());
+    m_controlBoard = RobotInterface::constructRemoteControlBoardRemapper(ptr);
+    if (!m_controlBoard.isValid())
     {
         std::cerr << "[Module::createPolydriver] the robot polydriver has not been constructed."
                   << std::endl;
@@ -57,7 +57,7 @@ bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParamete
                   << std::endl;
         return false;
     }
-    if (!m_robotControl.setDriver(m_robotDevice))
+    if (!m_robotControl.setDriver(m_controlBoard.poly))
     {
         std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
                      "control board"
@@ -85,7 +85,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
     }
 
     yarp::dev::PolyDriverList list;
-    list.push(m_robotDevice.get(), "Remote control board");
+    list.push(m_controlBoard.poly.get(), m_controlBoard.key.c_str());
     if (!m_sensorBridge.setDriversList(list))
     {
         std::cerr << "[Module::initializeSensorBridge] Unable to set the driver list" << std::endl;
