@@ -92,16 +92,6 @@ public:
         return true;
     };
 
-    virtual bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) override
-    {
-        rgbCamerasList = std::vector<std::string>{""};
-        return true;
-    };
-    virtual bool getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList) override
-    {
-        rgbdCamerasList = std::vector<std::string>{""};
-        return true;
-    };
 
     virtual bool getJointPosition(const std::string& jointName,
                                   double& jointPosition,
@@ -161,12 +151,7 @@ public:
     virtual bool getCartesianWrench(const std::string& cartesianWrenchName,
                                     Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
                                     double* receiveTimeInSeconds = nullptr) override { return true; };
-    virtual bool getColorImage(const std::string& camName,
-                               Eigen::Ref<Eigen::MatrixXd> colorImg,
-                               double* receiveTimeInSeconds = nullptr) override { return true; };
-    virtual bool getDepthImage(const std::string& camName,
-                               Eigen::Ref<Eigen::MatrixXd> depthImg,
-                               double* receiveTimeInSeconds = nullptr) override { return true; };
+
 protected:
     virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                       SensorBridgeOptions& sensorBridgeOptions) override
