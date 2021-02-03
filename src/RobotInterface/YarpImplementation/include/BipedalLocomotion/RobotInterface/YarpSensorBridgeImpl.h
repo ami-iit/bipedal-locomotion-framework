@@ -433,7 +433,13 @@ struct YarpSensorBridge::Impl
 
                 if (nrChannels != nrChannelsInSensor)
                 {
-                    std::cerr << logPrefix << sensorName << " Mismatch in the expected number of channels in the sensor stream." << std::endl;
+                    std::cerr << logPrefix << sensorName
+                              << " Mismatch in the expected number of channels in the sensor "
+                                 "stream."
+                              << std::endl;
+                    std::cerr << logPrefix << sensorName
+                              << " Expected channels: " << nrChannelsInSensor
+                              << ". Number of channels: " << nrChannels << std::endl;
                     return false;
                 }
 
@@ -458,12 +464,9 @@ struct YarpSensorBridge::Impl
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllGenericOrAnalogSensors] ";
 
         bool allSensorsAttachedSuccesful{true};
-        for (auto genericSensorCartesianWrench : sensorList)
+        for (const auto& sensorName : sensorList)
         {
-            if (!attachGenericOrAnalogSensor(devList,
-                                             genericSensorCartesianWrench,
-                                             nrChannelsInSensor,
-                                             sensorMap))
+            if (!attachGenericOrAnalogSensor(devList, sensorName, nrChannelsInSensor, sensorMap))
             {
                 allSensorsAttachedSuccesful = false;
                 break;
@@ -473,7 +476,7 @@ struct YarpSensorBridge::Impl
         if (!allSensorsAttachedSuccesful ||
             (sensorMap.size() != sensorList.size()) )
         {
-            std::cerr << logPrefix << " Could not attach all desired " << interfaceType << " ." << std::endl;
+            std::cerr << logPrefix << " Could not attach all desired " << interfaceType << "." << std::endl;
             return false;
         }
 
