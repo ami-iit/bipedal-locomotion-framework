@@ -23,7 +23,7 @@ namespace TSID
  * M_{s}(q) \dot{\nu} + h_{s}(q,\nu) = \sum J_k^\top f_k + \tau
  * \f]
  * where the suffix \f$s\f$ indicates the last n rows of the vector/matrix. \f$J_k\f$ is the robot
- * jacobian associated to the contact wrench \f$d_k\f$. \f$\tau$\f are the joints torque.
+ * jacobian associated to the contact wrench \f$d_k\f$. \f$\tau\f$ are the joints torque.
  * @note Please consider that here the MIXED representation is used to define the 6d-velocity and
  * 6d-forces. You can find further details in Section 2.3.4 of
  * https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
