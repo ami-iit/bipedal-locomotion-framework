@@ -199,24 +199,40 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     // right foot trajectory
     Planners::ContactList rightContats;
-    manif::SE3d rightTransform1{{0, -0.14, 0.16}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
+    manif::SE3d rightTransform1{{0, -0.16, 0.12}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
     rightContats.addContact(rightTransform1, 0.0, 1);
 
-    manif::SE3d rightTransform2{{0, -0.14, 0.1}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
+    manif::SE3d rightTransform2{{0, -0.16, 0.08}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
     rightContats.addContact(rightTransform2, 3.0, 4);
 
-    manif::SE3d rightTransform3{{0, -0.14, 0.1},
-                                Eigen::AngleAxisd(10 * M_PI / 180, Eigen::Vector3d::UnitX())};
+    manif::SE3d rightTransform3{{0, -0.16, 0.08},
+                                Eigen::AngleAxisd(5 * M_PI / 180, Eigen::Vector3d::UnitX())};
     rightContats.addContact(rightTransform3, 6.0, 7);
 
-    manif::SE3d rightTransform4{{0, -0.14, 0.1},
-                                Eigen::AngleAxisd(-10 * M_PI / 180, Eigen::Vector3d::UnitX())};
+    manif::SE3d rightTransform4{{0, -0.16, 0.08},
+                                Eigen::AngleAxisd(-5 * M_PI / 180, Eigen::Vector3d::UnitX())};
     rightContats.addContact(rightTransform4, 9.0, 10);
 
-    manif::SE3d rightTransform5{{0, -0.14, 0.1},
+    manif::SE3d rightTransform5{{0, -0.16, 0.08},
                                 Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())};
     rightContats.addContact(rightTransform5, 12.0, 13);
 
+    // manif::SE3d rightTransform6{{0, -0.16, 0.12},
+    //                             Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())};
+    // rightContats.addContact(rightTransform6, 15.0, 16);
+
+
+    m_comTraj.setAdvanceTimeStep(m_dT);
+    Eigen::Vector3d CoM0;
+    CoM0 << 0, 0, 0.6;
+
+    Eigen::Vector3d CoM1;
+    CoM1 << 0, -0.08, 0.6;
+
+
+    m_comTraj.setKnots({CoM0, CoM1}, {0, 3});
+    m_comTraj.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+    m_comTraj.setInitialConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
 
     if(!m_rightFootPlanner.initialize(parametersHandler->getGroup("FOOT_PLANNER").lock()))
     {
@@ -288,7 +304,7 @@ bool Module::updateModule()
         return false;
     }
 
-    if (!m_sensorBridge.getJointPositions(m_currentJointVel))
+    if (!m_sensorBridge.getJointVelocities(m_currentJointVel))
     {
         std::cerr << "[Module::updateModule] Error in reading current position." << std::endl;
         return false;
@@ -304,35 +320,9 @@ bool Module::updateModule()
             return false;
 
 
-    // log data
-    m_log["time"].push_back(yarp::os::Time::now());
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_axisList[i] + "_pos"].push_back(m_currentJointPos[i]);
-    }
-
-    for (int i = 0; i < m_numOfJoints; i++)
-    {
-        m_log[m_axisList[i] + "_vel"].push_back(m_currentJointPos[i]);
-    }
-
-    for(int i = 0; i < 4; i++)
-    {
-        m_log[wrenchesList[i] + "_fx"].push_back(m_contactForces[i][0]);
-        m_log[wrenchesList[i] + "_fy"].push_back(m_contactForces[i][1]);
-        m_log[wrenchesList[i] + "_fz"].push_back(m_contactForces[i][2]);
-
-        m_log[wrenchesList[i] + "_tx"].push_back(m_contactForces[i][3]);
-        m_log[wrenchesList[i] + "_ty"].push_back(m_contactForces[i][4]);
-        m_log[wrenchesList[i] + "_tz"].push_back(m_contactForces[i][5]);
-    }
-
-
     bool isMotionDone;
     bool isTimeExpired;
     std::vector<std::pair<std::string, double>> jointlist;
-
-
 
 
     switch (m_state)
@@ -367,7 +357,7 @@ bool Module::updateModule()
     case State::running:
 
         m_homing.setRobotState(m_currentJointPos);
-
+        m_homing.setDesiredCoMPosition(m_comTraj.get().position);
         m_homing.setDesiredFeetTransform(m_leftFootPlanner.get().transform,
                                          m_rightFootPlanner.get().transform);
 
@@ -378,11 +368,50 @@ bool Module::updateModule()
         }
 
 
+// joints_list                                      ("torso_pitch", "torso_roll", "torso_yaw",
+//                                                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",
+//                                                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow",
+//                                                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll",
+//                                                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")
+
+
+        using namespace BipedalLocomotion::RobotInterface;
         m_robotControl.setReferences(m_homing.getJointPos(),
-                                     RobotInterface::IRobotControl::ControlMode::PositionDirect);
+                                     {IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::Idle, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect});
+
+        // log data
+        m_log["time"].push_back(yarp::os::Time::now());
+        for (int i = 0; i < m_numOfJoints; i++)
+        {
+            m_log[m_axisList[i] + "_pos"].push_back(m_currentJointPos[i]);
+        }
+
+        for (int i = 0; i < m_numOfJoints; i++)
+        {
+            m_log[m_axisList[i] + "_vel"].push_back(m_currentJointVel[i]);
+        }
+
+        for(int i = 0; i < 4; i++)
+        {
+            m_log[wrenchesList[i] + "_fx"].push_back(m_contactForces[i][0]);
+            m_log[wrenchesList[i] + "_fy"].push_back(m_contactForces[i][1]);
+            m_log[wrenchesList[i] + "_fz"].push_back(m_contactForces[i][2]);
+
+            m_log[wrenchesList[i] + "_tx"].push_back(m_contactForces[i][3]);
+            m_log[wrenchesList[i] + "_ty"].push_back(m_contactForces[i][4]);
+            m_log[wrenchesList[i] + "_tz"].push_back(m_contactForces[i][5]);
+        }
+
 
         m_leftFootPlanner.advance();
         m_rightFootPlanner.advance();
+        m_comTraj.advance();
+
+
 
         break;
 
@@ -432,11 +461,8 @@ bool Module::homing()
     std::cerr << "I'm homing the robot" << std::endl;
 
 
-    Eigen::Vector3d comPos;
-    comPos.setZero();
-    comPos(2) = 0.6;
     m_homing.setRobotState(m_currentJointPos);
-    m_homing.setDesiredCoMPosition(comPos);
+    m_homing.setDesiredCoMPosition(m_comTraj.get().position);
     m_homing.setDesiredFeetTransform(m_leftFootPlanner.get().transform,
                                      m_rightFootPlanner.get().transform);
 

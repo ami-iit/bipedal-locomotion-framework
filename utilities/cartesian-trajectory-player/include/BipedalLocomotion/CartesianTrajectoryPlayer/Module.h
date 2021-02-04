@@ -25,6 +25,7 @@
 #include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
+#include <BipedalLocomotion/Planners/QuinticSpline.h>
 
 #include <BipedalLocomotion/CartesianTrajectoryPlayer/Homing.h>
 
@@ -58,6 +59,8 @@ class Module : public yarp::os::RFModule, public CartesianTrajectoryPlayerComman
     Planners::SwingFootPlanner m_rightFootPlanner;
     Planners::SwingFootPlanner m_leftFootPlanner;
 
+
+    Planners::QuinticSpline m_comTraj;
 
     int m_numOfJoints; /**< Number of joints to control. */
 
