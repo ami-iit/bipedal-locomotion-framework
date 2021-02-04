@@ -11,15 +11,15 @@ on:
 env:
   vcpkg_robotology_TAG: v0.4.0
   vcpkg_TAG: 76a7e9248fb3c57350b559966dcaa2d52a5e4458
-  YCM_TAG: v0.11.1
-  YARP_TAG: 964bb26fa4791d83d72882711ea7509306248106
-  iDynTree_TAG: 64cbaf7e35a0d545167cc9819f4d248d08aa5031
-  Catch2_TAG: v2.11.3
-  Qhull_TAG: f7aff465101711ae4cee3f501a528d6d53e75185
+  YCM_TAG: v0.12.1
+  YARP_TAG: v3.4.2
+  iDynTree_TAG: v3.0.0
+  Catch2_TAG: v2.13.4
+  Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.1
-  manif_TAG: 44bdfebff0fbc56cb189f680212257dc7f20ea58
-  matioCpp_TAG: 6db196335cd35489f2627cfdce67808c16389be9
-  LieGroupControllers_TAG: fdd7bf5a446f1a60ef4d6717a7f7d13805297699
+  manif_TAG: 0.0.3
+  matioCpp_TAG: v0.1.0
+  LieGroupControllers_TAG: v0.0.1
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
