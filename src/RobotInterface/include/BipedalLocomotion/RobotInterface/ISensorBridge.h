@@ -337,7 +337,36 @@ protected:
     virtual bool populateSensorBridgeMetaDataFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                         SensorBridgeMetaData& sensorBridgeMetaData) { return true; };
 
+    /**
+     * Get motor currents in ampere
+     * @param[in] jointName name of the joint
+     * @param[out] motorCurrent motor current in ampere
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorCurrent(const std::string& jointName,
+                                  double& motorCurrent,
+                                  double* receiveTimeInSeconds = nullptr)
+    {
+        return false;
+    };
 
+    /**
+     * Get all motors' current in ampere
+     * @param[out] motorCurrents all motors' current in ampere
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorCurrents" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
+                                   double* receiveTimeInSeconds = nullptr)
+    {
+        return false;
+    };
 };
 } // namespace RobotInterface
 } // namespace BipedalLocomotion

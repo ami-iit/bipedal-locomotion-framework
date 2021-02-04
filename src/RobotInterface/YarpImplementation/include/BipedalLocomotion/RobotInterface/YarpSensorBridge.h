@@ -334,6 +334,31 @@ public:
                             Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
                             double* receiveTimeInSeconds = nullptr) final;
 
+    /**
+     * Get motor current in ampere
+     * @param[in] jointName name of the joint
+     * @param[out] motorCurrent motor current in ampere
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    bool getMotorCurrent(const std::string& jointName,
+                          double& motorCurrent,
+                          double* receiveTimeInSeconds = nullptr) final;
+
+    /**
+     * Get all motors' currents in ampere
+     * @param[out] motorCurrents all motors' current in ampere
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorCurrents" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
+                           double* receiveTimeInSeconds = nullptr) final;
+
 private:
     /** Private implementation */
     struct Impl;
@@ -342,6 +367,5 @@ private:
 
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
-
 
 #endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_H
