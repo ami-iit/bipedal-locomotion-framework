@@ -5,6 +5,7 @@
 find_package(WalkingControllers REQUIRED)
 find_package(osqp REQUIRED)
 find_package(OsqpEigen REQUIRED)
+find_package(ICUB REQUIRED)
 
   set(EXE_TARGET_NAME cartesian-trajectory-player)
 
@@ -27,4 +28,5 @@ find_package(OsqpEigen REQUIRED)
     matioCpp::matioCpp
     BipedalLocomotion::matioCppConversions
     WalkingControllers::WholeBodyControllers
+    ctrlLib
     )
