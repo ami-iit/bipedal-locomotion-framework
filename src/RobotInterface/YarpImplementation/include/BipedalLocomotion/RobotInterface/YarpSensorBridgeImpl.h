@@ -122,7 +122,7 @@ struct YarpSensorBridge::Impl
     SensorBridgeMetaData metaData; /**< struct holding meta data **/
     bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized */
     bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to required device drivers */
-    bool checkForNAN{false}; /**< flag to enable binary search for NANs in the incoming measurement buffers */
+    bool checkForNAN{false}; /**< flag to enable search for NANs in the incoming measurement buffers */
 
 
     using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>,
@@ -142,6 +142,24 @@ struct YarpSensorBridge::Impl
 
         index = iter - vec.begin();
         return true;
+    }
+
+    /**
+     * Utility function to check for nan in vector
+     */
+    bool nanExistsInVec(const yarp::sig::Vector& vec,
+                        std::string_view logPrefix,
+                        const std::string& sensorName)
+    {
+        for (auto& val : vec)
+        {
+            if (std::isnan(val))
+            {
+                std::cerr << logPrefix << " NAN values read from " << sensorName << " , use previous measurement" << std::endl;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1022,9 +1040,8 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN))
+            if (nanExistsInVec(sensorMeasure, logPrefix, sensorName))
             {
-                std::cerr << logPrefix << " NAN values read from " << sensorName << " , use previous measurement" << std::endl;
                 return false;
             }
         }
@@ -1119,9 +1136,8 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (std::binary_search(sensorMeasure.begin(), sensorMeasure.end(), NAN))
+            if (nanExistsInVec(sensorMeasure, logPrefix, sensorName))
             {
-                std::cerr << logPrefix << " NAN values read from " << sensorName << ", use previous measurement" << std::endl;
                 return false;
             }
         }
@@ -1189,15 +1205,13 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (std::binary_search(tempJointPositions.begin(), tempJointPositions.end(), NAN))
+            if (nanExistsInVec(tempJointPositions, logPrefix, "encoders"))
             {
-                std::cerr << logPrefix << " NAN values read from encoders interface, use previous measurement" << std::endl;
                 return false;
             }
 
-            if (std::binary_search(tempJointVelocities.begin(), tempJointVelocities.end(), NAN))
+            if (nanExistsInVec(tempJointVelocities, logPrefix, "encoder speeds"))
             {
-                std::cerr << logPrefix << " NAN values read from encoders interface, use previous measurement" << std::endl;
                 return false;
             }
         }
