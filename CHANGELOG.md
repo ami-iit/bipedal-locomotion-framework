@@ -33,5 +33,6 @@ All notable changes to this project are documented in this file.
 - Implement the `JointTrajectoryPlayer` application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/169)29ed234a1c
 - Implement `ContactDetectors` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/142)
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
+- Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
