@@ -97,6 +97,9 @@ struct YarpRobotControl::Impl
         case VOCAB_CM_TORQUE:
             return IRobotControl::ControlMode::Torque;
 
+        case VOCAB_CM_IDLE:
+            return IRobotControl::ControlMode::Idle;
+
         default:
             return IRobotControl::ControlMode::Unknown;
         }
@@ -118,6 +121,9 @@ struct YarpRobotControl::Impl
 
         case IRobotControl::ControlMode::Torque:
             return VOCAB_CM_TORQUE;
+
+        case IRobotControl::ControlMode::Idle:
+            return VOCAB_CM_IDLE;
 
         default:
             return VOCAB_CM_UNKNOWN;
@@ -171,6 +177,7 @@ struct YarpRobotControl::Impl
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PositionDirect].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Velocity].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Torque].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Idle].clear();
 
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
         {
@@ -367,6 +374,7 @@ struct YarpRobotControl::Impl
     control(const IRobotControl::ControlMode& mode)
     {
         assert(mode != IRobotControl::ControlMode::Unknown);
+        assert(mode != IRobotControl::ControlMode::Idle);
 
         switch (mode)
         {
@@ -425,7 +433,10 @@ struct YarpRobotControl::Impl
             if (indeces.empty())
                 continue;
 
-            if (mode == IRobotControl::ControlMode::Unknown)
+            if (mode == IRobotControl::ControlMode::Idle)
+                continue;
+
+            else if (mode == IRobotControl::ControlMode::Unknown)
             {
                 std::string error = " The following joints does not have a specified control "
                                     "mode: ";
@@ -544,7 +555,7 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
 }
 
 bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                                       const std::vector<IRobotControl::ControlMode>& controlModes)
+                                     const std::vector<IRobotControl::ControlMode>& controlModes)
 {
     if (controlModes != m_pimpl->controlModes)
     {
