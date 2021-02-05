@@ -1,5 +1,13 @@
 # bipedal-locomotion-framework <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++17-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" /></a>  </a><a href="./LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" /></a>
 
+---
+<p align="center">
+  <b>:warning: REPOSITORY UNDER DEVELOPMENT :warning:</b>  
+  <br>The libraries implemented in this repository are still experimental and we cannot guarantee stable API</a>
+</p>
+
+---
+
 The **BipedalLocomotionFramework** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 
 
