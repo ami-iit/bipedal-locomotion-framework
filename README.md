@@ -11,8 +11,6 @@
 The **BipedalLocomotionFramework** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 
 
-
-
 # Overview
 - [:orange_book: Exported components](#orange_book-exported-components)
 - [:page_facing_up: Dependencies](#page_facing_up-dependencies)
