@@ -19,7 +19,7 @@ All notable changes to this project are documented in this file.
 - Implement the Quintic Spline class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/83)
 - Implement the `ConvexHullHelper` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/51)
 - Implement the `DynamicalSystem` and `Integrator` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/46)
-- Implement the `IRobotControl` interface and the YARP specialization (https://github.com/dic-iit/bipedal-locomotion-framework/pull/97)
+- Implement the `IRobotControl` interface and the YARP specialization (https://github.com/dic-iit/bipedal-locomotion-framework/pull/97, https://github.com/dic-iit/bipedal-locomotion-framework/pull/192)
 - Add `SensorBridge` interface (https://github.com/dic-iit/bipedal-locomotion-framework/pull/87)
 - Add the `YarpSensorBridge` Implementation (https://github.com/dic-iit/bipedal-locomotion-framework/pull/106)
 - Added `CommonConversions`, `ManifConversions`, and `matioCppConversions` libraries to handle type conversions. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/138 and https://github.com/dic-iit/bipedal-locomotion-framework/pull/143)
