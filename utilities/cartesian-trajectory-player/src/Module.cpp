@@ -27,6 +27,8 @@
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::CartesianTrajectoryPlayer;
 
+double t0;
+
 double Module::getPeriod()
 {
     return m_dT;
@@ -199,23 +201,23 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     // right foot trajectory
     Planners::ContactList rightContats;
-    manif::SE3d rightTransform1{{0, -0.16, 0.12}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
+    manif::SE3d rightTransform1{{0, -0.16, 0.13}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
     rightContats.addContact(rightTransform1, 0.0, 1);
 
-    manif::SE3d rightTransform2{{0, -0.16, 0.08}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
-    rightContats.addContact(rightTransform2, 3.0, 4);
+    manif::SE3d rightTransform2{{0, -0.16, 0.07}, Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())};
+    rightContats.addContact(rightTransform2, 5.0, 6);
 
-    manif::SE3d rightTransform3{{0, -0.16, 0.08},
-                                Eigen::AngleAxisd(5 * M_PI / 180, Eigen::Vector3d::UnitX())};
-    rightContats.addContact(rightTransform3, 6.0, 7);
+    manif::SE3d rightTransform3{{0, -0.16, 0.07},
+                                Eigen::AngleAxisd(5 * M_PI / 180, Eigen::Vector3d::UnitY())};
+    rightContats.addContact(rightTransform3, 8.0, 9);
 
-    manif::SE3d rightTransform4{{0, -0.16, 0.08},
-                                Eigen::AngleAxisd(-5 * M_PI / 180, Eigen::Vector3d::UnitX())};
-    rightContats.addContact(rightTransform4, 9.0, 10);
+    manif::SE3d rightTransform4{{0, -0.16, 0.07},
+                                Eigen::AngleAxisd(-5 * M_PI / 180, Eigen::Vector3d::UnitY())};
+    rightContats.addContact(rightTransform4, 11.0, 12);
 
-    manif::SE3d rightTransform5{{0, -0.16, 0.08},
+    manif::SE3d rightTransform5{{0, -0.16, 0.07},
                                 Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())};
-    rightContats.addContact(rightTransform5, 12.0, 13);
+    rightContats.addContact(rightTransform5, 14.0, 15);
 
     // manif::SE3d rightTransform6{{0, -0.16, 0.12},
     //                             Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())};
@@ -227,10 +229,10 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     CoM0 << 0, 0, 0.6;
 
     Eigen::Vector3d CoM1;
-    CoM1 << 0, -0.08, 0.6;
+    CoM1 << 0, -0.04, 0.6;
 
 
-    m_comTraj.setKnots({CoM0, CoM1}, {0, 3});
+    m_comTraj.setKnots({CoM0, CoM1}, {0, 5});
     m_comTraj.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
     m_comTraj.setInitialConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
 
@@ -375,13 +377,22 @@ bool Module::updateModule()
 //                                                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")
 
 
-        using namespace BipedalLocomotion::RobotInterface;
-        m_robotControl.setReferences(m_homing.getJointPos(),
-                                     {IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
-                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
-                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
-                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
-                                      IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::Idle, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect});
+        if(yarp::os::Time::now() - t0 > 3.4)
+        {
+            using namespace BipedalLocomotion::RobotInterface;
+            m_robotControl.setReferences(m_homing.getJointPos(),
+                                         {IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                                 IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                                 IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,
+                                                 IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::Idle,
+                                                 IRobotControl::ControlMode::PositionDirect,  IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect,IRobotControl::ControlMode::PositionDirect, IRobotControl::ControlMode::PositionDirect});
+        }
+
+        else
+        {
+            using namespace BipedalLocomotion::RobotInterface;
+            m_robotControl.setReferences(m_homing.getJointPos(), IRobotControl::ControlMode::PositionDirect);
+        }
 
         // log data
         m_log["time"].push_back(yarp::os::Time::now());
@@ -484,7 +495,12 @@ bool Module::homing()
 bool Module::start()
 {
     std::lock_guard lock(m_mutex);
+
+    t0 = yarp::os::Time::now();
+
     m_state = State::running;
+
+
 
     return true;
 }
