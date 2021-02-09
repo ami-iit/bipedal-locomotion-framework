@@ -36,6 +36,8 @@ class Module : public yarp::os::RFModule
     std::string m_robot; /**< Robot name. */
 
     Eigen::VectorXd m_currentJointPos; /**< Current joint positions. */
+    Eigen::VectorXd m_currentJointVel; /**< Current joint velocities. */
+    Eigen::VectorXd m_currentMotorCurr; /**< Current motor currents. */
 
     BipedalLocomotion::RobotInterface::PolyDriverDescriptor m_controlBoard; /**< Control board remapper. */
 
@@ -44,8 +46,7 @@ class Module : public yarp::os::RFModule
 
     int m_numOfJoints; /**< Number of joints to control. */
 
-    std::unordered_map<std::string, std::vector<double>> m_logJointPos; /**< Measured joint
-                                                                           positions. */
+    std::unordered_map<std::string, std::vector<double>> m_log; /**< Measured joint and motor quantities. */
 
     std::vector<std::string> m_axisList; /**< Axis name list. */
 

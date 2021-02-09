@@ -158,6 +158,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_axisList = m_robotControl.getJointList();
 
     m_currentJointPos.resize(m_numOfJoints);
+    m_currentJointVel.resize(m_numOfJoints);
+    m_currentMotorCurr.resize(m_numOfJoints);
 
     if (!readStateFromFile(trajectoryFile, m_numOfJoints))
     {
@@ -220,9 +222,34 @@ bool Module::updateModule()
             return false;
         }
 
+        if (!m_sensorBridge.getJointVelocities(m_currentJointVel))
+        {
+            std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
+            return false;
+        }
+
+        if (!m_sensorBridge.getMotorCurrents(m_currentMotorCurr))
+        {
+            std::cerr << "[Module::updateModule] Error in reading motor currents." << std::endl;
+            return false;
+        }
+
+        // log data
+        m_log["time"].push_back(yarp::os::Time::now());
         for (int i = 0; i < m_numOfJoints; i++)
         {
-            m_logJointPos[m_axisList[i]].push_back(m_currentJointPos[i]);
+            m_log[m_axisList[i] + "_pos"].push_back(m_currentJointPos[i]);
+        }
+
+        m_log["time"].push_back(yarp::os::Time::now());
+        for (int i = 0; i < m_numOfJoints; i++)
+        {
+            m_log[m_axisList[i] + "_vel"].push_back(m_currentJointVel[i]);
+        }
+
+        for (int i = 0; i < m_numOfJoints; i++)
+        {
+            m_log[m_axisList[i] + "_curr"].push_back(m_currentMotorCurr[i]);
         }
 
         m_idxTraj++;
@@ -269,7 +296,7 @@ bool Module::close()
 
     matioCpp::File file = matioCpp::File::Create(fileName.str());
 
-    for (auto& [key, value] : m_logJointPos)
+    for (auto& [key, value] : m_log)
     {
         matioCpp::Vector<double> out(key);
         out = value;
