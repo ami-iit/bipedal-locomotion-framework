@@ -46,6 +46,8 @@ public:
     bool verbose{false};
     bool noCollisionMeshes{true};
     
+    std::string lowestHeightFrameName;
+
     bool getCollisionBoundingBoxes(const iDynTree::Model& model, 
                                    const std::string& linkName,
                                    const bool& _noCollisionMesh,
@@ -452,7 +454,8 @@ bool ContactBayesManager::Impl::updateCollisionStates()
                     // get point with lowest spatial height
                     if (cCollision.verticesPositionsInertial[idx][jdx](2) < minHeightVertex)
                     {
-                        minHeightVertex = cCollision.verticesPositionsInertial[idx][jdx](2);                        
+                        minHeightVertex = cCollision.verticesPositionsInertial[idx][jdx](2);
+                        lowestHeightFrameName = cCollision.boxVerticesNames[idx][jdx];
                     }                                        
                 }
             }
@@ -672,3 +675,12 @@ ContactBayesCollision ContactBayesManager::getCollisionData(const std::string& l
     return m_pimpl->manager.at(linkName);
 }
 
+std::string ContactBayesManager::getLowestHeightFrameName() const
+{
+    return m_pimpl->lowestHeightFrameName;
+}
+
+std::ptrdiff_t ContactBayesManager::getLowestHeightFrameIndex() const
+{
+    return m_pimpl->kinDyn->model().getFrameIndex(m_pimpl->lowestHeightFrameName);
+}

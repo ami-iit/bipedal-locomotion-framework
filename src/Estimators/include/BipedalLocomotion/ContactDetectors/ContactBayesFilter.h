@@ -65,6 +65,9 @@ public:
     bool prepare();
     
     ContactBayesCollision getCollisionData(const std::string& linkName) const;
+
+    std::ptrdiff_t getLowestHeightFrameIndex() const;
+    std::string getLowestHeightFrameName() const;
 protected:
     /**
     * These custom parameter specifications should be specified by the derived class.
