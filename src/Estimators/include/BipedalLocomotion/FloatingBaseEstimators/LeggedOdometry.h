@@ -27,7 +27,7 @@ namespace Estimators
  * ||initial_ref_frame_for_world|string| No| Frame on the URDF model of the robot to be used as a reference to initialize the inertial frame for the estimation. If not present, the initial fixed frame is assumed as the reference|
  * ||initial_world_orientation_in_ref_frame|vector of 4 doubles| No | Orientation of the inertial frame wrt the the reference frame as quaternion wxyz. If not present, assumed to be unit quaternion.|
  * ||initial_world_position_in_ref_frame| vector of 3 doubles | No | Position of the inertial frame wrt the reference frame as xyz. If not present,assumed to be zero position|
- * ||switching_pattern|string|No| Options: latest, lastActive. Switching pattern to decide the fixed frame from the set of all frames in contact. latest chooses the recently switched contact frame, lastActive chooses the earliest switched contact frame. Default is lastActive|
+ * ||switching_pattern|string|No| Options: latest, lastActive, useExternal. Switching pattern to decide the fixed frame from the set of all frames in contact. latest chooses the recently switched contact frame, lastActive chooses the earliest switched contact frame. Default is latest|
  * ||vel_computation_method| string | No| Options: single, multiAvg, multiLS, multLSJvel. Method used for computing the floating base velocity using the fixed frame constraints. single uses only the fixed frame, multiAvg computes a simple average from all the contact frames, multLS uses a least square solution and multLSJVel regualrizes the least square solution by augmenting joint velocities in the computation. Default is multiLS.|
  * ||wLin|double|No| weight used for linear velocity in the least square computation of base velocity. If not present, set to 1.0|
  * ||wAng|double|No| weight used for angular velocity in the least square computation of base velocity. If not present, set to 0.5|
@@ -83,6 +83,11 @@ public:
     bool resetEstimator(const std::string refFramForWorld,
                         const Eigen::Quaterniond& worldOrientationInRefFrame,
                         const Eigen::Vector3d& worldPositionInRefFrame);
+
+    /**
+     * Change fixed frame externally
+     */
+    bool changeFixedFrame(const std::ptrdiff_t& frameIndex);
 
     /**
      * Get the index of the frame currently in contact used for the legged odometry computations

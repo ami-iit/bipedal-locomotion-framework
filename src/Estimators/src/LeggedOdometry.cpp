@@ -22,7 +22,8 @@ namespace BipedalLocomotion
         enum class LOSwitching
         {
             latest, /**< recently switched contact frame index */
-            lastActive /**< earliest switched contact frame index */
+            lastActive, /**< earliest switched contact frame index */
+            useExternalUpdate /**< update the fixed frame externally*/
         };
 
         enum class LOVelComputation
@@ -106,7 +107,7 @@ public:
     iDynTree::FrameIndex m_currentFixedFrameIdx{iDynTree::FRAME_INVALID_INDEX};
 
     manif::SE3d m_world_H_fixedFrame; /**< Pose of fixed frame wrt world */
-    LOSwitching switching{LOSwitching::lastActive};  /**< contact switching pattern */
+    LOSwitching switching{LOSwitching::latest};  /**< contact switching pattern */
     LOVelComputation velComp{LOVelComputation::multiFrameLeastSquare}; /**< base velocity estimation method*/
 
     Eigen::MatrixXd m_contactJacobian; /**< mixed velocity jacobian of fixed frame with respect to floating base */
@@ -226,14 +227,22 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     std::string switching;
     if (!lohandle->getParameter("switching_pattern", switching))
     {
-        std::vector<std::string> options{"latest", "lastActive"};
+        std::vector<std::string> options{"latest", "lastActive", "useExternal"};
         if (switching == options[0])
         {
             m_pimpl->switching = LOSwitching::latest;
         }
-        else
+        else if (switching == options[1])
         {
             m_pimpl->switching = LOSwitching::lastActive;
+        }
+        else if (switching == options[2])
+        {
+            m_pimpl->switching = LOSwitching::useExternalUpdate;
+        }
+        else
+        {
+        	std::cerr << printPrefix << "Setting the switching of fixed frame to default, based on latest active contacts." << std::endl;
         }
     }
 
@@ -811,28 +820,28 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     // run step
     m_pimpl->updateInternalContactStates(meas, m_modelComp, m_state.supportFrameData);
 
-    // change fixed frame depending on switch times
-    iDynTree::FrameIndex newIdx{iDynTree::FRAME_INVALID_INDEX};
-    if (m_pimpl->switching == LOSwitching::latest)
+    if (m_pimpl->switching != LOSwitching::useExternalUpdate)
     {
-        newIdx = m_pimpl->getLatestSwitchedContact(m_state.supportFrameData);
-    }
-    else if (m_pimpl->switching == LOSwitching::lastActive)
-    {
-        newIdx = m_pimpl->getLastActiveContact(m_state.supportFrameData, m_pimpl->m_currentFixedFrameIdx);
-    }
-
-    if (newIdx == iDynTree::FRAME_INVALID_INDEX)
-    {
-        std::cerr << printPrefix << "The assumption of atleast one active contact is broken. This may lead ot unexpected results." << std::endl;
-        return false;
-    }
-
-    if (newIdx != m_pimpl->m_currentFixedFrameIdx)
-    {
-        if (!m_pimpl->changeFixedFrame(newIdx, m_modelComp.kinDyn()))
+        // change fixed frame depending on switch times
+        iDynTree::FrameIndex newIdx{iDynTree::FRAME_INVALID_INDEX};
+        if (m_pimpl->switching == LOSwitching::latest)
         {
-            std::cerr << printPrefix << "Unable to change new fixed frame." << std::endl;
+            newIdx = m_pimpl->getLatestSwitchedContact(m_state.supportFrameData);
+        }
+        else if (m_pimpl->switching == LOSwitching::lastActive)
+        {
+            newIdx = m_pimpl->getLastActiveContact(m_state.supportFrameData, m_pimpl->m_currentFixedFrameIdx);
+        }
+
+        if (newIdx == iDynTree::FRAME_INVALID_INDEX)
+        {
+            std::cerr << printPrefix << "The assumption of atleast one active contact is broken. This may lead ot unexpected results." << std::endl;
+            return false;
+        }
+
+        if (!changeFixedFrame(newIdx))
+        {
+            std::cerr << printPrefix << "Unable to change the fixed frame. This may lead ot unexpected results." << std::endl;
             return false;
         }
     }
@@ -850,6 +859,20 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     return true;
 }
 
+bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
+    if (newIdx != m_pimpl->m_currentFixedFrameIdx)
+    {
+        if (!m_pimpl->changeFixedFrame(newIdx, m_modelComp.kinDyn()))
+        {
+            std::cerr << printPrefix << "Unable to change new fixed frame." << std::endl;
+            return false;
+        }
+    }
+
+    return true;
+}
 
 bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
                                             std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
