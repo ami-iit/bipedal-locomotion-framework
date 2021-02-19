@@ -225,7 +225,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     }
 
     std::string switching;
-    if (!lohandle->getParameter("switching_pattern", switching))
+    if (lohandle->getParameter("switching_pattern", switching))
     {
         std::vector<std::string> options{"latest", "lastActive", "useExternal"};
         if (switching == options[0])
@@ -247,7 +247,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
     }
 
     std::string velComp;
-    if (!lohandle->getParameter("vel_computation_method", velComp))
+    if (lohandle->getParameter("vel_computation_method", velComp))
     {
         std::vector<std::string> options{"single", "multiAvg", "multLSJvel", "multiLS"};
         if (velComp == options[0])
