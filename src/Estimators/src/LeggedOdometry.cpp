@@ -839,10 +839,13 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
             return false;
         }
 
-        if (!changeFixedFrame(newIdx))
+        if (newIdx != m_pimpl->m_currentFixedFrameIdx)
         {
-            std::cerr << printPrefix << "Unable to change the fixed frame. This may lead ot unexpected results." << std::endl;
-            return false;
+            if (!m_pimpl->changeFixedFrame(newIdx, m_modelComp.kinDyn()))
+            {
+                std::cerr << printPrefix << "Unable to change the fixed frame. This may lead ot unexpected results." << std::endl;
+                return false;
+            }
         }
     }
 
@@ -862,6 +865,12 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
 bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
+    if (m_pimpl->switching != LOSwitching::useExternalUpdate)
+    {
+        std::cerr << printPrefix << "Unable to change fixed frame externally, since the estimator was not loaded with the option." << std::endl;
+        return false;
+    }
+
     if (newIdx != m_pimpl->m_currentFixedFrameIdx)
     {
         if (!m_pimpl->changeFixedFrame(newIdx, m_modelComp.kinDyn()))
