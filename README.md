@@ -59,7 +59,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](./src/TSID)              |                  Task space inverse dynamics                  |                              -                               |
+|              [TSID](./src/TSID)              |                  Task space inverse dynamics                  |      [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/dic-iit/lie-group-controllers)         |
 |     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
 
 
@@ -118,4 +118,4 @@ target_link_libraries(example PRIVATE BipedalLocomotion::Math)
 
 # :gear: Contributing
 
-**bipedal-locomotion-framework** is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been open you can also proceed with a pull-request :rocket:
+**bipedal-locomotion-framework** is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request :rocket:
