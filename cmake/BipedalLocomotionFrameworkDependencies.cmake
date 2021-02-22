@@ -33,9 +33,6 @@ checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Develo
 find_package(pybind11 2.2 CONFIG QUIET)
 checkandset_dependency(pybind11)
 
-find_package(pytest QUIET)
-checkandset_dependency(pytest)
-
 find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
 
@@ -118,7 +115,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
 
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
-  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_USE_pytest" OFF)
+  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
