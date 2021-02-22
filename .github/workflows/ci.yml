@@ -96,8 +96,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -340,25 +340,18 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install Python dependencies
-      run: pip install pytest numpy scipy
-
     # Ubuntu bionic has a too old version of pybind11 in the repo
     - name: Install pybind11 [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
-        pip install pybind11
-        echo "CMAKE_PREFIX_PATH=$(python -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
+        pip3 install pathlib pybind11
+        echo "CMAKE_PREFIX_PATH=$(python3 -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
 
     - name: Check Python setup
       shell: bash
       run: |
         echo "Default interpreter: $(which python)"
-        python -c 'import sys; print(sys.prefix)'
+        python3 -c 'import sys; print(sys.prefix)'
 
     # ===================
     # CMAKE-BASED PROJECT
