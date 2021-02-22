@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+## [0.1.0] - 2021-02-22
+### Added
 - The `CHANGELOG.md` file
 - The `cmake/BipedalLocomotionControllersFindDepencies.cmake` file
 - The `cmake/AddInstallRPATHSupport.cmake` file
@@ -35,4 +40,5 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...master
+[0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
