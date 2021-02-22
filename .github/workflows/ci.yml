@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-20.04, windows-latest, macOS-latest]
       fail-fast: false
 
     steps:
@@ -49,7 +49,7 @@ jobs:
     # Remove apt repos that are known to break from time to time
     # See https://github.com/actions/virtual-environments/issues/323
     - name: Remove broken apt repos [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
 
@@ -91,13 +91,13 @@ jobs:
         brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio
 
     - name: Dependencies [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -105,7 +105,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -225,7 +225,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest')
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest')
       shell: bash
       run: |
         # YCM
@@ -298,7 +298,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
         # Catch2
@@ -325,7 +325,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: CppAD [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
         # CppAD
@@ -340,25 +340,18 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install Python dependencies
-      run: pip install pytest numpy scipy
-
     # Ubuntu bionic has a too old version of pybind11 in the repo
     - name: Install pybind11 [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
-        pip install pybind11
-        echo "CMAKE_PREFIX_PATH=$(python -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
+        pip3 install pathlib pybind11
+        echo "CMAKE_PREFIX_PATH=$(python3 -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
 
     - name: Check Python setup
       shell: bash
       run: |
         echo "Default interpreter: $(which python)"
-        python -c 'import sys; print(sys.prefix)'
+        python3 -c 'import sys; print(sys.prefix)'
 
     # ===================
     # CMAKE-BASED PROJECT
@@ -378,7 +371,7 @@ jobs:
               -DBUILD_TESTING:BOOL=ON ..
 
     - name: Configure [Ubuntu]
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
         mkdir -p build
@@ -404,6 +397,20 @@ jobs:
               -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
+
+    - name: Check build if some dependencies are not enabled [Ubuntu]
+      if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
+      shell: bash
+      run: |
+        cd build
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers; do
+            echo "Testing ${missing_dep} as missing dependency."
+            # Deselect missing dependency and build
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
+            cmake --build . --config ${{ matrix.build_type }}
+            # Enable again dependency
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
+        done
 
     - name: Build
       shell: bash
