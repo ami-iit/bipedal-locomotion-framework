@@ -52,7 +52,7 @@ struct ContactBase
      * Frame index of the contact
      */
     int index{-1};
-        
+
     /**
      * Type of contact.
      */
@@ -73,13 +73,30 @@ struct PlannedContact : ContactBase
      * Instant after which the contact is no more active.
      */
     double deactivationTime {0.0};
-};
 
+    /**
+     * @brief The equality operator.
+     *
+     * @param other The other object used for the comparison.
+     * @return True if the contacts are the same, false otherwise.
+     */
+    bool operator==(const PlannedContact& other) const
+    {
+        bool eq = true;
+        eq = eq && this->activationTime == other.activationTime;
+        eq = eq && this->name == other.name;
+        eq = eq && this->type == other.type;
+        eq = eq && this->pose.coeffs() == other.pose.coeffs();
+        eq = eq && this->activationTime == other.activationTime;
+        eq = eq && this->deactivationTime == other.deactivationTime;
+        return eq;
+    }
+};
 
 /**
  * @brief Definition of an Estimated Contact structure
  */
-struct EstimatedContact : ContactBase 
+struct EstimatedContact : ContactBase
 {
 
     /**
@@ -91,7 +108,7 @@ struct EstimatedContact : ContactBase
      * Current state of contact
      */
     bool isActive{false};
-    
+
     /**
      * Time at which the contact details were last updated
      * This field helps in forgetting contacts
@@ -116,4 +133,3 @@ struct EstimatedContact : ContactBase
 }
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
-
