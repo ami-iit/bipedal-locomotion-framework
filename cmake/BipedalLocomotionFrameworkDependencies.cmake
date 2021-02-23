@@ -111,7 +111,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
 
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
   "Do you want to generate and compile the Python bindings?" ON
-  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_System" OFF)
+  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation" OFF)
 
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
