@@ -7,6 +7,9 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
+### Fixed
+Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
+
 ## [0.1.0] - 2021-02-22
 ### Added
 - The `CHANGELOG.md` file

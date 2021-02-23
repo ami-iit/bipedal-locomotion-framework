@@ -131,7 +131,15 @@ bool YarpSensorBridge::isValid() const
     return m_pimpl->checkValid("[YarpSensorBridge::isValid]");
 }
 
-const SensorBridgeMetaData& YarpSensorBridge::get() const { return m_pimpl->metaData; }
+std::vector<std::string> YarpSensorBridge::getFailedSensorReads() const
+{
+    return m_pimpl->failedSensorReads;
+}
+
+const SensorBridgeMetaData& YarpSensorBridge::get() const
+{
+    return m_pimpl->metaData;
+}
 
 bool YarpSensorBridge::getJointsList(std::vector<std::string>& jointsList)
 {
