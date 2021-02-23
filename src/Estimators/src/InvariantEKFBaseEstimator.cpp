@@ -364,7 +364,7 @@ bool InvariantEKFBaseEstimator::predictState(const FloatingBaseEstimators::Measu
     return true;
 }
 
-bool InvariantEKFBaseEstimator::updateKinematics(const FloatingBaseEstimators::Measurements& meas,
+bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measurements& meas,
                                                  const double& dt)
 {
     Eigen::Matrix3d A_R_IMU = m_state.imuOrientation.toRotationMatrix();

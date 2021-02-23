@@ -17,6 +17,7 @@
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/JointState.h>
 #include <iostream>
+#include <memory>
 
 namespace BipedalLocomotion
 {
@@ -42,13 +43,15 @@ public:
     */
     class ModelComputations
     {
-    public:
+    public:                
         /**
-        * Set the reduced model
-        * @param[in] model reduced iDynTree model
+        * Set the shared kindyn object
+        * @param[in] kinDyn shared pointer of the common KinDynComputations resource        
         * @return True in case of success, false otherwise.
+        * 
+        * @note Expects only a valid pointer to the object, need not be loaded with the robot model.
         */
-        bool setModel(const iDynTree::Model& model);
+        bool setKinDynObject(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
         /**
         * Set base link name and name of the IMU rigidly attached to the IMU
@@ -115,12 +118,15 @@ public:
          */
         const int& nrJoints() const { return m_nrJoints; }
         const std::string& baseLink() const { return m_baseLink; }
+        const iDynTree::FrameIndex& baseLinkIdx() const { return m_baseLinkIdx; }
+        const iDynTree::FrameIndex& baseIMUIdx() const { return m_baseImuIdx; }
         const std::string& baseLinkIMU() const { return m_baseImuFrame; }
         const std::string& leftFootContactFrame() const { return m_lFootContactFrame; }
         const std::string& rightFootContactFrame() const { return m_rFootContactFrame; }
         const iDynTree::Transform& base_H_IMU() const { return m_base_H_imu; }
-        const bool& isModelSet() const { return m_modelSet; }
-
+        const bool& isKinDynValid() const { return m_validKinDyn; }
+        std::shared_ptr<iDynTree::KinDynComputations> kinDyn() const { return m_kindyn; }
+        
     private:
         std::string m_baseLink{""}; /**< name of the floating base link*/
         std::string m_baseImuFrame{""}; /**< name of the IMU frame rigidly attached to the floating base link*/
@@ -131,10 +137,10 @@ public:
         iDynTree::FrameIndex m_lFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Left foot contact frame index in the loaded model*/
         iDynTree::FrameIndex m_rFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Right foot contact freame index in the loaded model*/
 
-        iDynTree::KinDynComputations m_kindyn; /**< KinDynComputations object to do the model specific computations */
+        std::shared_ptr<iDynTree::KinDynComputations> m_kindyn{nullptr}; /**< KinDynComputations object to do the model specific computations */
         iDynTree::Transform m_base_H_imu; /**< Rigid body transform of IMU frame with respect to the base link frame */
         int m_nrJoints{0}; /**< number of joints in the loaded reduced model */
-        bool m_modelSet{false};
+        bool m_validKinDyn{false};
     };
 
 
@@ -147,12 +153,14 @@ public:
     *      - left_foot_contact_frame [PARAMETER|REQUIRED|left foot contact frame from the URDF model| Exists in "ModelInfo" GROUP]
     *      - right_foot_contact_frame [PARAMETER|REQUIRED|right foot contact frame from the URDF model| Exists in "ModelInfo" GROUP]
     * @param[in] handler configure the generic parameters for the estimator
-    * @param[in] model reduced iDynTree model required by the estimator
+    * @param[in] kindyn shared pointer of iDynTree kindyncomputations object (model will be loaded internally)
     * @note any custom initialization of parameters or the algorithm implementation is not done here,
     *       it must be done in customInitialization() by the child class implementing the algorithm
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, const iDynTree::Model& model);
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, 
+                    std::shared_ptr<iDynTree::KinDynComputations> kindyn);
+    
 
     /**
     * Set the polled IMU measurement
@@ -170,6 +178,19 @@ public:
     * @return True in case of success, false otherwise.
     */
     bool setContacts(const bool& lfInContact, const bool& rfInContact);
+
+    /**
+    * Set contact status
+    * 
+    * @param[in] name contact frame name
+    * @param[in] contactStatus flag to check active contact
+    * @param[in] switchTime  time of switching contact
+    * @param[in] timeNow  current measurement update time
+    */
+    bool setContactStatus(const std::string& name, 
+                          const bool& contactStatus, 
+                          const double& switchTime,
+                          double timeNow = 0.);
 
     /**
     * Set kinematic measurements
@@ -194,7 +215,7 @@ public:
      *
      * @note reset and advance estimator to get updated estimator output
      */
-    virtual bool resetEstimator(const FloatingBaseEstimators::InternalState& newState) final;
+    virtual bool resetEstimator(const FloatingBaseEstimators::InternalState& newState);
 
     /**
      * Reset the base pose estimate and consequently the internal state of the estimator
@@ -205,7 +226,7 @@ public:
      * * @note reset and advance estimator to get updated estimator output
      */
     virtual bool resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
-                                const Eigen::Vector3d& newBasePosition) final;
+                                const Eigen::Vector3d& newBasePosition);
 
     /**
     * Get estimator outputs
@@ -266,7 +287,7 @@ protected:
     * @param[in] dt sampling period in seconds
     * @return True in case of success, false otherwise.
     */
-    virtual bool updateKinematics(const FloatingBaseEstimators::Measurements& meas,
+    virtual bool updateKinematics(FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) { return true; };
 
     /**
@@ -359,7 +380,8 @@ protected:
     State m_estimatorState{State::NotInitialized}; /**< State of the estimator */
 
     double m_dt{0.01}; /**< Fixed time step of the estimator, in seconds */
-
+    bool m_useIMUForAngVelEstimate{true}; /**< Use IMU measurements as internal state imu angular velocity by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
+    bool m_useIMUVelForBaseVelComputation{true}; /**< Compute base velocity using inertnal state IMU velocity. by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
 private:
     /**
     * Setup model related parameters

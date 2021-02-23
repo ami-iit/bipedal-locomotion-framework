@@ -12,15 +12,15 @@
 using namespace BipedalLocomotion::Estimators;
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                                       const iDynTree::Model& model)
+                                       std::shared_ptr<iDynTree::KinDynComputations> kindyn)
 {
-    if (!m_modelComp.setModel(model))
+    if (!m_modelComp.setKinDynObject(kindyn))
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] The model could not be loaded."
+        std::cerr << "[FloatingBaseEstimator::initialize] The pointer to KinDynComputations object could not be set."
         << std::endl;
         return false;
     }
-
+    
     if (!initialize(handler))
     {
         return false;
@@ -31,9 +31,10 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    if (!m_modelComp.isModelSet())
+    if (!m_modelComp.isKinDynValid())
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] The model does not seem to be loaded. Please call initialize(handler, model) to set the model."
+        std::cerr << "[FloatingBaseEstimator::initialize] The kindyn object with valid does not seem to be loaded."
+        << "Please call initialize(handler, kindyncomputations) to set the kindyn object."
         << std::endl;
         return false;
     }
@@ -109,6 +110,18 @@ bool FloatingBaseEstimator::advance()
 
     ok = ok && updateBaseStateFromIMUState(m_state, m_measPrev,
                                            m_estimatorOut.basePose, m_estimatorOut.baseTwist);
+
+    if (!m_modelComp.kinDyn()->setRobotState(iDynTree::toEigen(m_estimatorOut.basePose.asHomogeneousTransform()),
+                                             iDynTree::make_span(m_meas.encoders.data(), m_meas.encoders.size()),
+                                             iDynTree::toEigen(m_estimatorOut.baseTwist),
+                                             iDynTree::make_span(m_meas.encodersSpeed.data(), m_meas.encodersSpeed.size()),
+                                             iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+    {
+        std::cerr << "[FloatingBaseEstimator::advance]" << " Failed to get kindyncomputations robot state"
+                  << std::endl;
+        return false;
+    }
+
     m_statePrev = m_state;
     m_measPrev = m_meas;
 
@@ -118,22 +131,28 @@ bool FloatingBaseEstimator::advance()
     return ok;
 }
 
-bool FloatingBaseEstimator::ModelComputations::setModel(const iDynTree::Model& model)
+bool FloatingBaseEstimator::ModelComputations::setKinDynObject(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
-    if (!m_kindyn.loadRobotModel(model))
+    if (kinDyn != nullptr)
     {
-        return false;
+        m_kindyn = kinDyn;
+        
+        if (m_kindyn->isValid())
+        {
+            m_nrJoints = m_kindyn->getNrOfDegreesOfFreedom();
+            m_validKinDyn = true;
+            return true;
+        }
     }
-
-    m_nrJoints = model.getNrOfDOFs();
-    m_modelSet = true;
-    return true;
+    
+    std::cerr << "[FloatingBaseEstimator::ModelComputations::setKinDynObject] Invalid KinDynComputations object." << std::endl;
+    return false;
 }
 
 bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& baseLink,
                                                                  const std::string& imuFrame)
 {
-    m_baseLinkIdx = m_kindyn.model().getFrameIndex(baseLink);
+    m_baseLinkIdx = m_kindyn->model().getFrameIndex(baseLink);
     if (m_baseLinkIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified base link not available in the loaded URDF Model."
@@ -141,7 +160,7 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
         return false;
     }
 
-    m_baseImuIdx = m_kindyn.model().getFrameIndex(imuFrame);
+    m_baseImuIdx = m_kindyn->model().getFrameIndex(imuFrame);
     if (m_baseImuIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU frame not available in the loaded URDF Model."
@@ -149,7 +168,7 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
         return false;
     }
 
-    if (m_baseLinkIdx != m_kindyn.model().getFrameLink(m_baseImuIdx))
+    if (m_baseLinkIdx != m_kindyn->model().getFrameLink(m_baseImuIdx))
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] Specified IMU not rigidly attached to the base link. Please specify a base link colocated IMU."
         << std::endl;
@@ -157,23 +176,23 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
     }
 
 
-    if (m_kindyn.model().getDefaultBaseLink() != m_baseLinkIdx)
+    if (m_kindyn->model().getDefaultBaseLink() != m_baseLinkIdx)
     {
-        auto model = m_kindyn.model();
+        auto model = m_kindyn->model();
         model.setDefaultBaseLink(m_baseLinkIdx);
-        setModel(model);
+        m_kindyn->loadRobotModel(model);
     }
 
     m_baseLink = baseLink;
     m_baseImuFrame = imuFrame;
-    m_base_H_imu = m_kindyn.model().getFrameTransform(m_baseImuIdx);
+    m_base_H_imu = m_kindyn->model().getFrameTransform(m_baseImuIdx);
     return true;
 }
 
 bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::string& lFootContactFrame,
                                                                     const std::string& rFootContactFrame)
 {
-    m_lFootContactIdx = m_kindyn.model().getFrameIndex(lFootContactFrame);
+    m_lFootContactIdx = m_kindyn->model().getFrameIndex(lFootContactFrame);
     if (m_lFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified left foot contact frame not available in the loaded URDF Model."
@@ -181,7 +200,7 @@ bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::s
         return false;
     }
 
-    m_rFootContactIdx = m_kindyn.model().getFrameIndex(rFootContactFrame);
+    m_rFootContactIdx = m_kindyn->model().getFrameIndex(rFootContactFrame);
     if (m_rFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] Specified right foot contact frame not available in the loaded URDF Model."
@@ -238,13 +257,13 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
         return false;
     }
 
-    if (!m_kindyn.setJointPos(encoders))
+    if (!m_kindyn->setJointPos(encoders))
     {
         std::cerr << "[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] Failed setting joint positions." << std::endl;
         return false;
     }
-    IMU_H_l_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
-    IMU_H_r_foot = m_kindyn.getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
+    IMU_H_l_foot = m_kindyn->getRelativeTransform(m_baseImuIdx, m_lFootContactIdx);
+    IMU_H_r_foot = m_kindyn->getRelativeTransform(m_baseImuIdx, m_rFootContactIdx);
 
     return true;
 }
@@ -260,8 +279,8 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(const iDynTree::Joi
         return false;
     }
 
-    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_lFootContactIdx, J_IMULF);
-    m_kindyn.getRelativeJacobian(m_baseImuIdx, m_rFootContactIdx, J_IMURF);
+    m_kindyn->getRelativeJacobian(m_baseImuIdx, m_lFootContactIdx, J_IMULF);
+    m_kindyn->getRelativeJacobian(m_baseImuIdx, m_rFootContactIdx, J_IMURF);
 
     return true;
 }
@@ -297,6 +316,30 @@ bool FloatingBaseEstimator::setContacts(const bool& lfInContact,
 {
     m_meas.lfInContact = lfInContact;
     m_meas.rfInContact = rfInContact;
+    return true;
+}
+
+bool FloatingBaseEstimator::setContactStatus(const std::string& name, 
+                                             const bool& contactStatus, 
+                                             const double& switchTime,
+                                             double timeNow)
+{
+    auto idx = m_modelComp.kinDyn()->model().getFrameIndex(name);
+    if (!m_modelComp.kinDyn()->model().isValidFrameIndex(idx))
+    {
+        std::cerr << "[FloatingBaseEstimator::setContactStatus] Contact frame index: " << idx
+        << " not found in loaded model, skipping measurement." << std::endl;
+        return false;
+    }
+    
+    auto& contacts = m_meas.stampedContactsStatus;
+    
+    // operator[] creates a key-value pair if key does not already exist, 
+    // otherwise just an update is carried out
+    contacts[idx].switchTime = switchTime;
+    contacts[idx].isActive = contactStatus;
+    contacts[idx].lastUpdateTime = timeNow;
+    
     return true;
 }
 
@@ -651,16 +694,30 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
     iDynTree::Twist v_IMU;
     iDynTree::Vector3 imuLinVel, imuAngVel;
     iDynTree::toEigen(imuLinVel) = state.imuLinearVelocity;
-    iDynTree::toEigen(imuAngVel) = state.imuOrientation.toRotationMatrix()*(meas.gyro - state.gyroscopeBias);
+    if (m_useIMUForAngVelEstimate)
+    {
+        iDynTree::toEigen(imuAngVel) = state.imuOrientation.toRotationMatrix()*(meas.gyro - state.gyroscopeBias);
+    }
+    else
+    {
+        iDynTree::toEigen(imuAngVel) = state.imuAngularVelocity;
+    }
     v_IMU.setLinearVec3(imuLinVel);
     v_IMU.setAngularVec3(imuAngVel);
 
-    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, baseTwist))
+    iDynTree::Twist tempTwist;
+    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, tempTwist))
     {
         std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
                   << std::endl;
         return false;
     }
+    
+    if (m_useIMUVelForBaseVelComputation)
+    {
+        baseTwist = tempTwist;
+    }
+    
     return true;
 }
 

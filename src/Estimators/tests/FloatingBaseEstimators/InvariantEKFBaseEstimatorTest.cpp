@@ -118,10 +118,11 @@ TEST_CASE("Invariant EKF Base Estimator")
 
     auto model = mdl_ldr.model().copy();
 
+    auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    kinDyn->loadRobotModel(model);
     // Instantiate the estimator
-    InvariantEKFBaseEstimator estimator;
-    REQUIRE(estimator.initialize(parameterHandler, model));
-    REQUIRE(estimator.modelComputations().isModelSet());
+    InvariantEKFBaseEstimator estimator;    
+    REQUIRE(estimator.initialize(parameterHandler, kinDyn));
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");
     REQUIRE(estimator.modelComputations().baseLinkIMU() == "root_link_imu_acc");

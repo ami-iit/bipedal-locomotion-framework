@@ -120,7 +120,7 @@ protected:
     * @param[in] dt sampling period in seconds
     * @return True in case of success, false otherwise.
     */
-    virtual bool updateKinematics(const FloatingBaseEstimators::Measurements& meas,
+    virtual bool updateKinematics(FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) override;
 
 private:
