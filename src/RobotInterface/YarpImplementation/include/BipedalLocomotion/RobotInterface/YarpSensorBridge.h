@@ -119,7 +119,7 @@ public:
      * @brief list of sensors that was failed to be read in the current advance() step
      * @return list of sensors as a vector of strings
      */
-    std::vector<std::string> getFailedSensorReads();
+    std::vector<std::string> getFailedSensorReads() const;
 
     /**
      * @brief Get the object.
