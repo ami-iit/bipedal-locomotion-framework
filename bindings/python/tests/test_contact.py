@@ -7,7 +7,7 @@ import numpy as np
 
 def test_contact():
 
-    contact = blf.Contact()
+    contact = blf.PlannedContact()
 
     # Default values
     assert contact.pose == blf.SE3(position=[0., 0, 0], quaternion=[0, 0, 0, 1])
@@ -47,12 +47,12 @@ def test_contact_list():
     contact_list.set_default_contact_type(type=blf.ContactType.Point)
     assert contact_list.default_contact_type() == blf.ContactType.Point
 
-    contact1 = blf.Contact()
+    contact1 = blf.PlannedContact()
     contact1.name = "Contact1"
     contact1.activation_time = 0.1
     contact1.deactivation_time = 0.5
 
-    contact2 = blf.Contact()
+    contact2 = blf.PlannedContact()
     contact2.name = "Contact2"
     contact2.activation_time = 1.0
     contact2.deactivation_time = 1.5
@@ -63,7 +63,7 @@ def test_contact_list():
     assert contact_list[0] == contact1
     assert contact_list[len(contact_list) - 1] == contact2  # TODO: improve
 
-    contact3 = blf.Contact()
+    contact3 = blf.PlannedContact()
     contact3.name = "Contact3"
     contact3.activation_time = 0.6
     contact3.deactivation_time = 0.8
@@ -72,14 +72,14 @@ def test_contact_list():
     assert len(contact_list) == 3
     assert contact_list[1] == contact3
 
-    contact3_bis = blf.Contact()
+    contact3_bis = blf.PlannedContact()
     contact3_bis.name = "Contact3"
     contact3_bis.activation_time = 0.9
     contact3_bis.deactivation_time = 1.6
 
     assert not contact_list.add_contact(contact3_bis)
 
-    contact2_modified = blf.Contact()
+    contact2_modified = blf.PlannedContact()
     contact2_modified.name = "Contact2Modified"
     contact2_modified.type = blf.ContactType.Point
 

@@ -7,7 +7,7 @@
 
 #include <pybind11/pybind11.h>
 
-#include "BipedalLocomotion/Planners/Contact.h"
+#include "BipedalLocomotion/Contacts/Contact.h"
 #include "bipedal_locomotion_framework.h"
 
 namespace BipedalLocomotion
@@ -63,7 +63,7 @@ std::string bindings::ToString(const manif::SE3d& se3)
     return repr.str();
 }
 
-std::string bindings::ToString(const Planners::Contact& contact)
+std::string bindings::ToString(const Contacts::PlannedContact& contact)
 {
     std::stringstream pose;
 

@@ -22,6 +22,7 @@ target_link_libraries(pybind11_blf PUBLIC
     BipedalLocomotion::Planners
     BipedalLocomotion::System
     BipedalLocomotion::RobotInterfaceYarpImplementation
+    BipedalLocomotion::Contacts
     )
 
 target_include_directories(pybind11_blf PRIVATE
