@@ -48,4 +48,11 @@ void CreateDCMPlanner(pybind11::module& module);
 
 // TimeVaryingDCMPlanner.cpp
 void CreateTimeVaryingDCMPlanner(pybind11::module& module);
+
+// RobotInterface.cpp
+void CreatePolyDriver(pybind11::module& module);
+void CreatePolyDriverDescriptor(pybind11::module& module);
+void CreateIRobotControl(pybind11::module& module);
+void CreateYarpRobotControl(pybind11::module& module);
+
 } // namespace BipedalLocomotion::bindings
