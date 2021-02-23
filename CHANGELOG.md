@@ -5,7 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement IRobotControl python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/200)
 - Implement ISensorBridge python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/203)
-
+- Implement `LeggedOdometry` class as a part of `FloatingBaseEstimators` library and handle arbitrary contacts in `FloatingBaseEstimator`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/151)
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
 
@@ -45,7 +45,6 @@ All notable changes to this project are documented in this file.
 - Implement `ContactDetectors` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/142)
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
-- Implement `LeggedOdometry` class as a part of `FloatingBaseEstimators` library and handle arbitrary contacts in `FloatingBaseEstimator`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/151)
 
 [Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...master
 [0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
