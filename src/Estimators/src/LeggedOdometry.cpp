@@ -385,7 +385,7 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLastActiveContact(const std::map<i
 
     double latestTime{std::numeric_limits<double>::max()}; // assuming time cannot be negative
     int latestContactIdx{-1};
-    for (auto& [idx, contact] : contacts)
+    for (const auto& [idx, contact] : contacts)
     {
         if (contact.isActive)
         {
