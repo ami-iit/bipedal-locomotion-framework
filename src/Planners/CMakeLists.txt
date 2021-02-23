@@ -9,8 +9,8 @@ if (FRAMEWORK_COMPILE_Contact)
   add_bipedal_locomotion_library(
     NAME                  Contact
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
-    SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
-    PUBLIC_LINK_LIBRARIES MANIF::manif
+    SOURCES               src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
+    PUBLIC_LINK_LIBRARIES MANIF::manif BipedalLocomotion::Contacts
     INSTALLATION_FOLDER   Planners)
 
 endif()
