@@ -45,6 +45,8 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreatePolyDriverDescriptor(m);
     bindings::CreateIRobotControl(m);
     bindings::CreateYarpRobotControl(m);
+    bindings::CreateISensorBridge(m);
+    bindings::CreateYarpSensorBridge(m);
 
 }
 

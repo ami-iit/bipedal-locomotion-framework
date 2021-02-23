@@ -54,5 +54,7 @@ void CreatePolyDriver(pybind11::module& module);
 void CreatePolyDriverDescriptor(pybind11::module& module);
 void CreateIRobotControl(pybind11::module& module);
 void CreateYarpRobotControl(pybind11::module& module);
+void CreateISensorBridge(pybind11::module& module);
+void CreateYarpSensorBridge(pybind11::module& module);
 
 } // namespace BipedalLocomotion::bindings

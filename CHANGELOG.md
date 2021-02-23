@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [Unreleased]
 ### Added
 - Implement IRobotControl python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/200)
+- Implement ISensorBridge python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/203)
 
 ### Changed
 
