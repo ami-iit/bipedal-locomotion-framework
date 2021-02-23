@@ -14,12 +14,14 @@ pybind11_add_module(pybind11_blf MODULE
     QuinticSpline.cpp
     SwingFootPlaner.cpp
     TimeVaryingDCMPlanner.cpp
+    RobotInterface.cpp
     )
 
 target_link_libraries(pybind11_blf PUBLIC
     BipedalLocomotion::ParametersHandler
     BipedalLocomotion::Planners
     BipedalLocomotion::System
+    BipedalLocomotion::RobotInterfaceYarpImplementation
     )
 
 target_include_directories(pybind11_blf PRIVATE

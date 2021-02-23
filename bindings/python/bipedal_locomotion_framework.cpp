@@ -39,6 +39,13 @@ PYBIND11_MODULE(bindings, m)
 
     // TimeVaryingDCMPlanner.cpp
     bindings::CreateTimeVaryingDCMPlanner(m);
+
+    // RobotInterface.cpp
+    bindings::CreatePolyDriver(m);
+    bindings::CreatePolyDriverDescriptor(m);
+    bindings::CreateIRobotControl(m);
+    bindings::CreateYarpRobotControl(m);
+
 }
 
 std::string bindings::ToString(const manif::SE3d& se3)
