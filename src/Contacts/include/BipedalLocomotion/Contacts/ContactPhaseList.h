@@ -5,12 +5,12 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_LIST_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_LIST_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_LIST_H
+#define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_LIST_H
 
-#include <BipedalLocomotion/Planners/Contact.h>
-#include <BipedalLocomotion/Planners/ContactList.h>
-#include <BipedalLocomotion/Planners/ContactPhase.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactPhase.h>
 
 #include <unordered_map>
 #include <initializer_list>
@@ -18,7 +18,7 @@
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Contacts
 {
 /**
  * @brief Utility alias to a map of ContacLists.
@@ -143,4 +143,4 @@ public:
 }
 }
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_LIST_H
+#endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_LIST_H

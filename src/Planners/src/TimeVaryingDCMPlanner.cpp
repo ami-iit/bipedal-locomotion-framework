@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/System/DynamicalSystem.h>
 
 using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 /**
  * Private implementation of the TimeVaryingDCMPlanner class

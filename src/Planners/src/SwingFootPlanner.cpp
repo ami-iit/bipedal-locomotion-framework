@@ -6,8 +6,10 @@
  */
 
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 
 using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 
 using Vector1d = Eigen::Matrix<double,1,1>;

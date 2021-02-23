@@ -9,11 +9,12 @@
 #include <catch2/catch.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 
 #include <manif/SE3.h>
 
+using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 

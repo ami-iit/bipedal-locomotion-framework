@@ -9,10 +9,11 @@
 #include <catch2/catch.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Planners/ContactPhaseList.h>
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 
 using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::ParametersHandler;
 
 TEST_CASE("TimeVaryingDCMPlanner")

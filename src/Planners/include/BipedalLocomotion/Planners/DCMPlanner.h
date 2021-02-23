@@ -13,7 +13,7 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Planners/ContactPhaseList.h>
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
 namespace BipedalLocomotion
@@ -42,7 +42,7 @@ struct DCMPlannerState
 class DCMPlanner : public BipedalLocomotion::System::Advanceable<DCMPlannerState>
 {
 protected:
-    std::shared_ptr<const ContactPhaseList> m_contactPhaseList; /**< Pointer containing the contact
+    std::shared_ptr<const Contacts::ContactPhaseList> m_contactPhaseList; /**< Pointer containing the contact
                                                                    phases. */
 
     DCMPlannerState m_initialState; /**< Initial state of the planner */
@@ -69,7 +69,7 @@ public:
      * @param contactPhaseList pointer containing the list of the contact phases
      * @return true in case of success, false otherwise.
      */
-    bool setContactPhaseList(std::shared_ptr<const ContactPhaseList> contactPhaseList);
+    bool setContactPhaseList(std::shared_ptr<const Contacts::ContactPhaseList> contactPhaseList);
 
     /**
      * Compute the DCM trajectory.

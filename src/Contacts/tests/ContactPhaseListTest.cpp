@@ -8,9 +8,9 @@
 // Catch2
 #include <catch2/catch.hpp>
 
-#include <BipedalLocomotion/Planners/ContactPhaseList.h>
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 TEST_CASE("ContactPhaseList")
 {

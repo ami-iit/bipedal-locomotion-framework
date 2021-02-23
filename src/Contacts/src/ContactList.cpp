@@ -5,12 +5,11 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <iostream>
 #include <iterator>
 #include <cassert>
 
-using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
 
 bool ContactList::ContactCompare::operator()(const PlannedContact &lhs, const PlannedContact &rhs) const

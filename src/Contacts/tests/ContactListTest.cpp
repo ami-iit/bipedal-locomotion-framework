@@ -11,10 +11,9 @@
 // manif
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 
-using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
 
 bool contactsAreEqual(const PlannedContact& c1, const PlannedContact& c2)

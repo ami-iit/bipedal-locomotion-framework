@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H
+#define BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H
 
 // BipedalLocomotion
 #include <BipedalLocomotion/Contacts/Contact.h>
@@ -21,7 +21,7 @@
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Contacts
 {
 
 /**
@@ -215,9 +215,9 @@ public:
 
 };
 
-} //namespace Planners
+} //namespace Contacts
 } //namespace BipedalLocomotion
 
 
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
+#endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H

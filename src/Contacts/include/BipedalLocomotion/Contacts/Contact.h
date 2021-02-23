@@ -80,17 +80,7 @@ struct PlannedContact : ContactBase
      * @param other The other object used for the comparison.
      * @return True if the contacts are the same, false otherwise.
      */
-    bool operator==(const PlannedContact& other) const
-    {
-        bool eq = true;
-        eq = eq && this->activationTime == other.activationTime;
-        eq = eq && this->name == other.name;
-        eq = eq && this->type == other.type;
-        eq = eq && this->pose.coeffs() == other.pose.coeffs();
-        eq = eq && this->activationTime == other.activationTime;
-        eq = eq && this->deactivationTime == other.deactivationTime;
-        return eq;
-    }
+    bool operator==(const PlannedContact& other) const;
 };
 
 /**
@@ -115,16 +105,9 @@ struct EstimatedContact : ContactBase
      */
     double lastUpdateTime{0.0};
 
-    std::pair<bool, double> getContactDetails()
-    {
-        return std::make_pair(isActive, switchTime);
-    }
+    std::pair<bool, double> getContactDetails() const;
 
-    void setContactStateStamped(const std::pair<bool, double>& pair)
-    {
-        isActive = pair.first;
-        switchTime = pair.second;
-    }
+    void setContactStateStamped(const std::pair<bool, double>& pair);
 
 };
 
