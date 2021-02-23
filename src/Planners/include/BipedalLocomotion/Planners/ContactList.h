@@ -9,7 +9,7 @@
 #define BIPEDAL_LOCOMOTION_PLANNERS_CONTACTLIST_H
 
 // BipedalLocomotion
-#include <BipedalLocomotion/Planners/Contact.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
 
 //iDynTree
 #include <manif/manif.h>
@@ -34,18 +34,23 @@ class ContactList
     /**
      * @brief Struct used for inserting new contacts in the set.
      */
-    struct ContactCompare {
-        bool operator()(const Contact& lhs, const Contact& rhs) const;
+    struct ContactCompare
+    {
+        bool operator()(const BipedalLocomotion::Contacts::PlannedContact& lhs,
+                        const BipedalLocomotion::Contacts::PlannedContact& rhs) const;
     };
 
-    std::set<Contact, ContactCompare> m_contacts; /** Data structure for inserting and ordering contacts. **/
+    std::set<BipedalLocomotion::Contacts::PlannedContact, ContactCompare> m_contacts; /** Data
+                                                     structure for inserting and ordering
+                                                     contacts. **/
     std::string m_defaultName{"ContactList"}; /** Default name for the contact list. **/
-    ContactType m_defaultContactType{ContactType::FULL}; /** Default contact type. **/
+    BipedalLocomotion::Contacts::ContactType m_defaultContactType{BipedalLocomotion::Contacts::ContactType::FULL}; /** Default contact type. **/
 
 public:
-
-    using const_iterator = std::set<Contact, ContactCompare>::const_iterator;
-    using const_reverse_iterator = std::set<Contact, ContactCompare>::const_reverse_iterator;
+    using const_iterator
+        = std::set<BipedalLocomotion::Contacts::PlannedContact, ContactCompare>::const_iterator;
+    using const_reverse_iterator = std::set<BipedalLocomotion::Contacts::PlannedContact,
+                                            ContactCompare>::const_reverse_iterator;
 
     /**
      * @brief Set the default name.
@@ -63,13 +68,13 @@ public:
      * @brief Set the default contact type.
      * @param The default contact type.
      */
-    void setDefaultContactType(const ContactType& type);
+    void setDefaultContactType(const BipedalLocomotion::Contacts::ContactType& type);
 
     /**
      * @brief Get the default contact type.
      * @return the default contact type.
      */
-    const ContactType& defaultContactType() const;
+    const BipedalLocomotion::Contacts::ContactType& defaultContactType() const;
 
     /**
      * @brief Add a new contact to the list.
@@ -77,7 +82,7 @@ public:
      * @return false if it was not possible to insert the contact.
      * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
      */
-    bool addContact(const Contact& newContact);
+    bool addContact(const BipedalLocomotion::Contacts::PlannedContact& newContact);
 
     /**
      * @brief Add a new contact to the list.
@@ -152,7 +157,7 @@ public:
      * @param index of the phase to be accessed.
      * @return A const reference to the desired contact.
      */
-    const Contact& operator[](size_t index) const;
+    const BipedalLocomotion::Contacts::PlannedContact& operator[](size_t index) const;
 
     /**
      * @brief Get the size of the list.
@@ -176,7 +181,8 @@ public:
      * @param newContact The new contact
      * @return false if the element is not valid or if the new contact timing would require a reordering of the list.
      */
-    bool editContact(const_iterator element, const Contact& newContact);
+    bool editContact(const_iterator element,
+                     const BipedalLocomotion::Contacts::PlannedContact& newContact);
 
     /**
      * @brief Get the contact given the time.
