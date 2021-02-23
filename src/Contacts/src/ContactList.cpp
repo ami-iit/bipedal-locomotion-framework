@@ -5,14 +5,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <iostream>
 #include <iterator>
 #include <cassert>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
-bool ContactList::ContactCompare::operator()(const Contact &lhs, const Contact &rhs) const
+bool ContactList::ContactCompare::operator()(const PlannedContact &lhs, const PlannedContact &rhs) const
 {
     return lhs.deactivationTime < rhs.activationTime;
 }
@@ -37,14 +37,14 @@ const ContactType &ContactList::defaultContactType() const
     return m_defaultContactType;
 }
 
-bool ContactList::addContact(const Contact &newContact)
+bool ContactList::addContact(const PlannedContact &newContact)
 {
     if (newContact.activationTime > newContact.deactivationTime)
     {
         std::cerr << "[ContactList::addContact] The activation time cannot be greater than the deactivation time." <<std::endl;
         return false;
     }
-    using iterator = std::set<Contact, ContactCompare>::iterator;
+    using iterator = std::set<PlannedContact, ContactCompare>::iterator;
     std::pair<iterator,bool> res = m_contacts.insert(newContact);
     if (!res.second)
     {
@@ -63,7 +63,7 @@ bool ContactList::addContact(const Contact &newContact)
 
 bool ContactList::addContact(const manif::SE3d &newTransform, double activationTime, double deactivationTime)
 {
-    Contact newContact;
+    PlannedContact newContact;
     newContact.pose = newTransform;
     newContact.activationTime = activationTime;
     newContact.deactivationTime = deactivationTime;
@@ -118,7 +118,7 @@ ContactList::const_reverse_iterator ContactList::crend() const
     return m_contacts.crend();
 }
 
-const Contact &ContactList::operator[](size_t index) const
+const PlannedContact &ContactList::operator[](size_t index) const
 {
     assert(index < size());
 
@@ -151,7 +151,7 @@ ContactList::const_iterator ContactList::lastContact() const
     return --end();
 }
 
-bool ContactList::editContact(ContactList::const_iterator element, const Contact &newContact)
+bool ContactList::editContact(ContactList::const_iterator element, const PlannedContact& newContact)
 {
     if (element == end())
     {
@@ -191,7 +191,7 @@ ContactList::const_iterator ContactList::getPresentContact(double time) const
 {
     // With the reverse iterator we find the last step such that the activation time is smaller that time
     ContactList::const_reverse_iterator presentReverse = std::find_if(rbegin(), rend(),
-                                                        [time](const Contact & a) -> bool { return a.activationTime <= time; });
+                                                        [time](const PlannedContact & a) -> bool { return a.activationTime <= time; });
     if (presentReverse == rend())
     {
         // No contact has activation time lower than the specified time.
@@ -211,7 +211,7 @@ bool ContactList::keepOnlyPresentContact(double time)
         return false;
     }
 
-    Contact present = *dropPoint;
+    PlannedContact present = *dropPoint;
 
     clear();
     addContact(present);

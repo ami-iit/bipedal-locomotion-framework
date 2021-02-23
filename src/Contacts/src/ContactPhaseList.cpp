@@ -5,15 +5,15 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/Planners/ContactPhaseList.h>
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 
 #include <iostream>
 #include <map>
 #include <cassert>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
-void BipedalLocomotion::Planners::ContactPhaseList::createPhases()
+void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
@@ -108,7 +108,7 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList> &contac
     return true;
 }
 
-const BipedalLocomotion::Planners::ContactListMap &BipedalLocomotion::Planners::ContactPhaseList::lists() const
+const BipedalLocomotion::Contacts::ContactListMap &BipedalLocomotion::Contacts::ContactPhaseList::lists() const
 {
     return m_contactLists;
 }
@@ -178,4 +178,3 @@ void ContactPhaseList::clear()
     m_phases.clear();
     m_contactLists.clear();
 }
-

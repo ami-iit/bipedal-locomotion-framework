@@ -5,17 +5,17 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_H
+#define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_H
 
-#include <BipedalLocomotion/Planners/Contact.h>
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <unordered_map>
 #include <string>
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Contacts
 {
 
 /**
@@ -50,4 +50,4 @@ struct ContactPhase
 }
 }
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_CONTACT_PHASE_H
+#endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_H

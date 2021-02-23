@@ -9,37 +9,49 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "BipedalLocomotion/Planners/Contact.h"
-#include "BipedalLocomotion/Planners/ContactList.h"
-#include "BipedalLocomotion/Planners/ContactPhase.h"
-#include "BipedalLocomotion/Planners/ContactPhaseList.h"
+#include "BipedalLocomotion/Contacts/Contact.h"
+#include "BipedalLocomotion/Contacts/ContactList.h"
+#include "BipedalLocomotion/Contacts/ContactPhase.h"
+#include "BipedalLocomotion/Contacts/ContactPhaseList.h"
 #include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateContact(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Contacts;
 
     py::enum_<ContactType>(module, "ContactType")
         .value("Full", ContactType::FULL)
-        .value("Point", ContactType::POINT);
+        .value("Point",ContactType::POINT);
 
-    py::class_<Contact>(module, "Contact")
+    py::class_<ContactBase>(module, "ContactBase")
         .def(py::init())
-        .def_readwrite("pose", &Contact::pose)
-        .def_readwrite("activation_time", &Contact::activationTime)
-        .def_readwrite("deactivation_time", &Contact::deactivationTime)
-        .def_readwrite("name", &Contact::name)
-        .def_readwrite("type", &Contact::type)
-        .def_readwrite("pose", &Contact::pose)
-        .def("__repr__", py::overload_cast<const Contact&>(&ToString))
-        .def("__eq__", &Contact::operator==, py::is_operator());
+        .def_readwrite("pose", &ContactBase::pose)
+        .def_readwrite("index", &ContactBase::index)
+        .def_readwrite("name", &Contacts::PlannedContact::name)
+        .def_readwrite("type", &ContactBase::type);
+
+    py::class_<PlannedContact, ContactBase>(module, "PlannedContact")
+        .def(py::init())
+        .def_readwrite("activation_time", &PlannedContact::activationTime)
+        .def_readwrite("deactivation_time", &PlannedContact::deactivationTime)
+        .def("__repr__", py::overload_cast<const PlannedContact&>(&ToString))
+        .def("__eq__", &PlannedContact::operator==, py::is_operator());
+
+
+    py::class_<EstimatedContact, ContactBase>(module, "EstimatedContact")
+        .def(py::init())
+        .def_readwrite("switch_time", &EstimatedContact::switchTime)
+        .def_readwrite("is_active", &EstimatedContact::isActive)
+        .def_readwrite("last_update_time", &EstimatedContact::lastUpdateTime)
+        .def("get_contact_details", &EstimatedContact::getContactDetails)
+        .def("set_contact_state_stamped", &EstimatedContact::setContactStateStamped);
 }
 
 void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Contacts;
 
     py::class_<ContactList>(module, "ContactList")
         .def(py::init())
@@ -48,7 +60,7 @@ void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
         .def("set_default_contact_type", &ContactList::setDefaultContactType, py::arg("type"))
         .def("default_contact_type", &ContactList::defaultContactType)
         .def("add_contact",
-             py::overload_cast<const Contact&>(&ContactList::addContact),
+             py::overload_cast<const PlannedContact&>(&ContactList::addContact),
              py::arg("contact"))
         .def("add_contact",
              py::overload_cast<const manif::SE3d&, double, double>(&ContactList::addContact),
@@ -78,7 +90,7 @@ void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
         .def("edit_contact", &ContactList::editContact, py::arg("element"), py::arg("new_contact"))
         .def(
             "get_present_contact",
-            [](const ContactList& l, const double time) -> Contact {
+            [](const ContactList& l, const double time) -> PlannedContact {
                 return *l.getPresentContact(time);
             },
             py::arg("time"))
@@ -96,7 +108,7 @@ void BipedalLocomotion::bindings::CreateContactList(pybind11::module& module)
 void BipedalLocomotion::bindings::CreateContactPhase(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Contacts;
 
     py::class_<ContactPhase>(module, "ContactPhase")
         .def(py::init())
@@ -104,8 +116,8 @@ void BipedalLocomotion::bindings::CreateContactPhase(pybind11::module& module)
         .def_readwrite("end_time", &ContactPhase::endTime)
         .def_property_readonly("active_contacts",
                                [](const ContactPhase& phase)
-                                   -> std::unordered_map<std::string, Contact> {
-                                   std::unordered_map<std::string, Contact> map;
+                                   -> std::unordered_map<std::string, PlannedContact> {
+                                   std::unordered_map<std::string, PlannedContact> map;
 
                                    for (const auto& [key, iter] : phase.activeContacts)
                                    {
@@ -120,7 +132,7 @@ void BipedalLocomotion::bindings::CreateContactPhase(pybind11::module& module)
 void BipedalLocomotion::bindings::CreateContactPhaseList(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Contacts;
     py::class_<ContactPhaseList, std::shared_ptr<ContactPhaseList>>(module, "ContactPhaseList")
         .def(py::init())
         .def("set_lists",

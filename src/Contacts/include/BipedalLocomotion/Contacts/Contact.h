@@ -52,7 +52,7 @@ struct ContactBase
      * Frame index of the contact
      */
     int index{-1};
-        
+
     /**
      * Type of contact.
      */
@@ -73,13 +73,20 @@ struct PlannedContact : ContactBase
      * Instant after which the contact is no more active.
      */
     double deactivationTime {0.0};
-};
 
+    /**
+     * @brief The equality operator.
+     *
+     * @param other The other object used for the comparison.
+     * @return True if the contacts are the same, false otherwise.
+     */
+    bool operator==(const PlannedContact& other) const;
+};
 
 /**
  * @brief Definition of an Estimated Contact structure
  */
-struct EstimatedContact : ContactBase 
+struct EstimatedContact : ContactBase
 {
 
     /**
@@ -91,23 +98,16 @@ struct EstimatedContact : ContactBase
      * Current state of contact
      */
     bool isActive{false};
-    
+
     /**
      * Time at which the contact details were last updated
      * This field helps in forgetting contacts
      */
     double lastUpdateTime{0.0};
 
-    std::pair<bool, double> getContactDetails()
-    {
-        return std::make_pair(isActive, switchTime);
-    }
+    std::pair<bool, double> getContactDetails() const;
 
-    void setContactStateStamped(const std::pair<bool, double>& pair)
-    {
-        isActive = pair.first;
-        switchTime = pair.second;
-    }
+    void setContactStateStamped(const std::pair<bool, double>& pair);
 
 };
 
@@ -116,4 +116,3 @@ struct EstimatedContact : ContactBase
 }
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
-

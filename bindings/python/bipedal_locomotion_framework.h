@@ -9,10 +9,11 @@
 #include <manif/SE3.h>
 #include <pybind11/pybind11.h>
 
-namespace BipedalLocomotion::Planners
+namespace BipedalLocomotion::Contacts
 {
-class Contact;
+class PlannedContact;
 }
+
 
 namespace BipedalLocomotion::bindings
 {
@@ -22,7 +23,7 @@ const Eigen::IOFormat FormatEigenVector //
 
 // Conversions from custom classes to string
 std::string ToString(const manif::SE3d& se3);
-std::string ToString(const Planners::Contact& contact);
+std::string ToString(const Contacts::PlannedContact& contact);
 
 // BaseTypes.cpp
 void CreateBaseTypes(pybind11::module& module);

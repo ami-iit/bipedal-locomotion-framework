@@ -8,6 +8,7 @@
 #include <BipedalLocomotion/Planners/DCMPlanner.h>
 
 using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
 bool DCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {

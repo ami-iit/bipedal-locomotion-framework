@@ -13,7 +13,7 @@
 #include <manif/manif.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SO3Planner.h>
 #include <BipedalLocomotion/System/Advanceable.h>
@@ -46,8 +46,8 @@ class SwingFootPlanner : public System::Advanceable<SwingFootPlannerState>
     double m_dT{0.0}; /**< Sampling time of the planner in seconds*/
     double m_currentTrajectoryTime{0.0}; /**< Current time of the planner in seconds */
 
-    ContactList m_contactList; /**< List of the contacts */
-    ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal
+    Contacts::ContactList m_contactList; /**< List of the contacts */
+    Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal
                                                         use) */
 
     SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
@@ -85,7 +85,7 @@ public:
      * Set the contact list
      * @param contactList contains the list fora given contact
      */
-    void setContactList(const ContactList& contactList);
+    void setContactList(const Contacts::ContactList& contactList);
 
     /**
      * @brief Get the object.

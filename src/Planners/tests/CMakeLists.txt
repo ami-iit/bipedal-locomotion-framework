@@ -3,16 +3,6 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 add_bipedal_test(
-    NAME ContactList
-    SOURCES ContactListTest.cpp
-    LINKS BipedalLocomotion::Contact Eigen3::Eigen)
-
-add_bipedal_test(
-    NAME ContactPhaseList
-    SOURCES ContactPhaseListTest.cpp
-    LINKS BipedalLocomotion::Contact)
-
-add_bipedal_test(
     NAME ConvexHullHelper
     SOURCES ConvexHullHelperTest.cpp
     LINKS BipedalLocomotion::Planners)

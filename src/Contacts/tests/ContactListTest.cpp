@@ -11,11 +11,12 @@
 // manif
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/Planners/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Contacts;
 
-bool contactsAreEqual(const Contact& c1, const Contact& c2)
+bool contactsAreEqual(const PlannedContact& c1, const PlannedContact& c2)
 {
     constexpr double tolerance = 1e-5;
     return (c1.type == c2.type) && (c1.name == c2.name)
@@ -27,7 +28,7 @@ bool contactsAreEqual(const Contact& c1, const Contact& c2)
 TEST_CASE("ContactList")
 {
     ContactList list;
-    Contact p1, p2;
+    PlannedContact p1, p2;
     p1.activationTime = 0.1;
     p1.deactivationTime = 0.5;
 
@@ -48,7 +49,7 @@ TEST_CASE("ContactList")
         REQUIRE(contactsAreEqual(p1, *list.firstContact()));
         REQUIRE(contactsAreEqual(p2, *list.lastContact()));
 
-        Contact p3;
+        PlannedContact p3;
         p3.activationTime = 0.6;
         p3.deactivationTime = 0.8;
 
@@ -64,7 +65,7 @@ TEST_CASE("ContactList")
 
     SECTION("Invalid insertion")
     {
-        Contact p3;
+        PlannedContact p3;
         p3.activationTime = 0.9;
         p3.deactivationTime = 1.6;
 
@@ -73,7 +74,7 @@ TEST_CASE("ContactList")
 
     SECTION("Edit")
     {
-        Contact p2Modified;
+        PlannedContact p2Modified;
         p2Modified = p2;
         p2Modified.type = ContactType::POINT;
 
