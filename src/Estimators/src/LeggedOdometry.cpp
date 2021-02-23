@@ -309,10 +309,10 @@ void LeggedOdometry::Impl::updateInternalContactStates(FloatingBaseEstimators::M
                                                        FloatingBaseEstimator::ModelComputations& modelComp,
                                                        std::map<int, EstimatedContact>& contactStates)
 {
-    for (auto& obs : meas.stampedContactsStatus)
+    for (const auto& obs : meas.stampedContactsStatus)
     {
-        auto& measContact = obs.second;
-        auto& idx = obs.first;
+        const auto& measContact = obs.second;
+        const auto& idx = obs.first;
 
         if (contactStates.find(idx) != contactStates.end())
         {
@@ -344,7 +344,7 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::m
     bool atleastOneActiveContact{false};
     int latestContactIdx{-1};
     double latestTime{-1.0}; // assuming time cannot be negative
-    for (auto& [idx, contact] : contacts)
+    for (const auto& [idx, contact] : contacts)
     {
         if (contact.isActive)
         {
@@ -585,7 +585,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameConstraint(const
     std::size_t nrJoints{modelComp.kinDyn()->getNrOfDegreesOfFreedom()};
 
     // run two loops (alteratively once can do conservative resize of the matrices)
-    for (auto& [idx, contact] : state.supportFrameData)
+    for (const auto& [idx, contact] : state.supportFrameData)
     {
         if (contact.isActive)
         {
@@ -616,7 +616,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameConstraint(const
 
     // run another loop to populate matrices
     std::size_t cIdx{0};
-    for (auto& [idx, contact] : state.supportFrameData)
+    for (const auto& [idx, contact] : state.supportFrameData)
     {
         if (contact.isActive)
         {
@@ -668,7 +668,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameAverage(const Fl
     std::size_t nrContacts{0};
     // run two loops (alteratively once can do conservative resize of the matrices)
     Eigen::VectorXd sumV = Eigen::MatrixXd::Zero(6, 1);
-    for (auto& [idx, contact] : state.supportFrameData)
+    for (const auto& [idx, contact] : state.supportFrameData)
     {
         if (contact.isActive)
         {
@@ -716,7 +716,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrames(const Floating
 
     std::size_t nrContacts{0};
     // run two loops (alteratively once can do conservative resize of the matrices)
-    for (auto& [idx, contact] : state.supportFrameData)
+    for (const auto& [idx, contact] : state.supportFrameData)
     {
         if (contact.isActive)
         {
@@ -743,7 +743,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrames(const Floating
 
     // run another loop to populate matrices
     std::size_t cIdx{0};
-    for (auto& [idx, contact] : state.supportFrameData)
+    for (const auto& [idx, contact] : state.supportFrameData)
     {
         if (contact.isActive)
         {
