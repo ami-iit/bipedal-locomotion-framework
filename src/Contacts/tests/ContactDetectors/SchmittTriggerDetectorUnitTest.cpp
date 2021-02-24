@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
 
-using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
 
