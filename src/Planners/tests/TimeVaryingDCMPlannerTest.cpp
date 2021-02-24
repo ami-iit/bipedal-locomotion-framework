@@ -18,7 +18,7 @@ using namespace BipedalLocomotion::ParametersHandler;
 
 TEST_CASE("TimeVaryingDCMPlanner")
 {
-    auto phaseList = std::make_shared<ContactPhaseList>();
+    ContactPhaseList phaseList;
 
     ContactListMap contactListMap;
 
@@ -47,7 +47,7 @@ TEST_CASE("TimeVaryingDCMPlanner")
     rightPos(2) = 0.2;
     rightTransform = manif::SE3d(rightPos, manif::SO3d::Identity());
     REQUIRE(contactListMap["right"].addContact(rightTransform, 4.0, 7.0));
-    phaseList->setLists(contactListMap);
+    phaseList.setLists(contactListMap);
 
     // Set the parameters
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();

@@ -42,8 +42,7 @@ struct DCMPlannerState
 class DCMPlanner : public BipedalLocomotion::System::Advanceable<DCMPlannerState>
 {
 protected:
-    std::shared_ptr<const Contacts::ContactPhaseList> m_contactPhaseList; /**< Pointer containing the contact
-                                                                   phases. */
+    Contacts::ContactPhaseList m_contactPhaseList; /**< Contact phases. */
 
     DCMPlannerState m_initialState; /**< Initial state of the planner */
 
@@ -53,7 +52,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    virtual bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the initial state of the planner
@@ -69,7 +68,7 @@ public:
      * @param contactPhaseList pointer containing the list of the contact phases
      * @return true in case of success, false otherwise.
      */
-    bool setContactPhaseList(std::shared_ptr<const Contacts::ContactPhaseList> contactPhaseList);
+    virtual bool setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList);
 
     /**
      * Compute the DCM trajectory.
@@ -77,6 +76,12 @@ public:
      * @return true in case of success, false otherwise.
      */
     virtual bool computeTrajectory() = 0;
+
+    /**
+     * Set the DCM reference.
+     * @return true in case of success, false otherwise.
+     */
+    virtual bool setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference);
 
     /**
      * Destructor.

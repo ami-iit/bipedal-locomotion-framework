@@ -115,8 +115,19 @@ struct TimeVaryingDCMPlanner::Impl
         double omegaDotRateOfChangeWeight; /**< Weight related to rate of change of omega dot */
         double vrpRateOfChangeWeight; /**< Weight related to the rate of change of the VRP */
         double dcmRateOfChangeWeight; /**< Weight related to the rate of change of the DCM */
+
+        bool useExternalDCMReference{false}; /**< If true an external DCM reference is expected by
+                                                the planner */
     };
     OptimizationSettings optiSettings; /**< Settings */
+
+    struct InitialValue
+    {
+        casadi::DM dcm; /**< initial guess for the DCM trajectory */
+        casadi::DM omega; /**< initial guess omega trajectory */
+    };
+
+    InitialValue initialValue; /**< Initial value for the optimizer */
 
     /**
      * Get the eCMP from VRP and omega
@@ -340,33 +351,10 @@ struct TimeVaryingDCMPlanner::Impl
         return numberOfCoordinates == 2;
     }
 
-    bool setupOptimizationProblem(std::shared_ptr<const ContactPhaseList> contactPhaseList,
-                                  const DCMPlannerState& initialState)
+
+    void computeVRPConstraint(const ContactPhaseList& contactPhaseList)
     {
         using Sl = casadi::Slice;
-
-        // set the initial conditions
-        this->opti.set_value(this->optiParameters.dcmInitialPosition,
-                             casadi::DM(std::vector<double>(initialState.dcmPosition.data(),
-                                                            initialState.dcmPosition.data()
-                                                                + this->dcmVectorSize)));
-        this->opti.set_value(this->optiParameters.dcmInitialVelocity,
-                             casadi::DM(std::vector<double>(initialState.dcmVelocity.data(),
-                                                            initialState.dcmVelocity.data()
-                                                                + this->dcmVectorSize)));
-        this->opti.set_value(this->optiParameters.omegaInitialValue, initialState.omega);
-
-
-        double time = contactPhaseList->cbegin()->beginTime;
-
-        std::vector<Eigen::VectorXd> dcmKnots;
-        std::vector<double> timeKnots;
-
-        // first point
-        timeKnots.push_back(time);
-        dcmKnots.push_back(initialState.dcmPosition);
-
-        double averageDCMHeight = initialState.dcmPosition[2];
 
         casadi::DM ecmpConstraintA;
         casadi::DM ecmpConstraintB;
@@ -375,10 +363,7 @@ struct TimeVaryingDCMPlanner::Impl
         const auto& omega = this->optiVariables.omega;
         const auto& omegaDot = this->optiVariables.omegaDot;
 
-
-        auto contactPhaseListIt = contactPhaseList->cbegin();
-
-
+        auto contactPhaseListIt = contactPhaseList.cbegin();
         bool feetAreInSamePlane = computeConstraintElementsECMP(*contactPhaseListIt,
                                                                 ecmpConstraintA,
                                                                 ecmpConstraintB);
@@ -392,41 +377,6 @@ struct TimeVaryingDCMPlanner::Impl
                 feetAreInSamePlane = computeConstraintElementsECMP(*contactPhaseListIt,
                                                                    ecmpConstraintA,
                                                                    ecmpConstraintB);
-
-                if (contactPhaseListIt->activeContacts.size() == 2
-                    && contactPhaseListIt != contactPhaseList->begin()
-                    && contactPhaseListIt != contactPhaseList->lastPhase())
-                {
-                    timeKnots.emplace_back(
-                        (contactPhaseListIt->endTime + contactPhaseListIt->beginTime) / 2);
-
-                    auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
-                    std::advance(contactIt, 1);
-                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
-
-                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
-                    desiredDCMPosition(2) += averageDCMHeight;
-
-                    dcmKnots.emplace_back(desiredDCMPosition);
-                }
-
-                // TODO please try to make it more versatile
-                // read it as if the robot is in the last double support phase
-                else if (contactPhaseListIt->activeContacts.size() == 2
-                         && contactPhaseListIt == contactPhaseList->lastPhase())
-                {
-                    timeKnots.push_back(contactPhaseListIt->endTime);
-                    auto contactIt = contactPhaseListIt->activeContacts.cbegin();
-                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
-                    std::advance(contactIt, 1);
-                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
-
-                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
-                    desiredDCMPosition(2) += averageDCMHeight;
-
-                    dcmKnots.emplace_back(desiredDCMPosition);
-                }
             }
 
             if (!feetAreInSamePlane)
@@ -446,46 +396,138 @@ struct TimeVaryingDCMPlanner::Impl
                     == contactPhaseListIt->activeContacts.begin()->second->pose.translation()[2]);
             }
         }
+    }
 
+    bool computeDCMRegularization(const ContactPhaseList& contactPhaseList,
+                                  const DCMPlannerState& initialState)
+    {
+        std::vector<Eigen::VectorXd> dcmKnots;
+        std::vector<double> timeKnots;
+
+        // first point
+        timeKnots.push_back(contactPhaseList.cbegin()->beginTime);
+        dcmKnots.push_back(initialState.dcmPosition);
+
+        double averageDCMHeight = initialState.dcmPosition[2];
+        auto contactPhaseListIt = contactPhaseList.cbegin();
+
+        for (std::size_t k = 0; k < this->optiVariables.vrp.columns(); k++)
+        {
+            // if the
+            if (k * this->optiSettings.plannerSamplingTime > contactPhaseListIt->endTime)
+            {
+                std::advance(contactPhaseListIt, 1);
+
+                if (contactPhaseListIt->activeContacts.size() == 2
+                    && contactPhaseListIt != contactPhaseList.begin()
+                    && contactPhaseListIt != contactPhaseList.lastPhase())
+                {
+                    timeKnots.emplace_back(
+                        (contactPhaseListIt->endTime + contactPhaseListIt->beginTime) / 2);
+
+                    auto contactIt = contactPhaseListIt->activeContacts.cbegin();
+                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
+                    std::advance(contactIt, 1);
+                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
+
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
+                    desiredDCMPosition(2) += averageDCMHeight;
+
+                    dcmKnots.emplace_back(desiredDCMPosition);
+                }
+
+                // TODO please try to make it more versatile
+                // read it as if the robot is in the last double support phase
+                else if (contactPhaseListIt->activeContacts.size() == 2
+                         && contactPhaseListIt == contactPhaseList.lastPhase())
+                {
+                    timeKnots.push_back(contactPhaseListIt->endTime);
+                    auto contactIt = contactPhaseListIt->activeContacts.cbegin();
+                    const Eigen::Vector3d p1 = contactIt->second->pose.translation();
+                    std::advance(contactIt, 1);
+                    const Eigen::Vector3d p2 = contactIt->second->pose.translation();
+
+                    Eigen::Vector3d desiredDCMPosition = (p1 + p2) / 2.0;
+                    desiredDCMPosition(2) += averageDCMHeight;
+
+                    dcmKnots.emplace_back(desiredDCMPosition);
+                }
+            }
+        }
         dcmRef.setInitialConditions(initialState.dcmVelocity, Eigen::Vector3d::Zero());
         dcmRef.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
         dcmRef.setKnots(dcmKnots, timeKnots);
 
+        // populate the reference
+        this->initialValue.dcm = casadi::DM::zeros(3, this->optiVariables.dcm.columns());
+        Eigen::Vector3d velocity, acceleration;
+        Eigen::Map<Eigen::MatrixXd> initialValueDCMEigenMap(initialValue.dcm.ptr(),
+                                                            initialValue.dcm.rows(),
+                                                            initialValue.dcm.columns());
+
+        for (int i = 0; i < this->optiVariables.dcm.columns(); i++)
+        {
+            const double currentTime = i * this->optiSettings.plannerSamplingTime;
+            if (!dcmRef.evaluatePoint(currentTime,
+                                     initialValueDCMEigenMap.col(i),
+                                     velocity,
+                                     acceleration))
+            {
+                std::cerr << "[TimeVaryingDCMPlanner::Impl::computeDCMRegularization] Unable to "
+                             "evaluate the dcm reference trajectory."
+                          << std::endl;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool setupOptimizationProblem(const ContactPhaseList& contactPhaseList,
+                                  const DCMPlannerState& initialState)
+    {
+        using Sl = casadi::Slice;
+
+        // set the initial conditions
+        this->opti.set_value(this->optiParameters.dcmInitialPosition,
+                             casadi::DM(std::vector<double>(initialState.dcmPosition.data(),
+                                                            initialState.dcmPosition.data()
+                                                                + this->dcmVectorSize)));
+        this->opti.set_value(this->optiParameters.dcmInitialVelocity,
+                             casadi::DM(std::vector<double>(initialState.dcmVelocity.data(),
+                                                            initialState.dcmVelocity.data()
+                                                                + this->dcmVectorSize)));
+        this->opti.set_value(this->optiParameters.omegaInitialValue, initialState.omega);
+
+        const auto& vrp = this->optiVariables.vrp;
+        const auto& omega = this->optiVariables.omega;
+        const auto& omegaDot = this->optiVariables.omegaDot;
+
+        this->computeVRPConstraint(contactPhaseList);
+
+        if (!this->optiSettings.useExternalDCMReference)
+            if (!this->computeDCMRegularization(contactPhaseList, initialState))
+            {
+                std::cerr << "[TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] Unable to "
+                             "compute the DCM regularization term."
+                          << std::endl;
+                return false;
+            }
+
         // set last values
         this->opti.set_value(this->optiParameters.dcmFinalPosition,
-                             casadi::DM(std::vector<double>(dcmKnots.back().data(),
-                                                            dcmKnots.back().data()
-                                                                + this->dcmVectorSize)));
+                             this->initialValue.dcm(Sl(), -1));
 
         this->opti.set_value(this->optiParameters.dcmFinalVelocity,
                              casadi::DM::zeros(this->dcmVectorSize));
 
         // TODO the final omega is equal to the initial omega
         this->opti.set_value(this->optiParameters.omegaFinalValue, initialState.omega);
+        this->initialValue.omega = sqrt(9.81 / this->initialValue.dcm(2, Sl()));
+        this->opti.set_value(this->optiParameters.dcmRefererenceTraj, this->initialValue.dcm);
 
-        casadi::DM initialValueDCM = casadi::DM::zeros(3, this->optiVariables.dcm.columns());
-        casadi::DM initialValueOmega(1, this->optiVariables.dcm.columns());
-
-        Eigen::Vector3d velocity, acceleration;
-        Eigen::Map<Eigen::MatrixXd> initialValueDCMEigenMap(initialValueDCM.ptr(),
-                                                            initialValueDCM.rows(),
-                                                            initialValueDCM.columns());
-
-        for (int i = 0; i < this->optiVariables.dcm.columns(); i++)
-        {
-            const double currentTime = i * this->optiSettings.plannerSamplingTime;
-            dcmRef.evaluatePoint(currentTime,
-                                 initialValueDCMEigenMap.col(i),
-                                 velocity,
-                                 acceleration);
-        }
-
-        initialValueOmega = sqrt(9.81 / initialValueDCM(2,Sl()));
-        this->opti.set_value(this->optiParameters.dcmRefererenceTraj, initialValueDCM);
-
-        this->opti.set_initial(this->optiVariables.dcm, initialValueDCM);
-        this->opti.set_initial(this->optiVariables.vrp, initialValueDCM(Sl(), Sl(0, -1)));
-        this->opti.set_initial(this->optiVariables.omega, initialValueOmega);
+        this->opti.set_initial(this->optiVariables.dcm, this->initialValue.dcm);
+        this->opti.set_initial(this->optiVariables.vrp, this->initialValue.dcm(Sl(), Sl(0, -1)));
+        this->opti.set_initial(this->optiVariables.omega, this->initialValue.omega);
         this->opti.set_initial(this->optiVariables.omegaDot,
                                casadi::DM::zeros(1, omegaDot.columns()));
 
@@ -514,6 +556,7 @@ struct TimeVaryingDCMPlanner::Impl
 };
 
 TimeVaryingDCMPlanner::TimeVaryingDCMPlanner()
+    : DCMPlanner()
 {
     m_pimpl = std::make_unique<Impl>();
     assert(m_pimpl);
@@ -521,11 +564,13 @@ TimeVaryingDCMPlanner::TimeVaryingDCMPlanner()
 
 TimeVaryingDCMPlanner::~TimeVaryingDCMPlanner() = default;
 
-bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     assert(m_pimpl);
 
-    if (handler == nullptr)
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
     {
         std::cerr << "[TimeVaryingDCMPlanner::initialize] The handler has to point to an already "
                      "initialized IParametershandler."
@@ -533,7 +578,7 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
         return false;
     }
 
-    if (!handler->getParameter("planner_sampling_time", m_pimpl->optiSettings.plannerSamplingTime))
+    if (!ptr->getParameter("planner_sampling_time", m_pimpl->optiSettings.plannerSamplingTime))
     {
         std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the sampling time of "
                      "the planner."
@@ -542,7 +587,7 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
     }
 
     int numberOfFootCorners;
-    if (!handler->getParameter("number_of_foot_corners", numberOfFootCorners))
+    if (!ptr->getParameter("number_of_foot_corners", numberOfFootCorners))
     {
         std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the number of foot "
                      "corners."
@@ -552,10 +597,10 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
 
     m_pimpl->optiSettings.footCorners.resize(numberOfFootCorners);
 
-    for(std::size_t i = 0; i < numberOfFootCorners; i++)
+    for (std::size_t i = 0; i < numberOfFootCorners; i++)
     {
-        if (!handler->getParameter("foot_corner_" + std::to_string(i),
-                                   m_pimpl->optiSettings.footCorners[i]))
+        if (!ptr->getParameter("foot_corner_" + std::to_string(i),
+                               m_pimpl->optiSettings.footCorners[i]))
         {
             std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load get the foot corner "
                          "number: "
@@ -572,27 +617,31 @@ bool TimeVaryingDCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParam
 
     // get the linear solver used by ipopt. This parameter is optional. The default value is mumps
     std::string linearSolver;
-    if (handler->getParameter("linear_solver", linearSolver))
+    if (ptr->getParameter("linear_solver", linearSolver))
         m_pimpl->optiSettings.ipoptLinearSolver = linearSolver;
 
-    bool okCostFunctions = true;
-    okCostFunctions &= handler->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
-    okCostFunctions &= handler->getParameter("dcm_tracking_weight", m_pimpl->optiSettings.dcmTrackingWeight);
-    okCostFunctions &= handler->getParameter("omega_dot_rate_of_change_weight",
-                                             m_pimpl->optiSettings.omegaDotRateOfChangeWeight);
-    okCostFunctions &= handler->getParameter("vrp_rate_of_change_weight",
-                                             m_pimpl->optiSettings.vrpRateOfChangeWeight);
+    bool ok = true;
+    ok = ok && ptr->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
+    ok = ok && ptr->getParameter("dcm_tracking_weight", m_pimpl->optiSettings.dcmTrackingWeight);
+    ok = ok && ptr->getParameter("omega_dot_rate_of_change_weight",
+                                         m_pimpl->optiSettings.omegaDotRateOfChangeWeight);
+    ok = ok && ptr->getParameter("vrp_rate_of_change_weight",
+                                         m_pimpl->optiSettings.vrpRateOfChangeWeight);
 
-    okCostFunctions &= handler->getParameter("dcm_rate_of_change_weight",
-                                             m_pimpl->optiSettings.dcmRateOfChangeWeight);
+    ok = ok && ptr->getParameter("dcm_rate_of_change_weight",
+                                         m_pimpl->optiSettings.dcmRateOfChangeWeight);
 
-    if (!okCostFunctions)
+    if (!ok)
     {
         std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load weights of the cost "
                      "function"
                   << std::endl;
         return false;
     }
+
+    // if this option is chosen an external dcm reference must be provided
+    m_pimpl->optiSettings.useExternalDCMReference = false;
+    ptr->getParameter("use_external_dcm_reference", m_pimpl->optiSettings.useExternalDCMReference);
 
     // the casadi functions are initialized only once
     m_pimpl->setupCasADiFunctions();
@@ -605,29 +654,25 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
 {
     assert(m_pimpl);
 
-    if(!m_pimpl->isPlannerInitialized)
+    constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::initialize] ";
+
+    if (!m_pimpl->isPlannerInitialized)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Please initialize the planner before "
-                     "computing the trajectory."
+        std::cerr << errorPrefix << "Please initialize the planner before computing the trajectory."
                   << std::endl;
         return false;
     }
 
-    // clear the solver and the solution computed
-    m_pimpl->clear();
-
-    const double& initialTrajectoryTime = m_contactPhaseList->cbegin()->beginTime;
-    const double& endTrajectoryTime = m_contactPhaseList->lastPhase()->endTime;
-
-    m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
-                                                   / m_pimpl->optiSettings.plannerSamplingTime);
-
-    m_pimpl->setupOpti(m_pimpl->numberOfTrajectorySamples);
+    if(m_pimpl->isTrajectoryComputed)
+    {
+        std::cerr << errorPrefix << "The trajectory has been already computed."
+                  << std::endl;
+        return false;
+    }
 
     if (!m_pimpl->setupOptimizationProblem(m_contactPhaseList, m_initialState))
     {
-        std::cerr << "[TimeVaryingDCMPlanner::computeTrajectory] Unable to setup the optimization "
-                     "problem."
+        std::cerr << errorPrefix << "Unable to setup the optimization problem."
                   << std::endl;
         return false;
     }
@@ -654,6 +699,66 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     m_pimpl->prepareSolution();
 
     m_pimpl->isTrajectoryComputed = true;
+
+    return true;
+}
+
+bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList &contactPhaseList)
+{
+    assert(m_pimpl);
+
+    if(!m_pimpl->isPlannerInitialized)
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] Please initialize the planner before "
+                     "computing the trajectory."
+                  << std::endl;
+        return false;
+    }
+
+    // clear the solver and the solution computed
+    m_pimpl->clear();
+
+    // store the contact phase list
+    m_contactPhaseList = contactPhaseList;
+
+    const double& initialTrajectoryTime = m_contactPhaseList.cbegin()->beginTime;
+    const double& endTrajectoryTime = m_contactPhaseList.lastPhase()->endTime;
+
+    m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
+                                                   / m_pimpl->optiSettings.plannerSamplingTime);
+
+    m_pimpl->setupOpti(m_pimpl->numberOfTrajectorySamples);
+
+    // We have to recompute the trajectory
+    m_pimpl->isTrajectoryComputed = false;
+    return true;
+}
+
+bool TimeVaryingDCMPlanner::setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference)
+{
+    assert(m_pimpl);
+    if(!m_pimpl->optiSettings.useExternalDCMReference)
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::setDCMReference] You cannot call this function if "
+                     "you configure the planner with use_external_dcm_reference equal to false."
+                  << std::endl;
+        return false;
+    }
+
+    if (dcmReference.rows() != 3 || dcmReference.cols() != m_pimpl->optiVariables.dcm.columns())
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::setDCMReference] Wrong size of the dcmReference. "
+                     "Expected matrix: (3 x "
+                  << m_pimpl->optiVariables.dcm.columns() << "). Passed matrix: ("
+                  << dcmReference.rows() << " x " << dcmReference.cols() << ")." << std::endl;
+        return false;
+    }
+
+    m_pimpl->initialValue.dcm = casadi::DM::zeros(3, m_pimpl->optiVariables.dcm.columns());
+    Eigen::Map<Eigen::MatrixXd>(m_pimpl->initialValue.dcm.ptr(),
+                                m_pimpl->initialValue.dcm.rows(),
+                                m_pimpl->initialValue.dcm.columns())
+        = dcmReference;
 
     return true;
 }
