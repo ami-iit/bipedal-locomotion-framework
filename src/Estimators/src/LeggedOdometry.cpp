@@ -887,7 +887,7 @@ bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
                                             std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
-    if (newIdx == iDynTree::FRAME_INVALID_INDEX)
+    if (newIdx == iDynTree::FRAME_INVALID_INDEX || !kinDyn->model().isValidFrameIndex(newIdx))
     {
         std::cerr << printPrefix << "Specified frame index not available in the loaded URDF Model."
             << std::endl;
@@ -905,3 +905,26 @@ bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
 }
 
 
+bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
+                                      const Eigen::Quaterniond& frameOrientationInWorld,
+                                      const Eigen::Vector3d& framePositionInWorld)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
+    if (m_pimpl->switching != LOSwitching::useExternalUpdate)
+    {
+        std::cerr << printPrefix << "Unable to change fixed frame externally, since the estimator was not loaded with the option." << std::endl;
+        return false;
+    }
+
+    if (newIdx == iDynTree::FRAME_INVALID_INDEX || !m_modelComp.kinDyn()->model().isValidFrameIndex(newIdx))
+    {
+        std::cerr << printPrefix << "Specified frame index not available in the loaded URDF Model."
+            << std::endl;
+            return false;
+    }
+
+    m_pimpl->m_world_H_fixedFrame.quat(frameOrientationInWorld);
+    m_pimpl->m_world_H_fixedFrame.translation(framePositionInWorld);
+    m_pimpl->m_currentFixedFrameIdx = newIdx;
+    return true;
+}
