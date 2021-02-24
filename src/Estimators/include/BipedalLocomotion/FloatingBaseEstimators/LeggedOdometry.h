@@ -86,8 +86,20 @@ public:
 
     /**
      * Change fixed frame externally
+     * @param[in] frameIndex  valid frame from the model
      */
     bool changeFixedFrame(const std::ptrdiff_t& frameIndex);
+
+    /**
+     * Change fixed frame externally by mentioning the world_H_frame transform
+     * @param[in] frameIndex  valid frame from the model
+     * @param[in] frameOrientationInWorld  orientation of the fixed frame wrt the inertial frame
+     * @param[in] framePositionInWorld  position of the fixed frame wrt the inertial frame
+     * @note ensure to pass unit quaternion
+     */
+    bool changeFixedFrame(const std::ptrdiff_t& frameIndex,
+                          const Eigen::Quaterniond& frameOrientationInWorld,
+                          const Eigen::Vector3d& framePositionInWorld);
 
     /**
      * Get the index of the frame currently in contact used for the legged odometry computations
