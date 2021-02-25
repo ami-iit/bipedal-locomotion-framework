@@ -10,7 +10,7 @@ add_bipedal_test(
 add_bipedal_test(
   NAME TimeVaryingDCMPlanner
   SOURCES TimeVaryingDCMPlannerTest.cpp
-  LINKS BipedalLocomotion::Planners)
+  LINKS BipedalLocomotion::Planners BipedalLocomotion::Math)
 
 add_bipedal_test(
   NAME QuinticSpline

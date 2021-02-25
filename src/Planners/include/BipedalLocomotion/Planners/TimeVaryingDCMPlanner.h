@@ -57,6 +57,7 @@ public:
      * |    `vrp_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the VRP                                               |    Yes    |
      * |    `dcm_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the DCM                                               |    Yes    |
      * |    `use_external_dcm_reference`   |   `bool`   |  Set this option to true if you want provide an external DCM reference with TimeVaryingDCMPlanner::setDCMReference(). (Default value False)    |    No     |
+     * |            `gravity`              |  `double`  |  Value of the gravity acceleration. It should be a positive number (Default value BipedalLocomotion::Math::StandardAccelerationOfGravitation)  |    No     |
      * @return true in case of success/false otherwise.
      */
      bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;

@@ -7,9 +7,10 @@
 
 #include <casadi/casadi.hpp>
 
-#include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
+#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 #include <BipedalLocomotion/System/DynamicalSystem.h>
 
 using namespace BipedalLocomotion::Planners;
@@ -118,6 +119,8 @@ struct TimeVaryingDCMPlanner::Impl
 
         bool useExternalDCMReference{false}; /**< If true an external DCM reference is expected by
                                                 the planner */
+
+        double gravity{BipedalLocomotion::Math::StandardAccelerationOfGravitation}; /**< Gravity */
     };
     OptimizationSettings optiSettings; /**< Settings */
 
@@ -139,7 +142,8 @@ struct TimeVaryingDCMPlanner::Impl
         casadi::MX omegaDot = casadi::MX::sym("omega_dot");
 
         casadi::MX rhs = casadi::MX::vertcat(
-            {vrp(casadi::Slice(0, 2)), vrp(2) - 9.81 / (casadi::MX::pow(omega, 2) - omegaDot)});
+            {vrp(casadi::Slice(0, 2)),
+             vrp(2) - this->optiSettings.gravity / (casadi::MX::pow(omega, 2) - omegaDot)});
 
         return casadi::Function("eCMP", {omega, vrp, omegaDot}, {rhs});
     }
@@ -392,7 +396,9 @@ struct TimeVaryingDCMPlanner::Impl
                                       <= ecmpConstraintB);
 
                 this->opti.subject_to(
-                    vrp(2, k) - 9.81 / (casadi::MX::pow(omega(Sl(), k), 2) - omegaDot(Sl(), k))
+                    vrp(2, k)
+                        - this->optiSettings.gravity
+                              / (casadi::MX::pow(omega(Sl(), k), 2) - omegaDot(Sl(), k))
                     == contactPhaseListIt->activeContacts.begin()->second->pose.translation()[2]);
             }
         }
@@ -505,6 +511,7 @@ struct TimeVaryingDCMPlanner::Impl
         this->computeVRPConstraint(contactPhaseList);
 
         if (!this->optiSettings.useExternalDCMReference)
+        {
             if (!this->computeDCMRegularization(contactPhaseList, initialState))
             {
                 std::cerr << "[TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] Unable to "
@@ -512,6 +519,7 @@ struct TimeVaryingDCMPlanner::Impl
                           << std::endl;
                 return false;
             }
+        }
 
         // set last values
         this->opti.set_value(this->optiParameters.dcmFinalPosition,
@@ -522,14 +530,14 @@ struct TimeVaryingDCMPlanner::Impl
 
         // TODO the final omega is equal to the initial omega
         this->opti.set_value(this->optiParameters.omegaFinalValue, initialState.omega);
-        this->initialValue.omega = sqrt(9.81 / this->initialValue.dcm(2, Sl()));
+        this->initialValue.omega = sqrt(this->optiSettings.gravity / this->initialValue.dcm(2, Sl()));
         this->opti.set_value(this->optiParameters.dcmRefererenceTraj, this->initialValue.dcm);
 
         this->opti.set_initial(this->optiVariables.dcm, this->initialValue.dcm);
         this->opti.set_initial(this->optiVariables.vrp, this->initialValue.dcm(Sl(), Sl(0, -1)));
         this->opti.set_initial(this->optiVariables.omega, this->initialValue.omega);
         this->opti.set_initial(this->optiVariables.omegaDot,
-                               casadi::DM::zeros(1, omegaDot.columns()));
+                               casadi::DM::zeros(1, this->optiVariables.omegaDot.columns()));
 
         return true;
     }
@@ -639,9 +647,24 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
         return false;
     }
 
+    /////// Optional parameters
+
     // if this option is chosen an external dcm reference must be provided
     m_pimpl->optiSettings.useExternalDCMReference = false;
     ptr->getParameter("use_external_dcm_reference", m_pimpl->optiSettings.useExternalDCMReference);
+
+    if (ptr->getParameter("gravity", m_pimpl->optiSettings.gravity))
+    {
+        if (m_pimpl->optiSettings.gravity <= 0)
+        {
+            std::cerr << "[TimeVaryingDCMPlanner::initialize] The gravity should be a strictly "
+                         "positive number. If you do not know which value use you can avoid to set "
+                         "this parameter. The default value will be used. Default value: "
+                      << BipedalLocomotion::Math::StandardAccelerationOfGravitation << "."
+                      << std::endl;
+            return false;
+        }
+    }
 
     // the casadi functions are initialized only once
     m_pimpl->setupCasADiFunctions();
@@ -677,6 +700,7 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
         return false;
     }
 
+    // this is how casadi works
     try
     {
         m_pimpl->optiSolution.solution = std::make_unique<casadi::OptiSol>(m_pimpl->opti.solve());

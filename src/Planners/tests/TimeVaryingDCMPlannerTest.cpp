@@ -8,13 +8,15 @@
 // Catch2
 #include <catch2/catch.hpp>
 
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/Math/Constants.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion::Math;
 
 TEST_CASE("TimeVaryingDCMPlanner")
 {
@@ -84,7 +86,7 @@ TEST_CASE("TimeVaryingDCMPlanner")
     initialState.dcmPosition[2] = 0.53;
     initialState.dcmVelocity.setZero();
     initialState.vrpPosition = initialState.dcmPosition;
-    initialState.omega = std::sqrt(9.81 / initialState.dcmPosition[2]);
+    initialState.omega = std::sqrt(StandardAccelerationOfGravitation / initialState.dcmPosition[2]);
 
     // Initialize the planner
     TimeVaryingDCMPlanner planner;
