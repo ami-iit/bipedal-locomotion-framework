@@ -246,9 +246,7 @@ bool FloatingBaseEstimator::ModelComputations::getBaseStateFromIMUState(const ma
 
     // transform velocity (mixed-representation)
     auto A_o_BIMU = A_H_B.asSO3().act(m_base_H_imu.translation());
-    manif::SE3d X;
-    X.rotation().setIdentity();
-    X.translation(A_o_BIMU);
+    manif::SE3d X(A_o_BIMU, Eigen::Quaterniond::Identity());
 
     // coordinate/adjoint transformation of the twist
     v_B = X.adj()*v_IMU;
