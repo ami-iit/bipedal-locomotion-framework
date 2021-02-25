@@ -12,6 +12,11 @@
 
 using namespace BipedalLocomotion::Estimators;
 
+FloatingBaseEstimator::FloatingBaseEstimator()
+{
+    m_state.imuOrientation.setIdentity();
+}
+
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                        std::shared_ptr<iDynTree::KinDynComputations> kindyn)
 {
@@ -690,8 +695,7 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
                                                         manif::SE3d& basePose,
                                                         Eigen::Ref<Eigen::Matrix<double, 6, 1>> baseTwist)
 {
-    auto A_H_IMU = manif::SE3d(state.imuPosition, state.imuOrientation);
-
+    manif::SE3d A_H_IMU(state.imuPosition, state.imuOrientation);
     Eigen::Matrix<double, 6, 1> v_IMU;
 
     v_IMU.head<3>() = state.imuLinearVelocity;

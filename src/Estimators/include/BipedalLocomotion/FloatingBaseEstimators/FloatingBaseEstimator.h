@@ -32,6 +32,7 @@ namespace Estimators
 class FloatingBaseEstimator : public BipedalLocomotion::System::Advanceable<FloatingBaseEstimators::Output>
 {
 public:
+    FloatingBaseEstimator();
     virtual ~FloatingBaseEstimator() { };
     /**
     *  iDynTree based model-specific computations class
