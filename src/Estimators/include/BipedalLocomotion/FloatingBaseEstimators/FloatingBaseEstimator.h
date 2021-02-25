@@ -13,9 +13,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
 
-#include <iDynTree/Model/Model.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/JointState.h>
 #include <iostream>
 #include <memory>
 
@@ -43,7 +41,7 @@ public:
     */
     class ModelComputations
     {
-    public:                
+    public:
         /**
         * Set the shared kindyn object
         * @param[in] kinDyn shared pointer of the common KinDynComputations resource        
@@ -82,9 +80,9 @@ public:
         * @param[out] IMU_H_r_foot pose of the right foot contact frame with respect to the IMU frame
         * @return True in case of success, false otherwise.
         */
-        bool getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
-                           iDynTree::Transform& IMU_H_l_foot,
-                           iDynTree::Transform& IMU_H_r_foot);
+        bool getIMU_H_feet(Eigen::Ref<const Eigen::VectorXd> encoders,
+                           manif::SE3d& IMU_H_l_foot,
+                           manif::SE3d& IMU_H_r_foot);
 
         /**
         * Get relative pose between IMU and the feet
@@ -95,11 +93,11 @@ public:
         * @param[out] J_IMURF Jacobian of right foot frame with respect to IMU frame in mixed-velocity trivialization
         * @return True in case of success, false otherwise.
         */
-        bool getIMU_H_feet(const iDynTree::JointPosDoubleArray& encoders,
-                           iDynTree::Transform& IMU_H_l_foot,
-                           iDynTree::Transform& IMU_H_r_foot,
-                           iDynTree::MatrixDynSize& J_IMULF,
-                           iDynTree::MatrixDynSize& J_IMURF);
+        bool getIMU_H_feet(const Eigen::Ref<const Eigen::VectorXd> encoders,
+                           manif::SE3d& IMU_H_l_foot,
+                           manif::SE3d& IMU_H_r_foot,
+                           Eigen::Ref<Eigen::MatrixXd> J_IMULF,
+                           Eigen::Ref<Eigen::MatrixXd> J_IMURF);
 
         /**
         * Get the base link pose and velocity from the estimated IMU pose and velocity
@@ -110,8 +108,8 @@ public:
         * @param[out] v_B mixed-trivialized velocity of the base link in the world
         * @return True in case of success, false otherwise.
         */
-        bool getBaseStateFromIMUState(const iDynTree::Transform& A_H_IMU, const iDynTree::Twist& v_IMU,
-                                      iDynTree::Transform& A_H_B, iDynTree::Twist& v_B);
+        bool getBaseStateFromIMUState(const manif::SE3d& A_H_IMU, Eigen::Ref<const Eigen::Matrix<double, 6, 1> > v_IMU,
+                                      manif::SE3d& A_H_B, Eigen::Ref<Eigen::Matrix<double, 6, 1> > v_B);
 
         /**
          * Getters
@@ -123,10 +121,10 @@ public:
         const std::string& baseLinkIMU() const { return m_baseImuFrame; }
         const std::string& leftFootContactFrame() const { return m_lFootContactFrame; }
         const std::string& rightFootContactFrame() const { return m_rFootContactFrame; }
-        const iDynTree::Transform& base_H_IMU() const { return m_base_H_imu; }
+        const manif::SE3d& base_H_IMU() const { return m_base_H_imu; }
         const bool& isKinDynValid() const { return m_validKinDyn; }
         std::shared_ptr<iDynTree::KinDynComputations> kinDyn() const { return m_kindyn; }
-        
+
     private:
         std::string m_baseLink{""}; /**< name of the floating base link*/
         std::string m_baseImuFrame{""}; /**< name of the IMU frame rigidly attached to the floating base link*/
@@ -138,7 +136,7 @@ public:
         iDynTree::FrameIndex m_rFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Right foot contact freame index in the loaded model*/
 
         std::shared_ptr<iDynTree::KinDynComputations> m_kindyn{nullptr}; /**< KinDynComputations object to do the model specific computations */
-        iDynTree::Transform m_base_H_imu; /**< Rigid body transform of IMU frame with respect to the base link frame */
+        manif::SE3d m_base_H_imu; /**< Rigid body transform of IMU frame with respect to the base link frame */
         int m_nrJoints{0}; /**< number of joints in the loaded reduced model */
         bool m_validKinDyn{false};
     };
@@ -160,7 +158,7 @@ public:
     */
     bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, 
                     std::shared_ptr<iDynTree::KinDynComputations> kindyn);
-    
+
 
     /**
     * Set the polled IMU measurement
@@ -413,8 +411,8 @@ private:
      */
     bool updateBaseStateFromIMUState(const FloatingBaseEstimators::InternalState& state,
                                      const FloatingBaseEstimators::Measurements& meas,
-                                     iDynTree::Transform& basePose,
-                                     iDynTree::Twist& baseTwist);
+                                     manif::SE3d& basePose,
+                                     Eigen::Ref<Eigen::Matrix<double, 6, 1>> baseTwist);
 };
 
 

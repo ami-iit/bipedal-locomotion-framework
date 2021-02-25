@@ -68,8 +68,8 @@ public:
      */
     bool propagateStates(const FloatingBaseEstimators::Measurements& meas,
                          const double& dt, const Eigen::Vector3d& g,
-                         const iDynTree::Transform& IMU_H_RF,
-                         const iDynTree::Transform& IMU_H_LF,
+                         const manif::SE3d& IMU_H_RF,
+                         const manif::SE3d& IMU_H_LF,
                          FloatingBaseEstimators::InternalState& X);
 
     /**
@@ -173,6 +173,8 @@ public:
     Eigen::MatrixXd m_X, m_dX; /**< placeholder for state update variables */
     Eigen::Matrix<double, 6, 1> m_theta, m_deltaTheta; /**< placeholder for parameter update variables */
 
+    manif::SE3d IMU_H_LF, IMU_H_RF; /**< buffers for relative transforms */
+    Eigen::MatrixXd J_IMULF, J_IMURF; /**< buffers for relative Jacobians */
 
     const size_t m_vecSizeWOBias{15}; /**< Tangent space vector size without considering IMU biases */
     const size_t m_vecSizeWBias{21};  /**< Tangent space vector size considering IMU biases */
@@ -289,6 +291,10 @@ bool InvariantEKFBaseEstimator::customInitialization(std::weak_ptr<BipedalLocomo
     m_pimpl->updateFilterMatrixDimensions(m_options.imuBiasEstimationEnabled);
     m_pimpl->m_prevBiasEstimationFlag = m_options.imuBiasEstimationEnabled;
     m_pimpl->constuctStateVar(m_priors, m_options.imuBiasEstimationEnabled, m_pimpl->m_P); // construct priors
+
+    size_t baseDim{6};
+    m_pimpl->J_IMULF.resize(baseDim, m_modelComp.nrJoints());
+    m_pimpl->J_IMURF.resize(baseDim, m_modelComp.nrJoints());
     return true;
 }
 
@@ -330,16 +336,13 @@ bool InvariantEKFBaseEstimator::predictState(const FloatingBaseEstimators::Measu
     m_pimpl->calcSkewSymAtCurrenState(m_statePrev, m_pimpl->m_skew); // compute skews at priori state
 
     // update foot position predictions with previous measures
-    iDynTree::JointPosDoubleArray jointPos(meas.encoders.size());
-    iDynTree::toEigen(jointPos) = meas.encoders;
-    iDynTree::Transform IMU_H_LF, IMU_H_RF;
-    if (!m_modelComp.getIMU_H_feet(jointPos, IMU_H_LF, IMU_H_RF))
+    if (!m_modelComp.getIMU_H_feet(meas.encoders, m_pimpl->IMU_H_LF, m_pimpl->IMU_H_RF))
     {
         return false;
     }
 
     // m_state is now predicted state after this function call
-    if (!m_pimpl->propagateStates(meas, dt, m_options.accelerationDueToGravity, IMU_H_RF, IMU_H_LF, m_state))
+    if (!m_pimpl->propagateStates(meas, dt, m_options.accelerationDueToGravity, m_pimpl->IMU_H_RF, m_pimpl->IMU_H_LF, m_state))
     {
         return false;
     }
@@ -369,16 +372,10 @@ bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measure
 {
     Eigen::Matrix3d A_R_IMU = m_state.imuOrientation.toRotationMatrix();
 
-    iDynTree::JointPosDoubleArray jointPos(meas.encoders.size());
-    iDynTree::toEigen(jointPos) = meas.encoders;
-    iDynTree::Transform IMU_H_LF, IMU_H_RF;
-    iDynTree::MatrixDynSize J_IMULF, J_IMURF;
-    m_modelComp.getIMU_H_feet(jointPos, IMU_H_LF, IMU_H_RF, J_IMULF, J_IMURF);
+    m_modelComp.getIMU_H_feet(meas.encoders, m_pimpl->IMU_H_LF, m_pimpl->IMU_H_RF, m_pimpl->J_IMULF, m_pimpl->J_IMURF);
 
-    Eigen::Vector3d sIMU_p_LF = iDynTree::toEigen(IMU_H_LF.getPosition());
-    Eigen::Vector3d sIMU_p_RF = iDynTree::toEigen(IMU_H_RF.getPosition());
-    auto Jl{iDynTree::toEigen(J_IMULF)};
-    auto Jr{iDynTree::toEigen(J_IMURF)};
+    Eigen::Vector3d sIMU_p_LF = m_pimpl->IMU_H_LF.translation();
+    Eigen::Vector3d sIMU_p_RF = m_pimpl->IMU_H_RF.translation();
 
     Eigen::VectorXd encodersVar = m_sensorsDev.encodersNoise.array().square();
     Eigen::MatrixXd Renc = static_cast<Eigen::MatrixXd>(encodersVar.asDiagonal());
@@ -449,9 +446,9 @@ bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measure
 
         // prepare measurement noise covariance R
         m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
-        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*m_pimpl->J_IMURF.topRows<3>()*Renc*(m_pimpl->J_IMURF.topRows<3>().transpose())*(A_R_IMU.transpose());
         m_pimpl->m_measNoiseVar.topRightCorner<3, 3>().setZero();
-        m_pimpl->m_measNoiseVar.bottomRightCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.bottomRightCorner<3, 3>() = A_R_IMU*m_pimpl->J_IMULF.topRows<3>()*Renc*(m_pimpl->J_IMULF.topRows<3>().transpose())*(A_R_IMU.transpose());
         m_pimpl->m_measNoiseVar.bottomLeftCorner<3, 3>().setZero();
         m_pimpl->m_measNoiseVar /= dt;
     }
@@ -492,7 +489,7 @@ bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measure
 
         // prepare measurement noise covariance R
         m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
-        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jr.topRows<3>()*Renc*(Jr.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*m_pimpl->J_IMURF.topRows<3>()*Renc*(m_pimpl->J_IMURF.topRows<3>().transpose())*(A_R_IMU.transpose());
         m_pimpl->m_measNoiseVar /= dt;
     }
     else if (meas.lfInContact)
@@ -532,7 +529,7 @@ bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measure
 
         // prepare measurement noise covariance R
         m_pimpl->m_measNoiseVar.resize(linearizedDimension, linearizedDimension);
-        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*Jl.topRows<3>()*Renc*(Jl.topRows<3>().transpose())*(A_R_IMU.transpose());
+        m_pimpl->m_measNoiseVar.topLeftCorner<3, 3>() = A_R_IMU*m_pimpl->J_IMULF.topRows<3>()*Renc*(m_pimpl->J_IMULF.topRows<3>().transpose())*(A_R_IMU.transpose());
         m_pimpl->m_measNoiseVar /= dt;
     }
 
@@ -553,8 +550,8 @@ bool InvariantEKFBaseEstimator::updateKinematics(FloatingBaseEstimators::Measure
 bool InvariantEKFBaseEstimator::Impl::propagateStates(const FloatingBaseEstimators::Measurements& meas,
                                                       const double& dt,
                                                       const Eigen::Vector3d& g,
-                                                      const iDynTree::Transform& IMU_H_RF,
-                                                      const iDynTree::Transform& IMU_H_LF,
+                                                      const manif::SE3d& IMU_H_RF,
+                                                      const manif::SE3d& IMU_H_LF,
                                                       FloatingBaseEstimators::InternalState& X)
 {
     Eigen::Vector3d acc_unbiased = meas.acc - X.accelerometerBias;
@@ -574,12 +571,12 @@ bool InvariantEKFBaseEstimator::Impl::propagateStates(const FloatingBaseEstimato
 
     if (!meas.lfInContact)
     {
-        X.lContactFramePosition = X.imuPosition + (R*iDynTree::toEigen(IMU_H_LF.getPosition()));
+        X.lContactFramePosition = X.imuPosition + (R*IMU_H_LF.translation());
     }
 
     if (!meas.rfInContact)
     {
-        X.rContactFramePosition = X.imuPosition + (R*iDynTree::toEigen(IMU_H_RF.getPosition()));
+        X.rContactFramePosition = X.imuPosition + (R*IMU_H_RF.translation());
     }
 
     return true;

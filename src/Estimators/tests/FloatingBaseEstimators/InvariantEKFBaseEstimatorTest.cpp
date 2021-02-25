@@ -10,7 +10,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
-
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/Core/TestUtils.h>
 #include <iDynTree/Core/EigenHelpers.h>
@@ -23,6 +23,7 @@
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::GenericContainer;
+using namespace BipedalLocomotion::Conversions;
 
 double deg2rad(const double& ang)
 {
@@ -121,7 +122,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     kinDyn->loadRobotModel(model);
     // Instantiate the estimator
-    InvariantEKFBaseEstimator estimator;    
+    InvariantEKFBaseEstimator estimator;
     REQUIRE(estimator.initialize(parameterHandler, kinDyn));
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");
@@ -129,9 +130,9 @@ TEST_CASE("Invariant EKF Base Estimator")
     REQUIRE(estimator.modelComputations().leftFootContactFrame() == "l_sole");
     REQUIRE(estimator.modelComputations().rightFootContactFrame() == "r_sole");
 
-    auto b_H_imu = model.getFrameTransform(model.getFrameIndex("root_link_imu_acc"));
-
-    ASSERT_EQUAL_TRANSFORM(b_H_imu, estimator.modelComputations().base_H_IMU());
+    auto b_H_imu = toManifPose(model.getFrameTransform(model.getFrameIndex("root_link_imu_acc")));
+    constexpr double tolerance = 1e-5;
+    REQUIRE (b_H_imu.coeffs().isApprox(estimator.modelComputations().base_H_IMU().coeffs(), tolerance));
 
     // ground truth
     Eigen::Vector3d simIMUPos;
@@ -202,14 +203,13 @@ TEST_CASE("Invariant EKF Base Estimator")
 
     // reset base pose
     auto basePose = out.basePose;
-    auto basePosition = basePose.getPosition();
+    Eigen::Vector3d basePosition = basePose.translation();
     auto imuPosition = out.state.imuPosition;
     basePosition(1) -= 10.0;
     imuPosition(1) -= 10.0;
-    // convert to iDynTree Rotation to angle axis and then to quaternion - otherwise, produces inverse rotations
-    auto angleaxis = Eigen::AngleAxisd(iDynTree::toEigen(basePose.getRotation()));
-    auto baseOrientation = Eigen::Quaterniond(angleaxis);
-    estimator.resetEstimator(baseOrientation, iDynTree::toEigen(basePosition));
+
+    auto baseOrientation = basePose.quat();
+    estimator.resetEstimator(baseOrientation, basePosition);
     REQUIRE(estimator.advance());
     newOut = estimator.get();
     // roughly computing from base position 2 cm tolerance

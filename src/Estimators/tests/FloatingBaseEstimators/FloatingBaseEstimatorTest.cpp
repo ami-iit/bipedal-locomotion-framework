@@ -10,7 +10,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
-
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/Core/TestUtils.h>
 
@@ -20,6 +20,7 @@
 
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion::Conversions;
 
 bool populateConfig(std::weak_ptr<IParametersHandler> handler)
 {
@@ -73,9 +74,9 @@ TEST_CASE("Bare Bones Base Estimator")
     REQUIRE(estimator.modelComputations().leftFootContactFrame() == "l_sole");
     REQUIRE(estimator.modelComputations().rightFootContactFrame() == "r_sole");
 
-    auto b_H_imu = model.getFrameTransform(model.getFrameIndex("root_link_imu_acc"));
-
-    ASSERT_EQUAL_TRANSFORM(b_H_imu, estimator.modelComputations().base_H_IMU());
+    auto b_H_imu = toManifPose(model.getFrameTransform(model.getFrameIndex("root_link_imu_acc")));
+    constexpr double tolerance = 1e-5;
+    REQUIRE (b_H_imu.coeffs().isApprox(estimator.modelComputations().base_H_IMU().coeffs(), tolerance));
 
     // IMU measures
     Eigen::Vector3d acc, gyro;
