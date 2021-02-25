@@ -86,8 +86,9 @@ public:
     /**
      * Constructor.
      * @note The constructor set the gravity acceleration vector to
-     * \f$\begin{bmatrix} 0 & 0 & -9.81\end{bmatrix}^\top\f$. Please call setGravityVector() if you
-     * want define your custom gravity vector.
+     * \f$\begin{bmatrix} 0 & 0 & -g_s \end{bmatrix}^\top\f$. Where \f$g_s\$ is equal to
+     * BipedalLocomotion::Math::StandardAccelerationOfGravitation. Please call setGravityVector() if
+     * you want define your custom gravity vector.
      */
     FloatingBaseDynamicalSystem();
 

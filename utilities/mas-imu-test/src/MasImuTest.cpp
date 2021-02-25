@@ -5,21 +5,25 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/MasImuTest.h>
-#include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
+#include <BipedalLocomotion/MasImuTest.h>
+#include <BipedalLocomotion/Math/Constants.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
+
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/SO3Utils.h>
+#include <iDynTree/Model/IJoint.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/yarp/YARPConfigurationsLoader.h>
-#include <iDynTree/Model/IJoint.h>
-#include <iDynTree/Core/SO3Utils.h>
-#include <iDynTree/Core/EigenHelpers.h>
+
 #include <yarp/os/LogStream.h>
-#include <iostream>
-#include <cassert>
-#include <cmath>
-#include <sstream>
+
 #include <algorithm>
+#include <cassert>
 #include <cctype>
+#include <cmath>
+#include <iostream>
+#include <sstream>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::GenericContainer;
@@ -518,7 +522,7 @@ bool MasImuTest::MasImuData::updateRotationFromEncoders()
     iDynTree::Vector3 gravity;
     gravity(0) = 0.0;
     gravity(1) = 0.0;
-    gravity(2) = -9.81;
+    gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
     bool ok = m_kinDyn.setRobotState(m_commonDataPtr->baseTransform, m_positionFeedbackInRad, dummy, m_dummyVelocity, gravity);
 
@@ -1351,4 +1355,3 @@ void MasImuTest::quit()
     std::lock_guard<std::mutex> guard(m_mutex);
     stopModule();
 }
-

@@ -11,6 +11,7 @@
 
 #include <BipedalLocomotion/Conversions/CommonConversions.h>
 #include <BipedalLocomotion/System/FloatingBaseSystemDynamics.h>
+#include <BipedalLocomotion/Math/Constants.h>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::System;
@@ -44,7 +45,7 @@ FloatingBaseDynamicalSystem::FloatingBaseDynamicalSystem()
 {
     // set the gravity vector
     m_gravity.setZero();
-    m_gravity(2) = -9.81;
+    m_gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 }
 
 void FloatingBaseDynamicalSystem::setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity)
