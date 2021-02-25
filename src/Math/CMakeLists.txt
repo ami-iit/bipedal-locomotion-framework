@@ -6,7 +6,7 @@ set(H_PREFIX include/BipedalLocomotion/Math)
 
 add_bipedal_locomotion_library(
   NAME                  Math
-  PUBLIC_HEADERS        ${H_PREFIX}/CARE.h
+  PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h
   SOURCES               src/CARE.cpp
   PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler
   SUBDIRECTORIES        tests)

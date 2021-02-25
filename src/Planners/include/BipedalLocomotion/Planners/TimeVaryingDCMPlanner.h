@@ -39,7 +39,7 @@ public:
     /**
      * Destructor.
      */
-    ~TimeVaryingDCMPlanner();
+    ~TimeVaryingDCMPlanner() override;
 
     /**
      * Initialize the planner.
@@ -56,9 +56,11 @@ public:
      * | `omega_dot_rate_of_change_weight` |  `double`  |                                          Weight associated to the rate of change of \f$\dot{omega}\f$                                          |    Yes    |
      * |    `vrp_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the VRP                                               |    Yes    |
      * |    `dcm_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the DCM                                               |    Yes    |
+     * |    `use_external_dcm_reference`   |   `bool`   |  Set this option to true if you want provide an external DCM reference with TimeVaryingDCMPlanner::setDCMReference(). (Default value False)    |    No     |
+     * |            `gravity`              |  `double`  |  Value of the gravity acceleration. It should be a positive number (Default value BipedalLocomotion::Math::StandardAccelerationOfGravitation)  |    No     |
      * @return true in case of success/false otherwise.
      */
-     bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler) override;
+     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Compute the DCM trajectory.
@@ -66,11 +68,37 @@ public:
      */
      bool computeTrajectory() final;
 
-     /**
+    /**
+     * Set the contact phase list
+     * @note the contactPhaseList pointer should point to an already initialized ContactPhaseList.
+     * Please be sure that the memory pointed is reachable for the entire life time of the
+     * DCMPlanner class.
+     * @param contactPhaseList pointer containing the list of the contact phases
+     * @return true in case of success, false otherwise.
+     */
+    bool setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList) final;
+
+    /**
+     * Set the DCM reference. This value will be used as regularization term from the planner.
+     * @param dcmReference matrix containing the DCM trajectory. \a dcmReference must be a 3 x n
+     * matrix where the rows are the x y and z coordinates of the DCM and the columns contain the
+     * trajectory of the DCM.
+     * @note The number of columns should be coherent with the contactPhaseList. In details the
+     * number of samples \f$s\f$ is equal to
+     * \f[
+     *  s = \ceil*{\frac{t_f - t_i}{dT}}
+     * \f]
+     * where \f$dT\f$ is the sampling time of the planner, \f$t_f\f$ and \f$t_i\f$ are the end time
+     * of the last contact and the initial time of the first contact.
+     * @return true in case of success, false otherwise.
+     */
+    bool setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference) final;
+
+    /**
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-     const DCMPlannerState& get() const final;
+    const DCMPlannerState& get() const final;
 
     /**
      * @brief Determines the validity of the object retrieved with get()

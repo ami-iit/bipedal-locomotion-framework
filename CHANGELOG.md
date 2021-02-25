@@ -6,9 +6,12 @@ All notable changes to this project are documented in this file.
 - Implement IRobotControl python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/200)
 - Implement ISensorBridge python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/203)
 - Implement `LeggedOdometry` class as a part of `FloatingBaseEstimators` library and handle arbitrary contacts in `FloatingBaseEstimator`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/151)
+- Implement the possibility to set a desired reference trajectory in the TimeVaryingDCMPlanner. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/208)
+
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
 - Move all the ContactDetectors related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/209)
+- The DCMPlanner and TimeVaryingDCMPlanner initialize functions take as input an std::weak_ptr. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/208)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)

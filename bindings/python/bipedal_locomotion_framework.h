@@ -58,4 +58,7 @@ void CreateYarpRobotControl(pybind11::module& module);
 void CreateISensorBridge(pybind11::module& module);
 void CreateYarpSensorBridge(pybind11::module& module);
 
+// Constants.cpp
+void CreateConstants(pybind11::module& module);
+
 } // namespace BipedalLocomotion::bindings

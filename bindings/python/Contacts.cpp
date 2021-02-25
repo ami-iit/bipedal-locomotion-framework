@@ -133,7 +133,7 @@ void BipedalLocomotion::bindings::CreateContactPhaseList(pybind11::module& modul
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
-    py::class_<ContactPhaseList, std::shared_ptr<ContactPhaseList>>(module, "ContactPhaseList")
+    py::class_<ContactPhaseList>(module, "ContactPhaseList")
         .def(py::init())
         .def("set_lists",
              py::overload_cast<const ContactListMap&>(&ContactPhaseList::setLists),

@@ -10,21 +10,13 @@
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
 
-bool DCMPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool DCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;
 }
 
-bool DCMPlanner::setContactPhaseList(std::shared_ptr<const ContactPhaseList> contactPhaseList)
+bool DCMPlanner::setContactPhaseList(const ContactPhaseList& contactPhaseList)
 {
-    if(contactPhaseList == nullptr)
-    {
-        std::cerr << "[DCMPlanner::setContactPhaseList] The contactPhaseList pointer is expired. "
-                     "Please pass a valid pointer."
-                  << std::endl;
-        return false;
-    }
-
     m_contactPhaseList = contactPhaseList;
     return true;
 }
@@ -33,3 +25,8 @@ void DCMPlanner::setInitialState(const DCMPlannerState& initialState)
 {
     m_initialState = initialState;
 }
+
+bool DCMPlanner::setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference)
+{
+    return true;
+};

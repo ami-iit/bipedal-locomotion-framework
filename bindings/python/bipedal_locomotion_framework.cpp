@@ -48,6 +48,8 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateISensorBridge(m);
     bindings::CreateYarpSensorBridge(m);
 
+    // Constants.cpp
+    bindings::CreateConstants(m);
 }
 
 std::string bindings::ToString(const manif::SE3d& se3)
