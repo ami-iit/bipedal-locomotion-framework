@@ -7,7 +7,6 @@
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 using namespace BipedalLocomotion::ParametersHandler;
-using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::Contacts;
 
 bool ContactDetector::initialize(std::weak_ptr<IParametersHandler> handler)

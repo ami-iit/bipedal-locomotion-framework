@@ -7,11 +7,18 @@ if (FRAMEWORK_COMPILE_Contact)
   set(H_PREFIX include/BipedalLocomotion/Contacts)
   add_bipedal_locomotion_library(
     NAME                  Contacts
+    SUBDIRECTORIES        tests/Contacts
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
     SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
     PUBLIC_LINK_LIBRARIES MANIF::manif
     INSTALLATION_FOLDER   Contacts)
-
-    add_subdirectory(tests)
-
+    
+  set(H_PREFIX include/BipedalLocomotion/ContactDetectors)
+    add_bipedal_locomotion_library(
+    NAME                   ContactDetectors
+    SUBDIRECTORIES         tests/ContactDetectors
+    SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)   
 endif()
+

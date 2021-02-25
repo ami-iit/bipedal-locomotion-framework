@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_SCHMITT_TRIGGER_DETECTOR_H
-#define BIPEDAL_LOCOMOTION_SCHMITT_TRIGGER_DETECTOR_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_SCHMITT_TRIGGER_DETECTOR_H
+#define BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_SCHMITT_TRIGGER_DETECTOR_H
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 
@@ -15,7 +15,7 @@
 
 namespace BipedalLocomotion
 {
-namespace Estimators
+namespace Contacts
 {
 
 struct SchmittTriggerParams;
@@ -212,9 +212,9 @@ private:
     double initialTime{0.}; /**< initialization time*/
 };
 
-} // namespace Estimators
+} // namespace Contacts
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_SCHMITT_TRIGGER_DETECTOR_H
+#endif // BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_SCHMITT_TRIGGER_DETECTOR_H
 
 
