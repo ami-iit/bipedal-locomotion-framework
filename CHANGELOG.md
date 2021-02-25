@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement ISensorBridge python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/203)
 - Implement `LeggedOdometry` class as a part of `FloatingBaseEstimators` library and handle arbitrary contacts in `FloatingBaseEstimator`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/151)
 - Implement the possibility to set a desired reference trajectory in the TimeVaryingDCMPlanner. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/208)
+- Implement SchmittTriggerDetector python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/213)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
