@@ -80,7 +80,7 @@ public:
      *
      * @note reset and advance estimator to get updated estimator output
      */
-    bool resetEstimator(const std::string refFramForWorld,
+    bool resetEstimator(const std::string& refFramForWorld,
                         const Eigen::Quaterniond& worldOrientationInRefFrame,
                         const Eigen::Vector3d& worldPositionInRefFrame);
 

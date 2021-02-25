@@ -66,4 +66,10 @@ void CreateContactDetector(pybind11::module& module);
 void CreateSchmittTriggerUnit(pybind11::module& module);
 void CreateSchmittTriggerDetector(pybind11::module& module);
 
+// FloatingBaseEstimators.cpp
+void CreateKinDynComputations(pybind11::module& module);
+void CreateKinDynComputationsDescriptor(pybind11::module& module);
+void CreateFloatingBaseEstimator(pybind11::module& module);
+void CreateLeggedOdometry(pybind11::module& module);
+
 } // namespace BipedalLocomotion::bindings

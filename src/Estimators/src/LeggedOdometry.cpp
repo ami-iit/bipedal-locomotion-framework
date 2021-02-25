@@ -432,7 +432,7 @@ bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
     return true;
 }
 
-bool LeggedOdometry::resetEstimator(const std::string refFrameForWorld, 
+bool LeggedOdometry::resetEstimator(const std::string& refFrameForWorld,
                                     const Eigen::Quaterniond& worldOrientationInRefFrame, 
                                     const Eigen::Vector3d& worldPositionInRefFrame)
 {

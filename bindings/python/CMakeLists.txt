@@ -17,6 +17,8 @@ pybind11_add_module(pybind11_blf MODULE
     RobotInterface.cpp
     Constants.cpp
     ContactDetectors.cpp
+    FloatingBaseEstimators.cpp
+    LeggedOdometry.cpp
     )
 
 target_link_libraries(pybind11_blf PUBLIC
@@ -27,6 +29,7 @@ target_link_libraries(pybind11_blf PUBLIC
     BipedalLocomotion::Contacts
     BipedalLocomotion::Math
     BipedalLocomotion::ContactDetectors
+    BipedalLocomotion::FloatingBaseEstimators
     )
 
 target_include_directories(pybind11_blf PRIVATE
