@@ -28,7 +28,7 @@ if(FRAMEWORK_COMPILE_MasImuTest)
     NAME ${EXE_TARGET_NAME}
     SOURCES ${${EXE_TARGET_NAME}_SRC}
     HEADERS ${${EXE_TARGET_NAME}_HDR} ${${EXE_TARGET_NAME}_THRIFT_GEN_FILES}
-    LINK_LIBRARIES ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer BipedalLocomotion::YarpUtilities BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::matioCppConversions
+    LINK_LIBRARIES ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer BipedalLocomotion::YarpUtilities BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::matioCppConversions BipedalLocomotion::Math
     )
 
   install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/app)
