@@ -61,4 +61,9 @@ void CreateYarpSensorBridge(pybind11::module& module);
 // Constants.cpp
 void CreateConstants(pybind11::module& module);
 
+// ContactDetectors.cpp
+void CreateContactDetector(pybind11::module& module);
+void CreateSchmittTriggerUnit(pybind11::module& module);
+void CreateSchmittTriggerDetector(pybind11::module& module);
+
 } // namespace BipedalLocomotion::bindings

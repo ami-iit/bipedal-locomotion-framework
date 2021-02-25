@@ -16,6 +16,7 @@ pybind11_add_module(pybind11_blf MODULE
     TimeVaryingDCMPlanner.cpp
     RobotInterface.cpp
     Constants.cpp
+    ContactDetectors.cpp
     )
 
 target_link_libraries(pybind11_blf PUBLIC
@@ -25,6 +26,7 @@ target_link_libraries(pybind11_blf PUBLIC
     BipedalLocomotion::RobotInterfaceYarpImplementation
     BipedalLocomotion::Contacts
     BipedalLocomotion::Math
+    BipedalLocomotion::ContactDetectors
     )
 
 target_include_directories(pybind11_blf PRIVATE

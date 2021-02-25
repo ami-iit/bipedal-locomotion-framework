@@ -50,6 +50,11 @@ PYBIND11_MODULE(bindings, m)
 
     // Constants.cpp
     bindings::CreateConstants(m);
+
+    // ContactDetectors.cpp
+    bindings::CreateContactDetector(m);
+    bindings::CreateSchmittTriggerUnit(m);
+    bindings::CreateSchmittTriggerDetector(m);
 }
 
 std::string bindings::ToString(const manif::SE3d& se3)
