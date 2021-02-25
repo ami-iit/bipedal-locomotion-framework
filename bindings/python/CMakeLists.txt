@@ -15,6 +15,7 @@ pybind11_add_module(pybind11_blf MODULE
     SwingFootPlaner.cpp
     TimeVaryingDCMPlanner.cpp
     RobotInterface.cpp
+    Constants.cpp
     )
 
 target_link_libraries(pybind11_blf PUBLIC
@@ -23,6 +24,7 @@ target_link_libraries(pybind11_blf PUBLIC
     BipedalLocomotion::System
     BipedalLocomotion::RobotInterfaceYarpImplementation
     BipedalLocomotion::Contacts
+    BipedalLocomotion::Math
     )
 
 target_include_directories(pybind11_blf PRIVATE
