@@ -91,7 +91,7 @@ def test_time_varying_dcm_planner():
     initial_state.dcm_position = np.array([0, 0, 0.53])
     initial_state.dcm_velocity = np.zeros(3)
     initial_state.vrp_position = initial_state.dcm_position
-    initial_state.omega = np.sqrt(9.81 / initial_state.dcm_position[2])
+    initial_state.omega = np.sqrt(blf.StandardAccelerationOfGravitation / initial_state.dcm_position[2])
 
     # Initialize the planner
     planner = blf.TimeVaryingDCMPlanner()
