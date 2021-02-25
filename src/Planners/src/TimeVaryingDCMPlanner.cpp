@@ -504,10 +504,6 @@ struct TimeVaryingDCMPlanner::Impl
                                                                 + this->dcmVectorSize)));
         this->opti.set_value(this->optiParameters.omegaInitialValue, initialState.omega);
 
-        const auto& vrp = this->optiVariables.vrp;
-        const auto& omega = this->optiVariables.omega;
-        const auto& omegaDot = this->optiVariables.omegaDot;
-
         this->computeVRPConstraint(contactPhaseList);
 
         if (!this->optiSettings.useExternalDCMReference)
