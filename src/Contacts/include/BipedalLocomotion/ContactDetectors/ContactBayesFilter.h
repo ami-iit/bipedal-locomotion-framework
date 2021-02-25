@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTACT_BAYES_FILTER_H
-#define BIPEDAL_LOCOMOTION_CONTACT_BAYES_FILTER_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_BAYES_FILTER_H
+#define BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_BAYES_FILTER_H
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 #include <iDynTree/KinDynComputations.h>
@@ -17,7 +17,7 @@
 
 namespace BipedalLocomotion
 {
-namespace Estimators
+namespace Contacts
 {
 
 class ContactBayesCollision;
@@ -123,4 +123,4 @@ public:
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTACT_BAYES_FILTER_H
+#endif // BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_BAYES_FILTER_H
