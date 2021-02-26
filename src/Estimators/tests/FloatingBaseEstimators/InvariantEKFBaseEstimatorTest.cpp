@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/Core/TestUtils.h>
@@ -114,16 +115,18 @@ TEST_CASE("Invariant EKF Base Estimator")
     std::cout << model_path << std::endl;
 
 
-    iDynTree::ModelLoader mdl_ldr;
-    REQUIRE(mdl_ldr.loadReducedModelFromFile(model_path, joints_list));
+    // load model using modelComputationsHelper
+    std::shared_ptr<StdImplementation> modelHandler = std::make_shared<StdImplementation>();
+    modelHandler->setParameter("joints_list", joints_list);
+    modelHandler->setParameter("model_file_name", model_path);
 
-    auto model = mdl_ldr.model().copy();
+    auto kinDynDesc = constructKinDynComputationsDescriptor(modelHandler);
+    REQUIRE(kinDynDesc.isValid());
+    auto model = kinDynDesc.kindyn->model();
 
-    auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
-    kinDyn->loadRobotModel(model);
     // Instantiate the estimator
     InvariantEKFBaseEstimator estimator;
-    REQUIRE(estimator.initialize(parameterHandler, kinDyn));
+    REQUIRE(estimator.initialize(parameterHandler, kinDynDesc.kindyn));
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");
     REQUIRE(estimator.modelComputations().baseLinkIMU() == "root_link_imu_acc");
