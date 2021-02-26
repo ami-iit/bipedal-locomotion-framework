@@ -38,8 +38,8 @@ struct KinDynComputationsDescriptor
     KinDynComputationsDescriptor();
 
     /**
-     * Check if the poly driver descriptor is valid.
-     * @return True if the polydriver is valid, false otherwise.
+     * Check if the KinDynComputationsDescriptor contains a valid pointer.
+     * @return True if valid, false otherwise.
      */
     bool isValid() const;
 };
