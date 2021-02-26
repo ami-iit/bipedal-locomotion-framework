@@ -9,8 +9,7 @@
 #define BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_IO_H
 
 #include <Eigen/Dense>
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
+#include <manif/manif.h>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <map>
@@ -51,8 +50,8 @@ struct Output
     InternalState state; /**< Current state estimate of the estimator */
     StateStdDev stateStdDev; /**< Current state covariance matrix */
 
-    iDynTree::Transform basePose; /**< Estimated base link pose */
-    iDynTree::Twist baseTwist; /**< Estimate base link velocity in mixed-velocity representation */
+    manif::SE3d basePose; /**< Estimated base link pose */
+    Eigen::Matrix<double, 6, 1> baseTwist; /**< Estimate base link velocity in mixed-velocity representation */
 };
 
 /**

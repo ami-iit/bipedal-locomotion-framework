@@ -92,6 +92,11 @@ private:
     yarp::dev::PolyDriver m_transformBroadcaster;
     yarp::dev::IFrameTransform* m_transformInterface{nullptr};
     bool m_publishROSTF{false};
+
+    Eigen::Vector3d m_basePos;
+    Eigen::Vector3d m_baseRPY; // rpy euler angles in xyz convention
+    Eigen::Vector3d m_baseLinearVel;
+    Eigen::Vector3d m_baseAngularVel;
 };
 
 

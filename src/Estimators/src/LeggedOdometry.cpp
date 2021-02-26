@@ -8,7 +8,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <iDynTree/Core/EigenHelpers.h>
-
+#include <iDynTree/Model/Model.h>
 #include <manif/manif.h>
 
 using namespace BipedalLocomotion::Estimators;
@@ -145,8 +145,8 @@ LeggedOdometry::LeggedOdometry() : m_pimpl(std::make_unique<Impl>())
     m_statePrev = m_state;
     m_estimatorOut.state = m_state;
 
-    m_estimatorOut.baseTwist.zero();
-    m_estimatorOut.basePose.Identity();
+    m_estimatorOut.baseTwist.setZero();
+    m_estimatorOut.basePose.setIdentity();
 
     m_meas.acc.setZero();   // unused
     m_meas.gyro.setZero();  // unused
@@ -445,7 +445,7 @@ bool LeggedOdometry::resetEstimator(const std::string refFrameForWorld,
 
     }
     m_pimpl->m_refFrame_H_world = manif::SE3d(worldPositionInRefFrame, worldOrientationInRefFrame);
-    m_pimpl->m_initialRefFrameForWorldIdx = refFrameIdx;    
+    m_pimpl->m_initialRefFrameForWorldIdx = refFrameIdx;
     resetEstimator();
 
     return true;
@@ -561,11 +561,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingFixedFrameConstraint(Floating
     m_contactJacobianShape = m_contactJacobian.block(m_baseOffset, m_shapeOffset, m_spatialDim, modelComp.kinDyn()->getNrOfDegreesOfFreedom());
 
     m_vBase = -(m_contactJacobianBase.inverse()) * m_contactJacobianShape * meas.encodersSpeed;
-
-    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
-    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
-    out.baseTwist.setLinearVec3(vLin);
-    out.baseTwist.setAngularVec3(vAng);
+    out.baseTwist = m_vBase;
 
     return true;
 }
@@ -645,11 +641,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameConstraint(const
 
     m_vBase = xOptimal.head(m_spatialDim);
     m_sDotFilt = xOptimal.tail(nrJoints);
-
-    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
-    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
-    out.baseTwist.setLinearVec3(vLin);
-    out.baseTwist.setAngularVec3(vAng);
+    out.baseTwist = m_vBase;
     return true;
 }
 
@@ -695,10 +687,7 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrameAverage(const Fl
     }
 
     m_vBase = sumV/nrContacts;
-    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
-    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
-    out.baseTwist.setLinearVec3(vLin);
-    out.baseTwist.setAngularVec3(vAng);
+    out.baseTwist = m_vBase;
     return true;
 }
 
@@ -773,11 +762,8 @@ bool LeggedOdometry::Impl::computeBaseVelocityUsingAllFixedFrames(const Floating
     Eigen::VectorXd xOptimal = S*A.transpose()*W*y;
 
     m_vBase = xOptimal;
+    out.baseTwist = m_vBase;
 
-    iDynTree::Vector3 vLin(iDynTree::make_span(m_vBase.head<3>().data(), m_vBase.head<3>().size()));
-    iDynTree::Vector3 vAng(iDynTree::make_span(m_vBase.tail<3>().data(), m_vBase.tail<3>().size()));
-    out.baseTwist.setLinearVec3(vLin);
-    out.baseTwist.setAngularVec3(vAng);
     return true;
 }
 

@@ -387,24 +387,27 @@ void FloatingBaseEstimatorDevice::publishBaseLinkState(const FloatingBaseEstimat
     size_t linVelOffset{6};
     size_t angVelOffset{9};
 
-    auto basePos = estimatorOut.basePose.getPosition();
-    Eigen::Vector3d baseRPY = iDynTree::toEigen(estimatorOut.basePose.getRotation().asRPY());
-    auto baseLinearVel = estimatorOut.baseTwist.getLinearVec3();
-    auto baseAngularVel = estimatorOut.baseTwist.getAngularVec3();
+    m_basePos = estimatorOut.basePose.translation();
+    m_baseRPY = estimatorOut.basePose.quat().toRotationMatrix().eulerAngles(2, 1, 0).reverse(); // rpy euler angles in xyz convention
+    m_baseLinearVel = estimatorOut.baseTwist.head<3>();
+    m_baseAngularVel = estimatorOut.baseTwist.tail<3>();
 
     yarp::sig::Vector& stateVec = m_comms.floatingBaseStatePort.prepare();
     stateVec.clear();
     stateVec.resize(stateVecSize);
 
-    for (size_t idx = 0; idx < rpyOffset; idx++) { stateVec(idx) = basePos(idx); }
-    for (size_t idx = rpyOffset; idx < linVelOffset; idx++) { stateVec(idx) = baseRPY(idx - rpyOffset); }
-    for (size_t idx = linVelOffset; idx < angVelOffset; idx++) { stateVec(idx) = baseLinearVel(idx - linVelOffset); }
-    for (size_t idx = angVelOffset; idx < stateVecSize; idx++) { stateVec(idx) = baseAngularVel(idx - angVelOffset); }
+    for (size_t idx = 0; idx < rpyOffset; idx++) { stateVec(idx) = m_basePos(idx); }
+    for (size_t idx = rpyOffset; idx < linVelOffset; idx++) { stateVec(idx) = m_baseRPY(idx - rpyOffset); }
+    for (size_t idx = linVelOffset; idx < angVelOffset; idx++) { stateVec(idx) = m_baseLinearVel(idx - linVelOffset); }
+    for (size_t idx = angVelOffset; idx < stateVecSize; idx++) { stateVec(idx) = m_baseAngularVel(idx - angVelOffset); }
 
     m_comms.floatingBaseStatePort.write();
 
     yarp::sig::Matrix basePoseYARP;
-    iDynTree::toYarp(estimatorOut.basePose, basePoseYARP);
+    size_t dim{4};
+    basePoseYARP.resize(dim, dim);
+    memcpy(basePoseYARP.data(),estimatorOut.basePose.transform().data(),dim*dim*sizeof(double));
+
     if (m_publishROSTF && m_transformInterface != nullptr)
     {
         if (!m_transformInterface->setTransform("/world", "/base_link", basePoseYARP))

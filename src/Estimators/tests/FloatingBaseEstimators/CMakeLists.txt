@@ -7,10 +7,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ResourceFolderPath.h.in" "${CMAKE_CU
 add_bipedal_test(
  NAME BareBonesBaseEstimator
  SOURCES FloatingBaseEstimatorTest.cpp
- LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler Eigen3::Eigen iDynTree::idyntree-modelio-urdf)
+ LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio-urdf)
 
 add_bipedal_test(
  NAME InvariantEKFBaseEstimatorTest
  SOURCES InvariantEKFBaseEstimatorTest.cpp
- LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler Eigen3::Eigen iDynTree::idyntree-modelio-urdf MANIF::manif)
+ LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio-urdf MANIF::manif)
 
