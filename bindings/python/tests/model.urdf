@@ -1,0 +1,3414 @@
+<robot name="iCub">
+  <link name="root_link">
+    <inertial>
+      <origin xyz="0.02488209999999999 0.00010394699999999017 -0.04408060000000001" rpy="1.5707963267948961 0 -1.5707963267948961"/>
+      <mass value="5.09143"/>
+      <inertia ixx="0.0139679" ixy="-5.93488e-06" ixz="-1.55458e-05" iyy="0.0202112" iyz="-0.00170968" izz="0.0249124"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.036399999999999995 0 0.032" rpy="1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_root_link_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.036399999999999995 0 0.032" rpy="1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_root_link_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="r_hip_1">
+    <inertial>
+      <origin xyz="-0.0005145000000000149 -0.038075299999999986 -7.099999999998774e-05" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.919978"/>
+      <inertia ixx="0.000404268" ixy="-1.26852e-06" ixz="1.11055e-06" iyy="0.000574741" iyz="-7.69474e-07" izz="0.000580025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285150000011213 0.025999999999999232 0.1519129999999679" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04285150000011213 0.025999999999999232 0.1519129999999679" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_pitch" type="revolute">
+    <origin xyz="0.006451499999999992 0.025999999999999968 -0.11991299999999999" rpy="0 0 -3.141592653589793"/>
+    <axis xyz="-2.220446049250313e-16 -0.9999999999999998 0.0"/>
+    <parent link="root_link"/>
+    <child link="r_hip_1"/>
+    <limit effort="55.5" lower="-0.7853981633974483" upper="2.3387411976724017" velocity="5.1"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_hip_2">
+    <inertial>
+      <origin xyz="-0.0009315000000000018 8.09999999998312e-06 -0.04480899999999996" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.413242"/>
+      <inertia ixx="0.00046914" ixy="-4.76597e-08" ixz="7.12496e-08" iyy="0.000277108" iyz="3.3401e-06" izz="0.000303891"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285149980937101 0.07010000000000424 0.15191299999996632" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04285149980937101 0.07010000000000424 0.15191299999996632" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_roll" type="revolute">
+    <origin xyz="0 -0.04409999999999998 0" rpy="0 0 0"/>
+    <axis xyz="-0.9999999999999998 0.0 -2.220446049250313e-16"/>
+    <parent link="r_hip_1"/>
+    <child link="r_hip_2"/>
+    <limit effort="37.0" lower="-0.3490658503988659" upper="2.0943951023931953" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_hip_3">
+    <inertial>
+      <origin xyz="-0.00012300000000000505 -0.0002822999999999992 0.008718000000000031" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <mass value="0.126212"/>
+      <inertia ixx="0.01" ixy="2.67901e-07" ixz="-4.41463e-09" iyy="0.01" iyz="3.32338e-08" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0437090152 -0.07009999189999992 -0.22621299999996644" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0437090152 -0.07009999189999992 -0.22621299999996644" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_leg_ft_sensor" type="fixed">
+    <origin xyz="-0.0009362999999999941 1.3899999999969492e-05 -0.07429999999999995" rpy="3.141592653589793 0 0"/>
+    <parent link="r_hip_2"/>
+    <child link="r_hip_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_upper_leg">
+    <inertial>
+      <origin xyz="0.0033999999999999933 -2.9100000000018e-05 -0.078954" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="1.8035"/>
+      <inertia ixx="0.006477514229987116" ixy="0.0001295794295884975" ixz="5.482050947393938e-06" iyy="0.0014593786411035647" iyz="-0.0001366130868747447" izz="0.006467208238130081"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0437090152 0.07009999190000003 0.24081299999999994" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0437090152 0.07009999190000003 0.24081299999999994" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_hip_yaw" type="revolute">
+    <origin xyz="0 0 0.014399999999999996" rpy="-3.141592653589793 0 0"/>
+    <axis xyz="0.0 -2.220446049250313e-16 -0.9999999999999998"/>
+    <parent link="r_hip_3"/>
+    <child link="r_upper_leg"/>
+    <limit effort="37.0" lower="-1.3962634015954636" upper="1.3962634015954636" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_upper_leg_back_contact"/>
+  <joint name="r_upper_leg_back_contact_fixed_joint" type="fixed">
+    <origin xyz="-0.051199800000000004 0 0.014599999999999946" rpy="0 1.5707963267948963 0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_back_contact"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_upper_leg_dh_frame"/>
+  <joint name="r_upper_leg_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0 0 -0.14582499999999995" rpy="1.5707963267948966 0 0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_upper_leg_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg">
+    <inertial>
+      <origin xyz="0.0012363999999999917 -0.003513100000000033 -0.08879400000000004" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="1.472"/>
+      <inertia ixx="0.00423993167477533" ixy="0.00022881454885381036" ixz="-5.556464594531433e-05" iyy="0.0015209504344685463" iyz="-0.0002641329792432387" izz="0.004573585842061655"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0437090152 0.07009999200000007 0.38663799999999987" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pink">
+        <color rgba="1 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0437090152 0.07009999200000007 0.38663799999999987" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_knee" type="revolute">
+    <origin xyz="0 0 -0.14582499999999995" rpy="0 0 0"/>
+    <axis xyz="-2.220446049250313e-16 -0.9999999999999998 0.0"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_lower_leg"/>
+    <limit effort="37.0" lower="-2.1642082724729685" upper="0.06981317007977318" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_lower_leg_skin_0"/>
+  <joint name="r_lower_leg_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.05441169999999998 -0.03121489999999999 -0.002634000000000025" rpy="2.0917380908554746e-06 -1.4153067624694633 2.48648458622082"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_3"/>
+  <joint name="r_lower_leg_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.05157878999999999 0.030420499999999996 -0.0028429999999999844" rpy="0 -1.4295105408285231 -2.3039148418553874"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_4"/>
+  <joint name="r_lower_leg_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.05831029999999999 0.016783599999999996 0.007272000000000001" rpy="-2.986363594545861e-07 -1.2563674887550182 -2.7589238008709835"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_4"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_5"/>
+  <joint name="r_lower_leg_skin_5_fixed_joint" type="fixed">
+    <origin xyz="0.06365039999999998 0.00030939999999998746 -0.0019720000000000293" rpy="0 -1.3865221506831833 -3.1414716980716264"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_5"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_6"/>
+  <joint name="r_lower_leg_skin_6_fixed_joint" type="fixed">
+    <origin xyz="0.05208553999999999 0.03044339999999999 -0.022148999999999974" rpy="-3.1415892795257623 -1.4678512341064949 0.8374928890768587"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_6"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_9"/>
+  <joint name="r_lower_leg_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.05982139999999998 0.01679719999999999 -0.03096199999999999" rpy="-3.1415920235620423 -1.3422475532506952 0.37929447771782354"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_9"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_10"/>
+  <joint name="r_lower_leg_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.06446069999999998 0.00034239999999997883 -0.021204999999999974" rpy="3.141592653553929 -1.4709580354104241 0.00043002167526072775"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_10"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_11"/>
+  <joint name="r_lower_leg_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.060710799999999975 -0.016091600000000025 -0.030884999999999996" rpy="-3.1415921825227295 -1.32811804060386 -0.27213836787954737"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_11"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_14"/>
+  <joint name="r_lower_leg_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.05504769999999998 -0.031175900000000006 -0.02190000000000003" rpy="-3.1415918188482506 -1.46502735635212 -0.6540334071673009"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_14"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_15"/>
+  <joint name="r_lower_leg_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.05917079999999998 -0.016178800000000007 0.0072429999999999994" rpy="4.274842569949443e-07 -1.2520363307607896 2.8679885947088186"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_15"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_16"/>
+  <joint name="r_lower_leg_skin_16_fixed_joint" type="fixed">
+    <origin xyz="0.027287599999999978 -0.050286899999999995 -0.004549000000000025" rpy="1.3307591512293707e-05 -1.5326085351498482 1.9628024283508803"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_16"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_17"/>
+  <joint name="r_lower_leg_skin_17_fixed_joint" type="fixed">
+    <origin xyz="0.027874999999999976 -0.05031190000000001 -0.023882000000000014" rpy="-3.141564526201752 -1.563662402374811 -1.1802250875588731"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_17"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_19"/>
+  <joint name="r_lower_leg_skin_19_fixed_joint" type="fixed">
+    <origin xyz="0.03575341 0.041062799999999997 0.006064999999999987" rpy="-8.908777145556939e-07 -1.434986969778283 -2.158636180167247"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_19"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_20"/>
+  <joint name="r_lower_leg_skin_20_fixed_joint" type="fixed">
+    <origin xyz="0.0234419 0.047990799999999986 -0.004952000000000012" rpy="-3.2055655013539e-06 -1.5001551303072311 -1.8675509241250052"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_20"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_21"/>
+  <joint name="r_lower_leg_skin_21_fixed_joint" type="fixed">
+    <origin xyz="0.024270400000000004 0.04853779999999998 -0.024276999999999993" rpy="2.2967114952132173e-05 -1.555455138805717 -1.8741197231627162"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_21"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_28"/>
+  <joint name="r_lower_leg_skin_28_fixed_joint" type="fixed">
+    <origin xyz="0.04087215999999998 -0.0424399 -0.03275600000000001" rpy="3.1415808886539165 -1.5225246216918655 -0.9296810297631274"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_28"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_29"/>
+  <joint name="r_lower_leg_skin_29_fixed_joint" type="fixed">
+    <origin xyz="0.03846637999999998 -0.04351590000000001 -0.05242000000000002" rpy="3.1415801704422774 -1.5342984156258153 -0.9154363466305139"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_29"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_31"/>
+  <joint name="r_lower_leg_skin_31_fixed_joint" type="fixed">
+    <origin xyz="0.03914639999999998 -0.042270899999999986 0.006327000000000027" rpy="-6.583817471389409e-07 -1.4186494462021593 2.2085303298592955"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_31"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_32"/>
+  <joint name="r_lower_leg_skin_32_fixed_joint" type="fixed">
+    <origin xyz="0.045983029999999994 0.03258469999999997 -0.080733" rpy="-3.141590149878832 -1.5223828979770995 0.6459403808870791"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_32"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_35"/>
+  <joint name="r_lower_leg_skin_35_fixed_joint" type="fixed">
+    <origin xyz="0.04774867999999998 -0.031231900000000007 -0.08011299999999999" rpy="-3.1415866827530343 -1.5175846733225289 -0.5415324864684377"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_35"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_36"/>
+  <joint name="r_lower_leg_skin_36_fixed_joint" type="fixed">
+    <origin xyz="0.05322409999999998 -0.015601800000000027 -0.088362" rpy="-3.141590341443774 -1.515872652806505 -0.2074073356601009"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_36"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_37"/>
+  <joint name="r_lower_leg_skin_37_fixed_joint" type="fixed">
+    <origin xyz="0.055257199999999985 0.0009643999999999764 -0.078318" rpy="-3.1415818045233417 -1.5231833689799856 0.007524505830633038"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_37"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_38"/>
+  <joint name="r_lower_leg_skin_38_fixed_joint" type="fixed">
+    <origin xyz="0.04880468999999998 -0.03126290000000001 -0.060757000000000005" rpy="3.1415866519890927 -1.515729955403707 -0.5421535995897713"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_38"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_41"/>
+  <joint name="r_lower_leg_skin_41_fixed_joint" type="fixed">
+    <origin xyz="0.05660089999999998 -0.015912900000000008 -0.049853999999999954" rpy="-3.1415919882511 -1.40681343597041 -0.24823308941290148"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_41"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_42"/>
+  <joint name="r_lower_leg_skin_42_fixed_joint" type="fixed">
+    <origin xyz="0.05701059999999998 0.000796199999999983 -0.059079999999999966" rpy="3.141589702392633 -1.4352475041611767 0.006879436515037955"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_42"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_43"/>
+  <joint name="r_lower_leg_skin_43_fixed_joint" type="fixed">
+    <origin xyz="0.04712543999999999 0.03236529999999998 -0.06136200000000003" rpy="-3.1415913662061943 -1.5384303823718677 0.6242175236666732"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_43"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_46"/>
+  <joint name="r_lower_leg_skin_46_fixed_joint" type="fixed">
+    <origin xyz="0.05581569999999999 0.01721639999999998 -0.05018" rpy="-3.141589878093782 -1.4275988160283246 0.3256077108756132"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_46"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_47"/>
+  <joint name="r_lower_leg_skin_47_fixed_joint" type="fixed">
+    <origin xyz="0.052641649999999984 0.017638799999999975 -0.08886" rpy="3.141589635185034 -1.5169055940579301 0.26264042505774415"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_47"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_49"/>
+  <joint name="r_lower_leg_skin_49_fixed_joint" type="fixed">
+    <origin xyz="0.04113139 0.03243849999999996 -0.138859" rpy="-3.1415893475069225 -1.4899613569502461 0.7297635921130964"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_49"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_50"/>
+  <joint name="r_lower_leg_skin_50_fixed_joint" type="fixed">
+    <origin xyz="0.04301696299999999 0.03252729999999997 -0.11946899999999999" rpy="3.1415906959631426 -1.4990073263616448 0.6957840200808761"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_50"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_51"/>
+  <joint name="r_lower_leg_skin_51_fixed_joint" type="fixed">
+    <origin xyz="0.05141583999999999 0.01775899999999997 -0.10820600000000002" rpy="-3.141588901786459 -1.5062847571686897 0.27207993571349487"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_51"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_52"/>
+  <joint name="r_lower_leg_skin_52_fixed_joint" type="fixed">
+    <origin xyz="0.052998339999999984 0.001266399999999973 -0.11689500000000003" rpy="-3.141591640420276 -1.5031867442105085 0.010871726099408735"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_52"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_53"/>
+  <joint name="r_lower_leg_skin_53_fixed_joint" type="fixed">
+    <origin xyz="0.05207313999999998 -0.015433900000000028 -0.10765399999999997" rpy="3.1415906398667093 -1.5059530744712215 -0.21140732289166783"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_53"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_54"/>
+  <joint name="r_lower_leg_skin_54_fixed_joint" type="fixed">
+    <origin xyz="0.045127099999999976 -0.03074890000000001 -0.11878700000000003" rpy="3.141588251928225 -1.4974514557145626 -0.5751153744726966"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_54"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_55"/>
+  <joint name="r_lower_leg_skin_55_fixed_joint" type="fixed">
+    <origin xyz="0.04350267899999998 -0.030488900000000027 -0.13814300000000007" rpy="3.1415890648626297 -1.4899578703820784 -0.5972199437885269"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_55"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_56"/>
+  <joint name="r_lower_leg_skin_56_fixed_joint" type="fixed">
+    <origin xyz="0.049268409999999985 -0.015121000000000037 -0.1462179999999999" rpy="-3.141589204039199 -1.491248198275157 -0.22348447640041147"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_56"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_60"/>
+  <joint name="r_lower_leg_skin_60_fixed_joint" type="fixed">
+    <origin xyz="0.04836967999999999 0.018055999999999968 -0.14693799999999996" rpy="-3.141591733372508 -1.4898596852742692 0.3029518719544257"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_60"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_lower_leg_skin_61"/>
+  <joint name="r_lower_leg_skin_61_fixed_joint" type="fixed">
+    <origin xyz="0.051619539999999985 0.0014265999999999723 -0.13616899999999993" rpy="-3.141591009251115 -1.4960209708613401 0.013201427520491136"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_lower_leg_skin_61"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_ankle_1">
+    <inertial>
+      <origin xyz="0.01514359999999999 -0.000868600000000011 4.199999999998649e-05" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.6803"/>
+      <inertia ixx="0.0004046188489317631" ixy="7.498192869450776e-07" ixz="-3.013494676905822e-05" iyy="0.00044863365466369986" iyz="2.5726697409005395e-06" izz="0.00030823593913944066"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0437090152 0.07009999200000011 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="cyan">
+        <color rgba="0 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0437090152 0.07009999200000011 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_ankle_pitch" type="revolute">
+    <origin xyz="0 0 -0.20049999999999996" rpy="0 0 0"/>
+    <axis xyz="2.220446049250313e-16 0.9999999999999998 0.0"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_ankle_1"/>
+    <limit effort="37.0" lower="-0.6108652381980153" upper="0.6108652381980153" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_ankle_2">
+    <inertial>
+      <origin xyz="0.0011445999999999956 3.599999999992498e-06 -0.03852" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.265122"/>
+      <inertia ixx="0.01" ixy="-4.74606e-08" ixz="4.94571e-08" iyy="0.01" iyz="-4.29975e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.043787799618642 0.07008610019070811 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.043787799618642 0.07008610019070811 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_ankle_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="-0.9999999999999998 0.0 -2.220446049250313e-16"/>
+    <parent link="r_ankle_1"/>
+    <child link="r_ankle_2"/>
+    <limit effort="37.0" lower="-0.4363323129985824" upper="0.4363323129985824" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_foot">
+    <inertial>
+      <origin xyz="0.033600099999999994 0.005371899999999999 -0.001146999999999898" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <mass value="0.382866"/>
+      <inertia ixx="0.00120946" ixy="3.74585e-07" ixz="-5.78759e-05" iyy="0.00141439" iyz="-7.80325e-06" izz="0.000273599"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04720901500000001 -0.07009999199999985 -0.6474380002860779" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03 0.005 0.014" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.16 0.072 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_foot_ft_sensor" type="fixed">
+    <origin xyz="-0.003500000000000003 0 -0.0605" rpy="3.141592653589793 0 0"/>
+    <parent link="r_ankle_2"/>
+    <child link="r_foot"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole"/>
+  <joint name="r_sole_fixed_joint" type="fixed">
+    <origin xyz="0.003500000000000003 0 0.0040000000000000036" rpy="-3.141592653589793 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_0"/>
+  <joint name="r_sole_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.060476699999999994 -0.0254106 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_1"/>
+  <joint name="r_sole_skin_1_fixed_joint" type="fixed">
+    <origin xyz="0.07885119999999998 -0.019440400000000004 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_1"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_2"/>
+  <joint name="r_sole_skin_2_fixed_joint" type="fixed">
+    <origin xyz="0.09320869999999999 -0.032368 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_2"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_3"/>
+  <joint name="r_sole_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.11158309999999998 -0.0263978 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_4"/>
+  <joint name="r_sole_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.11559999999999998 -0.007499999999999993 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_4"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_8"/>
+  <joint name="r_sole_skin_8_fixed_joint" type="fixed">
+    <origin xyz="0.10525929999999997 0.024325399999999997 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_8"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_9"/>
+  <joint name="r_sole_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.09090169999999997 0.03725289999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_9"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_10"/>
+  <joint name="r_sole_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.07252729999999998 0.03128289999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_10"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_11"/>
+  <joint name="r_sole_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.06851049999999997 0.012385000000000007 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_11"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_12"/>
+  <joint name="r_sole_skin_12_fixed_joint" type="fixed">
+    <origin xyz="0.08286799999999998 -0.0005426000000000042 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_12"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_13"/>
+  <joint name="r_sole_skin_13_fixed_joint" type="fixed">
+    <origin xyz="0.10124239999999998 0.005427600000000005 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_13"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_14"/>
+  <joint name="r_sole_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.050136039999999986 0.006414799999999998 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_14"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_15"/>
+  <joint name="r_sole_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.04611918999999999 -0.012483000000000008 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_15"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_17"/>
+  <joint name="r_sole_skin_17_fixed_joint" type="fixed">
+    <origin xyz="-0.02968549999999999 0.03325689999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_17"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_18"/>
+  <joint name="r_sole_skin_18_fixed_joint" type="fixed">
+    <origin xyz="-0.0480599 0.027286999999999978 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_18"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_19"/>
+  <joint name="r_sole_skin_19_fixed_joint" type="fixed">
+    <origin xyz="-0.052076700000000004 0.008389200000000013 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_19"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_20"/>
+  <joint name="r_sole_skin_20_fixed_joint" type="fixed">
+    <origin xyz="-0.03771920000000001 -0.004538399999999984 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_20"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_21"/>
+  <joint name="r_sole_skin_21_fixed_joint" type="fixed">
+    <origin xyz="0.03577849999999999 0.01934240000000001 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_21"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_22"/>
+  <joint name="r_sole_skin_22_fixed_joint" type="fixed">
+    <origin xyz="0.027744799999999997 -0.018453200000000003 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_22"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_24"/>
+  <joint name="r_sole_skin_24_fixed_joint" type="fixed">
+    <origin xyz="-0.004987199999999997 -0.011495800000000007 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_24"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_25"/>
+  <joint name="r_sole_skin_25_fixed_joint" type="fixed">
+    <origin xyz="0.013387200000000002 -0.005525599999999992 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_25"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_26"/>
+  <joint name="r_sole_skin_26_fixed_joint" type="fixed">
+    <origin xyz="0.017404099999999992 0.0133722 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_26"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_27"/>
+  <joint name="r_sole_skin_27_fixed_joint" type="fixed">
+    <origin xyz="0.0030464999999999867 0.026299799999999998 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_27"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_28"/>
+  <joint name="r_sole_skin_28_fixed_joint" type="fixed">
+    <origin xyz="-0.015327899999999992 0.020329600000000003 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_28"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_sole_skin_29"/>
+  <joint name="r_sole_skin_29_fixed_joint" type="fixed">
+    <origin xyz="-0.019344799999999995 0.001431799999999997 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole_skin_29"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="torso_1">
+    <inertial>
+      <origin xyz="0.027092135899999998 0.02914798 -0.00043979999999999714" rpy="0 0 0"/>
+      <mass value="0.67144"/>
+      <inertia ixx="0.00040911" ixy="-1.04522e-06" ixz="-1.02516e-06" iyy="0.000384141" iyz="6.50708e-06" izz="0.000299445"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.027046299809264998 0.03199999999999968 0.036400000000000286" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_lap_belt_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.027046299809264998 0.03199999999999968 0.036400000000000286" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_lap_belt_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="torso_pitch" type="revolute">
+    <origin xyz="0 0.027046299999999992 0" rpy="1.5707963267948961 0 -1.5707963267948961"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <parent link="root_link"/>
+    <child link="torso_1"/>
+    <limit effort="50000" lower="-0.3490658503988659" upper="1.2217304763960306" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="torso_2">
+    <inertial>
+      <origin xyz="-0.00011350780926499999 0.036152500000000004 0.05709630000000001" rpy="0 0 0"/>
+      <mass value="0.425685"/>
+      <inertia ixx="0.000829234" ixy="2.37006e-08" ixz="9.25231e-08" iyy="0.000436517" iyz="-1.74814e-07" izz="0.000604802"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.1433 0.03865310000000001" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_lap_belt_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dgreen">
+        <color rgba="0.1 0.8 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.1433 0.03865310000000001" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_lap_belt_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="torso_roll" type="revolute">
+    <origin xyz="0.027046299809264998 0.032 -0.05734460000000001" rpy="0 0 0"/>
+    <axis xyz="0.0 0.0 -1.0"/>
+    <parent link="torso_1"/>
+    <child link="torso_2"/>
+    <limit effort="50000" lower="-0.5235987755982988" upper="0.5235987755982988" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="chest">
+    <inertial>
+      <origin xyz="0.000188619190735 0.07309099999999999 -0.047238100000000005" rpy="0 0 0"/>
+      <mass value="7.638"/>
+      <inertia ixx="0.043032487861801666" ixy="2.9107538880437883e-05" ixz="0.00018198522994852988" iyy="0.04408357255482159" iyz="-0.0004291064091076428" izz="0.026056324991143805"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0.09280000000000001 -0.024189000000000002" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_chest_bb_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.09280000000000001 -0.024189000000000002" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_chest_bb_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="torso_yaw" type="revolute">
+    <origin xyz="0 0.05 0.06284210000000001" rpy="0 0 0"/>
+    <axis xyz="0.0 -1.0 0.0"/>
+    <parent link="torso_2"/>
+    <child link="chest"/>
+    <limit effort="50000" lower="-0.8726646259971648" upper="0.8726646259971648" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="neck_1">
+    <inertial>
+      <origin xyz="0.0143705608 0.006567000000000017 -0.006384200000000003" rpy="0 0 0"/>
+      <mass value="0.125793"/>
+      <inertia ixx="0.01" ixy="8.09156e-08" ixz="-3.74998e-08" iyy="0.01" iyz="9.39717e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.014299999809265 -0.07999699999999998 -0.029500800000000004" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_neck_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.014299999809265 -0.07999699999999998 -0.029500800000000004" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_neck_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="neck_pitch" type="revolute">
+    <origin xyz="-0.014299999809265 0.17279699999999998 0.005311800000000002" rpy="0 0 0"/>
+    <axis xyz="-1.0 0.0 0.0"/>
+    <parent link="chest"/>
+    <child link="neck_1"/>
+    <limit effort="50000" lower="-0.6981317007977318" upper="0.3839724354387525" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="neck_2">
+    <inertial>
+      <origin xyz="-8.8573009265e-05 0.03522499999999998 -0.01954527" rpy="0 0 0"/>
+      <mass value="0.177087"/>
+      <inertia ixx="0.01" ixy="-5.25591e-07" ixz="4.68307e-07" iyy="0.01" iyz="9.81476e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.089497 -0.05030077" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_neck_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.089497 -0.05030077" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_neck_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="neck_roll" type="revolute">
+    <origin xyz="0.014299999809265 0.009500000000000008 0.020799969999999997" rpy="0 0 0"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <parent link="neck_1"/>
+    <child link="neck_2"/>
+    <limit effort="50000" lower="-0.3490658503988659" upper="0.3490658503988659" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="head">
+    <inertial>
+      <origin xyz="-0.000574157809265 0.11351100000000003 -0.007539199999999999" rpy="0 0 0"/>
+      <mass value="1.50691"/>
+      <inertia ixx="0.00680478" ixy="-1.60267e-05" ixz="7.28166e-05" iyy="0.00634736" iyz="0.000292091" izz="0.00478116"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.06715299999999999 -0.029500800000000004" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_head_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.06715299999999999 -0.029500800000000004" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_head_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="neck_yaw" type="revolute">
+    <origin xyz="0 -0.022344000000000003 -0.020799969999999997" rpy="0 0 0"/>
+    <axis xyz="0.0 1.0 0.0"/>
+    <parent link="neck_2"/>
+    <child link="head"/>
+    <limit effort="50000" lower="-0.8726646259971648" upper="0.8726646259971648" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="imu_frame"/>
+  <joint name="imu_frame_fixed_joint" type="fixed">
+    <origin xyz="0.009500000190735 0.133444 0.009299999999999996" rpy="-1.5707963267948961 1.570796326794896 0"/>
+    <parent link="head"/>
+    <child link="imu_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_shoulder_1">
+    <inertial>
+      <origin xyz="-0.012265601413295815 3.200000000000425e-05 -0.003210642904490607" rpy="0 0 0"/>
+      <mass value="0.114862"/>
+      <inertia ixx="0.01" ixy="-1.65173e-08" ixz="-3.55626e-06" iyy="0.01" iyz="-6.13337e-08" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.09900792530759175 0 -0.026529248755802246" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.09900792530759175 0 -0.026529248755802246" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_shoulder_pitch" type="revolute">
+    <origin xyz="-0.12001599980926501 0.09280000000000001 0.007969299999999999" rpy="0 -0.523598883792035 3.141592653589793"/>
+    <axis xyz="-0.965925926173269 0.0 0.25881927552505174"/>
+    <parent link="chest"/>
+    <child link="r_shoulder_1"/>
+    <limit effort="50000" lower="-1.6667894356545847" upper="0.17453292519943295" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_shoulder_2">
+    <inertial>
+      <origin xyz="-0.02141417094380993 0.0002717252725513569 -0.019440234453461283" rpy="0 0 0"/>
+      <mass value="0.238162"/>
+      <inertia ixx="0.01" ixy="-1.12091e-07" ixz="1.02574e-05" iyy="0.01" iyz="1.19785e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.10658780856753214 2.3191471536232466e-07 -0.04073921211753291" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.10658780856753214 2.3191471536232466e-07 -0.04073921211753291" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_shoulder_roll" type="revolute">
+    <origin xyz="-0.007580465732273667 0 0.014210246363868029" rpy="-0.2705976115829964 -0.252680154648383 -1.5015568003498747"/>
+    <axis xyz="-0.258819 9.361836320172563e-18 -0.965926"/>
+    <parent link="r_shoulder_1"/>
+    <child link="r_shoulder_2"/>
+    <limit effort="50000" lower="0.0" upper="2.8064894372068823" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_shoulder_3">
+    <inertial>
+      <origin xyz="-0.026762076687111974 -6.999999999979245e-06 0.014699920771321831" rpy="0 0 0"/>
+      <mass value="0.35913"/>
+      <inertia ixx="0.01" ixy="3.60361e-07" ixz="4.94445e-05" iyy="0.01" iyz="2.65919e-07" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.13193387916408805 0 -0.03535156676465449" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pink">
+        <color rgba="1 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.13193387916408805 0 -0.03535156676465449" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_shoulder_yaw" type="revolute">
+    <origin xyz="-0.02534607132315006 2.3275042732029405e-07 -0.005387648064565612" rpy="-0.25268954617505757 0.008518618321396991 0.06703988914196844"/>
+    <axis xyz="0.9659258438815126 -2.220446049250313e-16 -0.2588189794466167"/>
+    <parent link="r_shoulder_2"/>
+    <child link="r_shoulder_3"/>
+    <limit effort="50000" lower="-0.6457718232379019" upper="1.3962634015954636" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_upper_arm">
+    <inertial>
+      <origin xyz="-0.006087 0.0001260000000000011 0.029312099999999987" rpy="0 1.30899700696774 0"/>
+      <mass value="0.745104"/>
+      <inertia ixx="0.000509527" ixy="1.19292e-06" ixz="-1.17426e-05" iyy="0.000668487" iyz="1.13363e-06" izz="0.000599254"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.014999999999999994 0 -0.19329999999999997" rpy="0 1.30899700696774 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="cyan">
+        <color rgba="0 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.014999999999999994 0 -0.19329999999999997" rpy="0 1.30899700696774 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_arm_ft_sensor" type="fixed">
+    <origin xyz="-0.05089730176650909 0 0.029167029620599215" rpy="0 -1.3089970069677397 0"/>
+    <parent link="r_shoulder_3"/>
+    <child link="r_upper_arm"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_elbow_1">
+    <inertial>
+      <origin xyz="-0.006739129328428656 0.018801899999999996 -0.004657692361536201" rpy="0 0 0"/>
+      <mass value="0.267903"/>
+      <inertia ixx="0.01" ixy="7.36974e-06" ixz="-1.04536e-05" iyy="0.01" iyz="3.92498e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.25939046331664584 0.022499899999999948 -0.08503258869619254" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.25939046331664584 0.022499899999999948 -0.08503258869619254" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_elbow" type="revolute">
+    <origin xyz="0 -0.022499900000000003 0.07925999999999998" rpy="0 1.3089970069677397 0"/>
+    <axis xyz="2.220446049250313e-16 1.0000000000000002 0.0"/>
+    <parent link="r_upper_arm"/>
+    <child link="r_elbow_1"/>
+    <limit effort="50000" lower="0.2617993877991494" upper="1.8500490071139892" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_forearm">
+    <inertial>
+      <origin xyz="-0.04043911338861204 -0.00032799999999999496 0.005327334483865201" rpy="0 0 0"/>
+      <mass value="0.6347"/>
+      <inertia ixx="0.000370044" ixy="-1.65419e-06" ixz="0.00010538" iyy="0.000672279" iyz="1.1456e-06" izz="0.000553637"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.29688696737542175 0 -0.07955060152271212" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.29688696737542175 0 -0.07955060152271212" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_wrist_prosup" type="revolute">
+    <origin xyz="-0.0384624299026574 0.022499900000000017 -0.0052231681940338075" rpy="0 0 0"/>
+    <axis xyz="0.9659258438815126 -2.220446049250313e-16 -0.2588189794466167"/>
+    <parent link="r_elbow_1"/>
+    <child link="r_forearm"/>
+    <limit effort="50000" lower="-1.0471975511965976" upper="1.0471975511965976" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_forearm_skin_0"/>
+  <joint name="r_forearm_skin_0_fixed_joint" type="fixed">
+    <origin xyz="-0.04544932866182965 0.030076999999999993 -0.006286560379014218" rpy="1.6918152229167889 -0.27102674434071783 -3.0688043822713253"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_1"/>
+  <joint name="r_forearm_skin_1_fixed_joint" type="fixed">
+    <origin xyz="-0.03337289358257035 0.02882600000000002 -0.019845686771095515" rpy="1.8669402327820501 -0.2744425337639908 -3.0994697798425186"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_1"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_2"/>
+  <joint name="r_forearm_skin_2_fixed_joint" type="fixed">
+    <origin xyz="-0.014698892985226357 0.031278999999999973 -0.016011733837060345" rpy="1.7284728701922574 -0.26401521911581066 -3.127332606870116"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_2"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_3"/>
+  <joint name="r_forearm_skin_3_fixed_joint" type="fixed">
+    <origin xyz="-0.04556729362200617 -0.030891000000000002 -0.006330009293506465" rpy="-1.6948728085876994 -0.2697577271044894 3.0795974357388127"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_4"/>
+  <joint name="r_forearm_skin_4_fixed_joint" type="fixed">
+    <origin xyz="-0.06353263329961753 -0.02811630000000001 -0.008997842580659854" rpy="-1.8073496019352646 -0.039313179632725175 2.979976436320592"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_4"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_5"/>
+  <joint name="r_forearm_skin_5_fixed_joint" type="fixed">
+    <origin xyz="-0.06882119419679653 -0.0179483 -0.023113336179072505" rpy="-2.541047580603648 -0.38562726064167885 3.0548698966694605"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_5"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_6"/>
+  <joint name="r_forearm_skin_6_fixed_joint" type="fixed">
+    <origin xyz="-0.033394843625473715 -0.029547900000000002 -0.019832558343293956" rpy="-1.8662816465326075 -0.27288633618099856 3.104485850211511"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_6"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_7"/>
+  <joint name="r_forearm_skin_7_fixed_joint" type="fixed">
+    <origin xyz="-0.014722426007426966 -0.031942200000000004 -0.015932648270323382" rpy="-1.725646408570657 -0.26399290072226783 3.127212542664466"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_7"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_8"/>
+  <joint name="r_forearm_skin_8_fixed_joint" type="fixed">
+    <origin xyz="-0.0228528628554271 -0.009786200000000009 -0.041885146374950645" rpy="-2.9480197913728667 -0.2706050905123207 3.139805572846308"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_8"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_9"/>
+  <joint name="r_forearm_skin_9_fixed_joint" type="fixed">
+    <origin xyz="-0.03760327346828466 -0.018955000000000014 -0.03401633711864639" rpy="-2.5840651770760545 -0.2933217195995048 3.121284073962177"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_9"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_10"/>
+  <joint name="r_forearm_skin_10_fixed_joint" type="fixed">
+    <origin xyz="-0.05422852108875307 -0.009786099999999992 -0.03214690828659369" rpy="-2.94123313405522 -0.32830447192219026 3.12762637539622"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_10"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_11"/>
+  <joint name="r_forearm_skin_11_fixed_joint" type="fixed">
+    <origin xyz="-0.05422409120236691 0.00904300000000001 -0.03214312594517525" rpy="2.9392983595663433 -0.3291013897448521 -3.127319164460641"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_11"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_12"/>
+  <joint name="r_forearm_skin_12_fixed_joint" type="fixed">
+    <origin xyz="-0.03759946338683661 0.01821600000000001 -0.034019117996090566" rpy="2.5830350596406384 -0.2948305020697443 -3.120265803141759"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_12"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_13"/>
+  <joint name="r_forearm_skin_13_fixed_joint" type="fixed">
+    <origin xyz="-0.022855086840518728 0.009047999999999987 -0.04189190092085042" rpy="2.948966791979468 -0.27058394718877915 -3.1398188035221444"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_13"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_14"/>
+  <joint name="r_forearm_skin_14_fixed_joint" type="fixed">
+    <origin xyz="-0.06877032763640067 0.01716000000000001 -0.02302395585107192" rpy="2.480449918677725 -0.29554256628052245 -2.918773491387445"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_14"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_15"/>
+  <joint name="r_forearm_skin_15_fixed_joint" type="fixed">
+    <origin xyz="-0.06337864196616988 0.027145000000000002 -0.008794054555439966" rpy="1.8049276974140638 -0.289783281915754 -3.027658914283702"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_15"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_16"/>
+  <joint name="r_forearm_skin_16_fixed_joint" type="fixed">
+    <origin xyz="-0.03792482186997503 0.030487000000000014 0.020636950360473926" rpy="1.4128000702560035 -0.25082462138972816 -3.0657274234313614"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_16"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_17"/>
+  <joint name="r_forearm_skin_17_fixed_joint" type="fixed">
+    <origin xyz="-0.05431705488213744 0.027725000000000027 0.030329124017862287" rpy="1.272237162052993 -0.2305930470302688 -3.031955428370696"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_17"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_19"/>
+  <joint name="r_forearm_skin_19_fixed_joint" type="fixed">
+    <origin xyz="-0.038126610713769264 -0.03129409999999999 0.02069060539304483" rpy="-1.4156088870322079 -0.25256929022635194 3.077152178887055"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_19"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_22"/>
+  <joint name="r_forearm_skin_22_fixed_joint" type="fixed">
+    <origin xyz="-0.05441739504212798 -0.028722300000000006 0.030603751660850165" rpy="-1.26582427279506 -0.23432815137878316 3.0478831797095465"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_22"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_24"/>
+  <joint name="r_forearm_skin_24_fixed_joint" type="fixed">
+    <origin xyz="-0.07003453195640522 -0.009716399999999986 0.05006910871401307" rpy="-0.23489327644017136 -0.03881729939817664 3.0867634545899256"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_24"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_25"/>
+  <joint name="r_forearm_skin_25_fixed_joint" type="fixed">
+    <origin xyz="-0.053599921629492835 -0.018223800000000012 0.04546981250452139" rpy="-0.5642955277146757 -0.1369802721974407 3.05963182792421"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_25"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_28"/>
+  <joint name="r_forearm_skin_28_fixed_joint" type="fixed">
+    <origin xyz="-0.05358592721475829 0.01741200000000001 0.04535203739698063" rpy="0.5907706440800042 -0.05316072260629339 3.1059708116712708"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_28"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_skin_29"/>
+  <joint name="r_forearm_skin_29_fixed_joint" type="fixed">
+    <origin xyz="-0.07003558050313372 0.008954000000000018 0.05001110362329029" rpy="0.24863098220864202 -0.03831365567858803 -3.0832899911631824"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_skin_29"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_forearm_dh_frame"/>
+  <joint name="r_forearm_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.1028711023733811 7.000000000020878e-06 0.027564221311064674" rpy="-0.2617993198271565 0 -1.570796326794897"/>
+    <parent link="r_forearm"/>
+    <child link="r_forearm_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="r_wrist_1">
+    <inertial>
+      <origin xyz="0.0009861019555474082 -0.0011759999999999826 0.004101327367239241" rpy="0 0 0"/>
+      <mass value="0.0362615"/>
+      <inertia ixx="0.01" ixy="-3.10462e-08" ixz="-9.44554e-07" iyy="0.01" iyz="-1.59685e-07" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.40039217624844703 -7.0000000000763896e-06 -0.1047483045162671" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.40039217624844703 -7.0000000000763896e-06 -0.1047483045162671" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_wrist_pitch" type="revolute">
+    <origin xyz="-0.1035052088730253 7.000000000020878e-06 0.02519770299355497" rpy="0 0 0"/>
+    <axis xyz="0.2588189794466167 0.0 0.9659258438815124"/>
+    <parent link="r_forearm"/>
+    <child link="r_wrist_1"/>
+    <limit effort="50000" lower="-1.3962634015954636" upper="0.4363323129985824" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_hand">
+    <inertial>
+      <origin xyz="-0.0646681637170268 0.005600200000000041 0.022681294091780244" rpy="0 0 0"/>
+      <mass value="0.248289"/>
+      <inertia ixx="0.01" ixy="-2.3536e-06" ixz="3.61526e-05" iyy="0.01" iyz="2.07146e-05" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.39975806974880285 0.019492899999999924 -0.1071148228337768" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dgreen">
+        <color rgba="0.1 0.8 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.39975806974880285 0.019492899999999924 -0.1071148228337768" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_r_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="r_wrist_yaw" type="revolute">
+    <origin xyz="0.0006341064996442103 -0.0194999 0.002366518317509704" rpy="0 0 0"/>
+    <axis xyz="2.220446049250313e-16 1.0000000000000002 0.0"/>
+    <parent link="r_wrist_1"/>
+    <child link="r_hand"/>
+    <limit effort="50000" lower="-0.3490658503988659" upper="0.4363323129985824" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="r_hand_dh_frame"/>
+  <joint name="r_hand_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="-0.05765429784284365 -0.005556799999999987 0.013693832308330513" rpy="-1.5707963267948963 -0.2617993198271562 3.141592653589793"/>
+    <parent link="r_hand"/>
+    <child link="r_hand_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_shoulder_1">
+    <inertial>
+      <origin xyz="-0.008985000000000007 -3.300000000000525e-05 -0.0088998" rpy="0 0 0"/>
+      <mass value="0.114882"/>
+      <inertia ixx="0.01" ixy="-1.77064e-08" ixz="3.55951e-06" iyy="0.01" iyz="6.57597e-08" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.12025748200000001 0 -0.032223" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.12025748200000001 0 -0.032223" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shoulder_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_shoulder_pitch" type="revolute">
+    <origin xyz="0.12001600019073501 0.09280000000000001 0.007969299999999999" rpy="0 0 0"/>
+    <axis xyz="0.965926 0.0 0.258819"/>
+    <parent link="chest"/>
+    <child link="l_shoulder_1"/>
+    <limit effort="50000" lower="-1.6667894356545847" upper="0.17453292519943295" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_shoulder_2">
+    <inertial>
+      <origin xyz="0.02147459512724749 0.0002689578996872277 -0.019410736153453706" rpy="0 0 0"/>
+      <mass value="0.238162"/>
+      <inertia ixx="0.01" ixy="1.19701e-07" ixz="-1.29687e-05" iyy="0.01" iyz="1.20112e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.10658669158059955 1.1080093428872395e-07 -0.04074338077098992" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.10658669158059955 1.1080093428872395e-07 -0.04074338077098992" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shoulder_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_shoulder_roll" type="revolute">
+    <origin xyz="-0.013671000000000016 0 0.0085204" rpy="0.2705973179159597 0.2526801775423606 -1.5015568855866182"/>
+    <axis xyz="-0.258819 -9.361836320172563e-18 0.965926"/>
+    <parent link="l_shoulder_1"/>
+    <child link="l_shoulder_2"/>
+    <limit effort="50000" lower="0.0" upper="2.8064894372068823" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_shoulder_3">
+    <inertial>
+      <origin xyz="0.026798412222026474 -1.5999999999988246e-05 0.014695680617730612" rpy="0 0 0"/>
+      <mass value="0.35913"/>
+      <inertia ixx="0.01" ixy="-2.22441e-07" ixz="-4.95846e-05" iyy="0.01" iyz="1.07538e-07" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.1319010376853961 0 -0.03534276691935331" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.1319010376853961 0 -0.03534276691935331" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_upper_arm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_shoulder_yaw" type="revolute">
+    <origin xyz="0.025314346831209825 1.116364382186541e-07 -0.0054006165626487995" rpy="-0.25268954617505757 -0.008518618321396991 -0.06703988914196844"/>
+    <axis xyz="0.9659258438815126 2.220446049250313e-16 0.2588189794466167"/>
+    <parent link="l_shoulder_2"/>
+    <child link="l_shoulder_3"/>
+    <limit effort="50000" lower="-0.6457718232379019" upper="1.3962634015954636" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_upper_arm">
+    <inertial>
+      <origin xyz="-0.006120999999999996 -0.00018899999999999473 0.02936839999999999" rpy="0 -1.30899700696774 -3.1415926535897922"/>
+      <mass value="0.746799"/>
+      <inertia ixx="0.000509731" ixy="-6.90767e-07" ixz="1.20048e-05" iyy="0.00067086" iyz="3.11833e-06" izz="0.000601202"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.014999999999999994 0 -0.19329999999999997" rpy="0 -1.30899700696774 -3.1415926535897922"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.014999999999999994 0 -0.19329999999999997" rpy="0 -1.30899700696774 -3.1415926535897922"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_elbow_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_arm_ft_sensor" type="fixed">
+    <origin xyz="0.05093014324520106 0 0.029175829465900395" rpy="0 -1.3089970069677395 3.1415926535897927"/>
+    <parent link="l_shoulder_3"/>
+    <child link="l_upper_arm"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_elbow_1">
+    <inertial>
+      <origin xyz="0.006739129328428652 0.030301900000000007 -0.004657692361536201" rpy="0 0 0"/>
+      <mass value="0.267903"/>
+      <inertia ixx="0.01" ixy="-7.37159e-06" ixz="1.04505e-05" iyy="0.01" iyz="3.9319e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.25939046331664584 0.03399989999999996 -0.08503258869619254" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.25939046331664584 0.03399989999999996 -0.08503258869619254" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_elbow_prosup_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_elbow" type="revolute">
+    <origin xyz="0 0.03399989999999997 0.07925999999999998" rpy="0 -1.3089970069677395 -3.141592653589793"/>
+    <axis xyz="2.220446049250313e-16 -1.0000000000000002 0.0"/>
+    <parent link="l_upper_arm"/>
+    <child link="l_elbow_1"/>
+    <limit effort="50000" lower="0.2617993877991494" upper="1.8500490071139892" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_forearm">
+    <inertial>
+      <origin xyz="0.040451182882303864 -0.000686000000000006 0.005323632143791272" rpy="0 0 0"/>
+      <mass value="0.636185"/>
+      <inertia ixx="0.000371447" ixy="4.34562e-06" ixz="-0.000105871" iyy="0.000674229" iyz="4.05222e-06" izz="0.000557115"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.29688696737542175 0 -0.07955060152271212" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.29688696737542175 0 -0.07955060152271212" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_forearm_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_wrist_prosup" type="revolute">
+    <origin xyz="0.03846242990265739 0.03399990000000003 -0.0052231681940338075" rpy="0 0 0"/>
+    <axis xyz="0.9659258438815126 2.220446049250313e-16 0.2588189794466167"/>
+    <parent link="l_elbow_1"/>
+    <child link="l_forearm"/>
+    <limit effort="50000" lower="-1.0471975511965976" upper="1.0471975511965976" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_forearm_skin_0"/>
+  <joint name="l_forearm_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.045449328661829665 -0.032316899999999996 -0.006286560379014218" rpy="1.6918152229167884 -0.2710267443407179 0.07278827131846853"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_1"/>
+  <joint name="l_forearm_skin_1_fixed_joint" type="fixed">
+    <origin xyz="0.03337289358257036 -0.031066200000000016 -0.019845686771095515" rpy="1.8669402327820506 -0.27444253376399047 0.04212287374727479"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_1"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_2"/>
+  <joint name="l_forearm_skin_2_fixed_joint" type="fixed">
+    <origin xyz="0.01469889298522637 -0.033518400000000004 -0.016011733837060345" rpy="1.7284728701922578 -0.2640152191158104 0.014260046719677696"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_2"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_3"/>
+  <joint name="l_forearm_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.04556729362200616 0.02865100000000001 -0.006330009293506465" rpy="-1.6948728085876994 -0.26975772710448953 -0.061995217850980264"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_4"/>
+  <joint name="l_forearm_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.0635326332996175 0.02587700000000001 -0.008997842580659854" rpy="-1.8174787010829498 -0.28740688488516286 -0.09983161528264395"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_4"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_5"/>
+  <joint name="l_forearm_skin_5_fixed_joint" type="fixed">
+    <origin xyz="0.06882119419679653 0.015709 -0.023113336179072505" rpy="-2.541047580603648 -0.38562726064167896 -0.08672275692033206"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_5"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_6"/>
+  <joint name="l_forearm_skin_6_fixed_joint" type="fixed">
+    <origin xyz="0.0333948436254737 0.027308000000000027 -0.019832558343293956" rpy="-1.866281646532607 -0.27288633618099856 -0.037106803378281816"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_6"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_7"/>
+  <joint name="l_forearm_skin_7_fixed_joint" type="fixed">
+    <origin xyz="0.014722426007426952 0.02970199999999998 -0.015932648270323382" rpy="-1.7256464085706567 -0.2639929007222678 -0.014380110925326664"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_7"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_8"/>
+  <joint name="l_forearm_skin_8_fixed_joint" type="fixed">
+    <origin xyz="0.0228528628554271 0.007545999999999997 -0.041885146374950645" rpy="-2.9480197913728667 -0.27060509051232073 -0.0017870807434848186"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_8"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_9"/>
+  <joint name="l_forearm_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.03760327346828466 0.016715000000000008 -0.03401633711864639" rpy="-2.5840651770760545 -0.29332171959950476 -0.020308579627615755"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_9"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_10"/>
+  <joint name="l_forearm_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.05422852108875307 0.007546000000000011 -0.03214690828659369" rpy="-2.94123313405522 -0.3283044719221903 -0.013966278193572868"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_10"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_11"/>
+  <joint name="l_forearm_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.05422409120236691 -0.011283199999999993 -0.03214312594517525" rpy="2.9392983595663433 -0.3291013897448523 0.01427348912915269"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_11"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_12"/>
+  <joint name="l_forearm_skin_12_fixed_joint" type="fixed">
+    <origin xyz="0.037599463386836625 -0.020455600000000018 -0.034019117996090566" rpy="2.5830350596406384 -0.29483050206974426 0.02132685044803458"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_12"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_13"/>
+  <joint name="l_forearm_skin_13_fixed_joint" type="fixed">
+    <origin xyz="0.022855086840518728 -0.0112878 -0.04189190092085042" rpy="2.948966791979468 -0.2705839471887793 0.0017738500676491309"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_13"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_14"/>
+  <joint name="l_forearm_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.06877032763640067 -0.019399899999999998 -0.02302395585107192" rpy="2.5246225036344367 -0.3877945117708607 0.09129241116830253"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_14"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_15"/>
+  <joint name="l_forearm_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.06337864196616988 -0.029384300000000002 -0.008794054555439966" rpy="1.8049276974140638 -0.28978328191575403 0.11393373930609194"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_15"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_16"/>
+  <joint name="l_forearm_skin_16_fixed_joint" type="fixed">
+    <origin xyz="0.03792482186997504 -0.0327268 0.020636950360473926" rpy="1.4128000702560033 -0.2508246213897282 0.07586523015843241"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_16"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_17"/>
+  <joint name="l_forearm_skin_17_fixed_joint" type="fixed">
+    <origin xyz="0.05431705488213746 -0.029964599999999994 0.030329124017862287" rpy="1.272237162052993 -0.23059304703026878 0.10963722521909744"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_17"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_19"/>
+  <joint name="l_forearm_skin_19_fixed_joint" type="fixed">
+    <origin xyz="0.03812661071376925 0.029053999999999996 0.02069060539304483" rpy="-1.4156088870322079 -0.252569290226352 -0.06444047470273781"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_19"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_22"/>
+  <joint name="l_forearm_skin_22_fixed_joint" type="fixed">
+    <origin xyz="0.05441739504212797 0.026483000000000007 0.030603751660850165" rpy="-1.2658242727950597 -0.23432815137878313 -0.09370947388024636"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_22"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_24"/>
+  <joint name="l_forearm_skin_24_fixed_joint" type="fixed">
+    <origin xyz="0.07003453195640522 0.007477000000000011 0.05006910871401307" rpy="-0.23489327644017152 -0.03881729939817665 -0.054829198999867323"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_24"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_25"/>
+  <joint name="l_forearm_skin_25_fixed_joint" type="fixed">
+    <origin xyz="0.05359992162949282 0.015984000000000026 0.04546981250452139" rpy="-0.5642955277146757 -0.13698027219744066 -0.08196082566558259"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_25"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_28"/>
+  <joint name="l_forearm_skin_28_fixed_joint" type="fixed">
+    <origin xyz="0.05358592721475831 -0.01965220000000001 0.04535203739698063" rpy="0.5793111069492733 -0.13399430677809196 0.08675978583118527"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_28"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_skin_29"/>
+  <joint name="l_forearm_skin_29_fixed_joint" type="fixed">
+    <origin xyz="0.07003558050313372 -0.011193599999999984 0.05001110362329029" rpy="0.24863098220864197 -0.03831365567858803 0.05830266242661145"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_skin_29"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_forearm_dh_frame"/>
+  <joint name="l_forearm_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0.1028711023733811 7.000000000020878e-06 0.027564221311064674" rpy="2.879793333762637 0 1.5707963267948968"/>
+    <parent link="l_forearm"/>
+    <child link="l_forearm_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_wrist_1">
+    <inertial>
+      <origin xyz="-0.000981313804427647 -0.0011779999999999846 0.004083457739127433" rpy="0 0 0"/>
+      <mass value="0.0362152"/>
+      <inertia ixx="0.01" ixy="3.08362e-08" ixz="9.42153e-07" iyy="0.01" iyz="-1.58924e-07" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.4003145305546131 -7.0000000000763896e-06 -0.10503808226943155" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pink">
+        <color rgba="1 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.4003145305546131 -7.0000000000763896e-06 -0.10503808226943155" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_wrist_pitch_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_wrist_pitch" type="revolute">
+    <origin xyz="0.10342756317919133 7.000000000020878e-06 0.025487480746719426" rpy="0 0 0"/>
+    <axis xyz="0.2588189794466167 0.0 -0.9659258438815124"/>
+    <parent link="l_forearm"/>
+    <child link="l_wrist_1"/>
+    <limit effort="50000" lower="-1.3962634015954636" upper="0.4363323129985824" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_hand">
+    <inertial>
+      <origin xyz="0.0647680204056704 0.005630400000000035 0.02266022084492256" rpy="0 0 0"/>
+      <mass value="0.247806"/>
+      <inertia ixx="0.01" ixy="2.96453e-06" ixz="-3.68906e-05" iyy="0.01" iyz="2.06885e-05" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.39968042405496884 0.019492899999999924 -0.10740460058694125" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="cyan">
+        <color rgba="0 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.39968042405496884 0.019492899999999924 -0.10740460058694125" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hand_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_wrist_yaw" type="revolute">
+    <origin xyz="-0.0006341064996442103 -0.0194999 0.0023665183175097023" rpy="0 0 0"/>
+    <axis xyz="-2.220446049250313e-16 1.0000000000000002 0.0"/>
+    <parent link="l_wrist_1"/>
+    <child link="l_hand"/>
+    <limit effort="50000" lower="-0.3490658503988659" upper="0.4363323129985824" velocity="50000"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_hand_dh_frame"/>
+  <joint name="l_hand_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0.05765429784284365 -0.005556799999999987 0.013693832308330513" rpy="-1.5707963267948963 -0.2617993198271562 0"/>
+    <parent link="l_hand"/>
+    <child link="l_hand_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_hip_1">
+    <inertial>
+      <origin xyz="-0.0005107999999999918 0.03809229999999998 -8.299999999999974e-05" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.919725"/>
+      <inertia ixx="0.000404539" ixy="1.18502e-06" ixz="-9.64514e-07" iyy="0.000573315" iyz="-1.06028e-06" izz="0.000578982"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285150000005946 -0.025999999999999673 0.15191299999998345" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04285150000005946 -0.025999999999999673 0.15191299999998345" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hip_1_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_hip_pitch" type="revolute">
+    <origin xyz="0.006451499999999999 -0.026000000000000023 -0.11991299999999999" rpy="0 0 -3.141592653589793"/>
+    <axis xyz="-2.220446049250313e-16 -0.9999999999999998 0.0"/>
+    <parent link="root_link"/>
+    <child link="l_hip_1"/>
+    <limit effort="55.5" lower="-0.7853981633974483" upper="2.3387411976724017" velocity="5.1"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_hip_2">
+    <inertial>
+      <origin xyz="-0.0011062999999999976 1.730000000001175e-05 -0.04457399999999995" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.415987"/>
+      <inertia ixx="0.000475741" ixy="2.89355e-07" ixz="-6.72876e-08" iyy="0.000279828" iyz="6.7417e-06" izz="0.000307828"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04285149980932397 -0.07010000000000878 0.15191299999997981" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04285149980932397 -0.07010000000000878 0.15191299999997981" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_hip_2_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_hip_roll" type="revolute">
+    <origin xyz="0 0.044099999999999986 0" rpy="0 0 0"/>
+    <axis xyz="0.9999999999999998 0.0 2.220446049250313e-16"/>
+    <parent link="l_hip_1"/>
+    <child link="l_hip_2"/>
+    <limit effort="37.0" lower="-0.3490658503988659" upper="2.0943951023931953" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_hip_3">
+    <inertial>
+      <origin xyz="-0.00012290000000000217 -0.0002822999999999992 0.008718000000000031" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <mass value="0.126212"/>
+      <inertia ixx="0.01" ixy="2.67901e-07" ixz="-4.41463e-09" iyy="0.01" iyz="3.32338e-08" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370906139999997 0.07010002460000003 -0.22621299999998065" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04370906139999997 0.07010002460000003 -0.22621299999998065" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_upper_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_leg_ft_sensor" type="fixed">
+    <origin xyz="-0.0008301999999999962 7.519999999999749e-05 -0.07429999999999995" rpy="3.141592653589793 0 0"/>
+    <parent link="l_hip_2"/>
+    <child link="l_hip_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_upper_leg">
+    <inertial>
+      <origin xyz="0.0033868999999999913 0.00010179999999998524 -0.07891600000000001" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="1.8084"/>
+      <inertia ixx="0.0064851267308372795" ixy="-0.00012421121423996344" ixz="-3.973994214790893e-06" iyy="0.0014625052983306384" iyz="-0.00013681806887964204" izz="0.006476192420462333"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370906139999997 -0.07010002459999994 0.24081299999999994" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dgreen">
+        <color rgba="0.1 0.8 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04370906139999997 -0.07010002459999994 0.24081299999999994" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_thigh_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_hip_yaw" type="revolute">
+    <origin xyz="0 0 0.014399999999999996" rpy="-3.141592653589793 0 0"/>
+    <axis xyz="0.0 2.220446049250313e-16 0.9999999999999998"/>
+    <parent link="l_hip_3"/>
+    <child link="l_upper_leg"/>
+    <limit effort="37.0" lower="-1.3962634015954636" upper="1.3962634015954636" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_upper_leg_back_contact"/>
+  <joint name="l_upper_leg_back_contact_fixed_joint" type="fixed">
+    <origin xyz="-0.051256699999999995 0 0.014599999999999946" rpy="0 1.5707963267948963 0"/>
+    <parent link="l_upper_leg"/>
+    <child link="l_upper_leg_back_contact"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_upper_leg_dh_frame"/>
+  <joint name="l_upper_leg_dh_frame_fixed_joint" type="fixed">
+    <origin xyz="0 0 -0.14582499999999995" rpy="1.5707963267948966 0 0"/>
+    <parent link="l_upper_leg"/>
+    <child link="l_upper_leg_dh_frame"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_lower_leg">
+    <inertial>
+      <origin xyz="0.0009997999999999951 0.0034968999999999695 -0.088567" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="1.4724"/>
+      <inertia ixx="0.0042369860649861665" ixy="-0.00023961518142281364" ixz="6.76166218238396e-05" iyy="0.0015222131363604985" iyz="-0.00023314283575035712" izz="0.004570071832070392"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370906139999997 -0.07010002479999991 0.38663799999999987" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04370906139999997 -0.07010002479999991 0.38663799999999987" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_shank_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_knee" type="revolute">
+    <origin xyz="0 0 -0.14582499999999995" rpy="0 0 0"/>
+    <axis xyz="-2.220446049250313e-16 -0.9999999999999998 0.0"/>
+    <parent link="l_upper_leg"/>
+    <child link="l_lower_leg"/>
+    <limit effort="37.0" lower="-2.1642082724729685" upper="0.06981317007977318" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_ankle_1">
+    <inertial>
+      <origin xyz="0.015153099999999989 0.0009020000000000139 4.199999999998649e-05" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.6798"/>
+      <inertia ixx="0.00040447429734460005" ixy="-1.1322603878053663e-06" ixz="3.046651057758992e-05" iyy="0.0004478873540695352" iyz="2.5726583414130826e-06" izz="0.0003076030453774591"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04370906139999997 -0.07010002479999985 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04370906139999997 -0.07010002479999985 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_ankle_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_ankle_pitch" type="revolute">
+    <origin xyz="0 0 -0.20049999999999996" rpy="0 0 0"/>
+    <axis xyz="2.220446049250313e-16 0.9999999999999998 0.0"/>
+    <parent link="l_lower_leg"/>
+    <child link="l_ankle_1"/>
+    <limit effort="37.0" lower="-0.6108652381980153" upper="0.6108652381980153" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_ankle_2">
+    <inertial>
+      <origin xyz="0.0011446999999999985 3.599999999992498e-06 -0.03852" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <mass value="0.265122"/>
+      <inertia ixx="0.01" ixy="-4.74606e-08" ixz="4.94571e-08" iyy="0.01" iyz="-4.29975e-06" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04368169961858297 -0.07017520019076885 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.04368169961858297 -0.07017520019076885 0.5871379999999998" rpy="1.5707963267948961 0 1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_foot_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_ankle_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0.9999999999999998 0.0 2.220446049250313e-16"/>
+    <parent link="l_ankle_1"/>
+    <child link="l_ankle_2"/>
+    <limit effort="37.0" lower="-0.4363323129985824" upper="0.4363323129985824" velocity="7.64"/>
+    <dynamics damping="1.0" friction="0.0"/>
+  </joint>
+  <link name="l_foot">
+    <inertial>
+      <origin xyz="0.03366689999999999 -0.005373499999999989 -0.0011639999999999429" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <mass value="0.382968"/>
+      <inertia ixx="0.00121242" ixy="-3.69533e-07" ixz="5.79273e-05" iyy="0.00141712" iyz="-7.64972e-06" izz="0.000273846"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.04720906119999997 0.07010002480000013 -0.6474380002860819" rpy="-1.5707963267948961 0 -1.5707963267948961"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/simmechanics/sim_sea_2-5_l_sole_prt-binary.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03 -0.005 0.014" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.16 0.072 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_foot_ft_sensor" type="fixed">
+    <origin xyz="-0.003500000000000003 0 -0.0605" rpy="3.141592653589793 0 0"/>
+    <parent link="l_ankle_2"/>
+    <child link="l_foot"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole"/>
+  <joint name="l_sole_fixed_joint" type="fixed">
+    <origin xyz="0.003500000000000003 0 0.0040000000000000036" rpy="-3.141592653589793 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_0"/>
+  <joint name="l_sole_skin_0_fixed_joint" type="fixed">
+    <origin xyz="0.09320879999999998 0.032367999999999994 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_1"/>
+  <joint name="l_sole_skin_1_fixed_joint" type="fixed">
+    <origin xyz="0.07885119999999998 0.019439899999999996 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_1"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_2"/>
+  <joint name="l_sole_skin_2_fixed_joint" type="fixed">
+    <origin xyz="0.06047679999999998 0.02541059999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_2"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_3"/>
+  <joint name="l_sole_skin_3_fixed_joint" type="fixed">
+    <origin xyz="0.04611922999999998 0.012482499999999994 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_3"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_4"/>
+  <joint name="l_sole_skin_4_fixed_joint" type="fixed">
+    <origin xyz="0.05013608999999999 -0.006414799999999998 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_4"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_8"/>
+  <joint name="l_sole_skin_8_fixed_joint" type="fixed">
+    <origin xyz="0.07252739999999999 -0.031282799999999986 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_8"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_9"/>
+  <joint name="l_sole_skin_9_fixed_joint" type="fixed">
+    <origin xyz="0.09090179999999999 -0.03725379999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_9"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_10"/>
+  <joint name="l_sole_skin_10_fixed_joint" type="fixed">
+    <origin xyz="0.10525929999999997 -0.024325399999999983 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_10"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_11"/>
+  <joint name="l_sole_skin_11_fixed_joint" type="fixed">
+    <origin xyz="0.10124249999999999 -0.005428100000000005 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_11"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_12"/>
+  <joint name="l_sole_skin_12_fixed_joint" type="fixed">
+    <origin xyz="0.08286809999999997 0.0005426000000000042 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_12"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_13"/>
+  <joint name="l_sole_skin_13_fixed_joint" type="fixed">
+    <origin xyz="0.06851049999999999 -0.012385499999999994 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_13"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_14"/>
+  <joint name="l_sole_skin_14_fixed_joint" type="fixed">
+    <origin xyz="0.11559999999999998 0.007499500000000006 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_14"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_15"/>
+  <joint name="l_sole_skin_15_fixed_joint" type="fixed">
+    <origin xyz="0.11158319999999997 0.02639729999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_15"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_17"/>
+  <joint name="l_sole_skin_17_fixed_joint" type="fixed">
+    <origin xyz="-0.03771910000000001 0.004538500000000001 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_17"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_18"/>
+  <joint name="l_sole_skin_18_fixed_joint" type="fixed">
+    <origin xyz="-0.05207669999999998 -0.008389699999999986 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_18"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_19"/>
+  <joint name="l_sole_skin_19_fixed_joint" type="fixed">
+    <origin xyz="-0.04805979999999999 -0.027286999999999978 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_19"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_20"/>
+  <joint name="l_sole_skin_20_fixed_joint" type="fixed">
+    <origin xyz="-0.02968539999999998 -0.03325779999999999 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_20"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_21"/>
+  <joint name="l_sole_skin_21_fixed_joint" type="fixed">
+    <origin xyz="0.027744799999999986 0.0184533 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_21"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_22"/>
+  <joint name="l_sole_skin_22_fixed_joint" type="fixed">
+    <origin xyz="0.03577849999999999 -0.019342899999999996 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_22"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_24"/>
+  <joint name="l_sole_skin_24_fixed_joint" type="fixed">
+    <origin xyz="0.0030465999999999965 -0.02630029999999997 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_24"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_25"/>
+  <joint name="l_sole_skin_25_fixed_joint" type="fixed">
+    <origin xyz="0.017404099999999995 -0.013372199999999987 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_25"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_26"/>
+  <joint name="l_sole_skin_26_fixed_joint" type="fixed">
+    <origin xyz="0.013387299999999991 0.005525100000000005 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_26"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_27"/>
+  <joint name="l_sole_skin_27_fixed_joint" type="fixed">
+    <origin xyz="-0.004987100000000001 0.011495900000000003 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_27"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_28"/>
+  <joint name="l_sole_skin_28_fixed_joint" type="fixed">
+    <origin xyz="-0.0193447 -0.0014322999999999975 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_28"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="l_sole_skin_29"/>
+  <joint name="l_sole_skin_29_fixed_joint" type="fixed">
+    <origin xyz="-0.015327899999999998 -0.020329600000000003 0.007500000000000062" rpy="0 0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole_skin_29"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <link name="base_link"/>
+  <joint name="base_link_fixed_joint" type="fixed">
+  <origin xyz="0 0 0" rpy="0 -0 0"/>
+  <axis xyz="0 0 0"/>
+  <parent link="root_link"/>
+  <child link="base_link"/>
+</joint>
+  <link name="l_foot_dh_frame"/>
+  <joint name="l_foot_dh_frame_fixed_joint" type="fixed">
+  <origin xyz="0.0 0 0.004" rpy="0 1.5708 0"/>
+  <axis xyz="0 0 0"/>
+  <parent link="l_foot"/>
+  <child link="l_foot_dh_frame"/>
+</joint>
+  <link name="r_foot_dh_frame"/>
+  <joint name="r_foot_dh_frame_fixed_joint" type="fixed">
+  <origin xyz="0.0 0 0.004" rpy="0 1.5708 0"/>
+  <axis xyz="0 0 0"/>
+  <parent link="r_foot"/>
+  <child link="r_foot_dh_frame"/>
+</joint>
+  <gazebo reference="r_arm_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="l_arm_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="r_leg_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="l_leg_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="r_foot_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="l_foot_ft_sensor">
+  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- For compatibility with SDFormat < 4.4 -->
+  <disableFixedJointLumping>true</disableFixedJointLumping>
+</gazebo>
+  <gazebo reference="l_foot">
+  <collision> <surface> <bounce>
+    <restitution_coefficient>0</restitution_coefficient>
+    <threshold>100000</threshold>
+  </bounce> </surface> </collision>
+  <maxContacts>4</maxContacts>
+  <kp>18000000</kp>
+  <kd>100</kd>
+  <maxVel>100</maxVel>
+  <minDepth>0.0001</minDepth>
+  <mu1>1</mu1>
+  <mu2>1</mu2>
+  <fdir1>0 0 0</fdir1>
+</gazebo>
+  <gazebo reference="r_foot">
+  <collision> <surface> <bounce>
+    <restitution_coefficient>0</restitution_coefficient>
+    <threshold>100000</threshold>
+  </bounce> </surface> </collision>
+  <maxContacts>4</maxContacts>
+  <kp>18000000</kp>
+  <kd>100</kd>
+  <maxVel>100</maxVel>
+  <minDepth>0.0001</minDepth>
+  <mu1>1</mu1>
+  <mu2>1</mu2>
+  <fdir1>0 0 0</fdir1>
+</gazebo>
+  <gazebo>
+<plugin name="iCub_yarp_gazebo_plugin_ACCpart" filename="libgazebo_yarp_distributedinertials.so">
+  <yarpConfigurationFile>model://iCub/conf/MTB/gazebo_icub_left_leg_mtb.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="iCub_yarp_gazebo_plugin_ACCpart" filename="libgazebo_yarp_distributedinertials.so">
+  <yarpConfigurationFile>model://iCub/conf/MTB/gazebo_icub_right_leg_mtb.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="iCub_yarp_gazebo_plugin_ACCpart" filename="libgazebo_yarp_distributedinertials.so">
+  <yarpConfigurationFile>model://iCub/conf/MTB/gazebo_icub_left_arm_mtb.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="iCub_yarp_gazebo_plugin_ACCpart" filename="libgazebo_yarp_distributedinertials.so">
+  <yarpConfigurationFile>model://iCub/conf/MTB/gazebo_icub_right_arm_mtb.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="iCub_yarp_gazebo_plugin_ACCpart" filename="libgazebo_yarp_distributedinertials.so">
+  <yarpConfigurationFile>model://iCub/conf/MTB/gazebo_icub_torso_mtb.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="controlboard_torso" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_torso.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="controlboard_head_without_eyes" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_head_without_eyes.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="controlboard_left_arm_no_hand" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_left_arm_no_hand_for_no_hand_model.ini</yarpConfigurationFile>
+  <initialConfiguration>-0.52 0.52 0 0.785 0 0 0.0</initialConfiguration>
+</plugin>
+<plugin name="controlboard_right_arm_no_hand" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_right_arm_no_hand_for_no_hand_model.ini</yarpConfigurationFile>
+  <initialConfiguration>-0.52 0.52 0 0.785 0 0 0.0</initialConfiguration>
+</plugin>
+<plugin name="controlboard_right_leg" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_right_leg.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="controlboard_left_leg" filename="libgazebo_yarp_controlboard.so">
+  <yarpConfigurationFile>model://iCub/conf/gazebo_icub_left_leg.ini</yarpConfigurationFile>
+</plugin>
+<plugin name="apply_external_wrench" filename="libgazebo_yarp_externalwrench.so">
+  <robotNamefromConfigFile>model://iCub/conf/gazebo_icub_robotname.ini</robotNamefromConfigFile>
+</plugin>
+</gazebo>
+  <gazebo reference="r_hip_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_hip_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_hip_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_knee">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_ankle_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_ankle_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_hip_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_hip_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_hip_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_knee">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_ankle_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_ankle_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="torso_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="torso_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="torso_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_shoulder_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_shoulder_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_shoulder_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_elbow">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_wrist_prosup">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_wrist_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="r_wrist_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_shoulder_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_shoulder_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_shoulder_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_elbow">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_wrist_prosup">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_wrist_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_wrist_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="neck_pitch">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="neck_roll">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="neck_yaw">
+   <implicitSpringDamper>1</implicitSpringDamper>
+</gazebo>
+  <gazebo reference="l_leg_ft_sensor">
+    <sensor name="l_leg_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="left_leg_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_left_leg_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="l_leg_ft_sensor" type="force_torque">
+    <parent joint="l_leg_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="r_leg_ft_sensor">
+    <sensor name="r_leg_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="right_leg_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_right_leg_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="r_leg_ft_sensor" type="force_torque">
+    <parent joint="r_leg_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="l_foot_ft_sensor">
+    <sensor name="l_foot_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="left_foot_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_left_foot_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="l_foot_ft_sensor" type="force_torque">
+    <parent joint="l_foot_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="r_foot_ft_sensor">
+    <sensor name="r_foot_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="right_foot_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_right_foot_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="r_foot_ft_sensor" type="force_torque">
+    <parent joint="r_foot_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="l_arm_ft_sensor">
+    <sensor name="l_arm_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="left_arm_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_left_arm_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="l_arm_ft_sensor" type="force_torque">
+    <parent joint="l_arm_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="r_arm_ft_sensor">
+    <sensor name="r_arm_ft_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0.0 0.0 0.0 0.0 -0.0 0.0</pose>
+      <plugin name="right_arm_ft_plugin" filename="libgazebo_yarp_forcetorque.so">
+  <yarpConfigurationFile>model://iCub/conf/FT/gazebo_icub_right_arm_ft.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="r_arm_ft_sensor" type="force_torque">
+    <parent joint="r_arm_ft_sensor"/>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <origin rpy="0.0 -0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </sensor>
+  <gazebo reference="head">
+    <sensor name="head_imu_acc_1x1" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.009500000190735 0.133444 0.009299999999999996 -1.5707963267948963 1.5707963267948963 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_IMU" filename="libgazebo_yarp_imu.so">
+    <yarpConfigurationFile>model://iCub/conf/gazebo_icub_inertial.ini</yarpConfigurationFile>
+</plugin>
+    </sensor>
+  </gazebo>
+  <sensor name="head_imu_acc_1x1" type="accelerometer">
+    <parent link="head"/>
+    <origin rpy="-1.5707963267948963 1.5707963267948963 0.0" xyz="0.009500000190735 0.133444 0.009299999999999996"/>
+  </sensor>
+  <gazebo reference="root_link">
+    <sensor name="root_link_ems_acc_eb5" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0493308 -0.012577100000000023 -0.11569100000000002 -3.141592653589793 1.2915440450258353 3.141592653589793</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="root_link_ems_acc_eb5" type="accelerometer">
+    <parent link="root_link"/>
+    <origin rpy="-3.141592653589793 1.2915440450258353 3.141592653589793" xyz="0.0493308 -0.012577100000000023 -0.11569100000000002"/>
+  </sensor>
+  <gazebo reference="root_link">
+    <sensor name="root_link_ems_gyro_eb5" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0493308 -0.012577100000000023 -0.11569100000000002 -3.141592653589793 1.2915440450258353 3.141592653589793</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="root_link_ems_gyro_eb5" type="gyroscope">
+    <parent link="root_link"/>
+    <origin rpy="-3.141592653589793 1.2915440450258353 3.141592653589793" xyz="0.0493308 -0.012577100000000023 -0.11569100000000002"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_acc_eb1" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.064785500190735 0.064043 -0.06470909999999999 3.1415169122972952 -0.2617993091222473 0.0002926418802545251</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_acc_eb1" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="3.1415169122972952 -0.2617993091222473 0.0002926418802545251" xyz="0.064785500190735 0.064043 -0.06470909999999999"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_gyro_eb1" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.069201600190735 0.06454800000000001 -0.0635258 3.1415169122972952 -0.2617993091222473 0.0002926418802545251</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_gyro_eb1" type="gyroscope">
+    <parent link="chest"/>
+    <origin rpy="3.1415169122972952 -0.2617993091222473 0.0002926418802545251" xyz="0.069201600190735 0.06454800000000001 -0.0635258"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_acc_eb2" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.020453300190735 0.08806299999999999 -0.0641645 3.141590501042822 0.2617993198185102 3.1415843367812997</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_acc_eb2" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="3.141590501042822 0.2617993198185102 3.1415843367812997" xyz="0.020453300190735 0.08806299999999999 -0.0641645"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_gyro_eb2" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.016037100190735 0.08755899999999998 -0.0653479 3.141590501042822 0.2617993198185102 3.1415843367812997</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_gyro_eb2" type="gyroscope">
+    <parent link="chest"/>
+    <origin rpy="3.141590501042822 0.2617993198185102 3.1415843367812997" xyz="0.016037100190735 0.08755899999999998 -0.0653479"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_acc_eb3" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.023058799809265 0.064019 -0.07589850000000001 3.141109162025268 0.2611005164711609 -0.00030907146255546275</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_acc_eb3" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="3.141109162025268 0.2611005164711609 -0.00030907146255546275" xyz="-0.023058799809265 0.064019 -0.07589850000000001"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_gyro_eb3" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.018641699809265 0.064521 -0.0770785 3.141109162025268 0.2611005164711609 -0.00030907146255546275</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_gyro_eb3" type="gyroscope">
+    <parent link="chest"/>
+    <origin rpy="3.141109162025268 0.2611005164711609 -0.00030907146255546275" xyz="-0.018641699809265 0.064521 -0.0770785"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_acc_eb4" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.06216209980926501 0.08806299999999999 -0.0529887 -3.1415905047625503 -0.26179931981852844 3.141584339870295</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_acc_eb4" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="-3.1415905047625503 -0.26179931981852844 3.141584339870295" xyz="-0.06216209980926501 0.08806299999999999 -0.0529887"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_ems_gyro_eb4" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.06657839980926501 0.08755899999999998 -0.0518054 -3.1415905047625503 -0.26179931981852844 3.141584339870295</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_ems_gyro_eb4" type="gyroscope">
+    <parent link="chest"/>
+    <origin rpy="-3.1415905047625503 -0.26179931981852844 3.141584339870295" xyz="-0.06657839980926501 0.08755899999999998 -0.0518054"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_mtb_acc_0b7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.060753999809265005 -0.0017836000000000032 0.0442341 0.8751677714915175 0.11636373439232388 -1.4859735024675942</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_mtb_acc_0b7" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="0.8751677714915175 0.11636373439232388 -1.4859735024675942" xyz="-0.060753999809265005 -0.0017836000000000032 0.0442341"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_mtb_acc_0b8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.045704699809265004 -0.0018460000000000004 0.0567427 0.5009600846888734 0.10731368898312439 -1.477832529104222</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_mtb_acc_0b8" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="0.5009600846888734 0.10731368898312439 -1.477832529104222" xyz="-0.045704699809265004 -0.0018460000000000004 0.0567427"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_mtb_acc_0b9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.043903600190735 -0.0017841000000000037 0.0577221 -0.5009599289728343 0.10731540424780746 -1.663760174692588</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_mtb_acc_0b9" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="-0.5009599289728343 0.10731540424780746 -1.663760174692588" xyz="0.043903600190735 -0.0017841000000000037 0.0577221"/>
+  </sensor>
+  <gazebo reference="chest">
+    <sensor name="chest_mtb_acc_0b10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.059428600190735 -0.0018543000000000032 0.0457981 -0.8751681534754429 0.11636202547856245 -1.6556180750511105</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="chest_mtb_acc_0b10" type="accelerometer">
+    <parent link="chest"/>
+    <origin rpy="-0.8751681534754429 0.11636202547856245 -1.6556180750511105" xyz="0.059428600190735 -0.0018543000000000032 0.0457981"/>
+  </sensor>
+  <gazebo reference="r_upper_arm">
+    <sensor name="r_upper_arm_mtb_acc_2b10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.041219399999999996 0.029588000000000003 0.029527899999999982 1.5707954636460493 1.5707838122500961 -2.682571611620687</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_arm_mtb_acc_2b10" type="accelerometer">
+    <parent link="r_upper_arm"/>
+    <origin rpy="1.5707954636460493 1.5707838122500961 -2.682571611620687" xyz="-0.041219399999999996 0.029588000000000003 0.029527899999999982"/>
+  </sensor>
+  <gazebo reference="r_upper_arm">
+    <sensor name="r_upper_arm_mtb_acc_2b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.0430568 0.028679999999999983 0.07606039999999997 -1.5707961469548437 -1.5705035074059788 0.45902172521853346</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_arm_mtb_acc_2b11" type="accelerometer">
+    <parent link="r_upper_arm"/>
+    <origin rpy="-1.5707961469548437 -1.5705035074059788 0.45902172521853346" xyz="-0.0430568 0.028679999999999983 0.07606039999999997"/>
+  </sensor>
+  <gazebo reference="r_upper_arm">
+    <sensor name="r_upper_arm_mtb_acc_2b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.043055399999999994 0.028680999999999984 0.004992199999999981 -1.1117744216835481 -1.5707963267948963 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_arm_mtb_acc_2b12" type="accelerometer">
+    <parent link="r_upper_arm"/>
+    <origin rpy="-1.1117744216835481 -1.5707963267948963 0.0" xyz="-0.043055399999999994 0.028680999999999984 0.004992199999999981"/>
+  </sensor>
+  <gazebo reference="r_upper_arm">
+    <sensor name="r_upper_arm_mtb_acc_2b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.010593236999999991 0.028350000000000042 -0.010737999999999998 1.5707963270155092 -0.00021452036204109946 2.4780367445076594</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_arm_mtb_acc_2b13" type="accelerometer">
+    <parent link="r_upper_arm"/>
+    <origin rpy="1.5707963270155092 -0.00021452036204109946 2.4780367445076594" xyz="0.010593236999999991 0.028350000000000042 -0.010737999999999998"/>
+  </sensor>
+  <gazebo reference="r_forearm">
+    <sensor name="r_forearm_mtb_acc_2b7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.07687278473420911 0.005497000000000016 -0.011047912606820772 0.261799499979578 0.0003704130423281237 1.571258168627349</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_forearm_mtb_acc_2b7" type="accelerometer">
+    <parent link="r_forearm"/>
+    <origin rpy="0.261799499979578 0.0003704130423281237 1.571258168627349" xyz="-0.07687278473420911 0.005497000000000016 -0.011047912606820772"/>
+  </sensor>
+  <gazebo reference="r_forearm">
+    <sensor name="r_forearm_mtb_acc_2b8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.051418615079553955 0.015786000000000022 0.04075215372773191 -0.6611439460918275 0.14782524846115597 0.0920701147029676</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_forearm_mtb_acc_2b8" type="accelerometer">
+    <parent link="r_forearm"/>
+    <origin rpy="-0.6611439460918275 0.14782524846115597 0.0920701147029676" xyz="-0.051418615079553955 0.015786000000000022 0.04075215372773191"/>
+  </sensor>
+  <gazebo reference="r_forearm">
+    <sensor name="r_forearm_mtb_acc_2b9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.02163799567592114 0.027924000000000004 -0.013249025401848176 -1.7668262673154445 0.2611912256456084 0.054048344372003315</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_forearm_mtb_acc_2b9" type="accelerometer">
+    <parent link="r_forearm"/>
+    <origin rpy="-1.7668262673154445 0.2611912256456084 0.054048344372003315" xyz="-0.02163799567592114 0.027924000000000004 -0.013249025401848176"/>
+  </sensor>
+  <gazebo reference="l_upper_arm">
+    <sensor name="l_upper_arm_mtb_acc_1b10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.04305539999999998 -0.028681000000000012 0.029527899999999982 -1.5707965066353287 -1.5705035074059785 2.682570928371256</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_arm_mtb_acc_1b10" type="accelerometer">
+    <parent link="l_upper_arm"/>
+    <origin rpy="-1.5707965066353287 -1.5705035074059785 2.682570928371256" xyz="-0.04305539999999998 -0.028681000000000012 0.029527899999999982"/>
+  </sensor>
+  <gazebo reference="l_upper_arm">
+    <sensor name="l_upper_arm_mtb_acc_1b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.04121809999999999 -0.029589000000000004 0.07606039999999997 -1.5707965066353287 -1.5705035074059785 2.682570928371256</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_arm_mtb_acc_1b11" type="accelerometer">
+    <parent link="l_upper_arm"/>
+    <origin rpy="-1.5707965066353287 -1.5705035074059785 2.682570928371256" xyz="-0.04121809999999999 -0.029589000000000004 0.07606039999999997"/>
+  </sensor>
+  <gazebo reference="l_upper_arm">
+    <sensor name="l_upper_arm_mtb_acc_1b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.04121939999999998 -0.02958800000000003 0.0049920999999999854 -1.5707971899437438 -1.5707838122500957 2.682571611632433</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_arm_mtb_acc_1b12" type="accelerometer">
+    <parent link="l_upper_arm"/>
+    <origin rpy="-1.5707971899437438 -1.5707838122500957 2.682571611632433" xyz="-0.04121939999999998 -0.02958800000000003 0.0049920999999999854"/>
+  </sensor>
+  <gazebo reference="l_upper_arm">
+    <sensor name="l_upper_arm_mtb_acc_1b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.010592709000000004 -0.028350999999999987 -0.008691400000000002 -1.5707963265742841 0.0002145203620417656 -2.478036744507659</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_arm_mtb_acc_1b13" type="accelerometer">
+    <parent link="l_upper_arm"/>
+    <origin rpy="-1.5707963265742841 0.0002145203620417656 -2.478036744507659" xyz="0.010592709000000004 -0.028350999999999987 -0.008691400000000002"/>
+  </sensor>
+  <gazebo reference="l_forearm">
+    <sensor name="l_forearm_mtb_acc_1b7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.07687278473420911 -0.005482999999999988 -0.011047912606820772 0.261799499979528 0.0003704130423280127 -1.570334484962444</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_forearm_mtb_acc_1b7" type="accelerometer">
+    <parent link="l_forearm"/>
+    <origin rpy="0.261799499979528 0.0003704130423280127 -1.570334484962444" xyz="0.07687278473420911 -0.005482999999999988 -0.011047912606820772"/>
+  </sensor>
+  <gazebo reference="l_forearm">
+    <sensor name="l_forearm_mtb_acc_1b8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.05142417406065745 -0.0180279 0.040750725843601086 -0.6611439460918274 0.1478252484611559 -3.049522538886825</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_forearm_mtb_acc_1b8" type="accelerometer">
+    <parent link="l_forearm"/>
+    <origin rpy="-0.6611439460918274 0.1478252484611559 -3.049522538886825" xyz="0.05142417406065745 -0.0180279 0.040750725843601086"/>
+  </sensor>
+  <gazebo reference="l_forearm">
+    <sensor name="l_forearm_mtb_acc_1b9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.022099187499622495 0.025657000000000013 -0.015117424321177507 1.766821342184715 0.261099829847155 3.0875254820176163</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_forearm_mtb_acc_1b9" type="accelerometer">
+    <parent link="l_forearm"/>
+    <origin rpy="1.766821342184715 0.261099829847155 3.0875254820176163" xyz="0.022099187499622495 0.025657000000000013 -0.015117424321177507"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_ems_acc_eb8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.012575099999999999 0.04040709999999999 -0.040226999999999985 1.5707963267948972 1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ems_acc_eb8" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.012575099999999999 0.04040709999999999 -0.040226999999999985"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_ems_acc_eb11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.012577100000000015 -0.040406899999999996 -0.08340699999999998 1.5707963267948972 1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ems_acc_eb11" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.012577100000000015 -0.040406899999999996 -0.08340699999999998"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_ems_gyro_eb8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.013078999999999993 0.04040709999999999 -0.035654999999999964 1.5707963267948972 1.5707963267948961 0.0</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ems_gyro_eb8" type="gyroscope">
+    <parent link="r_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.013078999999999993 0.04040709999999999 -0.035654999999999964"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_ems_gyro_eb11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.013081000000000016 -0.040406899999999996 -0.087979 1.5707963267948972 1.5707963267948961 0.0</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ems_gyro_eb11" type="gyroscope">
+    <parent link="r_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.013081000000000016 -0.040406899999999996 -0.087979"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b1" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.043588627999999977 -0.030194899999999983 0.048939999999999984 2.526708438028075 -1.5704448425270146 -0.2228738249803637</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b1" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="2.526708438028075 -1.5704448425270146 -0.2228738249803637" xyz="0.043588627999999977 -0.030194899999999983 0.048939999999999984"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b2" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.053946699999999986 -0.006406499999999982 0.03905600000000001 -3.129402120569715 -1.570381814956552 -0.2739898525693509</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b2" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="-3.129402120569715 -1.570381814956552 -0.2739898525693509" xyz="0.053946699999999986 -0.006406499999999982 0.03905600000000001"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b3" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.053831299999999985 -0.013021400000000002 0.0039859999999999896 -2.8773108545103274 -1.5703518030956078 -0.2642818239915216</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b3" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="-2.8773108545103274 -1.5703518030956078 -0.2642818239915216" xyz="0.053831299999999985 -0.013021400000000002 0.0039859999999999896"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b4" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0322719 0.04226749999999999 -0.005044999999999994 -1.873909988092778 -1.570257713256341 -0.08085890295708932</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b4" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="-1.873909988092778 -1.570257713256341 -0.08085890295708932" xyz="0.0322719 0.04226749999999999 -0.005044999999999994"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b5" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.053831299999999985 0.016478599999999996 0.0039859999999999896 -2.8773108545103274 -1.5703518030956078 -0.2642818239915216</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b5" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="-2.8773108545103274 -1.5703518030956078 -0.2642818239915216" xyz="0.053831299999999985 0.016478599999999996 0.0039859999999999896"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b6" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.043751799999999993 -0.015759400000000007 -0.026565000000000033 1.9541027553387757e-17 1.5703672368014803 -3.141592653589793</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b6" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="1.9541027553387757e-17 1.5703672368014803 -3.141592653589793" xyz="-0.043751799999999993 -0.015759400000000007 -0.026565000000000033"/>
+  </sensor>
+  <gazebo reference="r_upper_leg">
+    <sensor name="r_upper_leg_mtb_acc_11b7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.04375179999999998 0.016238599999999992 -0.026566000000000006 0.26425252390070647 1.5703518066171935 -2.8773401047797322</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_mtb_acc_11b7" type="accelerometer">
+    <parent link="r_upper_leg"/>
+    <origin rpy="0.26425252390070647 1.5703518066171935 -2.8773401047797322" xyz="-0.04375179999999998 0.016238599999999992 -0.026566000000000006"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_ems_acc_eb9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.04351374599999999 0.01383959999999998 -0.09276499999999999 3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_ems_acc_eb9" type="accelerometer">
+    <parent link="r_lower_leg"/>
+    <origin rpy="3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15" xyz="0.04351374599999999 0.01383959999999998 -0.09276499999999999"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_ems_gyro_eb9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.04450330799999999 0.014343499999999974 -0.08830099999999996 3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_ems_gyro_eb9" type="gyroscope">
+    <parent link="r_lower_leg"/>
+    <origin rpy="3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15" xyz="0.04450330799999999 0.014343499999999974 -0.08830099999999996"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_mtb_acc_11b8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.05362923999999998 -0.015195799999999995 -0.0043179999999999885 -1.5707969943117426 -1.5706802100981876 -1.8151418254260296</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_mtb_acc_11b8" type="accelerometer">
+    <parent link="r_lower_leg"/>
+    <origin rpy="-1.5707969943117426 -1.5706802100981876 -1.8151418254260296" xyz="0.05362923999999998 -0.015195799999999995 -0.0043179999999999885"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_mtb_acc_11b9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.05375166999999999 0.01572289999999999 -0.0043179999999999885 -1.5707962918857017 -1.5706802104434696 -1.2217307214946516</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_mtb_acc_11b9" type="accelerometer">
+    <parent link="r_lower_leg"/>
+    <origin rpy="-1.5707962918857017 -1.5706802104434696 -1.2217307214946516" xyz="0.05375166999999999 0.01572289999999999 -0.0043179999999999885"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_mtb_acc_11b10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.027894499999999982 -0.0422139 -0.04346800000000001 1.8325955062747417 -1.5707963267948963 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_mtb_acc_11b10" type="accelerometer">
+    <parent link="r_lower_leg"/>
+    <origin rpy="1.8325955062747417 -1.5707963267948963 0.0" xyz="0.027894499999999982 -0.0422139 -0.04346800000000001"/>
+  </sensor>
+  <gazebo reference="r_lower_leg">
+    <sensor name="r_lower_leg_mtb_acc_11b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0164801 0.04224899999999997 -0.09295800000000004 -1.5707936954748312 -1.5706802103471822 -0.26180181049683376</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_lower_leg_mtb_acc_11b11" type="accelerometer">
+    <parent link="r_lower_leg"/>
+    <origin rpy="-1.5707936954748312 -1.5706802103471822 -0.26180181049683376" xyz="0.0164801 0.04224899999999997 -0.09295800000000004"/>
+  </sensor>
+  <gazebo reference="r_foot">
+    <sensor name="r_foot_mtb_acc_11b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.10347939999999997 -0.000812199999999999 -0.001214999999999966 1.4648752297108978e-16 2.2204452113283224e-16 -1.5707960430308967</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_foot_mtb_acc_11b12" type="accelerometer">
+    <parent link="r_foot"/>
+    <origin rpy="1.4648752297108978e-16 2.2204452113283224e-16 -1.5707960430308967" xyz="0.10347939999999997 -0.000812199999999999 -0.001214999999999966"/>
+  </sensor>
+  <gazebo reference="r_foot">
+    <sensor name="r_foot_mtb_acc_11b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.07847939999999999 -0.011812200000000009 -0.001214999999999966 2.220446049250314e-16 2.220446049250313e-16 -1.5707963267948966</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="r_foot_mtb_acc_11b13" type="accelerometer">
+    <parent link="r_foot"/>
+    <origin rpy="2.220446049250314e-16 2.220446049250313e-16 -1.5707963267948966" xyz="0.07847939999999999 -0.011812200000000009 -0.001214999999999966"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_ems_acc_eb6" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.012577000000000012 -0.04040720000000002 -0.08340699999999998 1.5707963267948972 1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ems_acc_eb6" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.012577000000000012 -0.04040720000000002 -0.08340699999999998"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_ems_acc_eb10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.012575000000000003 0.04040679999999998 -0.040226999999999985 -1.5707963267948968 -1.5707963267948963 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ems_acc_eb10" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="-1.5707963267948968 -1.5707963267948963 0.0" xyz="-0.012575000000000003 0.04040679999999998 -0.040226999999999985"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_ems_gyro_eb6" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.013081000000000016 -0.04040720000000002 -0.087979 1.5707963267948972 1.5707963267948961 0.0</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ems_gyro_eb6" type="gyroscope">
+    <parent link="l_upper_leg"/>
+    <origin rpy="1.5707963267948972 1.5707963267948961 0.0" xyz="-0.013081000000000016 -0.04040720000000002 -0.087979"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_ems_gyro_eb10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.013079 0.04040679999999998 -0.035654999999999964 -1.5707963267948968 -1.5707963267948963 0.0</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ems_gyro_eb10" type="gyroscope">
+    <parent link="l_upper_leg"/>
+    <origin rpy="-1.5707963267948968 -1.5707963267948963 0.0" xyz="-0.013079 0.04040679999999998 -0.035654999999999964"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b1" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.042001689999999994 0.03156479999999999 0.04913199999999998 -1.570795518564555 -1.5706802103355733 -0.733039094711841</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b1" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="-1.570795518564555 -1.5706802103355733 -0.733039094711841" xyz="0.042001689999999994 0.03156479999999999 0.04913199999999998"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b2" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.05352114999999998 0.007765700000000014 0.03925200000000001 -1.5707963863768455 -1.5706802103927162 -1.3089969473954748</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b2" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="-1.5707963863768455 -1.5706802103927162 -1.3089969473954748" xyz="0.05352114999999998 0.007765700000000014 0.03925200000000001"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b3" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.053784999999999986 0.015070600000000003 0.0041819999999999635 3.141592653589793 -1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b3" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="3.141592653589793 -1.5707963267948961 0.0" xyz="0.053784999999999986 0.015070600000000003 0.0041819999999999635"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b4" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.05378499999999998 -0.014429400000000002 0.0041819999999999635 3.141592653589793 -1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b4" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="3.141592653589793 -1.5707963267948961 0.0" xyz="0.05378499999999998 -0.014429400000000002 0.0041819999999999635"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b5" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.03412954999999998 -0.0414999 -0.004858000000000029 1.9547688910448342 -1.5707963267948961 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b5" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="1.9547688910448342 -1.5707963267948961 0.0" xyz="0.03412954999999998 -0.0414999 -0.004858000000000029"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b6" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.043785 0.017810999999999994 -0.02641099999999999 -1.5707963267919405 1.5707743139371833 1.570796326789853</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b6" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="-1.5707963267919405 1.5707743139371833 1.570796326789853" xyz="-0.043785 0.017810999999999994 -0.02641099999999999"/>
+  </sensor>
+  <gazebo reference="l_upper_leg">
+    <sensor name="l_upper_leg_mtb_acc_10b7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>-0.04378500000000001 -0.014191800000000011 -0.02641099999999999 1.5707963267982468 1.5706473388946958 -1.5707963267919158</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_mtb_acc_10b7" type="accelerometer">
+    <parent link="l_upper_leg"/>
+    <origin rpy="1.5707963267982468 1.5706473388946958 -1.5707963267919158" xyz="-0.04378500000000001 -0.014191800000000011 -0.02641099999999999"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_ems_acc_eb7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.04351379199999999 0.011314499999999963 -0.09276499999999999 3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_ems_acc_eb7" type="accelerometer">
+    <parent link="l_lower_leg"/>
+    <origin rpy="3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15" xyz="0.04351379199999999 0.011314499999999963 -0.09276499999999999"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_ems_gyro_eb7" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.04450335399999999 0.011818499999999968 -0.08830099999999996 3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_ems_gyro_eb7" type="gyroscope">
+    <parent link="l_lower_leg"/>
+    <origin rpy="3.1415926535897922 -1.3526297834539556 1.0015766540504487e-15" xyz="0.04450335399999999 0.011818499999999968 -0.08830099999999996"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_mtb_acc_10b8" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.053133529999999984 0.017184099999999994 -0.0043179999999999885 -2.8972464875193467 -1.5707963267948963 0.0</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_mtb_acc_10b8" type="accelerometer">
+    <parent link="l_lower_leg"/>
+    <origin rpy="-2.8972464875193467 -1.5707963267948963 0.0" xyz="0.053133529999999984 0.017184099999999994 -0.0043179999999999885"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_mtb_acc_10b9" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.054451899999999984 -0.013799100000000009 -0.0043179999999999885 -1.5707963664504991 -1.5706802104435666 -1.919861927351539</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_mtb_acc_10b9" type="accelerometer">
+    <parent link="l_lower_leg"/>
+    <origin rpy="-1.5707963664504991 -1.5706802104435666 -1.919861927351539" xyz="0.054451899999999984 -0.013799100000000009 -0.0043179999999999885"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_mtb_acc_10b10" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.025915199999999996 0.04274479999999997 -0.04346800000000001 -1.5707936954748312 -1.5706802103471822 -0.26180181049683376</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_mtb_acc_10b10" type="accelerometer">
+    <parent link="l_lower_leg"/>
+    <origin rpy="-1.5707936954748312 -1.5706802103471822 -0.26180181049683376" xyz="0.025915199999999996 0.04274479999999997 -0.04346800000000001"/>
+  </sensor>
+  <gazebo reference="l_lower_leg">
+    <sensor name="l_lower_leg_mtb_acc_10b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.018459299999999977 -0.041718700000000025 -0.09295800000000004 1.570795319271908 -1.5707699978643241 0.2618001870286602</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_lower_leg_mtb_acc_10b11" type="accelerometer">
+    <parent link="l_lower_leg"/>
+    <origin rpy="1.570795319271908 -1.5707699978643241 0.2618001870286602" xyz="0.018459299999999977 -0.041718700000000025 -0.09295800000000004"/>
+  </sensor>
+  <gazebo reference="l_foot">
+    <sensor name="l_foot_mtb_acc_10b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.10552739999999997 0.0008122000000000129 -0.001214999999999966 0.0 -0.0 1.5707963267948966</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_foot_mtb_acc_10b12" type="accelerometer">
+    <parent link="l_foot"/>
+    <origin rpy="0.0 -0.0 1.5707963267948966" xyz="0.10552739999999997 0.0008122000000000129 -0.001214999999999966"/>
+  </sensor>
+  <gazebo reference="l_foot">
+    <sensor name="l_foot_mtb_acc_10b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.08052739999999997 0.011812200000000002 -0.001214999999999966 0.0 -0.0 1.5707963267948966</pose>
+      <plugin name="iCub_yarp_gazebo_plugin_ACC" filename="libgazebo_yarp_inertial.so"/>
+    </sensor>
+  </gazebo>
+  <sensor name="l_foot_mtb_acc_10b13" type="accelerometer">
+    <parent link="l_foot"/>
+    <origin rpy="0.0 -0.0 1.5707963267948966" xyz="0.08052739999999997 0.011812200000000002 -0.001214999999999966"/>
+  </sensor>
+  <gazebo reference="r_hip_2">
+    <sensor name="r_upper_leg_ft_acc_3b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.006563800000000002 -0.008586100000000013 -0.059281999999999946 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ft_acc_3b11" type="accelerometer">
+    <parent link="r_hip_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.006563800000000002 -0.008586100000000013 -0.059281999999999946"/>
+  </sensor>
+  <gazebo reference="r_hip_2">
+    <sensor name="r_upper_leg_ft_gyro_3b11" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.006563800000000002 -0.008586100000000013 -0.059281999999999946 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_upper_leg_ft_gyro_3b11" type="gyroscope">
+    <parent link="r_hip_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.006563800000000002 -0.008586100000000013 -0.059281999999999946"/>
+  </sensor>
+  <gazebo reference="r_ankle_2">
+    <sensor name="r_foot_ft_acc_3b14" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0040000999999999926 -0.00860000000000001 -0.045282000000000044 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_foot_ft_acc_3b14" type="accelerometer">
+    <parent link="r_ankle_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.0040000999999999926 -0.00860000000000001 -0.045282000000000044"/>
+  </sensor>
+  <gazebo reference="r_ankle_2">
+    <sensor name="r_foot_ft_gyro_3b14" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0040000999999999926 -0.00860000000000001 -0.045282000000000044 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="r_foot_ft_gyro_3b14" type="gyroscope">
+    <parent link="r_ankle_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.0040000999999999926 -0.00860000000000001 -0.045282000000000044"/>
+  </sensor>
+  <gazebo reference="l_hip_2">
+    <sensor name="l_upper_leg_ft_acc_3b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.006669999999999995 -0.008524799999999999 -0.059281999999999946 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ft_acc_3b12" type="accelerometer">
+    <parent link="l_hip_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.006669999999999995 -0.008524799999999999 -0.059281999999999946"/>
+  </sensor>
+  <gazebo reference="l_hip_2">
+    <sensor name="l_upper_leg_ft_gyro_3b12" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.006669999999999995 -0.008524799999999999 -0.059281999999999946 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_upper_leg_ft_gyro_3b12" type="gyroscope">
+    <parent link="l_hip_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.006669999999999995 -0.008524799999999999 -0.059281999999999946"/>
+  </sensor>
+  <gazebo reference="l_ankle_2">
+    <sensor name="l_foot_ft_acc_3b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0040001999999999885 -0.008600000000000003 -0.045282000000000044 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_foot_ft_acc_3b13" type="accelerometer">
+    <parent link="l_ankle_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.0040001999999999885 -0.008600000000000003 -0.045282000000000044"/>
+  </sensor>
+  <gazebo reference="l_ankle_2">
+    <sensor name="l_foot_ft_gyro_3b13" type="imu">
+      <always_on>1</always_on>
+      <update_rate>100</update_rate>
+      <pose>0.0040001999999999885 -0.008600000000000003 -0.045282000000000044 -2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966</pose>
+    </sensor>
+  </gazebo>
+  <sensor name="l_foot_ft_gyro_3b13" type="gyroscope">
+    <parent link="l_ankle_2"/>
+    <origin rpy="-2.220446049250314e-16 2.220446049250313e-16 1.5707963267948966" xyz="0.0040001999999999885 -0.008600000000000003 -0.045282000000000044"/>
+  </sensor>
+  <gazebo>
+    <pose>0.0 0.0 0.63 0.0 0.0 3.14</pose>
+  </gazebo>
+</robot>

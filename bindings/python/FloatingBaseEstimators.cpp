@@ -126,12 +126,14 @@ void BipedalLocomotion::bindings::CreateFloatingBaseEstimator(pybind11::module& 
         .def("advance", &FloatingBaseEstimator::advance)
         .def("reset_estimator", py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
-        .def("reset_estimator", py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(&FloatingBaseEstimator::resetEstimator),
+        .def("reset_estimator", py::overload_cast<const Eigen::Quaterniond&,
+             const Eigen::Vector3d&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_base_orientation"), py::arg("new_base_position"))
         .def("get", &FloatingBaseEstimator::get)
         .def("is_valid", &FloatingBaseEstimator::isValid)
         .def("initialize",
-            [](FloatingBaseEstimator& impl, std::shared_ptr<IParametersHandler> handler, std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
+            [](FloatingBaseEstimator& impl, std::shared_ptr<IParametersHandler> handler,
+               std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
                 return impl.initialize(handler, kinDyn);
             },
             py::arg("handler"), py::arg("kindyn"));

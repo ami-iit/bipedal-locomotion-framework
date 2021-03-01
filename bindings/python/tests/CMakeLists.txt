@@ -6,6 +6,9 @@
 # folder with the build-tree Python package. We use it as working directory so that
 # the tests always load the Python package from the build-tree even if BFL is installed
 # elsewhere.
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/model.urdf ${PROJECT_BINARY_DIR}/model.urdf COPYONLY)
+
 add_test(NAME PythonBindingsUnitTest
     COMMAND ${Python3_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
