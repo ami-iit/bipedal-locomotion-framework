@@ -2,7 +2,7 @@ import pytest
 pytestmark = pytest.mark.floating_base_estimators
 
 import bipedal_locomotion_framework.bindings as blf
-
+import numpy as np
 
 def test_legged_odometry():
     # This function just performs an interface test for
@@ -22,7 +22,7 @@ def test_legged_odometry():
                                                                "r_hip_pitch", "r_hip_roll", "r_hip_yaw",
                                                                "r_knee", "r_ankle_pitch", "r_ankle_roll"])
     kindyn_desc = blf.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert(kindyn_desc.is_valid())
+    assert kindyn_desc.is_valid()
 
     dt = 0.01
     # create configuration parameters handler for legged odometry
@@ -44,32 +44,31 @@ def test_legged_odometry():
     lo_group.set_parameter_vector_float("initial_world_orientation_in_ref_frame",  [1.0, 0.0, 0.0, 0.0])
     lo_group.set_parameter_vector_float("initial_world_position_in_ref_frame",  [0.0, 0.0, 0.0])
     lo_group.set_parameter_string("switching_pattern",  "useExternal")
-    assert(lo_params_handler.set_group("LeggedOdom", lo_group))
+    assert lo_params_handler.set_group("LeggedOdom", lo_group)
 
     # instantiate legged odometry
     legged_odom = blf.LeggedOdometry()
     empty_handler = blf.StdParametersHandler()
     # assert passing an empty parameter handler to false
-    assert(legged_odom.initialize(empty_handler, kindyn_desc.kindyn) == False)
+    assert legged_odom.initialize(empty_handler, kindyn_desc.kindyn) == False
 
     # assert passing an properly configured parameter handler to true
-    assert(legged_odom.initialize(lo_params_handler, kindyn_desc.kindyn) == True)
+    assert legged_odom.initialize(lo_params_handler, kindyn_desc.kindyn) == True
 
     # shape of the robot for the above specified joints list
-    encoders = [-0.0001, 0.0000, 0.0000,
-                0.1570, 0.0003, -0.0000,
-                -0.0609, 0.4350, 0.1833,
-                0.5375,
-                -0.0609, 0.4349, 0.1834,
-                0.5375,
-                0.0895, 0.0090, -0.0027,
-               -0.5694, -0.3771, -0.0211,
-                0.0896, 0.0090, -0.0027,
-               -0.5695, -0.3771, -0.0211]
-    encoder_speeds = [0] * len(encoders)
+    encoders = np.array([-0.0001, 0.0000, 0.0000,
+                          0.1570, 0.0003, -0.0000,
+                         -0.0609, 0.4350, 0.1833,
+                          0.5375,
+                         -0.0609, 0.4349, 0.1834,
+                          0.5375,
+                          0.0895, 0.0090, -0.0027,
+                         -0.5694, -0.3771, -0.0211,
+                          0.0896, 0.0090, -0.0027,
+                         -0.5695, -0.3771, -0.0211])
+    encoder_speeds = np.zeros_like(encoders)
 
-    time = 0
-    for iter in range(10):
+    for time in np.arange(start=0, step=dt, stop=10*dt):
         fixed_frame_idx = legged_odom.get_fixed_frame_index()
 
         # here we only fill measurement buffers
@@ -78,7 +77,7 @@ def test_legged_odometry():
         contact_status = True
         switch_time = time
         time_now = time
-        assert(legged_odom.set_contact_status(contact_name, contact_status, switch_time, time_now))
+        assert legged_odom.set_contact_status(contact_name, contact_status, switch_time, time_now)
 
         # since we set "switching_pattern" parameter to "useExternal"
         # we can change the fixed frame manually from an external script
@@ -89,5 +88,9 @@ def test_legged_odometry():
         legged_odom.change_fixed_frame(fixed_frame_idx)
 
         # computations given the set measurements
-        assert(legged_odom.advance())
-        time = time + dt
+        assert legged_odom.advance()
+
+        # sample asserts for show-casing outputs
+        out = legged_odom.get()
+        assert len(out.base_twist) == 6
+        assert len(out.state.imu_linear_velocity) == 3
