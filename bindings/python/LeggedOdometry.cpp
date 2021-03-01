@@ -26,7 +26,9 @@ void BipedalLocomotion::bindings::CreateLeggedOdometry(pybind11::module& module)
     py::class_<LeggedOdometry, FloatingBaseEstimator>(module, "LeggedOdometry")
         .def(py::init())
         .def("initialize",
-            [](LeggedOdometry& impl, std::shared_ptr<IParametersHandler> handler, std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
+            [](LeggedOdometry& impl,
+               std::shared_ptr<IParametersHandler> handler,
+               std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
                 return impl.initialize(handler, kinDyn);
             },
             py::arg("handler"), py::arg("kindyn"))
@@ -39,14 +41,18 @@ void BipedalLocomotion::bindings::CreateLeggedOdometry(pybind11::module& module)
         .def("advance", &LeggedOdometry::advance)
         .def("reset_estimator", py::overload_cast<const InternalState&>(&LeggedOdometry::resetEstimator),
              py::arg("new_state"))
-        .def("reset_estimator", py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::resetEstimator),
+        .def("reset_estimator",
+             py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::resetEstimator),
              py::arg("new_imu_orientation"), py::arg("new_imu_position"))
         .def("reset_estimator", py::overload_cast<>(&LeggedOdometry::resetEstimator))
-        .def("reset_estimator", py::overload_cast<const std::string&, const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::resetEstimator),
+        .def("reset_estimator",
+             py::overload_cast<const std::string&, const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::resetEstimator),
              py::arg("ref_frame_for_world"),py::arg("world_orientation_in_ref_frame"), py::arg("world_position_in_ref_frame"))
-        .def("change_fixed_frame", py::overload_cast<const std::ptrdiff_t&>(&LeggedOdometry::changeFixedFrame),
+        .def("change_fixed_frame",
+             py::overload_cast<const std::ptrdiff_t&>(&LeggedOdometry::changeFixedFrame),
             py::arg("frame_index"))
-        .def("change_fixed_frame", py::overload_cast<const std::ptrdiff_t&, const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::changeFixedFrame),
+        .def("change_fixed_frame",
+             py::overload_cast<const std::ptrdiff_t&, const Eigen::Quaterniond&, const Eigen::Vector3d&>(&LeggedOdometry::changeFixedFrame),
             py::arg("frame_index"), py::arg("frame_orientation_in_world"), py::arg("frame_position_in_world"))
         .def("get_fixed_frame_index", &LeggedOdometry::getFixedFrameIdx)
         .def("get", &LeggedOdometry::get)
