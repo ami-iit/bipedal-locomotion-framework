@@ -21,12 +21,12 @@ public:
     std::vector<std::string> contactLinkNamesFromConfig;
     std::string meshFilesPrefix{" "};
     std::shared_ptr<iDynTree::KinDynComputations> kinDyn{nullptr}; /**< Pointer to a KinDynComputations object */
-    std::vector< std::vector< iDynTree::SolidShape* > > linkCollisionSolidsV;    
-    
+    std::vector< std::vector< iDynTree::SolidShape* > > linkCollisionSolidsV;
+
     bool assumeFlatAndAtleastOneContact{true};
     Eigen::Vector3d groundPlaneNormal{0.0, 0.0, 1.0}; // assumes inertial frame has z pointing upwards and parallel to gravity
     Eigen::Vector3d pointOnGroundPlane{0.0, 0.0, 0.0}; //assume plane is defined by level set z = 0
-    
+
     // gains for sigmoid
     double meanContactDistance{0.034};
     double scaledDeviationContactDistance{0.00723}; // 0.004
@@ -36,40 +36,40 @@ public:
     double scaledDeviationSwingVelocityNorm{1.52};
     double contactProbabilityThreshold{0.57};
     bool useVertexContacts{true};
-    
+
     const double divideByZeroThreshold{1e-14};
-    
+
     double timeNow{0.};
     bool isClockSet{false};
     bool firstUpdate{true}; // used to update the ground plane height - vertex with minimum height
     bool verbose{false};
     bool noCollisionMeshes{true};
-    
+
     std::string lowestHeightFrameName;
 
-    bool getCollisionBoundingBoxes(const iDynTree::Model& model, 
+    bool getCollisionBoundingBoxes(const iDynTree::Model& model,
                                    const std::string& linkName,
                                    const bool& _noCollisionMesh,
                                    const std::string& _meshFilePrefix,
                                    const std::vector< std::vector< iDynTree::SolidShape* > >& collisionSolidsV,
                                    std::vector<iDynTree::Box* >& collisionBoundingBoxes);
-    
+
     bool updateCollisionBoxVerticesInLinkFrame(const std::vector<iDynTree::Box* >& collisionBoundingBoxes,
                                                std::vector< std::vector<iDynTree::Position> >& collisionBoxVertices);
-    
+
     bool updateCollisionStates();
     bool updateProbabilities();
     bool updateContactsList(EstimatedContactList& contacts);
     double pointToPlaneDistance(Eigen::Ref<const Eigen::Vector3d> vertex, 
                                 Eigen::Ref<const Eigen::Vector3d> pointOnPlane,
                                 Eigen::Ref<const Eigen::Vector3d> planeNormal);
-    
+
     double sigmoid(const double& value, const double& mean, const double& scale);
-    double sigmoid2(const double& value, const double& mean, 
+    double sigmoid2(const double& value, const double& mean,
                     const double& scale, const double& m);
-    
+
     bool isPrepared{false};
-    
+
     bool checkKinDyn(const std::string& printPrefix)
     {
         if (kinDyn == nullptr)
@@ -97,7 +97,7 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
     {
         return false;
     }
-    
+
     auto cbmHandler = orignalhandle->getGroup("ContactBayesFilter");
     auto handle = cbmHandler.lock();
     if (handle == nullptr)
@@ -109,7 +109,7 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
     {
         m_pimpl->noCollisionMeshes = false;
     }
-    
+
     if (!m_pimpl->noCollisionMeshes)
     {
         if (!handle->getParameter("urdf_mesh_files_prefix", m_pimpl->meshFilesPrefix))
@@ -120,7 +120,7 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
             return false;
         }
     }
-        
+
     if (!handle->getParameter("contact_links", m_pimpl->contactLinkNamesFromConfig))
     {
         std::cerr <<  printPrefix <<
@@ -128,7 +128,7 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
         << std::endl;
         return false;
     }
-    
+
     handle->getParameter("contact_distance_mean", m_pimpl->meanContactDistance);
     handle->getParameter("contact_distance_deviation", m_pimpl->scaledDeviationContactDistance);
     handle->getParameter("contact_velocity_norm_mean", m_pimpl->meanContactVelocityNorm);
@@ -149,10 +149,20 @@ bool ContactBayesManager::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations
         std::cerr <<  printPrefix << "Invalid KinDynComputations object." << std::endl;
         return false;
     }
-            
+
     m_pimpl->kinDyn = kinDyn;
-        
+
     return true;
+}
+
+bool ContactBayesManager::setRobotStateExternally(manif::SE3d& basePose,
+                                                  Eigen::Ref<const Eigen::Matrix<double, 6, 1> > baseTwist,
+                                                  Eigen::Ref<const Eigen::VectorXd> jointPos,
+                                                  Eigen::Ref<const Eigen::VectorXd> jointVel,
+                                                  Eigen::Ref<const Eigen::Vector3d> worldGravity)
+{
+    return m_pimpl->kinDyn->setRobotState(basePose.transform(), baseTwist,
+                                          jointPos, jointVel, worldGravity);
 }
 
 void ContactBayesManager::setCurrentTime(const double& timeNow)
@@ -168,16 +178,16 @@ bool ContactBayesManager::prepare()
     {
         return false;
     }
-    
+
     iDynTree::Model model = m_pimpl->kinDyn->model();
     m_pimpl->linkCollisionSolidsV = model.collisionSolidShapes().getLinkSolidShapes();
-    
+
     if (m_pimpl->contactLinkNamesFromConfig.size() == 0)
     {
         std::cerr << printPrefix << "No contact links mentioned in configuration. Nothing to prepare." << std::endl;
             return false;
     }
-    
+
     for (auto& linkName : m_pimpl->contactLinkNamesFromConfig)
     {
         ContactBayesCollision cCollision;
@@ -190,21 +200,21 @@ bool ContactBayesManager::prepare()
                                                 m_pimpl->linkCollisionSolidsV,
                                                 cCollision.boundingBoxes))
         {
-            std::cerr << printPrefix << "Could not retrieve link collision bounding box for link: " 
+            std::cerr << printPrefix << "Could not retrieve link collision bounding box for link: "
             << linkName << std::endl;
             return false;
         }
-        
+
         // get bounding box vertices in link frame
         std::vector<std::vector<iDynTree::Position> > boxVerticesDyn;
         if (!m_pimpl->updateCollisionBoxVerticesInLinkFrame(cCollision.boundingBoxes,
                                                             boxVerticesDyn))
         {
-            std::cerr << printPrefix << "Could not compute bounding box vertices in link frame for link: " 
+            std::cerr << printPrefix << "Could not compute bounding box vertices in link frame for link: "
             << linkName << std::endl;
             return false;
         }
-        
+
         // add additional frames to the link and update the robot model
         // assuming that these additional frames are appended only at the end of
         // the existing frames vector
@@ -219,7 +229,7 @@ bool ContactBayesManager::prepare()
         cCollision.isActive.resize(nrBoxes);
         cCollision.verticesSwitchTimes.resize(nrBoxes);
         for (int idx = 0; idx < nrBoxes; idx++)
-        {            
+        {
             auto nrVertices = boxVerticesDyn[idx].size();
             cCollision.boxVertices[idx].resize(nrVertices);
             cCollision.boxVerticesNames[idx].resize(nrVertices);
@@ -230,7 +240,7 @@ bool ContactBayesManager::prepare()
             cCollision.verticesDistancesToNearestPlane[idx].resize(nrVertices);
             cCollision.isActive[idx].resize(nrVertices);
             cCollision.verticesSwitchTimes[idx].resize(nrVertices);
-            
+
             for (int jdx = 0; jdx < nrVertices; jdx++)
             {
                 auto link_H_vertex = iDynTree::Transform(iDynTree::Rotation::Identity(),
@@ -238,11 +248,11 @@ bool ContactBayesManager::prepare()
                 std::string frameName = linkName + "_collision_box" + std::to_string(idx) + "_vertex"  + std::to_string(jdx);
                 if (!model.addAdditionalFrameToLink(linkName, frameName, link_H_vertex))
                 {
-                    std::cerr << printPrefix << "Could not add vertex " << frameName << " frame to link: " 
+                    std::cerr << printPrefix << "Could not add vertex " << frameName << " frame to link: "
                     << linkName << std::endl;
                     return false;
                 }
-                
+
                 cCollision.boxVertices[idx][jdx] = iDynTree::toEigen(boxVerticesDyn[idx][jdx]);
                 cCollision.boxVerticesNames[idx][jdx] = frameName;
                 cCollision.verticesPositionsInertial[idx][jdx].setZero();
@@ -254,10 +264,10 @@ bool ContactBayesManager::prepare()
                 cCollision.verticesSwitchTimes[idx][jdx] = 0.0;
             }
         }
-        
-        m_pimpl->manager[linkName] = cCollision;        
+
+        m_pimpl->manager[linkName] = cCollision;
     }
-    
+
     if (!m_pimpl->kinDyn->loadRobotModel(model))
     {
         std::cerr << printPrefix << "Could not update robot model with new collision frames. " << std::endl;
@@ -268,7 +278,7 @@ bool ContactBayesManager::prepare()
     return true;
 }
 
-bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model& model, 
+bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model& model,
                                                           const std::string& linkName,
                                                           const bool& _noCollisionMesh,
                                                           const std::string& _meshFilePrefix,
@@ -277,14 +287,14 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
 {
     std::string printPrefix{"[ContactBayesManager::Impl::getCollisionBoundingBoxes] "};
     int nrLinks = model.getNrOfLinks();
-    
+
     if (model.getLinkIndex(linkName) == iDynTree::LINK_INVALID_INDEX)
     {
-        std::cerr << printPrefix << "Link specified in the configuration is not available in the model: " 
+        std::cerr << printPrefix << "Link specified in the configuration is not available in the model: "
         << linkName << std::endl;
         return false;
-    }        
-    
+    }
+
     for (int linkIdx = 0; linkIdx < nrLinks; linkIdx++)
     {
         std::string modelLinkName = model.getLinkName(linkIdx);
@@ -292,22 +302,22 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
         {
             continue;
         }
-        
-        std::vector<iDynTree::SolidShape*> solidsV = collisionSolidsV[linkIdx];        
+
+        std::vector<iDynTree::SolidShape*> solidsV = collisionSolidsV[linkIdx];
         collisionBoundingBoxes.resize(solidsV.size());
         for (int solidIdx = 0; solidIdx < solidsV.size(); solidIdx++)
         {
             auto& solid = solidsV[solidIdx];
             if (solid->isBox())
             {
-                collisionBoundingBoxes[solidIdx] = solid->asBox();   
+                collisionBoundingBoxes[solidIdx] = solid->asBox();
             }
             else
-            {                    
+            {
                 if (solid->isCylinder() ||
                     solid->isSphere() ||
                     solid->isExternalMesh())
-                {                    
+                {
                     if (solid->isExternalMesh())
                     {
                         if (_noCollisionMesh)
@@ -316,11 +326,11 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
                             << linkName << std::endl; 
                             return false;
                         }
-                        
+
                         // expects ROS_PACKAGE_PATH to point to iCub package w
                         std::string meshPath{" "}; 
                         meshPath = solid->asExternalMesh()->getFileLocationOnLocalFileSystem();
-                        
+
                         if (meshPath == " ")
                         {
                             auto urdfFileName = solid->asExternalMesh()->getFilename();
@@ -332,7 +342,7 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
                             {
                                 collapsedFileName.push_back(part);
                             }
-                            
+
                             if (collapsedFileName.size() != 2)
                             {
                                 std::cerr << printPrefix << "Error parsing mesh file name for link: "
@@ -340,38 +350,38 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
                             }
                             meshPath = _meshFilePrefix + collapsedFileName[1];
                         }
-                                                    
+
                         // set mesh path
                         solid->asExternalMesh()->setFilename(meshPath);
                     }
-                    
+
                     iDynTree::Box box;
                     if (!iDynTree::computeBoundingBoxFromShape(*solid, box))
                     {
                         std::cerr << printPrefix << "Could not convert mesh to bounding box for link: "
                         << linkName << std::endl; 
                         return false;
-                    }                    
-                    
-                    collisionBoundingBoxes[solidIdx] = box.clone()->asBox();                        
+                    }
+
+                    collisionBoundingBoxes[solidIdx] = box.clone()->asBox();
                 }
             }
         }
     }
-    
+
     return true;
 }
 
-double ContactBayesManager::Impl::sigmoid(const double& value, 
-                                          const double& mean, 
+double ContactBayesManager::Impl::sigmoid(const double& value,
+                                          const double& mean,
                                           const double& scale)
 {
     // https://en.wikipedia.org/wiki/Logistic_distribution
     return 0.5 + 0.5*std::tanh( (value - mean) / (2*scale) );
 }
 
-double ContactBayesManager::Impl::sigmoid2(const double& value, 
-                                          const double& mean, 
+double ContactBayesManager::Impl::sigmoid2(const double& value,
+                                          const double& mean,
                                           const double& scale,
                                           const double& m)
 {
@@ -381,7 +391,7 @@ double ContactBayesManager::Impl::sigmoid2(const double& value,
     return 0.5 + (m*0.5*std::tanh((value - mean)*scale));
 }
 
-double ContactBayesManager::Impl::pointToPlaneDistance(Eigen::Ref<const Eigen::Vector3d> vertex, 
+double ContactBayesManager::Impl::pointToPlaneDistance(Eigen::Ref<const Eigen::Vector3d> vertex,
                                                        Eigen::Ref<const Eigen::Vector3d> pointOnPlane,
                                                        Eigen::Ref<const Eigen::Vector3d> planeNormal)
 {
@@ -392,14 +402,14 @@ double ContactBayesManager::Impl::pointToPlaneDistance(Eigen::Ref<const Eigen::V
         std::cerr << printPrefix << "plane normal is not a unit vector." << std::endl;
         return -1.0;
     }
-    
+
     // normalize plane normal vector
     Eigen::Vector3d unitNormal = planeNormal/norm;
     Eigen::Vector3d vec = vertex - pointOnPlane;
-    return std::abs(vec.dot(unitNormal));    
+    return std::abs(vec.dot(unitNormal));
 }
 
-bool ContactBayesManager::Impl::updateCollisionBoxVerticesInLinkFrame(const std::vector<iDynTree::Box *>& collisionBoundingBoxes, 
+bool ContactBayesManager::Impl::updateCollisionBoxVerticesInLinkFrame(const std::vector<iDynTree::Box *>& collisionBoundingBoxes,
                                                                       std::vector<std::vector<iDynTree::Position> >& collisionBoxVertices)
 {
     auto nrBoxes = collisionBoundingBoxes.size();
@@ -408,7 +418,7 @@ bool ContactBayesManager::Impl::updateCollisionBoxVerticesInLinkFrame(const std:
     {
         auto box = collisionBoundingBoxes[idx];
         auto verticesDyn = iDynTree::computeBoxVertices(*box);
-        
+
         collisionBoxVertices[idx] = verticesDyn;
     }
     return true;
@@ -418,7 +428,7 @@ bool ContactBayesManager::Impl::updateCollisionStates()
 {
     std::string printPrefix{"[ContactBayesManager::Impl::updateCollisionStates] "};
     double minHeightVertex{std::numeric_limits<double>::max()};
-    
+
     for (auto& linkName : contactLinkNamesFromConfig)
     {
         auto& cCollision = manager.at(linkName);
@@ -426,19 +436,19 @@ bool ContactBayesManager::Impl::updateCollisionStates()
         bool ok = kinDyn->getFrameVel(linkName, cCollision.velocity);
         if (linkIdx == iDynTree::LINK_INVALID_INDEX || !ok)
         {
-            std::cerr << printPrefix << "Could not update internal collision state for link: " 
+            std::cerr << printPrefix << "Could not update internal collision state for link: "
             << linkName << std::endl;
             continue;
         }
-                        
+
         auto linkPose = kinDyn->getWorldTransform(linkName);
         cCollision.position = iDynTree::toEigen(linkPose.getPosition());
-                
+
         Eigen::Vector3d vLF = cCollision.velocity.head<3>();
         Eigen::Matrix3d omegaLFCross = iDynTree::skew(cCollision.velocity.tail<3>());
         Eigen::Matrix3d w_R_link = iDynTree::toEigen(linkPose.getRotation());
         auto nrBoxes{cCollision.boxVertices.size()};
-               
+
         for (std::size_t idx = 0; idx < nrBoxes; idx++)
         {
             auto nrVertices{cCollision.boxVertices[idx].size()};
@@ -447,7 +457,7 @@ bool ContactBayesManager::Impl::updateCollisionStates()
                 // vertex spatial position and linear velocities
                 cCollision.verticesPositionsInertial[idx][jdx] = (w_R_link*cCollision.boxVertices[idx][jdx]) + cCollision.position;
                 cCollision.verticesVelocitiesInertial[idx][jdx] = vLF + omegaLFCross*cCollision.verticesPositionsInertial[idx][jdx];
-                
+
                 if (assumeFlatAndAtleastOneContact)
                 {
                     // get point with lowest spatial height
@@ -455,25 +465,25 @@ bool ContactBayesManager::Impl::updateCollisionStates()
                     {
                         minHeightVertex = cCollision.verticesPositionsInertial[idx][jdx](2);
                         lowestHeightFrameName = cCollision.boxVerticesNames[idx][jdx];
-                    }                                        
+                    }
                 }
             }
         }
     }
-    
+
     // update ground plane height
     if (assumeFlatAndAtleastOneContact && firstUpdate)
     {
        pointOnGroundPlane(2) = minHeightVertex;
        firstUpdate = false;
     }
-    
+
     // update vertex to ground plane distance
     for (auto& linkName : contactLinkNamesFromConfig)
     {
         auto& cCollision = manager.at(linkName);
         auto nrBoxes{cCollision.boxVertices.size()};
-               
+
         for (std::size_t idx = 0; idx < nrBoxes; idx++)
         {
             auto nrVertices{cCollision.boxVertices[idx].size()};
@@ -486,7 +496,7 @@ bool ContactBayesManager::Impl::updateCollisionStates()
             }
         }
     }
-    
+
     return true;
 }
 
@@ -495,47 +505,47 @@ bool ContactBayesManager::Impl::updateProbabilities()
     for (auto& linkName : contactLinkNamesFromConfig)
     {
         auto& cCollision = manager.at(linkName);
-        
+
         // reset number of active contacts to zero
         cCollision.nrActiveContacts = 0;
-        
+
         auto nrBoxes{cCollision.boxVertices.size()};
         for (std::size_t idx = 0; idx < nrBoxes; idx++)
         {
             auto nrVertices{cCollision.boxVertices[idx].size()};
             for (std::size_t jdx = 0; jdx < nrVertices; jdx++)
-            {   
+            {
                 // prior
                 double& onBelief = cCollision.contactProbabilities[idx][jdx];
                 double& offBelief = cCollision.swingProbabilities[idx][jdx];
-                
+
                 // transition probabilities
                 double distance{cCollision.verticesDistancesToNearestPlane[idx][jdx]};
-                
+
                 // transition from 1 to 0 and 0 to 0 (both have same models)
                 double offTransitionProb = sigmoid(distance, meanContactDistance, scaledDeviationContactDistance);
-                
+
                 // transition from 1 to 1 and 0 to 1 (both have same models)
                 double onTransitionProb{1 - offTransitionProb};
                 if (verbose)
                 {
-                    std::cout << "Name: " << cCollision.boxVerticesNames[idx][jdx] 
+                    std::cout << "Name: " << cCollision.boxVerticesNames[idx][jdx]
                             << " Distance: " << distance
                             << " onTransitionProb: " << onTransitionProb 
                             << " offTransitionProb: " << offTransitionProb << std::endl;
                 }
-                
+
                 // prediction
                 double onPrediction = onTransitionProb*onBelief + onTransitionProb*offBelief;
                 double offPrediction = offTransitionProb*onBelief + offTransitionProb*offBelief;
-                
+
                 // likelihoods
                 double velocityNorm{cCollision.verticesVelocitiesInertial[idx][jdx].norm()};
                 double onLikelihood = 1 - sigmoid(velocityNorm, meanContactVelocityNorm, scaledDeviationContactVelocityNorm);
-                
-                
+
+
                 double offLikelihood = sigmoid(velocityNorm, meanSwingVelocityNorm, scaledDeviationSwingVelocityNorm);
-                
+
                 if (verbose)
                 {
                     std::cout << "Name: " << cCollision.boxVerticesNames[idx][jdx] 
@@ -544,18 +554,18 @@ bool ContactBayesManager::Impl::updateProbabilities()
                             << " offLikelihood: " << offLikelihood 
                             << std::endl;
                 }
-                
+
                 cCollision.contactProbabilities[idx][jdx] = onLikelihood*onPrediction;
-                cCollision.swingProbabilities[idx][jdx] = offLikelihood*offPrediction;                
-                               
+                cCollision.swingProbabilities[idx][jdx] = offLikelihood*offPrediction;
+
                 double normalizer = 1/(cCollision.contactProbabilities[idx][jdx] + cCollision.swingProbabilities[idx][jdx]);
-                               
+
                 if (normalizer > divideByZeroThreshold)
                 {
                     cCollision.contactProbabilities[idx][jdx] *= normalizer;
                     cCollision.swingProbabilities[idx][jdx] *= normalizer;
                 }
-                
+
                 bool prevVertexContact {cCollision.isActive[idx][jdx]};
                 if (cCollision.contactProbabilities[idx][jdx] > contactProbabilityThreshold)
                 {
@@ -566,14 +576,14 @@ bool ContactBayesManager::Impl::updateProbabilities()
                 {
                     cCollision.isActive[idx][jdx] = false;
                 }
-                
+
                 if (prevVertexContact != cCollision.isActive[idx][jdx])
                 {
                     cCollision.verticesSwitchTimes[idx][jdx] = timeNow;
                 }
-                
+
                 if (verbose)
-                {                    
+                {
                     std::cout << "Name: " << cCollision.boxVerticesNames[idx][jdx] << 
                     " distance: " << cCollision.verticesDistancesToNearestPlane[idx][jdx] <<
                     " vNorm: " << velocityNorm <<
@@ -583,12 +593,12 @@ bool ContactBayesManager::Impl::updateProbabilities()
                 }
             }
         }
-        
+
         bool prevContact{cCollision.stableContact};
         cCollision.nrActiveContacts > 0 ? cCollision.stableContact = true : cCollision.stableContact = false;
 
         if (prevContact != cCollision.stableContact)
-        {            
+        {
             cCollision.switchTime = timeNow;
         }
 
@@ -610,10 +620,10 @@ bool ContactBayesManager::Impl::updateContactsList(EstimatedContactList& contact
             contact.isActive = cCollision.stableContact;
             contact.switchTime = cCollision.switchTime;
             contactsList[linkName] = contact;
-        }        
+        }
         else
         {
-            auto nrBoxes{cCollision.boxVertices.size()};        
+            auto nrBoxes{cCollision.boxVertices.size()};
             for (std::size_t idx = 0; idx < nrBoxes; idx++)
             {
                 auto nrVertices{cCollision.boxVertices[idx].size()};
@@ -639,23 +649,23 @@ bool ContactBayesManager::updateContactStates()
     {
         return false;
     }
-    
+
     if (!m_pimpl->isClockSet)
     {
         std::cerr << printPrefix << "Please set current clock time before calling this method." << std::endl;
         return false;
     }
-    
+
     if (!m_pimpl->isPrepared)
     {
         std::cerr << printPrefix << "Please run prepare() before calling this method." << std::endl;
         return false;
     }
-    
+
     bool ok = m_pimpl->updateCollisionStates();
     ok = ok && m_pimpl->updateProbabilities();
     ok = ok && m_pimpl->updateContactsList(m_contactStates);
-    
+
     m_pimpl->isClockSet = false;
     return true;
 }

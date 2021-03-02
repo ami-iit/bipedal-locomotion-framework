@@ -21,7 +21,7 @@ namespace Contacts
 {
 
 class ContactBayesCollision;
-    
+
 /**
  * Contact detection through probabilistic fusion of
  * link collision vertex distances with contact plane 
@@ -49,7 +49,23 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
-    
+
+    /**
+     * Set robot state externally if any other module
+     * using the shared pointer of kindyn is not already setting the robot state
+     * @param basePose pose of the base link in the inertial frame
+     * @param baseTwist twist of the base link in the inertial frame in mixed velocity representation
+     * @param jointPos joint positions
+     * @param jointVel joint velocities
+     * @param worldGravity acceleration due to gravity in the inertial frame
+     * @return True in case of success, false otherwise.
+     */
+    bool setRobotStateExternally(manif::SE3d& basePose,
+                                 Eigen::Ref<const Eigen::Matrix<double, 6, 1> > baseTwist,
+                                 Eigen::Ref<const Eigen::VectorXd> jointPos,
+                                 Eigen::Ref<const Eigen::VectorXd> jointVel,
+                                 Eigen::Ref<const Eigen::Vector3d> worldGravity);
+
     /**
      * Set current time
      * @param[in] time time now in time units
@@ -57,13 +73,13 @@ public:
      * this is required for updating contact switch times
      */
     void setCurrentTime(const double& timeNow);
-       
+
     /**
      * check configured contact links with loaded URDF model
      * and load the collisions data for the desired links from the URDF
      */
     bool prepare();
-    
+
     ContactBayesCollision getCollisionData(const std::string& linkName) const;
 
     std::ptrdiff_t getLowestHeightFrameIndex() const;
@@ -98,7 +114,7 @@ private:
  */
 class ContactBayesCollision
 {
-public:        
+public:
     // populated at configure step
     std::string linkName;
     std::vector<iDynTree::Box* > boundingBoxes;   /**< collision bounding boxes associated with the link */
@@ -107,7 +123,7 @@ public:
     std::size_t nrActiveContacts{0};  /**< total number of vertices in contact */
     bool stableContact{false};  /**< if the link can be considered to be in stable contact, if less then two active vertices set to false */
     double switchTime{0.};
-    
+
     // updated at every advance step
     Eigen::Vector3d position; /**< link position in inertial frame */
     Eigen::Matrix<double, 6, 1> velocity; /**< mixed triv. link velocity wrt inertial frame */
