@@ -95,6 +95,12 @@ public:
     bool setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference) final;
 
     /**
+     * Set the initial state of the planner
+     * @param initialState the initial state of the planner
+     */
+    void setInitialState(const DCMPlannerState& initialState) final;
+
+    /**
      * @brief Get the object.
      * @return a const reference of the requested object.
      */

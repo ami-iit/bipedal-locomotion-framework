@@ -31,7 +31,10 @@ struct TimeVaryingDCMPlanner::Impl
                                           constraints related to the position of the Zero Moment
                                           Point (ZMP) */
 
-    BipedalLocomotion::Planners::QuinticSpline dcmRef;
+    BipedalLocomotion::Planners::QuinticSpline dcmRef;/**< Spline used to compute the internal DCM. This is used only if
+                                                         useExternalDCMReference is false. */
+    Eigen::MatrixXd externalDCMTrajectory; /**< External DCM trajectory. This is used only if
+                                              useExternalDCMReference is true. */
 
     casadi::Opti opti; /**< CasADi opti stack */
     casadi::MX costFunction; /**< Cost function of the optimization problem */
@@ -491,6 +494,8 @@ struct TimeVaryingDCMPlanner::Impl
     bool setupOptimizationProblem(const ContactPhaseList& contactPhaseList,
                                   const DCMPlannerState& initialState)
     {
+        constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] ";
+
         using Sl = casadi::Slice;
 
         // set the initial conditions
@@ -510,11 +515,27 @@ struct TimeVaryingDCMPlanner::Impl
         {
             if (!this->computeDCMRegularization(contactPhaseList, initialState))
             {
-                std::cerr << "[TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] Unable to "
-                             "compute the DCM regularization term."
+                std::cerr << errorPrefix << "Unable to compute the DCM regularization term."
                           << std::endl;
                 return false;
             }
+        } else
+        {
+            if (this->externalDCMTrajectory.rows() != this->dcmVectorSize
+                || this->externalDCMTrajectory.cols() != this->optiVariables.dcm.columns())
+            {
+                std::cerr << errorPrefix << "Wrong size of the dcmReference. Expected matrix: (3 x "
+                          << this->optiVariables.dcm.columns() << "). Passed matrix: ("
+                          << this->externalDCMTrajectory.rows() << " x "
+                          << this->externalDCMTrajectory.cols() << ")." << std::endl;
+                return false;
+            }
+
+            this->initialValue.dcm = casadi::DM::zeros(3, this->optiVariables.dcm.columns());
+            Eigen::Map<Eigen::MatrixXd>(this->initialValue.dcm.ptr(),
+                                        this->initialValue.dcm.rows(),
+                                        this->initialValue.dcm.columns())
+                = this->externalDCMTrajectory;
         }
 
         // set last values
@@ -682,12 +703,22 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
         return false;
     }
 
-    if(m_pimpl->isTrajectoryComputed)
+    if (m_pimpl->isTrajectoryComputed)
     {
-        std::cerr << errorPrefix << "The trajectory has been already computed."
-                  << std::endl;
+        std::cerr << errorPrefix << "The trajectory has been already computed." << std::endl;
         return false;
     }
+
+    // clear the solver and the solution computed
+    m_pimpl->clear();
+
+    const double& initialTrajectoryTime = m_contactPhaseList.cbegin()->beginTime;
+    const double& endTrajectoryTime = m_contactPhaseList.lastPhase()->endTime;
+
+    m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
+                                                   / m_pimpl->optiSettings.plannerSamplingTime);
+
+    m_pimpl->setupOpti(m_pimpl->numberOfTrajectorySamples);
 
     if (!m_pimpl->setupOptimizationProblem(m_contactPhaseList, m_initialState))
     {
@@ -703,7 +734,8 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     } catch (const std::exception& e)
     {
         std::cerr << "[TimeVaryingDCMPlanner::computeTrajectory] Unable to solve the optimization "
-                     "problem. The following exception has been thrown by the solver"
+                     "problem. The following exception has been thrown by the solver: "
+                  << std::endl
                   << e.what() << "." << std::endl;
         return false;
     }
@@ -735,19 +767,8 @@ bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList
         return false;
     }
 
-    // clear the solver and the solution computed
-    m_pimpl->clear();
-
     // store the contact phase list
     m_contactPhaseList = contactPhaseList;
-
-    const double& initialTrajectoryTime = m_contactPhaseList.cbegin()->beginTime;
-    const double& endTrajectoryTime = m_contactPhaseList.lastPhase()->endTime;
-
-    m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
-                                                   / m_pimpl->optiSettings.plannerSamplingTime);
-
-    m_pimpl->setupOpti(m_pimpl->numberOfTrajectorySamples);
 
     // We have to recompute the trajectory
     m_pimpl->isTrajectoryComputed = false;
@@ -756,31 +777,42 @@ bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList
 
 bool TimeVaryingDCMPlanner::setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference)
 {
+    constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::setDCMReference] ";
+
     assert(m_pimpl);
     if(!m_pimpl->optiSettings.useExternalDCMReference)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::setDCMReference] You cannot call this function if "
-                     "you configure the planner with use_external_dcm_reference equal to false."
+        std::cerr << errorPrefix
+                  << "You cannot call this function if you configure the planner with "
+                     "use_external_dcm_reference equal to false."
                   << std::endl;
         return false;
     }
 
-    if (dcmReference.rows() != 3 || dcmReference.cols() != m_pimpl->optiVariables.dcm.columns())
+    if (dcmReference.rows() != m_pimpl->dcmVectorSize)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::setDCMReference] Wrong size of the dcmReference. "
-                     "Expected matrix: (3 x "
-                  << m_pimpl->optiVariables.dcm.columns() << "). Passed matrix: ("
-                  << dcmReference.rows() << " x " << dcmReference.cols() << ")." << std::endl;
+        std::cerr << errorPrefix
+                  << "The dcmReference should be a matrix with three rows. Expected rows: "
+                  << m_pimpl->dcmVectorSize << ", Passed matrix rows: " << dcmReference.rows()
+                  << "." << std::endl;
         return false;
     }
 
-    m_pimpl->initialValue.dcm = casadi::DM::zeros(3, m_pimpl->optiVariables.dcm.columns());
-    Eigen::Map<Eigen::MatrixXd>(m_pimpl->initialValue.dcm.ptr(),
-                                m_pimpl->initialValue.dcm.rows(),
-                                m_pimpl->initialValue.dcm.columns())
-        = dcmReference;
+    m_pimpl->externalDCMTrajectory = dcmReference;
+
+    m_pimpl->isTrajectoryComputed = false;
 
     return true;
+}
+
+void TimeVaryingDCMPlanner::setInitialState(const DCMPlannerState &initialState)
+{
+    assert(m_pimpl);
+
+    m_initialState = initialState;
+
+    // We have to recompute the trajectory
+    m_pimpl->isTrajectoryComputed = false;
 }
 
 const DCMPlannerState& TimeVaryingDCMPlanner::get() const

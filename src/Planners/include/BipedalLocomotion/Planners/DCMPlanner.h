@@ -58,7 +58,7 @@ public:
      * Set the initial state of the planner
      * @param initialState the initial state of the planner
      */
-    void setInitialState(const DCMPlannerState& initialState);
+    virtual void setInitialState(const DCMPlannerState& initialState);
 
     /**
      * Set the contact phase list
