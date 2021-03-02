@@ -78,6 +78,7 @@ void BipedalLocomotion::bindings::CreateStdParameterHandler(pybind11::module& mo
                const std::vector<std::string>& vec) { impl.setParameter(name, vec); },
             py::arg("name"),
             py::arg("value"))
+        .def("set_group", &StdImplementation::setGroup, py::arg("name"), py::arg("new_group"))
         .def(
             "get_parameter_bool",
             [](const StdImplementation& impl, const std::string& name) -> bool {

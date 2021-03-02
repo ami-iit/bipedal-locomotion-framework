@@ -55,6 +55,12 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateContactDetector(m);
     bindings::CreateSchmittTriggerUnit(m);
     bindings::CreateSchmittTriggerDetector(m);
+
+    // FloatingBaseEstimators.cpp
+    bindings::CreateKinDynComputations(m);
+    bindings::CreateKinDynComputationsDescriptor(m);
+    bindings::CreateFloatingBaseEstimator(m);
+    bindings::CreateLeggedOdometry(m);
 }
 
 std::string bindings::ToString(const manif::SE3d& se3)
