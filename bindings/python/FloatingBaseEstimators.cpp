@@ -9,15 +9,17 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
+
 #include "bipedal_locomotion_framework.h"
 
 void BipedalLocomotion::bindings::CreateKinDynComputations(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace iDynTree;
-    py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module, "KinDynComputations");
+    py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module,
+                                                                        "KinDynComputations");
 }
 
 void BipedalLocomotion::bindings::CreateKinDynComputationsDescriptor(pybind11::module& module)
@@ -31,7 +33,8 @@ void BipedalLocomotion::bindings::CreateKinDynComputationsDescriptor(pybind11::m
         .def_readwrite("kindyn", &KinDynComputationsDescriptor::kindyn)
         .def("is_valid", &KinDynComputationsDescriptor::isValid);
 
-    module.def("construct_kindyncomputations_descriptor",
+    module.def(
+        "construct_kindyncomputations_descriptor",
         [](std::shared_ptr<IParametersHandler> handler) -> KinDynComputationsDescriptor {
             return constructKinDynComputationsDescriptor(handler);
         },
@@ -94,8 +97,10 @@ void BipedalLocomotion::bindings::CreateFloatingBaseEstimator(pybind11::module& 
     py::class_<Options>(module, "FloatingBaseEstimatorOptions")
         .def(py::init())
         .def_readwrite("imu_bias_estimation_enabled", &Options::imuBiasEstimationEnabled)
-        .def_readwrite("static_imu_bias_initialization_enabled", &Options::staticImuBiasInitializationEnabled)
-        .def_readwrite("nr_samples_for_imu_bias_initialization", &Options::nrSamplesForImuBiasInitialization)
+        .def_readwrite("static_imu_bias_initialization_enabled",
+                       &Options::staticImuBiasInitializationEnabled)
+        .def_readwrite("nr_samples_for_imu_bias_initialization",
+                       &Options::nrSamplesForImuBiasInitialization)
         .def_readwrite("ekf_update_enabled", &Options::ekfUpdateEnabled)
         .def_readwrite("acceleration_due_to_gravity", &Options::accelerationDueToGravity);
 
@@ -114,36 +119,49 @@ void BipedalLocomotion::bindings::CreateFloatingBaseEstimator(pybind11::module& 
 
     py::class_<Advanceable<Output>>(module, "FloatingBaseEstimatorOutputAdvanceable");
 
-    py::class_<FloatingBaseEstimator, Advanceable<Output>> floatingBaseEstimator(module, "FloatingBaseEstimator");
+    py::class_<FloatingBaseEstimator, Advanceable<Output>> floatingBaseEstimator(module,
+                                                                                 "FloatingBaseEstimator");
 
     floatingBaseEstimator.def(py::init())
-        .def("set_imu_measurement", &FloatingBaseEstimator::setIMUMeasurement,
-             py::arg("acc_meas"), py::arg("gyro_meas"))
-        .def("set_contact_status", &FloatingBaseEstimator::setContactStatus,
-             py::arg("name"), py::arg("contact_status"), py::arg("switch_time"), py::arg("time_now"))
-        .def("set_kinematics", &FloatingBaseEstimator::setKinematics,
-             py::arg("encoders"), py::arg("encoder_speeds"))
+        .def("set_imu_measurement",
+             &FloatingBaseEstimator::setIMUMeasurement,
+             py::arg("acc_meas"),
+             py::arg("gyro_meas"))
+        .def("set_contact_status",
+             &FloatingBaseEstimator::setContactStatus,
+             py::arg("name"),
+             py::arg("contact_status"),
+             py::arg("switch_time"),
+             py::arg("time_now"))
+        .def("set_kinematics",
+             &FloatingBaseEstimator::setKinematics,
+             py::arg("encoders"),
+             py::arg("encoder_speeds"))
         .def("advance", &FloatingBaseEstimator::advance)
-        .def("reset_estimator", py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
+        .def("reset_estimator",
+             py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
-        .def("reset_estimator", py::overload_cast<const Eigen::Quaterniond&,
-             const Eigen::Vector3d&>(&FloatingBaseEstimator::resetEstimator),
-             py::arg("new_base_orientation"), py::arg("new_base_position"))
+        .def("reset_estimator",
+             py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(
+                 &FloatingBaseEstimator::resetEstimator),
+             py::arg("new_base_orientation"),
+             py::arg("new_base_position"))
         .def("get", &FloatingBaseEstimator::get)
         .def("is_valid", &FloatingBaseEstimator::isValid)
-        .def("initialize",
-            [](FloatingBaseEstimator& impl, std::shared_ptr<IParametersHandler> handler,
+        .def(
+            "initialize",
+            [](FloatingBaseEstimator& impl,
+               std::shared_ptr<IParametersHandler> handler,
                std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
                 return impl.initialize(handler, kinDyn);
             },
-            py::arg("handler"), py::arg("kindyn"));
+            py::arg("handler"),
+            py::arg("kindyn"));
 
     // at the moment at an interface level, this nested class need not be exposed
     // but in case, we want to use the FloatingBaseEstimator as base class
     // for python based implementations, maybe it could be useful
-    py::class_<FloatingBaseEstimator::ModelComputations>(floatingBaseEstimator, "FloatingBaseEstimatorModelComputations")
+    py::class_<FloatingBaseEstimator::ModelComputations>(floatingBaseEstimator,
+                                                         "FloatingBaseEstimatorModelComputations")
         .def(py::init());
-
 }
-
-
