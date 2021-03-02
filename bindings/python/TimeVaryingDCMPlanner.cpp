@@ -36,5 +36,6 @@ void BipedalLocomotion::bindings::CreateTimeVaryingDCMPlanner(pybind11::module& 
              py::arg("contact_phase_list"))
         .def("set_dcm_reference",
              &TimeVaryingDCMPlanner::setDCMReference,
-             py::arg("dcm_reference_matrix"));
+             py::arg("dcm_reference_matrix"))
+        .def("set_initial_state", &TimeVaryingDCMPlanner::setInitialState, py::arg("state"));
 }
