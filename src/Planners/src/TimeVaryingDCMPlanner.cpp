@@ -643,7 +643,14 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
     // get the linear solver used by ipopt. This parameter is optional. The default value is mumps
     std::string linearSolver;
     if (ptr->getParameter("linear_solver", linearSolver))
+    {
         m_pimpl->optiSettings.ipoptLinearSolver = linearSolver;
+    } else
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] linear_solver not found. The following "
+                     "parameter will be used "
+                  << m_pimpl->optiSettings.ipoptLinearSolver << "." << std::endl;
+    }
 
     bool ok = true;
     ok = ok && ptr->getParameter("omega_dot_weight", m_pimpl->optiSettings.omegaDotWeight);
@@ -668,7 +675,13 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
 
     // if this option is chosen an external dcm reference must be provided
     m_pimpl->optiSettings.useExternalDCMReference = false;
-    ptr->getParameter("use_external_dcm_reference", m_pimpl->optiSettings.useExternalDCMReference);
+    if (!ptr->getParameter("use_external_dcm_reference",
+                           m_pimpl->optiSettings.useExternalDCMReference))
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] use_external_dcm_reference not found. "
+                     "The following parameter will be used "
+                  << m_pimpl->optiSettings.useExternalDCMReference << "." << std::endl;
+    }
 
     if (ptr->getParameter("gravity", m_pimpl->optiSettings.gravity))
     {
@@ -681,6 +694,11 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
                       << std::endl;
             return false;
         }
+    } else
+    {
+        std::cerr << "[TimeVaryingDCMPlanner::initialize] gravity not found. The following "
+                     "parameter will be used "
+                  << BipedalLocomotion::Math::StandardAccelerationOfGravitation << "." << std::endl;
     }
 
     // the casadi functions are initialized only once
