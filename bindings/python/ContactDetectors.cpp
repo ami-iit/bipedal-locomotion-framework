@@ -11,6 +11,7 @@
 
 #include "BipedalLocomotion/ContactDetectors/ContactDetector.h"
 #include "BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h"
+#include "BipedalLocomotion/ContactDetectors/ContactBayesFilter.h"
 #include "bipedal_locomotion_framework.h"
 
 
@@ -95,3 +96,53 @@ void BipedalLocomotion::bindings::CreateSchmittTriggerDetector(pybind11::module&
         .def("remove_contact", &SchmittTriggerDetector::removeContact,
             py::arg("contact_name"));
 }
+
+void BipedalLocomotion::bindings::CreateContactBayesFilter(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+    using namespace BipedalLocomotion::Contacts;
+    using namespace BipedalLocomotion::System;
+    using namespace BipedalLocomotion::ParametersHandler;
+
+    py::class_<ContactBayesCollision>(module, "ContactBayesCollision")
+        .def(py::init())
+        .def_readwrite("link_name", &ContactBayesCollision::linkName)
+        .def_readwrite("box_vertices_names", &ContactBayesCollision::boxVerticesNames)
+        .def_readwrite("box_vertices", &ContactBayesCollision::boxVertices)
+        .def_readwrite("nr_active_contacts", &ContactBayesCollision::nrActiveContacts)
+        .def_readwrite("stable_contact", &ContactBayesCollision::stableContact)
+        .def_readwrite("switch_time", &ContactBayesCollision::switchTime)
+        .def_readwrite("position", &ContactBayesCollision::position)
+        .def_readwrite("velocity", &ContactBayesCollision::velocity)
+        .def_readwrite("vertices_positions_inertial", &ContactBayesCollision::verticesPositionsInertial)
+        .def_readwrite("vertices_velocities_inertial", &ContactBayesCollision::verticesVelocitiesInertial)
+        .def_readwrite("vertices_distances_to_nearest_plane", &ContactBayesCollision::verticesDistancesToNearestPlane)
+        .def_readwrite("contact_probabilities", &ContactBayesCollision::contactProbabilities)
+        .def_readwrite("swing_probabilities", &ContactBayesCollision::swingProbabilities)
+        .def_readwrite("is_active", &ContactBayesCollision::isActive)
+        .def_readwrite("vertices_switch_times", &ContactBayesCollision::verticesSwitchTimes);
+
+    py::class_<ContactBayesManager, ContactDetector>(module, "ContactBayesManager")
+        .def(py::init())
+        .def(
+            "initialize",
+            [](ContactBayesManager& impl, std::shared_ptr<IParametersHandler> handler) -> bool {
+                return impl.initialize(handler);
+            },
+            py::arg("handler"))
+        .def("advance", &ContactBayesManager::advance)
+        .def("reset_contacts", &ContactBayesManager::resetContacts)
+        .def("get", py::overload_cast<>(&ContactBayesManager::get, py::const_))
+        .def("get", py::overload_cast<const std::string&>(&ContactBayesManager::get, py::const_),
+             py::arg("contact_name"))
+        .def("is_valid", &ContactBayesManager::isValid)
+        .def("set_kindyn", &ContactBayesManager::setKinDyn)
+        .def("set_current_time", &ContactBayesManager::setCurrentTime)
+        .def("prepare", &ContactBayesManager::prepare)
+        .def("get_collision_data", &ContactBayesManager::getCollisionData)
+        .def("get_lowest_height_frame_index", &ContactBayesManager::getLowestHeightFrameIndex)
+        .def("get_lowest_height_frame_name", &ContactBayesManager::getLowestHeightFrameName)
+        .def("set_robot_state_externally", &ContactBayesManager::setRobotStateExternally);
+
+}
+

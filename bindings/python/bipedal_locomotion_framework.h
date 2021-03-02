@@ -65,6 +65,7 @@ void CreateConstants(pybind11::module& module);
 void CreateContactDetector(pybind11::module& module);
 void CreateSchmittTriggerUnit(pybind11::module& module);
 void CreateSchmittTriggerDetector(pybind11::module& module);
+void CreateContactBayesFilter(pybind11::module& module);
 
 // FloatingBaseEstimators.cpp
 void CreateKinDynComputations(pybind11::module& module);

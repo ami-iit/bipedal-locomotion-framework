@@ -55,6 +55,7 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateContactDetector(m);
     bindings::CreateSchmittTriggerUnit(m);
     bindings::CreateSchmittTriggerDetector(m);
+    bindings::CreateContactBayesFilter(m);
 
     // FloatingBaseEstimators.cpp
     bindings::CreateKinDynComputations(m);
