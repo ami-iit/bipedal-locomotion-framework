@@ -11,6 +11,7 @@
 #include <type_traits>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 namespace BipedalLocomotion
 {
@@ -20,11 +21,12 @@ namespace ParametersHandler
 template <typename T>
 bool StdImplementation::getParameterPrivate(const std::string& parameterName, T& parameter) const
 {
+    constexpr auto logPrefix = "[StdImplementation::getParameterPrivate]";
+
     auto parameterAny = m_map.find(parameterName);
     if (parameterAny == m_map.end())
     {
-        std::cerr << "[StdImplementation::getParameterPrivate] Parameter named " << parameterName
-                  << " not found." << std::endl;
+        log()->error("{} Parameter named '{}' not found.", logPrefix, parameterName);
         return false;
     }
 
@@ -35,9 +37,10 @@ bool StdImplementation::getParameterPrivate(const std::string& parameterName, T&
             parameter = std::any_cast<T>(parameterAny->second);
         } catch (const std::bad_any_cast& exception)
         {
-            std::cerr << "[StdImplementation::getParameterPrivate] The type of the parameter "
-                         "named "
-                      << parameterName << " is different from the one expected" << std::endl;
+            log()->error("{} The type of the parameter named '{}' is different from the one "
+                         "expected.",
+                         logPrefix,
+                         parameterName);
             return false;
         }
     } else
@@ -49,9 +52,10 @@ bool StdImplementation::getParameterPrivate(const std::string& parameterName, T&
             castedParameter = std::any_cast<std::vector<elementType>>(parameterAny->second);
         } catch (const std::bad_any_cast& exception)
         {
-            std::cerr << "[StdImplementation::getParameterPrivate] The type of the parameter "
-                         "named "
-                      << parameterName << " is different from the one expected" << std::endl;
+            log()->error("{} The type of the parameter named {} is different from the one "
+                         "expected.",
+                         logPrefix,
+                         parameterName);
             return false;
         }
 
@@ -63,19 +67,23 @@ bool StdImplementation::getParameterPrivate(const std::string& parameterName, T&
             {
                 if (!parameter.resizeVector(castedParameter.size()))
                 {
-                    std::cerr << "[StdImplementation::getParameterPrivate] Unable to resize "
-                              << type_name<T>() << "List size: " << castedParameter.size()
-                              << ". Vector size: " << parameter.size() << std::endl;
+                    log()->error("{} Unable to resize {} List size: {}. Vector size: {}.",
+                                 logPrefix,
+                                 type_name<T>(),
+                                 castedParameter.size(),
+                                 parameter.size());
+
                     return false;
                 }
             } else if constexpr (is_resizable<T>::value)
                 parameter.resize(castedParameter.size());
             else
             {
-                std::cerr << "[StdImplementation::getParameterPrivate] The size of the "
-                             "vector does not match with the size of the list. List size: "
-                          << castedParameter.size() << ". Vector size: " << parameter.size()
-                          << std::endl;
+                log()->error("{} The size of the vector does not match with the size of the list. "
+                             "List size: {}. Vector size: {}.",
+                             logPrefix,
+                             castedParameter.size(),
+                             parameter.size());
                 return false;
             }
         }

@@ -8,6 +8,7 @@
 #include <string>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 
@@ -113,9 +114,8 @@ bool StdImplementation::setGroup(const std::string& name, IParametersHandler::sh
     auto downcastedPtr = std::dynamic_pointer_cast<StdImplementation>(newGroup);
     if (downcastedPtr == nullptr)
     {
-        std::cerr << "[StdImplementation::setGroup] Unable to downcast the pointer to "
-                     "StdImplementation."
-                  << std::endl;
+        BipedalLocomotion::log()->error("[StdImplementation::setGroup] Unable to downcast the "
+                                        "pointer to StdImplementation.");
         return false;
     }
 
@@ -136,8 +136,10 @@ IParametersHandler::weak_ptr StdImplementation::getGroup(const std::string& name
         map = std::any_cast<shared_ptr>(group->second);
     } catch (const std::bad_any_cast& exception)
     {
-        std::cerr << "[StdImplementation::getGroup] The element named " << name
-                  << " is not a 'std::unordered_map<std::string, std::any>'" << std::endl;
+        log()->warn("[StdImplementation::getGroup] The element named '{}' is not a "
+                    "'std::unordered_map<std::string, std::any>'",
+                    name);
+
         return std::make_shared<StdImplementation>();
     }
 
