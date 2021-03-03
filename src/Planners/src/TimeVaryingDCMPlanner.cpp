@@ -482,7 +482,7 @@ struct TimeVaryingDCMPlanner::Impl
                                      velocity,
                                      acceleration))
             {
-                std::cerr << "[TimeVaryingDCMPlanner::Impl::computeDCMRegularization] Unable to "
+                std::cerr << "[ERROR] [TimeVaryingDCMPlanner::Impl::computeDCMRegularization] Unable to "
                              "evaluate the dcm reference trajectory."
                           << std::endl;
                 return false;
@@ -494,7 +494,7 @@ struct TimeVaryingDCMPlanner::Impl
     bool setupOptimizationProblem(const ContactPhaseList& contactPhaseList,
                                   const DCMPlannerState& initialState)
     {
-        constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] ";
+        constexpr auto errorPrefix = "[ERROR] [TimeVaryingDCMPlanner::Impl::setupOptimizationProblem] ";
 
         using Sl = casadi::Slice;
 
@@ -597,7 +597,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
 
     if (ptr == nullptr)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] The handler has to point to an already "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] The handler has to point to an already "
                      "initialized IParametershandler."
                   << std::endl;
         return false;
@@ -605,7 +605,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
 
     if (!ptr->getParameter("planner_sampling_time", m_pimpl->optiSettings.plannerSamplingTime))
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the sampling time of "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] Unable to load the sampling time of "
                      "the planner."
                   << std::endl;
         return false;
@@ -614,7 +614,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
     int numberOfFootCorners;
     if (!ptr->getParameter("number_of_foot_corners", numberOfFootCorners))
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load the number of foot "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] Unable to load the number of foot "
                      "corners."
                   << std::endl;
         return false;
@@ -627,7 +627,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
         if (!ptr->getParameter("foot_corner_" + std::to_string(i),
                                m_pimpl->optiSettings.footCorners[i]))
         {
-            std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load get the foot corner "
+            std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] Unable to load get the foot corner "
                          "number: "
                       << i << ". Please provide the foot corners having the following names: ";
             for (std::size_t j = 0; j < numberOfFootCorners; j++)
@@ -647,7 +647,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
         m_pimpl->optiSettings.ipoptLinearSolver = linearSolver;
     } else
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] linear_solver not found. The following "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] linear_solver not found. The following "
                      "parameter will be used "
                   << m_pimpl->optiSettings.ipoptLinearSolver << "." << std::endl;
     }
@@ -665,7 +665,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
 
     if (!ok)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Unable to load weights of the cost "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] Unable to load weights of the cost "
                      "function"
                   << std::endl;
         return false;
@@ -678,7 +678,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
     if (!ptr->getParameter("use_external_dcm_reference",
                            m_pimpl->optiSettings.useExternalDCMReference))
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] use_external_dcm_reference not found. "
+        std::cerr << "[INFO] [TimeVaryingDCMPlanner::initialize] use_external_dcm_reference not found. "
                      "The following parameter will be used "
                   << m_pimpl->optiSettings.useExternalDCMReference << "." << std::endl;
     }
@@ -687,7 +687,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
     {
         if (m_pimpl->optiSettings.gravity <= 0)
         {
-            std::cerr << "[TimeVaryingDCMPlanner::initialize] The gravity should be a strictly "
+            std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] The gravity should be a strictly "
                          "positive number. If you do not know which value use you can avoid to set "
                          "this parameter. The default value will be used. Default value: "
                       << BipedalLocomotion::Math::StandardAccelerationOfGravitation << "."
@@ -696,7 +696,7 @@ bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParamet
         }
     } else
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] gravity not found. The following "
+        std::cerr << "[INFO] [TimeVaryingDCMPlanner::initialize] gravity not found. The following "
                      "parameter will be used "
                   << BipedalLocomotion::Math::StandardAccelerationOfGravitation << "." << std::endl;
     }
@@ -712,7 +712,7 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
 {
     assert(m_pimpl);
 
-    constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::initialize] ";
+    constexpr auto errorPrefix = "[ERROR] [TimeVaryingDCMPlanner::initialize] ";
 
     if (!m_pimpl->isPlannerInitialized)
     {
@@ -751,8 +751,8 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
         m_pimpl->optiSolution.solution = std::make_unique<casadi::OptiSol>(m_pimpl->opti.solve());
     } catch (const std::exception& e)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::computeTrajectory] Unable to solve the optimization "
-                     "problem. The following exception has been thrown by the solver: "
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::computeTrajectory] Unable to solve the "
+                     "optimization problem. The following exception has been thrown by the solver: "
                   << std::endl
                   << e.what() << "." << std::endl;
         return false;
@@ -779,8 +779,8 @@ bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList
 
     if(!m_pimpl->isPlannerInitialized)
     {
-        std::cerr << "[TimeVaryingDCMPlanner::initialize] Please initialize the planner before "
-                     "computing the trajectory."
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::initialize] Please initialize the planner "
+                     "before computing the trajectory."
                   << std::endl;
         return false;
     }
@@ -795,7 +795,7 @@ bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList
 
 bool TimeVaryingDCMPlanner::setDCMReference(Eigen::Ref<const Eigen::MatrixXd> dcmReference)
 {
-    constexpr auto errorPrefix = "[TimeVaryingDCMPlanner::setDCMReference] ";
+    constexpr auto errorPrefix = "[ERROR] [TimeVaryingDCMPlanner::setDCMReference] ";
 
     assert(m_pimpl);
     if(!m_pimpl->optiSettings.useExternalDCMReference)
@@ -849,8 +849,8 @@ bool TimeVaryingDCMPlanner::advance()
 {
     if (!isValid())
     {
-        std::cerr << "[TimeVaryingDCMPlanner::advance] The data are not valid it is not possible "
-                     "to advance."
+        std::cerr << "[ERROR] [TimeVaryingDCMPlanner::advance] The data are not valid it is not "
+                     "possible to advance."
                   << std::endl;
         return false;
     }
