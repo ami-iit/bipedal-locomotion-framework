@@ -48,10 +48,10 @@ struct KinDynComputationsDescriptor
  * Helper function that can be used to build a KinDynComputations object loaded with specified model.
  * @param handler pointer to a parameter handler interface.
  * @note the following parameters are required by the function
- * |      Parameter Name     |       Type       |                         Description                       | Mandatory |
- * |:-----------------------:|:----------------:|:---------------------------------------------------------:|:---------:|
- * |      `joints_list`      | `vector<string>` |       List of the joints to be used in the reduced model  |    Yes    |
- * |    `model_file_name`    |     `string`     |    file name containing the full path to the urdf model   |    Yes    |
+ * |      Parameter Name     |       Type       |                         Description                       | Mandatory |              Remark                |
+ * |:-----------------------:|:----------------:|:---------------------------------------------------------:|:---------:|:----------------------------------:|
+ * |      `joints_list`      | `vector<string>` |       List of the joints to be used in the reduced model  |    No     | Full model is loaded if unavailable|
+ * |    `model_file_name`    |     `string`     |    file name containing the full path to the urdf model   |    Yes    |                 -                  |
  * @return A KinDynComputationsDescriptor. If one of the parameters is missing an invalid KinDynComputationsDescriptor is returned.
  */
 KinDynComputationsDescriptor constructKinDynComputationsDescriptor(
