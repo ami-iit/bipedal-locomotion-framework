@@ -1,9 +1,8 @@
-name: Build with Tests CI Workflow with conda-forge dependencies
+name: C++ CI Workflow with conda-forge dependencies
 
 on:
   push:
   pull_request:
-  workflow_dispatch:
   schedule:
   # * is a special character in YAML so you have to quote this string
   # Execute a "nightly" build at 2 AM UTC 
@@ -16,16 +15,11 @@ jobs:
     strategy:
       matrix:
         build_type: [Release]
-        os: [macOS-10.15]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
       fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Clone gazebo repo
-      shell: bash -l {0}
-      run: |
-        git clone https://github.com/osrf/gazebo
 
     - uses: conda-incubator/setup-miniconda@v2
       with:
@@ -39,37 +33,12 @@ jobs:
         # Compilation related dependencies 
         mamba install cmake compilers make ninja pkg-config
         # Actual dependencies
-        mamba install libprotobuf libsdformat libignition-cmake2 libignition-math6 libignition-transport8 libignition-common3 libignition-fuel-tools4 qt ogre=1.10 freeimage curl tbb-devel qwt tinyxml2 tinyxml boost-cpp libcurl ffmpeg 
- 
-    - name: Dependencies [Linux&macOS]
-      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
-      run: |
-        mamba install libtar libccd 
-    
-    - name: Dependencies [Linux]
-      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
-      run: |
-        mamba install libuuid
-
-    - name: Dependencies [macOS]
-      if: contains(matrix.os, 'macos')
-      shell: bash -l {0}
-      run: |
-        mamba install libuuid bzip2 zlib
-
-    - name: Dependencies [Windows]
-      if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
-      run: |
-        mamba install dlfcn-win32 tiny-process-library
-
+        mamba install -c robotology-staging idyntree yarp  eigen qhull casadi cppad manif
+        
     - name: Configure [Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
-        cd gazebo
         mkdir -p build
         cd build
         cmake -GNinja -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
@@ -78,7 +47,6 @@ jobs:
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
-        cd gazebo
         mkdir -p build
         cd build
         cmake -G"Visual Studio 16 2019" -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
@@ -86,14 +54,11 @@ jobs:
     - name: Build 
       shell: bash -l {0}
       run: |
-        cd gazebo
         cd build
         cmake --build . --config ${{ matrix.build_type }}
         
     - name: Test
       shell: bash -l {0}
       run: |
-        cd gazebo
         cd build
         ctest --output-on-failure -C ${{ matrix.build_type }}
-
