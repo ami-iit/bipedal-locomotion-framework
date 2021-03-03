@@ -37,7 +37,11 @@ KinDynComputationsDescriptor BipedalLocomotion::Estimators::constructKinDynCompu
 
     bool ok{true};
     std::vector<std::string> jointsList;
-    ok = ok && ptr->getParameter("joints_list", jointsList);
+    bool loadFullModel{false};
+    if (!ptr->getParameter("joints_list", jointsList))
+    {
+        loadFullModel = true;
+    }
 
     std::string fileName;
     ok = ok && ptr->getParameter("model_file_name", fileName);
@@ -50,7 +54,14 @@ KinDynComputationsDescriptor BipedalLocomotion::Estimators::constructKinDynCompu
     }
 
     iDynTree::ModelLoader mdlLdr;
-    ok = ok && mdlLdr.loadReducedModelFromFile(fileName, jointsList);
+    if (loadFullModel)
+    {
+        ok = ok && mdlLdr.loadModelFromFile(fileName);
+    }
+    else
+    {
+        ok = ok && mdlLdr.loadReducedModelFromFile(fileName, jointsList);
+    }
 
     if (!ok)
     {
