@@ -12,7 +12,8 @@ using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion::GenericContainer;
 using namespace BipedalLocomotion::ParametersHandler;
 
-YarpSensorBridge::YarpSensorBridge() : m_pimpl(std::make_unique<Impl>())
+YarpSensorBridge::YarpSensorBridge()
+    : m_pimpl(std::make_unique<Impl>())
 {
 }
 
@@ -30,54 +31,69 @@ bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
         return false;
     }
 
-
-    if(!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
+    if (!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
     {
-        std::cerr << logPrefix << "Unable to get check_for_nan."
-                  << std ::endl;
+        std::cerr << logPrefix << "Unable to get check_for_nan." << std ::endl;
         return false;
     }
 
     bool ret{true};
-    ret = m_pimpl->subConfigLoader("stream_joint_states", "RemoteControlBoardRemapper",
-                                    &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
-                                    handler,
-                                    m_pimpl->metaData,
-                                    m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
+    ret = m_pimpl->subConfigLoader("stream_joint_states",
+                                   "RemoteControlBoardRemapper",
+                                   &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
     if (!ret)
     {
-        std::cout << logPrefix << " Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge will not stream relevant measures." << std::endl;
+        std::cout << logPrefix
+                  << " Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge "
+                     "will not stream relevant measures."
+                  << std::endl;
     }
 
     bool useInertialSensors{false};
-    ret = m_pimpl->subConfigLoader("stream_inertials", "InertialSensors",
-                                    &YarpSensorBridge::Impl::configureInertialSensors,
-                                    handler,
-                                    m_pimpl->metaData,
-                                    useInertialSensors);
+    ret = m_pimpl->subConfigLoader("stream_inertials",
+                                   "InertialSensors",
+                                   &YarpSensorBridge::Impl::configureInertialSensors,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   useInertialSensors);
     if (!ret)
     {
-        std::cout << logPrefix << " Skipping the configuration of InertialSensors. YarpSensorBridge will not stream relevant measures." << std::endl;
+        std::cout << logPrefix
+                  << " Skipping the configuration of InertialSensors. YarpSensorBridge will not "
+                     "stream relevant measures."
+                  << std::endl;
     }
 
-    ret = m_pimpl->subConfigLoader("stream_forcetorque_sensors", "SixAxisForceTorqueSensors",
-                                    &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
-                                    handler,
-                                    m_pimpl->metaData,
-                                    m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
+    ret = m_pimpl
+              ->subConfigLoader("stream_forcetorque_sensors",
+                                "SixAxisForceTorqueSensors",
+                                &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
+                                handler,
+                                m_pimpl->metaData,
+                                m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
     if (!ret)
     {
-        std::cout << logPrefix << " Skipping the configuration of SixAxisForceTorqueSensors. YarpSensorBridge will not stream relevant measures." << std::endl;
+        std::cout << logPrefix
+                  << " Skipping the configuration of SixAxisForceTorqueSensors. YarpSensorBridge "
+                     "will not stream relevant measures."
+                  << std::endl;
     }
 
-    ret = m_pimpl->subConfigLoader("stream_cartesian_wrenches", "CartesianWrenches",
-                                    &YarpSensorBridge::Impl::configureCartesianWrenches,
-                                    handler,
-                                    m_pimpl->metaData,
-                                    m_pimpl->metaData.bridgeOptions.isCartesianWrenchEnabled);
+    ret = m_pimpl->subConfigLoader("stream_cartesian_wrenches",
+                                   "CartesianWrenches",
+                                   &YarpSensorBridge::Impl::configureCartesianWrenches,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   m_pimpl->metaData.bridgeOptions.isCartesianWrenchEnabled);
     if (!ret)
     {
-        std::cout << logPrefix << " Skipping the configuration of CartesianWrenches. YarpSensorBridge will not stream relevant measures." << std::endl;
+        std::cout << logPrefix
+                  << " Skipping the configuration of CartesianWrenches. YarpSensorBridge will not "
+                     "stream relevant measures."
+                  << std::endl;
     }
 
     m_pimpl->bridgeInitialized = true;
@@ -90,7 +106,8 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
 
     if (!m_pimpl->bridgeInitialized)
     {
-        std::cerr << logPrefix << "Please initialize YarpSensorBridge before calling setDriversList(...)."
+        std::cerr << logPrefix
+                  << "Please initialize YarpSensorBridge before calling setDriversList(...)."
                   << std ::endl;
         return false;
     }
@@ -103,8 +120,7 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
 
     if (!ret)
     {
-        std::cerr << logPrefix << "Failed to attach to one or more device drivers."
-                  << std ::endl;
+        std::cerr << logPrefix << "Failed to attach to one or more device drivers." << std ::endl;
         return false;
     }
     m_pimpl->driversAttached = true;
@@ -161,7 +177,8 @@ bool YarpSensorBridge::getIMUsList(std::vector<std::string>& IMUsList)
     return true;
 }
 
-bool YarpSensorBridge::getLinearAccelerometersList(std::vector<std::string>& linearAccelerometersList)
+bool YarpSensorBridge::getLinearAccelerometersList(
+    std::vector<std::string>& linearAccelerometersList)
 {
     if (!m_pimpl->checkValid("[YarpSensorBridge::getLinearAccelerometersList]"))
     {
@@ -201,7 +218,8 @@ bool YarpSensorBridge::getMagnetometersList(std::vector<std::string>& magnetomet
     return true;
 }
 
-bool YarpSensorBridge::getSixAxisForceTorqueSensorsList(std::vector<std::string>& sixAxisForceTorqueSensorsList)
+bool YarpSensorBridge::getSixAxisForceTorqueSensorsList(
+    std::vector<std::string>& sixAxisForceTorqueSensorsList)
 {
     if (!m_pimpl->checkValid("[YarpSensorBridge::getSixAxisForceTorqueSensorsList]"))
     {
@@ -223,213 +241,244 @@ bool YarpSensorBridge::getCartesianWrenchesList(std::vector<std::string>& cartes
 
 bool YarpSensorBridge::getJointPosition(const std::string& jointName,
                                         double& jointPosition,
-                                        double* receiveTimeInSeconds)
+                                        OptionalDoubleRef receiveTimeInSeconds)
 {
     int idx;
-    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList,
-                                     jointName, idx))
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
         std::cerr << "[YarpSensorBridge::getJointPosition] " << jointName
-                  <<  " could not be found in the configured list of joints" << std::endl;
+                  << " could not be found in the configured list of joints" << std::endl;
         return false;
     }
 
     jointPosition = m_pimpl->controlBoardRemapperMeasures.jointPositions[idx];
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
 
     return true;
 }
 
 bool YarpSensorBridge::getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                         double* receiveTimeInSeconds)
+                                         OptionalDoubleRef receiveTimeInSeconds)
 {
 
     jointPositions = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointPositions);
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
     return true;
 }
 
 bool YarpSensorBridge::getJointVelocity(const std::string& jointName,
                                         double& jointVelocity,
-                                        double* receiveTimeInSeconds)
+                                        OptionalDoubleRef receiveTimeInSeconds)
 {
     int idx;
-    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList,
-                                     jointName, idx))
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
         std::cerr << "[YarpSensorBridge::getJointVelocity] " << jointName
-                  <<  " could not be found in the configured list of joints" << std::endl;
+                  << " could not be found in the configured list of joints" << std::endl;
         return false;
     }
 
     jointVelocity = m_pimpl->controlBoardRemapperMeasures.jointVelocities[idx];
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
 
     return true;
 }
 
 bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                          double* receiveTimeInSeconds)
+                                          OptionalDoubleRef receiveTimeInSeconds)
 {
     jointVelocties = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointVelocities);
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
     return true;
 }
 
 bool YarpSensorBridge::getIMUMeasurement(const std::string& imuName,
                                          Eigen::Ref<Vector12d> imuMeasurement,
-                                         double* receiveTimeInSeconds)
+                                         OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getIMUMeasurement ",
-                                       m_pimpl->wholeBodyIMUMeasures, imuName))
+                                          m_pimpl->wholeBodyIMUMeasures,
+                                          imuName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyIMUMeasures.find(imuName);
     imuMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getLinearAccelerometerMeasurement(const std::string& accName,
                                                          Eigen::Ref<Eigen::Vector3d> accMeasurement,
-                                                         double* receiveTimeInSeconds)
+                                                         OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getLinearAccelerometerMeasurement ",
-                                           m_pimpl->wholeBodyInertialMeasures, accName))
+                                          m_pimpl->wholeBodyInertialMeasures,
+                                          accName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyInertialMeasures.find(accName);
     accMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getGyroscopeMeasure(const std::string& gyroName,
                                            Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
-                                           double* receiveTimeInSeconds)
+                                           OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getGyroscopeMeasure ",
-                                           m_pimpl->wholeBodyInertialMeasures, gyroName))
+                                          m_pimpl->wholeBodyInertialMeasures,
+                                          gyroName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyInertialMeasures.find(gyroName);
     gyroMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
-
 bool YarpSensorBridge::getOrientationSensorMeasurement(const std::string& rpyName,
                                                        Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
-                                                       double* receiveTimeInSeconds)
+                                                       OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getOrientationSensorMeasurement ",
-                                           m_pimpl->wholeBodyInertialMeasures, rpyName))
+                                          m_pimpl->wholeBodyInertialMeasures,
+                                          rpyName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyInertialMeasures.find(rpyName);
     rpyMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getMagnetometerMeasurement(const std::string& magName,
                                                   Eigen::Ref<Eigen::Vector3d> magMeasurement,
-                                                  double* receiveTimeInSeconds)
+                                                  OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getMagnetometerMeasurement ",
-                                           m_pimpl->wholeBodyInertialMeasures, magName))
+                                          m_pimpl->wholeBodyInertialMeasures,
+                                          magName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyInertialMeasures.find(magName);
     magMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getSixAxisForceTorqueMeasurement(const std::string& ftName,
                                                         Eigen::Ref<Vector6d> ftMeasurement,
-                                                        double* receiveTimeInSeconds)
+                                                        OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getSixAxisForceTorqueMeasurement ",
-                                           m_pimpl->wholeBodyFTMeasures, ftName))
+                                          m_pimpl->wholeBodyFTMeasures,
+                                          ftName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyFTMeasures.find(ftName);
     ftMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getCartesianWrench(const std::string& cartesianWrenchName,
                                           Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
-                                          double* receiveTimeInSeconds)
+                                          OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getCartesianWrench ",
-                                           m_pimpl->wholeBodyCartesianWrenchMeasures, cartesianWrenchName))
+                                          m_pimpl->wholeBodyCartesianWrenchMeasures,
+                                          cartesianWrenchName))
     {
         return false;
     }
 
     auto iter = m_pimpl->wholeBodyCartesianWrenchMeasures.find(cartesianWrenchName);
     cartesianWrenchMeasurement = yarp::eigen::toEigen(iter->second.first);
-    receiveTimeInSeconds = &iter->second.second;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
 }
 
 bool YarpSensorBridge::getThreeAxisForceTorqueMeasurement(const std::string& ftName,
                                                           Eigen::Ref<Eigen::Vector3d> ftMeasurement,
-                                                          double* receiveTimeInSeconds)
+                                                          OptionalDoubleRef receiveTimeInSeconds)
 {
-    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueMeasurement] Currently unimplemented";
-    std::cerr << error <<  std::endl;
+    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueMeasurement] "
+                                       "Currently unimplemented";
+    std::cerr << error << std::endl;
     return false;
 }
 
-bool YarpSensorBridge::getThreeAxisForceTorqueSensorsList(std::vector<std::string>& threeAxisForceTorqueSensorsList)
+bool YarpSensorBridge::getThreeAxisForceTorqueSensorsList(
+    std::vector<std::string>& threeAxisForceTorqueSensorsList)
 {
-    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueSensorsList] Currently unimplemented";
-    std::cerr << error <<  std::endl;
+    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueSensorsList] "
+                                       "Currently unimplemented";
+    std::cerr << error << std::endl;
 
     return false;
 }
 
 bool YarpSensorBridge::getMotorCurrent(const std::string& jointName,
-                                        double& motorCurrent,
-                                        double* receiveTimeInSeconds)
+                                       double& motorCurrent,
+                                       OptionalDoubleRef receiveTimeInSeconds)
 {
     int idx;
-    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList,
-                                     jointName, idx))
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
         std::cerr << "[YarpSensorBridge::getJointCurrent] " << jointName
-                  <<  " could not be found in the configured list of joints" << std::endl;
+                  << " could not be found in the configured list of joints" << std::endl;
         return false;
     }
 
     motorCurrent = m_pimpl->controlBoardRemapperMeasures.motorCurrents[idx];
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
 
     return true;
 }
 
 bool YarpSensorBridge::getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
-                                         double* receiveTimeInSeconds)
+                                        OptionalDoubleRef receiveTimeInSeconds)
 {
 
     motorCurrents = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.motorCurrents);
-    receiveTimeInSeconds = &m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
     return true;
 }

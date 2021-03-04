@@ -49,7 +49,7 @@ TEST_CASE("Test Sensor Bridge Interface")
     double accRecvTime;
     Eigen::Vector3d acc;
     std::string someName{"dummy"};
-    REQUIRE(dummyBridge->getLinearAccelerometerMeasurement(someName, acc, &accRecvTime));
+    REQUIRE(dummyBridge->getLinearAccelerometerMeasurement(someName, acc, accRecvTime));
     REQUIRE(acc(2) == -9.8);
     REQUIRE(accRecvTime == 10.0);
 }

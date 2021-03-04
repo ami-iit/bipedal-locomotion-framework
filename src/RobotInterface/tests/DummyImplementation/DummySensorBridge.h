@@ -95,21 +95,21 @@ public:
 
     virtual bool getJointPosition(const std::string& jointName,
                                   double& jointPosition,
-                                  double* receiveTimeInSeconds = nullptr) override { return true; };
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                   double* receiveTimeInSeconds = nullptr) override { return true; };
+                                   OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getJointVelocity(const std::string& jointName,
                                   double& jointVelocity,
-                                  double* receiveTimeInSeconds = nullptr) override { return true; };
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                    double* receiveTimeInSeconds = nullptr) override { return true; };
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getIMUMeasurement(const std::string& imuName,
                                    Eigen::Ref<Vector12d> imuMeasurement,
-                                   double* receiveTimeInSeconds = nullptr) override { return true; };
+                                   OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
 
     virtual bool getLinearAccelerometerMeasurement(const std::string& accName,
                                                    Eigen::Ref<Eigen::Vector3d> accMeasurement,
-                                                   double* receiveTimeInSeconds = nullptr) override
+                                                   OptionalDoubleRef receiveTimeInSeconds = {}) override
     {
         if (!m_initialized)
         {
@@ -129,28 +129,30 @@ public:
 
         // pass dummy measurements now
         accMeasurement << 0, 0, -9.8;
-        *receiveTimeInSeconds = 10.0;
+        if (receiveTimeInSeconds)
+            receiveTimeInSeconds.value().get() = 10.0;
+
         return true;
     };
 
     virtual bool getGyroscopeMeasure(const std::string& gyroName,
                                      Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
-                                     double* receiveTimeInSeconds = nullptr) override { return true; };
+                                     OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getOrientationSensorMeasurement(const std::string& rpyName,
                                                  Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
-                                                 double* receiveTimeInSeconds = nullptr) override { return true; };
+                                                 OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getMagnetometerMeasurement(const std::string& magName,
                                             Eigen::Ref<Eigen::Vector3d> magMeasurement,
-                                            double* receiveTimeInSeconds = nullptr) override { return true; };
+                                            OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getSixAxisForceTorqueMeasurement(const std::string& ftName,
                                                   Eigen::Ref<Vector6d> ftMeasurement,
-                                                  double* receiveTimeInSeconds = nullptr) override { return true; };
+                                                  OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getThreeAxisForceTorqueMeasurement(const std::string& ftName,
                                                     Eigen::Ref<Eigen::Vector3d> ftMeasurement,
-                                                    double* receiveTimeInSeconds = nullptr) override { return true; };
+                                                    OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
     virtual bool getCartesianWrench(const std::string& cartesianWrenchName,
                                     Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
-                                    double* receiveTimeInSeconds = nullptr) override { return true; };
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
 
 protected:
     virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,

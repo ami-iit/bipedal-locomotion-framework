@@ -224,7 +224,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             "get_joint_position",
             [](YarpSensorBridge& impl, const std::string& jointName) {
                 double joint, receiveTimeInSeconds;
-                bool ok = impl.getJointPosition(jointName, joint, &receiveTimeInSeconds);
+                bool ok = impl.getJointPosition(jointName, joint, receiveTimeInSeconds);
                 return std::make_tuple(ok, joint, receiveTimeInSeconds);
             },
             py::arg("joint_name"))
@@ -232,14 +232,14 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
              [](YarpSensorBridge& impl) {
                  Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
                  double receiveTimeInSeconds;
-                 bool ok = impl.getJointPositions(joints, &receiveTimeInSeconds);
+                 bool ok = impl.getJointPositions(joints, receiveTimeInSeconds);
                  return std::make_tuple(ok, joints, receiveTimeInSeconds);
              })
         .def(
             "get_joint_velocity",
             [](YarpSensorBridge& impl, const std::string& name) {
                 double joint, receiveTimeInSeconds;
-                bool ok = impl.getJointVelocity(name, joint, &receiveTimeInSeconds);
+                bool ok = impl.getJointVelocity(name, joint, receiveTimeInSeconds);
                 return std::make_tuple(ok, joint, receiveTimeInSeconds);
             },
             py::arg("joint_name"))
@@ -247,7 +247,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
              [](YarpSensorBridge& impl) {
                  Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
                  double receiveTimeInSeconds;
-                 bool ok = impl.getJointVelocities(joints, &receiveTimeInSeconds);
+                 bool ok = impl.getJointVelocities(joints, receiveTimeInSeconds);
                  return std::make_tuple(ok, joints, receiveTimeInSeconds);
              })
         .def(
@@ -255,7 +255,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             [](YarpSensorBridge& impl, const std::string& name) {
                 Eigen::Matrix<double, 12, 1> measurement;
                 double receiveTimeInSeconds;
-                bool ok = impl.getIMUMeasurement(name, measurement, &receiveTimeInSeconds);
+                bool ok = impl.getIMUMeasurement(name, measurement, receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -266,7 +266,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
                 double receiveTimeInSeconds;
                 bool ok = impl.getLinearAccelerometerMeasurement(name,
                                                                  measurement,
-                                                                 &receiveTimeInSeconds);
+                                                                 receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -275,7 +275,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             [](YarpSensorBridge& impl, const std::string& name) {
                 Eigen::Vector3d measurement;
                 double receiveTimeInSeconds;
-                bool ok = impl.getGyroscopeMeasure(name, measurement, &receiveTimeInSeconds);
+                bool ok = impl.getGyroscopeMeasure(name, measurement, receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -286,7 +286,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
                 double receiveTimeInSeconds;
                 bool ok = impl.getOrientationSensorMeasurement(name,
                                                                measurement,
-                                                               &receiveTimeInSeconds);
+                                                               receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -295,7 +295,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             [](YarpSensorBridge& impl, const std::string& name) {
                 Eigen::Vector3d measurement;
                 double receiveTimeInSeconds;
-                bool ok = impl.getMagnetometerMeasurement(name, measurement, &receiveTimeInSeconds);
+                bool ok = impl.getMagnetometerMeasurement(name, measurement, receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -306,7 +306,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
                 double receiveTimeInSeconds;
                 bool ok = impl.getSixAxisForceTorqueMeasurement(name,
                                                                 measurement,
-                                                                &receiveTimeInSeconds);
+                                                                receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -317,7 +317,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
                 double receiveTimeInSeconds;
                 bool ok = impl.getThreeAxisForceTorqueMeasurement(name,
                                                                   measurement,
-                                                                  &receiveTimeInSeconds);
+                                                                  receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("sensor_name"))
@@ -326,7 +326,7 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             [](YarpSensorBridge& impl, const std::string& name) {
                 Eigen::Matrix<double, 6, 1> measurement;
                 double receiveTimeInSeconds;
-                bool ok = impl.getCartesianWrench(name, measurement, &receiveTimeInSeconds);
+                bool ok = impl.getCartesianWrench(name, measurement, receiveTimeInSeconds);
                 return std::make_tuple(ok, measurement, receiveTimeInSeconds);
             },
             py::arg("wrench_name"))
@@ -334,14 +334,14 @@ void BipedalLocomotion::bindings::CreateYarpSensorBridge(pybind11::module& modul
             "get_motor_current",
             [](YarpSensorBridge& impl, const std::string& jointName) {
                 double joint, receiveTimeInSeconds;
-                bool ok = impl.getMotorCurrent(jointName, joint, &receiveTimeInSeconds);
+                bool ok = impl.getMotorCurrent(jointName, joint, receiveTimeInSeconds);
                 return std::make_tuple(ok, joint, receiveTimeInSeconds);
             },
             py::arg("motor_name"))
         .def("get_motor_currents", [](YarpSensorBridge& impl) {
             Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
             double receiveTimeInSeconds;
-            bool ok = impl.getMotorCurrents(joints, &receiveTimeInSeconds);
+            bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
             return std::make_tuple(ok, joints, receiveTimeInSeconds);
         });
 }

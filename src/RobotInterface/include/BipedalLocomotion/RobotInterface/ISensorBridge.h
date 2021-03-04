@@ -83,6 +83,8 @@ public:
 
     using weak_ptr = std::weak_ptr<ISensorBridge>;
 
+    using OptionalDoubleRef = std::optional<std::reference_wrapper<double>>;
+
     /**
      * Initialize estimator
      * @param[in] handler Parameters handler
@@ -161,7 +163,7 @@ public:
      */
     virtual bool getJointPosition(const std::string& jointName,
                                   double& jointPosition,
-                                  double* receiveTimeInSeconds = nullptr) { return false; };
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get all joints' positions in radians
@@ -175,7 +177,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                                   double* receiveTimeInSeconds = nullptr) { return false; };
+                                   OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get joint velocity in rad/s
@@ -186,7 +188,7 @@ public:
      */
     virtual bool getJointVelocity(const std::string& jointName,
                                   double& jointVelocity,
-                                  double* receiveTimeInSeconds = nullptr) { return false; };
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get all joints' velocities in rad/s
@@ -200,7 +202,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                                    double* receiveTimeInSeconds = nullptr) { return false; };
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get IMU measurement
@@ -217,7 +219,7 @@ public:
      */
     virtual bool getIMUMeasurement(const std::string& imuName,
                                    Eigen::Ref<Vector12d> imuMeasurement,
-                                   double* receiveTimeInSeconds = nullptr) { return false; };
+                                   OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get linear accelerometer measurement in m/s^2
@@ -228,7 +230,7 @@ public:
      */
     virtual bool getLinearAccelerometerMeasurement(const std::string& accName,
                                                    Eigen::Ref<Eigen::Vector3d> accMeasurement,
-                                                   double* receiveTimeInSeconds = nullptr) { return false; };
+                                                   OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get gyroscope measurement in rad/s
@@ -239,7 +241,7 @@ public:
      */
     virtual bool getGyroscopeMeasure(const std::string& gyroName,
                                      Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
-                                     double* receiveTimeInSeconds = nullptr) { return false; };
+                                     OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
    /**
      * Get orientation sensor measurement in radians as roll pitch yaw Euler angles
@@ -250,7 +252,7 @@ public:
      */
     virtual bool getOrientationSensorMeasurement(const std::string& rpyName,
                                                  Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
-                                                 double* receiveTimeInSeconds = nullptr) { return false; };
+                                                 OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
    /**
      * Get magentometer measurement in tesla
@@ -261,7 +263,7 @@ public:
      */
     virtual bool getMagnetometerMeasurement(const std::string& magName,
                                             Eigen::Ref<Eigen::Vector3d> magMeasurement,
-                                            double* receiveTimeInSeconds = nullptr) { return false; };
+                                            OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get six axis force torque measurement
@@ -272,7 +274,7 @@ public:
      */
     virtual bool getSixAxisForceTorqueMeasurement(const std::string& ftName,
                                                   Eigen::Ref<Vector6d> ftMeasurement,
-                                                  double* receiveTimeInSeconds = nullptr) { return false; };
+                                                  OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get three axis force-torque measurement containing normal force (N) and tangential moments (Nm)
@@ -283,7 +285,7 @@ public:
      */
     virtual bool getThreeAxisForceTorqueMeasurement(const std::string& ftName,
                                                     Eigen::Ref<Eigen::Vector3d> ftMeasurement,
-                                                    double* receiveTimeInSeconds = nullptr) { return false; };
+                                                    OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
    /**
      * Get 6D end effector wrenches in N and Nm for forces and torques respectively
@@ -294,7 +296,7 @@ public:
      */
     virtual bool getCartesianWrench(const std::string& cartesianWrenchName,
                                     Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
-                                    double* receiveTimeInSeconds = nullptr) { return false; };
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Destructor
@@ -347,7 +349,7 @@ protected:
      */
     virtual bool getMotorCurrent(const std::string& jointName,
                                   double& motorCurrent,
-                                  double* receiveTimeInSeconds = nullptr)
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };
@@ -364,7 +366,7 @@ protected:
      * @return true/false in case of success/failure
      */
     virtual bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
-                                   double* receiveTimeInSeconds = nullptr)
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };
