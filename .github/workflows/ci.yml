@@ -76,6 +76,9 @@ jobs:
         # Install pybind11
         ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports pybind11:x64-windows
 
+        # Install spdlog
+        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports spdlog
+
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
       run: |
@@ -88,7 +91,7 @@ jobs:
         brew unlink gcc@9
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
@@ -97,7 +100,7 @@ jobs:
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
