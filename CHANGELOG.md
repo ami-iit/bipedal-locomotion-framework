@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 - Implement SchmittTriggerDetector python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/213)
 - Implement ModelComputationsHelper for quick construction of KinDynComputations object using parameters handler (https://github.com/dic-iit/bipedal-locomotion-framework/pull/216)
 - Implement FloatingBaseEstimator and LeggedOdometry python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/218)
+- Add spdlog as mandatory dependency of the project (https://github.com/dic-iit/bipedal-locomotion-framework/pull/225)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
