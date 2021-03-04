@@ -8,24 +8,26 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
-#include <iostream>
+
 namespace BipedalLocomotion
 {
 
 TextLogging::Logger* const log()
 {
-    auto logger = spdlog::get("console");
+    auto logger = spdlog::get("blf");
 
     // if the logger does not exist, create it. spdlog already handle the logger as singleton.
     if (logger == nullptr)
     {
-        // create the logger called console
-        auto console = spdlog::stderr_color_mt("console");
+        // create the logger called blf
+        auto console = spdlog::stderr_color_mt("blf");
 
         // get the logger
-        logger = spdlog::get("console");
+        logger = spdlog::get("blf");
+
+        // customize the logger
         logger->set_level(spdlog::level::info);
-        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
+        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] %^[%l]%$ %v");
     }
 
     return logger.get();
