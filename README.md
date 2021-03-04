@@ -38,7 +38,7 @@ The **bipedal-locomotion-framework** project is a _suite_ of libraries for achie
 # :page_facing_up: Mandatory dependencies
 The **bipedal-locomotion-framework** project is versatile and can be used to compile only some components.
 
-The minimum required dependencies are `Eigen3` and `iDynTree`. If you want to build the tests please remember to install `Catch2`. If you are interested in the python bindings generation please install `python3` and `pybind11` in your system.
+The minimum required dependencies are `Eigen3`, `iDynTree` and `spdlog`. If you want to build the tests please remember to install `Catch2`. If you are interested in the python bindings generation please install `python3` and `pybind11` in your system.
 
 # :orange_book: Exported components
 
