@@ -17,6 +17,7 @@ All notable changes to this project are documented in this file.
 - The DCMPlanner and TimeVaryingDCMPlanner initialize functions take as input an std::weak_ptr. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/208)
 - Use `Math::StandardAccelerationOfGravitation` instead of hardcoding 9.81. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/211)
 - Convert iDynTree types in FloatingBaseEstimators component to Eigen/manif types (https://github.com/dic-iit/bipedal-locomotion-framework/pull/215)
+- Use std::optional instead of raw pointer in ISensorBridge. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/226)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
