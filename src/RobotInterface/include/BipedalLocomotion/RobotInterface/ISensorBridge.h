@@ -17,9 +17,6 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
-using Vector12d = Eigen::Matrix<double, 12, 1>;
-using Vector6d = Eigen::Matrix<double, 6, 1>;
-
 namespace BipedalLocomotion
 {
 namespace RobotInterface
@@ -75,6 +72,10 @@ struct SensorBridgeMetaData
  */
 class ISensorBridge
 {
+protected:
+    using Vector12d = Eigen::Matrix<double, 12, 1>;
+    using Vector6d = Eigen::Matrix<double, 6, 1>;
+
 public:
     using unique_ptr = std::unique_ptr<ISensorBridge>;
 
