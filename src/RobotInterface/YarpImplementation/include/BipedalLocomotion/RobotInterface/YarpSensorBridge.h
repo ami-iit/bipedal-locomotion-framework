@@ -9,7 +9,9 @@
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_H
 
 // std
+#include <functional>
 #include <memory>
+#include <optional>
 
 // YARP
 #include <yarp/dev/PolyDriverList.h>
