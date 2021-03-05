@@ -8,10 +8,12 @@
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_ISENSOR_BRIDGE_H
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_ISENSOR_BRIDGE_H
 
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include <Eigen/Dense>
 
