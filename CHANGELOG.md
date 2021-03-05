@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
+- Fixed `mas-imu-test` configuration files after FW fix.
 
 ## [0.1.0] - 2021-02-22
 ### Added
