@@ -9,7 +9,9 @@
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_H
 
 // std
+#include <functional>
 #include <memory>
+#include <optional>
 
 // YARP
 #include <yarp/dev/PolyDriverList.h>
@@ -199,7 +201,7 @@ public:
      */
     bool getJointPosition(const std::string& jointName,
                           double& jointPosition,
-                          double* receiveTimeInSeconds = nullptr) final;
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all joints' positions in radians
@@ -213,7 +215,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
-                           double* receiveTimeInSeconds = nullptr) final;
+                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get joint velocity in rad/s
@@ -224,7 +226,7 @@ public:
      */
     bool getJointVelocity(const std::string& jointName,
                           double& jointVelocity,
-                          double* receiveTimeInSeconds = nullptr) final;
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all joints' velocities in rad/s
@@ -238,7 +240,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
-                            double* receiveTimeInSeconds = nullptr) final;
+                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get IMU measurement
@@ -255,7 +257,7 @@ public:
      */
     bool getIMUMeasurement(const std::string& imuName,
                            Eigen::Ref<Vector12d> imuMeasurement,
-                           double* receiveTimeInSeconds = nullptr) final;
+                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get linear accelerometer measurement in m/s^2
@@ -266,7 +268,7 @@ public:
      */
     bool getLinearAccelerometerMeasurement(const std::string& accName,
                                            Eigen::Ref<Eigen::Vector3d> accMeasurement,
-                                           double* receiveTimeInSeconds = nullptr) final;
+                                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get gyroscope measurement in rad/s
@@ -277,7 +279,7 @@ public:
      */
     bool getGyroscopeMeasure(const std::string& gyroName,
                              Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
-                             double* receiveTimeInSeconds = nullptr) final;
+                             OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
    /**
      * Get orientation sensor measurement in radians as roll pitch yaw Euler angles
@@ -288,7 +290,7 @@ public:
      */
     bool getOrientationSensorMeasurement(const std::string& rpyName,
                                          Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
-                                         double* receiveTimeInSeconds = nullptr) final;
+                                         OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
    /**
      * Get magentometer measurement in tesla
@@ -299,7 +301,7 @@ public:
      */
     bool getMagnetometerMeasurement(const std::string& magName,
                                     Eigen::Ref<Eigen::Vector3d> magMeasurement,
-                                    double* receiveTimeInSeconds = nullptr) final;
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get six axis force torque measurement
@@ -310,7 +312,7 @@ public:
      */
     bool getSixAxisForceTorqueMeasurement(const std::string& ftName,
                                           Eigen::Ref<Vector6d> ftMeasurement,
-                                          double* receiveTimeInSeconds = nullptr) final;
+                                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get three axis force-torque measurement containing normal force (N) and tangential moments (Nm)
@@ -321,7 +323,7 @@ public:
      */
     bool getThreeAxisForceTorqueMeasurement(const std::string& ftName,
                                             Eigen::Ref<Eigen::Vector3d> ftMeasurement,
-                                            double* receiveTimeInSeconds = nullptr) final;
+                                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
    /**
      * Get 6D end effector wrenches in N and Nm for forces and torques respectively
@@ -332,7 +334,7 @@ public:
      */
     bool getCartesianWrench(const std::string& cartesianWrenchName,
                             Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
-                            double* receiveTimeInSeconds = nullptr) final;
+                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor current in ampere
@@ -343,7 +345,7 @@ public:
      */
     bool getMotorCurrent(const std::string& jointName,
                           double& motorCurrent,
-                          double* receiveTimeInSeconds = nullptr) final;
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all motors' currents in ampere
@@ -357,7 +359,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
-                           double* receiveTimeInSeconds = nullptr) final;
+                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
 private:
     /** Private implementation */

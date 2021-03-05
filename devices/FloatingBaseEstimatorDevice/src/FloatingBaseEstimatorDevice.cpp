@@ -319,14 +319,14 @@ bool FloatingBaseEstimatorDevice::updateContactStates()
     Eigen::Matrix<double, 6, 1> lfWrench, rfWrench;
     double lfTimeStamp, rfTimeStamp;
     bool ok{true};
-    ok = ok && m_robotSensorBridge->getCartesianWrench(m_leftFootWrenchName, lfWrench, &lfTimeStamp);
+    ok = ok && m_robotSensorBridge->getCartesianWrench(m_leftFootWrenchName, lfWrench, lfTimeStamp);
     if (ok)
     {
         m_currentlContactNormal = lfWrench(2);
         m_lFootCSM->contactMeasurementUpdate(lfTimeStamp, lfWrench(2)); // fz
     }
 
-    ok = ok && m_robotSensorBridge->getCartesianWrench(m_rightFootWrenchName, rfWrench, &rfTimeStamp);
+    ok = ok && m_robotSensorBridge->getCartesianWrench(m_rightFootWrenchName, rfWrench, rfTimeStamp);
     if (ok)
     {
         m_currentrContactNormal = rfWrench(2);
