@@ -9,8 +9,8 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.4.0
-  vcpkg_TAG: 76a7e9248fb3c57350b559966dcaa2d52a5e4458
+  vcpkg_robotology_TAG: v0.6.2
+  vcpkg_TAG: 45fc55825db2a5bcaffccff1e6afadc519d164ea
   YCM_TAG: v0.12.1
   YARP_TAG: v3.4.2
   iDynTree_TAG: v3.0.0
@@ -61,23 +61,19 @@ jobs:
         # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
         # that has been used to create the pre-compiled archive
         cd C:/
-        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
-        unzip vcpkg-robotology.zip -d C:/
-        rm vcpkg-robotology.zip
+        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology-with-gazebo.zip
+        unzip vcpkg-robotology-with-gazebo.zip -d C:/
+        rm vcpkg-robotology-with-gazebo.zip
 
-        # Install Catch2 and cppad
+        # Install Catch2
         cd C:/robotology/vcpkg
         git fetch
         git checkout $env:vcpkg_TAG
         ./bootstrap-vcpkg.bat
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports catch2:x64-windows cppad:x64-windows matio:x64-windows
-        echo "cppad_DIR=C:/robotology/vcpkg/installed/x64-windows" >> $GITHUB_ENV
+        ./vcpkg.exe install catch2:x64-windows
 
         # Install pybind11
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports pybind11:x64-windows
-
-        # Install spdlog
-        ./vcpkg.exe install --overlay-ports=C:/robotology/robotology-vcpkg-binary-ports spdlog
+        ./vcpkg.exe install pybind11:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
