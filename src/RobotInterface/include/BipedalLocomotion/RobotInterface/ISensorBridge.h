@@ -74,10 +74,6 @@ struct SensorBridgeMetaData
  */
 class ISensorBridge
 {
-protected:
-    using Vector12d = Eigen::Matrix<double, 12, 1>;
-    using Vector6d = Eigen::Matrix<double, 6, 1>;
-
 public:
     using unique_ptr = std::unique_ptr<ISensorBridge>;
 
@@ -86,6 +82,9 @@ public:
     using weak_ptr = std::weak_ptr<ISensorBridge>;
 
     using OptionalDoubleRef = std::optional<std::reference_wrapper<double>>;
+
+    using Vector12d = Eigen::Matrix<double, 12, 1>;
+    using Vector6d = Eigen::Matrix<double, 6, 1>;
 
     /**
      * Initialize estimator
