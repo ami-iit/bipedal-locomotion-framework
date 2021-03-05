@@ -8,7 +8,7 @@ modelPath = [getenv('ROBOTOLOGY_SUPERBUILD_INSTALL_PREFIX') '/share/iCub/robots/
 
 fileName='model.urdf'; %% Name of the urdf file
 
-gravity = 9.80665
+gravityAcceleration = 9.80665;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% No need to edit from here on
@@ -36,7 +36,7 @@ for testIndex = 1 : numel(tests_fields)
     %% Model loading and set robot state
     KinDynModel = iDynTreeWrappers.loadReducedModel(jointOrder,settings.base_link,modelPath,fileName,false);
     joints_positions = data(1).JointPositions_rad;
-    iDynTreeWrappers.setRobotState(KinDynModel,world_H_base,joints_positions,zeros(6,1),zeros(size(joints_positions)),[0,0,-gravity]);
+    iDynTreeWrappers.setRobotState(KinDynModel,world_H_base,joints_positions,zeros(6,1),zeros(size(joints_positions)),[0,0,-gravityAcceleration]);
 
     %% Visualization setup
     [visualizer,objects]=iDynTreeWrappers.prepareVisualization(KinDynModel,meshFilePrefix, 'transparency',1, 'name', 'Imu Test', 'reuseFigure', 'name');
@@ -59,14 +59,14 @@ for testIndex = 1 : numel(tests_fields)
 
     %% Plot of accelerometer
     or = frameTransform(1:3, 4);
-    acc = frameTransform * [data(1).Accelerometer'/gravity/2; 1];
+    acc = frameTransform * [data(1).Accelerometer'/gravityAcceleration/2; 1];
     gravity = plot3([or(1) acc(1)], [or(2) acc(2)], [or(3) acc(3)], 'm', 'linewidth', 7);
 
     %% Data loop
     for i = 2 : length(data)
         %% Update robot state
         joints_positions = data(i).JointPositions_rad;
-        iDynTreeWrappers.setRobotState(KinDynModel,world_H_base,joints_positions,zeros(6,1),zeros(size(joints_positions)),[0,0,-gravity]);
+        iDynTreeWrappers.setRobotState(KinDynModel,world_H_base,joints_positions,zeros(6,1),zeros(size(joints_positions)),[0,0,-gravityAcceleration]);
 
         %% Update frame from forward kinematics
         frameTransform = iDynTreeWrappers.getWorldTransform(KinDynModel, opt.FrameName);
@@ -84,7 +84,7 @@ for testIndex = 1 : numel(tests_fields)
 
         %% Update gravity visualization
         or = frameTransform(1:3, 4);
-        acc = frameTransform * [data(i).Accelerometer'/gravity/2; 1];
+        acc = frameTransform * [data(i).Accelerometer'/gravityAcceleration/2; 1];
         set(gravity, 'XData', [or(1) acc(1)], 'YData', [or(2) acc(2)], 'ZData', [or(3) acc(3)]);
 
         %% Force rendering
