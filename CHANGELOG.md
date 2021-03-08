@@ -11,6 +11,9 @@ All notable changes to this project are documented in this file.
 - Implement ModelComputationsHelper for quick construction of KinDynComputations object using parameters handler (https://github.com/dic-iit/bipedal-locomotion-framework/pull/216)
 - Implement FloatingBaseEstimator and LeggedOdometry python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/218)
 - Add spdlog as mandatory dependency of the project (https://github.com/dic-iit/bipedal-locomotion-framework/pull/225)
+- Implement `ICameraBridge` and `IPointCloudBridge` interface classes as a part of `PerceptionInterface` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/165)
+- Implement `RealSense` driver class as a part of `PerceptionCapture` library. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/165)
+- Implement `realsense-test` utility application. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/165)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
