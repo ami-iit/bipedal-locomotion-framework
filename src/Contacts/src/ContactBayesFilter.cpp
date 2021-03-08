@@ -107,7 +107,7 @@ bool ContactBayesManager::customInitialization(std::weak_ptr<IParametersHandler>
 
     if (!handle->getParameter("no_collision_meshes", m_pimpl->noCollisionMeshes))
     {
-        m_pimpl->noCollisionMeshes = false;
+        m_pimpl->noCollisionMeshes = true;
     }
 
     if (!m_pimpl->noCollisionMeshes)
@@ -161,8 +161,8 @@ bool ContactBayesManager::setRobotStateExternally(manif::SE3d& basePose,
                                                   Eigen::Ref<const Eigen::VectorXd> jointVel,
                                                   Eigen::Ref<const Eigen::Vector3d> worldGravity)
 {
-    return m_pimpl->kinDyn->setRobotState(basePose.transform(), baseTwist,
-                                          jointPos, jointVel, worldGravity);
+    return m_pimpl->kinDyn->setRobotState(basePose.transform(), jointPos,
+                                          baseTwist, jointVel, worldGravity);
 }
 
 void ContactBayesManager::setCurrentTime(const double& timeNow)
@@ -322,7 +322,7 @@ bool ContactBayesManager::Impl::getCollisionBoundingBoxes(const iDynTree::Model&
                     {
                         if (_noCollisionMesh)
                         {
-                            std::cerr << printPrefix << "Option for loading external mesh is disabled."
+                            std::cerr << printPrefix << "Option for loading external mesh is disabled. "
                             << linkName << std::endl; 
                             return false;
                         }
@@ -565,6 +565,10 @@ bool ContactBayesManager::Impl::updateProbabilities()
                     cCollision.contactProbabilities[idx][jdx] *= normalizer;
                     cCollision.swingProbabilities[idx][jdx] *= normalizer;
                 }
+
+                // Comment this if fusion between distance and velocity is needed
+                cCollision.swingProbabilities[idx][jdx] = offTransitionProb;
+                cCollision.contactProbabilities[idx][jdx] = onTransitionProb;
 
                 bool prevVertexContact {cCollision.isActive[idx][jdx]};
                 if (cCollision.contactProbabilities[idx][jdx] > contactProbabilityThreshold)
