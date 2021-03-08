@@ -59,8 +59,10 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](./src/TSID)              |                  Task space inverse dynamics                  |      [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/dic-iit/lie-group-controllers)         |
+|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/dic-iit/lie-group-controllers) |
 |     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
+| [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
+|    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
 
 
 # :hammer: Build the suite
