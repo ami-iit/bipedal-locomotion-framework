@@ -931,28 +931,37 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllSixAxisForceTorqueSensors] ";
+
         std::vector<std::string> analogFTSensors;
+        std::vector<std::string> masFTSensors;
         // attach MAS sensors
         if (attachRemappedMASSensor(devList,
                                     wholeBodyMASForceTorquesInterface.sixAxisFTSensors))
         {
             // get MAS FT sensor names
-            auto MASFTs = getAllSensorsInMASInterface(wholeBodyMASForceTorquesInterface.sixAxisFTSensors);
-            auto copySensorsList = metaData.sensorsList.sixAxisForceTorqueSensorsList;
+            masFTSensors = getAllSensorsInMASInterface(wholeBodyMASForceTorquesInterface.sixAxisFTSensors);
+            auto allFTsInMetaData = metaData.sensorsList.sixAxisForceTorqueSensorsList;
 
             // compare with sensorList - those not available in the MAS interface list
             // are assumed to be analog FT sensors
-            std::sort(MASFTs.begin(), MASFTs.end());
-            std::sort(copySensorsList.begin(), copySensorsList.end());
-            std::set_intersection(MASFTs.begin(), MASFTs.end(),
-                                  copySensorsList.begin(), copySensorsList.end(),
-                                  std::back_inserter(analogFTSensors));
+            std::sort(masFTSensors.begin(), masFTSensors.end());
+            std::sort(allFTsInMetaData.begin(), allFTsInMetaData.end());
+            std::set_difference(allFTsInMetaData.begin(), allFTsInMetaData.end(),
+                                masFTSensors.begin(), masFTSensors.end(),
+                                std::back_inserter(analogFTSensors));
         }
         else
         {
             // if there are no MAS FT sensors then all the FT sensors in the configuration
             // are analog FT sensors
             analogFTSensors = metaData.sensorsList.sixAxisForceTorqueSensorsList;
+        }
+
+        if (!checkAttachedMASSensors(devList, wholeBodyMASForceTorquesInterface.sixAxisFTSensors, masFTSensors))
+        {
+            std::cerr << logPrefix << " Could not find atleast one of the required MAS FT sensors." << std::endl;
+            return false;
         }
 
         // check if a generic sensor has 12 channels implying it is a IMU sensor through a GenericSensor Interfaces
