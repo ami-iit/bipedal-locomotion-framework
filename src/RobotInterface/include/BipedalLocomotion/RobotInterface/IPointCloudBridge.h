@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <optional>
+#include <functional>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <pcl/point_cloud.h>
@@ -66,7 +68,7 @@ public:
 
     virtual bool getPointCloud(const std::string& pclDev,
                                pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                               double* receiveTimeInSeconds = nullptr) { return false; };
+                               std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Destructor

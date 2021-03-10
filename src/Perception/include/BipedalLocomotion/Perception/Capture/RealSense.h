@@ -54,23 +54,23 @@ class RealSense : public BipedalLocomotion::RobotInterface::ICameraBridge,
 
     bool getColorImage(const std::string& camName,
                        cv::Mat& colorImg,
-                       double* receiveTimeInSeconds = nullptr) final;
+                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
 
     bool getDepthImage(const std::string& camName,
                        cv::Mat& depthImg,
-                       double* receiveTimeInSeconds = nullptr) final;
+                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
 
    bool getColorizedDepthImage(const std::string& camName,
                                cv::Mat& depthImg,
-                               double* receiveTimeInSeconds = nullptr);
+                               std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
 
     bool getInfraredImage(const std::string& camName,
                           cv::Mat& irImage,
-                          double* receiveTimeInSeconds = nullptr);
+                          std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
 
     bool getPointCloud(const std::string& pclDevName,
                        pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                       double* receiveTimeInSeconds = nullptr) final;
+                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
 
 private:
     struct Impl;

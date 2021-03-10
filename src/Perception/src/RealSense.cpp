@@ -4,6 +4,7 @@
  */
 
 #include <BipedalLocomotion/Perception/Capture/RealSense.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <librealsense2/rs.hpp>
 #include <algorithm>
 #include <tuple>
@@ -16,11 +17,16 @@ struct RealSense::Impl
     bool startStream();
     void stopStream();
 
+    struct TextureRGB
+    {
+        int r, g, b;
+    };
+
     /**
      * Copied from Realsense examples 
      * see https://github.com/IntelRealSense/librealsense/blob/master/wrappers/pcl/pcl-color/rs-pcl-color.cpp
      */
-    std::tuple<int, int, int> rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY);
+    TextureRGB rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY);
     void toPCL(const rs2::points& points, 
                const rs2::video_frame& color, 
                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
@@ -73,56 +79,56 @@ bool RealSense::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::I
 
     if (!ptr->getParameter("camera_name", m_pimpl->camName))
     {
-        std::cout << logPrefix << " Parameter \"camera_name\" not available in the configuration." 
-                  << "Using default name \"RealSense\"." << std::endl;
+        log()->warn("{} Parameter \"camera_name\" not available in the configuration."
+                     "Using default name \"RealSense\".", logPrefix);
     }
 
     if (!ptr->getParameter("frame_width", m_pimpl->genericWidth))
     {
-        std::cout << logPrefix << " Parameter \"frame_width\" not available in the configuration." 
-                  << "Using default value \"640\"." << std::endl;
+        log()->warn("{} Parameter \"frame_width\" not available in the configuration."
+                     "Using default name \"640\".", logPrefix);
     }
 
     if (!ptr->getParameter("frame_height", m_pimpl->genericHeight))
     {
-        std::cout << logPrefix << " Parameter \"frame_width\" not available in the configuration." 
-                  << "Using default value \"480\"." << std::endl;
+        log()->warn("{} Parameter \"frame_height\" not available in the configuration."
+                     "Using default name \"480\".", logPrefix);
     }
 
     if (!ptr->getParameter("fps", m_pimpl->genericFPS))
     {
-        std::cout << logPrefix << " Parameter \"frame_width\" not available in the configuration." 
-                  << "Using default value \"30\"." << std::endl;
+        log()->warn("{} Parameter \"fps\" not available in the configuration."
+                     "Using default name \"30\".", logPrefix);
     }
 
     if (!ptr->getParameter("stream_color", m_pimpl->isColorEnabled))
     {
-        std::cout << logPrefix << " Parameter \"stream_color\" not available in the configuration." 
-                  << "Color stream will not be available." << std::endl;
+        log()->warn("{} Parameter \"stream_color\" not available in the configuration."
+                     "Color stream will not be available.", logPrefix);
     }
 
     if (!ptr->getParameter("stream_depth", m_pimpl->isDepthEnabled))
     {
-        std::cout << logPrefix << " Parameter \"stream_depth\" not available in the configuration." 
-                  << "Depth stream will not be available." << std::endl;
+        log()->warn("{} Parameter \"stream_depth\" not available in the configuration."
+                     "Depth stream will not be available.", logPrefix);
     }
 
     if (!ptr->getParameter("stream_ir", m_pimpl->isIREnabled))
     {
-        std::cout << logPrefix << " Parameter \"stream_ir\" not available in the configuration." 
-                  << "IR stream will not be available." << std::endl;
+        log()->warn("{} Parameter \"stream_ir\" not available in the configuration."
+                     "IR stream will not be available.", logPrefix);
     }
 
     if (!ptr->getParameter("stream_pcl", m_pimpl->isPCLEnabled))
     {
-        std::cout << logPrefix << " Parameter \"stream_pcl\" not available in the configuration." 
-                  << "PCL stream will not be available." << std::endl;
+        log()->warn("{} Parameter \"stream_pcl\" not available in the configuration."
+                     "PCL stream will not be available.", logPrefix);
     }
 
     if (!ptr->getParameter("align_frames_to_color", m_pimpl->doAlignToColor))
     {
-        std::cout << logPrefix << " Parameter \"align_frames_to_color\" not available in the configuration." 
-                  << "Frames will not be aligned to color frame." << std::endl;
+        log()->warn("{} Parameter \"align_frames_to_color\" not available in the configuration."
+                     "Frames will not be aligned to color frame.", logPrefix);
     }
 
     if (!m_pimpl->startStream())
@@ -141,7 +147,7 @@ bool RealSense::isValid()
 {
     if (!m_pimpl->isStreaming)
     {
-        std::cerr << "[RealSenseCapture::isValid] Stream not active." << std::endl;
+        log()->error("[RealSenseCapture::isValid] Stream not active.");
         return false;
     }
 
@@ -152,7 +158,7 @@ bool RealSense::Impl::isValidCamera(const std::string& _camName)
 {
     if (_camName != camName)
     {
-        std::cerr << "[RealSenseCapture::Impl::isValidCamera] Requested camera not available" << std::endl;
+        log()->error("[RealSenseCapture::Impl::isValidCamera] Requested camera not available.");
         return false;
     }
 
@@ -182,7 +188,7 @@ bool RealSense::getPCLDevicesList(std::vector<std::string>& pclDevList)
 
 bool RealSense::getColorImage(const std::string& camName,
                               cv::Mat& colorImg,
-                              double* receiveTimeInSeconds)
+                              std::optional<std::reference_wrapper<double>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -191,7 +197,7 @@ bool RealSense::getColorImage(const std::string& camName,
 
     if (!m_pimpl->isColorEnabled)
     {
-        std::cerr << "[RealSenseCapture::getColorImage] Color stream was not enabled." << std::endl;
+        log()->error("[RealSenseCapture::getColorImage] Color stream was not enabled.");
         return false;
     }
 
@@ -210,7 +216,7 @@ bool RealSense::getColorImage(const std::string& camName,
 
 bool RealSense::getDepthImage(const std::string& camName,
                               cv::Mat& depthImg,
-                              double* receiveTimeInSeconds)
+                              std::optional<std::reference_wrapper<double>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -219,7 +225,7 @@ bool RealSense::getDepthImage(const std::string& camName,
 
     if (!m_pimpl->isDepthEnabled)
     {
-        std::cerr << "[RealSenseCapture::getDepthImage] Depth stream was not enabled." << std::endl;
+        log()->error("[RealSenseCapture::getDepthImage] Depth stream was not enabled.");
         return false;
     }
 
@@ -238,7 +244,7 @@ bool RealSense::getDepthImage(const std::string& camName,
 
 bool RealSense::getColorizedDepthImage(const std::string& camName,
                                        cv::Mat& depthImg,
-                                       double* receiveTimeInSeconds)
+                                       std::optional<std::reference_wrapper<double>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -247,7 +253,7 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
 
     if (!m_pimpl->isDepthEnabled)
     {
-        std::cerr << "[RealSenseCapture::getDepthImage] Depth stream was not enabled." << std::endl;
+        log()->error("[RealSenseCapture::getColorizedDepthImage] Depth stream was not enabled.");
         return false;
     }
 
@@ -266,7 +272,7 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
 
 bool RealSense::getInfraredImage(const std::string& camName,
                                  cv::Mat& irImage,
-                                 double* receiveTimeInSeconds)
+                                 std::optional<std::reference_wrapper<double>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -275,7 +281,7 @@ bool RealSense::getInfraredImage(const std::string& camName,
 
     if (!m_pimpl->isIREnabled)
     {
-        std::cerr << "[RealSenseCapture::getInfraredImage] IR stream was not enabled." << std::endl;
+        log()->error("[RealSenseCapture::getInfraredImage] IR stream was not enabled.");
         return false;
     }
 
@@ -293,7 +299,7 @@ bool RealSense::getInfraredImage(const std::string& camName,
 
 bool RealSense::getPointCloud(const std::string& pclDevName,
                               pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                              double* receiveTimeInSeconds)
+                              std::optional<std::reference_wrapper<double>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(pclDevName))
     {
@@ -302,13 +308,13 @@ bool RealSense::getPointCloud(const std::string& pclDevName,
 
     if (!m_pimpl->isPCLEnabled)
     {
-        std::cerr << "[RealSenseCapture::getPointCloud] PCL stream was not enabled." << std::endl;
+        log()->error("[RealSenseCapture::getPointCloud] PCL stream was not enabled.");
         return false;
     }
 
     if (coloredPointCloud == nullptr)
     {
-        std::cerr << "[RealSenseCapture::getPointCloud] Did not receive a valid pointer." << std::endl;
+        log()->error("[RealSenseCapture::getPointCloud] Did not receive a valid pointer.");
         return false;
     }
 
@@ -346,14 +352,14 @@ bool RealSense::Impl::startStream()
             isDepthEnabled = true;
         }
 
-        std::cout << "[RealSenseCapture::Impl::startStream] PCL stream enabled. Automatically enabling RGB and Depth streaming." << std::endl;
+        log()->info("[RealSenseCapture::Impl::startStream] PCL stream enabled. Automatically enabling RGB and Depth streaming.");
     }
 
     if (!isColorEnabled &&
         !isIREnabled &&
         !isDepthEnabled)
     {
-        std::cerr << "[RealSenseCapture::Impl::startStream] None of the stream options enabled. Cannot start streaming." << std::endl;
+        log()->error("[RealSenseCapture::Impl::startStream] None of the stream options enabled. Cannot start streaming.");
         return false;
     }
 
@@ -372,14 +378,15 @@ bool RealSense::Impl::startStream()
         cfg.enable_stream(RS2_STREAM_DEPTH, genericWidth, genericHeight, depthFormat, genericFPS);
     }
 
-    std::cout << "[RealSenseCapture::Impl::startStream] Trying to connect to device." << std::endl;
+    log()->info("[RealSenseCapture::Impl::startStream] Trying to connect to device.");
+
     try
     {
         pipe.start(cfg);
     }
     catch (const rs2::error& e)
     {
-        std::cerr << "[RealSenseCapture::Impl::startStream] Failed to start the pipeline:"<< "(" << e.what() << ")" << std::endl;
+        log()->error("[RealSenseCapture::Impl::startStream] Failed to start the pipeline: ({})", e.what());
         return false;
     }
 
@@ -412,7 +419,7 @@ void RealSense::Impl::stopStream()
 // texture coordinates, the RGB components can be
 // "mapped" to each individual point (XYZ).
 //======================================================
-std::tuple<int, int, int> RealSense::Impl::rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY)
+RealSense::Impl::TextureRGB RealSense::Impl::rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY)
 {
     // Get Width and Height coordinates of texture
     int width  = textureImg.get_width();  // Frame width in pixels
@@ -433,7 +440,7 @@ std::tuple<int, int, int> RealSense::Impl::rgbTexture(rs2::video_frame textureIm
     int NT2 = newTexture[textureIndex + 1];
     int NT3 = newTexture[textureIndex + 2];
 
-    return std::tuple<int, int, int>(NT1, NT2, NT3);
+    return RealSense::Impl::TextureRGB{NT1, NT2, NT3};
 }
 
 
@@ -447,8 +454,8 @@ void RealSense::Impl::toPCL(const rs2::points& points,
                             const rs2::video_frame& color, 
                             pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
 {
-    // Declare Tuple for RGB value Storage (<t0>, <t1>, <t2>)
-    std::tuple<uint8_t, uint8_t, uint8_t> rgbColor;
+    // Declare struct for RGB value Storage (<r>, <g>, <b>)
+    RealSense::Impl::TextureRGB rgbColor;
     //================================
     // PCL Cloud Object Configuration
     //================================
@@ -483,8 +490,8 @@ void RealSense::Impl::toPCL(const rs2::points& points,
         rgbColor = rgbTexture(color, textureCoord[i]);
 
         // Mapping Color (BGR due to Camera Model)
-        cloud->points[i].r = std::get<2>(rgbColor); // Reference tuple<2>
-        cloud->points[i].g = std::get<1>(rgbColor); // Reference tuple<1>
-        cloud->points[i].b = std::get<0>(rgbColor); // Reference tuple<0>
+        cloud->points[i].r = rgbColor.b; // Reference tuple<2>
+        cloud->points[i].g = rgbColor.g; // Reference tuple<1>
+        cloud->points[i].b = rgbColor.r; // Reference tuple<0>
     }
 }

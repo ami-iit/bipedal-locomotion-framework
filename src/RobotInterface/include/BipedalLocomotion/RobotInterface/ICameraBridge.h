@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <optional>
+#include <functional>
 
 #include <opencv2/opencv.hpp>
 
@@ -99,7 +101,7 @@ public:
      */
     virtual bool getColorImage(const std::string& camName,
                                cv::Mat& colorImg,
-                               double* receiveTimeInSeconds = nullptr) { return false; };
+                               std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Get depth image
@@ -115,7 +117,7 @@ public:
      */
     virtual bool getDepthImage(const std::string& camName,
                                cv::Mat& depthImg,
-                               double* receiveTimeInSeconds = nullptr) { return false; };
+                               std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) { return false; };
 
     /**
      * Destructor
