@@ -6,3 +6,4 @@
 add_subdirectory(joint-position-tracking)
 add_subdirectory(joint-trajectory-player)
 add_subdirectory(mas-imu-test)
+add_subdirectory(realsense-test)
