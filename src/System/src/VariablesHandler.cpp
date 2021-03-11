@@ -68,3 +68,16 @@ const std::size_t& VariablesHandler::getNumberOfVariables() const noexcept
 {
     return m_numberOfVariables;
 }
+
+
+std::string VariablesHandler::toString() const noexcept
+{
+    std::string out;
+    for (const auto& [key, variable] : m_variables)
+    {
+        out = key + " size: " + std::to_string(variable.size)
+              + ", offset: " + std::to_string(variable.offset) + ". ";
+    }
+
+    return out;
+}

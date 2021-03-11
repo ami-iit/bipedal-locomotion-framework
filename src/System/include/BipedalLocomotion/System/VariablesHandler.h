@@ -73,7 +73,15 @@ public:
      * @return the total number of variables
      */
     const std::size_t& getNumberOfVariables() const noexcept;
+
+    /**
+     * Get the string representation of the handler.
+     * @return a string containing the name of all the variable and their description.
+     */
+    std::string toString() const noexcept;
 };
+
 } // namespace System
 } // namespace BipedalLocomotion
+
 #endif // BIPEDAL_LOCOMOTION_SYSTEM_VARIABLES_HANDLER_H
