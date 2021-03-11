@@ -43,7 +43,7 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
     return true;
 }
 
-VariablesHandler::VariableDescription VariablesHandler::getVariable(const std::string& name) const
+const VariablesHandler::VariableDescription& VariablesHandler::getVariable(const std::string& name) const
     noexcept
 {
     auto variable = m_variables.find(name);
@@ -54,7 +54,7 @@ VariablesHandler::VariableDescription VariablesHandler::getVariable(const std::s
     if (variable != m_variables.end())
         return variable->second;
     else
-        return VariablesHandler::VariableDescription::InvalidVariable();
+        return m_invalidVariable;
 }
 
 bool VariablesHandler::getVariable(const std::string& name,
