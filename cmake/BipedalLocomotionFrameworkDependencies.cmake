@@ -29,6 +29,9 @@ checkandset_dependency(cppad)
 find_package(manif QUIET)
 checkandset_dependency(manif)
 
+find_package(OsqpEigen QUIET)
+checkandset_dependency(OsqpEigen)
+
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
 
@@ -115,6 +118,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON
   "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_IK
+  "Compile IK library?" ON
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_OsqpEigen" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "Compile joint-position-tracking application?" ON
