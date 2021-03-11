@@ -22,10 +22,10 @@ TEST_CASE("SO3 planner")
     manif::SO3d finalTranform = manif::SO3d::Random();
 
     constexpr double T = 1;
-    constexpr double dT = 1e-5;
+    constexpr double dT = 1e-4;
     constexpr std::size_t samples = T / dT;
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance = 1e-3;
 
     SECTION("Left - Trivialized [Body]")
     {
