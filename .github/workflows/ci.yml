@@ -16,10 +16,12 @@ env:
   iDynTree_TAG: v3.0.0
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
-  CasADi_TAG: 3.5.1
+  CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.3
   matioCpp_TAG: v0.1.0
   LieGroupControllers_TAG: v0.0.1
+  osqp_TAG: v0.6.2
+  OsqpEigen_TAG: 9b0091038cf0fb9099a5d6c55820d6e5846034a7
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
@@ -111,7 +113,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -170,12 +172,38 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # osqp
+        cd ${GITHUB_WORKSPACE}
+        git clone --recursive -b ${osqp_TAG} https://github.com/oxfordcontrol/osqp
+        cd osqp
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # osqp-eigen
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/osqp-eigen
+        cd osqp-eigen
+        git checkout ${OsqpEigen_TAG}
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+
         # CasADi
         # We override the casadi installation structure to be compliant with the folder structure used for
         # the other dependencies. Please check:
         # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -187,9 +215,9 @@ jobs:
                      -DCMAKE_PREFIX:PATH="lib/cmake/casadi" \
                      -DLIB_PREFIX:PATH="lib" \
                      -DBIN_PREFIX:PATH="bin" \
-                     -DWITH_IPOPT=BOOL:ON ..
+                     -DWITH_IPOPT=BOOL:ON \
+                     -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
-
 
         # manif
         cd ${GITHUB_WORKSPACE}
@@ -264,13 +292,35 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # osqp
+        cd ${GITHUB_WORKSPACE}
+        git clone --recursive -b ${osqp_TAG} https://github.com/oxfordcontrol/osqp
+        cd osqp
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # osqp-eigen
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/osqp-eigen
+        cd osqp-eigen
+        git checkout ${OsqpEigen_TAG}
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
         # CasADi
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
-        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON ..
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON \
+              -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # manif
