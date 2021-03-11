@@ -27,6 +27,7 @@ public:
     {
         std::ptrdiff_t offset;
         std::ptrdiff_t size;
+        std::string name;
 
         bool isValid() const;
         static VariableDescription InvalidVariable();

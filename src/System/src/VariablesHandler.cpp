@@ -32,10 +32,12 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
         return false;
     }
 
-    VariablesHandler::VariableDescription indexRange;
-    indexRange.size = size;
-    indexRange.offset = m_numberOfVariables;
-    m_variables.emplace(name, indexRange);
+    VariablesHandler::VariableDescription description;
+    description.size = size;
+    description.offset = m_numberOfVariables;
+    description.name = name;
+
+    m_variables.emplace(name, description);
     m_numberOfVariables += size;
 
     return true;
