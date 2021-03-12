@@ -914,3 +914,9 @@ bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
     m_pimpl->m_currentFixedFrameIdx = newIdx;
     return true;
 }
+
+bool LeggedOdometry::changeFixedFrame(const std::string& frameName)
+{
+    auto frameIdx = m_modelComp.kinDyn()->model().getFrameIndex(frameName);
+    return changeFixedFrame(frameIdx);
+}

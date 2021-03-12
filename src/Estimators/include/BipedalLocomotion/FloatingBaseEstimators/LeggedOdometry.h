@@ -90,6 +90,8 @@ public:
      */
     bool changeFixedFrame(const std::ptrdiff_t& frameIndex);
 
+    bool changeFixedFrame(const std::string& frameName);
+
     /**
      * Change fixed frame externally by mentioning the world_H_frame transform
      * @param[in] frameIndex  valid frame from the model
