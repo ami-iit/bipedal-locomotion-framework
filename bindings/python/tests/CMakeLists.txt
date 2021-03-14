@@ -7,9 +7,9 @@
 # the tests always load the Python package from the build-tree even if BFL is installed
 # elsewhere.
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/model.urdf ${PROJECT_BINARY_DIR}/model.urdf COPYONLY)
+get_property(bindings_tests GLOBAL PROPERTY BipedalLocomotionFrameworkBindings_TESTS)
 
 add_test(NAME PythonBindingsUnitTest
-    COMMAND ${Python3_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${Python3_EXECUTABLE} -m pytest ${bindings_tests}
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 )
