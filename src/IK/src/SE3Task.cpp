@@ -175,10 +175,10 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& 
 
     bool ok = true;
     ok = ok && m_R3Controller.setDesiredState(I_H_F.translation());
-    ok = ok && m_R3Controller.setFeedForward(mixedVelocity.v());
+    ok = ok && m_R3Controller.setFeedForward(mixedVelocity.lin());
 
     ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat());
-    ok = ok && m_SO3Controller.setFeedForward(mixedVelocity.w());
+    ok = ok && m_SO3Controller.setFeedForward(mixedVelocity.ang());
 
     return ok;
 }
