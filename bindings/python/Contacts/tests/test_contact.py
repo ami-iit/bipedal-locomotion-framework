@@ -2,6 +2,7 @@ import pytest
 pytestmark = pytest.mark.planners
 
 import bipedal_locomotion_framework.bindings as blf
+import manifpy as manif
 import numpy as np
 
 
@@ -10,15 +11,15 @@ def test_contact():
     contact = blf.contacts.PlannedContact()
 
     # Default values
-    assert contact.pose == blf.manif.SE3(position=[0., 0, 0], quaternion=[0, 0, 0, 1])
+    assert contact.pose == manif.SE3(position=[0., 0, 0], quaternion=[0, 0, 0, 1])
     assert contact.activation_time == 0.0
     assert contact.deactivation_time == 0.0
     assert contact.name == "Contact"
     assert contact.type == blf.contacts.ContactType.Full
 
-    contact.pose = blf.manif.SE3(position=[1.0, -2.0, 3.3], quaternion=[0, 0, -1, 0])
-    assert contact.pose.position == pytest.approx(np.array([1.0, -2.0, 3.3]))
-    assert contact.pose.quaternion == pytest.approx(np.array([0, 0, -1, 0]))
+    contact.pose = manif.SE3(position=[1.0, -2.0, 3.3], quaternion=[0, 0, -1, 0])
+    assert contact.pose.translation == pytest.approx(np.array([1.0, -2.0, 3.3]))
+    assert contact.pose.quat == pytest.approx(np.array([0, 0, -1, 0]))
 
     contact.activation_time = 42.0
     assert contact.activation_time == 42.0
@@ -99,8 +100,8 @@ def test_contact_list():
     for i in range(50):
 
         assert contact_list.add_contact(
-            transform=blf.manif.SE3(position=np.array([0, 0, 0]),
-                                    quaternion=np.array([0, 0, 0, 1.])),
+            transform=manif.SE3(position=np.array([0, 0, 0]),
+                                quaternion=np.array([0, 0, 0, 1.])),
             activation_time=2.0 + i,
             deactivation_time=2.5 + i)
 

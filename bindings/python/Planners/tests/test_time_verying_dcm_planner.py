@@ -2,6 +2,7 @@ import pytest
 pytestmark = pytest.mark.planners
 
 import bipedal_locomotion_framework.bindings as blf
+import manifpy as manif
 import numpy as np
 
 
@@ -35,15 +36,15 @@ def test_time_varying_dcm_planner():
 
     # L1: first footstep
     assert contact_list_map["left"].add_contact(
-        transform=blf.manif.SE3(position=np.array([0, -0.8, 0]),
-                          quaternion=np.array([0, 0, 0, 1])),
+        transform=manif.SE3(position=np.array([0, -0.8, 0]),
+                            quaternion=np.array([0, 0, 0, 1])),
         activation_time=0.0,
         deactivation_time=1.0)
 
     # L2: second footstep
     assert contact_list_map["left"].add_contact(
-        transform=blf.manif.SE3(position=np.array([0.25, -0.8, 0.2]),
-                                quaternion=np.array([0, 0, 0, 1])),
+        transform=manif.SE3(position=np.array([0.25, -0.8, 0.2]),
+                            quaternion=np.array([0, 0, 0, 1])),
         activation_time=2.0,
         deactivation_time=7.0)
 
@@ -52,15 +53,15 @@ def test_time_varying_dcm_planner():
 
     # R1: first footstep
     assert contact_list_map["right"].add_contact(
-        transform=blf.manif.SE3(position=np.array([0, 0.8, 0]),
-                                quaternion=np.array([0, 0, 0, 1])),
+        transform=manif.SE3(position=np.array([0, 0.8, 0]),
+                            quaternion=np.array([0, 0, 0, 1])),
         activation_time=0.0,
         deactivation_time=3.0)
 
     # R2: second footstep
     assert contact_list_map["right"].add_contact(
-        transform=blf.manif.SE3(position=np.array([0.25, 0.8, 0.2]),
-                                quaternion=np.array([0, 0, 0, 1])),
+        transform=manif.SE3(position=np.array([0.25, 0.8, 0.2]),
+                            quaternion=np.array([0, 0, 0, 1])),
         activation_time=4.0,
         deactivation_time=7.0)
 
