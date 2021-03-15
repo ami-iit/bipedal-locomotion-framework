@@ -17,7 +17,7 @@ env:
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
-  manif_TAG: 85cad9841b0ac4800e10e38c634c397d401e6375
+  manif_TAG: d176ed5b9a8c485c71179f0eab34aa7b248d17c0
   matioCpp_TAG: v0.1.0
   LieGroupControllers_TAG: v0.0.1
   osqp_TAG: v0.6.2
