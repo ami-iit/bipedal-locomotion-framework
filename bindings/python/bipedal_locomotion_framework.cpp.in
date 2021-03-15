@@ -22,10 +22,6 @@
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
 
-@cmakeif FRAMEWORK_USE_manif
-#include <BipedalLocomotion/bindings/manif/Module.h>
-@endcmakeif FRAMEWORK_USE_manif
-
 @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
@@ -37,6 +33,10 @@ PYBIND11_MODULE(bindings, m)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion;
 
+    @cmakeif FRAMEWORK_USE_manif
+    py::module::import("manifpy");
+    @endcmakeif FRAMEWORK_USE_manif
+
     m.doc() = "BipedalLocomotionFramework bindings";
 
     py::module_ parametersHandlerModule = m.def_submodule("parameters_handler");
@@ -44,11 +44,6 @@ PYBIND11_MODULE(bindings, m)
 
     py::module_ mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);
-
-    @cmakeif FRAMEWORK_USE_manif
-    py::module_ manifModule = m.def_submodule("manif");
-    bindings::manif::CreateModule(manifModule);
-    @endcmakeif FRAMEWORK_USE_manif
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module_ contactsModule = m.def_submodule("contacts");

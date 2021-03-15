@@ -3,7 +3,6 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 add_subdirectory(ParametersHandler)
-add_subdirectory(manif)
 add_subdirectory(Contacts)
 add_subdirectory(Planners)
 add_subdirectory(RobotInterface)
