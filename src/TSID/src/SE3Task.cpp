@@ -146,11 +146,11 @@ bool SE3Task::setReferenceTrajectory(const manif::SE3d& I_H_F,
 {
 
     bool ok = true;
-    ok = ok && m_R3Controller.setDesiredState({I_H_F.translation(), mixedVelocity.v()});
-    ok = ok && m_R3Controller.setFeedForward(mixedAcceleration.v());
+    ok = ok && m_R3Controller.setDesiredState({I_H_F.translation(), mixedVelocity.lin()});
+    ok = ok && m_R3Controller.setFeedForward(mixedAcceleration.lin());
 
-    ok = ok && m_SO3Controller.setDesiredState({I_H_F.quat(), mixedVelocity.w()});
-    ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.w());
+    ok = ok && m_SO3Controller.setDesiredState({I_H_F.quat(), mixedVelocity.ang()});
+    ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.ang());
 
     return ok;
 }
