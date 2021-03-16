@@ -17,7 +17,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
-#include <BipedalLocomotion/IK/LinearTask.h>
+#include <BipedalLocomotion/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -80,7 +80,7 @@ public:
      * an object that does not contain any value. So is an invalid weight.
      * @return true if the task has been added to the inverse kinematics.
      */
-    virtual bool addTask(std::shared_ptr<LinearTask> task,
+    virtual bool addTask(std::shared_ptr<System::LinearTask> task,
                          const std::string& taskName,
                          std::size_t priority,
                          std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) = 0;
@@ -105,7 +105,7 @@ public:
      * @return a weak ptr associated to an existing task in the IK. If the task does not exist a
      * nullptr is returned.
      */
-    virtual std::weak_ptr<LinearTask> getTask(const std::string& name) const = 0;
+    virtual std::weak_ptr<System::LinearTask> getTask(const std::string& name) const = 0;
 
     /**
      * Destructor.

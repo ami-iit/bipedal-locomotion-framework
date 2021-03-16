@@ -10,7 +10,9 @@
 
 #include <memory>
 
-#include <BipedalLocomotion/IK/LinearTask.h>
+#include <iDynTree/KinDynComputations.h>
+
+#include <BipedalLocomotion/System/LinearTask.h>
 
 #include <LieGroupControllers/ProportionalDerivativeController.h>
 
@@ -30,7 +32,7 @@ namespace IK
  * The desired joint velocity is chosen such that the joint will converge to the desired
  * trajectory and it is computed with a standard standard PD controller in \f$\mathbb{R}^n\f$.
  */
-class JointTrackingTask : public LinearTask
+class JointTrackingTask : public System::LinearTask
 {
     Eigen::VectorXd m_kp; /**< Proportional gain. */
     Eigen::VectorXd m_jointPosition; /**< Joints position in radians */
@@ -40,7 +42,12 @@ class JointTrackingTask : public LinearTask
 
     std::string m_robotVelocityVariableName;
 
-    bool m_isInitialized{false};
+    bool m_isInitialized{false}; /**< True if the task has been initialized. */
+    bool m_isValid{false}; /**< True if the task is valid. */
+
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
+                                                               object */
+
 public:
     /**
      * Initialize the task.
@@ -55,7 +62,14 @@ public:
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler) override;
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Set the kinDynComputations object.
+     * @param kinDyn pointer to a kinDynComputations object.
+     * @return True in case of success, false otherwise.
+     */
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -104,6 +118,12 @@ public:
      * @return the size of the task.
      */
     Type type() const override;
+
+    /**
+     * Determines the validity of the objects retrieved with getA() and getB()
+     * @return True if the objects are valid, false otherwise.
+     */
+    bool isValid() const override;
 };
 
 } // namespace IK

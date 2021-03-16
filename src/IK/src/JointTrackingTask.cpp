@@ -14,6 +14,18 @@
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::IK;
 
+bool JointTrackingTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if ((kinDyn == nullptr) || (!kinDyn->isValid()))
+    {
+        log()->error("[JointTrackingTask::setKinDyn] Invalid kinDyn object.");
+        return false;
+    }
+
+    m_kinDyn = kinDyn;
+    return true;
+}
+
 bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
     constexpr auto errorPrefix = "[JointTrackingTask::setVariablesHandler]";
@@ -108,15 +120,18 @@ bool JointTrackingTask::update()
 {
     constexpr auto errorPrefix = "[JointTrackingTask::update]";
 
+    m_isValid = false;
+
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
         log()->error("{} Unable to get the joint position.", errorPrefix);
-        return false;
+        return m_isValid;
     }
 
     m_b = m_desiredJointVelocity + m_kp.asDiagonal() * (m_desiredJointPosition - m_jointPosition);
 
-    return true;
+    m_isValid = true;
+    return m_isValid;
 }
 
 bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition)
@@ -165,4 +180,9 @@ std::size_t JointTrackingTask::size() const
 JointTrackingTask::Type JointTrackingTask::type() const
 {
     return Type::equality;
+}
+
+bool JointTrackingTask::isValid() const
+{
+    return m_isValid;
 }

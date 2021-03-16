@@ -10,8 +10,8 @@ if(FRAMEWORK_COMPILE_System)
   # set target name
   add_bipedal_locomotion_library(
     NAME                   System
-    PUBLIC_HEADERS         ${H_PREFIX}/Advanceable.h ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/DynamicalSystem.h ${H_PREFIX}/FloatingBaseSystemDynamics.h ${H_PREFIX}/DynamicalSystem.tpp ${H_PREFIX}/ContactWrench.h ${H_PREFIX}/LinearTimeInvariantSystem.h ${H_PREFIX}/Integrator.h ${H_PREFIX}/Integrator.tpp ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/FixedStepIntegrator.tpp ${H_PREFIX}/Integrator.tpp ${H_PREFIX}/ForwardEuler.h ${H_PREFIX}/ForwardEuler.tpp ${H_PREFIX}/FloatingBaseSystemKinematics.h
-    SOURCES                src/FloatingBaseSystemDynamics.cpp src/VariablesHandler.cpp src/ContactWrench.cpp src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/Advanceable.h ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/DynamicalSystem.h ${H_PREFIX}/FloatingBaseSystemDynamics.h ${H_PREFIX}/DynamicalSystem.tpp ${H_PREFIX}/ContactWrench.h ${H_PREFIX}/LinearTimeInvariantSystem.h ${H_PREFIX}/Integrator.h ${H_PREFIX}/Integrator.tpp ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/FixedStepIntegrator.tpp ${H_PREFIX}/Integrator.tpp ${H_PREFIX}/ForwardEuler.h ${H_PREFIX}/ForwardEuler.tpp ${H_PREFIX}/FloatingBaseSystemKinematics.h ${H_PREFIX}/LinearTask.h
+    SOURCES                src/FloatingBaseSystemDynamics.cpp src/VariablesHandler.cpp src/ContactWrench.cpp src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/LinearTask.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ContactModels iDynTree::idyntree-high-level iDynTree::idyntree-model Eigen3::Eigen
     PRIVATE_LINK_LIBRARIES  BipedalLocomotion::CommonConversions BipedalLocomotion::Math
     SUBDIRECTORIES         tests

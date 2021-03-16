@@ -16,6 +16,18 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::IK;
 
+bool SE3Task::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if ((kinDyn == nullptr) || (!kinDyn->isValid()))
+    {
+        log()->error("[SE3Task::setKinDyn] Invalid kinDyn object.");
+        return false;
+    }
+
+    m_kinDyn = kinDyn;
+    return true;
+}
+
 bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
     if (!m_isInitialized)
@@ -149,6 +161,8 @@ bool SE3Task::update()
     using namespace BipedalLocomotion::Conversions;
     using namespace iDynTree;
 
+    m_isValid = false;
+
     // set the state
     m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
     m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
@@ -164,10 +178,12 @@ bool SE3Task::update()
                                                 this->subA(m_robotVelocityVariable)))
     {
         log()->error("[SE3Task::update] Unable to get the jacobian.");
-        return false;
+        return m_isValid;
     }
 
-    return true;
+    m_isValid = true;
+
+    return m_isValid;
 }
 
 bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity)
@@ -191,4 +207,9 @@ std::size_t SE3Task::size() const
 SE3Task::Type SE3Task::type() const
 {
     return Type::equality;
+}
+
+bool SE3Task::isValid() const
+{
+    return m_isValid;
 }
