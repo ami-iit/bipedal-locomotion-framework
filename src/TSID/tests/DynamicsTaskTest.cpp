@@ -12,7 +12,7 @@
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TSID/BaseDynamicsTask.h>
-#include <BipedalLocomotion/TSID/JointsDynamicsTask.h>
+#include <BipedalLocomotion/TSID/JointDynamicsTask.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/ModelTestUtils.h>
@@ -100,7 +100,8 @@ TEST_CASE("Joints and Base dynamics tasks")
             {
                 BaseDynamicsTask task;
                 REQUIRE(task.setKinDyn(kinDyn));
-                REQUIRE(task.initialize(parameterHandler, variablesHandler));
+                REQUIRE(task.initialize(parameterHandler));
+                REQUIRE(task.setVariablesHandler(variablesHandler));
                 REQUIRE(task.update());
 
 
@@ -139,9 +140,10 @@ TEST_CASE("Joints and Base dynamics tasks")
 
             DYNAMIC_SECTION("Model with " << numberOfJoints << " joints - joints dynamics test")
             {
-                JointsDynamicsTask task;
+                JointDynamicsTask task;
                 REQUIRE(task.setKinDyn(kinDyn));
-                REQUIRE(task.initialize(parameterHandler, variablesHandler));
+                REQUIRE(task.initialize(parameterHandler));
+                REQUIRE(task.setVariablesHandler(variablesHandler));
                 REQUIRE(task.update());
 
                 // get A and b

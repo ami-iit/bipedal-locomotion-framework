@@ -5,8 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/TSID/SE3Task.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/TSID/SE3Task.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/Model.h>
@@ -15,91 +16,34 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::TSID;
 
-bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler,
-                         const System::VariablesHandler& variablesHandler)
+bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
-    constexpr std::string_view errorPrefix = "[SE3Task::initialize] ";
-
-    std::string frameName = "Unknown";
-    constexpr std::string_view descriptionPrefix = "SE3Task Optimal Control Element - Frame name: ";
-
-    if(m_kinDyn == nullptr || !m_kinDyn->isValid())
+    if (!m_isInitialized)
     {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - KinDynComputations object is not valid." << std::endl;
+        log()->error("[SE3Task::setVariablesHandler] The task is not initialized. Please call "
+                     "initialize method.");
         return false;
     }
 
-    if (m_kinDyn->getFrameVelocityRepresentation()
-        != iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION)
+    // get the variable
+    if (!variablesHandler.getVariable(m_robotAccelerationVariable.name,
+                                      m_robotAccelerationVariable))
     {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - The task supports only quantities expressed in MIXED representation. "
-                     "Please provide a KinDynComputations with Frame velocity representation set "
-                     "to MIXED_REPRESENTATION."
-                  << std::endl;
+        log()->error("[SE3Task::setVariablesHandler] Unable to get the variable named {}.",
+                     m_robotAccelerationVariable.name);
         return false;
     }
 
-    auto ptr = paramHandler.lock();
-    if(ptr == nullptr)
-    {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - The parameter handler is not valid." << std::endl;
-        return false;
-    }
-
-    std::string robotAccelerationVariableName;
-    if (!ptr->getParameter("robot_acceleration_variable_name", robotAccelerationVariableName)
-        || !variablesHandler.getVariable(robotAccelerationVariableName,
-                                         m_robotAccelerationVariable))
-    {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - Error while retrieving the robot acceleration variable." << std::endl;
-        return false;
-    }
-
+    // get the variable
     if (m_robotAccelerationVariable.size
         != m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize)
     {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - Error while retrieving the robot acceleration variable." << std::endl;
+        log()->error("[SE3Task::setVariablesHandler] The size of the robot velocity variable is "
+                     "different from the one expected. Expected size: {}. Given size: {}.",
+                     m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize,
+                     m_robotAccelerationVariable.size);
         return false;
     }
-
-    if (!ptr->getParameter("frame_name", frameName)
-        || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
-               == iDynTree::FRAME_INVALID_INDEX)
-    {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << "- Error while retrieving the frame that should be controlled." << std::endl;
-        return false;
-    }
-
-    // set the gains for the controllers
-    double kpLinear, kdLinear;
-    double kpAngular, kdAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear) || !ptr->getParameter("kd_linear", kdLinear))
-    {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - Error while the gains for the position controller are retrieved."
-                  << std::endl;
-        return false;
-    }
-
-    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
-    {
-        std::cerr << errorPrefix << descriptionPrefix << frameName
-                  << " - Error while the gains for the rotation controller are retrieved."
-                  << std::endl;
-        return false;
-    }
-
-    m_R3Controller.setGains({kpLinear, kdLinear});
-    m_SO3Controller.setGains({kpAngular, kdAngular});
-
-    // set the description
-    m_description = std::string(descriptionPrefix) + frameName + ".";
 
     // resize the matrices
     m_A.resize(m_spatialVelocitySize, variablesHandler.getNumberOfVariables());
@@ -109,8 +53,118 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     return true;
 }
 
+bool SE3Task::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if ((kinDyn == nullptr) || (!kinDyn->isValid()))
+    {
+        log()->error("[SE3Task::setKinDyn] Invalid kinDyn object.");
+        return false;
+    }
+
+    m_kinDyn = kinDyn;
+    return true;
+}
+
+bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+{
+    constexpr std::string_view errorPrefix = "[SE3Task::initialize] ";
+
+    std::string frameName = "Unknown";
+    constexpr auto descriptionPrefix = "SE3Task Optimal Control Element - Frame name: ";
+
+    if(m_kinDyn == nullptr || !m_kinDyn->isValid())
+    {
+        log()->error("{}, [{} {}] KinDynComputations object is not valid.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if (m_kinDyn->getFrameVelocityRepresentation()
+        != iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION)
+    {
+        log()->error("{}, [{} {}] The task supports only quantities expressed in MIXED "
+                     "representation. Please provide a KinDynComputations with Frame velocity "
+                     "representation set to MIXED_REPRESENTATION.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    auto ptr = paramHandler.lock();
+    if(ptr == nullptr)
+    {
+        log()->error("{}, [{} {}] The parameter handler is not valid.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariable.name))
+    {
+        log()->error("{}, [{} {}] Error while retrieving the robot velocity variable.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if (!ptr->getParameter("frame_name", frameName)
+        || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
+               == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{}, [{} {}] Error while retrieving the frame that should be controlled.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    // set the gains for the controllers
+    double kpLinear, kdLinear;
+    double kpAngular, kdAngular;
+    if (!ptr->getParameter("kp_linear", kpLinear) || !ptr->getParameter("kd_linear", kdLinear))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional and derivative linear gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional and derivative angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    m_R3Controller.setGains({kpLinear, kdLinear});
+    m_SO3Controller.setGains({kpAngular, kdAngular});
+
+    // set the description
+    m_description = std::string(descriptionPrefix) + frameName + ".";
+
+    m_isInitialized = true;
+
+    return true;
+}
+
 bool SE3Task::update()
 {
+    m_isValid = false;
+
+    if (!m_isInitialized)
+    {
+        log()->error("[SE3Task::update] Please call initialize() before update().");
+        return m_isValid;
+    }
+
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
 
     m_SO3Controller.setState(
@@ -128,23 +182,21 @@ bool SE3Task::update()
     m_b.head<3>() += m_R3Controller.getControl().coeffs();
     m_b.tail<3>() += m_SO3Controller.getControl().coeffs();
 
-    // Workaround because matrix view is not compatible with Eigen::Ref
-    // https://github.com/robotology/idyntree/issues/797
     if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                 this->subA(m_robotAccelerationVariable)))
     {
-        std::cerr << "[SE3Task::update] Unable to get the jacobian." << std::endl;
-        return false;
+        log()->error("[SE3Task::update] Unable to get the jacobian.");
+        return m_isValid;
     }
 
-    return true;
+    m_isValid = true;
+    return m_isValid;
 }
 
-bool SE3Task::setReferenceTrajectory(const manif::SE3d& I_H_F,
-                                     const manif::SE3d::Tangent& mixedVelocity,
-                                     const manif::SE3d::Tangent& mixedAcceleration)
+bool SE3Task::setSetPoint(const manif::SE3d& I_H_F,
+                          const manif::SE3d::Tangent& mixedVelocity,
+                          const manif::SE3d::Tangent& mixedAcceleration)
 {
-
     bool ok = true;
     ok = ok && m_R3Controller.setDesiredState({I_H_F.translation(), mixedVelocity.v()});
     ok = ok && m_R3Controller.setFeedForward(mixedAcceleration.v());
@@ -153,4 +205,19 @@ bool SE3Task::setReferenceTrajectory(const manif::SE3d& I_H_F,
     ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.w());
 
     return ok;
+}
+
+std::size_t SE3Task::size() const
+{
+    return m_spatialVelocitySize;
+}
+
+SE3Task::Type SE3Task::type() const
+{
+    return Type::equality;
+}
+
+bool SE3Task::isValid() const
+{
+    return m_isValid;
 }

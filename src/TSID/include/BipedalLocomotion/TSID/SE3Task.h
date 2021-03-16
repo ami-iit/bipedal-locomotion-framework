@@ -10,7 +10,9 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/TSID/Task.h>
+#include <BipedalLocomotion/System/LinearTask.h>
+
+#include <iDynTree/KinDynComputations.h>
 
 #include <LieGroupControllers/ProportionalDerivativeController.h>
 
@@ -41,7 +43,7 @@ namespace TSID
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class SE3Task : public Task
+class SE3Task : public System::LinearTask
 {
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */
@@ -57,11 +59,16 @@ class SE3Task : public Task
 
     static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
 
+    bool m_isInitialized{false}; /**< True if the task has been initialized. */
+    bool m_isValid{false}; /**< True if the task is valid. */
+
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
+                                                               object */
+
 public:
     /**
      * Initialize the planner.
      * @param paramHandler pointer to the parameters handler.
-     * @param variablesHandler reference to a variables handler.
      * @note the following parameters are required by the class
      * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
@@ -73,8 +80,27 @@ public:
      * |            `kd_angular`            | `double` |                         Gain of the angular velocity controller                        |    Yes    |
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler,
-                    const System::VariablesHandler& variablesHandler) override;
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Set the kinDynComputations object.
+     * @param kinDyn pointer to a kinDynComputations object.
+     * @return True in case of success, false otherwise.
+     */
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+
+    /**
+     * Set the set of variables required by the task. The variables are stored in the
+     * System::VariablesHandler.
+     * @param variablesHandler reference to a variables handler.
+     * @note The handler must contain a variable named as the parameter
+     * `robot_acceleration_variable_name` stored in the parameter handler. The variable represents
+     * the generalized acceleration of the robot. Where the generalized robot acceleration is a
+     * vector containing the base spatial-acceleration (expressed in mixed representation) and the
+     * joints acceleration.
+     * @return True in case of success, false otherwise.
+     */
+    bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
 
     /**
      * Update the content of the element.
@@ -89,9 +115,27 @@ public:
      * @param mixedAcceleration 6D-acceleration written in mixed representation.
      * @return True in case of success, false otherwise.
      */
-    bool setReferenceTrajectory(const manif::SE3d& I_H_F,
-                                const manif::SE3d::Tangent& mixedVelocity,
-                                const manif::SE3d::Tangent& mixedAcceleration);
+    bool setSetPoint(const manif::SE3d& I_H_F,
+                     const manif::SE3d::Tangent& mixedVelocity,
+                     const manif::SE3d::Tangent& mixedAcceleration);
+
+    /**
+     * Get the size of the task. (I.e the number of rows of the vector b)
+     * @return the size of the task.
+     */
+    std::size_t size() const override;
+
+    /**
+     * The SE3Task is an equality task.
+     * @return the type of the task.
+     */
+    Type type() const override;
+
+    /**
+     * Determines the validity of the objects retrieved with getA() and getB()
+     * @return True if the objects are valid, false otherwise.
+     */
+    bool isValid() const override;
 };
 
 } // namespace TSID

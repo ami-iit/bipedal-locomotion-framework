@@ -11,7 +11,7 @@
 // BipedalLocomotion
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
-#include <BipedalLocomotion/TSID/JointsTrackingTask.h>
+#include <BipedalLocomotion/TSID/JointTrackingTask.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/ModelTestUtils.h>
@@ -83,11 +83,12 @@ TEST_CASE("Joint Regularization task")
             parameterHandler->setParameter("kd", kd);
 
 
-            JointsTrackingTask task;
+            JointTrackingTask task;
             REQUIRE(task.setKinDyn(kinDyn));
-            REQUIRE(task.initialize(parameterHandler, variablesHandler));
+            REQUIRE(task.initialize(parameterHandler));
+            REQUIRE(task.setVariablesHandler(variablesHandler));
 
-            REQUIRE(task.setSetpoint(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
+            REQUIRE(task.setSetPoint(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
 
             REQUIRE(task.update());
 
