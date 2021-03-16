@@ -71,8 +71,7 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
-bool JointTrackingTask::initialize(
-    std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool JointTrackingTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointTrackingTask::initialize] ";
 

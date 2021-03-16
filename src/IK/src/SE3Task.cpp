@@ -77,7 +77,6 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
-
         return false;
     }
 
@@ -103,7 +102,6 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         return false;
     }
 
-    std::string robotVelocityVariableName;
     if (!ptr->getParameter("robot_velocity_variable_name", m_robotVelocityVariable.name))
     {
         log()->error("{}, [{} {}] Error while retrieving the robot velocity variable.",
