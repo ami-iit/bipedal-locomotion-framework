@@ -305,7 +305,14 @@ bool QPInverseKinematics::advance()
     // update of all the tasks
     for (auto& [name, task] : m_pimpl->tasks)
     {
-        task.task->update();
+        if (!task.task->update())
+        {
+            log()->error("{} Unable to update the task named {}.", logPrefix, name);
+            return false;
+        }
+
+        // the outcome of isValid() should be the same of update. This test is required
+        assert(task.task->isValid() && "One of the task is not valid.");
     }
 
     // Compute the gradient and the hessian
