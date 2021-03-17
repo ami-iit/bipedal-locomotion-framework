@@ -84,13 +84,14 @@ TEST_CASE("SE3 Task")
 
             SE3Task task;
             REQUIRE(task.setKinDyn(kinDyn));
-            REQUIRE(task.initialize(parameterHandler, variablesHandler));
+            REQUIRE(task.initialize(parameterHandler));
+            REQUIRE(task.setVariablesHandler(variablesHandler));
 
             const auto desiredPose = manif::SE3d::Random();
             const auto desiredVelocity = manif::SE3d::Tangent::Random();
             const auto desiredAcceleration = manif::SE3d::Tangent::Random();
 
-            REQUIRE(task.setReferenceTrajectory(desiredPose, desiredVelocity, desiredAcceleration));
+            REQUIRE(task.setSetPoint(desiredPose, desiredVelocity, desiredAcceleration));
 
             REQUIRE(task.update());
 

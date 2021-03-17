@@ -12,10 +12,11 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/IK/LinearTask.h>
+#include <BipedalLocomotion/System/LinearTask.h>
+
+#include <iDynTree/KinDynComputations.h>
 
 #include <LieGroupControllers/ProportionalController.h>
-
 
 namespace BipedalLocomotion
 {
@@ -38,7 +39,7 @@ namespace IK
  * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
-class SO3Task : public LinearTask
+class SO3Task : public System::LinearTask
 {
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
 
@@ -52,7 +53,11 @@ class SO3Task : public LinearTask
     static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the spatial velocity vector. */
     static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
 
-    bool m_isInitialized{false};
+    bool m_isInitialized{false}; /**< True if the task has been initialized. */
+    bool m_isValid{false}; /**< True if the task is valid. */
+
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
+                                                               object */
 
     Eigen::MatrixXd m_jacobian;
 
@@ -71,7 +76,14 @@ public:
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler) override;
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Set the kinDynComputations object.
+     * @param kinDyn pointer to a kinDynComputations object.
+     * @return True in case of success, false otherwise.
+     */
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -85,6 +97,8 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
+
+
 
     /**
      * Update the content of the element.
@@ -111,6 +125,12 @@ public:
      * @return the size of the task.
      */
     Type type() const override;
+
+    /**
+     * Determines the validity of the objects retrieved with getA() and getB()
+     * @return True if the objects are valid, false otherwise.
+     */
+    bool isValid() const override;
 };
 
 } // namespace IK

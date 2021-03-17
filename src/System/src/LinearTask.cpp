@@ -5,11 +5,10 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/IK/LinearTask.h>
+#include <BipedalLocomotion/System/LinearTask.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
-using namespace BipedalLocomotion::IK;
 
 iDynTree::MatrixView<double>
 LinearTask::subA(const VariablesHandler::VariableDescription& description)
@@ -29,18 +28,7 @@ LinearTask::subA(const VariablesHandler::VariableDescription& description) const
                                                          description.size);
 }
 
-bool LinearTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
-{
-    m_kinDyn = kinDyn;
-    return (m_kinDyn != nullptr) && (m_kinDyn->isValid());
-}
-
 bool LinearTask::setVariablesHandler(const VariablesHandler& variablesHandler)
-{
-    return true;
-}
-
-bool LinearTask::initialize(std::weak_ptr<IParametersHandler> paramHandler)
 {
     return true;
 }

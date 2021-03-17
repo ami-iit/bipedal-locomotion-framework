@@ -5,14 +5,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/IK/JointTrackingTask.h>
-
+#include <BipedalLocomotion/TSID/JointTrackingTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
-using namespace BipedalLocomotion::IK;
+using namespace BipedalLocomotion::TSID;
+using namespace BipedalLocomotion;
 
 bool JointTrackingTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
@@ -30,7 +30,7 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
 {
     constexpr auto errorPrefix = "[JointTrackingTask::setVariablesHandler]";
 
-    System::VariablesHandler::VariableDescription robotVelocityVariable;
+    System::VariablesHandler::VariableDescription robotAccelerationVariable;
 
     if (!m_isInitialized)
     {
@@ -38,23 +38,21 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
         return false;
     }
 
-
-    if (!variablesHandler.getVariable(m_robotVelocityVariableName, robotVelocityVariable))
+    if (!variablesHandler.getVariable(m_robotAccelerationVariableName, robotAccelerationVariable))
     {
-        log()->error("{} Error while retrieving the robot velocity variable.", errorPrefix);
+        log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
         return false;
     }
 
-    if (robotVelocityVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + 6)
+    if (robotAccelerationVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + 6)
     {
-        log()->error("{} The size of the robot velocity variable does not match with the one "
+        log()->error("{} The size of the robot acceleration variable does not match with the one "
                      "stored in kinDynComputations object. Expected: {}. Given: {}",
                      errorPrefix,
                      m_kinDyn->getNrOfDegreesOfFreedom() + 6,
-                     robotVelocityVariable.size);
+                     robotAccelerationVariable.size);
         return false;
     }
-
 
     // resize the matrices
     m_A.resize(m_kinDyn->getNrOfDegreesOfFreedom(), variablesHandler.getNumberOfVariables());
@@ -62,9 +60,9 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
     m_b.resize(m_kinDyn->getNrOfDegreesOfFreedom());
 
     // A is constant
-    // here we assume that the first robot velocity is stored as [base_velocity;
-    // joint_velocity]
-    iDynTree::toEigen(this->subA(robotVelocityVariable))
+    // here we assume that the first robot acceleration is stored as [base_acceleration;
+    // joint_acceleration]
+    iDynTree::toEigen(this->subA(robotAccelerationVariable))
         .rightCols(m_kinDyn->getNrOfDegreesOfFreedom())
         .setIdentity();
 
@@ -73,7 +71,7 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
 
 bool JointTrackingTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr auto errorPrefix = "[JointTrackingTask::initialize] ";
+    constexpr auto errorPrefix = "[JointTrackingTask::initialize]";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -88,18 +86,25 @@ bool JointTrackingTask::initialize(std::weak_ptr<ParametersHandler::IParametersH
         return false;
     }
 
-    if (!ptr->getParameter("robot_velocity_variable_name", m_robotVelocityVariableName))
+    if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariableName))
     {
-        log()->error("{} Error while retrieving the robot velocity variable.", errorPrefix);
+        log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
         return false;
     }
 
     // set the gains for the controllers
     m_kp.resize(m_kinDyn->getNrOfDegreesOfFreedom());
+    m_kd.resize(m_kinDyn->getNrOfDegreesOfFreedom());
     if (!ptr->getParameter("kp", m_kp))
     {
         log()->error("{} Error while retrieving the proportional gain.", errorPrefix);
         return false;
+    }
+
+    if (!ptr->getParameter("kd", m_kd))
+    {
+        log()->info("{} The default derivative gain will be set.", errorPrefix);
+        m_kd = 2 * m_kp.cwiseSqrt();
     }
 
     // set the description
@@ -108,55 +113,69 @@ bool JointTrackingTask::initialize(std::weak_ptr<ParametersHandler::IParametersH
     m_zero = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
     m_desiredJointPosition = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
     m_desiredJointVelocity = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
+    m_desiredJointAcceleration = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
     m_jointPosition = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
+    m_jointVelocity = Eigen::VectorXd::Zero(m_kinDyn->getNrOfDegreesOfFreedom());
 
     m_isInitialized = true;
-
     return true;
 }
 
 bool JointTrackingTask::update()
 {
-    constexpr auto errorPrefix = "[JointTrackingTask::update]";
-
-    m_isValid = false;
+    constexpr std::string_view errorPrefix = "[JointTrackingTask::update] ";
 
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
-        log()->error("{} Unable to get the joint position.", errorPrefix);
-        return m_isValid;
+        std::cerr << errorPrefix << " Unable to get the joint position" << std::endl;
+        return false;
     }
 
-    m_b = m_desiredJointVelocity + m_kp.asDiagonal() * (m_desiredJointPosition - m_jointPosition);
+    if (!m_kinDyn->getJointVel(m_jointVelocity))
+    {
+        std::cerr << errorPrefix << " Unable to get the joint velocity" << std::endl;
+        return false;
+    }
 
-    m_isValid = true;
-    return m_isValid;
+    m_b = m_desiredJointAcceleration;
+    m_b.noalias() += m_kp.asDiagonal() * (m_desiredJointPosition - m_jointPosition);
+    m_b.noalias() += m_kd.asDiagonal() * (m_desiredJointVelocity - m_jointVelocity);
+
+    return true;
 }
 
 bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition)
 {
-    return this->setSetPoint(jointPosition, m_zero);
+    return this->setSetPoint(jointPosition, m_zero, m_zero);
 }
 
 bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                    Eigen::Ref<const Eigen::VectorXd> jointVelocity)
+                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity)
 {
-    constexpr auto errorPrefix = "[JointTrackingTask::setSetPoint]";
+    return this->setSetPoint(jointPosition, jointVelocity, m_zero);
+}
+
+bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
+                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity,
+                                     Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
+{
+    constexpr std::string_view errorPrefix = "[JointTrackingTask::setSetpoint] ";
 
     if (jointPosition.size() != m_kinDyn->getNrOfDegreesOfFreedom()
-        || jointVelocity.size() != m_kinDyn->getNrOfDegreesOfFreedom())
+        || jointVelocity.size() != m_kinDyn->getNrOfDegreesOfFreedom()
+        || jointAcceleration.size() != m_kinDyn->getNrOfDegreesOfFreedom())
     {
-        log()->error("{} Wrong size of the desired reference setpoint. Expected size: {}. Given "
-                     "joint position size: {}, given joint velocity size: {}.",
-                     errorPrefix,
-                     m_kinDyn->getNrOfDegreesOfFreedom(),
-                     jointPosition.size(),
-                     jointVelocity.size());
+        std::cerr << errorPrefix << "Wrong size of the desired reference trajectory:" << std::endl
+                  << "Expected size: " << m_kinDyn->getNrOfDegreesOfFreedom() << std::endl
+                  << "Joint position size: " << jointPosition.size() << std::endl
+                  << "Joint velocity size: " << jointVelocity.size() << std::endl
+                  << "Joint acceleration size: " << jointAcceleration.size() << std::endl;
         return false;
     }
 
     m_desiredJointPosition = jointPosition;
     m_desiredJointVelocity = jointVelocity;
+    m_desiredJointAcceleration = jointVelocity;
 
     return true;
 }

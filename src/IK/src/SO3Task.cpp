@@ -16,6 +16,18 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::IK;
 
+bool SO3Task::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if ((kinDyn == nullptr) || (!kinDyn->isValid()))
+    {
+        log()->error("[SO3Task::setKinDyn] Invalid kinDyn object.");
+        return false;
+    }
+
+    m_kinDyn = kinDyn;
+    return true;
+}
+
 bool SO3Task::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
     if (!m_isInitialized)
@@ -140,6 +152,8 @@ bool SO3Task::update()
     using namespace BipedalLocomotion::Conversions;
     using namespace iDynTree;
 
+    m_isValid = false;
+
     // set the state
     m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
 
@@ -152,12 +166,14 @@ bool SO3Task::update()
                                                 m_jacobian))
     {
         log()->error("[SO3Task::update] Unable to get the jacobian.");
-        return false;
+        return m_isValid;
     }
 
     iDynTree::toEigen(this->subA(m_robotVelocityVariable)) = m_jacobian.bottomRows<3>();
 
-    return true;
+    m_isValid = true;
+
+    return m_isValid;
 }
 
 bool SO3Task::setSetPoint(const manif::SO3d& I_R_F, const manif::SO3d::Tangent& angularVelocity)
@@ -178,4 +194,9 @@ std::size_t SO3Task::size() const
 SO3Task::Type SO3Task::type() const
 {
     return Type::equality;
+}
+
+bool SO3Task::isValid() const
+{
+    return m_isValid;
 }

@@ -5,26 +5,26 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_IK_LINEAR_TASK_H
-#define BIPEDAL_LOCOMOTION_IK_LINEAR_TASK_H
+#ifndef BIPEDAL_LOCOMOTION_SYSTEM_LINEAR_TASK_H
+#define BIPEDAL_LOCOMOTION_SYSTEM_LINEAR_TASK_H
 
 #include <memory>
+#include <string>
 
 #include <Eigen/Dense>
 
 #include <iDynTree/Core/MatrixView.h>
-#include <iDynTree/KinDynComputations.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 namespace BipedalLocomotion
 {
-namespace IK
+namespace System
 {
 
 /**
- * LinearTask describes a IK LinearTask element. The LinearTask is described by a matrix
+ * LinearTask describes a Linear Task element. The LinearTask is described by a matrix
  * \f$A\f$ and a vector \f$b\f$. This class describes both a linear equality constraint and a linear
  * inequality constraint. In case of equality constraint \f$ A \f$ and \f$ b \f$ represents: \f$ Ax
  * = b\f$ In case of inequality constraint \f$ A \f$ and \f$ b \f$ represents: \f$ Ax \le b \f$
@@ -36,12 +36,8 @@ protected:
     Eigen::MatrixXd m_A; /**< Task Matrix */
     Eigen::VectorXd m_b; /**< Task Vector */
 
-    std::string m_description{"Generic IK Task Element"}; /**< String describing the content of the
-                                                             task */
-
-    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
-                                                               object */
-
+    std::string m_description{"Generic Linear Task Element"}; /**< String describing the content of
+                                                                 the task */
     /**
      * Extract the submatrix A associated to a given variable.
      */
@@ -65,30 +61,12 @@ public:
     };
 
     /**
-     * Set the kinDynComputations object.
-     * @param kinDyn pointer to a kinDynComputations object.
-     * @return True in case of success, false otherwise.
-     */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
-
-    /**
      * Set the set of variables required by the task. The variables are stored in the
      * System::VariablesHandler
      * @param variablesHandler reference to a variables handler.
      * @return True in case of success, false otherwise.
      */
     virtual bool setVariablesHandler(const System::VariablesHandler& variablesHandler);
-
-    /**
-     * Initialize the task
-     * @param paramHandler a pointer to the parameter handler containing all the information
-     * required by the specific task. Please refer to the documentation of the implemented
-     * version of the model for further details.
-     * the optimization problem. Please use the same variables handler to initialize all the
-     * Tasks.
-     * @return True in case of success, false otherwise.
-     */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
 
     /**
      * Update the content of the task.
@@ -125,9 +103,15 @@ public:
      * @return the size of the task.
      */
     virtual Type type() const = 0;
+
+    /**
+     * Determines the validity of the objects retrieved with getA() and getB()
+     * @return True if the objects are valid, false otherwise.
+     */
+    virtual bool isValid() const = 0;
 };
 
-} // namespace IK
+} // namespace System
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_IK_LINEAR_TASK_H
+#endif // BIPEDAL_LOCOMOTION_SYSTEM_LINEAR_TASK_H

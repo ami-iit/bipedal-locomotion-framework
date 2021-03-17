@@ -16,6 +16,18 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::IK;
 
+bool CoMTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    if ((kinDyn == nullptr) || (!kinDyn->isValid()))
+    {
+        log()->error("[CoMTask::setKinDyn] Invalid kinDyn object.");
+        return false;
+    }
+
+    m_kinDyn = kinDyn;
+    return true;
+}
+
 bool CoMTask::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
     if (!m_isInitialized)
@@ -112,6 +124,8 @@ bool CoMTask::update()
     using namespace BipedalLocomotion::Conversions;
     using namespace iDynTree;
 
+    m_isValid = false;
+
     // set the state
     m_R3Controller.setState(toEigen(m_kinDyn->getCenterOfMassPosition()));
 
@@ -124,10 +138,12 @@ bool CoMTask::update()
     if (!m_kinDyn->getCenterOfMassJacobian(this->subA(m_robotVelocityVariable)))
     {
         log()->error("[CoMTask::update] Unable to get the jacobian.");
-        return false;
+        return m_isValid;
     }
 
-    return true;
+    // A and b are now valid
+    m_isValid = true;
+    return m_isValid;
 }
 
 bool CoMTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
@@ -148,4 +164,9 @@ std::size_t CoMTask::size() const
 CoMTask::Type CoMTask::type() const
 {
     return Type::equality;
+}
+
+bool CoMTask::isValid() const
+{
+    return m_isValid;
 }

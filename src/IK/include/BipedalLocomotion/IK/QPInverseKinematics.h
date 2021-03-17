@@ -16,9 +16,9 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
-#include <BipedalLocomotion/IK/LinearTask.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -71,7 +71,7 @@ public:
      * Task::Type) with priority equal to 1.
      * @return true if the task has been added to the inverse kinematics.
      */
-    bool addTask(std::shared_ptr<LinearTask> task,
+    bool addTask(std::shared_ptr<System::LinearTask> task,
                  const std::string& taskName,
                  std::size_t priority,
                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
@@ -128,7 +128,7 @@ public:
      * @return a weak ptr associated to an existing task in the IK. If the task does not exist a
      * nullptr is returned.
      */
-    std::weak_ptr<LinearTask> getTask(const std::string& name) const override;
+    std::weak_ptr<System::LinearTask> getTask(const std::string& name) const override;
 };
 } // namespace IK
 } // namespace BipedalLocomotion

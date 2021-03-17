@@ -1,11 +1,11 @@
 /**
- * @file BaseDynamicsTask.cpp
+ * @file JointDynamicsTask.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/TSID/BaseDynamicsTask.h>
+#include <BipedalLocomotion/TSID/JointDynamicsTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
@@ -15,11 +15,11 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::TSID;
 
-bool BaseDynamicsTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+bool JointDynamicsTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     if ((kinDyn == nullptr) || (!kinDyn->isValid()))
     {
-        log()->error("[BaseDynamicsTask::setKinDyn] Invalid kinDyn object.");
+        log()->error("[JointDynamicsTask::setKinDyn] Invalid kinDyn object.");
         return false;
     }
 
@@ -27,9 +27,9 @@ bool BaseDynamicsTask::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> k
     return true;
 }
 
-bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& variablesHandler)
+bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& variablesHandler)
 {
-    constexpr auto errorPrefix = "[JointTrackingTask::setVariablesHandler]";
+    constexpr auto errorPrefix = "[JointDynamicsTask::setVariablesHandler]";
 
     if (!m_isInitialized)
     {
@@ -43,6 +43,12 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
         return false;
     }
 
+    if (!variablesHandler.getVariable(m_jointsTorqueVariable.name, m_jointsTorqueVariable))
+    {
+        log()->error("{} Error while retrieving the joint torques variable.", errorPrefix);
+        return false;
+    }
+
     if (m_robotAccelerationVariable.size
         != m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize)
     {
@@ -51,6 +57,16 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
                      errorPrefix,
                      m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize,
                      m_robotAccelerationVariable.size);
+        return false;
+    }
+
+    if (m_jointsTorqueVariable.size != m_kinDyn->getNrOfDegreesOfFreedom())
+    {
+        log()->error("{} The size of the joint torque variable does not match with the one "
+                     "stored in kinDynComputations object. Expected: {}. Given: {}",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     m_jointsTorqueVariable.size);
         return false;
     }
 
@@ -76,16 +92,18 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
     }
 
     // resize the matrices
-    m_A.resize(m_spatialVelocitySize, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_kinDyn->getNrOfDegreesOfFreedom(), variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_spatialVelocitySize);
+    m_b.resize(m_kinDyn->getNrOfDegreesOfFreedom());
+
+    iDynTree::toEigen(this->subA(m_jointsTorqueVariable)).setIdentity();
 
     return true;
 }
 
-bool BaseDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool JointDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr auto errorPrefix = "[BaseDynamicsTask::initialize]";
+    constexpr auto errorPrefix = "[JointDynamicsTask::initialize]";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -111,10 +129,15 @@ bool BaseDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHa
         return false;
     }
 
-
-        if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariable.name))
+    if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariable.name))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
+        return false;
+    }
+
+    if (!ptr->getParameter("joint_torques_variable_name", m_jointsTorqueVariable.name))
+    {
+        log()->error("{} Error while retrieving the robot torque variable.", errorPrefix);
         return false;
     }
 
@@ -155,7 +178,7 @@ bool BaseDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHa
     }
 
     // set the description
-    m_description = "Base dynamics Task.";
+    m_description = "Joint dynamics Task.";
 
     // reset the jacobian
     m_jacobian.resize(m_spatialVelocitySize,
@@ -169,9 +192,9 @@ bool BaseDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHa
     return true;
 }
 
-bool BaseDynamicsTask::update()
+bool JointDynamicsTask::update()
 {
-    constexpr auto errorPrefix = "[BaseDynamicsTask::update]";
+    constexpr auto errorPrefix = "[JointDynamicsTask::update]";
 
     m_isValid = false;
 
@@ -187,39 +210,49 @@ bool BaseDynamicsTask::update()
         return false;
     }
 
-    m_b = m_generalizedBiasForces.head<m_spatialVelocitySize>();
+    m_b = m_generalizedBiasForces.tail(m_kinDyn->getNrOfDegreesOfFreedom());
     iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
-        = -m_massMatrix.topRows<m_spatialVelocitySize>();
+        = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
 
     for (const auto& contactWrench : m_contactWrenches)
     {
         if (!m_kinDyn->getFrameFreeFloatingJacobian(contactWrench.frameIndex, m_jacobian))
         {
-              log()->error("{} Unable to get contact wrench associated to frame named {}.",
+            log()->error("{} Unable to get contact wrench associated to frame named {}.",
                          errorPrefix,
                          m_kinDyn->model().getFrameName(contactWrench.frameIndex));
             return false;
         }
 
         iDynTree::toEigen(this->subA(contactWrench.variable))
-            = m_jacobian.transpose().topRows<m_spatialVelocitySize>();
+            = m_jacobian.transpose().bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
     }
 
     m_isValid = true;
     return m_isValid;
 }
 
-std::size_t BaseDynamicsTask::size() const
+std::size_t JointDynamicsTask::size() const
 {
-    return m_spatialVelocitySize;
+    constexpr auto errorMessage = "[JointTrackingTask::size] Please call setKinDyn method before. "
+                                  "A size equal to zero will be returned.";
+
+    assert((m_kinDyn != nullptr) && errorMessage);
+
+    if (m_kinDyn == nullptr)
+    {
+        log()->warn(errorMessage);
+        return 0;
+    }
+    return m_kinDyn->getNrOfDegreesOfFreedom();
 }
 
-BaseDynamicsTask::Type BaseDynamicsTask::type() const
+JointDynamicsTask::Type JointDynamicsTask::type() const
 {
     return Type::equality;
 }
 
-bool BaseDynamicsTask::isValid() const
+bool JointDynamicsTask::isValid() const
 {
     return m_isValid;
 }

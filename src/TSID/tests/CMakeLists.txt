@@ -3,16 +3,16 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 add_bipedal_test(
-  NAME SE3Task
+  NAME SE3TaskTSID
   SOURCES SE3TaskTest.cpp
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions)
 
 add_bipedal_test(
-  NAME JointsTrackingTask
-  SOURCES JointsTrackingTaskTest.cpp
+  NAME JointsTrackingTaskTSID
+  SOURCES JointTrackingTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
 
 add_bipedal_test(
-  NAME DynamicsTask
+  NAME DynamicsTaskTSID
   SOURCES DynamicsTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
