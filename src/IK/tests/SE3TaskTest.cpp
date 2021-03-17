@@ -117,8 +117,8 @@ TEST_CASE("SE3 Task")
             SO3Controller.setGains(kp);
             R3Controller.setGains(kp);
 
-            SO3Controller.setFeedForward(desiredVelocity.w());
-            R3Controller.setFeedForward(desiredVelocity.v());
+            SO3Controller.setFeedForward(desiredVelocity.ang());
+            R3Controller.setFeedForward(desiredVelocity.lin());
             SO3Controller.setDesiredState(desiredPose.quat());
             R3Controller.setDesiredState(desiredPose.translation());
 
