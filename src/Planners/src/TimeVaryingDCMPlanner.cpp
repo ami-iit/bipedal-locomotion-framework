@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
-#include <BipedalLocomotion/System/DynamicalSystem.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::Planners;
