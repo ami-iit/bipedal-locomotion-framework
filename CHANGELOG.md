@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file.
 - Implement LinearizedFrictionCone class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/244)
 - Added a check on whether the installed public headers have the correct folder structure (https://github.com/dic-iit/bipedal-locomotion-framework/pull/247)
 - Implement python bindings for VariablesHandler class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/234)
+- Implement FixedBaseDynamics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
@@ -28,6 +29,7 @@ All notable changes to this project are documented in this file.
 - Use std::optional instead of raw pointer in ISensorBridge. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/226)
 - Use `System::LinearTask` in TSID component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/240)
 - Restructure python bindings in submodules (https://github.com/dic-iit/bipedal-locomotion-framework/pull/238)
+- Integrators and DynamicalSystems are now in the `ContinuousDynamicalSystem` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
