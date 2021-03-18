@@ -1,18 +1,21 @@
 /**
- * @file FloatingBaseSystemDynamics.h
+ * @file FloatingBaseDynamicsWithCompliantContacts.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_H
-#define BIPEDAL_LOCOMOTION_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_H
+#ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
+#define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 
 #include <memory>
+#include <tuple>
 #include <vector>
 
-#include <BipedalLocomotion/System/DynamicalSystem.h>
-#include <BipedalLocomotion/System/ContactWrench.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h>
+#include <BipedalLocomotion/Math/Constants.h>
 
 #include <Eigen/Dense>
 
@@ -20,9 +23,36 @@
 
 namespace BipedalLocomotion
 {
-namespace System
+namespace ContinuousDynamicalSystem
 {
 
+class FloatingBaseDynamicsWithCompliantContacts;
+
+namespace internal
+{
+
+template <> struct traits<FloatingBaseDynamicsWithCompliantContacts>
+{
+    using State = std::tuple<Eigen::Matrix<double, 6, 1>,
+                             Eigen::VectorXd,
+                             Eigen::Vector3d,
+                             Eigen::Matrix3d,
+                             Eigen::VectorXd>;
+    using StateDerivative = std::tuple<Eigen::Matrix<double, 6, 1>,
+                                       Eigen::VectorXd,
+                                       Eigen::Vector3d,
+                                       Eigen::Matrix3d,
+                                       Eigen::VectorXd>;
+    using Input = std::tuple<Eigen::VectorXd, std::vector<CompliantContactWrench>>;
+};
+} // namespace internal
+} // namespace ContinuousDynamicalSystem
+} // namespace BipedalLocomotion
+
+namespace BipedalLocomotion
+{
+namespace ContinuousDynamicalSystem
+{
 /**
  * FloatingBaseDynamicalSystem describes a floating base dynamical system.
  * The FloatingBaseDynamicalSystem inherits from a generic DynamicalSystem where:
@@ -42,20 +72,10 @@ namespace System
  *   - Eigen::VectorXd: the joint velocities [in rad/s].
  * - DynamicalSystem::InputType is described by an std::tuple containing:
  *   - Eigen::VectorXd: the joint torques [in Nm];
- *   - std::vector<ContactWrench>: List of contact wrenches.
+ *   - std::vector<CompliantContactWrench>: List of contact wrenches.
  */
-class FloatingBaseDynamicalSystem
-    : public DynamicalSystem<std::tuple<Eigen::Matrix<double, 6, 1>,
-                                        Eigen::VectorXd,
-                                        Eigen::Vector3d,
-                                        Eigen::Matrix3d,
-                                        Eigen::VectorXd>,
-                             std::tuple<Eigen::Matrix<double, 6, 1>,
-                                        Eigen::VectorXd,
-                                        Eigen::Vector3d,
-                                        Eigen::Matrix3d,
-                                        Eigen::VectorXd>,
-                             std::tuple<Eigen::VectorXd, std::vector<ContactWrench>>>
+class FloatingBaseDynamicsWithCompliantContacts
+    : public DynamicalSystem<FloatingBaseDynamicsWithCompliantContacts>
 {
     static constexpr size_t m_baseDoFs = 6; /**< Number of degree of freedom associated to the
                                                floating base */
@@ -64,7 +84,8 @@ class FloatingBaseDynamicalSystem
                                                                kinDynComputations object */
     std::size_t m_actuatedDoFs{0}; /**< Number of actuated degree of freedom */
 
-    Eigen::Vector3d m_gravity; /**< Gravity vector */
+    Eigen::Vector3d m_gravity{0, 0, -Math::StandardAccelerationOfGravitation}; /**< Gravity vector
+                                                                                */
 
     Eigen::MatrixXd m_massMatrix; /**< Floating-base mass matrix  */
 
@@ -81,17 +102,10 @@ class FloatingBaseDynamicalSystem
     double m_rho{0.01}; /**< Regularization term used for the Baumgarte stabilization over the SO(3)
                            group */
 
+    State m_state;
+    Input m_controlInput;
 
 public:
-    /**
-     * Constructor.
-     * @note The constructor set the gravity acceleration vector to
-     * \f$\begin{bmatrix} 0 & 0 & -g_s \end{bmatrix}^\top\f$. Where \f$g_s\$ is equal to
-     * BipedalLocomotion::Math::StandardAccelerationOfGravitation. Please call setGravityVector() if
-     * you want define your custom gravity vector.
-     */
-    FloatingBaseDynamicalSystem();
-
     /**
      * Initialize the Dynamical system.
      * @note Please call this function only if you want to set an arbitrary value for the parameter
@@ -100,13 +114,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
-
-    /**
-     * Set the vector of gravity.
-     * @param gravity a 3D vector describing the gravity acceleration.
-     */
-    void setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity);
+    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set a kinDynComputations object.
@@ -133,15 +141,30 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivativeType& stateDerivative) final;
+    bool dynamics(const double& time, StateDerivative& stateDerivative);
 
     /**
-     * Destructor.
+     * Set the state of the dynamical system.
+     * @param state tuple containing a const reference to the state elements.
+     * @return true in case of success, false otherwise.
      */
-    ~FloatingBaseDynamicalSystem() = default;
+    bool setState(const State& state);
+
+    /**
+     * Get the state to the dynamical system.
+     * @return the current state of the dynamical system
+     */
+    const State& getState() const;
+
+    /**
+     * Set the control input to the dynamical system.
+     * @param controlInput the value of the control input used to compute the system dynamics.
+     * @return true in case of success, false otherwise.
+     */
+    bool setControlInput(const Input& controlInput);
 };
 
-} // namespace System
+} // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_H
+#endif // BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H

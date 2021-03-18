@@ -5,18 +5,19 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_SYSTEM_DYNAMICAL_SYSTEM_H
-#define BIPEDAL_LOCOMOTION_SYSTEM_DYNAMICAL_SYSTEM_H
+#ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_DYNAMICAL_SYSTEM_H
+#define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_DYNAMICAL_SYSTEM_H
 
 #include <memory>
 #include <tuple>
 
+#include <BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h>
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
 namespace BipedalLocomotion
 {
-namespace System
+namespace ContinuousDynamicalSystem
 {
 
 /**
@@ -29,9 +30,24 @@ namespace System
  * @tparam Input type used for describing the input (i.e. it has to be a std::tuple of
  * vectors/matrices or in general classes).
  */
-template <typename State, typename StateDerivative, typename Input>
-class DynamicalSystem
+template <class _Derived> class DynamicalSystem
 {
+    constexpr _Derived& derived()
+    {
+        return *static_cast<_Derived*>(this);
+    }
+    constexpr const _Derived& derived() const
+    {
+        return *static_cast<const _Derived*>(this);
+    }
+
+public:
+    using State = typename internal::traits<_Derived>::State; /**< State space type */
+    using StateDerivative = typename internal::traits<_Derived>::StateDerivative; /**< State space
+                                                                                     derivative type
+                                                                                   */
+    using Input = typename internal::traits<_Derived>::Input; /**< Input type */
+
     static_assert(is_specialization<State, std::tuple>::value,
                   "The State type must be a specialization of the std::tuple. E.g. "
                   "std::tuple<iDyntree::Position, iDynTree::Rotation>");
@@ -45,22 +61,12 @@ class DynamicalSystem
                   "std::tuple<iDyntree::Vector3, iDynTree::Vector3>");
 
 public:
-    using StateType = State; /**< State space type */
-    using StateDerivativeType = StateDerivative; /**< State space derivative type */
-    using InputType = Input; /**< Input type */
-
-protected:
-    InputType m_controlInput; /**< Value of the control input */
-    StateType m_state; /**< Value of the current state of the system */
-
-public:
-
     /**
      * Initialize the Dynamical system.
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    virtual bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the state of the dynamical system.
@@ -69,13 +75,13 @@ public:
      * @param state tuple containing a const reference to the state elements.
      * @return true in case of success, false otherwise.
      */
-    virtual bool setState(const StateType& state);
+    bool setState(const State& state);
 
     /**
      * Get the state to the dynamical system.
      * @return the current state of the dynamical system
      */
-    const StateType & getState() const;
+    const State& getState() const;
 
     /**
      * Set the control input to the dynamical system.
@@ -84,7 +90,7 @@ public:
      * @param controlInput the value of the control input used to compute the system dynamics.
      * @return true in case of success, false otherwise.
      */
-    virtual bool setControlInput(const InputType& controlInput);
+    bool setControlInput(const Input& controlInput);
 
     /**
      * Computes the system dynamics. It return \f$f(x, u, t)\f$.
@@ -95,17 +101,40 @@ public:
      * @warning Please implement the function in your custom dynamical system.
      * @return true in case of success, false otherwise.
      */
-    virtual bool dynamics(const double& time, StateDerivativeType& stateDerivative) = 0;
-
-    /**
-     * Destructor
-     */
-    ~DynamicalSystem() = default;
+    bool dynamics(const double& time, StateDerivative& stateDerivative);
 };
 
-} // namespace System
+template <class _Derived>
+bool DynamicalSystem<_Derived>::initalize(
+    std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+{
+    return this->derived().initalize(handler);
+}
+
+template <class _Derived> bool DynamicalSystem<_Derived>::setState(const State& state)
+{
+    return this->derived().setState(state);
+}
+
+template <class _Derived>
+const typename DynamicalSystem<_Derived>::State& DynamicalSystem<_Derived>::getState() const
+{
+    return this->derived().getState();
+}
+
+template <class _Derived>
+bool DynamicalSystem<_Derived>::setControlInput(const typename DynamicalSystem<_Derived>::Input& controlInput)
+{
+    return this->derived().setControlInput(controlInput);
+}
+
+template <class _Derived>
+bool DynamicalSystem<_Derived>::dynamics(const double& time, StateDerivative& stateDerivative)
+{
+    return this->derived().dynamics(time, stateDerivative);
+}
+
+} // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion
 
-#include <BipedalLocomotion/System/DynamicalSystem.tpp>
-
-#endif // BIPEDAL_LOCOMOTION_SYSTEM_DYNAMICAL_SYSTEM_H
+#endif // BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_DYNAMICAL_SYSTEM_H
