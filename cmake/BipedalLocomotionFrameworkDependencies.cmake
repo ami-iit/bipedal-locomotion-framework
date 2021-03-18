@@ -93,6 +93,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
 
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
+  "" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+  "Compile System library?" ON
   "FRAMEWORK_COMPILE_ContactModels" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
@@ -142,11 +146,11 @@ framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
 framework_dependent_option(FRAMEWORK_COMPILE_JointTrajectoryPlayer
   "Compile joint-trajectory-player application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_matioCppConversions;FRAMEWORK_USE_matioCpp;FRAMEWORK_USE_YARP" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_Perception
   "Compile Perception libraries?" ON
   "FRAMEWORK_USE_OpenCV;FRAMEWORK_USE_PCL" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_PerceptionInterface
   "Compile PerceptionInterface libraries?" ON
   "FRAMEWORK_COMPILE_Perception" OFF)
@@ -154,7 +158,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_PerceptionInterface
 framework_dependent_option(FRAMEWORK_COMPILE_RealsenseCapture
   "Compile Realsense related software?" ON
   "FRAMEWORK_COMPILE_PerceptionInterface;FRAMEWORK_USE_realsense2" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
   "Compile realsense-test application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_RealsenseCapture;FRAMEWORK_COMPILE_PerceptionInterface" OFF)
