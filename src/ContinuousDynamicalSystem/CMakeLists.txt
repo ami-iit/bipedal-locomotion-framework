@@ -11,11 +11,11 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
   add_bipedal_locomotion_library(
     NAME                   ContinuousDynamicalSystem
     PUBLIC_HEADERS         ${H_PREFIX}/DynamicalSystem.h ${H_PREFIX}/LinearTimeInvariantSystem.h
-                           ${H_PREFIX}/FloatingBaseSystemKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h
+                           ${H_PREFIX}/FloatingBaseSystemKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h ${H_PREFIX}/FixedBaseDynamics.h
                            ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h
                            ${H_PREFIX}/CompliantContactWrench.h
     PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
-    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/CompliantContactWrench.cpp src/FloatingBaseDynamicsWithCompliantContacts.cpp
+    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/CompliantContactWrench.cpp src/FloatingBaseDynamicsWithCompliantContacts.cpp src/FixedBaseDynamics.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ContactModels
                            iDynTree::idyntree-high-level iDynTree::idyntree-model
                            Eigen3::Eigen BipedalLocomotion::TextLogging BipedalLocomotion::Math
