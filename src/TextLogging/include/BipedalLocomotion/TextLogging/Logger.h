@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
 #define BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
 
+#include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
 namespace BipedalLocomotion
