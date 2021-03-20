@@ -17,16 +17,22 @@ configure_file_with_cmakeif(${CMAKE_CURRENT_SOURCE_DIR}/bipedal_locomotion_frame
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp
   @ONLY)
 
+get_property(pybind_headers GLOBAL PROPERTY pybind_headers)
+get_property(pybind_sources GLOBAL PROPERTY pybind_sources)
+get_property(pybind_include_dirs GLOBAL PROPERTY pybind_include_dirs)
+get_property(pybind_link_libraries GLOBAL PROPERTY pybind_link_libraries)
+
 
 pybind11_add_module(pybind11_blf MODULE
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp
+  ${pybind_sources}
+  ${pybind_headers}
   )
 
-get_property(bindings_link_libraries GLOBAL PROPERTY BipedalLocomotionFrameworkBindings_TARGETS)
-
+target_include_directories(pybind11_blf PUBLIC "$<BUILD_INTERFACE:${pybind_include_dirs}>")
 
 target_link_libraries(pybind11_blf PRIVATE
-  ${bindings_link_libraries})
+  ${pybind_link_libraries})
 
 # # The generated Python dynamic module must have the same name as the pybind11
 # # module, i.e. `bindings`.

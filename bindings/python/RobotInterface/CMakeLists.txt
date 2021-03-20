@@ -9,9 +9,8 @@ if(FRAMEWORK_COMPILE_RobotInterface AND FRAMEWORK_COMPILE_YarpImplementation)
   add_bipedal_locomotion_python_module(
     NAME RobotInterfaceBindings
     SOURCES src/Polydriver.cpp src/RobotControl.cpp src/SensorBridge.cpp src/Module.cpp
-    PUBLIC_HEADERS ${H_PREFIX}/Polydriver.h ${H_PREFIX}/RobotControl.h ${H_PREFIX}/SensorBridge.h ${H_PREFIX}/Module.h
-    PRIVATE_LINK_LIBRARIES BipedalLocomotion::RobotInterface BipedalLocomotion::RobotInterfaceYarpImplementation
-    INSTALLATION_FOLDER RobotInterface
+    HEADERS ${H_PREFIX}/Polydriver.h ${H_PREFIX}/RobotControl.h ${H_PREFIX}/SensorBridge.h ${H_PREFIX}/Module.h
+    LINK_LIBRARIES BipedalLocomotion::RobotInterface BipedalLocomotion::RobotInterfaceYarpImplementation
     )
 
 endif()

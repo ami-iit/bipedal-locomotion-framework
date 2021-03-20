@@ -7,7 +7,6 @@ set(H_PREFIX include/BipedalLocomotion/bindings/Math)
 add_bipedal_locomotion_python_module(
   NAME MathBindings
   SOURCES src/Constants.cpp src/Module.cpp
-  PUBLIC_HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/Module.h
-  PRIVATE_LINK_LIBRARIES BipedalLocomotion::Math
-  INSTALLATION_FOLDER Math
+  HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/Module.h
+  LINK_LIBRARIES BipedalLocomotion::Math
   )

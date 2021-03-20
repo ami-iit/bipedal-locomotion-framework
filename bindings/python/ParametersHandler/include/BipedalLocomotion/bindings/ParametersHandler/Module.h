@@ -17,7 +17,7 @@ namespace bindings
 namespace ParametersHandler
 {
 
-PYBIND11_EXPORT void CreateModule(pybind11::module& module);
+void CreateModule(pybind11::module& module);
 
 } // namespace ParametersHandler
 } // namespace bindings

@@ -17,7 +17,7 @@ namespace bindings
 namespace Math
 {
 
-PYBIND11_EXPORT void CreateModule(pybind11::module& module);
+void CreateModule(pybind11::module& module);
 
 } // namespace Math
 } // namespace bindings

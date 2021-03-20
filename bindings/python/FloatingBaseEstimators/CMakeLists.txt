@@ -9,9 +9,8 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
   add_bipedal_locomotion_python_module(
     NAME FloatingBaseEstimatorsBindings
     SOURCES src/LeggedOdometry.cpp src/FloatingBaseEstimators.cpp src/Module.cpp
-    PUBLIC_HEADERS ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/FloatingBaseEstimators.h ${H_PREFIX}/Module.h
-    PRIVATE_LINK_LIBRARIES BipedalLocomotion::FloatingBaseEstimators
-    INSTALLATION_FOLDER FloatingBaseEstimators
+    HEADERS ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/FloatingBaseEstimators.h ${H_PREFIX}/Module.h
+    LINK_LIBRARIES BipedalLocomotion::FloatingBaseEstimators
     TESTS tests/test_legged_odometry.py
     )
 

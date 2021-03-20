@@ -17,7 +17,7 @@ namespace bindings
 namespace Contacts
 {
 
-PYBIND11_EXPORT void CreateModule(pybind11::module& module);
+void CreateModule(pybind11::module& module);
 
 } // namespace Contacts
 } // namespace bindings
