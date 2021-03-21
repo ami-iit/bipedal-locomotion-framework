@@ -16,8 +16,8 @@ def test_swing_foot_planner_state():
 
     state.transform = manif.SE3(position=np.array([0.0, -0.2, 0.5]),
                                 quaternion=np.array([0, 0, 0, 1]))
-    assert state.transform.translation == pytest.approx([0.0, -0.2, 0.5])
-    assert state.transform.quat == pytest.approx([0, 0, 0, 1])
+    assert state.transform.translation() == pytest.approx([0.0, -0.2, 0.5])
+    assert state.transform.quat() == pytest.approx([0, 0, 0, 1])
 
     state.mixed_velocity = np.array([0.1, 0.2, 0.3, -0.1, -0.2, -0.3])
     assert state.mixed_velocity == pytest.approx([0.1, 0.2, 0.3, -0.1, -0.2, -0.3])

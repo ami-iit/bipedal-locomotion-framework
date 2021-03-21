@@ -18,8 +18,8 @@ def test_contact():
     assert contact.type == blf.contacts.ContactType.Full
 
     contact.pose = manif.SE3(position=[1.0, -2.0, 3.3], quaternion=[0, 0, -1, 0])
-    assert contact.pose.translation == pytest.approx(np.array([1.0, -2.0, 3.3]))
-    assert contact.pose.quat == pytest.approx(np.array([0, 0, -1, 0]))
+    assert contact.pose.translation() == pytest.approx(np.array([1.0, -2.0, 3.3]))
+    assert contact.pose.quat() == pytest.approx(np.array([0, 0, -1, 0]))
 
     contact.activation_time = 42.0
     assert contact.activation_time == 42.0
