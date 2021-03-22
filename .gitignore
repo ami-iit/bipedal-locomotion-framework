@@ -8,3 +8,6 @@ build/*
 # Qtcreator
 *.user*
 *.autosave
+
+# python
+__pycache__/

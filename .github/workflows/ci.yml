@@ -403,6 +403,14 @@ jobs:
         pip3 install pathlib pybind11
         echo "CMAKE_PREFIX_PATH=$(python3 -c 'import pybind11; from pathlib import Path; print(Path(pybind11.__file__).parent)'):$CMAKE_PREFIX_PATH" >> $GITHUB_ENV
 
+    - name: Install manifpy [Ubintu/macOS]
+      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest'
+      run: |
+        git clone https://github.com/artivis/manif.git
+        cd manif
+        git checkout ${manif_TAG}
+        python3 -m pip install .
+
     - name: Check Python setup
       shell: bash
       run: |
