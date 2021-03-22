@@ -7,3 +7,8 @@ add_bipedal_test(
   NAME CARE
   SOURCES CARETest.cpp
   LINKS BipedalLocomotion::Math)
+
+add_bipedal_test(
+  NAME LinearizedFrictionConeTest
+  SOURCES LinearizedFrictionConeTest.cpp
+  LINKS BipedalLocomotion::Math)
