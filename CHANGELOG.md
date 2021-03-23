@@ -17,6 +17,7 @@ All notable changes to this project are documented in this file.
 - Implement the inverse kinematics component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/229)
 - Implement LinearizedFrictionCone class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/244)
 - Added a check on whether the installed public headers have the correct folder structure (https://github.com/dic-iit/bipedal-locomotion-framework/pull/247)
+- Implement python bindings for VariablesHandler class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/234)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)

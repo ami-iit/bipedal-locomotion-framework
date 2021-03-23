@@ -39,6 +39,11 @@ private:
                                                                          index range */
     std::size_t m_numberOfVariables{0}; /**< Total number of Variable seen as scalar */
 
+    /**
+     * An invalid variable
+     */
+    VariableDescription m_invalidVariable{VariablesHandler::VariableDescription::InvalidVariable()};
+
 public:
     /**
      * Add a new variable to the list
@@ -51,9 +56,9 @@ public:
     /**
      * Get a variable from the list
      * @param name of the variable
-     * @return the index range associated to the variable
+     * @return the variable description associated to the variable
      */
-    VariableDescription getVariable(const std::string& name) const noexcept;
+    const VariableDescription& getVariable(const std::string& name) const noexcept;
 
     /**
      * Get a variable from the list
@@ -68,7 +73,15 @@ public:
      * @return the total number of variables
      */
     const std::size_t& getNumberOfVariables() const noexcept;
+
+    /**
+     * Get the string representation of the handler.
+     * @return a string containing the name of all the variable and their description.
+     */
+    std::string toString() const noexcept;
 };
+
 } // namespace System
 } // namespace BipedalLocomotion
+
 #endif // BIPEDAL_LOCOMOTION_SYSTEM_VARIABLES_HANDLER_H

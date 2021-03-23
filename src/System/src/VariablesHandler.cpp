@@ -43,7 +43,7 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
     return true;
 }
 
-VariablesHandler::VariableDescription VariablesHandler::getVariable(const std::string& name) const
+const VariablesHandler::VariableDescription& VariablesHandler::getVariable(const std::string& name) const
     noexcept
 {
     auto variable = m_variables.find(name);
@@ -54,7 +54,7 @@ VariablesHandler::VariableDescription VariablesHandler::getVariable(const std::s
     if (variable != m_variables.end())
         return variable->second;
     else
-        return VariablesHandler::VariableDescription::InvalidVariable();
+        return m_invalidVariable;
 }
 
 bool VariablesHandler::getVariable(const std::string& name,
@@ -67,4 +67,17 @@ bool VariablesHandler::getVariable(const std::string& name,
 const std::size_t& VariablesHandler::getNumberOfVariables() const noexcept
 {
     return m_numberOfVariables;
+}
+
+
+std::string VariablesHandler::toString() const noexcept
+{
+    std::string out;
+    for (const auto& [key, variable] : m_variables)
+    {
+        out = key + " size: " + std::to_string(variable.size)
+              + ", offset: " + std::to_string(variable.offset) + ". ";
+    }
+
+    return out;
 }

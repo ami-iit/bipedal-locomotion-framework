@@ -10,6 +10,10 @@
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
 
+@cmakeif FRAMEWORK_COMPILE_System
+#include <BipedalLocomotion/bindings/System/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_System
+
 @cmakeif FRAMEWORK_COMPILE_Contact
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Contact
@@ -44,6 +48,11 @@ PYBIND11_MODULE(bindings, m)
 
     py::module_ mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);
+
+    @cmakeif FRAMEWORK_COMPILE_System
+    py::module_ systemModule = m.def_submodule("system");
+    bindings::System::CreateModule(systemModule);
+    @endcmakeif FRAMEWORK_COMPILE_System
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module_ contactsModule = m.def_submodule("contacts");
