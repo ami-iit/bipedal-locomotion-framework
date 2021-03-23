@@ -85,9 +85,11 @@ public:
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
-     * Set image for which markers need to be detecte
+     * Set image for which markers need to be detected
      * @param[in] inputImg image as OpenCV mat
      * @param[in] timeNow current time in chosen time units
+     *                    it is useful for bookkeeping
+     *                    or time delay synchronization
      * @return True in case of success, false otherwise
      */
     bool setImage(const cv::Mat& inputImg, double timeNow);
@@ -119,9 +121,9 @@ public:
      * @param[in] axisLengthForDrawing axis length for drawing the frame axes, 0.1 by default
      * @return True in case of success, false if no marker was detected
      */
-    bool getImgWithDetectedMarkers(cv::Mat& outputImg,
-                                   const bool& drawFrames = false, 
-                                   const double& axisLengthForDrawing = 0.1);
+    bool getImageWithDetectedMarkers(cv::Mat& outputImg,
+                                     const bool& drawFrames = false,
+                                     const double& axisLengthForDrawing = 0.1);
 
     /**
      * Determines the validity of the object retrieved with get()

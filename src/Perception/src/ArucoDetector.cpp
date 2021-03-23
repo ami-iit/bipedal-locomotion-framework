@@ -120,9 +120,8 @@ bool ArucoDetector::initialize(std::weak_ptr<IParametersHandler> handler)
         return false;
     }
 
-    std::vector<double> calibVec;
-    if (!handle->getParameter("camera_matrix",
-                               GenericContainer::make_vector(calibVec, GenericContainer::VectorResizeMode::Resizable)))
+    Eigen::Matrix<double, 9, 1> calibVec;
+    if (!handle->getParameter("camera_matrix", calibVec))
     {
         log()->error("{} "
         "The parameter handler could not find \" camera_matrix \" in the configuration file.",
@@ -130,12 +129,12 @@ bool ArucoDetector::initialize(std::weak_ptr<IParametersHandler> handler)
         return false;
     }
 
+    Eigen::Matrix3d calibMat = Eigen::Map< Eigen::Matrix<double, 3, 3, Eigen::RowMajor> >(calibVec.data());
     m_pimpl->cameraMatrix = cv::Mat(3, 3, CV_64F);
-    std::memcpy(m_pimpl->cameraMatrix.data, calibVec.data(), calibVec.size()*sizeof(double));
+    cv::eigen2cv(calibMat, m_pimpl->cameraMatrix);
 
-    std::vector<double> distCoeffVec;
-    if (!handle->getParameter("distortion_coefficients",
-                               GenericContainer::make_vector(distCoeffVec, GenericContainer::VectorResizeMode::Resizable)))
+    Eigen::Matrix<double, 5, 1> distCoeffVec;
+    if (!handle->getParameter("distortion_coefficients", distCoeffVec))
     {
         log()->error("{} "
         "The parameter handler could not find \" distortion_coefficients \" in the configuration file.",
@@ -144,7 +143,7 @@ bool ArucoDetector::initialize(std::weak_ptr<IParametersHandler> handler)
     }
 
     m_pimpl->distCoeff = cv::Mat(5, 1, CV_64F);
-    std::memcpy(m_pimpl->distCoeff.data, distCoeffVec.data(), distCoeffVec.size()*sizeof(double));
+    cv::eigen2cv(distCoeffVec, m_pimpl->distCoeff);
 
     m_pimpl->initialized = true;
     return true;
@@ -250,9 +249,9 @@ bool ArucoDetector::getDetectedMarkerData(const int& id, ArucoMarkerData& marker
 }
 
 
-bool ArucoDetector::getImgWithDetectedMarkers(cv::Mat& outputImg,
-                                              const bool& drawFrames,
-                                              const double& axisLengthForDrawing)
+bool ArucoDetector::getImageWithDetectedMarkers(cv::Mat& outputImg,
+                                                const bool& drawFrames,
+                                                const double& axisLengthForDrawing)
 {
     std::size_t nrDetectedMarkers = m_pimpl->currentDetectedMarkerIds.size();
     if (m_pimpl->currentImg.empty() ||  nrDetectedMarkers <= 0)

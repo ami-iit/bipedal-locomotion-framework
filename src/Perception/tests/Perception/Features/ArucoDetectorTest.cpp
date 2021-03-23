@@ -36,15 +36,18 @@ TEST_CASE("Aruco Detector")
     REQUIRE(detector.advance());
 
     cv::Mat outputImage;
-    REQUIRE(detector.getImgWithDetectedMarkers(outputImage, /*drawFrames=*/ true, /*axisLengthForDrawing=*/ 0.3));
+    REQUIRE(detector.getImageWithDetectedMarkers(outputImage,
+                                                 /*drawFrames=*/ true,
+                                                 /*axisLengthForDrawing=*/ 0.3));
 
     // Marker 2 is detected in the sample image
     ArucoMarkerData marker2;
     REQUIRE(detector.getDetectedMarkerData(/*id=*/ 2, marker2));
     REQUIRE(marker2.id == 2);
 
-    /* // uncomment this block to view the output image
+     /* // uncomment this block to view the output image
        cv::imshow("outputImage", outputImage);
        cv::waitKey();
-    */
+     */
+
 }
