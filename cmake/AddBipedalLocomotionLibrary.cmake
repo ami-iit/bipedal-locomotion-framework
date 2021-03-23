@@ -4,7 +4,7 @@
 
 function(add_bipedal_locomotion_library)
 
-  set(options IS_INTERFACE)
+  set(options IS_INTERFACE SKIP_INSTALL_CHECK)
   set(oneValueArgs NAME INSTALLATION_FOLDER)
   set(multiValueArgs
     SOURCES
@@ -25,6 +25,7 @@ function(add_bipedal_locomotion_library)
   set(name ${${prefix}_NAME})
   set(installation_folder ${${prefix}_INSTALLATION_FOLDER})
   set(is_interface ${${prefix}_IS_INTERFACE})
+  set(skip_install_check ${${prefix}_SKIP_INSTALL_CHECK})
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(private_headers ${${prefix}_PRIVATE_HEADERS})
@@ -107,6 +108,18 @@ function(add_bipedal_locomotion_library)
     endif()
   endforeach()
   set_property(GLOBAL PROPERTY umbrella_includes "${umbrella_includes_list}")
+
+  if (NOT ${skip_install_check})
+    foreach(header ${public_headers})
+      get_filename_component(header_name ${header} NAME)
+      get_filename_component(header_path ${header} DIRECTORY)
+      string(REPLACE "include/BipedalLocomotion/" "" header_path_cleaned ${header_path})
+      if (NOT(${header_path_cleaned} STREQUAL ${installation_folder}))
+          string(REPLACE "include/" "" header_no_include ${header})
+          message(FATAL_ERROR "The file ${header_no_include} will have a different path when installed (it will become BipedalLocomotion/${installation_folder}/${header_name}), possibly causing issues in the client libraries.")
+      endif()
+    endforeach()
+  endif()
 
   # add alias
   add_library(BipedalLocomotion::${name} ALIAS ${name})
