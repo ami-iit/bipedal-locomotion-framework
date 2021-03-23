@@ -8,6 +8,7 @@ if(FRAMEWORK_COMPILE_Perception AND FRAMEWORK_COMPILE_RealsenseCapture)
     NAME                   PerceptionCapture
     SOURCES                src/RealSense.cpp
     PUBLIC_HEADERS         ${H_PREFIX}/RealSense.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging BipedalLocomotion::PerceptionInterface ${realsense2_LIBRARY})
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging BipedalLocomotion::PerceptionInterface ${realsense2_LIBRARY}
+    INSTALLATION_FOLDER    Perception/Capture)
 endif()
 
