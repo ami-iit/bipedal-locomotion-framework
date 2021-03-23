@@ -2,6 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+add_subdirectory(System)
 add_subdirectory(ParametersHandler)
 add_subdirectory(Contacts)
 add_subdirectory(Planners)
