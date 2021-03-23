@@ -9,6 +9,7 @@ if(FRAMEWORK_COMPILE_AutoDiffCppAD)
     PUBLIC_HEADERS         include/BipedalLocomotion/AutoDiff/CppAD.h
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen cppad
     IS_INTERFACE
-    SUBDIRECTORIES         tests)
+    SUBDIRECTORIES         tests
+    INSTALLATION_FOLDER    AutoDiff)
 
 endif()
