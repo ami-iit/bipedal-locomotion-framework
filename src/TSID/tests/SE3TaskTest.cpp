@@ -94,6 +94,7 @@ TEST_CASE("SE3 Task")
             REQUIRE(task.setSetPoint(desiredPose, desiredVelocity, desiredAcceleration));
 
             REQUIRE(task.update());
+            REQUIRE(task.isValid());
 
             // get A and b
             Eigen::Ref<const Eigen::MatrixXd> A = task.getA();

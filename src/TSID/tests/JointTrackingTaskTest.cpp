@@ -91,6 +91,7 @@ TEST_CASE("Joint Regularization task")
             REQUIRE(task.setSetPoint(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
 
             REQUIRE(task.update());
+            REQUIRE(task.isValid());
 
             // get A and b
             Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
