@@ -89,6 +89,7 @@ TEST_CASE("CoM Task")
             REQUIRE(task.setSetPoint(desiredPosition.coeffs(), desiredVelocity.coeffs()));
 
             REQUIRE(task.update());
+            REQUIRE(task.isValid());
 
             // get A and b
             Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
