@@ -406,8 +406,8 @@ jobs:
     - name: Install manifpy [Ubintu/macOS]
       if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest'
       run: |
-        git clone https://github.com/artivis/manif.git
-        cd manif
+        git clone https://github.com/artivis/manif.git manifpy
+        cd manifpy
         git checkout ${manif_TAG}
         python3 -m pip install .
 
