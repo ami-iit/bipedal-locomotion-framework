@@ -125,6 +125,8 @@ bool JointTrackingTask::update()
 {
     constexpr std::string_view errorPrefix = "[JointTrackingTask::update] ";
 
+    m_isValid = false;
+
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
         std::cerr << errorPrefix << " Unable to get the joint position" << std::endl;
@@ -140,6 +142,8 @@ bool JointTrackingTask::update()
     m_b = m_desiredJointAcceleration;
     m_b.noalias() += m_kp.asDiagonal() * (m_desiredJointPosition - m_jointPosition);
     m_b.noalias() += m_kd.asDiagonal() * (m_desiredJointVelocity - m_jointVelocity);
+
+    m_isValid = true;
 
     return true;
 }

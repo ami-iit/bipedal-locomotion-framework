@@ -145,6 +145,7 @@ TEST_CASE("Joints and Base dynamics tasks")
                 REQUIRE(task.initialize(parameterHandler));
                 REQUIRE(task.setVariablesHandler(variablesHandler));
                 REQUIRE(task.update());
+                REQUIRE(task.isValid());
 
                 // get A and b
                 Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
