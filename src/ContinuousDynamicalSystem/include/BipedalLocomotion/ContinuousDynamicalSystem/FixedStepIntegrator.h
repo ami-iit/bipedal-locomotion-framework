@@ -88,7 +88,8 @@ bool FixedStepIntegrator<_Derived>::integrate(double initialTime, double finalTi
     double currentTime = initialTime;
     for (std::size_t i = 0; i < iterations - 1; i++)
     {
-        currentTime = initialTime + m_dT * i;
+        // advance the current time
+        currentTime += m_dT;
 
         if (!static_cast<_Derived*>(this)->oneStepIntegration(currentTime, m_dT))
         {
