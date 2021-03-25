@@ -64,11 +64,12 @@ class FloatingBaseSystemKinematics : public DynamicalSystem<FloatingBaseSystemKi
 
 public:
     /**
-     * Initialize the Dynamical system.
-     * @note Please call this function if you want to set an arbitrary value for the parameter
-     * used in the Baumgarte stabilization \f$\rho\f$ (The default value is 0.01 ). In this case the
-     * handler should contain a key called rho.
+     * Initialize the FloatingBaseSystemKinematics system.
      * @param handler pointer to the parameter handler.
+     * @note The following parameters are used
+     * | Parameter Name |   Type   |                                   Description                                     | Mandatory |
+     * |:--------------:|:--------:|:---------------------------------------------------------------------------------:|:---------:|
+     * |      `rho`     | `double` | Baumgarte stabilization parameter over the SO(3) group. The default value is 0.01 |    No     |
      * @return true in case of success/false otherwise.
      */
     bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
