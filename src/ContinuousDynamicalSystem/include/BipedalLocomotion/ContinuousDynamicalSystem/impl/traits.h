@@ -18,7 +18,7 @@
 #define BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_INPUT(...) using Input = std::tuple<__VA_ARGS__>
 
 /**
- * The user must call this macro before defining a ContinuousDynamicalSystem::DynamicalSystem
+ * The user must call this macro before defining a custom ContinuousDynamicalSystem::DynamicalSystem
  * @param DynamicalSystemType the type of the dynamical system
  * @param StateType the list of the types used to define the state. The list must be defined using
  * round parenthesis. E.g. `(Eigen::VectorXd, Eigen::VectorXd)`.
@@ -45,6 +45,31 @@
     };                                                                                \
     }                                                                                 \
     }                                                                                 \
+    }
+
+/**
+ * The user must call this macro before defining a custom ContinuousDynamicalSystem::Integrator
+ * @param IntegratorType the type of the integrator.
+ * @param DynamicalSystemType the type of the dynamical system.
+ */
+#define BLF_DEFINE_INTEGRATOR_STRUCTURE(IntegratorType, DynamicalSystemType)                \
+    namespace BipedalLocomotion                                                             \
+    {                                                                                       \
+    namespace ContinuousDynamicalSystem                                                     \
+    {                                                                                       \
+    namespace internal                                                                      \
+    {                                                                                       \
+    template <class DynamicalSystemType> struct traits<IntegratorType<DynamicalSystemType>> \
+    {                                                                                       \
+        /** State of the integrator */                                                      \
+        using State = typename traits<DynamicalSystemType>::State;                          \
+        /** State derivative of the integrator */                                           \
+        using StateDerivative = typename traits<DynamicalSystemType>::StateDerivative;      \
+        /** Type of the dynamical system */                                                 \
+        using DynamicalSystem = DynamicalSystemType;                                        \
+    };                                                                                      \
+    }                                                                                       \
+    }                                                                                       \
     }
 
 namespace BipedalLocomotion

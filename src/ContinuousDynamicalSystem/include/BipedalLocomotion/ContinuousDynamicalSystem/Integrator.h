@@ -22,7 +22,8 @@ namespace ContinuousDynamicalSystem
 {
 
 /**
- * Integrator base class.
+ * Integrator base class. f$. Please inherit publicly from this class in order to define your custom
+ * integrator. Just be sure to call after your class definition #BLF_DEFINE_INTEGRATOR_STRUCTURE()
  */
 template <class _Derived> class Integrator
 {

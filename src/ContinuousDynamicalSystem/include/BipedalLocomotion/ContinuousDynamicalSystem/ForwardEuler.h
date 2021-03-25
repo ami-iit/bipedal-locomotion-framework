@@ -20,28 +20,10 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 template <typename _DynamicalSystem> class ForwardEuler;
+}
+}
 
-namespace internal
-{
-
-/**
- * Internal description of the ForwardEuler integrator
- */
-template <typename _DynamicalSystem> struct traits<ForwardEuler<_DynamicalSystem>>
-{
-    /** State of the integrator */
-    using State = typename traits<_DynamicalSystem>::State;
-
-    /** State derivative of the integrator */
-    using StateDerivative = typename traits<_DynamicalSystem>::StateDerivative;
-
-    /** Type of the dynamical system */
-    using DynamicalSystem = _DynamicalSystem;
-};
-
-} // namespace internal
-} // namespace ContinuousDynamicalSystem
-} // namespace BipedalLocomotion
+BLF_DEFINE_INTEGRATOR_STRUCTURE(ForwardEuler, _DynamicalSystemType)
 
 namespace BipedalLocomotion
 {
