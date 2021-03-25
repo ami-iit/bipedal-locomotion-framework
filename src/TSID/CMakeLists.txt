@@ -12,10 +12,12 @@ if(FRAMEWORK_COMPILE_TSID)
                            ${H_PREFIX}/JointTrackingTask.h
                            ${H_PREFIX}/BaseDynamicsTask.h
                            ${H_PREFIX}/JointDynamicsTask.h
+                           ${H_PREFIX}/TaskSpaceInverseDynamics.h
     SOURCES                src/SE3Task.cpp
                            src/JointTrackingTask.cpp
                            src/BaseDynamicsTask.cpp
                            src/JointDynamicsTask.cpp
+                           src/TaskSpaceInverseDynamics.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::ParametersHandler
                            BipedalLocomotion::System
