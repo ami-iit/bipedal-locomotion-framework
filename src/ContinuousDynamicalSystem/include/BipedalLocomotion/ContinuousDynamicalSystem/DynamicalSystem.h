@@ -23,12 +23,8 @@ namespace ContinuousDynamicalSystem
 /**
  * DynamicalSystem defines a continuous time dynamical system, i.e. \f$\dot{x}=f(x, u, t)\f$. Please
  * inherit publicly from this class in order to define your custom dynamical system.
- * @tparam State type used for describing the state (i.e. it has to be a std::tuple vectors/matrices
- * or in general classes).
- * @tparam StateDerivative type used for describing the state derivative (i.e. it has to be a
- * std::tuple of vectors/matrices or in general classes).
- * @tparam Input type used for describing the input (i.e. it has to be a std::tuple of
- * vectors/matrices or in general classes).
+ * Just be sure to call after your class definition
+ * #BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()
  */
 template <class _Derived> class DynamicalSystem
 {
@@ -49,18 +45,17 @@ public:
     using Input = typename internal::traits<_Derived>::Input; /**< Input type */
 
     static_assert(is_specialization<State, std::tuple>::value,
-                  "The State type must be a specialization of the std::tuple. E.g. "
-                  "std::tuple<iDyntree::Position, iDynTree::Rotation>");
+                  "Please define the internal structure of the dynamical system with "
+                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
 
     static_assert(is_specialization<StateDerivative, std::tuple>::value,
-                  "The StateDerivative type must be a specialization of the std::tuple. E.g. "
-                  "std::tuple<iDyntree::Vector3, iDynTree::Vector3>");
+                  "Please define the internal structure of the dynamical system with "
+                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
 
     static_assert(is_specialization<Input, std::tuple>::value,
-                  "The Input type must be a specialization of the std::tuple. E.g. "
-                  "std::tuple<iDyntree::Vector3, iDynTree::Vector3>");
+                  "Please define the internal structure of the dynamical system with "
+                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
 
-public:
     /**
      * Initialize the Dynamical system.
      * @param handler pointer to the parameter handler.

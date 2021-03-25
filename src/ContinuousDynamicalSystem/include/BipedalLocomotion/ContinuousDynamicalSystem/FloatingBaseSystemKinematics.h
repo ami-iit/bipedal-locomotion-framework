@@ -22,22 +22,15 @@ namespace ContinuousDynamicalSystem
 {
 
 // Forward declare for type traits specialization
-
 class FloatingBaseSystemKinematics;
+}
+}
 
-namespace internal
-{
-
-template <> struct traits<FloatingBaseSystemKinematics>
-{
-    using State = std::tuple<Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd>;
-    using StateDerivative = std::tuple<Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd>;
-    using Input = std::tuple<Eigen::Matrix<double, 6, 1>, Eigen::VectorXd>;
-};
-
-} // namespace internal
-} // namespace ContinuousDynamicalSystem
-} // namespace BipedalLocomotion
+BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
+    FloatingBaseSystemKinematics,
+    (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
+    (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
+    (Eigen::Matrix<double, 6, 1>, Eigen::VectorXd))
 
 namespace BipedalLocomotion
 {

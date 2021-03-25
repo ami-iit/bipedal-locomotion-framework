@@ -9,7 +9,6 @@
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 
 #include <memory>
-#include <tuple>
 #include <vector>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h>
@@ -25,29 +24,23 @@ namespace BipedalLocomotion
 {
 namespace ContinuousDynamicalSystem
 {
-
 class FloatingBaseDynamicsWithCompliantContacts;
+}
+}
 
-namespace internal
-{
-
-template <> struct traits<FloatingBaseDynamicsWithCompliantContacts>
-{
-    using State = std::tuple<Eigen::Matrix<double, 6, 1>,
-                             Eigen::VectorXd,
-                             Eigen::Vector3d,
-                             Eigen::Matrix3d,
-                             Eigen::VectorXd>;
-    using StateDerivative = std::tuple<Eigen::Matrix<double, 6, 1>,
-                                       Eigen::VectorXd,
-                                       Eigen::Vector3d,
-                                       Eigen::Matrix3d,
-                                       Eigen::VectorXd>;
-    using Input = std::tuple<Eigen::VectorXd, std::vector<CompliantContactWrench>>;
-};
-} // namespace internal
-} // namespace ContinuousDynamicalSystem
-} // namespace BipedalLocomotion
+BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FloatingBaseDynamicsWithCompliantContacts,
+                                                         (Eigen::Matrix<double, 6, 1>,
+                                                          Eigen::VectorXd,
+                                                          Eigen::Vector3d,
+                                                          Eigen::Matrix3d,
+                                                          Eigen::VectorXd),
+                                                         (Eigen::Matrix<double, 6, 1>,
+                                                          Eigen::VectorXd,
+                                                          Eigen::Vector3d,
+                                                          Eigen::Matrix3d,
+                                                          Eigen::VectorXd),
+                                                         (Eigen::VectorXd,
+                                                          std::vector<CompliantContactWrench>))
 
 namespace BipedalLocomotion
 {

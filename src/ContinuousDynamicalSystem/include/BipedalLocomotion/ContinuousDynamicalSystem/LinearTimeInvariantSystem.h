@@ -24,20 +24,14 @@ namespace ContinuousDynamicalSystem
 // Forward declare for type traits specialization
 
 class LinearTimeInvariantSystem;
+}
+}
 
-namespace internal
-{
-
-template <> struct traits<LinearTimeInvariantSystem>
-{
-    using State = std::tuple<Eigen::VectorXd>;
-    using StateDerivative = std::tuple<Eigen::VectorXd>;
-    using Input = std::tuple<Eigen::VectorXd>;
-};
-
-} // namespace internal
-} // namespace ContinuousDynamicalSystem
-} // namespace BipedalLocomotion
+// Define the internal structure of the System
+BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(LinearTimeInvariantSystem,
+                                                         (Eigen::VectorXd),
+                                                         (Eigen::VectorXd),
+                                                         (Eigen::VectorXd))
 
 namespace BipedalLocomotion
 {

@@ -26,21 +26,15 @@ namespace BipedalLocomotion
 {
 namespace ContinuousDynamicalSystem
 {
-
-    class FixedBaseDynamics;
-
-namespace internal
-{
-
-template <> struct traits<FixedBaseDynamics>
-{
-    using State = std::tuple<Eigen::VectorXd, Eigen::VectorXd>;
-    using StateDerivative = std::tuple<Eigen::VectorXd, Eigen::VectorXd>;
-    using Input = std::tuple<Eigen::VectorXd>;
-};
-} // namespace internal
-} // namespace ContinuousDynamicalSystem
+class FixedBaseDynamics;
+}
 } // namespace BipedalLocomotion
+
+
+BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FixedBaseDynamics,
+                                                         (Eigen::VectorXd, Eigen::VectorXd),
+                                                         (Eigen::VectorXd, Eigen::VectorXd),
+                                                         (Eigen::VectorXd))
 
 namespace BipedalLocomotion
 {
