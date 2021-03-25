@@ -64,8 +64,7 @@ class FixedBaseDynamics : public DynamicalSystem<FixedBaseDynamics>
     Eigen::MatrixXd m_massMatrix; /**< Floating-base mass matrix  */
 
     // quantities useful to avoid dynamic allocation in the dynamic allocation in the
-    // FloatingBaseDynamicalSystem::dynamics method
-    Eigen::VectorXd m_generalizedRobotAcceleration;
+    // FixedBaseDynamics::dynamics() method
     Eigen::VectorXd m_knownCoefficent;
 
     bool m_useMassMatrixRegularizationTerm{false};
@@ -77,11 +76,12 @@ class FixedBaseDynamics : public DynamicalSystem<FixedBaseDynamics>
 public:
 
     /**
-     * Initialize the Dynamical system.
-     * @note Please call this function only if you want to set an arbitrary value for the parameter
-     * used in the Baumgarte stabilization \f$\rho\f$ (The default value is 0.01 ). In this case the
-     * handler should contain a key called rho.
+     * Initialize the FixedBaseDynamics system.
      * @param handler pointer to the parameter handler.
+     * @note The following parameters are used
+     * | Parameter Name |   Type   |                                          Description                                         | Mandatory |
+     * |:--------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
+     * |    `gravity`   | `double` |     Value of the Gravity. If not defined Math::StandardAccelerationOfGravitation is used     |    No     |
      * @return true in case of success/false otherwise.
      */
     bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);

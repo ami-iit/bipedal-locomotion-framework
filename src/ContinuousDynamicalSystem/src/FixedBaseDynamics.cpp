@@ -134,7 +134,7 @@ bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDeriv
 
     // compute the generalized bias forces
     // here we want to compute the robot acceleration as
-    // robotAcceleration = M^-1 (-h + J' F + B tau) = M^-1 * m_knownCoefficent
+    // robotAcceleration = M^-1 (-h + J' F + tau) = M^-1 * m_knownCoefficent
 
     if (!m_kinDyn->generalizedBiasForces(m_knownCoefficent))
     {
