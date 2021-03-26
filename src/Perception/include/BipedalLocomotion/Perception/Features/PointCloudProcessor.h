@@ -24,17 +24,25 @@ namespace Perception {
 namespace Features {
 
 
-struct PCLProcessorParams
+struct PCLProcessorParameters
 {
-    std::array<double, 3> voxelSizeDownsampling{0.05, 0.05, 0.05};
-    int nrPointsForOutlierEstimation{100};
-    double multiplierForOutlierStdDev{1.0};
+    std::array<double, 3> voxelSizeDownsampling{0.05, 0.05, 0.05}; /**< voxel grid leaf size (x, y , z) in meters for downsampling based on centroid of all the points  */
+    int nrPointsForOutlierEstimation{100}; /**< number of neighboring points to analyze for statistical outlier removal filter*/
+    double multiplierForOutlierStdDev{1.0}; /**< multiplier for standard deviation (k-sigma) from the mean distance of neighboring points to the query point for statistical outlier removal. any points larger than k-sigma from the mean will be removed*/
 
-    double spatialClusterTolerance{0.02}; // in meters (L2 euclidean norm)
-    int minNrPtsInCluster{10};
-    int maxNrPtsInCluster{1000};
+    double spatialClusterTolerance{0.02}; /**< spatial distance in meters to consider the Euclidean clustering of points (L2 euclidean norm) */
+    int minNrPointsInCluster{10}; /**< minimum number of points required to detect a cluster */
+    int maxNrPointsInCluster{1000};  /**< maximum number of points allowed in a detected cluster */
 };
 
+/**
+ * A wrapper class to do a basic PCL processing for
+ * perception aided locomotion. The available operations,
+ * - Downsample a point cloud
+ * - Remove outliers
+ * - Extract spatial clusters of point cloud
+ * - Transform a point cloud
+ */
 template <class PointType>
 class PointCloudProcessor
 {
@@ -92,7 +100,7 @@ private:
     pcl::StatisticalOutlierRemoval<PointType> m_outlierRemover;
     typename pcl::search::KdTree<PointType>::Ptr m_kdTree;
     pcl::EuclideanClusterExtraction<PointType> m_clusterExtractor;
-    PCLProcessorParams m_params;
+    PCLProcessorParameters m_params;
 };
 
 template <class PointType>
@@ -134,13 +142,13 @@ bool PointCloudProcessor<PointType>::initialize(std::weak_ptr<BipedalLocomotion:
                     "Using default name \"0.02\".", logPrefix);
     }
 
-    if (!ptr->getParameter("min_points_for_clustering", m_params.minNrPtsInCluster))
+    if (!ptr->getParameter("min_points_for_clustering", m_params.minNrPointsInCluster))
     {
         log()->warn("{} Parameter \"min_points_for_clustering\" not available in the configuration."
                     "Using default name \"10\".", logPrefix);
     }
 
-    if (!ptr->getParameter("max_points_for_clustering", m_params.maxNrPtsInCluster))
+    if (!ptr->getParameter("max_points_for_clustering", m_params.maxNrPointsInCluster))
     {
         log()->warn("{} Parameter \"max_points_for_clustering\" not available in the configuration."
                     "Using default name \"1000\".", logPrefix);
@@ -164,8 +172,8 @@ void PointCloudProcessor<PointType>::updateInternalParameters()
     m_outlierRemover.setStddevMulThresh(m_params.multiplierForOutlierStdDev);
 
     m_clusterExtractor.setClusterTolerance(m_params.spatialClusterTolerance);
-    m_clusterExtractor.setMinClusterSize(m_params.minNrPtsInCluster);
-    m_clusterExtractor.setMaxClusterSize(m_params.maxNrPtsInCluster);
+    m_clusterExtractor.setMinClusterSize(m_params.minNrPointsInCluster);
+    m_clusterExtractor.setMaxClusterSize(m_params.maxNrPointsInCluster);
 }
 
 template <class PointType>
@@ -275,7 +283,7 @@ bool PointCloudProcessor<PointType>::extractClusters(const typename pcl::PointCl
         return false;
     }
 
-    if (inCloud->size() < m_params.minNrPtsInCluster)
+    if (inCloud->size() < m_params.minNrPointsInCluster)
     {
         log()->error("[PointCloudProcessor::extractClusters] "
                      "Input point cloud size less than minimium required points for clustering.");
