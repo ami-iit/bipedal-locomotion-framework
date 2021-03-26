@@ -6,13 +6,16 @@
 # Check if a package is used and set some cmake variables
 function(dependency_classifier package)
   set(options PUBLIC)
-  set(singleValueArgs MINIMUM_VERSION)
+  set(singleValueArgs MINIMUM_VERSION IS_USED)
   cmake_parse_arguments(DC "${options}" "${singleValueArgs}" "${multiValueArgs}" ${ARGN})
 
   set(PREFIX "FRAMEWORK")
 
-  # FRAMEWORK_USE_${package}
-  if(${PREFIX}_USE_${package})
+  if(NOT DEFINED DC_IS_USED)
+    message(FATAL_ERROR "dependency_classifier function. The IS_USED variable must be specified for the package ${package}")
+  endif()
+
+  if(${DC_IS_USED})
     if(DC_PUBLIC)
       if(DC_MINIMUM_VERSION)
         set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_PublicDependencies "${package} ${DC_MINIMUM_VERSION}")

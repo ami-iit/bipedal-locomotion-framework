@@ -9,42 +9,39 @@ include(BipedalLocomotionDependencyClassifier)
 ########################## Mandatory dependencies ##############################
 
 find_package(iDynTree 3.0.0 REQUIRED)
-checkandset_dependency(iDynTree)
-dependency_classifier(iDynTree MINIMUM_VERSION 3.0.0 PUBLIC)
+dependency_classifier(iDynTree MINIMUM_VERSION 3.0.0 IS_USED TRUE PUBLIC)
 
 find_package(Eigen3 3.2.92 REQUIRED)
-checkandset_dependency(Eigen3)
-dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 PUBLIC)
+dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 IS_USED TRUE PUBLIC)
 
 find_package(spdlog REQUIRED)
-checkandset_dependency(spdlog)
-dependency_classifier(spdlog PUBLIC)
+dependency_classifier(spdlog PUBLIC IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
-dependency_classifier(YARP PUBLIC)
+dependency_classifier(YARP IS_USED ${FRAMEWORK_USE_YARP} PUBLIC)
 
 find_package(Qhull 8.0.0 QUIET)
 checkandset_dependency(Qhull 8.0.0)
-dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 PUBLIC)
+dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull} PUBLIC)
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
-dependency_classifier(casadi)
+dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi})
 
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
-dependency_classifier(cppad PUBLIC)
+dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
 find_package(manif 0.0.3 QUIET)
 checkandset_dependency(manif)
-dependency_classifier(manif MINIMUM_VERSION 0.0.3 PUBLIC)
+dependency_classifier(manif MINIMUM_VERSION 0.0.3 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
 find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
-dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3)
+dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
@@ -54,23 +51,23 @@ checkandset_dependency(pybind11)
 
 find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
-dependency_classifier(matioCpp PUBLIC)
+dependency_classifier(matioCpp IS_USED ${FRAMEWORK_USE_matioCpp} PUBLIC)
 
 find_package(LieGroupControllers QUIET)
 checkandset_dependency(LieGroupControllers)
-dependency_classifier(LieGroupControllers PUBLIC)
+dependency_classifier(LieGroupControllers IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
 
 find_package(OpenCV QUIET)
 checkandset_dependency(OpenCV)
-dependency_classifier(OpenCV PUBLIC)
+dependency_classifier(OpenCV IS_USED ${FRAMEWORK_USE_OpenCV} PUBLIC)
 
 find_package(PCL QUIET)
 checkandset_dependency(PCL)
-dependency_classifier(PCL PUBLIC)
+dependency_classifier(PCL IS_USED ${FRAMEWORK_USE_PCL} PUBLIC)
 
 find_package(realsense2 QUIET)
 checkandset_dependency(realsense2)
-dependency_classifier(realsense2 PUBLIC)
+dependency_classifier(realsense2 IS_USED ${FRAMEWORK_USE_realsense2} PUBLIC)
 
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
