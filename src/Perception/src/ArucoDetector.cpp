@@ -98,15 +98,15 @@ bool ArucoDetector::initialize(std::weak_ptr<IParametersHandler> handler)
 
     if (m_pimpl->availableDict.find(dictName) == m_pimpl->availableDict.end())
     {
-        std::cerr << printPrefix
-        << "Undefined value set to \" marker_dictionary \" in the configuration file. Please choose one among \n"
-        << "available options: \"4X4_50\", \"4X4_100\", \"4X4_250\", \"4X4_1000\", \n"
-        << "\"5X5_50\", \"5X5_100\", \"5X5_250\", \"5X5_1000\", \n"
-        << "\"6X6_50\", \"6X6_100\", \"6X6_250\", \"6X6_1000\", \n"
-        << "\"7X7_50\", \"7X7_100\", \"7X7_250\", \"7X7_1000\", \n"
-        << " \"ARUCO_ORIGINAL\", \n"
-        << "options coherent with v3.4.0 in https://docs.opencv.org/3.4.1/d9/d6a/group__aruco.html"
-        << std::endl;
+        log()->error( "{} "
+        "Undefined value set to \" marker_dictionary \" in the configuration file. Please choose one among \n"
+        "available options: \"4X4_50\", \"4X4_100\", \"4X4_250\", \"4X4_1000\", \n"
+        "\"5X5_50\", \"5X5_100\", \"5X5_250\", \"5X5_1000\", \n"
+        "\"6X6_50\", \"6X6_100\", \"6X6_250\", \"6X6_1000\", \n"
+        "\"7X7_50\", \"7X7_100\", \"7X7_250\", \"7X7_1000\", \n"
+        " \"ARUCO_ORIGINAL\", \n"
+        "options coherent with v3.4.0 in https://docs.opencv.org/3.4.1/d9/d6a/group__aruco.html",
+        printPrefix);
         return false;
     }
 
