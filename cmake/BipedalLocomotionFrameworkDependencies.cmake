@@ -3,34 +3,48 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 include(BipedalLocomotionFrameworkFindDependencies)
+include(BipedalLocomotionDependencyClassifier)
 
 ################################################################################
-# Find all packages
+########################## Mandatory dependencies ##############################
 
-find_package(iDynTree 3.0.0 REQUIRED) #Right now, all the packages built in the framework
-                                      #depend directly or indirectly from iDynTree and Eigen
-                                      #(which is an iDynTree dependency by the way)
+find_package(iDynTree 3.0.0 REQUIRED)
+checkandset_dependency(iDynTree)
+dependency_classifier(iDynTree MINIMUM_VERSION 3.0.0 PUBLIC)
+
 find_package(Eigen3 3.2.92 REQUIRED)
+checkandset_dependency(Eigen3)
+dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 PUBLIC)
 
 find_package(spdlog REQUIRED)
+checkandset_dependency(spdlog)
+dependency_classifier(spdlog PUBLIC)
+
+########################## Optional dependencies ##############################
 
 find_package(YARP QUIET)
 checkandset_dependency(YARP)
+dependency_classifier(YARP PUBLIC)
 
 find_package(Qhull 8.0.0 QUIET)
-checkandset_dependency(Qhull)
+checkandset_dependency(Qhull 8.0.0)
+dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 PUBLIC)
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
+dependency_classifier(casadi)
 
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
+dependency_classifier(cppad PUBLIC)
 
 find_package(manif 0.0.3 QUIET)
 checkandset_dependency(manif)
+dependency_classifier(manif MINIMUM_VERSION 0.0.3 PUBLIC)
 
 find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
+dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3)
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
@@ -40,18 +54,23 @@ checkandset_dependency(pybind11)
 
 find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
+dependency_classifier(matioCpp PUBLIC)
 
 find_package(LieGroupControllers QUIET)
 checkandset_dependency(LieGroupControllers)
+dependency_classifier(LieGroupControllers PUBLIC)
 
 find_package(OpenCV QUIET)
 checkandset_dependency(OpenCV)
+dependency_classifier(OpenCV PUBLIC)
 
 find_package(PCL QUIET)
 checkandset_dependency(PCL)
+dependency_classifier(PCL PUBLIC)
 
 find_package(realsense2 QUIET)
 checkandset_dependency(realsense2)
+dependency_classifier(realsense2 PUBLIC)
 
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
@@ -59,6 +78,7 @@ checkandset_dependency(Catch2)
 find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
 
+##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_COMPILE_tests
   "Compile tests?" ON
   "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
@@ -142,11 +162,11 @@ framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
 framework_dependent_option(FRAMEWORK_COMPILE_JointTrajectoryPlayer
   "Compile joint-trajectory-player application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_matioCppConversions;FRAMEWORK_USE_matioCpp;FRAMEWORK_USE_YARP" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_Perception
   "Compile Perception libraries?" ON
   "FRAMEWORK_USE_OpenCV;FRAMEWORK_USE_PCL" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_PerceptionInterface
   "Compile PerceptionInterface libraries?" ON
   "FRAMEWORK_COMPILE_Perception" OFF)
@@ -154,7 +174,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_PerceptionInterface
 framework_dependent_option(FRAMEWORK_COMPILE_RealsenseCapture
   "Compile Realsense related software?" ON
   "FRAMEWORK_COMPILE_PerceptionInterface;FRAMEWORK_USE_realsense2" OFF)
-  
+
 framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
   "Compile realsense-test application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_RealsenseCapture;FRAMEWORK_COMPILE_PerceptionInterface" OFF)

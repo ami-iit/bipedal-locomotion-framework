@@ -92,33 +92,10 @@ add_subdirectory(devices)
 #By including the file "BipedalLocomotion/Framework.h" it is possible to include all the headers automatically.
 include(AddBipedalLocomotionFrameworkTarget)
 
-set(FRAMEWORK_PUBLIC_DEPENDENCIES "iDynTree 3.0.0" "Eigen3 3.2.92" spdlog)
-
-if (FRAMEWORK_USE_YARP)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES YARP)
-endif()
-
-if (FRAMEWORK_USE_Qhull)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES "Qhull 8.0.0")
-endif()
-
-if (FRAMEWORK_USE_cppad)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES cppad)
-endif()
-
-if (FRAMEWORK_USE_manif)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES "manif 0.0.3")
-endif()
-
-if (FRAMEWORK_USE_matioCpp)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES matioCpp)
-endif()
-
-if (FRAMEWORK_USE_LieGroupControllers)
-  list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES LieGroupControllers)
-endif()
 
 include(InstallBasicPackageFiles)
+get_property(FRAMEWORK_PRIVATE_DEPENDENCIES GLOBAL PROPERTY BipedalLocomotionFramework_PrivateDependencies)
+get_property(FRAMEWORK_PUBLIC_DEPENDENCIES GLOBAL PROPERTY BipedalLocomotionFramework_PublicDependencies)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
                             VERSION ${BipedalLocomotionFramework_VERSION}
