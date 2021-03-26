@@ -110,6 +110,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
 
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
+  "" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+  "Compile System ContinuousDynamicalSystem?" ON
   "FRAMEWORK_COMPILE_ContactModels" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD

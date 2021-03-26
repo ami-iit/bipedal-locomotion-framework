@@ -1,40 +1,40 @@
 /**
- * @file ContactWrench.h
+ * @file CompliantContactWrench.h
  * @authors Giulio Romualdi
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_SYSTEM_CONTACT_WRENCH_H
-#define BIPEDAL_LOCOMOTION_SYSTEM_CONTACT_WRENCH_H
+#ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_COMPLIANT_CONTACT_WRENCH_H
+#define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_COMPLIANT_CONTACT_WRENCH_H
 
-#include <iDynTree/Core/Wrench.h>
-#include <iDynTree/Model/Indices.h>
+#include <memory>
+
 #include <BipedalLocomotion/ContactModels/ContactModel.h>
+#include <iDynTree/Model/Indices.h>
 
 namespace BipedalLocomotion
 {
 
-namespace System
+namespace ContinuousDynamicalSystem
 {
 
 /**
  * A wrench excerted on a link due to an external contact.
  */
-class ContactWrench
+class CompliantContactWrench
 {
     iDynTree::FrameIndex m_frame; /**< Useful for identifying the variable in the Model */
     std::shared_ptr<ContactModels::ContactModel> m_contactModel; /**< Contact model */
 
 public:
-
     /**
      * Constructor
      * @param index index of the frame
      * @param wrench the contact wrench
      */
-    ContactWrench(const iDynTree::FrameIndex& index,
-                  std::shared_ptr<ContactModels::ContactModel> model);
+    CompliantContactWrench(const iDynTree::FrameIndex& index,
+                           std::shared_ptr<ContactModels::ContactModel> model);
 
     /**
      * Get the index of the frame
@@ -55,7 +55,7 @@ public:
     const std::weak_ptr<ContactModels::ContactModel> contactModel() const noexcept;
 };
 
-} // namespace System
+} // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_SYSTEM_CONTACT_WRENCH_H
+#endif // BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_COMPLIANT_CONTACT_WRENCH_H

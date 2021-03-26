@@ -22,14 +22,15 @@
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/IK/SE3Task.h>
 
-#include <BipedalLocomotion/System/FloatingBaseSystemKinematics.h>
-#include <BipedalLocomotion/System/ForwardEuler.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/ModelTestUtils.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::IK;
 using namespace BipedalLocomotion::Conversions;
 
@@ -198,7 +199,8 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
                             basePose.topLeftCorner<3, 3>(),
                             jointPositions});
 
-    out.integrator = std::make_shared<ForwardEuler<FloatingBaseSystemKinematics>>(dT);
+    out.integrator = std::make_shared<ForwardEuler<FloatingBaseSystemKinematics>>();
+    REQUIRE(out.integrator->setIntegrationStep(dT));
     out.integrator->setDynamicalSystem(out.dynamics);
 
     return out;

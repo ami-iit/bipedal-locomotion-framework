@@ -1,40 +1,42 @@
 /**
  * @file FloatingBaseSystemKinematics.cpp
  * @authors Giulio Romualdi
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/System/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
-using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseSystemKinematics::initalize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initialize]";
+
     auto ptr = handler.lock();
     if (ptr == nullptr)
     {
-        std::cerr << "[FloatingBaseSystemKinematics::initalize] The parameter handler is expired. "
-                     "Please call the function passing a pointer pointing an already allocated "
-                     "memory."
-                  << std::endl;
+        log()->error("{} The parameter handler is expired. Please call the function passing a "
+                     "pointer pointing an already allocated memory.",
+                     logPrefix);
         return false;
     }
 
     if (!ptr->getParameter("rho", m_rho))
     {
-        std::cerr << "[FloatingBaseSystemKinematics::initalize] Unable to load the Baumgarte "
-                     "stabilization parameter."
-                  << std::endl;
-        return false;
+        log()->info("{} The Baumgarte stabilization parameter not found. The default one will be "
+                    "used {}.",
+                    logPrefix,
+                    m_rho);
     }
 
     return true;
 }
 
 bool FloatingBaseSystemKinematics::dynamics(const double& time,
-                                            StateDerivativeType& stateDerivative)
+                                            StateDerivative& stateDerivative)
 {
     // get the state
     const Eigen::Vector3d& basePosition = std::get<0>(m_state);
@@ -62,12 +64,26 @@ bool FloatingBaseSystemKinematics::dynamics(const double& time,
 
     // here we assume that the velocity is expressed using the mixed representation
     baseRotationRate = -baseRotation.colwise().cross(baseTwist.tail<3>())
-                       + m_rho / 2.0
-                             * ((baseRotation * baseRotation.transpose()).inverse()
-                                - Eigen::Matrix3d::Identity())
-                             * baseRotation;
+                       + m_rho / 2.0 * (baseRotation.transpose().inverse() - baseRotation);
 
     jointVelocityOutput = jointVelocity;
 
+    return true;
+}
+
+bool FloatingBaseSystemKinematics::setState(const FloatingBaseSystemKinematics::State& state)
+{
+    m_state = state;
+    return true;
+}
+
+const FloatingBaseSystemKinematics::State& FloatingBaseSystemKinematics::getState() const
+{
+    return m_state;
+}
+
+bool FloatingBaseSystemKinematics::setControlInput(const Input& controlInput)
+{
+    m_controlInput = controlInput;
     return true;
 }
