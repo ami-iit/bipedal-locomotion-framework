@@ -196,6 +196,7 @@ public:
 
 InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_unique<Impl>())
 {
+    m_isInvEKF = true;
     m_state.imuOrientation.setIdentity();
     m_state.imuPosition.setZero();
     m_state.imuLinearVelocity.setZero();

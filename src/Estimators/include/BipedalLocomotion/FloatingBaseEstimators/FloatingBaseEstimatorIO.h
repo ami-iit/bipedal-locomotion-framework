@@ -5,13 +5,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_IO_H
-#define BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_IO_H
+#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_IO_H
+#define BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_IO_H
 
 #include <Eigen/Dense>
 #include <manif/manif.h>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
+#include <manif/manif.h>
 #include <map>
 
 namespace BipedalLocomotion
@@ -38,11 +39,12 @@ struct InternalState
     Eigen::Vector3d gyroscopeBias; /**< Bias of the gyroscope expressed in the IMU frame */
 
     Eigen::Vector3d imuAngularVelocity; /**< angular velocity of the IMU with respect to the inertial frame expressed in inertial frame, typically unused for strap-down IMU based EKF implementations*/
-    std::map<int, BipedalLocomotion::Contacts::EstimatedContact> supportFrameData; /**< contact measurements */
+    std::map<int, BipedalLocomotion::Contacts::EstimatedContact> supportFrameData; /**< estimated contacts */
+    std::map<int, BipedalLocomotion::Contacts::EstimatedLandmark> landmarkData; /**< estimated landmarks */
 };
 
 /**
-* @brief Struct holding the elements of the state representation
+* @brief Struct holding the elements of the estimator output
 *
 */
 struct Output
@@ -55,7 +57,7 @@ struct Output
 };
 
 /**
-* @brief Struct holding the elements of the state representation
+* @brief Struct holding the elements of the measurements data
 *
 */
 struct Measurements
@@ -64,6 +66,13 @@ struct Measurements
     Eigen::VectorXd encoders, encodersSpeed; /**< Joint position and joint velocity measurements */
     bool lfInContact{false}; /**< left foot contact state */
     bool rfInContact{false}; /**< right foot contact state */
+
+    /** stamped relative poses,
+     * the usage of this map must be in a way
+     * that every time an element is used,
+     * it must be erased from the map
+     */
+    std::map<int, BipedalLocomotion::Contacts::EstimatedContact > stampedRelLandmarkPoses;
 
     /** stamped contact status,
      * the usage of this map must be in a way
@@ -77,5 +86,4 @@ struct Measurements
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_IO_H
-
+#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_IO_H

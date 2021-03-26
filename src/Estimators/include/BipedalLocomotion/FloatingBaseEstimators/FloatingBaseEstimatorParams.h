@@ -5,10 +5,11 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_PARAMS_H
-#define BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_PARAMS_H
+#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_PARAMS_H
+#define BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_PARAMS_H
 
 #include <Eigen/Dense>
+#include <map>
 
 namespace BipedalLocomotion
 {
@@ -16,6 +17,11 @@ namespace Estimators
 {
 namespace FloatingBaseEstimators
 {
+
+// see https://eigen.tuxfamily.org/dox/group__TopicStlContainers.html
+using PoseCovariance = std::map<int, Eigen::Matrix<double, 6, 1>, std::less<int>,
+          Eigen::aligned_allocator<std::pair<const int, Eigen::Matrix<double, 6, 1> > > >;
+
 /**
 * @brief Struct containing sensor measurement deviation parameters of floating base estimators
 *
@@ -80,6 +86,28 @@ struct SensorsStdDev
     * @brief White Gaussian noise deviation for encoder measurements in continuous time
     */
     Eigen::VectorXd encodersNoise;
+
+    /**
+    * @brief White Gaussian noise deviation for landmark relative pose predictions in continuous time
+    */
+    Eigen::Matrix<double, 6, 1> landmarkPredictionNoise;
+
+    /**
+    * @brief White Gaussian noise deviation for landmark relative pose measurments in continuous time
+    */
+    Eigen::Matrix<double, 6, 1> landmarkMeasurementNoise;
+
+    /**
+    * @brief White Gaussian noise deviation for linear velocity of IMU frame wrt inertial frame
+    *        Expressed in local frame as m/s, in continuous time
+    */
+    Eigen::Vector3d imuFrameLinearVelocityNoise;
+
+    /**
+    * @brief White Gaussian noise deviation for angular velocity of IMU frame wrt inertial frame
+    *        Expressed in local frame as rad/s, in continuous time
+    */
+    Eigen::Vector3d imuFrameAngularVelocityNoise;
 };
 
 /**
@@ -105,6 +133,12 @@ struct StateStdDev
     *        expressed in m/s
     */
     Eigen::Vector3d imuLinearVelocity;
+
+    /**
+    * @brief Prior deviation of mixed-trivialized IMU angular velocity
+    *        expressed in rad/s
+    */
+    Eigen::Vector3d imuAngularVelocity;
 
     /**
     * @brief Prior deviation of left foot contact frame orientation in inertial frame
@@ -142,6 +176,16 @@ struct StateStdDev
     *        expressed in rad/s
     */
     Eigen::Vector3d gyroscopeBias;
+
+    /**
+    * @brief Container of deviations of support frame pose in inertial frame
+    */
+    PoseCovariance supportFramePose;
+
+    /**
+    * @brief Container of deviations of landmark pose in inertial frame
+    */
+    PoseCovariance landmarkPose;
 };
 
 
@@ -179,6 +223,17 @@ struct Options
     bool ekfUpdateEnabled{true};
 
     /**
+     * @brief Enable/disable kinematics based correction updates
+     */
+    bool kinematicsUpdateEnabled{true};
+
+    /**
+     * @brief Enable/disable landmarks based correction updates
+     */
+    bool staticLandmarksUpdateEnabled{false};
+
+
+    /**
     * @brief Acceleration vector due to gravity
     *
     */
@@ -189,4 +244,4 @@ struct Options
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_PARAMS_H
+#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_PARAMS_H

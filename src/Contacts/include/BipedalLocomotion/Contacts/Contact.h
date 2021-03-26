@@ -111,6 +111,7 @@ struct EstimatedContact : ContactBase
 
 };
 
+using EstimatedLandmark = EstimatedContact;
 
 }
 }

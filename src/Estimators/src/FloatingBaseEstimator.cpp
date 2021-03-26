@@ -37,25 +37,25 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
 
 bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    if (!m_modelComp.isKinDynValid())
+    auto handle = handler.lock();
+    if (handle == nullptr)
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] The kindyn object with valid does not seem to be loaded."
-        << "Please call initialize(handler, kindyncomputations) to set the kindyn object."
+        std::cerr << "[FloatingBaseEstimator::initialize] The parameter handler has expired. Please check its scope."
         << std::endl;
         return false;
+    }
+
+    if (!handle->getParameter("use_model_info", m_useModelInfo))
+    {
+        std::cerr << "[FloatingBaseEstimator::initialize] " <<
+                    "The parameter handler could not find \" use_model_info \" in the configuration file." <<
+                    "Setting to default value " << m_useModelInfo << std::endl;
+        m_useModelInfo = true;
     }
 
     if (m_estimatorState != State::NotInitialized)
     {
         std::cerr << "[FloatingBaseEstimator::initialize] The estimator already seems to be initialized."
-        << std::endl;
-        return false;
-    }
-
-    auto handle = handler.lock();
-    if (handle == nullptr)
-    {
-        std::cerr << "[FloatingBaseEstimator::initialize] The parameter handler has expired. Please check its scope."
         << std::endl;
         return false;
     }
@@ -69,14 +69,25 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
         return false;
     }
 
-    // setup model related entities
-    auto modelHandle = handle->getGroup("ModelInfo");
-    if (!setupModelParams(modelHandle))
+    if (m_useModelInfo)
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] "
-        "Could not load model related parameters."
-        << std::endl;
-        return false;
+        if (!m_modelComp.isKinDynValid())
+        {
+            std::cerr << "[FloatingBaseEstimator::initialize] The kindyn object with valid does not seem to be loaded."
+            << "Please call initialize(handler, kindyncomputations) to set the kindyn object."
+            << std::endl;
+            return false;
+        }
+
+        // setup model related entities
+        auto modelHandle = handle->getGroup("ModelInfo");
+        if (!setupModelParams(modelHandle))
+        {
+            std::cerr << "[FloatingBaseEstimator::initialize] "
+            "Could not load model related parameters."
+            << std::endl;
+            return false;
+        }
     }
 
     if (!customInitialization(handler))
@@ -108,25 +119,41 @@ bool FloatingBaseEstimator::advance()
         m_measPrev = m_meas;
     }
 
+    if (m_useModelInfo && m_options.kinematicsUpdateEnabled)
+    {
+        // update robot state with previous state estimates
+        if ( (m_meas.encoders.size() == m_modelComp.nrJoints()) ||
+             (m_meas.encodersSpeed.size() == m_modelComp.nrJoints()) )
+        {
+            if (!m_modelComp.kinDyn()->setRobotState(m_estimatorOut.basePose.transform(),
+                                                     iDynTree::make_span(m_meas.encoders.data(), m_meas.encoders.size()),
+                                                     m_estimatorOut.baseTwist,
+                                                     iDynTree::make_span(m_meas.encodersSpeed.data(), m_meas.encodersSpeed.size()),
+                                                     iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+            {
+                std::cerr << "[FloatingBaseEstimator::advance]" << " Failed to set kindyncomputations robot state"
+                        << std::endl;
+                return false;
+            }
+        }
+    }
+
     ok = ok && predictState(m_measPrev, m_dt);
     if (m_options.ekfUpdateEnabled)
     {
-        ok = ok && updateKinematics(m_meas, m_dt);
+        if (m_useModelInfo && m_options.kinematicsUpdateEnabled)
+        {
+            ok = ok && updateKinematics(m_meas, m_dt);
+        }
+
+        if (m_options.staticLandmarksUpdateEnabled)
+        {
+            ok = ok && updateLandmarkRelativePoses(m_meas, m_dt);
+        }
     }
 
     ok = ok && updateBaseStateFromIMUState(m_state, m_measPrev,
                                            m_estimatorOut.basePose, m_estimatorOut.baseTwist);
-
-    if (!m_modelComp.kinDyn()->setRobotState(m_estimatorOut.basePose.transform(),
-                                             iDynTree::make_span(m_meas.encoders.data(), m_meas.encoders.size()),
-                                             m_estimatorOut.baseTwist,
-                                             iDynTree::make_span(m_meas.encodersSpeed.data(), m_meas.encodersSpeed.size()),
-                                             iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
-    {
-        std::cerr << "[FloatingBaseEstimator::advance]" << " Failed to get kindyncomputations robot state"
-                  << std::endl;
-        return false;
-    }
 
     m_statePrev = m_state;
     m_measPrev = m_meas;
@@ -223,9 +250,7 @@ bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(const std::s
 bool FloatingBaseEstimator::ModelComputations::isModelInfoLoaded()
 {
     bool loaded = (m_baseLinkIdx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_baseImuIdx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_lFootContactIdx != iDynTree::FRAME_INVALID_INDEX) &&
-             (m_rFootContactIdx != iDynTree::FRAME_INVALID_INDEX);
+             (m_baseImuIdx != iDynTree::FRAME_INVALID_INDEX);
 
     return loaded;
 }
@@ -347,7 +372,23 @@ bool FloatingBaseEstimator::setContactStatus(const std::string& name,
     contacts[idx].switchTime = switchTime;
     contacts[idx].isActive = contactStatus;
     contacts[idx].lastUpdateTime = timeNow;
+    contacts[idx].index = idx;
+    contacts[idx].name = name;
 
+    return true;
+}
+
+bool FloatingBaseEstimator::setLandmarkRelativePose(const int& landmarkID,
+                                                    const Eigen::Quaterniond& quat,
+                                                    const Eigen::Vector3d& pos,
+                                                    const double& timeNow)
+{
+    auto& poses = m_meas.stampedRelLandmarkPoses;
+
+    // operator[] creates a key-value pair if key does not already exist,
+    // otherwise just an update is carried out
+    poses[landmarkID].lastUpdateTime = timeNow;
+    poses[landmarkID].pose = manif::SE3d(pos, quat);
     return true;
 }
 
@@ -465,6 +506,20 @@ bool FloatingBaseEstimator::setupOptions(std::weak_ptr<BipedalLocomotion::Parame
     {
         std::cerr << "[FloatingBaseEstimator::setupOptions] [WARNING] EKF Measurement updates are disabled. This might cause quick divergence of the estimates. Please enable the update for expected performance."
         << std::endl;
+        m_options.kinematicsUpdateEnabled = false;
+        m_options.staticLandmarksUpdateEnabled = false;
+    }
+    else
+    {
+        if (!handle->getParameter("use_kinematics_measure", m_options.kinematicsUpdateEnabled))
+        {
+            m_options.kinematicsUpdateEnabled = true;
+        }
+
+        if (!handle->getParameter("use_static_ldmks_pose_measure", m_options.staticLandmarksUpdateEnabled))
+        {
+            m_options.staticLandmarksUpdateEnabled = false;
+        }
     }
 
     std::vector<double> g;
@@ -498,23 +553,38 @@ bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<BipedalLocomotion::Par
     std::vector<double> gyroNoise(3);
     if (!setupFixedVectorParamPrivate("gyroscope_measurement_noise_std_dev", printPrefix, handler, gyroNoise)) { return false; }
 
-    std::vector<double> contactFootLinvelNoise(3);
-    if (!setupFixedVectorParamPrivate("contact_foot_linear_velocity_noise_std_dev", printPrefix, handler, contactFootLinvelNoise)) { return false; }
+    if (m_useModelInfo)
+    {
+        std::vector<double> contactFootLinvelNoise(3);
+        if (!setupFixedVectorParamPrivate("contact_foot_linear_velocity_noise_std_dev", printPrefix, handler, contactFootLinvelNoise)) { return false; }
 
-    std::vector<double> contactFootAngvelNoise(3);
-    if (!setupFixedVectorParamPrivate("contact_foot_angular_velocity_noise_std_dev", printPrefix, handler, contactFootAngvelNoise)) { return false; }
+        std::vector<double> contactFootAngvelNoise(3);
+        if (!setupFixedVectorParamPrivate("contact_foot_angular_velocity_noise_std_dev", printPrefix, handler, contactFootAngvelNoise)) { return false; }
 
-    std::vector<double> swingFootLinvelNoise(3);
-    if (!setupFixedVectorParamPrivate("swing_foot_linear_velocity_noise_std_dev", printPrefix, handler, swingFootLinvelNoise)) { return false; }
+        std::vector<double> swingFootLinvelNoise(3);
+        if (!setupFixedVectorParamPrivate("swing_foot_linear_velocity_noise_std_dev", printPrefix, handler, swingFootLinvelNoise)) { return false; }
 
-    std::vector<double> swingFootAngvelNoise(3);
-    if (!setupFixedVectorParamPrivate("swing_foot_angular_velocity_noise_std_dev", printPrefix, handler, swingFootAngvelNoise)) { return false; }
+        std::vector<double> swingFootAngvelNoise(3);
+        if (!setupFixedVectorParamPrivate("swing_foot_angular_velocity_noise_std_dev", printPrefix, handler, swingFootAngvelNoise)) { return false; }
 
-    std::vector<double> forwardKinematicsNoise(6);
-    if (!setupFixedVectorParamPrivate("forward_kinematic_measurement_noise_std_dev", printPrefix, handler, forwardKinematicsNoise)) { return false; }
+        std::vector<double> forwardKinematicsNoise(6);
+        if (!setupFixedVectorParamPrivate("forward_kinematic_measurement_noise_std_dev", printPrefix, handler, forwardKinematicsNoise)) { return false; }
 
-    std::vector<double> encodersNoise(m_modelComp.nrJoints());
-    if (!setupFixedVectorParamPrivate("encoders_measurement_noise_std_dev", printPrefix, handler, encodersNoise)) { return false; }
+        std::vector<double> encodersNoise(m_modelComp.nrJoints());
+        if (!setupFixedVectorParamPrivate("encoders_measurement_noise_std_dev", printPrefix, handler, encodersNoise)) { return false; }
+
+        m_sensorsDev.contactFootLinvelNoise << contactFootLinvelNoise[0], contactFootLinvelNoise[1], contactFootLinvelNoise[2];
+        m_sensorsDev.contactFootAngvelNoise << contactFootAngvelNoise[0], contactFootAngvelNoise[1], contactFootAngvelNoise[2];
+
+        m_sensorsDev.swingFootLinvelNoise << swingFootLinvelNoise[0], swingFootLinvelNoise[1], swingFootLinvelNoise[2];
+        m_sensorsDev.swingFootAngvelNoise << swingFootAngvelNoise[0], swingFootAngvelNoise[1], swingFootAngvelNoise[2];
+
+        m_sensorsDev.forwardKinematicsNoise << forwardKinematicsNoise[0], forwardKinematicsNoise[1], forwardKinematicsNoise[2],
+                                            forwardKinematicsNoise[3], forwardKinematicsNoise[4], forwardKinematicsNoise[5];
+
+        m_sensorsDev.encodersNoise.resize(encodersNoise.size());
+        m_sensorsDev.encodersNoise = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(encodersNoise.data(), encodersNoise.size());
+    }
 
     if (m_options.imuBiasEstimationEnabled)
     {
@@ -531,17 +601,21 @@ bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<BipedalLocomotion::Par
     m_sensorsDev.accelerometerNoise << accNoise[0], accNoise[1], accNoise[2];
     m_sensorsDev.gyroscopeNoise << gyroNoise[0], gyroNoise[1], gyroNoise[2];
 
-    m_sensorsDev.contactFootLinvelNoise << contactFootLinvelNoise[0], contactFootLinvelNoise[1], contactFootLinvelNoise[2];
-    m_sensorsDev.contactFootAngvelNoise << contactFootAngvelNoise[0], contactFootAngvelNoise[1], contactFootAngvelNoise[2];
+    if (m_options.staticLandmarksUpdateEnabled)
+    {
+        std::vector<double> ldmkPredictionNoise(6);
+        if (!setupFixedVectorParamPrivate("landmark_prediction_noise_std_dev", printPrefix, handler, ldmkPredictionNoise)) { return false; }
 
-    m_sensorsDev.swingFootLinvelNoise << swingFootLinvelNoise[0], swingFootLinvelNoise[1], swingFootLinvelNoise[2];
-    m_sensorsDev.swingFootAngvelNoise << swingFootAngvelNoise[0], swingFootAngvelNoise[1], swingFootAngvelNoise[2];
+        std::vector<double> ldmkMeasurmentNoise(6);
+        if (!setupFixedVectorParamPrivate("landmark_measurement_noise_std_dev", printPrefix, handler, ldmkMeasurmentNoise)) { return false; }
 
-    m_sensorsDev.forwardKinematicsNoise << forwardKinematicsNoise[0], forwardKinematicsNoise[1], forwardKinematicsNoise[2],
-                                           forwardKinematicsNoise[3], forwardKinematicsNoise[4], forwardKinematicsNoise[5];
+        m_sensorsDev.landmarkPredictionNoise << ldmkPredictionNoise[0], ldmkPredictionNoise[1], ldmkPredictionNoise[2],
+                                                ldmkPredictionNoise[3], ldmkPredictionNoise[4], ldmkPredictionNoise[5];
 
-    m_sensorsDev.encodersNoise.resize(encodersNoise.size());
-    m_sensorsDev.encodersNoise = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(encodersNoise.data(), encodersNoise.size());
+        m_sensorsDev.landmarkMeasurementNoise << ldmkMeasurmentNoise[0], ldmkMeasurmentNoise[1], ldmkMeasurmentNoise[2],
+                                                 ldmkMeasurmentNoise[3], ldmkMeasurmentNoise[4], ldmkMeasurmentNoise[5];
+    }
+
     return true;
 }
 
@@ -566,17 +640,29 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
     std::vector<double> imuLinearVelocity(3);
     if (!setupFixedVectorParamPrivate("imu_linear_velocity_xyz", printPrefix, handler, imuLinearVelocity)) { return false; }
 
-    std::vector<double> lContactFrameOrientation(4);
-    if (!setupFixedVectorParamPrivate("l_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, lContactFrameOrientation)) { return false; }
+    if (m_useModelInfo && m_isInvEKF)
+    {
+        // This conditional block will be soon deprecated
+        std::vector<double> lContactFrameOrientation(4);
+        if (!setupFixedVectorParamPrivate("l_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, lContactFrameOrientation)) { return false; }
 
-    std::vector<double> lContactFramePosition(3);
-    if (!setupFixedVectorParamPrivate("l_contact_frame_position_xyz", printPrefix, handler, lContactFramePosition)) { return false; }
+        std::vector<double> lContactFramePosition(3);
+        if (!setupFixedVectorParamPrivate("l_contact_frame_position_xyz", printPrefix, handler, lContactFramePosition)) { return false; }
 
-    std::vector<double> rContactFrameOrientation(4);
-    if (!setupFixedVectorParamPrivate("r_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, rContactFrameOrientation)) { return false; }
+        std::vector<double> rContactFrameOrientation(4);
+        if (!setupFixedVectorParamPrivate("r_contact_frame_orientation_quaternion_wxyz", printPrefix, handler, rContactFrameOrientation)) { return false; }
 
-    std::vector<double> rContactFramePosition(3);
-    if (!setupFixedVectorParamPrivate("r_contact_frame_position_xyz", printPrefix, handler, rContactFramePosition)) { return false; }
+        std::vector<double> rContactFramePosition(3);
+        if (!setupFixedVectorParamPrivate("r_contact_frame_position_xyz", printPrefix, handler, rContactFramePosition)) { return false; }
+
+        m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);  // here loaded as w x y z
+        m_statePrev.lContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
+        m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
+
+        m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);  // here loaded as w x y z
+        m_statePrev.rContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
+        m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
+    }
 
     if (m_options.imuBiasEstimationEnabled)
     {
@@ -595,16 +681,15 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
     m_statePrev.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
     m_statePrev.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
 
-
-    m_statePrev.lContactFrameOrientation = Eigen::Quaterniond(lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2], lContactFrameOrientation[3]);  // here loaded as w x y z
-    m_statePrev.lContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
-    m_statePrev.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
-
-    m_statePrev.rContactFrameOrientation = Eigen::Quaterniond(rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2], rContactFrameOrientation[3]);  // here loaded as w x y z
-    m_statePrev.rContactFrameOrientation.normalize(); // normalize the user defined quaternion to respect internal tolerances for unit norm constraint
-    m_statePrev.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
-
     m_state = m_statePrev;
+
+    if (!updateBaseStateFromIMUState(m_state, m_measPrev,
+                                     m_estimatorOut.basePose, m_estimatorOut.baseTwist) )
+    {
+        std::cerr << "[FloatingBaseEstimator::setupInitialStates]" << " Failed to initialize base link state from IMU state"
+                    << std::endl;
+        return false;
+    }
 
     return true;
 }
@@ -630,17 +715,27 @@ bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<BipedalLocomotion::Para
     std::vector<double> imuLinearVelocity(3);
     if (!setupFixedVectorParamPrivate("imu_linear_velocity", printPrefix, handler, imuLinearVelocity)) { return false; }
 
-    std::vector<double> lContactFrameOrientation(3);
-    if (!setupFixedVectorParamPrivate("l_contact_frame_orientation", printPrefix, handler, lContactFrameOrientation)) { return false; }
+    if (m_useModelInfo && m_isInvEKF)
+    {
+        // This conditional block will be soon deprecated
+        std::vector<double> lContactFrameOrientation(3);
+        if (!setupFixedVectorParamPrivate("l_contact_frame_orientation", printPrefix, handler, lContactFrameOrientation)) { return false; }
 
-    std::vector<double> lContactFramePosition(3);
-    if (!setupFixedVectorParamPrivate("l_contact_frame_position", printPrefix, handler, lContactFramePosition)) { return false; }
+        std::vector<double> lContactFramePosition(3);
+        if (!setupFixedVectorParamPrivate("l_contact_frame_position", printPrefix, handler, lContactFramePosition)) { return false; }
 
-    std::vector<double> rContactFrameOrientation(3);
-    if (!setupFixedVectorParamPrivate("r_contact_frame_orientation", printPrefix, handler, rContactFrameOrientation)) { return false; }
+        std::vector<double> rContactFrameOrientation(3);
+        if (!setupFixedVectorParamPrivate("r_contact_frame_orientation", printPrefix, handler, rContactFrameOrientation)) { return false; }
 
-    std::vector<double> rContactFramePosition(3);
-    if (!setupFixedVectorParamPrivate("r_contact_frame_position", printPrefix, handler, rContactFramePosition)) { return false; }
+        std::vector<double> rContactFramePosition(3);
+        if (!setupFixedVectorParamPrivate("r_contact_frame_position", printPrefix, handler, rContactFramePosition)) { return false; }
+
+        m_priors.lContactFrameOrientation << lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2];
+        m_priors.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
+
+        m_priors.rContactFrameOrientation << rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2];
+        m_priors.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
+    }
 
     if (m_options.imuBiasEstimationEnabled)
     {
@@ -657,13 +752,6 @@ bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<BipedalLocomotion::Para
     m_priors.imuOrientation << imuOrientation[0], imuOrientation[1], imuOrientation[2];
     m_priors.imuPosition << imuPosition[0], imuPosition[1], imuPosition[2];
     m_priors.imuLinearVelocity << imuLinearVelocity[0], imuLinearVelocity[1], imuLinearVelocity[2];
-
-
-    m_priors.lContactFrameOrientation << lContactFrameOrientation[0], lContactFrameOrientation[1], lContactFrameOrientation[2];
-    m_priors.lContactFramePosition << lContactFramePosition[0], lContactFramePosition[1], lContactFramePosition[2];
-
-    m_priors.rContactFrameOrientation << rContactFrameOrientation[0], rContactFrameOrientation[1], rContactFrameOrientation[2];
-    m_priors.rContactFramePosition << rContactFramePosition[0], rContactFramePosition[1], rContactFramePosition[2];
 
     return true;
 }
@@ -707,16 +795,24 @@ bool FloatingBaseEstimator::updateBaseStateFromIMUState(const FloatingBaseEstima
     }
 
     Eigen::Matrix<double, 6, 1> tempTwist;
-    if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, tempTwist))
+    if (m_useModelInfo)
     {
-        std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
-                  << std::endl;
-        return false;
-    }
+        if (!m_modelComp.getBaseStateFromIMUState(A_H_IMU, v_IMU, basePose, tempTwist))
+        {
+            std::cerr << "[FloatingBaseEstimator::updateBaseStateFromIMUState]" << " Failed to get base link state from IMU state"
+                    << std::endl;
+            return false;
+        }
 
-    if (m_useIMUVelForBaseVelComputation)
+        if (m_useIMUVelForBaseVelComputation)
+        {
+            baseTwist = tempTwist;
+        }
+    }
+    else
     {
-        baseTwist = tempTwist;
+        basePose = A_H_IMU;
+        baseTwist = v_IMU;
     }
 
     return true;
