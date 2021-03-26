@@ -17,9 +17,9 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FixedBaseDynamics::initalize(std::weak_ptr<IParametersHandler> handler)
+bool FixedBaseDynamics::initialize(std::weak_ptr<IParametersHandler> handler)
 {
-    constexpr auto logPrefix = "[FixedBaseDynamics::initalize]";
+    constexpr auto logPrefix = "[FixedBaseDynamics::initialize]";
 
     auto ptr = handler.lock();
     if (ptr == nullptr)

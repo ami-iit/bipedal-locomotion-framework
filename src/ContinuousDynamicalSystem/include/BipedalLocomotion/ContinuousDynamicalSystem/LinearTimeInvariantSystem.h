@@ -75,7 +75,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the state of the dynamical system.

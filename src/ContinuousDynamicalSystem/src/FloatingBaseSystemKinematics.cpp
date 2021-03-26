@@ -11,9 +11,9 @@
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseSystemKinematics::initalize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<IParametersHandler> handler)
 {
-    constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initalize]";
+    constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initialize]";
 
     auto ptr = handler.lock();
     if (ptr == nullptr)

@@ -116,7 +116,7 @@ public:
      * |      `rho`     | `double` |       Baumgarte stabilization parameter over the SO(3) group. The default value is 0.01      |    No     |
      * @return true in case of success/false otherwise.
      */
-    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set a kinDynComputations object.

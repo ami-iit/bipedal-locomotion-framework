@@ -68,7 +68,7 @@ bool LinearTimeInvariantSystem::dynamics(const double& time, StateDerivative& st
     return true;
 }
 
-bool LinearTimeInvariantSystem::initalize(
+bool LinearTimeInvariantSystem::initialize(
     std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     return true;

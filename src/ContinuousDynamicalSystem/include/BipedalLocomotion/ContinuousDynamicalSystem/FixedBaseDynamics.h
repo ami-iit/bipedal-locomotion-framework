@@ -90,7 +90,7 @@ public:
      * |    `gravity`   | `double` |     Value of the Gravity. If not defined Math::StandardAccelerationOfGravitation is used     |    No     |
      * @return true in case of success/false otherwise.
      */
-    bool initalize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set a kinDynComputations object.
