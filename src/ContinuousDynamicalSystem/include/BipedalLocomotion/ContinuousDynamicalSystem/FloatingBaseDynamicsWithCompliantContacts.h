@@ -28,6 +28,13 @@ class FloatingBaseDynamicsWithCompliantContacts;
 }
 }
 
+// Please read it as
+// BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
+//     FloatingBaseDynamicsWithCompliantContacts
+//     (base velocity expressed in mixed, joint velocities, base position, base orientation, joint positions),
+//     (base acceleration expressed in mixed, joint acceleration, base linear velocity, rate of change of the base rotation matrix, joint velocities),
+//     (joint torques, list containing the compliant contact models)
+
 BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FloatingBaseDynamicsWithCompliantContacts,
                                                          (Eigen::Matrix<double, 6, 1>,
                                                           Eigen::VectorXd,

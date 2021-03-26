@@ -26,6 +26,12 @@ class FloatingBaseSystemKinematics;
 }
 }
 
+// Please read it as
+// BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
+//     FloatingBaseSystemKinematics,
+//     (base position, base orientation, joint positions),
+//     (base linear velocity, rate of change of base rotation matrix, joint velocities),
+//     (base twist expressed in mixed representation, joint velocities))
 BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
     FloatingBaseSystemKinematics,
     (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
@@ -41,12 +47,12 @@ namespace ContinuousDynamicalSystem
  * FloatingBaseSystemKinematics describes a floating base system kinematics.
  * The FloatingBaseSystemKinematics inherits from a generic DynamicalSystem where:
  * - DynamicalSystem::State is described by an std::tuple containing:
- *   - Eigen::Vector6d: position of the base w.r.t. the inertial frame
+ *   - Eigen::Vector3d: position of the base w.r.t. the inertial frame
  *   - Eigen::Matrix3d: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
  * whose coordinates are expressed in the base frame in the inertial frame;
  *   - Eigen::VectorXd: the joint positions [in rad].
  * - DynamicalSystem::StateDerivative is described by an std::tuple containing:
- *   - Eigen::Vector6d: base velocity w.r.t. the inertial frame;
+ *   - Eigen::Vector3d: base linear velocity w.r.t. the inertial frame;
  *   - Eigen::Matrix3d: rate of change of the rotation matrix \f${} ^ I \dot{R} _ {b}\f$.
  * whose coordinates are expressed in the base frame in the inertial frame;
  *   - Eigen::VectorXd: the joint velocities [in rad/s].

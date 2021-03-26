@@ -31,6 +31,12 @@ class FixedBaseDynamics;
 } // namespace BipedalLocomotion
 
 
+// Please read it as
+// BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
+//     FixedBaseDynamics,
+//     (joint velocities, joint positions),
+//     (joint accelerations, joints velocities),
+//     (joint torques)
 BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FixedBaseDynamics,
                                                          (Eigen::VectorXd, Eigen::VectorXd),
                                                          (Eigen::VectorXd, Eigen::VectorXd),

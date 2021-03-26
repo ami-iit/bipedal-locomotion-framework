@@ -25,6 +25,37 @@ namespace ContinuousDynamicalSystem
  * inherit publicly from this class in order to define your custom dynamical system.
  * Just be sure to call after your class definition
  * #BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()
+ * For instance
+ * \code{.cpp}
+ * namespace BipedalLocomotion
+ * {
+ * namespace ContinuousDynamicalSystem
+ * {
+ * // forward declaration
+ * class Foo;
+ * }
+ * }
+ * // Here we define the internal structure of the Foo. Notice that the number of types contained in
+ * // the FooStateType must be equal to the number of FooStateDerivetiveType (This is required by the integrator class)
+ *
+ * using FooStateType = Eigen::Vector2d;
+ * using FooStateDerivativeType = Eigen::Vector2d;
+ * using FooInputType = Eigen::Vector2d;
+ * BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(Foo, (FooStateType),
+ *                                                               (FooStateDerivativeType),
+ *                                                               (FooInputType))
+ * namespace BipedalLocomotion
+ * {
+ * namespace ContinuousDynamicalSystem
+ * {
+ * // class definition
+ * class Foo : public DynamicalSystem<Foo>
+ * {
+ *    ...
+ * }
+ * }
+ * }
+ * \endcode
  */
 template <class _Derived> class DynamicalSystem
 {
