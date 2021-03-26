@@ -35,6 +35,7 @@ All notable changes to this project are documented in this file.
 - Fixed the implementation ``YarpSensorBridge::attachAllSixAxisForceTorqueSensors()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/231)
 - Avoid the "Generating the Urdf Model from" message to appear when doing ccmake. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/243)
 - Fixed the installation path of public headers related to perception libraries. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/245)
+- Fixed InstallBasicPackageFiles to avoid the same problem of https://github.com/dic-iit/matio-cpp/pull/41 (https://github.com/dic-iit/bipedal-locomotion-framework/pull/253)
 
 ## [0.1.0] - 2021-02-22
 ### Added
