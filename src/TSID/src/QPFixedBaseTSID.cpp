@@ -64,7 +64,7 @@ struct QPFixedBaseTSID::Impl
 
     bool initializeSolver()
     {
-        constexpr auto logPrefix = "[QPInversekinematics::Impl::initializeSolver]";
+        constexpr auto logPrefix = "[QPFixedBaseTSID::Impl::initializeSolver]";
         // Hessian matrix
         Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
         if (!this->solver.data()->setHessianMatrix(hessianSparse))
@@ -104,7 +104,7 @@ struct QPFixedBaseTSID::Impl
 
     bool updateSolver()
     {
-        constexpr auto logPrefix = "[QPInversekinematics::Impl::updateSolver]";
+        constexpr auto logPrefix = "[QPFixedBaseTSID::Impl::updateSolver]";
         // Hessian matrix
         Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
         if (!this->solver.updateHessianMatrix(hessianSparse))
@@ -183,7 +183,7 @@ bool QPFixedBaseTSID::addTask(std::shared_ptr<System::LinearTask> task,
 
     if (priority == 1 && task->type() == System::LinearTask::Type::inequality)
     {
-        log()->error("{} - [Task name: '{}'] This implementation of the inverse kinematics cannot "
+        log()->error("{} - [Task name: '{}'] This implementation of the task space inverse dynamics cannot "
                      "handle inequality tasks with priority equal to 1.",
                      logPrefix,
                      taskName);

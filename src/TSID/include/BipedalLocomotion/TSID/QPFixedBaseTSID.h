@@ -19,6 +19,15 @@ namespace BipedalLocomotion
 namespace TSID
 {
 
+/**
+ * QPFixedBaseTSID is a concrete class and implements a task space inverse dynamics.
+ * The TSID is here implemented as Quadratic Programming (QP) problem. The user should
+ * set the desired task with the method QPFixedBaseTSID::addTask. Each task has a given
+ * priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0
+ * the task will be considered as hard task, thus treated as an equality constraint. If the priority
+ * is equal to 1 the task will be embedded in the cost function. The class is also able to treat
+ * inequality constraints.
+ */
 class QPFixedBaseTSID : public TaskSpaceInverseDynamics
 {
 
