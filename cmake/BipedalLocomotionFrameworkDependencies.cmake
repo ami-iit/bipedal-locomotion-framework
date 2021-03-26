@@ -7,7 +7,7 @@ include(BipedalLocomotionFrameworkFindDependencies)
 ################################################################################
 # Find all packages
 
-find_package(iDynTree 1.1.0 REQUIRED) #Right now, all the packages built in the framework
+find_package(iDynTree 3.0.0 REQUIRED) #Right now, all the packages built in the framework
                                       #depend directly or indirectly from iDynTree and Eigen
                                       #(which is an iDynTree dependency by the way)
 find_package(Eigen3 3.2.92 REQUIRED)
@@ -26,16 +26,16 @@ checkandset_dependency(casadi)
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
 
-find_package(manif QUIET)
+find_package(manif 0.0.3 QUIET)
 checkandset_dependency(manif)
 
-find_package(OsqpEigen QUIET)
+find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
 
-find_package(pybind11 2.2 CONFIG QUIET)
+find_package(pybind11 2.6.0 CONFIG QUIET)
 checkandset_dependency(pybind11)
 
 find_package(matioCpp QUIET)
