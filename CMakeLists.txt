@@ -118,6 +118,10 @@ if (FRAMEWORK_USE_LieGroupControllers)
   list(APPEND FRAMEWORK_PUBLIC_DEPENDENCIES LieGroupControllers)
 endif()
 
+#In order for the client project to find custom Find*
+install(FILES "cmake/Findcppad.cmake" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/cmake")
+file(COPY "cmake/Findcppad.cmake" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/share/${PROJECT_NAME}/cmake")
+
 include(InstallBasicPackageFiles)
 install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
@@ -127,7 +131,8 @@ install_basic_package_files(${PROJECT_NAME}
                             VARS_PREFIX ${PROJECT_NAME}
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
                             DEPENDENCIES ${FRAMEWORK_PUBLIC_DEPENDENCIES}
-                            PRIVATE_DEPENDENCIES ${FRAMEWORK_PRIVATE_DEPENDENCIES})
+                            PRIVATE_DEPENDENCIES ${FRAMEWORK_PRIVATE_DEPENDENCIES}
+                            OVERRIDE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/cmake)
 
 
 include(AddUninstallTarget)
