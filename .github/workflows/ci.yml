@@ -17,11 +17,11 @@ env:
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
-  manif_TAG: 85cad9841b0ac4800e10e38c634c397d401e6375
+  manif_TAG: c8b4f16ea4d64e8d145aaf50bdbe31c756edb5b2
   matioCpp_TAG: v0.1.0
   LieGroupControllers_TAG: v0.0.1
   osqp_TAG: v0.6.2
-  OsqpEigen_TAG: 9b0091038cf0fb9099a5d6c55820d6e5846034a7
+  OsqpEigen_TAG: v0.6.3
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg

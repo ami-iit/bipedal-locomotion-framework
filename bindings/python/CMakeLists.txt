@@ -23,7 +23,6 @@ get_property(pybind_sources GLOBAL PROPERTY pybind_sources)
 get_property(pybind_include_dirs GLOBAL PROPERTY pybind_include_dirs)
 get_property(pybind_link_libraries GLOBAL PROPERTY pybind_link_libraries)
 
-
 pybind11_add_module(pybind11_blf MODULE
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp
   ${pybind_sources}
