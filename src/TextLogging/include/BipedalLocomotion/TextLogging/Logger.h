@@ -8,6 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
 #define BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
 
+// Required to print Eigen::Vectors (https://github.com/gabime/spdlog/issues/1638)
+#include <spdlog/fmt/ostr.h>
+
 #include <spdlog/spdlog.h>
 
 namespace BipedalLocomotion
