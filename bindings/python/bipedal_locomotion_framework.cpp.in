@@ -43,34 +43,34 @@ PYBIND11_MODULE(bindings, m)
 
     m.doc() = "BipedalLocomotionFramework bindings";
 
-    py::module_ parametersHandlerModule = m.def_submodule("parameters_handler");
+    py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
 
-    py::module_ mathModule = m.def_submodule("math");
+    py::module mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);
 
     @cmakeif FRAMEWORK_COMPILE_System
-    py::module_ systemModule = m.def_submodule("system");
+    py::module systemModule = m.def_submodule("system");
     bindings::System::CreateModule(systemModule);
     @endcmakeif FRAMEWORK_COMPILE_System
 
     @cmakeif FRAMEWORK_COMPILE_Contact
-    py::module_ contactsModule = m.def_submodule("contacts");
+    py::module contactsModule = m.def_submodule("contacts");
     bindings::Contacts::CreateModule(contactsModule);
     @endcmakeif FRAMEWORK_COMPILE_Contact
 
     @cmakeif FRAMEWORK_COMPILE_Planners
-    py::module_ plannersModule = m.def_submodule("planners");
+    py::module plannersModule = m.def_submodule("planners");
     bindings::Planners::CreateModule(plannersModule);
     @endcmakeif FRAMEWORK_COMPILE_Planners
 
     @cmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
-    py::module_ robotInterfaceModule = m.def_submodule("robot_interface");
+    py::module robotInterfaceModule = m.def_submodule("robot_interface");
     bindings::RobotInterface::CreateModule(robotInterfaceModule);
     @endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
 
     @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
-    py::module_ floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
+    py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
     bindings::FloatingBaseEstimators::CreateModule(floatingBaseEstimatorModule);
     @endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
 }
