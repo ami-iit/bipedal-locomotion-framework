@@ -20,7 +20,7 @@ All notable changes to this project are documented in this file.
 - Implement python bindings for VariablesHandler class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/234)
 - Implement `PerceptionFeatures` library and implement `ArucoDetector`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/159)
 - Implement FixedBaseDynamics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
-
+- Implement Block, BlockRunner and SharedResource classes in System component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/256)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
