@@ -10,7 +10,8 @@ if(FRAMEWORK_COMPILE_System)
   # set target name
   add_bipedal_locomotion_library(
     NAME                   System
-    PUBLIC_HEADERS         ${H_PREFIX}/Advanceable.h ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/LinearTask.h
+    PUBLIC_HEADERS         ${H_PREFIX}/Advanceable.h ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/LinearTask.h ${H_PREFIX}/Block.h ${H_PREFIX}/SharedResource.h ${H_PREFIX}/BlockRunner.h
+    PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
     SOURCES                src/VariablesHandler.cpp src/LinearTask.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
     SUBDIRECTORIES         tests
