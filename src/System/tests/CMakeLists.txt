@@ -6,3 +6,9 @@ add_bipedal_test(
   NAME VariablesHandler
   SOURCES VariablesHandlerTest.cpp
   LINKS BipedalLocomotion::System)
+
+
+add_bipedal_test(
+  NAME BlockRunner
+  SOURCES BlockRunnerTest.cpp
+  LINKS BipedalLocomotion::System)
