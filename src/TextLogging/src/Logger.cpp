@@ -12,25 +12,28 @@
 namespace BipedalLocomotion
 {
 
-TextLogging::Logger* const log()
+std::once_flag initInstanceFlag;
+
+void loggerCreation()
 {
+    // if the logger does not exist, create it. spdlog already handle the logger as singleton.
+    // create the logger called blf
+    auto console = spdlog::stderr_color_mt("blf");
+
+    // get the logger
     auto logger = spdlog::get("blf");
 
-    // if the logger does not exist, create it. spdlog already handle the logger as singleton.
-    if (logger == nullptr)
-    {
-        // create the logger called blf
-        auto console = spdlog::stderr_color_mt("blf");
+    // customize the logger
+    logger->set_level(spdlog::level::info);
+    logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [thread: %t] [%n] %^[%l]%$ %v");
+}
 
-        // get the logger
-        logger = spdlog::get("blf");
+TextLogging::Logger* const log()
+{
+    std::call_once(initInstanceFlag, loggerCreation);
 
-        // customize the logger
-        logger->set_level(spdlog::level::info);
-        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] %^[%l]%$ %v");
-    }
-
-    return logger.get();
+    // the logger exist because loggerCreation is called once.
+    return spdlog::get("blf").get();
 }
 
 } // namespace BipedalLocomotion
