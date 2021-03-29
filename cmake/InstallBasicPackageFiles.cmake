@@ -581,7 +581,7 @@ ${_compatibility_vars}
 
     if (DEFINED _IBPF_OVERRIDE_MODULE_PATH)
 
-      string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH_BK \${CMAKE_MODULE_PATH})\n")
+      string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH_BK_${_IBPF_VARS_PREFIX} \${CMAKE_MODULE_PATH})\n")
       set(_overridden_module_path "")
       foreach(_path ${_IBPF_OVERRIDE_MODULE_PATH})
 
@@ -596,8 +596,8 @@ ${_compatibility_vars}
       endforeach()
       string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH${_overridden_module_path})\n")
       # If OVERRIDE_MODULE_PATH is used, then if a dependency is not found find_dependency will
-      # halt the execution of the <package>config.cmake script, never restoring the original 
-      # value of CMAKE_MODULE_PATH. For this reason, in this case we just use find_package 
+      # halt the execution of the <package>config.cmake script, never restoring the original
+      # value of CMAKE_MODULE_PATH. For this reason, in this case we just use find_package
       set(_IBPF_FIND_DEPENDENCY_COMMAND "find_package")
     else()
       set(_IBPF_FIND_DEPENDENCY_COMMAND "find_dependency")
@@ -654,7 +654,7 @@ endif()
     endif()
 
     if(DEFINED _IBPF_OVERRIDE_MODULE_PATH)
-      string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH_BK})\n")
+      string(APPEND PACKAGE_DEPENDENCIES "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH_BK_${_IBPF_VARS_PREFIX}})\n")
     endif()
 
     set(PACKAGE_DEPENDENCIES "${PACKAGE_DEPENDENCIES}\n###############################################################################\n")
