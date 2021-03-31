@@ -31,7 +31,7 @@ public:
     virtual bool open(yarp::os::Searchable& config) final;
     virtual bool close() final;
     virtual void run() final;
-    
+
     std::unique_ptr<BipedalLocomotion::YarpUtilities::RosPublisher> pub;
 };
 

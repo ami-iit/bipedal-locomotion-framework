@@ -31,12 +31,12 @@ bool BipedalLocomotion::ROSPublisherTestDevice::open(yarp::os::Searchable& confi
 {
     std::shared_ptr<BipedalLocomotion::ParametersHandler::YarpImplementation> configHandler = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>();
     configHandler->set(config);
-	
+
     if (!pub->initialize(configHandler))
     {
     	return false;
     }
-	
+
     this->start();
     return true;
 }
@@ -45,13 +45,13 @@ void BipedalLocomotion::ROSPublisherTestDevice::run()
 {
    std::vector<std::string> jointList{"hello"};
    std::vector<double> jointPos{20.0};
-   
+
    pub->publishJointStates(jointList, jointPos);
-   
+
    std::vector<double> wrench{0.0, 1.0, 2.0,0.0, 0.0, 0.0};
    pub->publishWrench("right", wrench);
-   
-   
+
+
    std::vector<double> pose{1., 0, 0, 0, 0, 1., 0, 0, 0, 0, 1., 0, 0, 0, 0, 1.};
    pub->publishTransform("/world", "/dummy", pose);
 }

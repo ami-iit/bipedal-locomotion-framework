@@ -414,7 +414,7 @@ bool LeggedOdometry::resetEstimator()
     return true;
 }
 
-bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation, 
+bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
                                     const Eigen::Vector3d& newIMUPosition)
 {
     manif::SE3d world_H_imu = manif::SE3d(newIMUPosition, newIMUOrientation);
@@ -433,7 +433,7 @@ bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
 }
 
 bool LeggedOdometry::resetEstimator(const std::string& refFrameForWorld,
-                                    const Eigen::Quaterniond& worldOrientationInRefFrame, 
+                                    const Eigen::Quaterniond& worldOrientationInRefFrame,
                                     const Eigen::Vector3d& worldPositionInRefFrame)
 {
     std::string_view printPrefix = "[LeggedOdometry::resetEstimator] ";

@@ -15,7 +15,7 @@ function(add_bipedal_yarp_device)
     PUBLIC_HEADERS
     PRIVATE_HEADERS
     PUBLIC_LINK_LIBRARIES
-    PRIVATE_LINK_LIBRARIES    
+    PRIVATE_LINK_LIBRARIES
     TYPE
     CONFIGURE_PACKAGE_NAME)
 
@@ -33,7 +33,7 @@ function(add_bipedal_yarp_device)
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
-  
+
   set(YARP_FORCE_DYNAMIC_PLUGINS ON)
   # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
   yarp_configure_plugins_installation(${ini_package})

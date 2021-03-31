@@ -79,8 +79,8 @@ private:
 };
 
 
-} // namespace Capture  
-} // namespace Perception    
+} // namespace Capture
+} // namespace Perception
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_PERCEPTION_CAPTURE_REALSENSE_H

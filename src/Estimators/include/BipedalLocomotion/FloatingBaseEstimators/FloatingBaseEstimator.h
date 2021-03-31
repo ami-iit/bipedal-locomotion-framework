@@ -45,9 +45,9 @@ public:
     public:
         /**
         * Set the shared kindyn object
-        * @param[in] kinDyn shared pointer of the common KinDynComputations resource        
+        * @param[in] kinDyn shared pointer of the common KinDynComputations resource
         * @return True in case of success, false otherwise.
-        * 
+        *
         * @note Expects only a valid pointer to the object, need not be loaded with the robot model.
         */
         bool setKinDynObject(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
@@ -157,7 +157,7 @@ public:
     *       it must be done in customInitialization() by the child class implementing the algorithm
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler, 
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                     std::shared_ptr<iDynTree::KinDynComputations> kindyn);
 
 
@@ -180,14 +180,14 @@ public:
 
     /**
     * Set contact status
-    * 
+    *
     * @param[in] name contact frame name
     * @param[in] contactStatus flag to check active contact
     * @param[in] switchTime  time of switching contact
     * @param[in] timeNow  current measurement update time
     */
-    bool setContactStatus(const std::string& name, 
-                          const bool& contactStatus, 
+    bool setContactStatus(const std::string& name,
+                          const bool& contactStatus,
                           const double& switchTime,
                           double timeNow = 0.);
 

@@ -56,7 +56,7 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) = 0;   
+    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) = 0;
 
     /**
      * Get RGBD cameras

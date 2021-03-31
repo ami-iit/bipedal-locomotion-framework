@@ -10,7 +10,7 @@ for blf_module in [__import__("bipedal_locomotion_framework.bindings." + module[
         locals()[k] = getattr(blf_module, k)
 
 
-# Delete the imports        
+# Delete the imports
 del inspect
 del blf
 del warnings

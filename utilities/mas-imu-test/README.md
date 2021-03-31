@@ -24,10 +24,10 @@ Simply run
 ```
 blf-mas-imu-test
 ```
-in a terminal. The test should run automatically. Then, move the limbs (in the way you prefer) where each IMU you want to test is located. 
+in a terminal. The test should run automatically. Then, move the limbs (in the way you prefer) where each IMU you want to test is located.
 For each IMU to test, the module prints a status message like
 ```
-[INFO][MasImuTest::MasImuData::addSample](Left IMU Test)  Sample  3 / 500 
+[INFO][MasImuTest::MasImuData::addSample](Left IMU Test)  Sample  3 / 500
 ```
 every time a joint in the kinematic chain from the root link to the IMU is moved.
 When all the tests are completed, a summary similar to the following is printed.
@@ -47,13 +47,13 @@ When all the tests are completed, a summary similar to the following is printed.
 0.0930379 -0.371726 0.923669
  RPY [deg]: (-21.922084, -5.338397, -15.035917)
  ----------------Min Error-------------
- Index:  358 
+ Index:  358
  0.999966 -0.000548794 0.0082332
 0.00045783 0.999939 0.0110462
 -0.00823876 -0.0110421 0.999905
  RPY [deg]: (-0.632700, 0.472051, 0.026233)
  ----------------Max Error-------------
- Index:  153 
+ Index:  153
  0.31468 0.103543 0.943533
 -0.00670651 -0.993765 0.111292
 0.949174 -0.0413493 -0.312024
@@ -89,7 +89,7 @@ fileName='model.urdf'; %% Name of the urdf file
 ```
 according to your environment. If you installed ``BipedalLocomotionFramework`` via the ``robotology-superbuild``, you may need to change only the robot name.
 
-The script should start playing the data on a 3D version of the robot. You should be able to see two frames. One with long and thin axis is the expected frame orientation from forward kinematics. 
+The script should start playing the data on a 3D version of the robot. You should be able to see two frames. One with long and thin axis is the expected frame orientation from forward kinematics.
 The other has short and thick axis. This is the estimated one via the IMU. These two should match.
 In addition, you should be able to see a magenta line indicating the accelerometer measurement (scaled).
 

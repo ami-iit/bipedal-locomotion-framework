@@ -50,19 +50,19 @@ bool ContactDetector::customInitialization(std::weak_ptr<IParametersHandler> han
 }
 
 bool ContactDetector::advance()
-{    
+{
     std::string_view printPrefix = "[ContactDetector::advance] ";
     if (m_detectorState == State::NotInitialized)
     {
         std::cerr << printPrefix << "Please initialize the contact detector before running advance."
         << std::endl;
-        return false;        
-    }    
-    else 
-    {
-        m_detectorState = State::Running;        
+        return false;
     }
-    
+    else
+    {
+        m_detectorState = State::Running;
+    }
+
     if (!updateContactStates())
     {
         return false;
@@ -103,7 +103,7 @@ bool ContactDetector::get(const std::string& contactName, EstimatedContact& cont
     return true;
 }
 
-EstimatedContact ContactDetector::get(const std::string& contactName) const 
+EstimatedContact ContactDetector::get(const std::string& contactName) const
 {
     if ( m_contactStates.find(contactName) == m_contactStates.end() )
     {

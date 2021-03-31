@@ -23,12 +23,12 @@ struct RealSense::Impl
     };
 
     /**
-     * Copied from Realsense examples 
+     * Copied from Realsense examples
      * see https://github.com/IntelRealSense/librealsense/blob/master/wrappers/pcl/pcl-color/rs-pcl-color.cpp
      */
     TextureRGB rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY);
-    void toPCL(const rs2::points& points, 
-               const rs2::video_frame& color, 
+    void toPCL(const rs2::points& points,
+               const rs2::video_frame& color,
                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
     bool isColorEnabled{true};
@@ -66,7 +66,7 @@ RealSense::RealSense() : m_pimpl(std::make_unique<Impl>())
 {
 }
 
-RealSense::~RealSense() 
+RealSense::~RealSense()
 {
     m_pimpl->stopStream();
 }
@@ -412,7 +412,7 @@ void RealSense::Impl::stopStream()
 //======================================================
 // RGB Texture
 // - Function is utilized to extract the RGB data from
-// a single point return R, G, and B values. 
+// a single point return R, G, and B values.
 // Normals are stored as RGB components and
 // correspond to the specific depth (XYZ) coordinate.
 // By taking these normals and converting them to
@@ -449,9 +449,9 @@ RealSense::Impl::TextureRGB RealSense::Impl::rgbTexture(rs2::video_frame texture
 // - Function is utilized to fill a point cloud
 //  object with depth and RGB data from a single
 //  frame captured using the Realsense.
-//=================================================== 
-void RealSense::Impl::toPCL(const rs2::points& points, 
-                            const rs2::video_frame& color, 
+//===================================================
+void RealSense::Impl::toPCL(const rs2::points& points,
+                            const rs2::video_frame& color,
                             pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
 {
     // Declare struct for RGB value Storage (<r>, <g>, <b>)

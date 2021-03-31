@@ -7,7 +7,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <param name="joint_states_topic">/joint_states</param>
     <param name="transform_server_port">/tfServer</param>
      <group name="WrenchPublishers">
-        <param name="frame_names">("right", "left")</param> 
+        <param name="frame_names">("right", "left")</param>
         <param name="topics">("/wrench/right", "/wrench/left")</param>
     </group>
 </device>
