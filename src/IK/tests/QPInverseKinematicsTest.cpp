@@ -278,8 +278,8 @@ TEST_CASE("QP-IK")
                 REQUIRE(ikAndTasks.ik->advance());
 
                 // get the output of the IK
-                baseVelocity = ikAndTasks.ik->get().baseVelocity.coeffs();
-                jointVelocity = ikAndTasks.ik->get().jointVelocity;
+                baseVelocity = ikAndTasks.ik->getOutput().baseVelocity.coeffs();
+                jointVelocity = ikAndTasks.ik->getOutput().jointVelocity;
 
                 // propagate the dynamical system
                 system.dynamics->setControlInput({baseVelocity, jointVelocity});

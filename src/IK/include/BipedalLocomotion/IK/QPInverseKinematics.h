@@ -97,7 +97,7 @@ public:
      (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Get a vector containing the name of the tasks.
@@ -108,7 +108,7 @@ public:
     /**
      * Return true if the content of get is valid.
      */
-    bool isValid() const override;
+    bool isOutputValid() const override;
 
     /**
      * Solve the inverse kinematics.
@@ -120,7 +120,7 @@ public:
      * Get the outcome of the optimization problem
      * @return the state of the inverse kinematics.
      */
-    const IntegrationBasedIKState& get() const override;
+    const IntegrationBasedIKState& getOutput() const override;
 
     /**
      * Get a specific task

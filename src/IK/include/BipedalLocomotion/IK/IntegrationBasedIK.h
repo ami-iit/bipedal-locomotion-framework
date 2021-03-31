@@ -16,7 +16,7 @@
 #include <manif/SE3.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/System/LinearTask.h>
 
 namespace BipedalLocomotion
@@ -60,17 +60,10 @@ struct IntegrationBasedIKState
  * <br/>
  * <img src="https://user-images.githubusercontent.com/16744101/110700993-e50e8400-81f0-11eb-88a1-30d5a024da9a.png" alt="InverseKinematics" width="1500">
  */
-class IntegrationBasedIK : public BipedalLocomotion::System::Advanceable<IntegrationBasedIKState>
+class IntegrationBasedIK : public BipedalLocomotion::System::Source<IntegrationBasedIKState>
 {
 
 public:
-    /**
-     * Initialize the inverse kinematics algorithm.
-     * @param handler pointer to the IParametersHandler interface.
-     * @return true in case of success/false otherwise.
-     */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
-
     /**
      * Add a linear task in the inverse kinematics
      * @param task pointer to a given linear task
