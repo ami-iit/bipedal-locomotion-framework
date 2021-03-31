@@ -12,7 +12,7 @@ using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::GenericContainer;
 
-bool RecursiveLeastSquare::initialize(std::weak_ptr<IParametersHandler> handlerWeak)
+bool RecursiveLeastSquare::initialize(std::weak_ptr<const IParametersHandler> handlerWeak)
 {
     if (m_estimatorState != State::NotInitialized)
     {
@@ -142,12 +142,12 @@ void RecursiveLeastSquare::setMeasurements(const Eigen::Ref<const Eigen::VectorX
     m_measurements = measurements;
 }
 
-const RecursiveLeastSquareState& RecursiveLeastSquare::get() const
+const RecursiveLeastSquareState& RecursiveLeastSquare::getOutput() const
 {
     return m_state;
 }
 
-bool RecursiveLeastSquare::isValid() const
+bool RecursiveLeastSquare::isOutputValid() const
 {
     return m_estimatorState == State::Running;
 }
