@@ -6,10 +6,11 @@
  */
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
+
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
 
-bool ContactDetector::initialize(std::weak_ptr<IParametersHandler> handler)
+bool ContactDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     std::string_view printPrefix = "[ContactDetector::initialize] ";
     if (m_detectorState != State::NotInitialized)
@@ -44,25 +45,25 @@ bool ContactDetector::initialize(std::weak_ptr<IParametersHandler> handler)
     return true;
 }
 
-bool ContactDetector::customInitialization(std::weak_ptr<IParametersHandler> handler)
+bool ContactDetector::customInitialization(std::weak_ptr<const IParametersHandler> handler)
 {
     return true;
 }
 
 bool ContactDetector::advance()
-{    
+{
     std::string_view printPrefix = "[ContactDetector::advance] ";
     if (m_detectorState == State::NotInitialized)
     {
         std::cerr << printPrefix << "Please initialize the contact detector before running advance."
         << std::endl;
-        return false;        
-    }    
-    else 
-    {
-        m_detectorState = State::Running;        
+        return false;
     }
-    
+    else
+    {
+        m_detectorState = State::Running;
+    }
+
     if (!updateContactStates())
     {
         return false;
@@ -86,7 +87,7 @@ bool ContactDetector::resetContacts()
 }
 
 
-const EstimatedContactList& ContactDetector::get() const
+const EstimatedContactList& ContactDetector::getOutput() const
 {
     return m_contactStates;
 }
@@ -103,7 +104,7 @@ bool ContactDetector::get(const std::string& contactName, EstimatedContact& cont
     return true;
 }
 
-EstimatedContact ContactDetector::get(const std::string& contactName) const 
+EstimatedContact ContactDetector::get(const std::string& contactName) const
 {
     if ( m_contactStates.find(contactName) == m_contactStates.end() )
     {
@@ -114,9 +115,7 @@ EstimatedContact ContactDetector::get(const std::string& contactName) const
     return m_contactStates.at(contactName);
 }
 
-bool ContactDetector::isValid() const
+bool ContactDetector::isOutputValid() const
 {
     return (m_detectorState == State::Running);
 }
-
-

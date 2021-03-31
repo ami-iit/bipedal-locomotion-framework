@@ -62,7 +62,7 @@ public:
     bool addContact(const std::string& contactName,
                     const bool& initialState,
                     const SchmittTriggerParams& params);
-    
+
     /**
      * Add a contact whose contact state need to be tracked
      * @param[in] contactName name of the contact
@@ -76,7 +76,7 @@ public:
                     const bool& initialState,
                     const SchmittTriggerParams& params,
                     const double& time_now);
-    
+
     /**
      * Reset a contact's state
      * @param[in] contactName name of the contact
@@ -109,7 +109,7 @@ protected:
     * @param[in] handler configure the custom parameters for the detector
     * @return True in case of success, false otherwise.
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
+    virtual bool customInitialization(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Update contact states based on thresholding of contact normal forces and timing parameters
@@ -142,7 +142,7 @@ struct SchmittTriggerParams
  */
 struct SchmittTriggerInput
 {
-    double time{0.0};    /**< time stamp*/ 
+    double time{0.0};    /**< time stamp*/
     double value{0.0};   /**< signal input*/
 };
 
@@ -157,7 +157,7 @@ public:
      * @param state current state
      */
     void setState(const bool& state);
-    
+
     /**
      * Set current state  of the Schmitt trigger
      * @param state current state
@@ -189,7 +189,7 @@ public:
      * @return state - true/false
      */
     bool getState();
-    
+
     /**
      * Get the current state of the Schmitt trigger
      * @param[out] swtichTime
@@ -216,5 +216,3 @@ private:
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_SCHMITT_TRIGGER_DETECTOR_H
-
-
