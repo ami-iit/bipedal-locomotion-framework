@@ -19,7 +19,7 @@ YarpSensorBridge::YarpSensorBridge()
 
 YarpSensorBridge::~YarpSensorBridge() = default;
 
-bool YarpSensorBridge::initialize(std::weak_ptr<IParametersHandler> handler)
+bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr std::string_view logPrefix = "[YarpSensorBridge::initialize] ";
 
@@ -142,7 +142,7 @@ bool YarpSensorBridge::advance()
     return true;
 }
 
-bool YarpSensorBridge::isValid() const
+bool YarpSensorBridge::isOutputValid() const
 {
     return m_pimpl->checkValid("[YarpSensorBridge::isValid]");
 }
@@ -152,7 +152,7 @@ std::vector<std::string> YarpSensorBridge::getFailedSensorReads() const
     return m_pimpl->failedSensorReads;
 }
 
-const SensorBridgeMetaData& YarpSensorBridge::get() const
+const SensorBridgeMetaData& YarpSensorBridge::getOutput() const
 {
     return m_pimpl->metaData;
 }

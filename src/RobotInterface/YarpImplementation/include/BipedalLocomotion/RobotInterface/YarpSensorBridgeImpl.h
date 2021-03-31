@@ -127,9 +127,9 @@ struct YarpSensorBridge::Impl
     bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to required device drivers */
     bool checkForNAN{false}; /**< flag to enable search for NANs in the incoming measurement buffers */
 
-
-    using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>,
-                                                             SensorBridgeMetaData&);
+    using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(
+        std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
+        SensorBridgeMetaData&);
     /**
      * Utility function to get index from vector
      */
@@ -173,7 +173,7 @@ struct YarpSensorBridge::Impl
     bool subConfigLoader(const std::string& enableStreamString,
                          const std::string& streamGroupString,
                          const SubConfigLoader loader,
-                         std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                         std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                          SensorBridgeMetaData& metaData,
                          bool& enableStreamFlag)
     {
@@ -209,8 +209,9 @@ struct YarpSensorBridge::Impl
      * Configure remote control board remapper meta data
      * Related to kinematics and other joint/motor relevant quantities
      */
-    bool configureRemoteControlBoardRemapper(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                                             SensorBridgeMetaData& metaData)
+    bool configureRemoteControlBoardRemapper(
+        std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+        SensorBridgeMetaData& metaData)
     {
         // clear the joint list
         metaData.sensorsList.jointsList.clear();
@@ -247,7 +248,7 @@ struct YarpSensorBridge::Impl
     /**
      * Configure inertial sensors meta data
      */
-    bool configureInertialSensors(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool configureInertialSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                                   SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureInertialSensors] ";
@@ -285,10 +286,12 @@ struct YarpSensorBridge::Impl
     /**
      * Configure six axis force torque sensors meta data
      */
-    bool configureSixAxisForceTorqueSensors(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                                            SensorBridgeMetaData& metaData)
+    bool configureSixAxisForceTorqueSensors(
+        std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+        SensorBridgeMetaData& metaData)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors] ";
+        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::"
+                                               "configureSixAxisForceTorqueSensors] ";
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
@@ -308,7 +311,7 @@ struct YarpSensorBridge::Impl
     /**
      * Configure cartesian wrenches meta data
      */
-    bool configureCartesianWrenches(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool configureCartesianWrenches(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                                     SensorBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureCartesianWrenchSensors] ";

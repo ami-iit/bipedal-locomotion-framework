@@ -62,7 +62,7 @@ struct PolyDriverDescriptor
  * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
  */
 PolyDriverDescriptor constructRemoteControlBoardRemapper(
-    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
 /**
  * Helper function that can be used to build a GenericSensorClient device.
@@ -78,7 +78,7 @@ PolyDriverDescriptor constructRemoteControlBoardRemapper(
  * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
  */
 PolyDriverDescriptor constructGenericSensorClient(
-    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
