@@ -12,28 +12,39 @@
 namespace BipedalLocomotion
 {
 
-std::once_flag initInstanceFlag;
-
-void loggerCreation()
+std::shared_ptr<TextLogging::Logger> loggerCreation()
 {
-    // if the logger does not exist, create it. spdlog already handle the logger as singleton.
-    // create the logger called blf
-    auto console = spdlog::stderr_color_mt("blf");
-
-    // get the logger
     auto logger = spdlog::get("blf");
 
-    // customize the logger
-    logger->set_level(spdlog::level::info);
-    logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [thread: %t] [%n] %^[%l]%$ %v");
+    // if the logger called blf already exist. If it does not exist it is created.
+    if (logger == nullptr)
+    {
+        // spdlog already handle the logger as singleton create the logger called blf
+        auto console = spdlog::stdout_color_mt("blf");
+
+        // get the logger
+        logger = spdlog::get("blf");
+
+        // if the project is compiled in debug the level of spdlog is set in debug
+#ifdef NDEBUG
+        logger->set_level(spdlog::level::info);
+#else
+        logger->set_level(spdlog::level::debug);
+#endif // NDEBUG
+
+        // set the custom pattern
+        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [thread: %t] [%n] %^[%l]%$ %v");
+    }
+    return logger;
 }
 
 TextLogging::Logger* const log()
 {
-    std::call_once(initInstanceFlag, loggerCreation);
+    // Since the oobject is static the memory is not deallocated
+    static std::shared_ptr<TextLogging::Logger> logger(loggerCreation());
 
-    // the logger exist because loggerCreation is called once.
-    return spdlog::get("blf").get();
+    // the logger exist because loggerCreation is called.
+    return logger.get();
 }
 
 } // namespace BipedalLocomotion
