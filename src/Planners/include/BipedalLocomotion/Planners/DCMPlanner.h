@@ -14,7 +14,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -39,7 +39,7 @@ struct DCMPlannerState
  * component of motion (DCM). Please inherit publicly from this class in order to define your
  * planner.
  */
-class DCMPlanner : public BipedalLocomotion::System::Advanceable<DCMPlannerState>
+class DCMPlanner : public BipedalLocomotion::System::Source<DCMPlannerState>
 {
 protected:
     Contacts::ContactPhaseList m_contactPhaseList; /**< Contact phases. */
@@ -47,13 +47,6 @@ protected:
     DCMPlannerState m_initialState; /**< Initial state of the planner */
 
 public:
-    /**
-     * Initialize the planner.
-     * @param handler pointer to the parameter handler.
-     * @return true in case of success/false otherwise.
-     */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
-
     /**
      * Set the initial state of the planner
      * @param initialState the initial state of the planner

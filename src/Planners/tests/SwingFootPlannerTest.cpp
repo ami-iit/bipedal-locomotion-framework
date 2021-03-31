@@ -64,9 +64,9 @@ TEST_CASE("Swing foot planner")
     const std::size_t numberOfIterations = (contactList.lastContact()->deactivationTime + 1) / dT;
     for (std::size_t i = 0; i < numberOfIterations; i++)
     {
-        std::cout << planner.get().transform.translation().transpose() << " "
-                  << planner.get().transform.quat().w() << " "
-                  << planner.get().transform.quat().vec().transpose() << std::endl;
+        std::cout << planner.getOutput().transform.translation().transpose() << " "
+                  << planner.getOutput().transform.quat().w() << " "
+                  << planner.getOutput().transform.quat().vec().transpose() << std::endl;
 
         // advance the planner
         REQUIRE(planner.advance());

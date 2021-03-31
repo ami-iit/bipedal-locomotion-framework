@@ -60,7 +60,7 @@ public:
      * |            `gravity`              |  `double`  |  Value of the gravity acceleration. It should be a positive number (Default value BipedalLocomotion::Math::StandardAccelerationOfGravitation)  |    No     |
      * @return true in case of success/false otherwise.
      */
-     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
+     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Compute the DCM trajectory.
@@ -104,13 +104,13 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-    const DCMPlannerState& get() const final;
+    const DCMPlannerState& getOutput() const final;
 
     /**
      * @brief Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-     bool isValid() const final;
+     bool isOutputValid() const final;
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from get().

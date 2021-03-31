@@ -14,29 +14,31 @@ using namespace BipedalLocomotion::Contacts;
 
 using Vector1d = Eigen::Matrix<double,1,1>;
 
-bool SwingFootPlanner::initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
-    if (handler == nullptr)
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
     {
         std::cerr << "[SwingFootPlanner::initialize] The handler is not correctly initialized.";
         return false;
     }
 
-    if (!handler->getParameter("sampling_time", m_dT))
+    if (!ptr->getParameter("sampling_time", m_dT))
     {
         std::cerr << "[SwingFootPlanner::initialize] Unable to initialize the sampling time for "
                      "the SwingFootPlanner.";
         return false;
     }
 
-    if (!handler->getParameter("step_height", m_stepHeight))
+    if (!ptr->getParameter("step_height", m_stepHeight))
     {
         std::cerr << "[SwingFootPlanner::initialize] Unable to initialize the step height for "
                      "the SwingFootPlanner.";
         return false;
     }
 
-    if (!handler->getParameter("foot_apex_time", m_footApexTime))
+    if (!ptr->getParameter("foot_apex_time", m_footApexTime))
     {
         std::cerr << "[SwingFootPlanner::initialize] Unable to initialize the foot apex time for "
                      "the SwingFootPlanner.";
@@ -44,7 +46,7 @@ bool SwingFootPlanner::initialize(std::shared_ptr<ParametersHandler::IParameters
     }
 
     double footLandingVelocity;
-    if (!handler->getParameter("foot_landing_velocity", footLandingVelocity))
+    if (!ptr->getParameter("foot_landing_velocity", footLandingVelocity))
     {
         std::cerr << "[SwingFootPlanner::initialize] Unable to initialize the foot landing "
                      "velocity for the SwingFootPlanner.";
@@ -52,7 +54,7 @@ bool SwingFootPlanner::initialize(std::shared_ptr<ParametersHandler::IParameters
     }
 
     double footLandingAcceleration;
-    if (!handler->getParameter("foot_landing_acceleration", footLandingAcceleration))
+    if (!ptr->getParameter("foot_landing_acceleration", footLandingAcceleration))
     {
         std::cerr << "[SwingFootPlanner::initialize] Unable to initialize the foot landing "
                      "acceleration for the SwingFootPlanner.";
@@ -96,12 +98,12 @@ void SwingFootPlanner::setContactList(const ContactList& contactList)
 
 }
 
-bool SwingFootPlanner::isValid() const
+bool SwingFootPlanner::isOutputValid() const
 {
     return m_contactList.size() != 0;
 }
 
-const SwingFootPlannerState& SwingFootPlanner::get() const
+const SwingFootPlannerState& SwingFootPlanner::getOutput() const
 {
     return m_state;
 }

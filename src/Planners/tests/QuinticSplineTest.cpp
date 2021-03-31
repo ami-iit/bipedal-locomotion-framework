@@ -99,15 +99,15 @@ TEST_CASE("Quintic spline")
 
     SECTION("Advance capabilities")
     {
-        REQUIRE_FALSE(spline.isValid());
+        REQUIRE_FALSE(spline.isOutputValid());
         REQUIRE(spline.setAdvanceTimeStep(dTCheckPoints));
 
-        REQUIRE(spline.isValid());
+        REQUIRE(spline.isOutputValid());
 
         for (std::size_t i = 0; i < pointsToCheckNumber; i++)
         {
             double t = dTCheckPoints * i + initTime;
-            const auto& traj = spline.get();
+            const auto& traj = spline.getOutput();
 
             // check position
             expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)

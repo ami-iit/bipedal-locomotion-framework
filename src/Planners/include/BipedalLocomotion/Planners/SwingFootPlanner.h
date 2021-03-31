@@ -16,7 +16,7 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SO3Planner.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -39,7 +39,7 @@ struct SwingFootPlannerState
  * designed in SE(3) and we assume that initial 6d-acceleration and 6d-velocity of the  foot is
  * always equal to zero at take off. The trajectory of the foot will belong to the Geodesic.
  */
-class SwingFootPlanner : public System::Advanceable<SwingFootPlannerState>
+class SwingFootPlanner : public System::Source<SwingFootPlannerState>
 {
     SwingFootPlannerState m_state; /**< State of the planner */
 
@@ -79,7 +79,7 @@ public:
      * | `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration                                            |    Yes    |
      * @return True in case of success/false otherwise.
      */
-    bool initialize(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the contact list
@@ -91,13 +91,13 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-     const SwingFootPlannerState& get() const final;
+     const SwingFootPlannerState& getOutput() const final;
 
     /**
      * @brief Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-     bool isValid() const final;
+     bool isOutputValid() const final;
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from get().

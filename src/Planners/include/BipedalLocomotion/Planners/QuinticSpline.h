@@ -13,7 +13,7 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -30,7 +30,7 @@ struct QuinticSplineState
 /**
  * Quintic spline implement a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
  */
-class QuinticSpline : public System::Advanceable<QuinticSplineState>
+class QuinticSpline : public System::Source<QuinticSplineState>
 {
     /**
      * Private implementation of the class
@@ -112,7 +112,7 @@ public:
      * features.
      * @return a const reference of the requested object.
      */
-    const QuinticSplineState& get() const final;
+    const QuinticSplineState& getOutput() const final;
 
     /**
      * Determines the validity of the object retrieved with get()
@@ -120,7 +120,7 @@ public:
      * features.
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
+    bool isOutputValid() const final;
 
     /**
      * Advance the internal state. This may change the value retrievable from get().
