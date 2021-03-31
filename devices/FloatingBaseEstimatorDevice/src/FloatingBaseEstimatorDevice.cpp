@@ -371,9 +371,9 @@ bool FloatingBaseEstimatorDevice::updateKinematics()
 
 void FloatingBaseEstimatorDevice::publish()
 {
-    if (m_estimator->isValid())
+    if (m_estimator->isOutputValid())
     {
-        auto estimatorOut = m_estimator->get();
+        auto estimatorOut = m_estimator->getOutput();
         publishBaseLinkState(estimatorOut);
         publishInternalStateAndStdDev(estimatorOut);
     }
