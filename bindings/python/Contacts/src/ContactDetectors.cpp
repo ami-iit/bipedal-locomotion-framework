@@ -28,8 +28,8 @@ void CreateContactDetector(pybind11::module& module)
     using namespace BipedalLocomotion::System;
     using namespace BipedalLocomotion::ParametersHandler;
 
-    py::class_<Advanceable<EstimatedContactList>>(module, "EstimatedContactListAdvanceable");
-    py::class_<ContactDetector, Advanceable<EstimatedContactList>>(module, "ContactDetector");
+    py::class_<Source<EstimatedContactList>>(module, "EstimatedContactListSource");
+    py::class_<ContactDetector, Source<EstimatedContactList>>(module, "ContactDetector");
 }
 
 void CreateSchmittTriggerUnit(pybind11::module& module)
@@ -82,17 +82,16 @@ void CreateSchmittTriggerDetector(pybind11::module& module)
         .def(py::init())
         .def(
             "initialize",
-            [](SchmittTriggerDetector& impl, std::shared_ptr<IParametersHandler> handler) -> bool {
-                return impl.initialize(handler);
-            },
+            [](SchmittTriggerDetector& impl, std::shared_ptr<const IParametersHandler> handler)
+                -> bool { return impl.initialize(handler); },
             py::arg("handler"))
         .def("advance", &SchmittTriggerDetector::advance)
         .def("reset_contacts", &SchmittTriggerDetector::resetContacts)
-        .def("get", py::overload_cast<>(&SchmittTriggerDetector::get, py::const_))
+        .def("get_output", &SchmittTriggerDetector::getOutput)
         .def("get",
              py::overload_cast<const std::string&>(&SchmittTriggerDetector::get, py::const_),
              py::arg("contact_name"))
-        .def("is_valid", &SchmittTriggerDetector::isValid)
+        .def("is_output_valid", &SchmittTriggerDetector::isOutputValid)
         .def("set_timed_trigger_input",
              &SchmittTriggerDetector::setTimedTriggerInput,
              py::arg("contact_name"),

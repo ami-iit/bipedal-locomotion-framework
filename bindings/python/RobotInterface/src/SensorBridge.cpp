@@ -14,7 +14,7 @@
 
 #include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 #include <BipedalLocomotion/bindings/RobotInterface/SensorBridge.h>
 
@@ -77,15 +77,14 @@ void CreateYarpSensorBridge(pybind11::module& module)
     using namespace BipedalLocomotion::System;
     using namespace BipedalLocomotion::ParametersHandler;
 
-    py::class_<Advanceable<SensorBridgeMetaData>>(module, "SensorBridgeMetaDataAdvanceable");
+    py::class_<Source<SensorBridgeMetaData>>(module, "SensorBridgeMetaDataSource");
 
-    py::class_<YarpSensorBridge, ISensorBridge, Advanceable<SensorBridgeMetaData>>(module,
-                                                                                   "YarpSensorBridg"
-                                                                                   "e")
+    py::class_<YarpSensorBridge, ISensorBridge, Source<SensorBridgeMetaData>>(module,
+                                                                              "YarpSensorBridge")
         .def(py::init())
         .def(
             "initialize",
-            [](YarpSensorBridge& impl, std::shared_ptr<IParametersHandler> handler) -> bool {
+            [](YarpSensorBridge& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
                 return impl.initialize(handler);
             },
             py::arg("handler"))
@@ -100,7 +99,7 @@ void CreateYarpSensorBridge(pybind11::module& module)
             },
             py::arg("polydrivers"))
         .def("advance", &YarpSensorBridge::advance)
-        .def("is_valid", &YarpSensorBridge::isValid)
+        .def("is_output_valid", &YarpSensorBridge::isOutputValid)
         .def("get_failed_sensor_reads", &YarpSensorBridge::getFailedSensorReads)
         .def("get_joints_list",
              [](YarpSensorBridge& impl) {
@@ -148,7 +147,7 @@ void CreateYarpSensorBridge(pybind11::module& module)
             py::arg("joint_name"))
         .def("get_joint_positions",
              [](YarpSensorBridge& impl) {
-                 Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
+                 Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
                  double receiveTimeInSeconds;
                  bool ok = impl.getJointPositions(joints, receiveTimeInSeconds);
                  return std::make_tuple(ok, joints, receiveTimeInSeconds);
@@ -163,7 +162,7 @@ void CreateYarpSensorBridge(pybind11::module& module)
             py::arg("joint_name"))
         .def("get_joint_velocities",
              [](YarpSensorBridge& impl) {
-                 Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
+                 Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
                  double receiveTimeInSeconds;
                  bool ok = impl.getJointVelocities(joints, receiveTimeInSeconds);
                  return std::make_tuple(ok, joints, receiveTimeInSeconds);
@@ -256,7 +255,7 @@ void CreateYarpSensorBridge(pybind11::module& module)
             },
             py::arg("motor_name"))
         .def("get_motor_currents", [](YarpSensorBridge& impl) {
-            Eigen::VectorXd joints(impl.get().bridgeOptions.nrJoints);
+            Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
             double receiveTimeInSeconds;
             bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
             return std::make_tuple(ok, joints, receiveTimeInSeconds);

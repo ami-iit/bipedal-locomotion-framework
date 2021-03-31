@@ -9,8 +9,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 #include <BipedalLocomotion/bindings/Planners/SwingFootPlanner.h>
 
@@ -26,6 +27,7 @@ void CreateSwingFootPlanner(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Planners;
     using namespace BipedalLocomotion::System;
+    using namespace BipedalLocomotion::ParametersHandler;
 
     py::class_<SwingFootPlannerState>(module, "SwingFootPlannerState")
         .def(py::init())
@@ -52,14 +54,19 @@ void CreateSwingFootPlanner(pybind11::module& module)
                 s.mixedAcceleration.coeffs() = coeffs;
             });
 
-    py::class_<Advanceable<SwingFootPlannerState>>(module, "SwingFootPlannerStateAdvanceable");
+    py::class_<Source<SwingFootPlannerState>>(module, "SwingFootPlannerStateSource");
 
-    py::class_<SwingFootPlanner, Advanceable<SwingFootPlannerState>>(module, "SwingFootPlanner")
+    py::class_<SwingFootPlanner, Source<SwingFootPlannerState>>(module, "SwingFootPlanner")
         .def(py::init())
-        .def("initialize", &SwingFootPlanner::initialize, py::arg("handler"))
+        .def(
+            "initialize",
+            [](SwingFootPlanner& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
+                return impl.initialize(handler);
+            },
+            py::arg("handler"))
         .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"))
-        .def("get", &SwingFootPlanner::get)
-        .def("is_valid", &SwingFootPlanner::isValid)
+        .def("get_output", &SwingFootPlanner::getOutput)
+        .def("is_output_valid", &SwingFootPlanner::isOutputValid)
         .def("advance", &SwingFootPlanner::advance);
 }
 

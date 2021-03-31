@@ -83,8 +83,8 @@ void CreateLeggedOdometry(pybind11::module& module)
              py::arg("frame_orientation_in_world"),
              py::arg("frame_position_in_world"))
         .def("get_fixed_frame_index", &LeggedOdometry::getFixedFrameIdx)
-        .def("get", &LeggedOdometry::get)
-        .def("is_valid", &LeggedOdometry::isValid);
+        .def("get_output", &LeggedOdometry::getOutput)
+        .def("is_output_valid", &LeggedOdometry::isOutputValid);
 }
 
 } // namespace FloatingBaseEstimators
