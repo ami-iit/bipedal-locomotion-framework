@@ -172,7 +172,7 @@ TEST_CASE("Invariant EKF Base Estimator")
         REQUIRE(estimator.setContacts(lf_contact, rf_contact));
         REQUIRE(estimator.setKinematics(encoders, encoder_speeds));
         REQUIRE(estimator.advance());
-        out = estimator.get();
+        out = estimator.getOutput();
 
         std::cout << "-------------------------------------------------------------" << std::endl;
         std::cout << "Simulated IMU Orientation quaternion xyz w: " << simImuQuat.coeffs().transpose() << std::endl;
@@ -190,7 +190,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
 
     // test reset methods
-    out = estimator.get();
+    out = estimator.getOutput();
     FloatingBaseEstimators::InternalState resetState;
     resetState = out.state;
     // changing imu position should be reflected also on feet contact positions
@@ -200,7 +200,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     resetState.lContactFramePosition(0) += 10;
     REQUIRE(estimator.resetEstimator(resetState));
     REQUIRE(estimator.advance());
-    auto newOut = estimator.get();
+    auto newOut = estimator.getOutput();
     REQUIRE( std::abs(newOut.state.imuPosition(0) - resetState.imuPosition(0)) < 1e-2);
 
 
@@ -214,7 +214,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     auto baseOrientation = basePose.quat();
     estimator.resetEstimator(baseOrientation, basePosition);
     REQUIRE(estimator.advance());
-    newOut = estimator.get();
+    newOut = estimator.getOutput();
     // roughly computing from base position 2 cm tolerance
     REQUIRE( std::abs(newOut.state.imuPosition(1) - (imuPosition(1))) < 2e-2);
 
@@ -223,8 +223,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     resetStateStdDev.imuPosition << 1e-2, 1e-2, 1e-2;
     REQUIRE(estimator.resetEstimator(resetState, resetStateStdDev));
     REQUIRE(estimator.advance());
-    newOut = estimator.get();
+    newOut = estimator.getOutput();
 
     REQUIRE( std::abs(newOut.stateStdDev.imuPosition(0) - resetStateStdDev.imuPosition(0)) < 2e-2);
 }
-

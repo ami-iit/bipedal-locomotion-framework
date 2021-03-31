@@ -327,8 +327,8 @@ bool FloatingBaseEstimator::setContacts(const bool& lfInContact,
     return true;
 }
 
-bool FloatingBaseEstimator::setContactStatus(const std::string& name, 
-                                             const bool& contactStatus, 
+bool FloatingBaseEstimator::setContactStatus(const std::string& name,
+                                             const bool& contactStatus,
                                              const double& switchTime,
                                              double timeNow)
 {
@@ -342,7 +342,7 @@ bool FloatingBaseEstimator::setContactStatus(const std::string& name,
 
     auto& contacts = m_meas.stampedContactsStatus;
 
-    // operator[] creates a key-value pair if key does not already exist, 
+    // operator[] creates a key-value pair if key does not already exist,
     // otherwise just an update is carried out
     contacts[idx].switchTime = switchTime;
     contacts[idx].isActive = contactStatus;
@@ -357,7 +357,7 @@ FloatingBaseEstimator::ModelComputations& FloatingBaseEstimator::modelComputatio
 }
 
 
-const FloatingBaseEstimators::Output& FloatingBaseEstimator::get() const
+const FloatingBaseEstimators::Output& FloatingBaseEstimator::getOutput() const
 {
     return m_estimatorOut;
 }
@@ -753,4 +753,3 @@ bool FloatingBaseEstimator::resetEstimator(const FloatingBaseEstimators::Interna
     m_state = newState;
     return true;
 }
-
