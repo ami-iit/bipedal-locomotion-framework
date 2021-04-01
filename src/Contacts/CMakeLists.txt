@@ -12,13 +12,13 @@ if (FRAMEWORK_COMPILE_Contact)
     SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
     PUBLIC_LINK_LIBRARIES MANIF::manif
     INSTALLATION_FOLDER   Contacts)
-    
+
   set(H_PREFIX include/BipedalLocomotion/ContactDetectors)
     add_bipedal_locomotion_library(
     NAME                   ContactDetectors
     SUBDIRECTORIES         tests/ContactDetectors
     SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp
     PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)   
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)
 endif()
 

@@ -1,6 +1,6 @@
 ### ROS Publisher Test Device
 
-- Run the servers 
+- Run the servers
 
   ```bash
   roscore
@@ -19,10 +19,10 @@
 - Check the outputs of the test device by running,
 
   ``` bash
-  rostopic echo /joint_states    # to check the published joint states - name: [hello] position: [20] 
+  rostopic echo /joint_states    # to check the published joint states - name: [hello] position: [20]
   rostopic echo /wrench/right    # to check the published wrench - frame: right force: x:0.0 y:1.0 z:2.0 torque: x:0.0 y:0.0 z:0.0
   rostopic echo /tf # to check the published pose between /world and /dummy as identity (zero position and unit quaternion)
   ```
 
-  
+
 

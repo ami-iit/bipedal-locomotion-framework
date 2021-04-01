@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <portscope rows="3" columns="2" carrier="mcast">
- 
+
     <!--Mixed trivailized Linear Velocity X-->
     <plot gridx="0"
           gridy="0"
@@ -60,7 +60,7 @@
                title="BLF"
                type="lines" />
     </plot>
-    
+
     <!--Mixed trivailized Angular Velocity X-->
     <plot gridx="1"
           gridy="0"
@@ -119,5 +119,5 @@
                color="#D95218"
                title="BLF"
                type="lines" />
-    </plot>   
+    </plot>
 </portscope>

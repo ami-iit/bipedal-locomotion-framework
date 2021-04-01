@@ -9,13 +9,13 @@
               minval="-2"
               maxval="18"
               bgcolor="white">
-              
+
             <graph remote="/icubSim/xens_inertial"
                    index="0"
                    color="Red"
                    title="Xsens roll"
                    type="lines"
-                   size="3" />  
+                   size="3" />
          </plot>
         <plot gridx="0"
               gridy="1"
@@ -26,7 +26,7 @@
               minval="-2"
               maxval="18"
               bgcolor="white">
-              
+
             <graph remote="/icubSim/xens_inertial"
                    index="1"
                    color="Red"
@@ -34,7 +34,7 @@
                    type="lines"
                    size="3" />
          </plot>
-      
+
          <plot gridx="0"
               gridy="2"
               hspan="1"
@@ -44,7 +44,7 @@
               minval="-2"
               maxval="18"
               bgcolor="white">
-              
+
             <graph remote="/icubSim/xens_inertial"
                    index="2"
                    color="Red"
@@ -52,6 +52,6 @@
                    type="lines"
                    size="3" />
          </plot>
-                       
+
 </portscope>
 

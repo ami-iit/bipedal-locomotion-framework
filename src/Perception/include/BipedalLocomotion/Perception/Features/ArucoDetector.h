@@ -68,7 +68,7 @@ public:
     /**
      * Initialize the detector
      * @note The following parameter are required by the filter:
-     * - "marker_dictionary" OpenCV predefined aruco marker dictionary 
+     * - "marker_dictionary" OpenCV predefined aruco marker dictionary
      * (available options: "4X4_50", "4X4_100", "4X4_250", "4X4_1000",
      *                     "5X5_50", "5X5_100", "5X5_250", "5X5_1000",
      *                     "6X6_50", "6X6_100", "6X6_250", "6X6_1000",

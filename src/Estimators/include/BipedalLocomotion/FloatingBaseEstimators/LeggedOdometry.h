@@ -60,7 +60,7 @@ public:
      *
      * @note reset and advance estimator to get updated estimator output
      */
-    virtual bool resetEstimator(const Eigen::Quaterniond& newIMUOrientation, 
+    virtual bool resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
                                 const Eigen::Vector3d& newIMUPosition) override;
 
     /**

@@ -333,7 +333,7 @@ void SchmittTriggerUnit::update(const double& currentTime, const double& rawValu
             (timer >= params.switchOnAfter) ?  state = true : timer += (currentTime - previousTime);
             if (state)
             {
-                switchTime = currentTime;                
+                switchTime = currentTime;
                 timer = 0;
             }
         }
@@ -350,7 +350,7 @@ void SchmittTriggerUnit::update(const double& currentTime, const double& rawValu
             (timer >= params.switchOffAfter) ? state = false : timer += (currentTime - previousTime);
             if (!state)
             {
-                switchTime = currentTime;                
+                switchTime = currentTime;
                 timer = 0;
             }
         }

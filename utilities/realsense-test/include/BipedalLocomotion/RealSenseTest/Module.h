@@ -34,7 +34,7 @@ class Module : public yarp::os::RFModule
     std::string colorImgName{"Color Image"};
     std::string depthImgName{"Depth Image"};
     std::string irImgName{"IR Image"};
-    
+
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc{nullptr};
     pcl::shared_ptr< pcl::visualization::PCLVisualizer> viewer;
 

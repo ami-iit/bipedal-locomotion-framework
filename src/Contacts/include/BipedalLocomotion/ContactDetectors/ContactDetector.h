@@ -62,7 +62,7 @@ public:
      * @return true if contact exists, false otherwise
      */
     bool get(const std::string& contactName, BipedalLocomotion::Contacts::EstimatedContact& contact) const;
-    
+
     /**
      * Get state of specific contact
      * @param[in] contactName name of contact
