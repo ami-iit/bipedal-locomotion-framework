@@ -9,7 +9,7 @@
 #define BIPEDAL_LOCOMOTION_PERECEPTION_FEATURES_ARUCO_H
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 #include <Eigen/Dense>
 #include <opencv2/core.hpp>
@@ -59,7 +59,7 @@ struct ArucoDetectorOutput
     double timeNow{-1.0};
 };
 
-class ArucoDetector : public System::Advanceable<ArucoDetectorOutput>
+class ArucoDetector : public System::Source<ArucoDetectorOutput>
 {
 public:
     ArucoDetector();
@@ -68,7 +68,7 @@ public:
     /**
      * Initialize the detector
      * @note The following parameter are required by the filter:
-     * - "marker_dictionary" OpenCV predefined aruco marker dictionary 
+     * - "marker_dictionary" OpenCV predefined aruco marker dictionary
      * (available options: "4X4_50", "4X4_100", "4X4_250", "4X4_1000",
      *                     "5X5_50", "5X5_100", "5X5_250", "5X5_1000",
      *                     "6X6_50", "6X6_100", "6X6_250", "6X6_1000",
@@ -82,7 +82,7 @@ public:
      * @tparameter Derived particular implementation of the IParameterHandler
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set image for which markers need to be detected
@@ -104,7 +104,7 @@ public:
      * Get the detected markers' data from the current step
      * @return A struct containing a map container of detected markers.
      */
-    const ArucoDetectorOutput& get() const final;
+    const ArucoDetectorOutput& getOutput() const final;
 
     /**
      * Get the detected marker data
@@ -129,7 +129,7 @@ public:
      * Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
+    bool isOutputValid() const final;
 
 private:
     class Impl;
@@ -140,4 +140,3 @@ private:
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_PERECEPTION_FEATURES_ARUCO_H
-
