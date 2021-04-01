@@ -8,7 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_DETECTOR_H
 #define BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_DETECTOR_H
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 
@@ -22,7 +22,7 @@ namespace Contacts
 
 using EstimatedContactList = std::unordered_map<std::string, BipedalLocomotion::Contacts::EstimatedContact>;
 
-class ContactDetector : public BipedalLocomotion::System::Advanceable<EstimatedContactList>
+class ContactDetector : public BipedalLocomotion::System::Source<EstimatedContactList>
 {
 public:
     virtual ~ContactDetector() { };
@@ -32,7 +32,7 @@ public:
     * @param[in] handler configure the generic parameters for the estimator
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Compute one step of the detector
@@ -53,7 +53,7 @@ public:
     * Get contact states
     * @return container of contacts
     */
-    virtual const EstimatedContactList& get() const final;
+    virtual const EstimatedContactList& getOutput() const final;
 
     /**
      * Get state of specific contact
@@ -74,7 +74,7 @@ public:
     * Determines the validity of the object retrieved with get()
     * @return True in case of success, false otherwise.
     */
-    virtual bool isValid() const final;
+    virtual bool isOutputValid() const final;
 
 protected:
     /**
@@ -82,7 +82,7 @@ protected:
     * @param[in] handler configure the custom parameters for the estimator
     * @return True if success, false otherwise
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    virtual bool customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * The derived class must implement the contact detection technique to update the contact states
@@ -111,4 +111,3 @@ protected:
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_DETECTOR_H
-

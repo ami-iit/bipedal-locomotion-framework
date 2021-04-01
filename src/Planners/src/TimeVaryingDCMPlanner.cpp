@@ -589,7 +589,7 @@ TimeVaryingDCMPlanner::TimeVaryingDCMPlanner()
 
 TimeVaryingDCMPlanner::~TimeVaryingDCMPlanner() = default;
 
-bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool TimeVaryingDCMPlanner::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[TimeVaryingDCMPlanner::initialize]";
     assert(m_pimpl);
@@ -830,13 +830,13 @@ void TimeVaryingDCMPlanner::setInitialState(const DCMPlannerState &initialState)
     m_pimpl->isTrajectoryComputed = false;
 }
 
-const DCMPlannerState& TimeVaryingDCMPlanner::get() const
+const DCMPlannerState& TimeVaryingDCMPlanner::getOutput() const
 {
     assert(m_pimpl);
     return m_pimpl->trajectory;
 }
 
-bool TimeVaryingDCMPlanner::isValid() const
+bool TimeVaryingDCMPlanner::isOutputValid() const
 {
     assert(m_pimpl);
     return m_pimpl->isTrajectoryComputed;
@@ -846,7 +846,7 @@ bool TimeVaryingDCMPlanner::advance()
 {
     constexpr auto logPrefix = "[TimeVaryingDCMPlanner::advance]";
 
-    if (!isValid())
+    if (!this->isOutputValid())
     {
         log()->error("{} The data are not valid it is not possible to advance.", logPrefix);
         return false;

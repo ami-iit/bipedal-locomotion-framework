@@ -10,7 +10,7 @@
 
 #include <manif/SO3.h>
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -51,7 +51,7 @@ struct SO3PlannerState
  * body-fixed frame.
  */
 template <LieGroupTrivialization trivialization>
-class SO3Planner : public System::Advanceable<SO3PlannerState>
+class SO3Planner : public System::Source<SO3PlannerState>
 {
     /** Initial rotation from the inertial frame to the body frame. Namely
      * \f${}^{\mathcal{I}}R_{\mathcal{B}}\f$ */
@@ -120,7 +120,7 @@ public:
      * features.
      * @return a const reference of the requested object.
      */
-    const SO3PlannerState& get() const final;
+    const SO3PlannerState& getOutput() const final;
 
     /**
      * Determines the validity of the object retrieved with get()
@@ -128,7 +128,7 @@ public:
      * features.
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
+    bool isOutputValid() const final;
 
     /**
      * Advance the internal state. This may change the value retrievable from get().

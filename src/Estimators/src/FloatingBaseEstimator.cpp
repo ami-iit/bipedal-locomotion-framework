@@ -357,7 +357,7 @@ FloatingBaseEstimator::ModelComputations& FloatingBaseEstimator::modelComputatio
 }
 
 
-const FloatingBaseEstimators::Output& FloatingBaseEstimator::get() const
+const FloatingBaseEstimators::Output& FloatingBaseEstimator::getOutput() const
 {
     return m_estimatorOut;
 }
@@ -753,4 +753,3 @@ bool FloatingBaseEstimator::resetEstimator(const FloatingBaseEstimators::Interna
     m_state = newState;
     return true;
 }
-

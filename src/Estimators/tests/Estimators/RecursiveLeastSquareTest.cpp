@@ -111,7 +111,7 @@ TEST_CASE("Recursive Least Square")
     constexpr double admissibleError = 0.1 / 100.0;
 
     // compute the relative error of the parameters
-    const auto& state = estimator.get();
+    const auto& state = estimator.getOutput();
     double relativeError1 = std::abs((state.expectedValue(0) - parameters(0)) / parameters(0));
     double relativeError2 = std::abs((state.expectedValue(1) - parameters(1)) / parameters(1));
 

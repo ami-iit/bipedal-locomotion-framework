@@ -846,7 +846,7 @@ bool QuinticSpline::evaluatePoint(const double& t, QuinticSplineState& state)
     return this->evaluatePoint(t, state.position, state.velocity, state.acceleration);
 }
 
-bool QuinticSpline::isValid() const
+bool QuinticSpline::isOutputValid() const
 {
     // if the time step is different from zero and the user already set the knots the advance
     // capabilities can be used
@@ -856,7 +856,7 @@ bool QuinticSpline::isValid() const
 
 bool QuinticSpline::advance()
 {
-    if (!this->isValid())
+    if (!this->isOutputValid())
     {
         std::cerr << "[QuinticSpline::advance] The advance capabilities cannot be used. Have you "
                      "set the advance time step?"
@@ -875,7 +875,7 @@ bool QuinticSpline::advance()
     return evaluatePoint(m_pimpl->advanceCurrentTime, m_pimpl->currentTrajectory);
 }
 
-const QuinticSplineState& QuinticSpline::get() const
+const QuinticSplineState& QuinticSpline::getOutput() const
 {
     return m_pimpl->currentTrajectory;
 }

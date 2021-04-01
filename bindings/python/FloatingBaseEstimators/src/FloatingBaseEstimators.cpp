@@ -124,11 +124,10 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
         .def_readwrite("forward_kinematics_noise", &SensorsStdDev::forwardKinematicsNoise)
         .def_readwrite("encoders_noise", &SensorsStdDev::encodersNoise);
 
-    py::class_<Advanceable<Output>>(module, "FloatingBaseEstimatorOutputAdvanceable");
+    py::class_<Source<Output>>(module, "FloatingBaseEstimatorOutputSource");
 
-    py::class_<FloatingBaseEstimator, Advanceable<Output>> floatingBaseEstimator(module,
-                                                                                 "FloatingBaseEstim"
-                                                                                 "ator");
+    py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator(module,
+                                                                            "FloatingBaseEstimator");
 
     floatingBaseEstimator.def(py::init())
         .def("set_imu_measurement",
@@ -154,8 +153,8 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
                  &FloatingBaseEstimator::resetEstimator),
              py::arg("new_base_orientation"),
              py::arg("new_base_position"))
-        .def("get", &FloatingBaseEstimator::get)
-        .def("is_valid", &FloatingBaseEstimator::isValid)
+        .def("get_output", &FloatingBaseEstimator::getOutput)
+        .def("is_output_valid", &FloatingBaseEstimator::isOutputValid)
         .def(
             "initialize",
             [](FloatingBaseEstimator& impl,

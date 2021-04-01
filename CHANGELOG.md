@@ -20,7 +20,7 @@ All notable changes to this project are documented in this file.
 - Implement python bindings for VariablesHandler class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/234)
 - Implement `PerceptionFeatures` library and implement `ArucoDetector`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/159)
 - Implement FixedBaseDynamics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
-
+- Implemented Sink and Source classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/267)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
@@ -32,6 +32,7 @@ All notable changes to this project are documented in this file.
 - Use `System::LinearTask` in TSID component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/240)
 - Restructure python bindings in submodules (https://github.com/dic-iit/bipedal-locomotion-framework/pull/238)
 - Integrators and DynamicalSystems are now in the `ContinuousDynamicalSystem` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
+- Add Input template class to `System::Advanceable` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/267)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)

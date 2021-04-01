@@ -16,7 +16,7 @@
 // YARP
 #include <yarp/dev/PolyDriverList.h>
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/RobotInterface/ISensorBridge.h>
 
 namespace BipedalLocomotion
@@ -79,7 +79,7 @@ namespace RobotInterface
  *
  */
 class YarpSensorBridge : public ISensorBridge,
-                         public BipedalLocomotion::System::Advanceable<SensorBridgeMetaData>
+                         public BipedalLocomotion::System::Source<SensorBridgeMetaData>
 {
 public:
     /**
@@ -96,7 +96,7 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the list of device drivers from which the sensor measurements need to be streamed
@@ -115,7 +115,7 @@ public:
      * @brief Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
+    bool isOutputValid() const final;
 
     /**
      * @brief list of sensors that was failed to be read in the current advance() step
@@ -127,7 +127,7 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-    const SensorBridgeMetaData& get() const final;
+    const SensorBridgeMetaData& getOutput() const final;
 
     /**
      * Get joints list

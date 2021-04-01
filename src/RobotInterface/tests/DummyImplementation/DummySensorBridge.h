@@ -20,7 +20,7 @@ namespace RobotInterface
 class DummySensorBridge : public ISensorBridge
 {
 public:
-    virtual bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
     {
         if (!populateSensorBridgeOptionsFromConfig(handler, m_options))
         {
@@ -155,7 +155,7 @@ public:
                                     OptionalDoubleRef receiveTimeInSeconds = {}) override { return true; };
 
 protected:
-    virtual bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool populateSensorBridgeOptionsFromConfig(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                                                       SensorBridgeOptions& sensorBridgeOptions) override
     {
         auto handle = handler.lock();
@@ -184,7 +184,7 @@ protected:
         return true;
     };
 
-    virtual bool populateSensorListsFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool populateSensorListsFromConfig(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                                                const SensorBridgeOptions& sensorBridgeOptions,
                                                SensorLists& sensorLists) override
     {

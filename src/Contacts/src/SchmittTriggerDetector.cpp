@@ -26,7 +26,7 @@ public:
      * Utility function to load vector parameters
      */
     template<typename Scalar>
-    bool setupParamV(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool setupParamV(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                      const std::string& param, std::vector<Scalar>& vec, const std::string& prefix)
     {
         auto handle = handler.lock();
@@ -53,7 +53,7 @@ SchmittTriggerDetector::SchmittTriggerDetector() : m_pimpl(std::make_unique<Impl
 
 SchmittTriggerDetector::~SchmittTriggerDetector() = default;
 
-bool SchmittTriggerDetector::customInitialization(std::weak_ptr<IParametersHandler> handler)
+bool SchmittTriggerDetector::customInitialization(std::weak_ptr<const IParametersHandler> handler)
 {
     std::string printPrefix{"[SchmittTriggerDetector::customInitialization] "};
     auto handle = handler.lock();

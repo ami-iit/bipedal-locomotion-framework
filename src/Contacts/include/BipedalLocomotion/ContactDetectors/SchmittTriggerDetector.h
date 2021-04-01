@@ -109,7 +109,7 @@ protected:
     * @param[in] handler configure the custom parameters for the detector
     * @return True in case of success, false otherwise.
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
+    virtual bool customInitialization(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Update contact states based on thresholding of contact normal forces and timing parameters
@@ -216,5 +216,3 @@ private:
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_SCHMITT_TRIGGER_DETECTOR_H
-
-

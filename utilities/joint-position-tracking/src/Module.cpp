@@ -207,11 +207,11 @@ bool Module::updateModule()
     m_sensorBridge.getJointPositions(m_currentJointPos);
 
     // set the reference
-    m_robotControl.setReferences(m_spline.get().position,
+    m_robotControl.setReferences(m_spline.getOutput().position,
                                  RobotInterface::IRobotControl::ControlMode::PositionDirect);
 
     m_logJointPos.push_back(m_currentJointPos[0]);
-    m_logDesiredJointPos.push_back(m_spline.get().position[0]);
+    m_logDesiredJointPos.push_back(m_spline.getOutput().position[0]);
 
     // advance the spline
     m_spline.advance();
@@ -257,7 +257,7 @@ bool Module::close()
     std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
 
     // switch back in position control
-    m_robotControl.setReferences(m_spline.get().position,
+    m_robotControl.setReferences(m_spline.getOutput().position,
                                  RobotInterface::IRobotControl::ControlMode::Position);
 
     return true;

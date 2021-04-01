@@ -14,7 +14,7 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -33,7 +33,7 @@ struct RecursiveLeastSquareState
     Eigen::MatrixXd covariance; /**< Covariance matrix of the state */
 };
 
-class RecursiveLeastSquare : public System::Advanceable<RecursiveLeastSquareState>
+class RecursiveLeastSquare : public System::Source<RecursiveLeastSquareState>
 {
 
     RecursiveLeastSquareState m_state; /**< State of the RLS algorithm */
@@ -87,7 +87,7 @@ public:
      * @tparameter Derived particular implementation of the IParameterHandler
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handlerWeak);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handlerWeak) override;
 
     /**
      * Set the regressor function.
@@ -125,13 +125,13 @@ public:
      * @return A struct containing the expected value and the covariance of the estimated
      * parameters.
      */
-    const RecursiveLeastSquareState& get() const final;
+    const RecursiveLeastSquareState& getOutput() const final;
 
     /**
      * Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
+    bool isOutputValid() const final;
 };
 } // namespace Estimators
 } // namespace BipedalLocomotion

@@ -91,6 +91,6 @@ def test_legged_odometry():
         assert legged_odom.advance()
 
         # sample asserts for show-casing outputs
-        out = legged_odom.get()
+        out = legged_odom.get_output()
         assert len(out.base_twist) == 6
         assert len(out.state.imu_linear_velocity) == 3

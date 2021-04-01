@@ -10,7 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/Planners/DCMPlanner.h>
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/bindings/Planners/DCMPlanner.h>
 
 namespace BipedalLocomotion
@@ -34,9 +34,9 @@ void CreateDCMPlanner(pybind11::module& module)
         .def_readwrite("omega", &DCMPlannerState::omega)
         .def_readwrite("omega_dot", &DCMPlannerState::omegaDot);
 
-    py::class_<Advanceable<DCMPlannerState>>(module, "DCMPlannerStateAdvanceable");
+    py::class_<Source<DCMPlannerState>>(module, "DCMPlannerStateSource");
 
-    py::class_<DCMPlanner, Advanceable<DCMPlannerState>>(module, "DCMPlanner")
+    py::class_<DCMPlanner, Source<DCMPlannerState>>(module, "DCMPlanner")
         .def("set_initial_state", &DCMPlanner::setInitialState, py::arg("state"))
         .def("set_contact_phase_list",
              &DCMPlanner::setContactPhaseList,

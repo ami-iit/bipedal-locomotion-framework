@@ -24,7 +24,7 @@ bool PolyDriverDescriptor::isValid() const
 }
 
 PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBoardRemapper(
-    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     constexpr std::string_view errorPrefix = "[constructRemoteControlBoardRemapper] ";
 
@@ -90,7 +90,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
 }
 
 PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorClient(
-    std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     constexpr std::string_view errorPrefix = "[constructGenericSensorClient] ";
 

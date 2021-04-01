@@ -73,7 +73,7 @@ TEST_CASE("Schmitt Trigger Detector")
     params.switchOnAfter = 0.2;
 
     detector.addContact("left", false, params, 0.6);
-    auto contacts = detector.get();
+    auto contacts = detector.getOutput();
     REQUIRE(contacts.size() == 2);
 
     // test multiple measurement updates
@@ -93,14 +93,14 @@ TEST_CASE("Schmitt Trigger Detector")
     detector.setTimedTriggerInputs(timedForces);
     detector.advance();
 
-    contacts = detector.get();
+    contacts = detector.getOutput();
     REQUIRE(contacts["right"].isActive);
     REQUIRE(contacts["left"].isActive);
     REQUIRE(contacts["right"].switchTime == 0.9);
 
     // Test removing contact
     REQUIRE(detector.removeContact("left"));
-    contacts = detector.get();
+    contacts = detector.getOutput();
     REQUIRE(contacts.size() == 1);
 
     // Test resetting contact

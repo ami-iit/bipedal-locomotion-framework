@@ -8,7 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
 #define BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
@@ -29,7 +29,7 @@ namespace Estimators
 *  @note it is assumed that if an IMU (primary) is specified in the inherited implementation,
 *  then this IMU is rigidly attached to the specified base link in the implementation
 */
-class FloatingBaseEstimator : public BipedalLocomotion::System::Advanceable<FloatingBaseEstimators::Output>
+class FloatingBaseEstimator : public BipedalLocomotion::System::Source<FloatingBaseEstimators::Output>
 {
 public:
     FloatingBaseEstimator();
@@ -231,13 +231,13 @@ public:
     * Get estimator outputs
     * @return A struct containing he estimated internal states of the estiamtor and the associated covariance matrix
     */
-    virtual const FloatingBaseEstimators::Output& get() const final;
+    virtual const FloatingBaseEstimators::Output& getOutput() const final;
 
     /**
     * Determines the validity of the object retrieved with get()
     * @return True in case of success, false otherwise.
     */
-    virtual bool isValid() const final { return (m_estimatorState == State::Running); };
+    virtual bool isOutputValid() const final { return (m_estimatorState == State::Running); };
 
     /**
     * Get ModelComputations object by reference
@@ -421,4 +421,3 @@ private:
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
-

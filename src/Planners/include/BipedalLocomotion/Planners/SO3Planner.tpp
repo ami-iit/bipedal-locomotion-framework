@@ -140,7 +140,8 @@ bool SO3Planner<trivialization>::setAdvanceTimeStep(const double& dt)
     return true;
 }
 
-template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>::isValid() const
+template <LieGroupTrivialization trivialization>
+bool SO3Planner<trivialization>::isOutputValid() const
 {
     // if the time step is different from zero
     return (m_advanceTimeStep != 0.0);
@@ -148,7 +149,7 @@ template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>
 
 template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>::advance()
 {
-    if (!this->isValid())
+    if (!this->isOutputValid())
     {
         std::cerr << "[SO3Planner::advance] The advance capabilities cannot be used. Did you "
                      "set the advance time step?"
@@ -164,7 +165,7 @@ template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>
 }
 
 template <LieGroupTrivialization trivialization>
-const SO3PlannerState& SO3Planner<trivialization>::get() const
+const SO3PlannerState& SO3Planner<trivialization>::getOutput() const
 {
     return m_state;
 }

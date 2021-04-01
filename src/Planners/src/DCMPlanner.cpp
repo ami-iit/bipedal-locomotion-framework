@@ -10,11 +10,6 @@
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
 
-bool DCMPlanner::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
-{
-    return true;
-}
-
 bool DCMPlanner::setContactPhaseList(const ContactPhaseList& contactPhaseList)
 {
     m_contactPhaseList = contactPhaseList;

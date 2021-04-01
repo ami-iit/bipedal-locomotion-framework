@@ -54,7 +54,7 @@ def test_schmitt_trigger_detector():
     params.switch_off_after = 0.2
     params.switch_on_after = 0.2
     detector.add_contact("left", False, params, 0.6)
-    contacts = detector.get()
+    contacts = detector.get_output()
     assert(len(contacts) == 2)
     assert(contacts["right"].is_active == False)
 
@@ -71,7 +71,7 @@ def test_schmitt_trigger_detector():
 
     # test removing a contact
     assert(detector.remove_contact("left"))
-    contacts = detector.get()
+    contacts = detector.get_output()
     assert(len(contacts) == 1)
 
     # test resetting a contact

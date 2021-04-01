@@ -409,12 +409,12 @@ bool QPInverseKinematics::advance()
     return true;
 }
 
-bool QPInverseKinematics::isValid() const
+bool QPInverseKinematics::isOutputValid() const
 {
     return m_pimpl->isValid;
 }
 
-const IntegrationBasedIKState& QPInverseKinematics::get() const
+const IntegrationBasedIKState& QPInverseKinematics::getOutput() const
 {
     return m_pimpl->solution;
 }
@@ -435,7 +435,7 @@ std::weak_ptr<System::LinearTask> QPInverseKinematics::getTask(const std::string
     return task->second.task;
 }
 
-bool QPInverseKinematics::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool QPInverseKinematics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::initialize]";
 
