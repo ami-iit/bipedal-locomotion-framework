@@ -48,6 +48,18 @@ public:
      * @return the current time computed from `yarp::os::Time::now()`
      */
     std::chrono::duration<double> now() final;
+
+    /**
+     * Blocks the execution of the current thread for at least the specified sleepDuration.
+     * @param time duration to sleep
+     */
+    void sleepFor(const std::chrono::duration<double>& sleepDuration) final;
+
+    /**
+     * Blocks the execution of the current thread until specified sleepTime has been reached.
+     * @param time to block until
+     */
+    void sleepUntil(const std::chrono::duration<double>& sleepTime) final;
 };
 
 class YarpClockFactory final : public ClockFactory

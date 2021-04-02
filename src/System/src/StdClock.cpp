@@ -6,6 +6,7 @@
  */
 
 #include <chrono>
+#include <thread>
 
 #include <BipedalLocomotion/System/StdClock.h>
 
@@ -14,6 +15,16 @@ using namespace BipedalLocomotion::System;
 std::chrono::duration<double> StdClock::now()
 {
     return std::chrono::system_clock::now().time_since_epoch();
+}
+
+void StdClock::sleepFor(const std::chrono::duration<double>& sleepDuration)
+{
+    std::this_thread::sleep_for(sleepDuration);
+}
+
+void StdClock::sleepUntil(const std::chrono::duration<double>& time)
+{
+    std::this_thread::sleep_for(time - std::chrono::system_clock::now().time_since_epoch());
 }
 
 IClock& StdClockFactory::createClock()

@@ -43,6 +43,18 @@ public:
      * @return The current time. The output of the function depends on the concrete implementation.
      */
     virtual std::chrono::duration<double> now() = 0;
+
+    /**
+     * Blocks the execution of the current thread for at least the specified sleepDuration.
+     * @param time duration to sleep
+     */
+    virtual void sleepFor(const std::chrono::duration<double>& sleepDuration) = 0;
+
+    /**
+     * Blocks the execution of the current thread until specified sleepTime has been reached.
+     * @param time to block until
+     */
+    virtual void sleepUntil(const std::chrono::duration<double>& time) = 0;
 };
 
 /**

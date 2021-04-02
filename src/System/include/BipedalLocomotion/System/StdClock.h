@@ -38,6 +38,20 @@ public:
      * @return the current time since epoch computed with std::chrono::system_clock
      */
     std::chrono::duration<double> now() final;
+
+    /**
+     * Blocks the execution of the current thread for at least the specified sleepDuration.
+     * @param time duration to sleep
+     * @note std::this_tread::sleep_for() function is used.
+     */
+    void sleepFor(const std::chrono::duration<double>& sleepDuration) final;
+
+    /**
+     * Blocks the execution of the current thread until specified sleepTime has been reached.
+     * @param time to block until
+     * @note sleepTime is the duration since epoch
+     */
+    void sleepUntil(const std::chrono::duration<double>& sleepTime) final;
 };
 
 class StdClockFactory final : public ClockFactory
