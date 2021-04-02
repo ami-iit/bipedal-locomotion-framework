@@ -8,7 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_TASK_SPACE_INVERSE_DYNAMICS_H
 #define BIPEDAL_LOCOMOTION_TASK_SPACE_INVERSE_DYNAMICS_H
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/System/LinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -48,17 +48,10 @@ struct TSIDState
  * <br/>
  * <img src="https://user-images.githubusercontent.com/43743081/112606007-308f7780-8e18-11eb-875f-d8a7c4b960eb.png" width="1500">
  */
-class TaskSpaceInverseDynamics : public BipedalLocomotion::System::Advanceable<TSIDState>
+class TaskSpaceInverseDynamics : public BipedalLocomotion::System::Source<TSIDState>
 {
 
 public:
-    /**
-     * Initialize the task space inverse dynamics algorithm.
-     * @param handler pointer to the IParametersHandler interface.
-     * @return true in case of success/false otherwise.
-     */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
-
     /**
      * Add a linear task in the task space inverse dynamics
      * @param task pointer to a given linear task

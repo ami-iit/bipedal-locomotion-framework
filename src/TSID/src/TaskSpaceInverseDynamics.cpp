@@ -9,12 +9,6 @@
 
 using namespace BipedalLocomotion::TSID;
 
-bool TaskSpaceInverseDynamics::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
-{
-    return true;
-};
-
-
 bool TaskSpaceInverseDynamics::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     return true;
