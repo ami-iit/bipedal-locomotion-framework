@@ -17,7 +17,7 @@ namespace System
 
 /**
  * IClock is the interface to the clock. The Clock is considered as a singleton. Please use the
- * ClockBuilder to create a clock. The default clock built is the System::StdClock which uses only
+ * ClockBuilder to create a clock. The default clock is the System::StdClock which uses only
  * the std methods. To get the current time you can simply use the following line of code
  * \code{.cpp}
  * BipedalLocomotion::clock().now();

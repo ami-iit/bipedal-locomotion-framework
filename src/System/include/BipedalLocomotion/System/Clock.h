@@ -33,7 +33,7 @@ class ClockBuilder
 
 public:
     /**
-    * Set a custom factory..
+    * Set a custom factory.
     * @param factory. A pointer to an existing factory.
     * @return True in case success, false otherwise.
     */

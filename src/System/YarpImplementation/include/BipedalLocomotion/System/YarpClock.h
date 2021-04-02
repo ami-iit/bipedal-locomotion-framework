@@ -20,7 +20,7 @@ namespace System
 {
 
 /**
- * YarpClock implements a the IClock interface using yarp functions.
+ * YarpClock implements the IClock interface using yarp functions.
  * The clock can be easily used as follows
  * \code{.cpp}
  * #include <BipedalLocomotion/System/Clock.h>

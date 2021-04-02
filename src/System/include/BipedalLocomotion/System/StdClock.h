@@ -18,7 +18,7 @@ namespace System
 {
 
 /**
- * StdClock implements a the IClock interface using.
+ * StdClock implements the IClock interface using `<chrono>` from c++std library.
  * The clock can be easily used as follows
  * \code{.cpp}
  * #include <BipedalLocomotion/System/Clock.h>
