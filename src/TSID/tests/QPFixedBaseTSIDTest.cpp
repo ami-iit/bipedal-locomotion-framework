@@ -285,7 +285,7 @@ TEST_CASE("QP-TSID")
                 REQUIRE(tsidAndTasks.tsid->advance());
 
                 // get the output of the TSID
-                jointTorque = tsidAndTasks.tsid->get().jointTorques;
+                jointTorque = tsidAndTasks.tsid->getOutput().jointTorques;
 
                 // propagate the dynamical system
                 system.dynamics->setControlInput({jointTorque});
