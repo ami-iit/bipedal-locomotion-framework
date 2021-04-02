@@ -10,6 +10,8 @@
 
 #include <BipedalLocomotion/System/IClock.h>
 
+#include <yarp/os/Network.h>
+
 #include <chrono>
 
 namespace BipedalLocomotion
@@ -24,8 +26,6 @@ namespace System
  * #include <BipedalLocomotion/System/Clock.h>
  * #include <BipedalLocomotion/System/YarpClock.h>
  *
- * yarp::os::Network::init(); //<------ This is required by yarp to use the clock
- *
  * // Change the clock
  * BipedalLocomotion::System::ClockBuilder::setFactory(std::make_shared<BipedalLocomotion::System::YarpClockFactory>()));
  *
@@ -34,11 +34,14 @@ namespace System
  * auto end = BipedalLocomotion::clock().now();
  * std::chrono::duration<double, std::milli> elapsed = end-start;
  * \endcode
- * @note Please call `yarp::os::Network::init();` before using the clock. `YARP::YARP_init`
- * component is required.
  */
 class YarpClock final : public IClock
 {
+    /**
+     * A yarp network instance. This automatically call some function required by yarp::os::Time
+     */
+    yarp::os::Network m_network;
+
 public:
     /**
      * Get YARP current time

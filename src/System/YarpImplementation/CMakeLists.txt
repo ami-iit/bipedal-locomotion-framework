@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
     NAME                   SystemYarpImplementation
     SOURCES                src/YarpClock.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/System/YarpClock.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::System
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::System YARP::YARP_init
     PRIVATE_LINK_LIBRARIES YARP::YARP_os
     INSTALLATION_FOLDER    System)
 
