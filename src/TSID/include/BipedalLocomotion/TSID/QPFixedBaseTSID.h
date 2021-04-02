@@ -30,7 +30,6 @@ namespace TSID
  */
 class QPFixedBaseTSID : public TaskSpaceInverseDynamics
 {
-
    /**
      * Private implementation
      */
@@ -96,10 +95,10 @@ public:
      * |             `verbosity`              |  `bool`  |                        Verbosity of the solver. Default value `false`                              |     No    |
      * Where the generalized robot acceleration is a vector containing the base spatialacceleration
      (expressed in mixed representation) and the joint accelerations,
-     * the generalized robot torques is a vector containing the joint torques and the 
+     * the generalized robot torques is a vector containing the joint torques and the
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) override;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
      * Finalize the TSID.
@@ -119,12 +118,12 @@ public:
      * Get the outcome of the optimization problem
      * @return the state of the TSID.
      */
-    const TSIDState& get() const override;
+    const TSIDState& getOutput() const override;
 
     /**
      * Return true if the content of get is valid.
      */
-    bool isValid() const override;
+    bool isOutputValid() const override;
 
     /**
      * Set the kinDynComputations object.

@@ -29,7 +29,7 @@ struct QPFixedBaseTSID::Impl
         Eigen::MatrixXd tmp; /**< This is a temporary matrix usefull to reduce dynamics allocation
                                 in advance method */
     };
-    
+
     std::unordered_map<std::string, TaskWithPriority> tasks;
     std::vector<std::reference_wrapper<const TaskWithPriority>> constraints;
     std::vector<std::reference_wrapper<TaskWithPriority>> costs;
@@ -340,7 +340,7 @@ bool QPFixedBaseTSID::createDynamicsTask()
     return true;
 }
 
-bool QPFixedBaseTSID::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool QPFixedBaseTSID::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[QPFixedBaseTSID::initialize]";
 
@@ -590,12 +590,12 @@ bool QPFixedBaseTSID::advance()
     return true;
 }
 
-const TSIDState& QPFixedBaseTSID::get() const
+const TSIDState& QPFixedBaseTSID::getOutput() const
 {
     return m_pimpl->solution;
 }
 
-bool QPFixedBaseTSID::isValid() const
+bool QPFixedBaseTSID::isOutputValid() const
 {
     return m_pimpl->isValid;
 }
