@@ -36,6 +36,8 @@ public:
     /**
      * Get the system current time
      * @return the current time since epoch computed with std::chrono::system_clock
+     * @note `BipedalLocomotion::clock().now().count()` returns a double containing the seconds
+     * since epoch
      */
     std::chrono::duration<double> now() final;
 

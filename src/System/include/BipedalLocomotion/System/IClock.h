@@ -41,6 +41,8 @@ public:
     /**
      * Get the current time
      * @return The current time. The output of the function depends on the concrete implementation.
+     * @note `BipedalLocomotion::clock().now().count()` returns a double containing the seconds
+     * since epoch.
      */
     virtual std::chrono::duration<double> now() = 0;
 

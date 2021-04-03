@@ -46,6 +46,8 @@ public:
     /**
      * Get YARP current time
      * @return the current time computed from `yarp::os::Time::now()`
+     * @note `BipedalLocomotion::clock().now().count()` returns a double containing the seconds
+     * since epoch.
      */
     std::chrono::duration<double> now() final;
 
