@@ -67,6 +67,8 @@ struct YarpRobotControl::Impl
     JointsControlValuesAndMode desiredJointValuesAndMode; /**< Struct containing the information
                                                              regarding the desired joint value and
                                                              the control mode */
+    std::vector<double> positionControlRefSpeeds; /**< Vector containing the ref speed in
+                                                     deg/seconds for the position control joints. */
 
     double positioningDuration{0.0}; /**< Duration of the trajectory generated when the joint is
                                         controlled in position mode */
@@ -202,6 +204,10 @@ struct YarpRobotControl::Impl
             this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
         }
 
+        // resize the position control reference speed vector
+        this->positionControlRefSpeeds.resize(
+            this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].size());
+
         return true;
     }
 
@@ -303,7 +309,7 @@ struct YarpRobotControl::Impl
         this->controlModes.resize(this->actuatedDOFs);
         this->controlModesYarp.resize(this->actuatedDOFs);
         this->axesName.resize(this->actuatedDOFs);
-
+        this->positionControlRefSpeeds.resize(this->actuatedDOFs);
 
         // populate the axesName vector
         for (int i = 0; i < this->actuatedDOFs; i++)
@@ -451,7 +457,6 @@ struct YarpRobotControl::Impl
 
             } else if (mode == IRobotControl::ControlMode::Position)
             {
-                std::vector<double> refSpeeds(indeces.size());
                 for (int i = 0; i < indeces.size(); i++)
                 {
                     const auto jointError = std::abs(jointValues[indeces[i]]
@@ -459,12 +464,19 @@ struct YarpRobotControl::Impl
 
                     constexpr double scaling = 180 / M_PI;
                     constexpr double maxVelocityInDegPerSeconds = 3.0;
-                    refSpeeds[i] = std::max(maxVelocityInDegPerSeconds,
-                                            scaling * (jointError / this->positioningDuration));
+                    this->positionControlRefSpeeds[i]
+                        = std::max(maxVelocityInDegPerSeconds,
+                                   scaling * (jointError / this->positioningDuration));
+                }
 
-                    this->positionInterface->setRefSpeeds(indeces.size(),
-                                                          indeces.data(),
-                                                          refSpeeds.data());
+                if (!this->positionInterface->setRefSpeeds(indeces.size(),
+                                                           indeces.data(),
+                                                           this->positionControlRefSpeeds.data()))
+                {
+                    log()->error("{} Unable to set the reference speed for the position control "
+                                 "joints.",
+                                 errorPrefix);
+                    return false;
                 }
 
                 this->startPositionControlInstant = yarp::os::Time::now();
