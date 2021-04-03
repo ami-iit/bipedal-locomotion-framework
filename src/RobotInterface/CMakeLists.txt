@@ -11,6 +11,7 @@ add_bipedal_locomotion_library(
     SOURCES                src/IRobotControl.cpp
     PUBLIC_HEADERS         ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/IRobotControl.h
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging
     SUBDIRECTORIES         YarpImplementation tests)
 endif()
 
@@ -23,4 +24,3 @@ add_bipedal_locomotion_library(
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler ${OpenCV_LIBS} ${PCL_LIBRARIES}
     INSTALLATION_FOLDER    RobotInterface)
 endif()
-

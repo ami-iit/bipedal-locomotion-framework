@@ -20,6 +20,7 @@
 #include <yarp/os/Time.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::RobotInterface;
 
@@ -132,11 +133,11 @@ struct YarpRobotControl::Impl
 
     bool getControlModes()
     {
-        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::getControlModes] ";
+        constexpr auto errorPrefix = "[YarpRobotControl::Impl::getControlModes]";
 
         if (this->controlModeInterface == nullptr)
         {
-            std::cerr << errorPrefix << "The control mode I/F is not ready." << std::endl;
+            log()->error("{} The control mode I/F is not ready.", errorPrefix);
             return false;
         }
 
@@ -146,7 +147,7 @@ struct YarpRobotControl::Impl
         {
             if (++counter == this->maxReadingAttempts)
             {
-                std::cerr << errorPrefix << "Error while reading the control mode." << std::endl;
+                log()->error("{} Error while reading the control mode.", errorPrefix);
                 return false;
             }
 
@@ -164,11 +165,11 @@ struct YarpRobotControl::Impl
 
     bool setControlModes(const std::vector<IRobotControl::ControlMode>& controlModes)
     {
-        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setControlModes] ";
+        constexpr auto errorPrefix = "[YarpRobotControl::Impl::setControlModes]";
 
         if (this->controlModeInterface == nullptr)
         {
-            std::cerr << errorPrefix << "The control mode I/F is not ready." << std::endl;
+            log()->error("{} The control mode I/F is not ready.", errorPrefix);
             return false;
         }
 
@@ -191,7 +192,7 @@ struct YarpRobotControl::Impl
         // set the control mode
         if (!this->controlModeInterface->setControlModes(this->controlModesYarp.data()))
         {
-            std::cerr << errorPrefix << "Error settings the control mode." << std::endl;
+            log()->error("{} Error settings the control mode.", errorPrefix);
             return false;
         }
 
@@ -206,11 +207,11 @@ struct YarpRobotControl::Impl
 
     bool getJointPos()
     {
-        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::getJointPos] ";
+        constexpr auto errorPrefix = "[YarpRobotControl::Impl::getJointPos]";
 
         if (this->encodersInterface == nullptr)
         {
-            std::cerr << errorPrefix << "The encoder I/F is not ready." << std::endl;
+            log()->error("{} The control mode I/F is not ready.", errorPrefix);
             return false;
         }
 
@@ -220,7 +221,7 @@ struct YarpRobotControl::Impl
         {
             if (++counter == this->maxReadingAttempts)
             {
-                std::cerr << errorPrefix << "Error while reading the encoders." << std::endl;
+                log()->error("{} Error while reading the encoders.", errorPrefix);
                 return false;
             }
 
@@ -236,57 +237,55 @@ struct YarpRobotControl::Impl
 
     bool setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDevice)
     {
-        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setDriver] ";
+        constexpr auto errorPrefix = "[YarpRobotControl::Impl::setDriver]";
 
         if (robotDevice == nullptr)
         {
-            std::cerr << errorPrefix
-                      << "The robotDevice is pointing to an non initialized memory."
-                      << std::endl;
+            log()->error("{} The robotDevice is pointing to an non initialized memory.",
+                         errorPrefix);
             return false;
         }
 
         // obtain the interfaces
         if (!robotDevice->view(encodersInterface) || encodersInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IEncodersTimed interface." << std::endl;
+            log()->error("{} Cannot load the IEncodersTimed interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(positionInterface) || positionInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IPositionControl interface." << std::endl;
+            log()->error("{} Cannot load the IPositionControl interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(positionDirectInterface) || positionDirectInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IPositionDirect interface." << std::endl;
+            log()->error("{} Cannot load the IPositionDirect interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(velocityInterface) || velocityInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IVelocityInterface interface."
-                      << std::endl;
+            log()->error("{} Cannot load the IVelocityControl interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(torqueInterface) || torqueInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the ITorqueInterface interface." << std::endl;
+            log()->error("{} Cannot load the ITorqueControl interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(controlModeInterface) || controlModeInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IControlMode interface." << std::endl;
+            log()->error("{} Cannot load the IControlMode interface.", errorPrefix);
             return false;
         }
 
         if (!robotDevice->view(axisInfoInterface) || axisInfoInterface == nullptr)
         {
-            std::cerr << errorPrefix << "Cannot load the IAxisInfo interface." << std::endl;
+            log()->error("{} Cannot load the IAxisInfo interface.", errorPrefix);
             return false;
         }
 
@@ -294,7 +293,7 @@ struct YarpRobotControl::Impl
         int dofs = 0;
         if (!encodersInterface->getAxes(&dofs))
         {
-            std::cerr << errorPrefix << "Cannot get the actuated DoFs." << std::endl;
+            log()->error("{} Cannot get the actuated DoFs.", errorPrefix);
             return false;
         }
         this->actuatedDOFs = dofs;
@@ -317,7 +316,7 @@ struct YarpRobotControl::Impl
 
         if (!this->getControlModes())
         {
-            std::cerr << errorPrefix << "Unable to get the control modes." << std::endl;
+            log()->error("{} Unable to get the control modes.", errorPrefix);
             return false;
         }
 
@@ -407,11 +406,11 @@ struct YarpRobotControl::Impl
 
     bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues)
     {
-        constexpr std::string_view errorPrefix = "[YarpRobotControl::Impl::setReferences] ";
+        constexpr auto errorPrefix = "[YarpRobotControl::Impl::setReferences]";
 
         if(!this->getJointPos())
         {
-            std::cerr << errorPrefix << "Unable to get the joint position." << std::endl;
+            log()->error("{} Unable to get the joint position.", errorPrefix);
             return  false;
         }
 
@@ -420,10 +419,12 @@ struct YarpRobotControl::Impl
 
         if (worstError.second > this->positionDirectMaxAdmissibleError)
         {
-            std::cerr << errorPrefix << "The worst error between the current and the "
-                      << "desired position of the joint named '" << this->axesName[worstError.first]
-                      << "' is greater than " << this->positionDirectMaxAdmissibleError
-                      << " rad. Error = " << worstError.second << " rad." << std::endl;
+            log()->error("{} The worst error between the current and the desired position of the "
+                         "joint named '{}' is greater than {} deg. Error = {} deg.",
+                         errorPrefix,
+                         this->axesName[worstError.first],
+                         180 / M_PI * this->positionDirectMaxAdmissibleError,
+                         180 / M_PI * worstError.second);
             return false;
         }
 
@@ -438,15 +439,14 @@ struct YarpRobotControl::Impl
 
             else if (mode == IRobotControl::ControlMode::Unknown)
             {
-                std::string error = " The following joints does not have a specified control "
-                                    "mode: ";
-
+                std::string joints = "";
                 for (const auto& index : indeces)
-                    error += "'" + this->axesName[index] + "' ";
+                    joints += " '" + this->axesName[index] + "'";
 
-                std::cerr << errorPrefix << error << ". Please set a feasible control mode."
-                          << std::endl;
-
+                log()->error("{} The following joints does not have a specified control "
+                             "mode:{}. Please set a feasible control mode.",
+                             errorPrefix,
+                             joints);
                 return false;
 
             } else if (mode == IRobotControl::ControlMode::Position)
@@ -483,7 +483,7 @@ struct YarpRobotControl::Impl
                                      this->desiredJointValuesAndMode.value[mode].data()))
 
             {
-                std::cerr << errorPrefix << "Unable to set the desired joint values." << std::endl;
+                log()->error("{} Unable to set the desired joint values.", errorPrefix);
                 return false;
             }
         }
@@ -505,13 +505,13 @@ bool YarpRobotControl::setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDev
 
 bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
-    constexpr std::string_view errorPrefix = "[YarpRobotControl::initialize] ";
+    constexpr auto errorPrefix = "[YarpRobotControl::initialize]";
 
     auto ptr = handler.lock();
     if (ptr == nullptr)
     {
-        std::cerr << errorPrefix << "The handler is not pointing to an already initialized memory."
-                  << std ::endl;
+        log()->error("{} The handler is not pointing to an already initialized memory.",
+                     errorPrefix);
         return false;
     }
 
@@ -522,8 +522,8 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
         // the reading timeout has to be a positive number
         if (temp < 0)
         {
-            std::cerr << errorPrefix << "'reading_timeout' parameter has to be a positive number."
-                      << std ::endl;
+            log()->error("{} 'reading_timeout' parameter has to be a positive number.",
+                         errorPrefix);
             return false;
         }
         m_pimpl->readingTimeout = temp;
@@ -534,9 +534,10 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
         // the max_reading_attempts has to be a strictly positive number
         if (temp <= 0)
         {
-            std::cerr << errorPrefix
-                      << "'max_reading_attempts' parameter has to be a strictly positive number."
-                      << std ::endl;
+            log()->error("{} 'max_reading_attempts' parameter has to be a strictly positive "
+                         "number.",
+                         errorPrefix);
+
             return false;
         }
         m_pimpl->maxReadingAttempts = temp;
@@ -562,9 +563,7 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValu
         m_pimpl->controlModes = controlModes;
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            std::cerr << "[YarpRobotControl::setReferences] Unable to switch in "
-                         "position-direct control mode."
-                      << std::endl;
+            log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
             return false;
         }
     }
@@ -584,8 +583,7 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJo
         std::fill(m_pimpl->controlModes.begin(), m_pimpl->controlModes.end(), mode);
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            std::cerr << "[YarpRobotControl::setReferences] Unable to the desired control mode."
-                      << std::endl;
+            log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
             return false;
         }
     }
@@ -594,22 +592,21 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJo
 }
 
 bool YarpRobotControl::checkMotionDone(bool& motionDone,
-                                         bool& isTimeExpired,
-                                         std::vector<std::pair<std::string, double>>& info)
+                                       bool& isTimeExpired,
+                                       std::vector<std::pair<std::string, double>>& info)
 {
-    constexpr std::string_view errorPrefix = "[YarpRobotControl::checkMotionDone] ";
+    constexpr auto errorPrefix = "[YarpRobotControl::checkMotionDone]";
 
     if (!m_pimpl->positionInterface->checkMotionDone(&motionDone))
     {
-        std::cerr << errorPrefix
-                  << "Unable to check if the motion is terminated from the Yarp interface."
-                  << std::endl;
+        log()->error("{} Unable to check if the motion is terminated from the Yarp interface.",
+                     errorPrefix);
         return false;
     }
 
     if (!m_pimpl->getJointPos())
     {
-        std::cerr << errorPrefix << "Unable to get the joint position." << std::endl;
+        log()->error("{} Unable to get the joint position.", errorPrefix);
         return false;
     }
 
