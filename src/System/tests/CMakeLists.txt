@@ -6,3 +6,8 @@ add_bipedal_test(
   NAME VariablesHandler
   SOURCES VariablesHandlerTest.cpp
   LINKS BipedalLocomotion::System)
+
+add_bipedal_test(
+  NAME AdvanceableRunner
+  SOURCES AdvanceableRunnerTest.cpp
+  LINKS BipedalLocomotion::System BipedalLocomotion::TextLogging BipedalLocomotion::ParametersHandler)
