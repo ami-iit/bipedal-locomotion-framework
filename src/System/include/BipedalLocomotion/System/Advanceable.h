@@ -22,7 +22,7 @@ namespace System
  */
 using EmptySignal = std::monostate;
 
-template <class Input, class Output> class Advanceable;
+template <class _Input, class _Output> class Advanceable;
 } // namespace System
 } // namespace BipedalLocomotion
 
@@ -30,8 +30,11 @@ template <class Input, class Output> class Advanceable;
  * Basic class that represents a discrete system. The interface contains method to set inputs and
  * output.
  */
-template <class Input, class Output> struct BipedalLocomotion::System::Advanceable
+template <class _Input, class _Output> struct BipedalLocomotion::System::Advanceable
 {
+    using Input = _Input;
+    using Output = _Output;
+
     /**
      * @brief Initialize the advanceable
      * @note the default implementation does nothing.
@@ -81,8 +84,8 @@ template <class Input, class Output> bool Advanceable<Input, Output>::close()
     return true;
 }
 
-template <class Input, class Output>
-bool Advanceable<Input, Output>::initialize(
+template <class _Input, class _Output>
+bool Advanceable<_Input, _Output>::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     return true;
