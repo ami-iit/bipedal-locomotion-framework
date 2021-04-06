@@ -271,7 +271,7 @@ struct YarpCameraBridge::Impl
     bool attachAllCameras(const yarp::dev::PolyDriverList& devList)
     {
         std::string_view printPrefix{"[YarpCameraBridge::attachAllCameras] "};
-        if (!metaData.bridgeOptions.isRGBCameraEnabled && 
+	if (!metaData.bridgeOptions.isRGBCameraEnabled &&
             !metaData.bridgeOptions.isRGBDCameraEnabled)
         {
              // do nothing
@@ -562,7 +562,7 @@ bool YarpCameraBridge::getColorImage(const std::string& camName,
         colorImg = yarp::cv::toCvMat(m_pimpl->rgbImage.first);
         receiveTimeInSeconds = m_pimpl->rgbImage.second;
     }
-    else 
+    else
     {
         m_pimpl->flexImage.first.zero();
         if (!m_pimpl->resizeImageBuffer(camName, m_pimpl->metaData.bridgeOptions.rgbdImgDimensions, m_pimpl->flexImage))
