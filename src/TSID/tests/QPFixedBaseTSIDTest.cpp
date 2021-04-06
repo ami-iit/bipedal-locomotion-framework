@@ -103,7 +103,6 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
 
     TSIDAndTasks out;
 
-    constexpr std::size_t highPriority = 0;
     constexpr std::size_t lowPriority = 1;
 
     out.tsid = std::make_shared<QPFixedBaseTSID>();
@@ -113,7 +112,7 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     out.se3Task = std::make_shared<SE3Task>();
     REQUIRE(out.se3Task->setKinDyn(kinDyn));
     REQUIRE(out.se3Task->initialize(handler->getGroup("EE_SE3_TASK")));
-    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", highPriority));
+    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", lowPriority));
 
     out.regularizationTask = std::make_shared<JointTrackingTask>();
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
