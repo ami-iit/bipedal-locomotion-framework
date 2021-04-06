@@ -67,8 +67,8 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
     parameterHandler->setParameter("verbosity", false);
 
     /////// SE3 Task
-    constexpr double kp_se3task = 16.0;
-    constexpr double kd_se3task = 8.0;
+    constexpr double kp_se3task = 100.0;
+    constexpr double kd_se3task = 20.0;
     auto SE3ParameterHandler = std::make_shared<StdImplementation>();
 
     SE3ParameterHandler->setParameter("robot_acceleration_variable_name",
@@ -98,6 +98,7 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     const Eigen::VectorXd kpRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd kdRegularization = 2 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd weightRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
+    const Eigen::VectorXd weightSE3Task = 1 * Eigen::VectorXd::Ones(6); // 6 is the size of the end-effector DoF
     handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kp", kpRegularization);
     handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kd", kdRegularization);
 
@@ -112,7 +113,7 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     out.se3Task = std::make_shared<SE3Task>();
     REQUIRE(out.se3Task->setKinDyn(kinDyn));
     REQUIRE(out.se3Task->initialize(handler->getGroup("EE_SE3_TASK")));
-    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", lowPriority));
+    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", lowPriority, weightSE3Task));
 
     out.regularizationTask = std::make_shared<JointTrackingTask>();
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
