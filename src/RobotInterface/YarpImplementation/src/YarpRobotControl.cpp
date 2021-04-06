@@ -309,7 +309,6 @@ struct YarpRobotControl::Impl
         this->controlModes.resize(this->actuatedDOFs);
         this->controlModesYarp.resize(this->actuatedDOFs);
         this->axesName.resize(this->actuatedDOFs);
-        this->positionControlRefSpeeds.resize(this->actuatedDOFs);
 
         // populate the axesName vector
         for (int i = 0; i < this->actuatedDOFs; i++)
@@ -343,6 +342,11 @@ struct YarpRobotControl::Impl
         {
             this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
         }
+
+        // resize the reference speed for the position control mode
+        // The size of the vector is equal to the size of the joints in position control
+        this->positionControlRefSpeeds.resize(
+            this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].size());
 
         return true;
     }
