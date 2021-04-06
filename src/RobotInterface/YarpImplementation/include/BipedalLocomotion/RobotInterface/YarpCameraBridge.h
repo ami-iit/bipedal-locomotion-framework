@@ -36,15 +36,15 @@ namespace RobotInterface
  * - The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set
  *
  * The parameters for writing the configuration file for this class is given as,
- * |     Group                  |         Parameter               | Type              |                   Description                   |
- * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
- * |Cameras                     |                                 |                   |Expects cameras to be opened either as remote frame grabber ("RemoteFrameGrabber") with IFrameGrabber interface or rgbd sensor ("RGBDSensorClient") with IRGBDSensor interface|
- * |                            |rgbd_cameras_list                        | vector of strings |list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface      |
- * |                            |rgbd_image_width                 | vector of strings |list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
- * |                            |rgbd_image_height                | vector of strings |list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
- * |                            |rgb_cameras_list                 | vector of strings |list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface|
- * |                            |rgb_image_width                  | vector of strings |list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
- * |                            |rgb_image_height                 | vector of strings |list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
+ * |     Group                  |         Parameter               | Type               |                   Description                   |
+ * |:--------------------------:|:-------------------------------:|:------------------:|:---------------------------------------------- :|
+ * |Cameras                     |                                 |                    |Expects cameras to be opened either as remote frame grabber ("RemoteFrameGrabber") with IFrameGrabber interface or rgbd sensor ("RGBDSensorClient") with IRGBDSensor interface|
+ * |                            |rgbd_cameras_list                | vector of strings  |list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface      |
+ * |                            |rgbd_image_width                 | vector of integers |list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
+ * |                            |rgbd_image_height                | vector of integers |list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
+ * |                            |rgb_cameras_list                 | vector of strings  |list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface|
+ * |                            |rgb_image_width                  | vector of integers |list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
+ * |                            |rgb_image_height                 | vector of integers |list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
  *
  */
 class YarpCameraBridge : public BipedalLocomotion::RobotInterface::ICameraBridge
