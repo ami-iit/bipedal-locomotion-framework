@@ -467,9 +467,9 @@ struct YarpRobotControl::Impl
                                                      - this->positionFeedback[indeces[i]]);
 
                     constexpr double scaling = 180 / M_PI;
-                    constexpr double maxVelocityInDegPerSeconds = 3.0;
+                    constexpr double minVelocityInDegPerSeconds = 3.0;
                     this->positionControlRefSpeeds[i]
-                        = std::max(maxVelocityInDegPerSeconds,
+                        = std::max(minVelocityInDegPerSeconds,
                                    scaling * (jointError / this->positioningDuration));
                 }
 
