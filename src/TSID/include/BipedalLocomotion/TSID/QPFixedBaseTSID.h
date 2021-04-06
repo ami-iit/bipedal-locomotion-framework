@@ -9,7 +9,10 @@
 #define BIPEDAL_LOCOMOTION_QP_FIXED_BASE_TSID_H
 
 #include <memory>
+#include <optional>
+#include <functional>
 
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
@@ -26,7 +29,8 @@ namespace TSID
  * priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0
  * the task will be considered as hard task, thus treated as an equality constraint. If the priority
  * is equal to 1 the task will be embedded in the cost function. The class is also able to treat
- * inequality constraints.
+ * inequality constraints. Note that this class considers just one contact wrench as we assume the
+ * external wrench acting on only the base link.
  */
 class QPFixedBaseTSID : public TaskSpaceInverseDynamics
 {
@@ -93,7 +97,7 @@ public:
      * |    `robot_torque_variable_name`      | `string` |         Name of the variable contained in `VariablesHandler` describing the robot torque           |    Yes    |
      * | `robot_contact_wrench_variable_name` | `string` |      Name of the variable contained in `VariablesHandler` describing the robot contact wrench      |    Yes    |
      * |             `verbosity`              |  `bool`  |                        Verbosity of the solver. Default value `false`                              |     No    |
-     * Where the generalized robot acceleration is a vector containing the base spatialacceleration
+     * Where the generalized robot acceleration is a vector containing the base acceleration
      (expressed in mixed representation) and the joint accelerations,
      * the generalized robot torques is a vector containing the joint torques and the
      * @return True in case of success, false otherwise.
@@ -133,7 +137,7 @@ public:
     bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 };
 
-} // BipedalLocomotion
-} // TSID
+} // namespace TSID
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_FIXED_BASE_TSID_H

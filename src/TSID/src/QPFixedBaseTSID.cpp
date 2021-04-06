@@ -26,13 +26,21 @@ struct QPFixedBaseTSID::Impl
         std::shared_ptr<System::LinearTask> task;
         std::size_t priority;
         Eigen::VectorXd weight;
-        Eigen::MatrixXd tmp; /**< This is a temporary matrix usefull to reduce dynamics allocation
+        Eigen::MatrixXd tmp; /**< This is a temporary matrix useful to reduce dynamics allocation
                                 in advance method */
     };
 
-    std::unordered_map<std::string, TaskWithPriority> tasks;
-    std::vector<std::reference_wrapper<const TaskWithPriority>> constraints;
-    std::vector<std::reference_wrapper<TaskWithPriority>> costs;
+    std::unordered_map<std::string, TaskWithPriority> tasks; /**< This is the task list containg the
+                                                                tasks defined both internally to the
+                                                                class and externally by the user.
+                                                                The tasks are both constraints and
+                                                                costs. */
+    std::vector<std::reference_wrapper<const TaskWithPriority>> constraints; /**< List of tasks
+                                                                                representing
+                                                                                constraints
+                                                                                (priority = 0). */
+    std::vector<std::reference_wrapper<TaskWithPriority>> costs; /**< List of tasks representing
+                                                                    costs (priority = 1). */
     std::size_t numberOfConstraints;
 
     bool isVerbose{false};
@@ -60,7 +68,6 @@ struct QPFixedBaseTSID::Impl
     Eigen::MatrixXd constraintMatrix;
     Eigen::VectorXd lowerBound;
     Eigen::VectorXd upperBound;
-
 
     bool initializeSolver()
     {
@@ -149,9 +156,9 @@ QPFixedBaseTSID::QPFixedBaseTSID()
 QPFixedBaseTSID::~QPFixedBaseTSID() = default;
 
 bool QPFixedBaseTSID::addTask(std::shared_ptr<System::LinearTask> task,
-                                  const std::string& taskName,
-                                  std::size_t priority,
-                                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
+                              const std::string& taskName,
+                              std::size_t priority,
+                              std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
 {
     constexpr auto logPrefix = "[QPFixedBaseTSID::addTask]";
 
@@ -183,7 +190,8 @@ bool QPFixedBaseTSID::addTask(std::shared_ptr<System::LinearTask> task,
 
     if (priority == 1 && task->type() == System::LinearTask::Type::inequality)
     {
-        log()->error("{} - [Task name: '{}'] This implementation of the task space inverse dynamics cannot "
+        log()->error("{} - [Task name: '{}'] This implementation of the task space inverse "
+                     "dynamics cannot "
                      "handle inequality tasks with priority equal to 1.",
                      logPrefix,
                      taskName);
@@ -292,13 +300,15 @@ bool QPFixedBaseTSID::createBaseSE3Task()
     auto baseSE3ParameterHandler = std::make_shared<StdImplementation>();
     baseSE3ParameterHandler->setParameter("robot_acceleration_variable_name",
                                           m_pimpl->robotAccelerationVariable.name);
+
+    // This task is to consider the robot fixed base, so the controller gains are set to 0.
     baseSE3ParameterHandler->setParameter("kp_linear", 0.0);
     baseSE3ParameterHandler->setParameter("kd_linear", 0.0);
     baseSE3ParameterHandler->setParameter("kp_angular", 0.0);
     baseSE3ParameterHandler->setParameter("kd_angular", 0.0);
     baseSE3ParameterHandler->setParameter("frame_name", m_pimpl->baseLink);
 
-    if(!m_pimpl->baseSE3Task->initialize(baseSE3ParameterHandler))
+    if (!m_pimpl->baseSE3Task->initialize(baseSE3ParameterHandler))
     {
         log()->error("{} Error initializing se3task on the base", logPrefix);
         return false;
@@ -319,8 +329,11 @@ bool QPFixedBaseTSID::createDynamicsTask()
 
     dynamicsParameterHandler->setParameter("robot_acceleration_variable_name",
                                            m_pimpl->robotAccelerationVariable.name);
-    dynamicsParameterHandler->setParameter("joint_torques_variable_name", m_pimpl->jointTorquesVariable.name);
-    dynamicsParameterHandler->setParameter("max_number_of_contacts", 1);
+    dynamicsParameterHandler->setParameter("joint_torques_variable_name",
+                                           m_pimpl->jointTorquesVariable.name);
+    dynamicsParameterHandler->setParameter("max_number_of_contacts", 1); // We assume the external
+                                                                         // wrench acting on only
+                                                                         // the base link.
 
     auto contactGroup = std::make_shared<StdImplementation>();
     contactGroup->setParameter("variable_name", "base_contact_wrench");
@@ -364,7 +377,8 @@ bool QPFixedBaseTSID::initialize(std::weak_ptr<const ParametersHandler::IParamet
                     m_pimpl->isVerbose);
     }
 
-    if (!ptr->getParameter("robot_acceleration_variable_name", m_pimpl->robotAccelerationVariable.name))
+    if (!ptr->getParameter("robot_acceleration_variable_name",
+                           m_pimpl->robotAccelerationVariable.name))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", logPrefix);
         return false;
@@ -399,8 +413,10 @@ bool QPFixedBaseTSID::finalize(const System::VariablesHandler& handler)
 {
     constexpr auto logPrefix = "[QPFixedBaseTSID::finalize]";
 
-    System::VariablesHandler tmp = handler;
-    if (!tmp.addVariable("base_contact_wrench", 6))
+    System::VariablesHandler tmpHandler = handler;
+    // The vector considering the contact wrench on the base link contains 6 elements, the 3 forces
+    // in the 3 directions and the 3 moments about the 3 axes.
+    if (!tmpHandler.addVariable("base_contact_wrench", 6))
     {
         log()->error("{} Error while adding base contact wrench variable to the handler",
                      logPrefix);
@@ -417,7 +433,7 @@ bool QPFixedBaseTSID::finalize(const System::VariablesHandler& handler)
     m_pimpl->numberOfConstraints = 0;
     for (auto& [name, task] : m_pimpl->tasks)
     {
-        if (!task.task->setVariablesHandler(tmp))
+        if (!task.task->setVariablesHandler(tmpHandler))
         {
             log()->error("{} Error while setting the variable handler in the task named {}, having "
                          "the following description {}.",
@@ -434,30 +450,32 @@ bool QPFixedBaseTSID::finalize(const System::VariablesHandler& handler)
         }
     }
 
-    // resize the temporary matrix usefull to reduce dynamics allocation when advance() is called
+    // resize the temporary matrix useful to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        cost.get().tmp.resize(tmp.getNumberOfVariables(), cost.get().weight.size());
+        cost.get().tmp.resize(tmpHandler.getNumberOfVariables(), cost.get().weight.size());
     }
 
-    m_pimpl->solver.data()->setNumberOfVariables(tmp.getNumberOfVariables());
+    m_pimpl->solver.data()->setNumberOfVariables(tmpHandler.getNumberOfVariables());
     m_pimpl->solver.data()->setNumberOfConstraints(m_pimpl->numberOfConstraints);
 
     // resize matrices
-    m_pimpl->hessian.resize(tmp.getNumberOfVariables(), tmp.getNumberOfVariables());
-    m_pimpl->gradient.resize(tmp.getNumberOfVariables());
+    m_pimpl->hessian.resize(tmpHandler.getNumberOfVariables(), tmpHandler.getNumberOfVariables());
+    m_pimpl->gradient.resize(tmpHandler.getNumberOfVariables());
 
-    m_pimpl->constraintMatrix.resize(m_pimpl->numberOfConstraints, tmp.getNumberOfVariables());
+    m_pimpl->constraintMatrix.resize(m_pimpl->numberOfConstraints,
+                                     tmpHandler.getNumberOfVariables());
     m_pimpl->upperBound.resize(m_pimpl->numberOfConstraints);
     m_pimpl->lowerBound.resize(m_pimpl->numberOfConstraints);
 
-    if (!tmp.getVariable(m_pimpl->robotAccelerationVariable.name, m_pimpl->robotAccelerationVariable))
+    if (!tmpHandler.getVariable(m_pimpl->robotAccelerationVariable.name,
+                         m_pimpl->robotAccelerationVariable))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", logPrefix);
         return false;
     }
 
-    if (!tmp.getVariable(m_pimpl->jointTorquesVariable.name, m_pimpl->jointTorquesVariable))
+    if (!tmpHandler.getVariable(m_pimpl->jointTorquesVariable.name, m_pimpl->jointTorquesVariable))
     {
         log()->error("{} Error while retrieving the joint torques variable.", logPrefix);
         return false;
@@ -582,7 +600,7 @@ bool QPFixedBaseTSID::advance()
 
     m_pimpl->solution.jointTorques
         = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset
-                                                + m_pimpl->robotAccelerationVariable.size,
+                                                    + m_pimpl->robotAccelerationVariable.size,
                                                 joints);
 
     m_pimpl->isValid = true;
