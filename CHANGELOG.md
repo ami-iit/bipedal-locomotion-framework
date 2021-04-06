@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - Implement FixedBaseDynamics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
 - Implemented Sink and Source classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/267)
 - Implement the IClock, StdClock and YarpClock classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/269)
+- Implement `YarpCameraBridge` class for Yarp implementation of ICameraBridge (https://github.com/dic-iit/bipedal-locomotion-framework/pull/237)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
