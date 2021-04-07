@@ -68,17 +68,31 @@ struct Measurements
     bool rfInContact{false}; /**< right foot contact state */
 
     /** stamped relative poses,
-     * the usage of this map must be in a way
-     * that every time an element is used,
-     * it must be erased from the map
-     */
+    *
+    * @note at the implementation level of FloatingBaseEstimator,
+    * the usage of this map is in a way
+    * that at every iteration, at the end of the
+    * advance() call of the estimator, this map is cleared
+    * so as to not use delayed or outdated measurments
+    *
+    * @note we maintain a map (sorted elements) in order to
+    * maintain accessibility of incrementally augmented variables
+    * from the state and the covariance matrix
+    */
     std::map<int, BipedalLocomotion::Contacts::EstimatedContact > stampedRelLandmarkPoses;
 
     /** stamped contact status,
-     * the usage of this map must be in a way
-     * that every time an element is used,
-     * it must be erased from the map
-     */
+    *
+    * @note at the implementation level of FloatingBaseEstimator,
+    * the usage of this map is in a way
+    * that at every iteration, at the end of the
+    * advance() call of the estimator, this map is cleared
+    * so as to not use delayed or outdated measurments
+    *
+    * @note we maintain a map (sorted elements) in order to
+    * maintain accessibility of incrementally augmented variables
+    * from the state and the covariance matrix
+    */
     std::map<int, BipedalLocomotion::Contacts::EstimatedContact > stampedContactsStatus;
 };
 

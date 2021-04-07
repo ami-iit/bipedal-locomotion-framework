@@ -55,7 +55,7 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
 
     if (m_estimatorState != State::NotInitialized)
     {
-        std::cerr << "[FloatingBaseEstimator::initialize] The estimator already seems to be initialized."
+        std::cerr << "[FloatingBaseEstimator::initialize] The estimator seems to be already initialized."
         << std::endl;
         return false;
     }
@@ -74,7 +74,8 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
         if (!m_modelComp.isKinDynValid())
         {
             std::cerr << "[FloatingBaseEstimator::initialize] The kindyn object with valid does not seem to be loaded."
-            << "Please call initialize(handler, kindyncomputations) to set the kindyn object."
+            << "Please either call initialize(handler, kindyncomputations) to set the kindyn object and re-initialize the estimator,"
+            << "or call modelComp()->setKinDynObject(kindyncomputations) to set the kindyn object only."
             << std::endl;
             return false;
         }
@@ -126,10 +127,10 @@ bool FloatingBaseEstimator::advance()
              (m_meas.encodersSpeed.size() == m_modelComp.nrJoints()) )
         {
             if (!m_modelComp.kinDyn()->setRobotState(m_estimatorOut.basePose.transform(),
-                                                     iDynTree::make_span(m_meas.encoders.data(), m_meas.encoders.size()),
+                                                     m_meas.encoders,
                                                      m_estimatorOut.baseTwist,
-                                                     iDynTree::make_span(m_meas.encodersSpeed.data(), m_meas.encodersSpeed.size()),
-                                                     iDynTree::make_span(m_options.accelerationDueToGravity.data(), m_options.accelerationDueToGravity.size())))
+                                                     m_meas.encodersSpeed,
+                                                     m_options.accelerationDueToGravity))
             {
                 std::cerr << "[FloatingBaseEstimator::advance]" << " Failed to set kindyncomputations robot state"
                         << std::endl;
@@ -161,6 +162,16 @@ bool FloatingBaseEstimator::advance()
     m_estimatorOut.state = m_state;
     m_estimatorOut.stateStdDev = m_stateStdDev;
 
+    // clear the map of landmark and contact measurements
+    if (m_useModelInfo)
+    {
+      m_meas.stampedContactsStatus.clear();
+    }
+
+    if (m_options.staticLandmarksUpdateEnabled)
+    {
+      m_meas.stampedRelLandmarkPoses.clear();
+    }
     return ok;
 }
 

@@ -211,7 +211,7 @@ public:
     /**
      * Set the relative pose of a landmark relative to the base link
      *
-     * @param[in] landmarkID unqiue landmark ID
+     * @param[in] landmarkID unique landmark ID
      * @param[in] quat relative orientation of the landmark as a quaternion
      * @param[in] pos relative position of the landmark
      * @param[in] timeNow relative position of the landmark
