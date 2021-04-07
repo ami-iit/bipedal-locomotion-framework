@@ -16,6 +16,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Perception/Capture/RealSense.h>
+#include <BipedalLocomotion/Perception/Features/PointCloudProcessor.h>
 
 #include <memory>
 
@@ -35,8 +36,15 @@ class Module : public yarp::os::RFModule
     std::string depthImgName{"Depth Image"};
     std::string irImgName{"IR Image"};
 
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc{nullptr};
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcRaw{nullptr};
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcProcessed{nullptr};
     pcl::shared_ptr< pcl::visualization::PCLVisualizer> viewer;
+    pcl::shared_ptr< pcl::visualization::PCLVisualizer> viewerProcessed;
+    BipedalLocomotion::Perception::Features::PointCloudProcessor<pcl::PointXYZRGB> pclProc;
+
+    int previousClusterSize{0}; // used for visualization
+    Eigen::Matrix4f w_H_cam;
+    bool m_showImages{false};
 
 public:
     /**
