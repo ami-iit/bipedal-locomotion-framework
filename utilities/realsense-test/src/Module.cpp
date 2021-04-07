@@ -4,6 +4,7 @@
  */
 
 #include <fstream>
+#include <string>
 #include <iomanip>
 #include <yarp/os/LogStream.h>
 #include <BipedalLocomotion/RealSenseTest/Module.h>
@@ -26,10 +27,15 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
+    if(!parametersHandler->getParameter("show_images", m_showImages))
+    {
+        return false;
+    }
+
     auto rsptr = parametersHandler->getGroup("REALSENSE").lock();
     if (rsptr == nullptr)
     {
-        yError() << "[Module::configure] Robot interface options is empty.";
+        yError() << "[Module::configure] REALSENSE options is empty.";
         return false;
     }
 
@@ -40,54 +46,112 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
         return false;
     }
 
+
+    auto pclptr = parametersHandler->getGroup("PCL_PROCESSING").lock();
+    if (pclptr == nullptr)
+    {
+        yError() << "[Module::configure] PCL_PROCESSING options is empty.";
+        return false;
+    }
+    if (!pclProc.initialize(pclptr))
+    {
+        yError() << "[Module::configure] could not initialize PCL processor.";
+        return false;
+    }
+
     std::cout << "[Module::configure] Starting the experiment." << std::endl;
 
 
-    pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
+    pcRaw = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
+    pcProcessed = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
     viewer = pcl::make_shared<pcl::visualization::PCLVisualizer>("Realsense PCL");
+    viewerProcessed = pcl::make_shared<pcl::visualization::PCLVisualizer>("PCL Processed");
 
     viewer->setBackgroundColor(0, 0, 0);
     viewer->resetCamera();
-
+    viewer->addCoordinateSystem();
     viewer->spinOnce();
+
+    viewerProcessed->setBackgroundColor(0, 0, 0);
+    viewerProcessed->resetCamera();
+    viewerProcessed->addCoordinateSystem();
+    viewerProcessed->spinOnce();
+
+    w_H_cam << 0,  0, 1, 0,
+              -1,  0, 0, 0,
+               0, -1, 0, 0,
+               0,  0, 0, 1;
     return true;
 }
 
 
 bool Module::updateModule()
 {
-    cv::Mat bgr;
-    if (rsDev->getColorImage("D435i", bgr))
+    if (m_showImages)
     {
-        cv::namedWindow(colorImgName);
-        cv::imshow(colorImgName, bgr);
-        cv::waitKey(1);
+        cv::Mat bgr;
+        if (rsDev->getColorImage("D435i", bgr))
+        {
+            cv::namedWindow(colorImgName);
+            cv::imshow(colorImgName, bgr);
+            cv::waitKey(1);
+        }
+
+        cv::Mat depth;
+        if (rsDev->getColorizedDepthImage("D435i", depth))
+        {
+            cv::namedWindow(depthImgName);
+            cv::imshow(depthImgName, depth);
+            cv::waitKey(1);
+        }
+
+
+        cv::Mat ir;
+        if (rsDev->getInfraredImage("D435i", ir))
+        {
+            cv::namedWindow(irImgName);
+            cv::imshow(irImgName, ir);
+            cv::waitKey(1);
+        }
     }
 
-    cv::Mat depth;
-    if (rsDev->getColorizedDepthImage("D435i", depth))
-    {
-        cv::namedWindow(depthImgName);
-        cv::imshow(depthImgName, depth);
-        cv::waitKey(1);
-    }
-
-
-    cv::Mat ir;
-    if (rsDev->getInfraredImage("D435i", ir))
-    {
-        cv::namedWindow(irImgName);
-        cv::imshow(irImgName, ir);
-        cv::waitKey(1);
-    }
-
-    if (rsDev->getPointCloud("D435i", pc))
+    if (rsDev->getPointCloud("D435i", pcRaw))
     {
         viewer->removePointCloud("srcCloud");
-        if (pc != nullptr)
+        if (pcRaw != nullptr)
         {
-            viewer->addPointCloud(pc, "srcCloud");
+
+            viewer->addPointCloud(pcRaw, "srcCloud");
             viewer->spinOnce();
+
+            // first downsample then remove outliers
+            pclProc.downsample(pcRaw, pcProcessed);
+            pclProc.removeOutliers(pcProcessed, pcProcessed);
+
+            std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> clusters;
+            std::vector<pcl::PointIndices> clusterIndices;
+            if (!pclProc.extractClusters(pcProcessed, clusterIndices, clusters))
+            {
+                yInfo() << "Extraction failure." ;
+            }
+            yInfo() << "Nr of clusters: " << clusters.size();
+            for (size_t idx = 0; idx < previousClusterSize; idx++)
+            {
+                if (viewerProcessed->contains(std::to_string(idx)))
+                {
+                    viewerProcessed->removePointCloud(std::to_string(idx));
+                }
+            }
+
+            for (size_t idx = 0; idx < clusters.size(); idx++)
+            {
+                auto pcTrans = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
+                pclProc.transform(clusters[idx], w_H_cam, pcTrans);
+                viewerProcessed->addPointCloud(pcTrans, std::to_string(idx));
+            }
+            previousClusterSize = clusters.size();
+
+            viewerProcessed->spinOnce();
         }
     }
 
