@@ -29,6 +29,11 @@ void YarpClock::sleepUntil(const std::chrono::duration<double>& sleepTime)
         (sleepTime - std::chrono::duration<double>(yarp::os::Time::now())).count());
 }
 
+void YarpClock::yield()
+{
+    yarp::os::Time::yield();
+}
+
 IClock& YarpClockFactory::createClock()
 {
     // Create the singleton. Meyers' implementation. It is automatically threadsafe

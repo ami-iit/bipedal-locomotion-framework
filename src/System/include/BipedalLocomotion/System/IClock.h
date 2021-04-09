@@ -57,6 +57,12 @@ public:
      * @param time to block until
      */
     virtual void sleepUntil(const std::chrono::duration<double>& time) = 0;
+
+    /**
+     * Provides a hint to the implementation to reschedule the execution of threads, allowing other
+     * threads to run.
+     */
+    virtual void yield() = 0;
 };
 
 /**
