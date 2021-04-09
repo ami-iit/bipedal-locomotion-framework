@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
-#define BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
+#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
+#define BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
 
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
@@ -162,6 +162,13 @@ public:
 
 
     /**
+    * Configure generic parameters, calling this overloaded method assumes model information is not going to be used.
+    * @param[in] handler configure the generic parameters for the estimator
+    * @return True in case of success, false otherwise.
+    */
+    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
+    /**
     * Set the polled IMU measurement
     * @param[in] accMeas linear accelerometer measurement expressed in the local IMU frame (m/s^2)
     * @param[in] gyroMeas gyroscope measurement expressed in the local IMU frame (rad/s)
@@ -200,6 +207,20 @@ public:
     */
     bool setKinematics(const Eigen::VectorXd& encoders,
                        const Eigen::VectorXd& encoderSpeeds);
+
+    /**
+     * Set the relative pose of a landmark relative to the base link
+     *
+     * @param[in] landmarkID unique landmark ID
+     * @param[in] quat relative orientation of the landmark as a quaternion
+     * @param[in] pos relative position of the landmark
+     * @param[in] timeNow relative position of the landmark
+     * @return true in case of success, false otherwise
+     */
+    bool setLandmarkRelativePose(const int& landmarkID,
+                                 const Eigen::Quaterniond& quat,
+                                 const Eigen::Vector3d& pos,
+                                 const double& timeNow);
 
     /**
     * Compute one step of the estimator
@@ -248,13 +269,6 @@ public:
 
 protected:
     /**
-    * Configure generic parameters
-    * @param[in] handler configure the generic parameters for the estimator
-    * @return True in case of success, false otherwise.
-    */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
-
-    /**
     * These custom parameter specifications should be specified by the derived class.
     * - If setupOptions() is called from within customInitialization(), ensure the group "Options" exist.
     *   Please check the documentation of setupOptions() for relevant parameters
@@ -288,6 +302,15 @@ protected:
     */
     virtual bool updateKinematics(FloatingBaseEstimators::Measurements& meas,
                                   const double& dt) { return true; };
+
+    /**
+    * Update the predicted state estimates using relative pose measurements of static landmarks in the environment
+    * @param[in] meas measurements to update the predicted states
+    * @param[in] dt sampling period in seconds
+    * @return True in case of success, false otherwise.
+    */
+    virtual bool updateLandmarkRelativePoses(FloatingBaseEstimators::Measurements& meas,
+                                             const double& dt) { return true; };
 
     /**
     * Setup estimator options. The parameters in the Options group are,
@@ -381,6 +404,8 @@ protected:
     double m_dt{0.01}; /**< Fixed time step of the estimator, in seconds */
     bool m_useIMUForAngVelEstimate{true}; /**< Use IMU measurements as internal state imu angular velocity by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
     bool m_useIMUVelForBaseVelComputation{true}; /**< Compute base velocity using inertnal state IMU velocity. by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false */
+    bool m_useModelInfo{true}; /**< Flag to enable running the estimator without using the URDF model information*/
+    bool m_isInvEKF{false}; /**< Flag to maintain soon to be deprecated functionalities currently existing only in InvEKFBaseEstimator */
 private:
     /**
     * Setup model related parameters
@@ -420,4 +445,4 @@ private:
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FBE_H
+#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
