@@ -277,6 +277,9 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
             // set the output
             this->m_output->set(this->m_advanceable->getOutput());
 
+            // release the CPU
+            BipedalLocomotion::clock().yield();
+
             // this is enabled only if telemetry is set to true.
             if (m_isTelemetryEnabled && wakeUpTime < BipedalLocomotion::clock().now())
             {
