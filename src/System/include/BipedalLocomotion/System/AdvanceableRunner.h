@@ -255,9 +255,26 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
     // run the thread
     m_isRunning = true;
     auto function = [&]() -> bool {
+        constexpr auto logPrefix = "[AdvanceableRunner::run]";
+        auto time = BipedalLocomotion::clock().now();
+        auto oldTime = time;
+        auto wakeUpTime = time;
+
+        // the main periodic function
         while (this->m_isRunning)
         {
-            const auto wakeUpTime = BipedalLocomotion::clock().now() + m_dT;
+            // detect if a clock has been reset
+            oldTime = time;
+            time = BipedalLocomotion::clock().now();
+            // if the current time is lower than old time, the timer has been reset.
+            if ((time - oldTime).count() < 1e-12)
+            {
+                wakeUpTime = time;
+            }
+
+            // advance the wake-up time
+            wakeUpTime += m_dT;
+
             if (!this->m_advanceable->setInput(this->m_input->get()))
             {
                 m_isRunning = false;
