@@ -290,6 +290,18 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
             BipedalLocomotion::clock().sleepUntil(wakeUpTime);
         }
 
+        log()->info("{} Closing the AdvanceableRunner.", logPrefix);
+        if(m_isTelemetryEnabled)
+        {
+            unsigned int deadlineMiss = 0;
+
+            // scope to reduce the amount of time in which the mutex is locked
+            {
+                std::lock_guard<std::mutex> guard(m_infoMutex);
+                deadlineMiss = m_info.deadlineMiss;
+            }
+            log()->info("{} Number of deadline miss {}.", logPrefix, deadlineMiss);
+        }
         return this->m_advanceable->close();
     };
 
