@@ -54,6 +54,12 @@ public:
      * @note sleepTime is the duration since epoch
      */
     void sleepUntil(const std::chrono::duration<double>& sleepTime) final;
+
+    /**
+     * Provides a hint to the implementation to reschedule the execution of threads, allowing other
+     * threads to run.
+     */
+    void yield() final;
 };
 
 class StdClockFactory final : public ClockFactory

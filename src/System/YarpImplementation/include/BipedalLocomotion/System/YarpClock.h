@@ -62,6 +62,12 @@ public:
      * @param time to block until
      */
     void sleepUntil(const std::chrono::duration<double>& sleepTime) final;
+
+    /**
+     * Provides a hint to the implementation to reschedule the execution of threads, allowing other
+     * threads to run.
+     */
+    void yield() final;
 };
 
 class YarpClockFactory final : public ClockFactory

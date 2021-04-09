@@ -27,6 +27,11 @@ void StdClock::sleepUntil(const std::chrono::duration<double>& time)
     std::this_thread::sleep_for(time - std::chrono::system_clock::now().time_since_epoch());
 }
 
+void StdClock::yield()
+{
+    std::this_thread::yield();
+}
+
 IClock& StdClockFactory::createClock()
 {
     // Create the singleton. Meyers' implementation. It is automatically threadsafe
