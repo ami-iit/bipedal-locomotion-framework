@@ -58,9 +58,6 @@ bool CentroidalDynamics::dynamics(const double& time, StateDerivative& stateDeri
 
     for (const auto& [key, contact] : contacts)
     {
-
-        log()->info("{} rotation {}.", key, contact.pose.asSO3().rotation());
-
         for (const auto& corner : contact.corners)
         {
             comAcceleration.noalias() += 1 / m_mass * contact.pose.asSO3().act(corner.force);
