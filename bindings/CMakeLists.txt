@@ -12,9 +12,10 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
     if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
         set(PYTHON_INSTDIR ${Python3_SITELIB}/bipedal_locomotion_framework)
     else()
-        set(PYTHON_MAJ_MIN ${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR})
-        set(PYTHON_INSTDIR
-            ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_MAJ_MIN}/dist-packages/bipedal_locomotion_framework)
+     execute_process(COMMAND ${Python3_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
+                     OUTPUT_VARIABLE _PYTHON_INSTDIR)
+     string(STRIP ${_PYTHON_INSTDIR} _PYTHON_INSTDIR_CLEAN)
+     set(PYTHON_INSTDIR ${_PYTHON_INSTDIR_CLEAN}/bipedal_locomotion_framework)
     endif()
 
     # Folder of the Python package within the build tree.
