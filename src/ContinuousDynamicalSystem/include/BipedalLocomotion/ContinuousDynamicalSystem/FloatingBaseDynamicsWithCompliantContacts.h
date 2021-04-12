@@ -115,7 +115,7 @@ public:
      * |:--------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
      * |    `gravity`   | `double` |     Value of the Gravity. If not defined Math::StandardAccelerationOfGravitation is used     |    No     |
      * |      `rho`     | `double` |       Baumgarte stabilization parameter over the SO(3) group. The default value is 0.01      |    No     |
-     * |  `base_frame`  | `string` |  Name of the frame considered as fixed base in the model. If not defined the default link will be used. Please check [here](https://robotology.github.io/idyntree/master/classiDynTree_1_1Model.html#a1a8dc1c97b99ffc51dbf93ecff20e8c1)    |    No     |
+     * |  `base_link`  | `string` |  Name of the link considered as fixed base in the model. If not defined the default link will be used. Please check [here](https://robotology.github.io/idyntree/master/classiDynTree_1_1Model.html#a1a8dc1c97b99ffc51dbf93ecff20e8c1)    |    No     |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);

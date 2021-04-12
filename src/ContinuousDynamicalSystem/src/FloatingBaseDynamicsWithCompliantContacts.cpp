@@ -47,13 +47,13 @@ bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParame
                     m_gravity.transpose());
     }
 
-    if (ptr->getParameter("base_frame", m_robotBase))
+    if (ptr->getParameter("base_link", m_robotBase))
     {
         if (m_kinDyn.isValid())
         {
             if (!m_kinDyn.setFloatingBase(m_robotBase))
             {
-                log()->error("{} Unable to set the floating base named {}.",
+                log()->error("{} Unable to set the floating base link named {}.",
                              logPrefix,
                              m_robotBase);
                 return false;
@@ -61,7 +61,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParame
         }
     } else
     {
-        log()->info("{} The base_frame name is not found. The default one stored in the model will "
+        log()->info("{} The base_link name is not found. The default one stored in the model will "
                     "be used.",
                     logPrefix);
     }
