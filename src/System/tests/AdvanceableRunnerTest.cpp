@@ -77,7 +77,7 @@ TEST_CASE("Test Block")
     auto thread0 = runner0.run();
     auto thread1 = runner1.run();
 
-    while (!output0->get() && !output1->get())
+    while (!output0->get() || !output1->get())
     {
         BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
     }
