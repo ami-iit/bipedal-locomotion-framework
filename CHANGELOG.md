@@ -38,6 +38,7 @@ All notable changes to this project are documented in this file.
 - Integrators and DynamicalSystems are now in the `ContinuousDynamicalSystem` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/242)
 - Add Input template class to `System::Advanceable` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/267)
 - Add support for landmarks and kinematics-free estimation in `FloatingBaseEstimators`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/254)
+- If FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES is OFF, for Python bindings use installation directory provided by sysconfig Python module. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/274)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
