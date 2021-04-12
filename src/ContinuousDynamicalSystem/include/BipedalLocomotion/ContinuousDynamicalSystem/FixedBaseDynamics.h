@@ -60,14 +60,14 @@ namespace ContinuousDynamicalSystem
  */
 class FixedBaseDynamics : public DynamicalSystem<FixedBaseDynamics>
 {
-    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to an existing instance of
-                                                               kinDynComputations object */
+    iDynTree::KinDynComputations m_kinDyn; /**< kinDynComputations object */
     std::size_t m_actuatedDoFs{0}; /**< Number of actuated degree of freedom */
 
     Eigen::Vector3d m_gravity{0, 0, -Math::StandardAccelerationOfGravitation}; /**< Gravity vector
                                                                                 */
 
     Eigen::MatrixXd m_massMatrix; /**< Floating-base mass matrix  */
+    std::string m_robotBase; /**< Name of the frame associated to the robot base */
 
     // quantities useful to avoid dynamic allocation in the dynamic allocation in the
     // FixedBaseDynamics::dynamics() method
@@ -88,16 +88,17 @@ public:
      * | Parameter Name |   Type   |                                          Description                                         | Mandatory |
      * |:--------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
      * |    `gravity`   | `double` |     Value of the Gravity. If not defined Math::StandardAccelerationOfGravitation is used     |    No     |
+     * |  `base_link`  | `string` |  Name of the link considered as fixed base in the model. If not defined the default link will be used. Please check [here](https://robotology.github.io/idyntree/master/classiDynTree_1_1Model.html#a1a8dc1c97b99ffc51dbf93ecff20e8c1)    |    No     |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
     /**
-     * Set a kinDynComputations object.
-     * @param kinDyn a pointer to the kinDynComputations object.
+     * Set the model of the robot.
+     * @param model an iDynTree robot model.
      * @return true in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setRobotModel(const iDynTree::Model& model);
 
     /**
      * Set the mass matrix regularization term. i.e. $\f\bar{M} = M + M _ {reg}\f$. Where  $\fM\f$

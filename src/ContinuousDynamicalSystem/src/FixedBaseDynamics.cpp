@@ -32,28 +32,65 @@ bool FixedBaseDynamics::initialize(std::weak_ptr<IParametersHandler> handler)
 
     if (!ptr->getParameter("gravity", m_gravity))
     {
-        log()->info("{} The gravity vector  not found. The default one will be "
+        log()->info("{} The gravity vector is not found. The default one will be "
                     "used {}.",
                     logPrefix,
                     m_gravity.transpose());
     }
 
+    if (ptr->getParameter("base_link", m_robotBase))
+    {
+        if (m_kinDyn.isValid())
+        {
+            if (!m_kinDyn.setFloatingBase(m_robotBase))
+            {
+                log()->error("{} Unable to set the floating base link named: {}.",
+                             logPrefix,
+                             m_robotBase);
+                return false;
+            }
+        }
+    } else
+    {
+        log()->info("{} The base_link name is not found. The default one stored in the model will "
+                    "be used.",
+                    logPrefix);
+    }
+
     return true;
 }
 
-bool FixedBaseDynamics::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+bool FixedBaseDynamics::setRobotModel(const iDynTree::Model& model)
 {
-    constexpr auto logPrefix = "[FixedBaseDynamics::setKinDyn]";
+    constexpr auto logPrefix = "[FixedBaseDynamics::setRobotModel]";
     constexpr std::size_t spatialVelocitySize = 6;
 
-    if (kinDyn == nullptr)
+    if (!m_kinDyn.loadRobotModel(model))
     {
-        log()->error("{} The kinDyn computation object is not valid.", logPrefix);
+        log()->error("{} Unable to load the robot model.", logPrefix);
         return false;
     }
 
-    m_kinDyn = kinDyn;
-    m_actuatedDoFs = m_kinDyn->model().getNrOfDOFs();
+    // if the floating base name string is not empty it will be set the in model
+    if(!m_robotBase.empty())
+    {
+        log()->info("{} Trying to set the floating base named {} into the kinDynComputations "
+                    "object.",
+                    logPrefix,
+                    m_robotBase);
+        if (!m_kinDyn.setFloatingBase(m_robotBase))
+        {
+            log()->error("{} Unable to set the floating base named {}.", logPrefix, m_robotBase);
+            return false;
+        }
+    } else
+    {
+        log()->info("{} The following link will be used as robot base: {}.",
+                    logPrefix,
+                    m_kinDyn.getFloatingBase());
+    }
+
+    m_actuatedDoFs = model.getNrOfDOFs();
 
     // resize matrices
     m_massMatrix.resize(m_actuatedDoFs + spatialVelocitySize, m_actuatedDoFs + spatialVelocitySize);
@@ -66,9 +103,11 @@ bool FixedBaseDynamics::setMassMatrixRegularization(const Eigen::Ref<const Eigen
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::setMassMatrixRegularization]";
 
-    if (m_kinDyn == nullptr)
+    m_useMassMatrixRegularizationTerm = false;
+
+    if (!m_kinDyn.isValid())
     {
-        log()->error("{} Please call setKinDyn() before.", logPrefix);
+        log()->error("{} Please call setRobotModel() before.", logPrefix);
         return false;
     }
 
@@ -94,9 +133,9 @@ bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDeriv
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::dynamics]";
 
-    if (m_kinDyn == nullptr)
+    if (!m_kinDyn.isValid())
     {
-        log()->error("{} Please call setKinDyn() before.", logPrefix);
+        log()->error("{} Please call setRobotModel() before.", logPrefix);
         return false;
     }
 
@@ -119,14 +158,14 @@ bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDeriv
     jointVelocityOutput = jointVelocity;
 
     // update kindyncomputations object
-    if (!m_kinDyn->setRobotState(jointPositions, jointVelocity, m_gravity))
+    if (!m_kinDyn.setRobotState(jointPositions, jointVelocity, m_gravity))
     {
         log()->error("{} Unable to update the kinDyn object.", logPrefix);
         return false;
     }
 
     // compute the mass matrix
-    if (!m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix))
+    if (!m_kinDyn.getFreeFloatingMassMatrix(m_massMatrix))
     {
         log()->error("{} Unable to get the mass matrix.", logPrefix);
         return false;
@@ -136,7 +175,7 @@ bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDeriv
     // here we want to compute the robot acceleration as
     // robotAcceleration = M^-1 (-h + J' F + tau) = M^-1 * m_knownCoefficent
 
-    if (!m_kinDyn->generalizedBiasForces(m_knownCoefficent))
+    if (!m_kinDyn.generalizedBiasForces(m_knownCoefficent))
     {
         log()->error("{} Unable to get the bias forces.", logPrefix);
         return false;

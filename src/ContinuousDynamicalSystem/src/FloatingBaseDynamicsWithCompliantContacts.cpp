@@ -47,22 +47,59 @@ bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParame
                     m_gravity.transpose());
     }
 
+    if (ptr->getParameter("base_link", m_robotBase))
+    {
+        if (m_kinDyn.isValid())
+        {
+            if (!m_kinDyn.setFloatingBase(m_robotBase))
+            {
+                log()->error("{} Unable to set the floating base link named {}.",
+                             logPrefix,
+                             m_robotBase);
+                return false;
+            }
+        }
+    } else
+    {
+        log()->info("{} The base_link name is not found. The default one stored in the model will "
+                    "be used.",
+                    logPrefix);
+    }
+
+
     return true;
 }
 
-bool FloatingBaseDynamicsWithCompliantContacts::setKinDyn(
-    std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+bool FloatingBaseDynamicsWithCompliantContacts::setRobotModel(const iDynTree::Model& model)
 {
-    constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::setKinDyn]";
+    constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::setRobotModel]";
 
-    if (kinDyn == nullptr)
+    if (!m_kinDyn.loadRobotModel(model))
     {
-        log()->error("{} The kinDyn computation object is not valid.", logPrefix);
+        log()->error("{} Unable to load the robot model.", logPrefix);
         return false;
     }
 
-    m_kinDyn = kinDyn;
-    m_actuatedDoFs = m_kinDyn->model().getNrOfDOFs();
+    // if the floating base name string is not empty it will be set the in model
+    if(!m_robotBase.empty())
+    {
+        log()->info("{} Trying to set the floating base named {} into the kinDynComputations "
+                    "object.",
+                    logPrefix,
+                    m_robotBase);
+        if (!m_kinDyn.setFloatingBase(m_robotBase))
+        {
+            log()->error("{} Unable to set the floating base named {}.", logPrefix, m_robotBase);
+            return false;
+        }
+    } else
+    {
+        log()->info("{} The following link will be used as robot base: {}.",
+                    logPrefix,
+                    m_kinDyn.getFloatingBase());
+    }
+
+    m_actuatedDoFs = model.getNrOfDOFs();
 
     // resize matrices
     m_massMatrix.resize(m_actuatedDoFs + m_baseDoFs, m_actuatedDoFs + m_baseDoFs);
@@ -79,9 +116,9 @@ bool FloatingBaseDynamicsWithCompliantContacts::setMassMatrixRegularization(
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::"
                                "setMassMatrixRegularization]";
 
-    if (m_kinDyn == nullptr)
+    if (!m_kinDyn.isValid())
     {
-        log()->error("{} Please call setKinDyn() before.", logPrefix);
+        log()->error("{} Please call setRobotModel() before.", logPrefix);
         return false;
     }
 
@@ -110,7 +147,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::dynamics]";
 
-    if (m_kinDyn == nullptr)
+    if (!m_kinDyn.isValid())
     {
         log()->error("{} Please call setKinDyn() before.", logPrefix);
         return false;
@@ -147,16 +184,18 @@ bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
     jointVelocityOutput = jointVelocity;
 
     // update kindyncomputations object
-    const Eigen::Matrix4d baseTransform = Conversions::toEigenPose(baseOrientation, basePosition);
-    if (!m_kinDyn
-             ->setRobotState(baseTransform, jointPositions, baseVelocity, jointVelocity, m_gravity))
+    if (!m_kinDyn.setRobotState(Conversions::toEigenPose(baseOrientation, basePosition),
+                                jointPositions,
+                                baseVelocity,
+                                jointVelocity,
+                                m_gravity))
     {
         log()->error("{} Unable to update the kinDyn object.", logPrefix);
         return false;
     }
 
     // compute the mass matrix
-    if (!m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix))
+    if (!m_kinDyn.getFreeFloatingMassMatrix(m_massMatrix))
     {
         log()->error("{} Unable to get the mass matrix.", logPrefix);
         return false;
@@ -166,7 +205,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
     // here we want to compute the robot acceleration as
     // robotAcceleration = M^-1 (-h + J' F + B tau) = M^-1 * m_knownCoefficent
 
-    if (!m_kinDyn->generalizedBiasForces(m_knownCoefficent))
+    if (!m_kinDyn.generalizedBiasForces(m_knownCoefficent))
     {
         log()->error("{} Unable to get the bias forces.", logPrefix);
         return false;
@@ -178,11 +217,11 @@ bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
     for (const auto& contactWrench : contactWrenches)
     {
         // compute the contact jacobian
-        if (!m_kinDyn->getFrameFreeFloatingJacobian(contactWrench.index(), m_jacobianMatrix))
+        if (!m_kinDyn.getFrameFreeFloatingJacobian(contactWrench.index(), m_jacobianMatrix))
         {
             log()->error("{} Unable to get the jacobian of the frame named: {}.",
                          logPrefix,
-                         m_kinDyn->model().getFrameLink(contactWrench.index()));
+                         m_kinDyn.model().getFrameLink(contactWrench.index()));
             return false;
         }
 
@@ -192,12 +231,12 @@ bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
         {
             log()->error("{} The contact model associated to the frame named {} is expired",
                          logPrefix,
-                         m_kinDyn->model().getFrameLink(contactWrench.index()));
+                         m_kinDyn.model().getFrameLink(contactWrench.index()));
             return false;
         }
 
-        contactPtr->setState(m_kinDyn->getFrameVel(contactWrench.index()),
-                             m_kinDyn->getWorldTransform(contactWrench.index()));
+        contactPtr->setState(m_kinDyn.getFrameVel(contactWrench.index()),
+                             m_kinDyn.getWorldTransform(contactWrench.index()));
 
         m_knownCoefficent.noalias()
             += m_jacobianMatrix.transpose() * iDynTree::toEigen(contactPtr->getContactWrench());
