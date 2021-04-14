@@ -8,37 +8,38 @@
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_IMPL_H
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_IMPL_H
 
-#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
+#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 // YARP os
 #include <yarp/os/Time.h>
 
 // YARP sig
-#include <yarp/sig/Vector.h>
 #include <yarp/sig/Image.h>
+#include <yarp/sig/Vector.h>
 
 // YARP Sensor Interfaces
 #include <yarp/dev/IAnalogSensor.h>
+#include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IGenericSensor.h>
 #include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
-#include <yarp/dev/ICurrentControl.h>
 
 // YARP Camera Interfaces
 #include <yarp/dev/FrameGrabberInterfaces.h>
 #include <yarp/dev/IRGBDSensor.h>
 
 // YARP Control Board Interfaces
-#include <yarp/dev/IEncodersTimed.h>
 #include <yarp/dev/IAxisInfo.h>
+#include <yarp/dev/IEncodersTimed.h>
 
 // yarp eigen
 #include <yarp/eigen/Eigen.h>
 
 // std
+#include <algorithm>
 #include <cmath>
 #include <set>
-#include <algorithm>
 
 namespace BipedalLocomotion
 {
@@ -85,7 +86,6 @@ struct YarpSensorBridge::Impl
 
     WholeBodyMASForceTorquesInterface wholeBodyMASForceTorquesInterface;
 
-
     struct MASSensorIndexMaps
     {
         std::unordered_map<std::string, std::size_t> accelerometer;
@@ -117,14 +117,27 @@ struct YarpSensorBridge::Impl
 
     ControlBoardRemapperMeasures controlBoardRemapperMeasures;
 
-    std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyAnalogIMUInterface; /** < map  of IMU sensors attached through generic sensor interfaces */
-    std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyCartesianWrenchInterface; /** < map  of cartesian wrench streams attached through generic sensor interfaces */
-    std::unordered_map<std::string, yarp::dev::IAnalogSensor*> wholeBodyAnalogSixAxisFTSensorsInterface; /** < map  of six axis force torque sensors attached through analog sensor interfaces */
+    /**< map of IMU sensors attached through generic sensor interfaces */
+    std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyAnalogIMUInterface;
 
-    std::unordered_map<std::string, StampedYARPVector> wholeBodyIMUMeasures; /** < map holding analog IMU sensor measurements */
-    std::unordered_map<std::string, StampedYARPVector> wholeBodyFTMeasures; /** < map holding six axis force torque measures */
-    std::unordered_map<std::string, StampedYARPVector> wholeBodyInertialMeasures; /** < map holding three axis inertial sensor measures */
-    std::unordered_map<std::string, StampedYARPVector> wholeBodyCartesianWrenchMeasures; /** < map holding cartesian wrench measures */
+    /**< map  of cartesian wrench streams attached through generic sensor interfaces */
+    std::unordered_map<std::string, yarp::dev::IGenericSensor*> wholeBodyCartesianWrenchInterface;
+
+    /**< map of six axis force torque sensors attached through analog sensor interfaces */
+    std::unordered_map<std::string, yarp::dev::IAnalogSensor*>
+        wholeBodyAnalogSixAxisFTSensorsInterface;
+
+    /** < map holding analog IMU sensor measurements */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyIMUMeasures;
+
+    /**< map holding six axis force torque measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyFTMeasures;
+
+    /**< map holding three axis inertial sensor measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyInertialMeasures;
+
+    /**< map holding cartesian wrench measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyCartesianWrenchMeasures;
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
@@ -132,17 +145,21 @@ struct YarpSensorBridge::Impl
 
     std::vector<std::string> failedSensorReads;
     SensorBridgeMetaData metaData; /**< struct holding meta data **/
-    bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized */
-    bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to required device drivers */
-    bool checkForNAN{false}; /**< flag to enable search for NANs in the incoming measurement buffers */
+    bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized
+                                    */
+    bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to
+                                    required device drivers */
+    bool checkForNAN{false}; /**< flag to enable search for NANs in the incoming measurement buffers
+                              */
 
     using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(
         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
         SensorBridgeMetaData&);
+
     /**
      * Utility function to get index from vector
      */
-    bool getIndexFromVector(const std::vector<std::string>& vec,
+    bool getIndexFromVector(const std::vector<std::string>& vec, //
                             const std::string& query,
                             int& index)
     {
@@ -165,8 +182,9 @@ struct YarpSensorBridge::Impl
     {
         if (vec.array().isNaN().any())
         {
-            std::cerr << logPrefix << " NAN values read from " << sensorName
-                      << " , use previous measurement" << std::endl;
+            log()->error("{} NAN values read from {}, use previous measurement.",
+                         logPrefix,
+                         sensorName);
             return true;
         }
         return false;
@@ -183,14 +201,13 @@ struct YarpSensorBridge::Impl
                          SensorBridgeMetaData& metaData,
                          bool& enableStreamFlag)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::subConfigLoader] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::subConfigLoader]";
 
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
-            std::cerr << logPrefix
-                      << "The handler is not pointing to an already initialized memory."
-                      << std ::endl;
+            log()->error("{} The handler is not pointing to an already initialized memory.",
+                         logPrefix);
             return false;
         }
 
@@ -200,10 +217,9 @@ struct YarpSensorBridge::Impl
             auto groupHandler = ptr->getGroup(streamGroupString);
             if (!(this->*loader)(groupHandler, metaData))
             {
-                std::cerr << logPrefix << streamGroupString
-                          << " group could not be initialized from the configuration file."
-                          << std::endl;
-
+                log()->error("{} {} group could not be initialized from the configuration file.",
+                             logPrefix,
+                             streamGroupString);
                 return false;
             }
         }
@@ -222,7 +238,7 @@ struct YarpSensorBridge::Impl
         // clear the joint list
         metaData.sensorsList.jointsList.clear();
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureRemoteControlBoardRemapper] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::configureRemoteControlBoardRemapper]";
         auto ptr = handler.lock();
 
         // in general if a group is not defined means there is an error in the configuration file.
@@ -231,19 +247,17 @@ struct YarpSensorBridge::Impl
         if (ptr == nullptr)
         {
             // Notice in case of other REQUIRED parameters here a return false is necessary.
-            std::cout << logPrefix
-                      << "The parameter \"joints_list\" in not available in the configuration. The "
-                         "order of the joints will be the one passed in RemoteControlBoardRemapper."
-                      << std::endl;
+            log()->info("{} The parameter 'joints_list' in not available in the configuration. The "
+                        "order of the joints will be the one passed in RemoteControlBoardRemapper.",
+                        logPrefix);
             return true;
         }
 
         if (!ptr->getParameter("joints_list", metaData.sensorsList.jointsList))
         {
-            std::cerr << logPrefix
-                      << "The parameter \"joints_list\" in not available in the configuration. The "
-                         "order of the joints will be the one passed in RemoteControlBoardRemapper."
-                      << std::endl;
+            log()->info("{} The parameter 'joints_list' in not available in the configuration. The "
+                        "order of the joints will be the one passed in RemoteControlBoardRemapper.",
+                        logPrefix);
             return true;
         }
 
@@ -257,9 +271,12 @@ struct YarpSensorBridge::Impl
     bool configureInertialSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                                   SensorBridgeMetaData& metaData)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureInertialSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::configureInertialSensors]";
         auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
+        if (ptr == nullptr)
+        {
+            return false;
+        }
 
         if (ptr->getParameter("imu_list", metaData.sensorsList.IMUsList))
         {
@@ -276,7 +293,8 @@ struct YarpSensorBridge::Impl
             metaData.bridgeOptions.isGyroscopeEnabled = true;
         }
 
-        if (ptr->getParameter("orientation_sensors_list", metaData.sensorsList.orientationSensorsList))
+        if (ptr->getParameter("orientation_sensors_list",
+                              metaData.sensorsList.orientationSensorsList))
         {
             metaData.bridgeOptions.isOrientationSensorEnabled = true;
         }
@@ -296,18 +314,19 @@ struct YarpSensorBridge::Impl
         std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
         SensorBridgeMetaData& metaData)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::"
-                                               "configureSixAxisForceTorqueSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors]";
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
             return false;
         }
 
-        if (!ptr->getParameter("sixaxis_forcetorque_sensors_list", metaData.sensorsList.sixAxisForceTorqueSensorsList))
+        if (!ptr->getParameter("sixaxis_forcetorque_sensors_list",
+                               metaData.sensorsList.sixAxisForceTorqueSensorsList))
         {
-            std::cerr << logPrefix << " Required parameter \"sixaxis_forcetorque_sensors_list\" not available in the configuration"
-                      << std::endl;
+            log()->error("{} Required parameter \"sixaxis_forcetorque_sensors_list\" not available "
+                         "in the configuration.",
+                         logPrefix);
             return false;
         }
 
@@ -317,20 +336,23 @@ struct YarpSensorBridge::Impl
     /**
      * Configure cartesian wrenches meta data
      */
-    bool configureCartesianWrenches(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
-                                    SensorBridgeMetaData& metaData)
+    bool
+    configureCartesianWrenches(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                               SensorBridgeMetaData& metaData)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::configureCartesianWrenchSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::configureCartesianWrenchSensors] ";
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
             return false;
         }
 
-        if (!ptr->getParameter("cartesian_wrenches_list", metaData.sensorsList.cartesianWrenchesList))
+        if (!ptr->getParameter("cartesian_wrenches_list",
+                               metaData.sensorsList.cartesianWrenchesList))
         {
-            std::cerr << logPrefix << " Required parameter \"cartesian_wrenches_list\" not available in the configuration"
-                      << std::endl;
+            log()->error("{} Required parameter \"cartesian_wrenches_list\" not available "
+                         "in the configuration.",
+                         logPrefix);
             return false;
         }
 
@@ -350,7 +372,7 @@ struct YarpSensorBridge::Impl
                                      const int& nrChannelsInSensor,
                                      std::unordered_map<std::string, SensorType*>& sensorMap)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachGenericOrAnalogSensor] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachGenericOrAnalogSensor]";
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
             if (sensorName != devList[devIdx]->key)
@@ -363,7 +385,7 @@ struct YarpSensorBridge::Impl
             {
                 if (sensorInterface == nullptr)
                 {
-                    std::cerr << logPrefix << sensorName << " Could not view interface." << std::endl;
+                    log()->error("{} {} Could not view interface.", logPrefix, sensorName);
                     return false;
                 }
 
@@ -371,23 +393,24 @@ struct YarpSensorBridge::Impl
                 if constexpr (std::is_same_v<SensorType, yarp::dev::IAnalogSensor>)
                 {
                     nrChannels = sensorInterface->getChannels();
-                }
-                else if constexpr (std::is_same_v<SensorType, yarp::dev::IGenericSensor>)
+                } else if constexpr (std::is_same_v<SensorType, yarp::dev::IGenericSensor>)
                 {
                     sensorInterface->getChannels(&nrChannels);
                 }
 
                 if (nrChannels != nrChannelsInSensor)
                 {
-                    std::cerr << logPrefix << sensorName << " Mismatch in the expected number of channels in the sensor stream." << std::endl;
+                    log()->error("{} {} Mismatch in the expected number of channels in the sensor "
+                                 "stream.",
+                                 logPrefix,
+                                 sensorName);
                     return false;
                 }
 
                 sensorMap[devList[devIdx]->key] = sensorInterface;
-            }
-            else
+            } else
             {
-                std::cerr << logPrefix << sensorName << " Could not view interface." << std::endl;
+                log()->error("{} {} Could not view interface.", logPrefix, sensorName);
                 return false;
             }
         }
@@ -401,7 +424,7 @@ struct YarpSensorBridge::Impl
                                          const std::vector<std::string>& sensorList,
                                          std::string_view interfaceType)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllGenericOrAnalogSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllGenericOrAnalogSensors]";
 
         bool allSensorsAttachedSuccesful{true};
         for (auto genericSensorCartesianWrench : sensorList)
@@ -416,10 +439,9 @@ struct YarpSensorBridge::Impl
             }
         }
 
-        if (!allSensorsAttachedSuccesful ||
-            (sensorMap.size() != sensorList.size()) )
+        if (!allSensorsAttachedSuccesful || (sensorMap.size() != sensorList.size()))
         {
-            std::cerr << logPrefix << " Could not attach all desired " << interfaceType << " ." << std::endl;
+            log()->error("{} Could not attach all desired {}.", logPrefix, interfaceType);
             return false;
         }
 
@@ -435,18 +457,17 @@ struct YarpSensorBridge::Impl
                                   const std::vector<std::string>& sensorList,
                                   const std::string_view interfaceName)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAndCheckMASSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAndCheckMASSensors]";
 
         if (!attachRemappedMASSensor(devList, sensorInterface))
         {
-            std::cerr << logPrefix << " Could not find " << interfaceName << " interface." << std::endl;
+            log()->error("{} Could not find {} interface.", logPrefix, interfaceName);
             return false;
         }
 
-
         if (!checkAttachedMASSensors(devList, sensorInterface, sensorList))
         {
-            std::cerr << logPrefix << " Could not find atleast one of the required sensors." << std::endl;
+            log()->error("{} Could not find at least one of the required sensors.", logPrefix);
             return false;
         }
 
@@ -461,7 +482,7 @@ struct YarpSensorBridge::Impl
     bool attachRemappedMASSensor(const yarp::dev::PolyDriverList& devList,
                                  MASSensorType*& masSensorInterface)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachRemappedMASSensor] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachRemappedMASSensor]";
         bool broken{false};
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
@@ -480,7 +501,7 @@ struct YarpSensorBridge::Impl
 
         if (!broken || masSensorInterface == nullptr)
         {
-            std::cerr << logPrefix << " Could not view interface." << std::endl;
+            log()->error("{} Could not view interface.", logPrefix);
             return false;
         }
         return true;
@@ -494,12 +515,14 @@ struct YarpSensorBridge::Impl
                                  MASSensorType*& sensorInterface,
                                  const std::vector<std::string>& sensorList)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::checkAttachedMASSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::checkAttachedMASSensors]";
 
         auto nrSensors{getNumberOfMASSensors(sensorInterface)};
         if (nrSensors != sensorList.size())
         {
-            std::cerr << logPrefix << "Expecting the same number of MAS sensors attached to the Bridge as many mentioned in the initialization step" << std::endl;
+            log()->error("{} Expecting the same number of MAS sensors attached to the Bridge as "
+                         "many mentioned in the initialization step.",
+                         logPrefix);
             return false;
         }
 
@@ -522,20 +545,20 @@ struct YarpSensorBridge::Impl
                     if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
                     {
                         masSensorIndexMaps.gyroscopes[masSensorName] = attachedIdx;
-                    }
-                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+                    } else if constexpr (std::is_same_v<MASSensorType,
+                                                        yarp::dev::IThreeAxisLinearAccelerometers>)
                     {
                         masSensorIndexMaps.accelerometer[masSensorName] = attachedIdx;
-                    }
-                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+                    } else if constexpr (std::is_same_v<MASSensorType,
+                                                        yarp::dev::IThreeAxisMagnetometers>)
                     {
                         masSensorIndexMaps.magnetometers[masSensorName] = attachedIdx;
-                    }
-                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+                    } else if constexpr (std::is_same_v<MASSensorType,
+                                                        yarp::dev::IOrientationSensors>)
                     {
                         masSensorIndexMaps.orientationSensors[masSensorName] = attachedIdx;
-                    }
-                    else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+                    } else if constexpr (std::is_same_v<MASSensorType,
+                                                        yarp::dev::ISixAxisForceTorqueSensors>)
                     {
                         masSensorIndexMaps.sixAxisFTSensors[masSensorName] = attachedIdx;
                     }
@@ -545,7 +568,9 @@ struct YarpSensorBridge::Impl
 
             if (!sensorFound)
             {
-                 std::cerr << logPrefix << "Bridge could not attach to MAS Sensor " << masSensorName << "." << std::endl;
+                log()->error("{} Bridge could not attach to MAS Sensor {}.",
+                             logPrefix,
+                             masSensorName);
             }
         }
 
@@ -566,20 +591,17 @@ struct YarpSensorBridge::Impl
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
             return sensorInterface->getNrOfThreeAxisGyroscopes();
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+        } else if constexpr (std::is_same_v<MASSensorType,
+                                            yarp::dev::IThreeAxisLinearAccelerometers>)
         {
             return sensorInterface->getNrOfThreeAxisLinearAccelerometers();
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
         {
             return sensorInterface->getNrOfThreeAxisMagnetometers();
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
         {
             return sensorInterface->getNrOfOrientationSensors();
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             return sensorInterface->getNrOfSixAxisForceTorqueSensors();
         }
@@ -603,20 +625,17 @@ struct YarpSensorBridge::Impl
         if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisGyroscopes>)
         {
             return sensorInterface->getThreeAxisGyroscopeName(sensIdx, sensorName);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+        } else if constexpr (std::is_same_v<MASSensorType,
+                                            yarp::dev::IThreeAxisLinearAccelerometers>)
         {
             return sensorInterface->getThreeAxisLinearAccelerometerName(sensIdx, sensorName);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
         {
             return sensorInterface->getThreeAxisMagnetometerName(sensIdx, sensorName);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
         {
             return sensorInterface->getOrientationSensorName(sensIdx, sensorName);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             return sensorInterface->getSixAxisForceTorqueSensorName(sensIdx, sensorName);
         }
@@ -644,8 +663,8 @@ struct YarpSensorBridge::Impl
                 sensorInterface->getThreeAxisGyroscopeName(sensIdx, sensName);
                 availableSensorNames.push_back(sensName);
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+        } else if constexpr (std::is_same_v<MASSensorType,
+                                            yarp::dev::IThreeAxisLinearAccelerometers>)
         {
             auto nrSensors = sensorInterface->getNrOfThreeAxisLinearAccelerometers();
             for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
@@ -654,8 +673,7 @@ struct YarpSensorBridge::Impl
                 sensorInterface->getThreeAxisLinearAccelerometerName(sensIdx, sensName);
                 availableSensorNames.push_back(sensName);
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
         {
             auto nrSensors = sensorInterface->getNrOfThreeAxisMagnetometers();
             for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
@@ -664,8 +682,7 @@ struct YarpSensorBridge::Impl
                 sensorInterface->getThreeAxisMagnetometerName(sensIdx, sensName);
                 availableSensorNames.push_back(sensName);
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
         {
             auto nrSensors = sensorInterface->getNrOfOrientationSensors();
             for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
@@ -674,8 +691,7 @@ struct YarpSensorBridge::Impl
                 sensorInterface->getOrientationSensorName(sensIdx, sensName);
                 availableSensorNames.push_back(sensName);
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             auto nrSensors = sensorInterface->getNrOfSixAxisForceTorqueSensors();
             for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
@@ -688,12 +704,11 @@ struct YarpSensorBridge::Impl
         return availableSensorNames;
     }
 
-
     /**
      * Check if sensor is available in the relevant sensor map
      */
     template <typename SensorType>
-    bool checkSensor(const std::unordered_map<std::string, SensorType* >& sensorMap,
+    bool checkSensor(const std::unordered_map<std::string, SensorType*>& sensorMap,
                      const std::string& sensorName)
     {
         if (sensorMap.find(sensorName) == sensorMap.end())
@@ -709,7 +724,7 @@ struct YarpSensorBridge::Impl
      */
     template <typename YARPDataType>
     bool checkValidSensorMeasure(std::string_view logPrefix,
-                                 const std::unordered_map<std::string, YARPDataType >& sensorMap,
+                                 const std::unordered_map<std::string, YARPDataType>& sensorMap,
                                  const std::string& sensorName)
     {
         if (!checkValid(logPrefix))
@@ -719,7 +734,7 @@ struct YarpSensorBridge::Impl
 
         if (sensorMap.find(sensorName) == sensorMap.end())
         {
-            std::cerr << logPrefix << sensorName << " sensor unavailable in the measurement map" << std::endl;
+            log()->error("{} {} sensor unavailable in the measurement map.", logPrefix, sensorName);
             return false;
         }
 
@@ -733,7 +748,8 @@ struct YarpSensorBridge::Impl
     {
         if (!(bridgeInitialized && driversAttached))
         {
-            std::cerr << methodName << " SensorBridge is not ready. Please initialize and set drivers list.";
+            log()->error("{} SensorBridge is not ready. Please initialize and set drivers list.",
+                         methodName);
             return false;
         }
         return true;
@@ -744,10 +760,11 @@ struct YarpSensorBridge::Impl
      */
     bool attachAllInertials(const yarp::dev::PolyDriverList& devList)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllInertials] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllInertials]";
         if (metaData.bridgeOptions.isIMUEnabled)
         {
-            // check if a generic sensor has 12 channels implying it is a IMU sensor through a GenericSensor Interfaces
+            // check if a generic sensor has 12 channels implying it is a IMU sensor through a
+            // GenericSensor Interfaces
             std::string_view interfaceType{"Generic IMU Interface"};
             if (!attachAllGenericOrAnalogSensors(devList,
                                                  wholeBodyAnalogIMUInterface,
@@ -762,8 +779,10 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isLinearAccelerometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisLinearAccelerometers"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.accelerometers,
-                                          metaData.sensorsList.linearAccelerometersList, interfaceType))
+            if (!attachAndCheckMASSensors(devList,
+                                          wholeBodyMASInertialsInterface.accelerometers,
+                                          metaData.sensorsList.linearAccelerometersList,
+                                          interfaceType))
             {
                 return false;
             }
@@ -772,8 +791,10 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isGyroscopeEnabled)
         {
             std::string_view interfaceType{"IThreeAxisGyroscopes"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.gyroscopes,
-                                          metaData.sensorsList.gyroscopesList, interfaceType))
+            if (!attachAndCheckMASSensors(devList,
+                                          wholeBodyMASInertialsInterface.gyroscopes,
+                                          metaData.sensorsList.gyroscopesList,
+                                          interfaceType))
             {
                 return false;
             }
@@ -782,8 +803,10 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isOrientationSensorEnabled)
         {
             std::string_view interfaceType{"IOrientationSensors"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.orientationSensors,
-                                          metaData.sensorsList.orientationSensorsList, interfaceType))
+            if (!attachAndCheckMASSensors(devList,
+                                          wholeBodyMASInertialsInterface.orientationSensors,
+                                          metaData.sensorsList.orientationSensorsList,
+                                          interfaceType))
             {
                 return false;
             }
@@ -792,8 +815,10 @@ struct YarpSensorBridge::Impl
         if (metaData.bridgeOptions.isMagnetometerEnabled)
         {
             std::string_view interfaceType{"IThreeAxisMagnetometers"};
-            if (!attachAndCheckMASSensors(devList, wholeBodyMASInertialsInterface.magnetometers,
-                                          metaData.sensorsList.magnetometersList, interfaceType))
+            if (!attachAndCheckMASSensors(devList,
+                                          wholeBodyMASInertialsInterface.magnetometers,
+                                          metaData.sensorsList.magnetometersList,
+                                          interfaceType))
             {
                 return false;
             }
@@ -816,9 +841,10 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachRemappedRemoteControlBoard] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachRemappedRemoteControlBoard]";
         // expects only one remotecontrolboard device attached to it, if found break!
-        // if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard
+        // if there multiple remote control boards, then  use a remapper to create a single
+        // remotecontrolboard
         bool ok{true};
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
@@ -833,13 +859,15 @@ struct YarpSensorBridge::Impl
 
         if (!ok)
         {
-            std::cerr << logPrefix << " Could not find a remapped remote control board with the desired interfaces" << std::endl;
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
             return false;
         }
 
         if (!compareControlBoardJointsList())
         {
-            std::cerr << logPrefix << " Could not attach to remapped control board interface" << std::endl;
+            log()->error("{} Could not attach to remapped control board interface.", logPrefix);
             return false;
         }
 
@@ -852,14 +880,16 @@ struct YarpSensorBridge::Impl
     void resetControlBoardBuffers()
     {
         // firstly resize all the controlboard data buffers
-        controlBoardRemapperMeasures.remappedJointPermutationMatrix.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.remappedJointPermutationMatrix.resize(
+            metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.remappedJointIndices.resize(metaData.bridgeOptions.nrJoints);
 
         controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
 
-        controlBoardRemapperMeasures.jointPositionsUnordered.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.jointPositionsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
             metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.motorCurrentsUnordered.resize(metaData.bridgeOptions.nrJoints);
@@ -876,7 +906,7 @@ struct YarpSensorBridge::Impl
      */
     bool compareControlBoardJointsList()
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::compareControlBoardJointsList] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::compareControlBoardJointsList]";
 
         // get the names of all the joints available in the attached remote control board remapper
         std::vector<std::string> controlBoardJoints;
@@ -908,11 +938,14 @@ struct YarpSensorBridge::Impl
         for (int desiredDOF = 0; desiredDOF < metaData.sensorsList.jointsList.size(); desiredDOF++)
         {
             const auto& jointInSensorList = metaData.sensorsList.jointsList[desiredDOF];
-            auto& remappedJointIndex = controlBoardRemapperMeasures.remappedJointIndices[desiredDOF];
+            auto& remappedJointIndex
+                = controlBoardRemapperMeasures.remappedJointIndices[desiredDOF];
             // find the joint named jointInSensorList into the controlBoardJoints vector
-            const auto it = std::find_if(controlBoardJoints.begin(),
-                                         controlBoardJoints.end(),
-                                         [&](const auto& joint) { return jointInSensorList == joint; });
+            const auto it = std::find_if(controlBoardJoints.begin(), //
+                                         controlBoardJoints.end(), //
+                                         [&](const auto& joint) { //
+                                             return jointInSensorList == joint;
+                                         });
 
             // check if the joint is found
             if (it != controlBoardJoints.end())
@@ -920,10 +953,9 @@ struct YarpSensorBridge::Impl
                 remappedJointIndex = std::distance(controlBoardJoints.begin(), it);
             } else
             {
-                std::cerr << logPrefix
-                          << "Could not find a desired joint from the configuration in the "
-                             "attached control board remapper."
-                          << std::endl;
+                log()->error("{} Could not find a desired joint from the configuration in the "
+                             "attached control board remapper.",
+                             logPrefix);
                 return false;
             }
         }
@@ -931,14 +963,13 @@ struct YarpSensorBridge::Impl
         controlBoardRemapperMeasures.remappedJointPermutationMatrix.indices()
             = controlBoardRemapperMeasures.remappedJointIndices;
 
-        std::cout << logPrefix << "Found all joints with the remapped index " << std::endl;
+        log()->info("{} Found all joints with the remapped index", logPrefix);
         for (int idx = 0; idx < controlBoardRemapperMeasures.remappedJointIndices.size(); idx++)
         {
-            std::cout << logPrefix << "Remapped Index: "
-                      << controlBoardRemapperMeasures.remappedJointIndices[idx]
-                      << " , Joint name:  "
-                      << controlBoardJoints[controlBoardRemapperMeasures.remappedJointIndices[idx]]
-                      << std::endl;
+            log()->info("{} Remapped Index: {}, Joint name: {}.",
+                        logPrefix,
+                        controlBoardRemapperMeasures.remappedJointIndices[idx],
+                        controlBoardJoints[controlBoardRemapperMeasures.remappedJointIndices[idx]]);
         }
         return true;
     }
@@ -951,40 +982,45 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::attachAllSixAxisForceTorqueSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllSixAxisForceTorqueSensors]";
 
         std::vector<std::string> analogFTSensors;
         std::vector<std::string> masFTSensors;
         // attach MAS sensors
-        if (attachRemappedMASSensor(devList,
-                                    wholeBodyMASForceTorquesInterface.sixAxisFTSensors))
+        if (attachRemappedMASSensor(devList, wholeBodyMASForceTorquesInterface.sixAxisFTSensors))
         {
             // get MAS FT sensor names
-            masFTSensors = getAllSensorsInMASInterface(wholeBodyMASForceTorquesInterface.sixAxisFTSensors);
+            masFTSensors
+                = getAllSensorsInMASInterface(wholeBodyMASForceTorquesInterface.sixAxisFTSensors);
             auto allFTsInMetaData = metaData.sensorsList.sixAxisForceTorqueSensorsList;
 
             // compare with sensorList - those not available in the MAS interface list
             // are assumed to be analog FT sensors
             std::sort(masFTSensors.begin(), masFTSensors.end());
             std::sort(allFTsInMetaData.begin(), allFTsInMetaData.end());
-            std::set_difference(allFTsInMetaData.begin(), allFTsInMetaData.end(),
-                                masFTSensors.begin(), masFTSensors.end(),
+            std::set_difference(allFTsInMetaData.begin(),
+                                allFTsInMetaData.end(),
+                                masFTSensors.begin(),
+                                masFTSensors.end(),
                                 std::back_inserter(analogFTSensors));
-        }
-        else
+        } else
         {
             // if there are no MAS FT sensors then all the FT sensors in the configuration
             // are analog FT sensors
             analogFTSensors = metaData.sensorsList.sixAxisForceTorqueSensorsList;
         }
 
-        if (!checkAttachedMASSensors(devList, wholeBodyMASForceTorquesInterface.sixAxisFTSensors, masFTSensors))
+        if (!checkAttachedMASSensors(devList,
+                                     wholeBodyMASForceTorquesInterface.sixAxisFTSensors,
+                                     masFTSensors))
         {
-            std::cerr << logPrefix << " Could not find atleast one of the required MAS FT sensors." << std::endl;
+            log()->error("{} Could not find atleast one of the required MAS FT sensors.",
+                         logPrefix);
             return false;
         }
 
-        // check if a generic sensor has 12 channels implying it is a IMU sensor through a GenericSensor Interfaces
+        // check if a generic sensor has 12 channels implying it is a IMU sensor through a
+        // GenericSensor Interfaces
         std::string_view interfaceType{"Analog Six Axis FT Interface"};
         if (!attachAllGenericOrAnalogSensors(devList,
                                              wholeBodyAnalogSixAxisFTSensorsInterface,
@@ -1011,7 +1047,8 @@ struct YarpSensorBridge::Impl
 
         if (metaData.bridgeOptions.isCartesianWrenchEnabled)
         {
-            // check if a generic sensor has 6 channels implying it is a cartesian wrench sensor through a GenericSensor Interfaces
+            // check if a generic sensor has 6 channels implying it is a cartesian wrench sensor
+            // through a GenericSensor Interfaces
             std::string_view interfaceType{"Cartesian Wrench Interface"};
             if (!attachAllGenericOrAnalogSensors(devList,
                                                  wholeBodyCartesianWrenchInterface,
@@ -1021,7 +1058,6 @@ struct YarpSensorBridge::Impl
             {
                 return false;
             }
-
         }
         return true;
     }
@@ -1029,7 +1065,7 @@ struct YarpSensorBridge::Impl
     /**
      * utility function
      */
-    double deg2rad(double deg)
+    inline double deg2rad(double deg)
     {
         return deg * M_PI / 180.0;
     }
@@ -1040,12 +1076,12 @@ struct YarpSensorBridge::Impl
     template <typename SensorType>
     bool readAnalogOrGenericSensor(const std::string& sensorName,
                                    const int& nrChannelsInYARPSensor,
-                                   std::unordered_map<std::string, SensorType* >& interfaceMap,
-                                   std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                                   std::unordered_map<std::string, SensorType*>& interfaceMap,
+                                   std::unordered_map<std::string, StampedYARPVector>& measurementMap,
                                    bool checkForNan = false)
     {
         bool ok{true};
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAnalogOrGenericSensor] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAnalogOrGenericSensor]";
         if (!checkSensor(interfaceMap, sensorName))
         {
             return false;
@@ -1061,18 +1097,16 @@ struct YarpSensorBridge::Impl
         {
             auto retValue = interface->read(sensorMeasure);
             ok = ok && (retValue == yarp::dev::IAnalogSensor::AS_OK);
-        }
-        else if constexpr (std::is_same_v<SensorType, yarp::dev::IGenericSensor>)
+        } else if constexpr (std::is_same_v<SensorType, yarp::dev::IGenericSensor>)
         {
             ok = ok && interface->read(sensorMeasure);
         }
 
         if (!ok)
         {
-            std::cerr << logPrefix << " Unable to read from " << sensorName << " , use previous measurement" << std::endl;
+            log()->error("{} Unable to read from {}, use previous measurement.", logPrefix, sensorName);
             return false;
         }
-
 
         if (checkForNan)
         {
@@ -1084,7 +1118,8 @@ struct YarpSensorBridge::Impl
 
         // for IMU measurements convert angular velocity  measurements to radians per s
         // and convert orientation measurements to radians
-        // enforcing the assumption that if dimensions of sensor channel is 12 then its an IMU sensor
+        // enforcing the assumption that if dimensions of sensor channel is 12 then its an IMU
+        // sensor
         if (nrChannelsInYARPSensor == nrChannelsInYARPGenericIMUSensor)
         {
             // See http://wiki.icub.org/wiki/Inertial_Sensor
@@ -1103,15 +1138,14 @@ struct YarpSensorBridge::Impl
         return true;
     }
 
-
     template <typename MASSensorType>
     bool readMASSensor(MASSensorType* interface,
                        const std::string& sensorName,
-                       const std::unordered_map<std::string, std::size_t >& sensorIdxMap,
-                       std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                       const std::unordered_map<std::string, std::size_t>& sensorIdxMap,
+                       std::unordered_map<std::string, StampedYARPVector>& measurementMap,
                        bool checkForNan = false)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readMASSensor] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readMASSensor]";
         auto iter = sensorIdxMap.find(sensorName);
         if (iter == sensorIdxMap.end())
         {
@@ -1133,31 +1167,32 @@ struct YarpSensorBridge::Impl
             {
                 sensorMeasure(elemIdx) = deg2rad(sensorMeasure(elemIdx));
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisLinearAccelerometers>)
+        } else if constexpr (std::is_same_v<MASSensorType,
+                                            yarp::dev::IThreeAxisLinearAccelerometers>)
         {
             constexpr int dim{3};
             sensorMeasure.resize(dim);
-            ok = interface->getThreeAxisLinearAccelerometerMeasure(sensIdx, sensorMeasure, txTimeStamp);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
+            ok = interface->getThreeAxisLinearAccelerometerMeasure(sensIdx,
+                                                                   sensorMeasure,
+                                                                   txTimeStamp);
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IThreeAxisMagnetometers>)
         {
             constexpr int dim{3};
             sensorMeasure.resize(dim);
             ok = interface->getThreeAxisMagnetometerMeasure(sensIdx, sensorMeasure, txTimeStamp);
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::IOrientationSensors>)
         {
             constexpr int dim{3};
             sensorMeasure.resize(dim);
-            ok = interface->getOrientationSensorMeasureAsRollPitchYaw(sensIdx, sensorMeasure, txTimeStamp);
+            ok = interface->getOrientationSensorMeasureAsRollPitchYaw(sensIdx,
+                                                                      sensorMeasure,
+                                                                      txTimeStamp);
             // convert YARP measures from deg to rad
             for (std::size_t elemIdx = 0; elemIdx < dim; elemIdx++)
             {
                 sensorMeasure(elemIdx) = deg2rad(sensorMeasure(elemIdx));
             }
-        }
-        else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             constexpr int dim{6};
             sensorMeasure.resize(dim);
@@ -1166,7 +1201,9 @@ struct YarpSensorBridge::Impl
 
         if (!ok)
         {
-            std::cerr << logPrefix << " Unable to read from " << sensorName << ", use previous measurement" << std::endl;
+            log()->error("{} Unable to read from {}, use previous measurement.",
+                         logPrefix,
+                         sensorName);
             return false;
         }
 
@@ -1187,24 +1224,20 @@ struct YarpSensorBridge::Impl
     template <typename MASSensorType>
     bool readAllMASSensors(MASSensorType* interface,
                            std::unordered_map<std::string, std::size_t> sensIdxMap,
-                           std::unordered_map<std::string, StampedYARPVector >& measurementMap,
+                           std::unordered_map<std::string, StampedYARPVector>& measurementMap,
                            std::vector<std::string>& failedSensorReads,
                            bool checkForNan = false)
     {
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllMASSensors] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllMASSensors]";
         bool allSensorsReadCorrectly{true};
         failedSensorReads.clear();
-        for( auto const& sensorIdx : sensIdxMap )
+        for (auto const& sensorIdx : sensIdxMap)
         {
             const auto& sensorName = sensorIdx.first;
-            bool ok = readMASSensor(interface,
-                                    sensorName,
-                                    sensIdxMap,
-                                    measurementMap,
-                                    checkForNan);
+            bool ok = readMASSensor(interface, sensorName, sensIdxMap, measurementMap, checkForNan);
             if (!ok)
             {
-                std::cerr << logPrefix << " Read MAS sensor failed for " << sensorName << std::endl;
+                log()->error("{} Read MAS sensor failed for {}.", logPrefix, sensorName);
                 failedSensorReads.emplace_back(sensorName);
             }
             allSensorsReadCorrectly = ok && allSensorsReadCorrectly;
@@ -1224,7 +1257,7 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readControlBoardInterface] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readControlBoardInterface]";
         bool ok{true};
         ok = ok
              && controlBoardRemapperInterfaces.encoders->getEncoders(
@@ -1238,7 +1271,8 @@ struct YarpSensorBridge::Impl
 
         if (!ok)
         {
-            std::cerr << logPrefix << " Unable to read from encoders interface, use previous measurement" << std::endl;
+            log()->error("{} Unable to read from encoders interface, use previous measurement.",
+                         logPrefix);
             return false;
         }
 
@@ -1267,9 +1301,8 @@ struct YarpSensorBridge::Impl
         }
 
         // convert from degrees to radians - YARP convention is to store joint positions in degrees
-
         controlBoardRemapperMeasures.jointPositions.noalias()
-            =  controlBoardRemapperMeasures.remappedJointPermutationMatrix
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
               * controlBoardRemapperMeasures.jointPositionsUnordered * M_PI / 180;
 
         controlBoardRemapperMeasures.jointVelocities.noalias()
@@ -1293,10 +1326,10 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllIMUs] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllIMUs]";
         bool allIMUsReadCorrectly{true};
         failedSensorReads.clear();
-        for( auto const& imu : wholeBodyAnalogIMUInterface )
+        for (auto const& imu : wholeBodyAnalogIMUInterface)
         {
             const auto& imuName = imu.first;
             bool ok = readAnalogOrGenericSensor(imuName,
@@ -1306,7 +1339,7 @@ struct YarpSensorBridge::Impl
                                                 checkForNAN);
             if (!ok)
             {
-                std::cerr << logPrefix << " Read IMU failed for " << imuName << std::endl;
+                log()->error("{} Read IMU failed for {}.", logPrefix, imuName);
                 failedSensorReads.emplace_back(imuName);
             }
             allIMUsReadCorrectly = ok && allIMUsReadCorrectly;
@@ -1323,10 +1356,11 @@ struct YarpSensorBridge::Impl
             return true;
         }
 
-        constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readAllCartesianWrenches] ";
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllCartesianWrenches]";
+
         bool allWrenchesReadCorrectly{true};
         failedSensorReads.clear();
-        for( auto const& wrenchUnit : wholeBodyCartesianWrenchInterface )
+        for (auto const& wrenchUnit : wholeBodyCartesianWrenchInterface)
         {
             const auto& wrenchName = wrenchUnit.first;
             bool ok = readAnalogOrGenericSensor(wrenchName,
@@ -1336,7 +1370,7 @@ struct YarpSensorBridge::Impl
                                                 checkForNAN);
             if (!ok)
             {
-                std::cerr << logPrefix << " Read cartesian wrench failed for " << wrenchName << std::endl;
+                log()->error("{} Read cartesian wrench failed for {}.", logPrefix, wrenchName);
                 failedSensorReads.emplace_back(wrenchName);
             }
             allWrenchesReadCorrectly = ok && allWrenchesReadCorrectly;
@@ -1432,43 +1466,58 @@ struct YarpSensorBridge::Impl
 
         if (!readAllIMUs(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllCartesianWrenches(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllMASLinearAccelerometers(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllMASGyroscopes(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllMASOrientationSensors(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllMASMagnetometers(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         if (!readAllMASSixAxisForceTorqueSensors(failedReads))
         {
-            failedReadAllSensors.insert(failedReadAllSensors.end(), failedReads.begin(), failedReads.end());
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
         }
 
         return true;
     }
 };
 
-}
-}
+} // namespace RobotInterface
+} // namespace BipedalLocomotion
+
 #endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_IMPL_H

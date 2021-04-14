@@ -6,6 +6,8 @@
  */
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+
 #include <yarp/eigen/Eigen.h>
 
 using namespace BipedalLocomotion::RobotInterface;
@@ -21,19 +23,18 @@ YarpSensorBridge::~YarpSensorBridge() = default;
 
 bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
-    constexpr std::string_view logPrefix = "[YarpSensorBridge::initialize] ";
+    constexpr auto logPrefix = "[YarpSensorBridge::initialize]";
 
     auto ptr = handler.lock();
     if (ptr == nullptr)
     {
-        std::cerr << logPrefix << "The handler is not pointing to an already initialized memory."
-                  << std ::endl;
+        log()->error("{} The handler is not pointing to an already initialized memory.", logPrefix);
         return false;
     }
 
     if (!ptr->getParameter("check_for_nan", m_pimpl->checkForNAN))
     {
-        std::cerr << logPrefix << "Unable to get check_for_nan." << std ::endl;
+        log()->error("{} Unable to get check_for_nan.", logPrefix);
         return false;
     }
 
@@ -46,10 +47,9 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
     if (!ret)
     {
-        std::cout << logPrefix
-                  << " Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge "
-                     "will not stream relevant measures."
-                  << std::endl;
+        log()->info("{} Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge "
+                    "will not stream relevant measures.",
+                    logPrefix);
     }
 
     bool useInertialSensors{false};
@@ -61,25 +61,22 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    useInertialSensors);
     if (!ret)
     {
-        std::cout << logPrefix
-                  << " Skipping the configuration of InertialSensors. YarpSensorBridge will not "
-                     "stream relevant measures."
-                  << std::endl;
+        log()->info("{} Skipping the configuration of InertialSensors. YarpSensorBridge will not "
+                    "stream relevant measures.",
+                    logPrefix);
     }
 
-    ret = m_pimpl
-              ->subConfigLoader("stream_forcetorque_sensors",
-                                "SixAxisForceTorqueSensors",
-                                &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
-                                handler,
-                                m_pimpl->metaData,
-                                m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
+    ret = m_pimpl->subConfigLoader("stream_forcetorque_sensors", //
+                                   "SixAxisForceTorqueSensors",
+                                   &YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   m_pimpl->metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled);
     if (!ret)
     {
-        std::cout << logPrefix
-                  << " Skipping the configuration of SixAxisForceTorqueSensors. YarpSensorBridge "
-                     "will not stream relevant measures."
-                  << std::endl;
+        log()->info("{} Skipping the configuration of SixAxisForceTorqueSensors. YarpSensorBridge "
+                    "will not stream relevant measures.",
+                    logPrefix);
     }
 
     ret = m_pimpl->subConfigLoader("stream_cartesian_wrenches",
@@ -90,10 +87,9 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    m_pimpl->metaData.bridgeOptions.isCartesianWrenchEnabled);
     if (!ret)
     {
-        std::cout << logPrefix
-                  << " Skipping the configuration of CartesianWrenches. YarpSensorBridge will not "
-                     "stream relevant measures."
-                  << std::endl;
+        log()->info("{} Skipping the configuration of CartesianWrenches. YarpSensorBridge "
+                    "will not stream relevant measures.",
+                    logPrefix);
     }
 
     m_pimpl->bridgeInitialized = true;
@@ -102,13 +98,12 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
 
 bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDriversList)
 {
-    constexpr std::string_view logPrefix = "[YarpSensorBridge::setDriversList] ";
+    constexpr auto logPrefix = "[YarpSensorBridge::setDriversList]";
 
     if (!m_pimpl->bridgeInitialized)
     {
-        std::cerr << logPrefix
-                  << "Please initialize YarpSensorBridge before calling setDriversList(...)."
-                  << std ::endl;
+        log()->error("{} Please initialize YarpSensorBridge before calling setDriversList(...).",
+                     logPrefix);
         return false;
     }
 
@@ -120,7 +115,7 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
 
     if (!ret)
     {
-        std::cerr << logPrefix << "Failed to attach to one or more device drivers." << std ::endl;
+        log()->error("{} Failed to attach to one or more device drivers.", logPrefix);
         return false;
     }
     m_pimpl->driversAttached = true;
@@ -129,11 +124,11 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
 
 bool YarpSensorBridge::advance()
 {
-    constexpr std::string_view logPrefix = "[YarpSensorBridge::advance] ";
-    if (!m_pimpl->checkValid("[YarpSensorBridge::advance]"))
+    constexpr auto logPrefix = "[YarpSensorBridge::advance]";
+    if (!m_pimpl->checkValid(logPrefix))
     {
-        std::cerr << logPrefix << "Please initialize and set drivers list before running advance()."
-                  << std ::endl;
+        log()->error("{} Please initialize and set drivers list before running advance().",
+                     logPrefix);
         return false;
     }
 
@@ -241,11 +236,13 @@ bool YarpSensorBridge::getJointPosition(const std::string& jointName,
                                         double& jointPosition,
                                         OptionalDoubleRef receiveTimeInSeconds)
 {
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointPosition]";
     int idx;
     if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
-        std::cerr << "[YarpSensorBridge::getJointPosition] " << jointName
-                  << " could not be found in the configured list of joints" << std::endl;
+        log()->error("{} {} could not be found in the configured list of joints.",
+                     logPrefix,
+                     jointName);
         return false;
     }
 
@@ -273,11 +270,13 @@ bool YarpSensorBridge::getJointVelocity(const std::string& jointName,
                                         double& jointVelocity,
                                         OptionalDoubleRef receiveTimeInSeconds)
 {
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointVelocity]";
     int idx;
     if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
-        std::cerr << "[YarpSensorBridge::getJointVelocity] " << jointName
-                  << " could not be found in the configured list of joints" << std::endl;
+        log()->error("{} {} could not be found in the configured list of joints.",
+                     logPrefix,
+                     jointName);
         return false;
     }
 
@@ -431,19 +430,14 @@ bool YarpSensorBridge::getThreeAxisForceTorqueMeasurement(const std::string& ftN
                                                           Eigen::Ref<Eigen::Vector3d> ftMeasurement,
                                                           OptionalDoubleRef receiveTimeInSeconds)
 {
-    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueMeasurement] "
-                                       "Currently unimplemented";
-    std::cerr << error << std::endl;
+    log()->error("[YarpSensorBridge::getThreeAxisForceTorqueMeasurement] Currently unimplemented");
     return false;
 }
 
 bool YarpSensorBridge::getThreeAxisForceTorqueSensorsList(
     std::vector<std::string>& threeAxisForceTorqueSensorsList)
 {
-    constexpr std::string_view error = "[YarpSensorBridge::getThreeAxisForceTorqueSensorsList] "
-                                       "Currently unimplemented";
-    std::cerr << error << std::endl;
-
+    log()->error("[YarpSensorBridge::getThreeAxisForceTorqueSensorsList] Currently unimplemented");
     return false;
 }
 
@@ -454,8 +448,9 @@ bool YarpSensorBridge::getMotorCurrent(const std::string& jointName,
     int idx;
     if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
-        std::cerr << "[YarpSensorBridge::getJointCurrent] " << jointName
-                  << " could not be found in the configured list of joints" << std::endl;
+        log()->error("[YarpSensorBridge::getJointCurrent] {} could not be found in the configured "
+                     "list of joints.",
+                     jointName);
         return false;
     }
 
