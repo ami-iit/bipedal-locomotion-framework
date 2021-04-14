@@ -32,6 +32,9 @@
 #include <yarp/dev/IEncodersTimed.h>
 #include <yarp/dev/IAxisInfo.h>
 
+// yarp eigen
+#include <yarp/eigen/Eigen.h>
+
 // std
 #include <cmath>
 #include <set>
@@ -99,10 +102,16 @@ struct YarpSensorBridge::Impl
      */
     struct ControlBoardRemapperMeasures
     {
-        yarp::sig::Vector remappedJointIndices;
-        yarp::sig::Vector jointPositions;
-        yarp::sig::Vector jointVelocities;
-        yarp::sig::Vector motorCurrents;
+        Eigen::VectorXi remappedJointIndices;
+        Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> remappedJointPermutationMatrix;
+        Eigen::VectorXd jointPositions;
+        Eigen::VectorXd jointVelocities;
+        Eigen::VectorXd motorCurrents;
+
+        Eigen::VectorXd jointPositionsUnordered;
+        Eigen::VectorXd jointVelocitiesUnordered;
+        Eigen::VectorXd motorCurrentsUnordered;
+
         double receivedTimeInSeconds;
     };
 
@@ -150,18 +159,15 @@ struct YarpSensorBridge::Impl
     /**
      * Utility function to check for nan in vector
      */
-    bool nanExistsInVec(const yarp::sig::Vector& vec,
+    bool nanExistsInVec(Eigen::Ref<const Eigen::VectorXd> vec,
                         std::string_view logPrefix,
                         const std::string& sensorName)
     {
-        for (const auto& val : vec)
+        if (vec.array().isNaN().any())
         {
-            if (std::isnan(val))
-            {
-                std::cerr << logPrefix << " NAN values read from " << sensorName
-                          << " , use previous measurement" << std::endl;
-                return true;
-            }
+            std::cerr << logPrefix << " NAN values read from " << sensorName
+                      << " , use previous measurement" << std::endl;
+            return true;
         }
         return false;
     }
@@ -846,16 +852,23 @@ struct YarpSensorBridge::Impl
     void resetControlBoardBuffers()
     {
         // firstly resize all the controlboard data buffers
+        controlBoardRemapperMeasures.remappedJointPermutationMatrix.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.remappedJointIndices.resize(metaData.bridgeOptions.nrJoints);
+
         controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
 
+        controlBoardRemapperMeasures.jointPositionsUnordered.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorCurrentsUnordered.resize(metaData.bridgeOptions.nrJoints);
+
         // zero buffers
-        controlBoardRemapperMeasures.remappedJointIndices.zero();
-        controlBoardRemapperMeasures.jointPositions.zero();
-        controlBoardRemapperMeasures.jointVelocities.zero();
-        controlBoardRemapperMeasures.motorCurrents.zero();
+        controlBoardRemapperMeasures.remappedJointPermutationMatrix.setIdentity();
+        controlBoardRemapperMeasures.jointPositions.setZero();
+        controlBoardRemapperMeasures.jointVelocities.setZero();
+        controlBoardRemapperMeasures.motorCurrents.setZero();
     }
 
     /**
@@ -869,9 +882,10 @@ struct YarpSensorBridge::Impl
         std::vector<std::string> controlBoardJoints;
         int controlBoardDOFs;
         controlBoardRemapperInterfaces.encoders->getAxes(&controlBoardDOFs);
+
+        std::string joint;
         for (int DOF = 0; DOF < controlBoardDOFs; DOF++)
         {
-            std::string joint;
             controlBoardRemapperInterfaces.axis->getAxisName(DOF, joint);
             controlBoardJoints.push_back(joint);
         }
@@ -913,6 +927,9 @@ struct YarpSensorBridge::Impl
                 return false;
             }
         }
+
+        controlBoardRemapperMeasures.remappedJointPermutationMatrix.indices()
+            = controlBoardRemapperMeasures.remappedJointIndices;
 
         std::cout << logPrefix << "Found all joints with the remapped index " << std::endl;
         for (int idx = 0; idx < controlBoardRemapperMeasures.remappedJointIndices.size(); idx++)
@@ -1059,7 +1076,7 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (nanExistsInVec(sensorMeasure, logPrefix, sensorName))
+            if (nanExistsInVec(yarp::eigen::toEigen(sensorMeasure), logPrefix, sensorName))
             {
                 return false;
             }
@@ -1155,7 +1172,7 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (nanExistsInVec(sensorMeasure, logPrefix, sensorName))
+            if (nanExistsInVec(yarp::eigen::toEigen(sensorMeasure), logPrefix, sensorName))
             {
                 return false;
             }
@@ -1208,14 +1225,16 @@ struct YarpSensorBridge::Impl
         }
 
         constexpr std::string_view logPrefix = "[YarpSensorBridge::Impl::readControlBoardInterface] ";
-        yarp::sig::Vector tempJointPositions, tempJointVelocities;
-        tempJointPositions.resize(controlBoardRemapperMeasures.jointPositions.size());
-        tempJointVelocities.resize(controlBoardRemapperMeasures.jointPositions.size());
-
         bool ok{true};
-        ok = ok && controlBoardRemapperInterfaces.encoders->getEncoders(tempJointPositions.data());
-        ok = ok && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(tempJointVelocities.data());
-        ok = ok && controlBoardRemapperInterfaces.currsensors->getCurrents(controlBoardRemapperMeasures.motorCurrents.data());
+        ok = ok
+             && controlBoardRemapperInterfaces.encoders->getEncoders(
+                 controlBoardRemapperMeasures.jointPositionsUnordered.data());
+        ok = ok
+             && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(
+                 controlBoardRemapperMeasures.jointVelocitiesUnordered.data());
+        ok = ok
+             && controlBoardRemapperInterfaces.currsensors->getCurrents(
+                 controlBoardRemapperMeasures.motorCurrentsUnordered.data());
 
         if (!ok)
         {
@@ -1225,28 +1244,41 @@ struct YarpSensorBridge::Impl
 
         if (checkForNan)
         {
-            if (nanExistsInVec(tempJointPositions, logPrefix, "encoders"))
+            if (nanExistsInVec(controlBoardRemapperMeasures.jointPositionsUnordered,
+                               logPrefix,
+                               "encoders"))
             {
                 return false;
             }
 
-            if (nanExistsInVec(tempJointVelocities, logPrefix, "encoder speeds"))
+            if (nanExistsInVec(controlBoardRemapperMeasures.jointVelocitiesUnordered,
+                               logPrefix,
+                               "encoder speeds"))
             {
                 return false;
             }
 
-            if (nanExistsInVec(controlBoardRemapperMeasures.motorCurrents, logPrefix, "current sensors"))
+            if (nanExistsInVec(controlBoardRemapperMeasures.motorCurrentsUnordered,
+                               logPrefix,
+                               "current sensors"))
             {
                 return false;
             }
         }
 
         // convert from degrees to radians - YARP convention is to store joint positions in degrees
-        for (std::size_t idx = 0; idx < tempJointPositions.size(); idx++)
-        {
-            controlBoardRemapperMeasures.jointPositions[idx] = deg2rad(tempJointPositions[controlBoardRemapperMeasures.remappedJointIndices[idx]]);
-            controlBoardRemapperMeasures.jointVelocities[idx] = deg2rad(tempJointVelocities[controlBoardRemapperMeasures.remappedJointIndices[idx]]);
-        }
+
+        controlBoardRemapperMeasures.jointPositions.noalias()
+            =  controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.jointPositionsUnordered * M_PI / 180;
+
+        controlBoardRemapperMeasures.jointVelocities.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.jointVelocitiesUnordered * M_PI / 180;
+
+        controlBoardRemapperMeasures.motorCurrents.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.motorCurrentsUnordered;
 
         controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
 

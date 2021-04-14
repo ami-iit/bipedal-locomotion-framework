@@ -137,9 +137,7 @@ bool YarpSensorBridge::advance()
         return false;
     }
 
-    m_pimpl->readAllSensors(m_pimpl->failedSensorReads);
-
-    return true;
+    return m_pimpl->readAllSensors(m_pimpl->failedSensorReads);
 }
 
 bool YarpSensorBridge::isOutputValid() const
@@ -264,7 +262,7 @@ bool YarpSensorBridge::getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositi
                                          OptionalDoubleRef receiveTimeInSeconds)
 {
 
-    jointPositions = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointPositions);
+    jointPositions = m_pimpl->controlBoardRemapperMeasures.jointPositions;
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
@@ -294,7 +292,7 @@ bool YarpSensorBridge::getJointVelocity(const std::string& jointName,
 bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
                                           OptionalDoubleRef receiveTimeInSeconds)
 {
-    jointVelocties = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.jointVelocities);
+    jointVelocties = m_pimpl->controlBoardRemapperMeasures.jointVelocities;
 
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()
@@ -474,7 +472,7 @@ bool YarpSensorBridge::getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrent
                                         OptionalDoubleRef receiveTimeInSeconds)
 {
 
-    motorCurrents = yarp::eigen::toEigen(m_pimpl->controlBoardRemapperMeasures.motorCurrents);
+    motorCurrents = m_pimpl->controlBoardRemapperMeasures.motorCurrents;
 
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()
