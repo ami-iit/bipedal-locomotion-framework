@@ -6,7 +6,7 @@ set(H_PREFIX include/BipedalLocomotion/Math)
 
 add_bipedal_locomotion_library(
   NAME                  Math
-  PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h ${H_PREFIX}/LinearizedFrictionCone.h
+  PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/Wrench.h
   SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp
-  PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging
+  PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging MANIF::manif
   SUBDIRECTORIES        tests)
