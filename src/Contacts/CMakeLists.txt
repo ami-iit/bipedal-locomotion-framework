@@ -10,7 +10,7 @@ if (FRAMEWORK_COMPILE_Contact)
     SUBDIRECTORIES        tests/Contacts
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
     SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
-    PUBLIC_LINK_LIBRARIES MANIF::manif
+    PUBLIC_LINK_LIBRARIES MANIF::manif BipedalLocomotion::Math
     INSTALLATION_FOLDER   Contacts)
 
   set(H_PREFIX include/BipedalLocomotion/ContactDetectors)
@@ -21,4 +21,3 @@ if (FRAMEWORK_COMPILE_Contact)
     PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)
 endif()
-
