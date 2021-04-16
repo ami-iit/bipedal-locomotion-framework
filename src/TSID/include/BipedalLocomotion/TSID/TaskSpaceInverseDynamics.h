@@ -8,6 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_TASK_SPACE_INVERSE_DYNAMICS_H
 #define BIPEDAL_LOCOMOTION_TASK_SPACE_INVERSE_DYNAMICS_H
 
+#include <optional>
+#include <functional>
+
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/System/LinearTask.h>
 
@@ -20,19 +23,20 @@ namespace BipedalLocomotion
 namespace TSID
 {
 
-/**
- * State of the TaskSpaceInverseDynamics
- */
  struct ContactWrench
 {
     iDynTree::FrameIndex frameIndex; /**< Frame used to express the contact wrench */
     System::VariablesHandler::VariableDescription variable; /**< Variable describing the contact
                                                                 wrench */
 };
+
+ /**
+ * State of the TaskSpaceInverseDynamics
+ */
 struct TSIDState
 {
-    manif::SE3d::Tangent baseAcceleration; /**< Mixed spatial acceleration of the base */
-    Eigen::VectorXd jointAccelerations; /**< Joints acceleration in rad per seconds */
+    manif::SE3d::Tangent baseAcceleration; /**< Mixed acceleration of the base */
+    Eigen::VectorXd jointAccelerations; /**< Joints acceleration in rad per second per second */
     Eigen::VectorXd jointTorques; /**< Joint torques */
     std::vector<ContactWrench> contactWrenches; /**< List of the information related to the
                                                      contact wrenches */
@@ -40,8 +44,8 @@ struct TSIDState
 
 /**
  * TaskSpaceInverseDynamics implements the interface for the task sapce inverse
- * dynamics. Please inherits this class if you want to implement your custom Task TSID.
- * The TaskSpaceInverseDynamics is a struct containing the joint acceleration, joint torques
+ * dynamics. Please inherit this class if you want to implement your custom Task TSID.
+ * The TSIDState is a struct containing the joint acceleration, joint torques
  * and contact wrenches. The TaskSpaceInverseDynamics can be used to generate the desired joint torques
  * to be sent to the low-level torque controllers.
  * Here you can find an example of the TaskSpaceInverseDynamics interface.
