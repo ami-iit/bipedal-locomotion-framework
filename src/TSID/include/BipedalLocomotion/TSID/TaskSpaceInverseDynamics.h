@@ -14,7 +14,7 @@
 #include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/System/Source.h>
 
-#include <BipedalLocomotion/Math/Wrench.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
 
 #include <iDynTree/KinDynComputations.h>
 #include <manif/SE3.h>
@@ -25,14 +25,6 @@ namespace BipedalLocomotion
 namespace TSID
 {
 
-struct ContactWrench
-{
-    int frameIndex{-1}; /**< Frame index used to express the contact wrench */
-
-    /** Value of the contact wrench */
-    BipedalLocomotion::Math::Wrenchd wrench{BipedalLocomotion::Math::Wrenchd::Zero()};
-};
-
 /**
  * State of the TaskSpaceInverseDynamics
  */
@@ -41,9 +33,9 @@ struct TSIDState
     manif::SE3d::Tangent baseAcceleration; /**< Mixed acceleration of the base */
     Eigen::VectorXd jointAccelerations; /**< Joints acceleration in rad per second per second */
     Eigen::VectorXd jointTorques; /**< Joint torques */
-    std::unordered_map<std::string, ContactWrench> contactWrenches; /**< List of the information
-                                                                       related to the contact
-                                                                       wrenches */
+
+    /**< List of the information related to the contact wrenches */
+    std::unordered_map<std::string, Contacts::ContactWrench> contactWrenches;
 };
 
 /**
@@ -73,6 +65,7 @@ public:
                          std::size_t priority,
                          std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {})
         = 0;
+
     /**
      * Get a vector containing the name of the tasks.
      * @return an std::vector containing all the names associated to the tasks

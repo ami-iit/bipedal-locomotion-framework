@@ -19,6 +19,7 @@ if(FRAMEWORK_COMPILE_TSID)
                            src/JointDynamicsTask.cpp
                            src/TaskSpaceInverseDynamics.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
+                           BipedalLocomotion::Contacts
                            BipedalLocomotion::ParametersHandler
                            BipedalLocomotion::System
                            LieGroupControllers::LieGroupControllers
