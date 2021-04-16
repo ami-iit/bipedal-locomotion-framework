@@ -31,13 +31,23 @@ namespace TSID
 };
 struct TSIDState
 {
-    manif::SE3d::Tangent baseAcceleration; /**< Mixed spatial velocity of the base */
-    Eigen::VectorXd jointAccelerations; /**< Joints velocity in rad per seconds */
+    manif::SE3d::Tangent baseAcceleration; /**< Mixed spatial acceleration of the base */
+    Eigen::VectorXd jointAccelerations; /**< Joints acceleration in rad per seconds */
     Eigen::VectorXd jointTorques; /**< Joint torques */
     std::vector<ContactWrench> contactWrenches; /**< List of the information related to the
                                                      contact wrenches */
 };
 
+/**
+ * TaskSpaceInverseDynamics implements the interface for the task sapce inverse
+ * dynamics. Please inherits this class if you want to implement your custom Task TSID.
+ * The TaskSpaceInverseDynamics is a struct containing the joint acceleration, joint torques
+ * and contact wrenches. The TaskSpaceInverseDynamics can be used to generate the desired joint torques
+ * to be sent to the low-level torque controllers.
+ * Here you can find an example of the TaskSpaceInverseDynamics interface.
+ * <br/>
+ * <img src="https://user-images.githubusercontent.com/43743081/112606007-308f7780-8e18-11eb-875f-d8a7c4b960eb.png" width="1500">
+ */
 class TaskSpaceInverseDynamics : public BipedalLocomotion::System::Advanceable<TSIDState>
 {
 
