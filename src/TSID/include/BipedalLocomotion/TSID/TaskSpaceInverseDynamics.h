@@ -47,7 +47,7 @@ struct TSIDState
 };
 
 /**
- * TaskSpaceInverseDynamics implements the interface for the task sapce inverse
+ * TaskSpaceInverseDynamics implements the interface for the task space inverse
  * dynamics. Please inherit this class if you want to implement your custom Task TSID.
  * The TSIDState is a struct containing the joint acceleration, joint torques
  * and contact wrenches. The TaskSpaceInverseDynamics can be used to generate the desired joint
