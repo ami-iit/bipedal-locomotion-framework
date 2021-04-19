@@ -1,12 +1,14 @@
 /**
  * @file Contact.h
- * @authors Stefano Dafarra,, Prashanth Ramadoss
+ * @authors Stefano Dafarra, Prashanth Ramadoss, Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 #define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
+
+#include <BipedalLocomotion/Math/Wrench.h>
 
 #include <manif/SE3.h>
 
@@ -23,13 +25,13 @@ namespace Contacts
 enum class ContactType
 {
     /**
-    * The contact impose a full pose constraint.
-    */
+     * The contact impose a full pose constraint.
+     */
     FULL,
 
     /**
-    * The contact impose a position constraint.
-    */
+     * The contact impose a position constraint.
+     */
     POINT
 };
 
@@ -46,7 +48,7 @@ struct ContactBase
     /**
      * Name of the contact.
      */
-    std::string name {"Contact"};
+    std::string name{"Contact"};
 
     /**
      * Frame index of the contact
@@ -56,7 +58,7 @@ struct ContactBase
     /**
      * Type of contact.
      */
-    ContactType type {ContactType::FULL};
+    ContactType type{ContactType::FULL};
 };
 
 /**
@@ -67,12 +69,12 @@ struct PlannedContact : ContactBase
     /**
      * Instant from which the contact can be considered active.
      */
-    double activationTime {0.0};
+    double activationTime{0.0};
 
     /**
      * Instant after which the contact is no more active.
      */
-    double deactivationTime {0.0};
+    double deactivationTime{0.0};
 
     /**
      * @brief The equality operator.
@@ -92,7 +94,7 @@ struct EstimatedContact : ContactBase
     /**
      * Instant at which the contact state was toggled.
      */
-    double switchTime {0.0};
+    double switchTime{0.0};
 
     /**
      * Current state of contact
@@ -108,12 +110,19 @@ struct EstimatedContact : ContactBase
     std::pair<bool, double> getContactDetails() const;
 
     void setContactStateStamped(const std::pair<bool, double>& pair);
+};
 
+/**
+ * @brief Definition of an ContactWrench structure
+ */
+struct ContactWrench : public ContactBase
+{
+    BipedalLocomotion::Math::Wrenchd wrench{BipedalLocomotion::Math::Wrenchd::Zero()};
 };
 
 using EstimatedLandmark = EstimatedContact;
 
-}
-}
+} // namespace Contacts
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
