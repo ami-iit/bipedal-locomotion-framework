@@ -55,7 +55,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |  [FloatingBaseEstimator](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
 |  [GenericContainer](./src/GenericContainer)  |      Data structure similar to ``span`` but resizable.       |                              -                               |
 |               [IK](./src/IK)                 |                      Inverse kinematics                      | [`manif`](https://github.com/artivis/manif) [`osqp-eigen`](https://github.com/robotology/osqp-eigen) |
-|              [Math](./src/Math)              |          Library containing mathematical algorithms          |                              -                               |
+|              [Math](./src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
 | [ParametersHandler](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
