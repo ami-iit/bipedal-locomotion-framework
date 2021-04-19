@@ -41,6 +41,7 @@ TEST_CASE("Wrench test")
         const Wrench transformedWrench = transform * wrench;
 
         // Get the adjoint matrix for spatial force vector
+        // this is a conversion from AdjointTransform to AdjointWrenchTransform
         manif::SE3d::Jacobian adjointMatrix = transform.adj();
         adjointMatrix.bottomLeftCorner<3, 3>() = adjointMatrix.topRightCorner<3, 3>();
         adjointMatrix.topRightCorner<3, 3>().setZero();
