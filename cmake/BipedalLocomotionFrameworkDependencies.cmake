@@ -92,6 +92,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
   "FRAMEWORK_COMPILE_YarpUtilities" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_Math
+  "Compile Math library?" ON
+  "FRAMEWORK_USE_manif" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
   "" OFF)
@@ -102,7 +106,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Contact
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif" OFF)
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Math" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
@@ -114,7 +118,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_System
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
   "Compile System ContinuousDynamicalSystem?" ON
-  "FRAMEWORK_COMPILE_ContactModels" OFF)
+  "FRAMEWORK_COMPILE_ContactModels;FRAMEWORK_COMPILE_Math" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
   "Compile CppAD-Eigen wrapper?" ON
@@ -158,7 +162,7 @@ framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
 
 framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
-  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_matioCppConversions" OFF)
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_matioCppConversions;FRAMEWORK_COMPILE_Math" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointTrajectoryPlayer
   "Compile joint-trajectory-player application?" ON
