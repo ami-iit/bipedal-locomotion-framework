@@ -27,6 +27,7 @@ All notable changes to this project are documented in this file.
 - Implement `AdvanceableRunner` and `SharedResource` classes in System component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/272)
 - Implement `handleQuitSignals()` function in System component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/277)
 - Implement TaskSpaceInverseDynamics interface (https://github.com/dic-iit/bipedal-locomotion-framework/pull/279)
+- Implement `Wrench` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/279)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
