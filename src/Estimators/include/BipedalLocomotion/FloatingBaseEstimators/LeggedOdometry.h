@@ -104,9 +104,9 @@ public:
 
     /**
      * Get the psoe of the current fixed frame in the inertial frame
-     * @return pose of the fixed frame
+     * @return const ref of pose of the fixed frame
      */
-    manif::SE3d getFixedFramePose() const;
+    manif::SE3d& getFixedFramePose() const;
 
 protected:
     /**

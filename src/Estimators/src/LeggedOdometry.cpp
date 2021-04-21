@@ -467,7 +467,7 @@ int LeggedOdometry::getFixedFrameIdx()
     return m_pimpl->m_currentFixedFrameIdx;
 }
 
-manif::SE3d LeggedOdometry::getFixedFramePose() const
+manif::SE3d& LeggedOdometry::getFixedFramePose() const
 {
     return m_pimpl->m_world_H_fixedFrame;
 }
