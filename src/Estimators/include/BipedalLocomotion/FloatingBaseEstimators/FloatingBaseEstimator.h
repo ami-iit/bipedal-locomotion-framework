@@ -313,6 +313,18 @@ protected:
                                              const double& dt) { return true; };
 
     /**
+     * Wrapper method for getting base state from internal IMU state
+     * @param[in] state internal state of the estimator
+     * @param[in] meas previous measurement to the estimator
+     * @param[in] basePose base pose as an iDynTree Transform object
+     * @param[in] baseTwist mixe- trivialized base velocity as an iDynTree Twist object
+     */
+    bool updateBaseStateFromIMUState(const FloatingBaseEstimators::InternalState& state,
+                                     const FloatingBaseEstimators::Measurements& meas,
+                                     manif::SE3d& basePose,
+                                     Eigen::Ref<Eigen::Matrix<double, 6, 1>> baseTwist);
+
+    /**
     * Setup estimator options. The parameters in the Options group are,
     * - enable_imu_bias_estimation [PARAMETER|-|Enable/disable IMU bias estimation]
     * - enable_static_imu_bias_initialization [PARAMETER|-|Enable/disable IMU bias initialization assuming static configuration]
@@ -427,18 +439,6 @@ private:
     bool setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
                                       std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                       std::vector<double>& vec);
-
-    /**
-     * Wrapper method for getting base state from internal IMU state
-     * @param[in] state internal state of the estimator
-     * @param[in] meas previous measurement to the estimator
-     * @param[in] basePose base pose as an iDynTree Transform object
-     * @param[in] baseTwist mixe- trivialized base velocity as an iDynTree Twist object
-     */
-    bool updateBaseStateFromIMUState(const FloatingBaseEstimators::InternalState& state,
-                                     const FloatingBaseEstimators::Measurements& meas,
-                                     manif::SE3d& basePose,
-                                     Eigen::Ref<Eigen::Matrix<double, 6, 1>> baseTwist);
 };
 
 

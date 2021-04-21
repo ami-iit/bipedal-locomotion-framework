@@ -92,7 +92,8 @@ public:
     /**
      * Reset internal state of the legged odometry block
      */
-    void resetInternal(FloatingBaseEstimator::ModelComputations& modelComp);
+    void resetInternal(FloatingBaseEstimator::ModelComputations& modelComp,
+                       const FloatingBaseEstimators::Measurements& meas);
 
     // parameters
     std::string m_initialFixedFrame; /**<  Fixed frame at initialization assumed to be in rigid contact with the environment*/
@@ -409,26 +410,16 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLastActiveContact(const std::map<i
 
 bool LeggedOdometry::resetEstimator()
 {
-    m_pimpl->resetInternal(m_modelComp);
+    m_pimpl->resetInternal(m_modelComp, m_meas);
     m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut);
-    return true;
-}
 
-bool LeggedOdometry::resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
-                                    const Eigen::Vector3d& newIMUPosition)
-{
-    manif::SE3d world_H_imu = manif::SE3d(newIMUPosition, newIMUOrientation);
-    manif::SE3d refFrame_H_imu  = toManifPose(modelComputations().kinDyn()->
-                                              getRelativeTransform(m_pimpl->m_initialRefFrameForWorldIdx,
-                                                                   m_modelComp.baseIMUIdx()));
-    m_pimpl->m_refFrame_H_world = refFrame_H_imu*(world_H_imu.inverse());
+    if (!updateBaseStateFromIMUState(m_state, m_measPrev,
+                                     m_estimatorOut.basePose, m_estimatorOut.baseTwist))
+    {
+        std::cerr << "[LeggedOdometry::resetEstimator]" << "Could not update base state from IMU state." << std::endl;
+        return false;
+    }
 
-    m_state.imuOrientation = newIMUOrientation;
-    m_state.imuPosition = newIMUPosition;
-
-    m_statePrev = m_state;
-
-    m_pimpl->resetInternal(m_modelComp);
     return true;
 }
 
@@ -446,18 +437,25 @@ bool LeggedOdometry::resetEstimator(const std::string& refFrameForWorld,
     }
     m_pimpl->m_refFrame_H_world = manif::SE3d(worldPositionInRefFrame, worldOrientationInRefFrame);
     m_pimpl->m_initialRefFrameForWorldIdx = refFrameIdx;
+
     resetEstimator();
 
     return true;
 }
 
-void LeggedOdometry::Impl::resetInternal(FloatingBaseEstimator::ModelComputations& modelComp)
+void LeggedOdometry::Impl::resetInternal(FloatingBaseEstimator::ModelComputations& modelComp,
+                                         const FloatingBaseEstimators::Measurements& meas)
 {
-    m_currentFixedFrameIdx = m_initialFixedFrameIdx;
+    if (m_currentFixedFrameIdx == iDynTree::FRAME_INVALID_INDEX)
+    {
+        m_currentFixedFrameIdx = m_initialFixedFrameIdx;
+    }
+
+    modelComp.kinDyn()->setJointPos(meas.encoders);
 
     manif::SE3d refFrame_H_fixedFrame  = toManifPose(modelComp.kinDyn()->
                                                      getRelativeTransform(m_initialRefFrameForWorldIdx,
-                                                                          m_initialFixedFrameIdx));
+                                                                          m_currentFixedFrameIdx));
 
     m_world_H_fixedFrame = m_refFrame_H_world.inverse()*refFrame_H_fixedFrame;
 
@@ -467,6 +465,11 @@ void LeggedOdometry::Impl::resetInternal(FloatingBaseEstimator::ModelComputation
 int LeggedOdometry::getFixedFrameIdx()
 {
     return m_pimpl->m_currentFixedFrameIdx;
+}
+
+manif::SE3d& LeggedOdometry::getFixedFramePose() const
+{
+    return m_pimpl->m_world_H_fixedFrame;
 }
 
 bool LeggedOdometry::Impl::updateInternalState(FloatingBaseEstimators::Measurements& meas,
@@ -789,10 +792,10 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
             return false;
         }
 
-        m_pimpl->resetInternal(m_modelComp);
+        m_pimpl->resetInternal(m_modelComp, meas);
 
         // update internal states
-        if (!m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut))
+        if (!m_pimpl->updateInternalState(meas, m_modelComp, m_state, m_estimatorOut))
         {
             std::cerr << printPrefix << "Could not update internal state of the estimator." << std::endl;
             return false;
@@ -848,6 +851,19 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     return true;
 }
 
+bool LeggedOdometry::changeFixedFrame(const std::string& frameName)
+{
+    const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
+    auto frameIdx = m_modelComp.kinDyn()->getFrameIndex(frameName);
+    if (frameIdx == iDynTree::FRAME_INVALID_INDEX)
+    {
+        std::cerr << printPrefix << "Specified frame unavailable in the loaded model." << std::endl;
+        return false;
+    }
+
+    return changeFixedFrame(frameIdx);
+}
+
 bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
@@ -896,11 +912,6 @@ bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
                                       const Eigen::Vector3d& framePositionInWorld)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
-    if (m_pimpl->switching != LOSwitching::useExternalUpdate)
-    {
-        std::cerr << printPrefix << "Unable to change fixed frame externally, since the estimator was not loaded with the option." << std::endl;
-        return false;
-    }
 
     if (newIdx == iDynTree::FRAME_INVALID_INDEX || !m_modelComp.kinDyn()->model().isValidFrameIndex(newIdx))
     {
@@ -912,5 +923,22 @@ bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
     m_pimpl->m_world_H_fixedFrame.quat(frameOrientationInWorld);
     m_pimpl->m_world_H_fixedFrame.translation(framePositionInWorld);
     m_pimpl->m_currentFixedFrameIdx = newIdx;
+
+    // Since this method is an external call we need to remember
+    // to update internal state and also the base state from the IMU state
+    // update internal states
+    if (!m_pimpl->updateInternalState(m_measPrev, m_modelComp, m_state, m_estimatorOut))
+    {
+        std::cerr << printPrefix << "Could not update internal state of the estimator." << std::endl;
+        return false;
+    }
+
+    if (!updateBaseStateFromIMUState(m_state, m_measPrev,
+                                     m_estimatorOut.basePose, m_estimatorOut.baseTwist))
+    {
+        std::cerr << printPrefix << "Could not update base state from IMU state." << std::endl;
+        return false;
+    }
+
     return true;
 }

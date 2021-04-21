@@ -53,17 +53,6 @@ public:
     using FloatingBaseEstimator::resetEstimator;
 
     /**
-     * Reset the internal state of the estimator
-     * @param[in] newIMUOrientation  IMU orientation of the estimator
-     * @param[in] newIMUPosition  IMU position of the estimator
-     * @return True in case of success, false otherwise.
-     *
-     * @note reset and advance estimator to get updated estimator output
-     */
-    virtual bool resetEstimator(const Eigen::Quaterniond& newIMUOrientation,
-                                const Eigen::Vector3d& newIMUPosition) override;
-
-    /**
      * Reset the internal state of the estimator using the initialized parameters
      * @return True in case of success, false otherwise.
      *
@@ -86,9 +75,15 @@ public:
 
     /**
      * Change fixed frame externally
-     * @param[in] frameIndex  valid frame from the model
+     * @param[in] frameIndex  valid frame index from the model
      */
     bool changeFixedFrame(const std::ptrdiff_t& frameIndex);
+
+    /**
+     * Change fixed frame externally
+     * @param[in] frameIndex  valid frame name from the model
+     */
+    bool changeFixedFrame(const std::string& frameName);
 
     /**
      * Change fixed frame externally by mentioning the world_H_frame transform
@@ -104,10 +99,14 @@ public:
     /**
      * Get the index of the frame currently in contact used for the legged odometry computations
      * @return Index of the frame in contact, invalid frame index if no contact.
-     *
-     * @note reset and advance estimator to get updated estimator output
      */
     int getFixedFrameIdx();
+
+    /**
+     * Get the psoe of the current fixed frame in the inertial frame
+     * @return const ref of pose of the fixed frame
+     */
+    manif::SE3d& getFixedFramePose() const;
 
 protected:
     /**
