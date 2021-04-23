@@ -65,6 +65,9 @@ class SE3Task : public System::LinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
+    double m_kpLinear;
+    double m_kpAngular;
+
 public:
 
     /**
@@ -117,6 +120,10 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity);
+
+    void enableControl();
+
+    void disableControl();
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

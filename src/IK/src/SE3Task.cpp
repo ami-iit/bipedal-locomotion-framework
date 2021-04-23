@@ -123,9 +123,8 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     }
 
     // set the gains for the controllers
-    double kpLinear;
-    double kpAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+
+    if (!ptr->getParameter("kp_linear", m_kpLinear))
     {
         log()->error("{}, [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -134,7 +133,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         return false;
     }
 
-    if (!ptr->getParameter("kp_angular", kpAngular))
+    if (!ptr->getParameter("kp_angular", m_kpAngular))
     {
         log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -143,8 +142,8 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         return false;
     }
 
-    m_R3Controller.setGains(kpLinear);
-    m_SO3Controller.setGains(kpAngular);
+    m_R3Controller.setGains(m_kpLinear);
+    m_SO3Controller.setGains(m_kpAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";
@@ -210,4 +209,16 @@ SE3Task::Type SE3Task::type() const
 bool SE3Task::isValid() const
 {
     return m_isValid;
+}
+
+void SE3Task::enableControl()
+{
+    m_R3Controller.setGains(m_kpLinear);
+    m_SO3Controller.setGains(m_kpAngular);
+}
+
+void SE3Task::disableControl()
+{
+    m_R3Controller.setGains(0);
+    m_SO3Controller.setGains(0);
 }
