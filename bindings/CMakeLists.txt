@@ -11,6 +11,8 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
     # Install the resulting Python package for the active interpreter
     if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
         set(PYTHON_INSTDIR ${Python3_SITELIB}/bipedal_locomotion_framework)
+    elseif(FRAMEWORK_PACKAGE_FOR_PYPI)
+        set(PYTHON_INSTDIR ${CMAKE_INSTALL_PREFIX})
     else()
      execute_process(COMMAND ${Python3_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
                      OUTPUT_VARIABLE _PYTHON_INSTDIR)
