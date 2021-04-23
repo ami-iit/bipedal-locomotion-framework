@@ -19,5 +19,6 @@ if (FRAMEWORK_COMPILE_Contact)
     SUBDIRECTORIES         tests/ContactDetectors
     SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp
     PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)
 endif()
