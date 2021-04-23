@@ -5,4 +5,4 @@
 add_bipedal_test(
   NAME CentroidalMPC
   SOURCES CentroidalMPCTest.cpp
-  LINKS BipedalLocomotion::ReducedModelControllers  BipedalLocomotion::Math BipedalLocomotion::ContinuousDynamicalSystem)
+  LINKS BipedalLocomotion::ReducedModelControllers  BipedalLocomotion::Math BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::Planners)

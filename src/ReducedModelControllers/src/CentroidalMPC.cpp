@@ -113,6 +113,18 @@ struct CentroidalMPC::Impl
 
     OptimizationSettings optiSettings; /**< Settings */
 
+    struct OptimizationSolution
+    {
+        std::unique_ptr<casadi::OptiSol> solution; /**< Pointer to the solution of the optimization
+                                                      problem */
+        casadi::DM dcm; /**< Optimal DCM trajectory */
+        casadi::DM omega; /**< Optimal omega trajectory */
+        casadi::DM vrp; /**< Optimal VRP trajectory */
+        casadi::DM omegaDot; /**< Optimal omega rate of change trajectory */
+    };
+    OptimizationSolution optiSolution; /**< Solution of the optimization problem */
+
+
     /**
      * OptimizationVariables contains the optimization variables expressed as CasADi elements.
      */
@@ -160,7 +172,7 @@ struct CentroidalMPC::Impl
     };
     Weights weights; /**< Settings */
 
-    bool loadContactCorners(std::shared_ptr<ParametersHandler::IParametersHandler> ptr,
+    bool loadContactCorners(std::shared_ptr<const ParametersHandler::IParametersHandler> ptr,
                             ContactWithCorners& contact)
     {
         constexpr auto errorPrefix = "[CentroidalMPC::Impl::loadContactCorners]";
@@ -198,7 +210,7 @@ struct CentroidalMPC::Impl
         return true;
     }
 
-    bool loadParameters(std::shared_ptr<ParametersHandler::IParametersHandler> ptr)
+    bool loadParameters(std::shared_ptr<const ParametersHandler::IParametersHandler> ptr)
     {
         constexpr auto errorPrefix = "[CentroidalMPC::Impl::loadParameters]";
 
@@ -468,7 +480,34 @@ struct CentroidalMPC::Impl
      */
     void setupOptiOptions()
     {
-        casadi::Dict casadiOptions;
+        // casadi::Dict casadiOptions;
+        // casadi::Dict ipoptOptions;
+
+        // if (this->optiSettings.solverVerbosity != 0)
+        // {
+        //     casadi_int ipoptVerbosity = static_cast<long long>(optiSettings.solverVerbosity - 1);
+        //     // ipoptOptions["print_level"] = ipoptVerbosity;
+        //     casadiOptions["print_time"] = false;
+        // } else
+        // {
+        //     // ipoptOptions["print_level"] = 0;
+        //     casadiOptions["print_time"] = false;
+        // }
+        // casadiOptions["qpsol"] = "osqp";
+        // // casadiOptions["print_iteration"] = false;
+        // // casadiOptions["print_header"] = false;
+        // casadiOptions["convexify_strategy"] = "regularize";
+
+        // // ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
+        // casadiOptions["expand"] = true;
+        // // casadiOptions["warm"] = true;
+        // ipoptOptions["verbose"] = false; //
+
+        // casadiOptions["qpsol_options"] = ipoptOptions;
+
+        // this->opti.solver("sqpmethod", casadiOptions);
+
+                        casadi::Dict casadiOptions;
         casadi::Dict ipoptOptions;
 
         if (this->optiSettings.solverVerbosity != 0)
@@ -479,11 +518,19 @@ struct CentroidalMPC::Impl
         } else
         {
             ipoptOptions["print_level"] = 0;
-            casadiOptions["print_time"] = false;
+            casadiOptions["print_time"] = true;
         }
+        // casadiOptions["qpsol"] = "qrqp";
+        // casadiOptions["print_iteration"] = false;
+        // casadiOptions["print_header"] = false;
+        // casadiOptions["convexify_strategy"] = "regularize";
+
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
-        ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
         casadiOptions["expand"] = true;
+        // casadiOptions["warm"] = true;
+        // ipoptOptions["verbose"] = false; //
+
+        // casadiOptions["qpsol_options"] = ipoptOptions;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
     }
@@ -543,7 +590,8 @@ struct CentroidalMPC::Impl
                     frictionCone.getA().data(),
                     sizeof(double) * frictionCone.getA().rows() * frictionCone.getA().cols());
 
-        casadi::DM zero = casadi::DM::zeros(frictionCone.getA().rows(), 1);
+        const casadi::DM zero = casadi::DM::zeros(frictionCone.getA().rows(), 1);
+        casadi::MX constraintFrictionCone;
 
         for(const auto& [key, contact] : this->optiVariables.contacts)
         {
@@ -562,12 +610,10 @@ struct CentroidalMPC::Impl
             // contact.maximumNormalForce for each corner. At this stage is too premature.
             for (const auto& corner : contact.corners)
             {
-
-                const casadi::MX constraint = casadi::MX::mtimes(frictionConeMatrix, corner.force);
-
+                constraintFrictionCone = casadi::MX::mtimes(frictionConeMatrix, corner.force);
                 for (int i = 0; i < corner.force.columns(); i++)
                 {
-                    this->opti.subject_to(constraint(Sl(), i) <= zero);
+                    this->opti.subject_to(constraintFrictionCone(Sl(), i) <= zero);
                 }
 
                 // limit on the normal force
@@ -589,14 +635,23 @@ struct CentroidalMPC::Impl
                                 * casadi::MX::sumsqr(com(2, Sl(1, com.columns()))
                                                      - this->optiVariables.comReference(2, Sl()));
 
+        casadi::MX averageForce;
         for (const auto& [key, contact] : this->optiVariables.contacts)
         {
             cost += this->weights.contactPosition
                     * casadi::MX::sumsqr(contact.nominalPosition - contact.position);
 
+            averageForce = contact.corners[0].force / contact.corners.size();
+            for (int i = 1; i < contact.corners.size(); i++)
+            {
+                averageForce += contact.corners[i].force / contact.corners.size();
+            }
+
             for (const auto& corner : contact.corners)
             {
                 auto forceRateOfChange = casadi::MX::diff(corner.force.T()).T();
+
+                cost += 10 * casadi::MX::sumsqr(corner.force - averageForce);
 
                 cost += this->weights.forceRateOfChange(0) * casadi::MX::sumsqr(forceRateOfChange(0, Sl()));
                 cost += this->weights.forceRateOfChange(1) * casadi::MX::sumsqr(forceRateOfChange(1, Sl()));
@@ -637,7 +692,7 @@ struct CentroidalMPC::Impl
     }
 };
 
-bool CentroidalMPC::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool CentroidalMPC::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::initialize]";
     auto ptr = handler.lock();
@@ -668,12 +723,12 @@ CentroidalMPC::CentroidalMPC()
     m_pimpl = std::make_unique<Impl>();
 }
 
-const CentroidalMPCState& CentroidalMPC::get() const
+const CentroidalMPCState& CentroidalMPC::getOutput() const
 {
     return m_pimpl->state;
 }
 
-bool CentroidalMPC::isValid() const
+bool CentroidalMPC::isOutputValid() const
 {
     return true;
 }
@@ -682,6 +737,8 @@ bool CentroidalMPC::advance()
 {
     constexpr auto errorPrefix = "[CentroidalMPC::advance]";
     assert(m_pimpl);
+
+    using Sl = casadi::Slice;
 
     if (!m_pimpl->isInitialized)
     {
@@ -693,6 +750,38 @@ bool CentroidalMPC::advance()
     // controller:(i0[3],i1[3],i2[3],i3[3x10],i4[3x10],i5[9x10],i6[1x10],i7[3x10],i8[3x10],i9[3x9],i10[3x10],i11[9x10],i12[1x10],i13[3x10],i14[3x10],i15[3x9])->(o0[3x10],o1[3x10],o2[3x10],o3[3x10],o4[3x10],o5[3x10],o6[3x10],o7[3x10],o8[3x10],o9[3x10])
 
     const auto& inputs = m_pimpl->controllerInputs;
+    // m_pimpl->opti.set_value(m_pimpl->optiVariables.comCurrent, inputs.comCurrent);
+    // m_pimpl->opti.set_value(m_pimpl->optiVariables.dcomCurrent, inputs.dcomCurrent);
+    // m_pimpl->opti.set_value(m_pimpl->optiVariables.angularMomentumCurrent,
+    //                         inputs.angularMomentumCurrent);
+
+    // m_pimpl->opti.set_value(m_pimpl->optiVariables.comReference, inputs.comReference);
+
+    // for (const auto& [key, contact] : inputs.contacts)
+    // {
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].nominalPosition,
+    //                             contact.nominalPosition);
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].orientation,
+    //                             contact.orientation);
+
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].maximumNormalForce,
+    //                             contact.maximumNormalForce);
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].upperLimitPosition,
+    //                             contact.upperLimitPosition);
+
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].lowerLimitPosition,
+    //                             contact.lowerLimitPosition);
+
+    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].limitVelocity,
+    //                             contact.limitVelocity);
+    // }
+
+    //
+    // m_pimpl->opti.set_initial(m_pimpl->optiVariables.com(Sl(),
+    //                                                      Sl(1,
+    //                                                         m_pimpl->optiVariables.com.columns())),
+    //                           inputs.comReference);
+
     std::vector<casadi::DM> vectorizedInputs;
     vectorizedInputs.push_back(inputs.comCurrent);
     vectorizedInputs.push_back(inputs.dcomCurrent);
@@ -708,6 +797,32 @@ bool CentroidalMPC::advance()
         vectorizedInputs.push_back(contact.lowerLimitPosition);
         vectorizedInputs.push_back(contact.limitVelocity);
     }
+
+    // try
+    // {
+    //     m_pimpl->optiSolution.solution = std::make_unique<casadi::OptiSol>(m_pimpl->opti.solve());
+    // } catch (const std::exception& e)
+    // {
+    //     log()->error("{} Unable to solve the optimization problem. The following exception has "
+    //                  "been thrown by the solver: {}.",
+    //                  errorPrefix,
+    //                  e.what());
+
+    //     return false;
+    // }
+
+    // // get the solution
+    // for (auto& [key, contact] : m_pimpl->state.contacts)
+    // {
+    //     contact.pose.translation(toEigen(
+    //         m_pimpl->optiSolution.solution->value(m_pimpl->optiVariables.contacts[key].position)));
+
+    //     for (int i = 0; i < contact.corners.size(); i++)
+    //     {
+    //         contact.corners[i].force = toEigen(m_pimpl->optiSolution.solution->value(
+    //             m_pimpl->optiVariables.contacts[key].corners[i].force));
+    //     }
+    // }
 
     // compute the output
     auto controllerOutput = m_pimpl->controller(vectorizedInputs);
@@ -853,8 +968,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
     if (finalPhase == contactPhaseList.end())
     {
         finalPhase = std::prev(contactPhaseList.end());
-        // std::cerr << "error" << std::endl;
-        // return false;
+        std::cerr << "error" << std::endl;
+        return false;
     }
 
     int index = 0;
@@ -864,7 +979,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         const double tInitial = std::max(m_pimpl->currentTime, it->beginTime);
         const double tFinal = std::min(absoluteTimeHorizon, it->endTime);
 
-        const int numberOfSamples = (tFinal - tInitial) / m_pimpl->optiSettings.samplingTime;
+        const int numberOfSamples
+            = std::round((tFinal - tInitial) / m_pimpl->optiSettings.samplingTime);
 
         for (const auto& [key, contact] : it->activeContacts)
         {
@@ -894,6 +1010,15 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         index += numberOfSamples;
     }
 
+    assert(index == m_pimpl->optiSettings.horizon);
+
+    for (const auto& [key, contact] : m_pimpl->controllerInputs.contacts)
+    {
+
+        log()->info("{} maximumnormalforce  {}",
+                    key,
+                    toEigen(contact.maximumNormalForce));
+    }
     // TODO Implement this part only if you want to add the push recovery
     for (auto& [key, contact] : m_pimpl->controllerInputs.contacts)
     {

@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 
-#include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
@@ -31,7 +31,7 @@ struct CentroidalMPCState
  * DCMPlanner defines a trajectory generator for the variable height Divergent component of motion
  * (DCM).
  */
-class CentroidalMPC : public System::Advanceable<CentroidalMPCState>
+class CentroidalMPC : public System::Source<CentroidalMPCState>
 {
     /**
      * Private implementation
@@ -68,7 +68,7 @@ public:
      * |    `dcm_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the DCM                                               |    Yes    |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     bool setContactPhaseList(const Contacts::ContactPhaseList &contactPhaseList);
 
@@ -82,15 +82,13 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-    const CentroidalMPCState& get() const final;
+    const CentroidalMPCState& getOutput() const final;
 
     /**
      * @brief Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const final;
-
-
+    bool isOutputValid() const final;
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from get().
