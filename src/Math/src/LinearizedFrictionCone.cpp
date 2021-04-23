@@ -12,7 +12,7 @@
 
 using namespace BipedalLocomotion::Math;
 
-bool LinearizedFrictionCone::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool LinearizedFrictionCone::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto errorPrefix = "[LinearizedFrictionCone::initialize]";
 
