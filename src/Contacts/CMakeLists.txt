@@ -17,8 +17,8 @@ if (FRAMEWORK_COMPILE_Contact)
     add_bipedal_locomotion_library(
     NAME                   ContactDetectors
     SUBDIRECTORIES         tests/ContactDetectors
-    SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp src/BaseDetector.cpp
-    PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h ${H_PREFIX}/BaseDetector.h
+    SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp src/FixedFootDetector.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/ContactDetector.h ${H_PREFIX}/SchmittTriggerDetector.h ${H_PREFIX}/FixedFootDetector.h
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts)
 endif()
