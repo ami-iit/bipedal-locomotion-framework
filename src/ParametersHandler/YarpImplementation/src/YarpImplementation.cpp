@@ -201,3 +201,21 @@ void YarpImplementation::clear()
     m_container.clear();
     m_lists.clear();
 }
+
+std::shared_ptr<YarpImplementation> YarpImplementation::clonePrivate() const
+{
+    auto handler = std::make_shared<YarpImplementation>();
+
+    // copy the content of the parameters stored in the handler.
+    handler->m_container = this->m_container;
+
+    for (const auto& [key, value] : m_lists)
+        handler->m_lists[key] = value->clonePrivate();
+
+    return handler;
+}
+
+IParametersHandler::shared_ptr YarpImplementation::clone() const
+{
+    return this->clonePrivate();
+}

@@ -54,6 +54,13 @@ class YarpImplementation : public IParametersHandler
      */
     template <typename T>
     void setParameterPrivate(const std::string& parameterName, const T& parameter);
+
+    /**
+     * Clone the content of the handler
+     * @return A pointer to YarpImplementation containing the content of the handler.
+     */
+    std::shared_ptr<YarpImplementation> clonePrivate() const;
+
 public:
     /**
      * Constructor.
@@ -234,6 +241,13 @@ public:
      * Clears the handler from all the parameters
      */
     void clear() final;
+
+    /**
+     * Clone the content of the content.
+     * @return a IParametersHandler::shared_ptr clone of the current handler.
+     * @warning
+     */
+    shared_ptr clone() const final;
 
     /**
      * Destructor
