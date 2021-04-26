@@ -5,6 +5,7 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
 using namespace BipedalLocomotion;
@@ -15,9 +16,8 @@ bool YarpUtilities::addVectorOfStringToProperty(yarp::os::Property& prop,
     // check if the key already exists
     if (prop.check(key))
     {
-        std::cerr << "[YarpUtilities::addVectorOfStringToProperty::addVectorOfStringToProperty] "
-                     "The property already exist."
-                  << std::endl;
+        log()->error("[YarpUtilities::addVectorOfStringToProperty::addVectorOfStringToProperty] "
+                     "The property already exist.");
         return false;
     }
 
@@ -61,37 +61,31 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
                                                                const std::string& key,
                                                                std::vector<bool>& vector)
 {
+    constexpr auto logPrefix = "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable]";
+
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                     "Missing field "
-                  << key << std::endl;
+        log()->error("{} Missing field {}.", logPrefix, key);
         return false;
     }
 
     if (value->isNull())
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] Empty "
-                     "input value named "
-                  << key << std::endl;
+        log()->error("{} Empty input value named: {}.", logPrefix, key);
         return false;
     }
 
     if (!value->isList())
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
-                     "value named "
-                  << key << "is not associated to a list." << std::endl;
+        log()->error("{} The value named: {} is not associated to a list.", logPrefix, key);
         return false;
     }
 
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
-                     "list associated to the value named "
-                  << key << " is empty." << std::endl;
+        log()->error("{} The list associated to the value named: {} is empty.", logPrefix, key);
         return false;
     }
 
@@ -102,9 +96,10 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     {
         if (!(inputPtr->get(i).isBool()) && !(inputPtr->get(i).isInt()))
         {
-            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                         "The element of the list associated to the value named "
-                      << key << " is not a boolean ." << std::endl;
+            log()->error("{} The element of the list associated to the value named {} is not a "
+                         "Boolean.",
+                         logPrefix,
+                         key);
             return false;
         }
 

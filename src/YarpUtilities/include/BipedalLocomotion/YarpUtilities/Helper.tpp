@@ -6,12 +6,13 @@
  */
 
 // std
-#include <iostream>
 #include <type_traits>
+
 //GenericContainer
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 // clang-format off
 
@@ -61,6 +62,7 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
                               const std::string& key,
                               T& element)
 {
+    constexpr auto logPrefix = "[BipedalLocomotion::YarpUtilities::getElementFromSearchable]";
 
     static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(T),
                   "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] The "
@@ -70,17 +72,17 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] "
-                     "Missing field named "
-                  << key << std::endl;
+        log()->error("{} Missing field named: {}.", logPrefix, key);
         return false;
     }
 
     if (!(value->*YARP_UTILITES_GET_CHECKER_NAME(T))())
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] The "
-                     "value named "
-                  << key << " is not a " << YARP_UTILITES_GET_ELEMENT_TYPE(T) << "." << std::endl;
+        log()->error("{} The value named: {} is not a {}.",
+                     logPrefix,
+                     key,
+                     YARP_UTILITES_GET_ELEMENT_TYPE(T));
+
         return false;
     }
 
@@ -91,7 +93,7 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
 template <typename T>
 bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::string& key, T& vector)
 {
-
+    constexpr auto logPrefix = "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable]";
     using elementType = typename std::pointer_traits<decltype(vector.data())>::element_type;
 
     static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(elementType),
@@ -102,34 +104,26 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                     "Missing field "
-                  << key << std::endl;
+        log()->error("{} Missing field named: {}.", logPrefix, key);
         return false;
     }
 
     if (value->isNull())
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] Empty "
-                     "input value named "
-                  << key << std::endl;
+        log()->error("{} Empty input named: {}.", logPrefix, key);
         return false;
     }
 
     if (!value->isList())
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
-                     "value named "
-                  << key << "is not associated to a list." << std::endl;
+        log()->error("{} The value named: {} is not associated to a list.", logPrefix, key);
         return false;
     }
 
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
-                     "list associated to the value named "
-                  << key << " is empty." << std::endl;
+        log()->error("{} The list associated to the value named: {} is empty.", logPrefix, key);
         return false;
     }
 
@@ -141,10 +135,11 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         {
             if (!vector.resizeVector(inputPtr->size()))
             {
-                std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                          << "Unable to resize " << type_name<T>()
-                          << "List size: "
-                          << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
+                log()->error("{} Unable to resize {}, List size: {}. Vector size: {}.",
+                             logPrefix,
+                             type_name<T>(),
+                             inputPtr->size(),
+                             vector.size());
                 return false;
             }
         }
@@ -152,10 +147,11 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
             vector.resize(inputPtr->size());
         else
         {
-            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                         "The size of the vector does not match with the size of the list. List "
-                         "size: "
-                      << inputPtr->size() << ". Vector size: " << vector.size() << std::endl;
+            log()->error("{} The size of the vector does not match with the size of the list. List "
+                         "size {}. Vector size {}.",
+                         logPrefix,
+                         inputPtr->size(),
+                         vector.size());
             return false;
         }
     }
@@ -164,10 +160,10 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     {
         if (!(inputPtr->get(i).*YARP_UTILITES_GET_CHECKER_NAME(elementType))())
         {
-            std::cerr << "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] "
-                         "The element of the list associated to the value named "
-                      << key << " is not a " << YARP_UTILITES_GET_ELEMENT_TYPE(elementType) << "."
-                      << std::endl;
+            log()->error("{} The element of the list associated to the value named {} is not a {}.",
+                         logPrefix,
+                         key,
+                         YARP_UTILITES_GET_ELEMENT_TYPE(elementType));
             return false;
         }
 
