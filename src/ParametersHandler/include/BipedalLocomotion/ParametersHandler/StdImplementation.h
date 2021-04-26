@@ -231,6 +231,12 @@ public:
      */
     void clear() final;
 
+    /**
+     * Clone the content of the content.
+     * @return a IParametersHandler::shared_ptr clone of the current handler.
+     */
+    shared_ptr clone() const final;
+
     ~StdImplementation() = default;
 };
 } // namespace ParametersHandler

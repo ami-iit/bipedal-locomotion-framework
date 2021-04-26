@@ -169,3 +169,13 @@ void StdImplementation::clear()
 {
     m_map.clear();
 }
+
+IParametersHandler::shared_ptr StdImplementation::clone() const
+{
+    auto handler = std::make_shared<StdImplementation>();
+
+    // copy the content of the parameters stored in the handler.
+    handler->m_map = this->m_map;
+
+    return handler;
+}
