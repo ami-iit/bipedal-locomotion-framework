@@ -217,6 +217,14 @@ public:
     virtual void clear() = 0;
 
     /**
+     * Clone the content of the content.
+     * @return a IParametersHandler::shared_ptr clone of the current handler.
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::clone
+     */
+    virtual shared_ptr clone() const = 0;
+
+    /**
      * Destructor
      */
     virtual ~IParametersHandler() = default;
