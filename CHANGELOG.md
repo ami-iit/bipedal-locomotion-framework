@@ -29,6 +29,7 @@ All notable changes to this project are documented in this file.
 - Implement TaskSpaceInverseDynamics interface (https://github.com/dic-iit/bipedal-locomotion-framework/pull/279)
 - Implement `Wrench` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/279)
 - Implement `SO3Task` in `TSID` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/281)
+- Implement clone method in ParametersHandler classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/288)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
