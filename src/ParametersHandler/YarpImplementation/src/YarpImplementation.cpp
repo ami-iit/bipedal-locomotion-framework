@@ -11,6 +11,7 @@
 #include <string>
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 
@@ -159,9 +160,9 @@ bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::s
                                                                                   // m_container
     if (downcastedPtr == nullptr)
     {
-        std::cerr << "[YarpImplementation::setGroup] Unable to downcast the pointer to "
-                     "YarpImplementation."
-                  << std::endl;
+        log()->error("[YarpImplementation::setGroup] Unable to downcast the pointer to "
+                     "YarpImplementation.");
+
         return false;
     }
 
