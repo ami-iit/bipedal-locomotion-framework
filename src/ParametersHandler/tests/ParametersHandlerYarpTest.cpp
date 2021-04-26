@@ -204,4 +204,52 @@ TEST_CASE("Get parameters")
         }
     }
 
+    SECTION("Clone")
+    {
+        IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
+        REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
+        auto groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
+        REQUIRE(groupHandler);
+        REQUIRE(groupHandler->isEmpty());
+
+        groupHandler->setParameter("Donald's nephews", donaldsNephews);
+
+        auto newHandler = parameterHandler->clone();
+
+        SECTION("Get integer")
+        {
+            int element;
+            REQUIRE(newHandler->getParameter("answer_to_the_ultimate_question_of_life", element));
+            REQUIRE(element == 42);
+        }
+
+        SECTION("Get Double")
+        {
+            double element;
+            REQUIRE(newHandler->getParameter("pi", element));
+            REQUIRE(element == 3.14);
+        }
+
+        SECTION("Get String")
+        {
+            std::string element;
+            REQUIRE(newHandler->getParameter("John", element));
+            REQUIRE(element == "Smith");
+        }
+
+        SECTION("Get Vector")
+        {
+            std::vector<int> element;
+            REQUIRE(newHandler->getParameter("Fibonacci Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        SECTION("Get group")
+        {
+            std::vector<std::string> element;
+            REQUIRE(newHandler->getGroup("CARTOONS").lock()->getParameter("Donald's nephews",//
+                                                                          element));
+            REQUIRE(element == donaldsNephews);
+        }
+    }
 }
