@@ -30,6 +30,7 @@ All notable changes to this project are documented in this file.
 - Implement `Wrench` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/279)
 - Implement `SO3Task` in `TSID` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/281)
 - Implement clone method in ParametersHandler classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/288)
+- Implement `VariablesHandler::clear()` and `VariablesHandler::initialize()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
@@ -45,6 +46,7 @@ All notable changes to this project are documented in this file.
 - Add support for landmarks and kinematics-free estimation in `FloatingBaseEstimators`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/254)
 - If FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES is OFF, for Python bindings use installation directory provided by sysconfig Python module. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/274)
 - Reduce memory allocation in `YarpSensorBridge` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/278)
+- Use `TextLogging` in `VariablesHandler` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
