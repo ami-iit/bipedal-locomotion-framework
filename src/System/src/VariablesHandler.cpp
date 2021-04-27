@@ -5,10 +5,11 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <iostream>
 #include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion::ParametersHandler;
 
 bool VariablesHandler::VariableDescription::isValid() const
 {
@@ -22,13 +23,76 @@ VariablesHandler::VariableDescription VariablesHandler::VariableDescription::Inv
     return tmp;
 }
 
+bool VariablesHandler::initialize(std::weak_ptr<const IParametersHandler> handler) noexcept
+{
+    // clear the content of the handler
+    this->clear();
+
+    constexpr auto logPrefix = "[VariablesHandler::initialize]";
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid ParametersHandler pointer.", logPrefix);
+        return false;
+    }
+
+    std::vector<std::string> names;
+    std::vector<int> sizes;
+    if (!ptr->getParameter("variables_name", names))
+    {
+        log()->error("{} Unable to get the name of the variables.", logPrefix);
+        return false;
+    }
+
+    if (!ptr->getParameter("variables_size", sizes))
+    {
+        log()->error("{} Unable to get the size of the variables.", logPrefix);
+        return false;
+    }
+
+    if (names.size() != sizes.size())
+    {
+        log()->error("{} The size of the list containing the names is different from the size of "
+                     "the list containing the sizes. Size of variables_name: {}. Size of "
+                     "variables_size: {}",
+                     logPrefix,
+                     names.size(),
+                     sizes.size());
+        return false;
+    }
+
+    // the size must be a strictly positive number
+    auto iterator = std::find_if(sizes.begin(), sizes.end(), [](int size) { return size <= 0; });
+    if (iterator != sizes.end())
+    {
+        log()->error("{} There exist a non positive element in the variables_size list. The size "
+                     "must be a strictly positive number.",
+                     logPrefix);
+        return false;
+    }
+
+    for (int i = 0; i < names.size(); i++)
+    {
+        if (!this->addVariable(names[i], sizes[i]))
+        {
+            log()->error("{} Unable to add the variable named {} having a size equal to {}.",
+                         logPrefix,
+                         names[i],
+                         sizes[i]);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool VariablesHandler::addVariable(const std::string& name, const std::size_t& size) noexcept
 {
     // if the variable already exist cannot be added again.
     if (m_variables.find(name) != m_variables.end())
     {
-        std::cerr << "[VariableHandler::addVariable] The variable name " << name
-                  << " already exists";
+        log()->error("[VariableHandler::addVariable] The variable named {} already exists.", name);
         return false;
     }
 
@@ -43,8 +107,8 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
     return true;
 }
 
-const VariablesHandler::VariableDescription& VariablesHandler::getVariable(const std::string& name) const
-    noexcept
+const VariablesHandler::VariableDescription&
+VariablesHandler::getVariable(const std::string& name) const noexcept
 {
     auto variable = m_variables.find(name);
 
@@ -57,9 +121,8 @@ const VariablesHandler::VariableDescription& VariablesHandler::getVariable(const
         return m_invalidVariable;
 }
 
-bool VariablesHandler::getVariable(const std::string& name,
-                                   VariablesHandler::VariableDescription& description) const
-    noexcept
+bool VariablesHandler::getVariable(const std::string& name, //
+                                   VariablesHandler::VariableDescription& description) const noexcept
 {
     return (description = this->getVariable(name)).isValid();
 }
@@ -68,7 +131,6 @@ const std::size_t& VariablesHandler::getNumberOfVariables() const noexcept
 {
     return m_numberOfVariables;
 }
-
 
 std::string VariablesHandler::toString() const noexcept
 {
@@ -80,4 +142,10 @@ std::string VariablesHandler::toString() const noexcept
     }
 
     return out;
+}
+
+void VariablesHandler::clear() noexcept
+{
+    m_numberOfVariables = 0;
+    m_variables.clear();
 }

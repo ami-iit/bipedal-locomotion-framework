@@ -5,11 +5,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <string>
-#include <unordered_map>
-
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_VARIABLES_HANDLER_H
 #define BIPEDAL_LOCOMOTION_SYSTEM_VARIABLES_HANDLER_H
+
+#include <string>
+#include <memory>
+#include <unordered_map>
+
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
 namespace BipedalLocomotion
 {
@@ -46,6 +49,20 @@ private:
 
 public:
     /**
+     * Initialize the VariablesHandler class. This method calls VariablesHandler::addVariable using
+     * the parameters strored in the handler
+     * @param handler pointer to parameters handler
+     * @notice The following parameters are required
+     * |  Parameter Name  |       Type       |                                       Description                                      | Mandatory |
+     * |:----------------:|:----------------:|:--------------------------------------------------------------------------------------:|:---------:|
+     * | `variables_name` | `vector<string>` |                        List containing the name of the variables                       |    Yes    |
+     * | `variables_size` |   `vector<int>`  | List containing the size of the variables. The size must be a strictly positive number |    Yes    |
+     * @warning The previous content of the VariablesHandler is erased.
+     * @return true/false in case of success/failure
+     */
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) noexcept;
+
+    /**
      * Add a new variable to the list
      * @param name of the variable
      * @param size the size of the variable
@@ -79,6 +96,11 @@ public:
      * @return a string containing the name of all the variable and their description.
      */
     std::string toString() const noexcept;
+
+    /**
+     * Clear the content of the handler
+     */
+    void clear() noexcept;
 };
 
 } // namespace System
