@@ -202,6 +202,7 @@ bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::Param
         "The parameter handler could not find \"initial_ref_frame_for_world \" in the configuration file. Setting \"initial_fixed_frame\" as reference frame for world"
         << std::endl;
         m_pimpl->m_initialRefFrameForWorld = m_pimpl->m_initialFixedFrame;
+        m_pimpl->m_initialRefFrameForWorldIdx = m_pimpl->m_initialFixedFrameIdx;
     }
     else
     {
