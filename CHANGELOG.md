@@ -53,6 +53,7 @@ All notable changes to this project are documented in this file.
 - Fixed the installation path of public headers related to perception libraries. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/245)
 - Fixed InstallBasicPackageFiles to avoid the same problem of https://github.com/dic-iit/matio-cpp/pull/41 (https://github.com/dic-iit/bipedal-locomotion-framework/pull/253)
 - Call `positionInterface->setRefSpeeds()` only once when a position reference is set in `YarpRobotControl` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/271)
+- Fix initialization of reference frame for world in `LeggedOdometry` class. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/289)
 
 ## [0.1.0] - 2021-02-22
 ### Added
