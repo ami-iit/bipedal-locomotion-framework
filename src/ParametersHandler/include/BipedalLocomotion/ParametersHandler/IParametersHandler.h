@@ -12,8 +12,8 @@
 #include <string>
 #include <vector>
 
-#include <BipedalLocomotion/GenericContainer/Vector.h>
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 
 namespace BipedalLocomotion
 {
@@ -26,7 +26,6 @@ namespace ParametersHandler
 class IParametersHandler
 {
 public:
-
     using unique_ptr = std::unique_ptr<IParametersHandler>;
 
     using shared_ptr = std::shared_ptr<IParametersHandler>;
@@ -72,7 +71,8 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, std::vector<bool>& parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName, //
+                              std::vector<bool>& parameter) const = 0;
 
     /**
      * Get a parameter [GenericContainer::Vector<int>]
@@ -80,7 +80,8 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<int>::Ref parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName,
+                              GenericContainer::Vector<int>::Ref parameter) const = 0;
 
     /**
      * Get a parameter [GenericContainer::Vector<double>]
@@ -88,7 +89,8 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<double>::Ref parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName,
+                              GenericContainer::Vector<double>::Ref parameter) const = 0;
 
     /**
      * Get a parameter [GenericContainer::Vector<std::string>]
@@ -96,7 +98,8 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-    virtual bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>::Ref parameter) const = 0;
+    virtual bool getParameter(const std::string& parameterName,
+                              GenericContainer::Vector<std::string>::Ref parameter) const = 0;
 
     /**
      * Set a parameter [int]
@@ -135,34 +138,40 @@ public:
      */
     virtual void setParameter(const std::string& parameterName, const bool& parameter) = 0;
 
-
     /**
      * Set a parameter [std::vector<bool>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const std::vector<bool>& parameter) = 0;
+    virtual void setParameter(const std::string& parameterName, const std::vector<bool>& parameter)
+        = 0;
 
     /**
      * Set a parameter [GenericContainer::Vector<int>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>::Ref parameter) = 0;
+    virtual void setParameter(const std::string& parameterName,
+                              const GenericContainer::Vector<const int>::Ref parameter)
+        = 0;
 
     /**
      * Set a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>::Ref parameter) = 0;
+    virtual void setParameter(const std::string& parameterName,
+                              const GenericContainer::Vector<const double>::Ref parameter)
+        = 0;
 
     /**
      * Set a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    virtual void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>::Ref parameter) = 0;
+    virtual void setParameter(const std::string& parameterName,
+                              const GenericContainer::Vector<const std::string>::Ref parameter)
+        = 0;
 
     /**
      * Get a Group from the handler.
@@ -208,10 +217,17 @@ public:
     virtual void clear() = 0;
 
     /**
+     * Clone the content of the content.
+     * @return a IParametersHandler::shared_ptr clone of the current handler.
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::clone
+     */
+    virtual shared_ptr clone() const = 0;
+
+    /**
      * Destructor
      */
     virtual ~IParametersHandler() = default;
-
 };
 } // namespace ParametersHandler
 } // namespace BipedalLocomotion

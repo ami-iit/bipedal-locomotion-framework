@@ -112,4 +112,38 @@ TEST_CASE("Get parameters")
         parameterHandler->clear();
         REQUIRE(parameterHandler->isEmpty());
     }
+
+    SECTION("Clone")
+    {
+        auto newHandler = parameterHandler->clone();
+        REQUIRE_FALSE(newHandler->isEmpty());
+
+        SECTION("Get integer")
+        {
+            int element;
+            REQUIRE(newHandler->getParameter("answer_to_the_ultimate_question_of_life", element));
+            REQUIRE(element == 42);
+        }
+
+        SECTION("Get Double")
+        {
+            double element;
+            REQUIRE(newHandler->getParameter("pi", element));
+            REQUIRE(element == 3.14);
+        }
+
+        SECTION("Get String")
+        {
+            std::string element;
+            REQUIRE(newHandler->getParameter("John", element));
+            REQUIRE(element == "Smith");
+        }
+
+        SECTION("Get Vector")
+        {
+            std::vector<int> element;
+            REQUIRE(newHandler->getParameter("Fibonacci Numbers", element));
+            REQUIRE(element == std::vector<int>{1, 1, 2, 3, 5, 8, 13, 21});
+        }
+    }
 }

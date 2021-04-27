@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
     NAME                   ParametersHandlerYarpImplementation
     SOURCES                src/YarpImplementation.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/ParametersHandler/YarpImplementation.h include/BipedalLocomotion/ParametersHandler/YarpImplementation.tpp
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::YarpUtilities YARP::YARP_os
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::YarpUtilities YARP::YARP_os BipedalLocomotion::TextLogging
     INSTALLATION_FOLDER ParametersHandler)
 
 endif()
