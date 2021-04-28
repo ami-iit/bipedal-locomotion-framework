@@ -783,6 +783,9 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
         return false;
     }
 
+    // update the internal contact state
+    m_pimpl->updateInternalContactStates(meas, m_modelComp, m_state.supportFrameData);
+
     // initialization step
     if (!m_pimpl->m_odometryInitialized)
     {
@@ -808,8 +811,6 @@ bool LeggedOdometry::updateKinematics(FloatingBaseEstimators::Measurements& meas
     }
 
     // run step
-    m_pimpl->updateInternalContactStates(meas, m_modelComp, m_state.supportFrameData);
-
     if (m_pimpl->switching != LOSwitching::useExternalUpdate)
     {
         // change fixed frame depending on switch times

@@ -55,6 +55,7 @@ All notable changes to this project are documented in this file.
 - Fixed InstallBasicPackageFiles to avoid the same problem of https://github.com/dic-iit/matio-cpp/pull/41 (https://github.com/dic-iit/bipedal-locomotion-framework/pull/253)
 - Call `positionInterface->setRefSpeeds()` only once when a position reference is set in `YarpRobotControl` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/271)
 - Fix initialization of reference frame for world in `LeggedOdometry` class. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/289)
+- `LeggedOdometry::Impl::updateInternalContactStates()` is now called even if the legged odometry is not initialize. This was required to have a meaningful base estimation the first time `LeggedOdometry::changeFixedFrame()` is called. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/292)
 
 ## [0.1.0] - 2021-02-22
 ### Added
