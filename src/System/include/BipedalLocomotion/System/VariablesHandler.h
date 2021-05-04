@@ -50,7 +50,7 @@ private:
 public:
     /**
      * Initialize the VariablesHandler class. This method calls VariablesHandler::addVariable using
-     * the parameters strored in the handler
+     * the parameters stored in the handler
      * @param handler pointer to parameters handler
      * @notice The following parameters are required
      * |  Parameter Name  |       Type       |                                       Description                                      | Mandatory |
@@ -93,7 +93,7 @@ public:
 
     /**
      * Get the string representation of the handler.
-     * @return a string containing the name of all the variable and their description.
+     * @return a string containing the name of all the variables and their description.
      */
     std::string toString() const noexcept;
 
