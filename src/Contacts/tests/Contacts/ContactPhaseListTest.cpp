@@ -1,7 +1,7 @@
 /**
  * @file ContactPhaseListTest.cpp
- * @authors Stefano Dafarra
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @authors Stefano Dafarra, Giulio Romualdi
+ * @copyright 2020,2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -11,6 +11,60 @@
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 
 using namespace BipedalLocomotion::Contacts;
+
+TEST_CASE("Rule of five")
+{
+    ContactPhaseList phaseList;
+
+    ContactListMap contactListMap;
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0.0, 1.0));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2.0, 5.0));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6.0, 7.0));
+
+    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0.0, 3.0));
+    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4.0, 7.0));
+
+    phaseList.setLists(contactListMap);
+
+    SECTION("Copy constructor")
+    {
+        ContactPhaseList newList(phaseList);
+        phaseList.clear();
+        const ContactListMap& contactListMap = newList.lists();
+        ContactList::const_iterator expectedLeft = contactListMap.at("left").begin();
+        REQUIRE(newList.firstPhase()->activeContacts.at("left")->pose == manif::SE3d::Identity());
+    }
+
+    SECTION("Copy assignment operator")
+    {
+        ContactPhaseList newList;
+        newList = phaseList;
+
+        phaseList.clear();
+        const ContactListMap& contactListMap = newList.lists();
+        ContactList::const_iterator expectedLeft = contactListMap.at("left").begin();
+        REQUIRE(newList.firstPhase()->activeContacts.at("left")->pose == manif::SE3d::Identity());
+    }
+
+    SECTION("Move constructor")
+    {
+        ContactPhaseList newList(std::move(phaseList));
+
+        const ContactListMap& contactListMap = newList.lists();
+        ContactList::const_iterator expectedLeft = contactListMap.at("left").begin();
+        REQUIRE(newList.firstPhase()->activeContacts.at("left")->pose == manif::SE3d::Identity());
+    }
+
+    SECTION("Move assignment operator")
+    {
+        ContactPhaseList newList;
+        newList = std::move(phaseList);
+
+        const ContactListMap& contactListMap = newList.lists();
+        ContactList::const_iterator expectedLeft = contactListMap.at("left").begin();
+        REQUIRE(newList.firstPhase()->activeContacts.at("left")->pose == manif::SE3d::Identity());
+    }
+}
 
 TEST_CASE("ContactPhaseList")
 {
@@ -54,7 +108,6 @@ TEST_CASE("ContactPhaseList")
         ContactList::const_iterator expectedLeft = contactListMap.at("left").begin();
         ContactList::const_iterator expectedRight = contactListMap.at("right").begin();
         ContactList::const_iterator expectedAdditional = contactListMap.at("additional").begin();
-
 
         ContactPhaseList::const_iterator phase = phaseList.begin();
         REQUIRE(phase->beginTime == 0.0);
@@ -149,5 +202,4 @@ TEST_CASE("ContactPhaseList")
         ok = expectedAdditional == contactListMap.at("additional").end();
         REQUIRE(ok);
     }
-
 }
