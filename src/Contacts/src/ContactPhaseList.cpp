@@ -6,9 +6,9 @@
  */
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <cassert>
-#include <iostream>
 #include <map>
 
 using namespace BipedalLocomotion::Contacts;
@@ -130,8 +130,7 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList>& contac
 
         if (!res.second)
         {
-            std::cerr << "[ContactPhaseList::setLists] Multiple items have the same defaultName."
-                      << std::endl;
+            log()->error("[ContactPhaseList::setLists] Multiple items have the same defaultName.");
             return false;
         }
     }
