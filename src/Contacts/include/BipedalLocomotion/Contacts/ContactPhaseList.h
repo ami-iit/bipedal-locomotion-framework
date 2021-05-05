@@ -1,7 +1,7 @@
 /**
  * @file ContactPhase.h
- * @authors Stefano Dafarra
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @authors Stefano Dafarra, Giulio Romualdi
+ * @copyright 2020, 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -42,6 +42,59 @@ public:
 
     using const_iterator = std::vector<ContactPhase>::const_iterator;
     using const_reverse_iterator = std::vector<ContactPhase>::const_reverse_iterator;
+
+    /**
+     * @brief Constructor.
+     * @note This definition is necessary because the Copy constructor and the Move constructor are
+     * manually defined.
+     */
+    ContactPhaseList() = default;
+
+    /**
+     * @brief Destructor.
+     * @note This definition is necessary to satisfy the rule of five.
+     */
+    ~ContactPhaseList() = default;
+
+    /**
+     * @brief Copy constructor.
+     * @param other another ContactPhaseList.
+     * @note When the copy constructor operator is called  the content of `other.m_contactList` will
+     * be copied in `this->m_contactList`, while `this->m_phases` will be regenerated using the
+     * content of `this->m_contactList`. Notice that Contacts::ContactPhase class stores an
+     * std::unordered_map<std::string, ContactList::const_iterator> called
+     * Contacts::ContactPhase::activeContacts. So copying the content of `other.m_phases` into
+     * `this->m_phases` is wrong since all the iterators stored inside the contact phases should
+     * refer to the lists stored within this class, not the original input lists.
+     */
+    ContactPhaseList(const ContactPhaseList& other);
+
+    /**
+     * @brief Move constructor.
+     * @param other another ContactPhaseList.
+     * @note This definition is necessary to satisfy the rule of five.
+     */
+    ContactPhaseList(ContactPhaseList&& other) = default;
+
+    /**
+     * @brief Copy assignment operator.
+     * @param other another ContactPhaseList.
+     * @note When the copy assignment operator is called  the content of `other.m_contactList` will
+     * be copied in `this->m_contactList`, while `this->m_phases` will be regenerated using the
+     * content of `this->m_contactList`. Notice that Contacts::ContactPhase class stores an
+     * std::unordered_map<std::string, ContactList::const_iterator> called
+     * Contacts::ContactPhase::activeContacts. So copying the content of `other.m_phases` into
+     * `this->m_phases` is wrong since all the iterators stored inside the contact phases should
+     * refer to the lists stored within this class, not the original input lists.
+     */
+    ContactPhaseList& operator=(const ContactPhaseList& other);
+
+    /**
+     * @brief Move assignment operator.
+     * @param other another ContactPhaseList.
+     * @note This definition is necessary to satisfy the rule of five.
+     */
+    ContactPhaseList& operator=(ContactPhaseList&& other) = default;
 
     /**
      * @brief Set the input lists

@@ -1,7 +1,7 @@
 /**
  * @file ContactPhase.cpp
- * @authors Stefano Dafarra
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @authors Stefano Dafarra, Giulio Romualdi
+ * @copyright 2020, 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -13,7 +13,24 @@
 
 using namespace BipedalLocomotion::Contacts;
 
-void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
+ContactPhaseList::ContactPhaseList(const ContactPhaseList& other)
+{
+    this->setLists(other.m_contactLists);
+}
+
+ContactPhaseList& ContactPhaseList::operator=(const ContactPhaseList& other)
+{
+    // if the objects are the same just return this
+    if (&other == this)
+    {
+        return *this;
+    }
+
+    this->setLists(other.m_contactLists);
+    return *this;
+}
+
+void ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
