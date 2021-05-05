@@ -7,9 +7,9 @@
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 
+#include <cassert>
 #include <iostream>
 #include <map>
-#include <cassert>
 
 using namespace BipedalLocomotion::Contacts;
 
@@ -17,15 +17,19 @@ void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
-    std::map<double, std::unordered_map<std::string, ContactList::const_iterator>> activations, deactivations;
+    std::map<double, std::unordered_map<std::string, ContactList::const_iterator>> activations,
+        deactivations;
 
-    for (ContactListMap::iterator list = m_contactLists.begin(); list != m_contactLists.end(); ++list)
+    for (ContactListMap::iterator list = m_contactLists.begin(); list != m_contactLists.end();
+         ++list)
     {
         const std::string& key = list->first;
-        for (ContactList::const_iterator step = list->second.begin(); step != list->second.end(); ++step)
+        for (ContactList::const_iterator step = list->second.begin(); step != list->second.end();
+             ++step)
         {
-            activations[step->activationTime][key] =  step; //By construction, there is only a step given a key and activationTime
-            deactivations[step->deactivationTime][key] =  step;
+            activations[step->activationTime][key] = step; // By construction, there is only a step
+                                                           // given a key and activationTime
+            deactivations[step->deactivationTime][key] = step;
         }
     }
 
@@ -42,9 +46,10 @@ void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
 
     while ((activations.size() + deactivations.size()) > 1)
     {
-        if ((activations.size() == 0) || (deactivations.begin()->first <= activations.begin()->first))
+        if ((activations.size() == 0)
+            || (deactivations.begin()->first <= activations.begin()->first))
         {
-            //Here I need to remove from the current phase the contacts that are going to end
+            // Here I need to remove from the current phase the contacts that are going to end
             currentPhase.endTime = deactivations.begin()->first;
             m_phases.push_back(currentPhase);
 
@@ -52,7 +57,9 @@ void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
 
             for (auto& toBeRemoved : deactivations.begin()->second)
             {
-                currentPhase.activeContacts.erase(toBeRemoved.first); //Erase all the contacts which are deactivativated in this instant
+                currentPhase.activeContacts.erase(toBeRemoved.first); // Erase all the contacts
+                                                                      // which are deactivativated
+                                                                      // in this instant
             }
 
             deactivations.erase(deactivations.begin());
@@ -60,45 +67,54 @@ void BipedalLocomotion::Contacts::ContactPhaseList::createPhases()
             if (activations.size() && (deactivations.begin()->first == activations.begin()->first))
             {
                 currentPhase.activeContacts.insert(activations.begin()->second.begin(),
-                                                   activations.begin()->second.end()); //Add the new contacts to the list.
+                                                   activations.begin()->second.end()); // Add the
+                                                                                       // new
+                                                                                       // contacts
+                                                                                       // to the
+                                                                                       // list.
 
                 activations.erase(activations.begin());
             }
-        }
-        else // (activations.begin()->first < deactivations.begin()->first)
+        } else // (activations.begin()->first < deactivations.begin()->first)
         {
             currentPhase.endTime = activations.begin()->first;
             m_phases.push_back(currentPhase);
 
             currentPhase.beginTime = activations.begin()->first;
             currentPhase.activeContacts.insert(activations.begin()->second.begin(),
-                                               activations.begin()->second.end()); //Add the new contacts to the list.
+                                               activations.begin()->second.end()); // Add the new
+                                                                                   // contacts to
+                                                                                   // the list.
 
             activations.erase(activations.begin());
         }
     }
 
-    assert(deactivations.size() == 1); //Only one element should be left (deactivations and activations were equal in number, but the head of activations was deleted at the beginning).
+    assert(deactivations.size() == 1); // Only one element should be left (deactivations and
+                                       // activations were equal in number, but the head of
+                                       // activations was deleted at the beginning).
     currentPhase.endTime = deactivations.begin()->first;
     m_phases.push_back(currentPhase);
 }
 
-void ContactPhaseList::setLists(const ContactListMap &contactLists)
+void ContactPhaseList::setLists(const ContactListMap& contactLists)
 {
     m_contactLists = contactLists;
     createPhases();
 }
 
-bool ContactPhaseList::setLists(const std::initializer_list<ContactList> &contactLists)
+bool ContactPhaseList::setLists(const std::initializer_list<ContactList>& contactLists)
 {
     m_contactLists.clear();
     for (const ContactList& list : contactLists)
     {
-        std::pair<ContactListMap::iterator, bool> res = m_contactLists.insert(ContactListMap::value_type(list.defaultName(), list));
+        std::pair<ContactListMap::iterator, bool> res
+            = m_contactLists.insert(ContactListMap::value_type(list.defaultName(), list));
 
         if (!res.second)
         {
-            std::cerr << "[ContactPhaseList::setLists] Multiple items have the same defaultName." <<std::endl;
+            std::cerr << "[ContactPhaseList::setLists] Multiple items have the same defaultName."
+                      << std::endl;
             return false;
         }
     }
@@ -108,7 +124,8 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList> &contac
     return true;
 }
 
-const BipedalLocomotion::Contacts::ContactListMap &BipedalLocomotion::Contacts::ContactPhaseList::lists() const
+const BipedalLocomotion::Contacts::ContactListMap&
+BipedalLocomotion::Contacts::ContactPhaseList::lists() const
 {
     return m_contactLists;
 }
@@ -153,7 +170,7 @@ ContactPhaseList::const_reverse_iterator ContactPhaseList::crend() const
     return m_phases.crend();
 }
 
-const ContactPhase &ContactPhaseList::operator[](size_t index) const
+const ContactPhase& ContactPhaseList::operator[](size_t index) const
 {
     return m_phases[index];
 }
