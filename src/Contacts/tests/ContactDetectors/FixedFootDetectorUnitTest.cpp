@@ -134,6 +134,7 @@ ContactPhaseList createContactList()
 TEST_CASE("Fixed Foot Detector")
 {
     constexpr auto dT = 0.01;
+    constexpr auto horizon = 20.0;
     FixedFootDetector detector;
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("sampling_time", dT);
@@ -143,11 +144,12 @@ TEST_CASE("Fixed Foot Detector")
     double currentTime = phaseList.firstPhase()->beginTime;
     detector.setContactPhaseList(phaseList);
 
-    for (; currentTime < 20;)
+    for (; currentTime < horizon;)
     {
         auto state = getFixedFootState(currentTime, phaseList.lists());
-        REQUIRE(detector.advance());
-        REQUIRE(detector.getOutput().find("right_foot")->second.isActive == state.rightFoot.isActive);
+
+        REQUIRE(detector.getOutput().find("right_foot")->second.isActive
+                == state.rightFoot.isActive);
         REQUIRE(detector.getOutput().find("left_foot")->second.isActive == state.leftFoot.isActive);
 
         if (state.leftFoot.isActive)
@@ -156,12 +158,14 @@ TEST_CASE("Fixed Foot Detector")
         } else if (state.rightFoot.isActive)
         {
             REQUIRE(detector.getOutput().find("right_foot")->second.pose == state.rightFoot.pose);
-        }
-        else
+        } else
         {
             // Error this should never happen
             REQUIRE(false);
         }
+
+        // advance is used to advance the time stored in the detector
+        REQUIRE(detector.advance());
 
         currentTime += dT;
     }
