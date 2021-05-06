@@ -6,7 +6,8 @@
  */
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
-#include <iostream>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+
 #include <iterator>
 #include <cassert>
 
@@ -35,6 +36,16 @@ void ContactList::setDefaultContactType(const ContactType &type)
 const ContactType &ContactList::defaultContactType() const
 {
     return m_defaultContactType;
+}
+
+void ContactList::setDefaultIndex(int defaultIndex)
+{
+    m_defaultIndex = defaultIndex;
+}
+
+int ContactList::defaultIndex() const
+{
+    return m_defaultIndex;
 }
 
 bool ContactList::addContact(const PlannedContact &newContact)
@@ -68,6 +79,7 @@ bool ContactList::addContact(const manif::SE3d &newTransform, double activationT
     newContact.activationTime = activationTime;
     newContact.deactivationTime = deactivationTime;
     newContact.name = m_defaultName;
+    newContact.index = m_defaultIndex;
     newContact.type = m_defaultContactType;
 
     return addContact(newContact);
