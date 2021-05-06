@@ -59,7 +59,7 @@ bool FixedFootDetector::updateFixedFoot()
     if (phase == m_contactPhaselist.cend())
         phase = m_contactPhaselist.lastPhase();
 
-    // if the robot is in single support only once contact is enabled
+    // if the robot is in single support only one contact is enabled
     if (phase->activeContacts.size() == 1)
     {
         // get the enabled contact
@@ -84,12 +84,12 @@ bool FixedFootDetector::updateFixedFoot()
         }
     } else if (phase->activeContacts.size() == 2)
     {
-        // Notice that here we do not analyze the case in which the phase is differnt from
+        // Notice that here we do not analyze the case in which the phase is different from
         // firstPhase. Indeed in this case we should not update the contact states dictionary. (The
-        // contet of the dictionary is the one of the previous single support phase)
+        // content of the dictionary is the one of the previous single support phase)
 
         // if the current phase is the first and there are at least 2 phases the active contact will
-        // be the one that in the next phase is active
+        // be the one that is going to be active in the next phase.
         if (phase == m_contactPhaselist.firstPhase())
         {
             if (m_contactPhaselist.size() > 1)

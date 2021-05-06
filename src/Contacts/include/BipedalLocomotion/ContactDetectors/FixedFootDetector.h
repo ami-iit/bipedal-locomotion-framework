@@ -23,7 +23,7 @@ namespace Contacts
 /**
  * The FixedFootDetector is a class that can be used to find the fixed foot given a sequence of
  * contacts.
- * The logic used to find is the follows:
+ * The logic used to find the fixed foot is the follow:
  * - In the single support phase the fixed foot is the stance foot
  * - In the double support phase the fixed foot is the foot in switch off phase, where switch off is
  *   the transition phase between stance and swing.
@@ -35,17 +35,18 @@ namespace Contacts
  * R            |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
  * stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|
  * @endcode
- * @warning The FixedFootDetector can handle only bipedal locomotion. Furthermore only one foot is
- * considered as fixed foot
+ * @warning The FixedFootDetector class can handle only bipedal locomotion. I.e. the
+ * ContactPhaseList passed to FixedFootDetector::setContactPhaseList must contain only single
+ * support and double phases.
  * @warning The presented logic may not fit in a real scenario. Indeed the class implements an
- * approach completely based on the desired value and it does not consider the current state of the
- * robot. We suggest to use Contacts::SchmittTriggerDetector class if you want consider the force
- * acting on the robot.
- * @note Given the current implementation of the class you should call `ContactDetector::advance`
- * only to advance the current time stored in the class. If you want to get the fixed foot at
- * initial time \f$t=t_i\f$, you should call `FixedFootDetector::getFixedFoot` before calling
- * advance. The following snippet can be used as a reference
- * ```cpp
+ * approach completely based on the desired footsteps and it does not consider the current state of
+ * the robot. We suggest to use Contacts::SchmittTriggerDetector class if you want consider the
+ * force acting on the robot.
+ * @note Given the current implementation of the class, you should call `ContactDetector::advance`
+ * only to `advance` the current time stored within the class. If you want to get the fixed foot at
+ * the initial time \f$t=t_i\f$, you should call `FixedFootDetector::getFixedFoot` before calling
+ * advance. The following snippet can be used as a reference:
+ * @code{.cpp}
  * FixedFootDetector detector;
  *
  * // initialize the detector
@@ -58,7 +59,7 @@ namespace Contacts
  * // get the fixed frame at initial time + sampling time instant (t = t_i + dt)
  * detector.advance();
  * auto fixedFoot = detector.getFixedFoot();
- * ```
+ * @endcode
  */
 class FixedFootDetector : public ContactDetector
 {
