@@ -95,7 +95,7 @@ protected:
     enum class State
     {
         NotInitialized, /**< The estimator is not initialized yet call
-                           FloatingBaseEstimator::initialze method to initialize it*/
+                           ContactDetector::initialze method to initialize it*/
         Initialized, /**< The estimator is initialized and ready to be used */
         Running /**< The estimator is running */
     };
