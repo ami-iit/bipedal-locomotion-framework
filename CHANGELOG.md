@@ -32,6 +32,7 @@ All notable changes to this project are documented in this file.
 - Implement clone method in ParametersHandler classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/288)
 - Implement `VariablesHandler::clear()` and `VariablesHandler::initialize()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
 - Implement the possibility to set the default contact in the `ContactList` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/297)
+- Implement `FixedFootDetector` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/284)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
