@@ -50,22 +50,29 @@ int ContactList::defaultIndex() const
 
 bool ContactList::addContact(const PlannedContact &newContact)
 {
+    constexpr auto errorPrefix = "[ContactList::addContact]";
+
     if (newContact.activationTime > newContact.deactivationTime)
     {
-        std::cerr << "[ContactList::addContact] The activation time cannot be greater than the deactivation time." <<std::endl;
+        log()->error("{} The activation time cannot be greater than the deactivation time.",
+                     errorPrefix);
         return false;
     }
     using iterator = std::set<PlannedContact, ContactCompare>::iterator;
     std::pair<iterator,bool> res = m_contacts.insert(newContact);
     if (!res.second)
     {
-        std::cerr << "[ContactList::addContact] Failed to insert new element.";
+        log()->error("{} Failed to insert new element.", errorPrefix);
         if (res.first != end())
         {
-            std::cerr << " The new contact (activationTime: " << newContact.activationTime << " ";
-            std::cerr << "deactivationTime: " << newContact.deactivationTime << ") is not compatible";
-            std::cerr << " with an element already present in the list (activationTime: " << res.first->activationTime << " ";
-            std::cerr << "deactivationTime: " << res.first->deactivationTime << ")" << std::endl;
+            log()->error("{} The new contact (activationTime: {} deactivationTime: {}) is not "
+                         "compatible with an element already present in the list (activationTime: "
+                         "{} deactivationTime: {}).",
+                         errorPrefix,
+                         newContact.activationTime,
+                         newContact.deactivationTime,
+                         res.first->activationTime,
+                         res.first->deactivationTime);
         }
         return false;
     }
@@ -167,7 +174,7 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
 {
     if (element == end())
     {
-        std::cerr << "[ContactList::addContact] The element is not valid." << std::endl;
+        log()->error("[ContactList::addContact] The element is not valid.");
         return false;
     }
 
@@ -179,7 +186,8 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
         --previousElement;
         if (newContact.activationTime < previousElement->deactivationTime)
         {
-            std::cerr << "[ContactList::addContact] The new contact cannot have an activation time smaller than the previous contact." << std::endl;
+            log()->error("[ContactList::addContact] The new contact cannot have an activation time "
+                         "smaller than the previous contact.");
             return false;
         }
     }
@@ -188,7 +196,8 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
     {
         if (newContact.deactivationTime > nextElement->activationTime)
         {
-            std::cerr << "[ContactList::addContact] The new contact cannot have a deactivation time greater than the next contact." << std::endl;
+            log()->error("[ContactList::addContact] The new contact cannot have a deactivation "
+                         "time greater than the next contact.");
             return false;
         }
     }
@@ -219,7 +228,8 @@ bool ContactList::keepOnlyPresentContact(double time)
 
     if (dropPoint == end())
     {
-        std::cerr << "[ContactList::addContact] No contact has activation time lower than the specified time." << std::endl;
+        log()->error("[ContactList::addContact] No contact has activation time lower than the "
+                     "specified time.");
         return false;
     }
 
