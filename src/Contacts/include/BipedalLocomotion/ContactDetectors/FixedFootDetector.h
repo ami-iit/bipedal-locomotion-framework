@@ -41,6 +41,24 @@ namespace Contacts
  * approach completely based on the desired value and it does not consider the current state of the
  * robot. We suggest to use Contacts::SchmittTriggerDetector class if you want consider the force
  * acting on the robot.
+ * @note Given the current implementation of the class you should call `ContactDetector::advance`
+ * only to advance the current time stored in the class. If you want to get the fixed foot at
+ * initial time \f$t=t_i\f$, you should call `FixedFootDetector::getFixedFoot` before calling
+ * advance. The following snippet can be used as a reference
+ * ```cpp
+ * FixedFootDetector detector;
+ *
+ * // initialize the detector
+ * detector.initialize(paramsHandler);
+ * detector.setContactPhaseList(contactPhaseList);
+ *
+ * // get the fixed frame at initial time instant (t = t_i)
+ * auto fixedFoot = detector.getFixedFoot();
+ *
+ * // get the fixed frame at initial time + sampling time instant (t = t_i + dt)
+ * detector.advance();
+ * auto fixedFoot = detector.getFixedFoot();
+ * ```
  */
 class FixedFootDetector : public ContactDetector
 {
@@ -53,19 +71,25 @@ class FixedFootDetector : public ContactDetector
      * Initialize the detector.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |   Parameter Name  |    Type    |                  Description                   | Mandatory |
-     * |:-----------------:|:----------:|:----------------------------------------------:|:---------:|
-     * |  `sampling_time`  |  `double`  |    Sampling time of the detector is seconds    |    Yes    |
+     * |   Parameter Name  |    Type    |                Description                 | Mandatory |
+     * |:-----------------:|:----------:|:------------------------------------------:|:---------:|
+     * |  `sampling_time`  |  `double`  |  Sampling time of the detector is seconds  |    Yes    |
      * @return true in case of success/false otherwise.
      */
     bool customInitialization(std::weak_ptr<const //
                                             ParametersHandler::IParametersHandler> handler) final;
 
     /**
-     * Update the contact state.
+     * Update the contact state. This function advance the current time stored in the class.
      * @return true in case of success/false otherwise.
      */
     bool updateContactStates() final;
+
+    /**
+     * Update the fixed foot.
+     * @return true in case of success/false otherwise.
+     */
+    bool updateFixedFoot();
 
 public:
 
@@ -73,7 +97,7 @@ public:
      * Set the contact phase list
      * @param phaseList a contact phase list
      */
-    void setContactPhaseList(const ContactPhaseList& phaseList);
+    bool setContactPhaseList(const ContactPhaseList& phaseList);
 
     /**
      * Get the fixed foot
