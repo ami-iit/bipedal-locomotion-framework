@@ -6,8 +6,8 @@ if(FRAMEWORK_COMPILE_System)
 
   add_bipedal_locomotion_python_module(
     NAME System
-    SOURCES src/VariablesHandler.cpp src/Module.cpp
-    HEADERS include/BipedalLocomotion/bindings/System/VariablesHandler.h
+    SOURCES src/VariablesHandler.cpp src/LinearTask.cpp src/Module.cpp
+    HEADERS include/BipedalLocomotion/bindings/System/VariablesHandler.h include/BipedalLocomotion/bindings/System/LinearTask.h
     LINK_LIBRARIES BipedalLocomotion::System
     TESTS tests/test_variables_handler.py
     )
