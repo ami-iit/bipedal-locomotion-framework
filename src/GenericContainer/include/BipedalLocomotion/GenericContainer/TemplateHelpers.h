@@ -48,7 +48,7 @@ template <typename T, typename = void> struct is_iterable : std::false_type
  * is_iterable is used to build a type-dependent expression that check if an element is \a iterable
  * (i.e. the element has the methods <code>T::begin()<\code> and <code>T::end()<\code>). This
  * specific implementation is used when the the object is iterable, indeed
- * <code>void_t<\endcode> is used to detect ill-formed types in SFINAE context.
+ * <code>void_t<\code> is used to detect ill-formed types in SFINAE context.
  */
 template <typename T>
 struct is_iterable<T, void_t<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>>
@@ -68,7 +68,7 @@ template <typename T, typename = void> struct has_square_bracket_operator : std:
 /**
  * has_square_bracket_operator is used to build a type-dependent expression that check if an element
  * has <em>square bracket operator</em> (i.e. operator[]()). This specific implementation is used
- * when the the object has the square bracket operator, indeed <code>void_t<\endcode> is used
+ * when the the object has the square bracket operator, indeed <code>void_t<\code> is used
  * to detect ill-formed types in SFINAE context.
  */
 template <typename T>
@@ -90,7 +90,7 @@ template <typename T, typename = void> struct is_resizable : std::false_type
  * is_resizable is used to build a type-dependent expression that check if an element is \a
  * resizable (i.e. the element has the methods <code>T::resize()<\code>). This specific
  * implementation is used when the the object is not \a resizable. Indeed
- * <code>void_t<\endcode> is used to detect ill-formed types in SFINAE context.
+ * <code>void_t<\code> is used to detect ill-formed types in SFINAE context.
  */
 template <typename T>
 struct is_resizable<T, void_t<decltype(std::declval<T>().resize(std::declval<int>()))>> : std::true_type
@@ -106,7 +106,7 @@ template <typename T, typename = void> struct is_size_available : std::false_typ
 
 /**
  * is_size_available is a utility metafunction to detect if typename T contains the <code>size()<\code> method.
- * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
+ * This specialization uses <code>void_t<\code> to detect ill-formed types in SFINAE context.
  */
 template <typename T>
 struct is_size_available<T, void_t<decltype(std::declval<T>().size())>> : std::true_type
@@ -122,7 +122,7 @@ template <typename T, typename = void> struct is_data_available : std::false_typ
 
 /**
  * is_data_available is a utility metafunction to detect if typename T contains the <code>data()<\code> method.
- * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
+ * This specialization uses <code>void_t<\code> to detect ill-formed types in SFINAE context.
  */
 template <typename T>
 struct is_data_available<T, void_t<decltype(std::declval<T>().data())>> : std::true_type
@@ -139,7 +139,7 @@ struct has_type_member : std::false_type { };
 /**
  * has_type_member is a utility metafunction to detect if typename T defines <code>value_type<\code>,
  * i.e. <code>T::value_type<\code> is available.
- * This specialization uses <code>void_t<\endcode> to detect ill-formed types in SFINAE context.
+ * This specialization uses <code>void_t<\code> to detect ill-formed types in SFINAE context.
  */
 template< class T >
 struct has_type_member<T, void_t<typename T::value_type>> : std::true_type { };
