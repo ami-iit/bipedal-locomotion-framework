@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
+## [0.1.1] - 2021-05-08
+### Fix
+- Fix the documentation in `TemplateHelpers.h`
+
 ## [0.1.0] - 2021-02-22
 ### Added
 - The `CHANGELOG.md` file
@@ -40,5 +44,6 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...master
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...master
+[0.1.1]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
