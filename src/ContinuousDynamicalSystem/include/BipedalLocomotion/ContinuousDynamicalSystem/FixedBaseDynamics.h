@@ -40,7 +40,7 @@ class FixedBaseDynamics;
 BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FixedBaseDynamics,
                                                          (Eigen::VectorXd, Eigen::VectorXd),
                                                          (Eigen::VectorXd, Eigen::VectorXd),
-                                                         (Eigen::VectorXd))
+                                                         (Eigen::VectorXd));
 
 namespace BipedalLocomotion
 {
