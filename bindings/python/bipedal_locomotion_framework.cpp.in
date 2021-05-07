@@ -30,6 +30,10 @@
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
 
+@cmakeif FRAMEWORK_COMPILE_IK
+#include <BipedalLocomotion/bindings/IK/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_IK
+
 
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
@@ -73,4 +77,9 @@ PYBIND11_MODULE(bindings, m)
     py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
     bindings::FloatingBaseEstimators::CreateModule(floatingBaseEstimatorModule);
     @endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
+
+    @cmakeif FRAMEWORK_COMPILE_IK
+    py::module ikModule = m.def_submodule("ik");
+    bindings::IK::CreateModule(ikModule);
+    @endcmakeif FRAMEWORK_COMPILE_IK
 }
