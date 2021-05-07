@@ -38,7 +38,24 @@ void CreateKinDynComputationsDescriptor(pybind11::module& module)
     py::class_<KinDynComputationsDescriptor>(module, "KinDynComputationsDescriptor")
         .def(py::init())
         .def_readwrite("kindyn", &KinDynComputationsDescriptor::kindyn)
-        .def("is_valid", &KinDynComputationsDescriptor::isValid);
+        .def("is_valid", &KinDynComputationsDescriptor::isValid)
+        .def("get_nr_of_dofs", &KinDynComputationsDescriptor::getNrOfDegreesOfFreedom)
+        .def("get_joint_pos", &KinDynComputationsDescriptor::getJointPos,
+              py::arg("q"))
+        .def("set_joint_pos",&KinDynComputationsDescriptor::setJointPos,
+              py::arg("s"))
+        .def("get_robot_state",&KinDynComputationsDescriptor::getRobotState,
+              py::arg("world_T_base"),
+              py::arg("s"),
+              py::arg("base_velocity"),
+              py::arg("s_dot"),
+              py::arg("world_gravity"))
+        .def("set_robot_state",&KinDynComputationsDescriptor::setRobotState,
+              py::arg("world_T_base"),
+              py::arg("s"),
+              py::arg("base_velocity"),
+              py::arg("s_dot"),
+              py::arg("world_gravity"));
 
     module.def(
         "construct_kindyncomputations_descriptor",

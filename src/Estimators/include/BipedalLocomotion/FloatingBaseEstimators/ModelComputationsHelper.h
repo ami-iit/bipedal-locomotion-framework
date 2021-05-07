@@ -42,6 +42,46 @@ struct KinDynComputationsDescriptor
      * @return True if valid, false otherwise.
      */
     bool isValid() const;
+
+    /**
+     * Get the number of internal degrees of freedom of the robot model.
+     * It returns the internal degrees of freedom, because it does not include the eventual 6 degrees of freedom usually associated with the floating base.
+     * @return the number of internal degrees of freedom of the model.
+     */
+    int getNrOfDegreesOfFreedom() const;
+
+    /**
+     * Get the n joint positions of the model.
+     * @return true if all went well, false otherwise.
+     */
+    bool getJointPos(Eigen::Ref<Eigen::VectorXd> q) const;
+
+    /**
+     * Set the (internal) joint positions.
+     * This method sets only the joint positions, leaving all the other components of the state to their previous value.
+     * @return true if all went well, false otherwise.
+     */
+    bool setJointPos(Eigen::Ref<const Eigen::VectorXd> s);
+
+    /**
+     * Get the robot state (floating base).
+     * @return true if all went well, false otherwise.
+     */
+    bool getRobotState(Eigen::Ref<Eigen::Matrix<double, 4, 4>> world_T_base,
+                       Eigen::Ref<Eigen::VectorXd> s,
+                       Eigen::Ref<Eigen::VectorXd> base_velocity,
+                       Eigen::Ref<Eigen::VectorXd> s_dot,
+                       Eigen::Ref<Eigen::VectorXd> world_gravity) const;
+
+    /**
+     * Set the state for the robot (floating base).
+     * @return true if all went well, false otherwise.
+     */
+    bool setRobotState(Eigen::Ref<const Eigen::Matrix<double, 4, 4>> world_T_base,
+                       Eigen::Ref<const Eigen::VectorXd> s,
+                       Eigen::Ref<const Eigen::VectorXd> base_velocity,
+                       Eigen::Ref<const Eigen::VectorXd> s_dot,
+                       Eigen::Ref<const Eigen::VectorXd> world_gravity);
 };
 
 /**

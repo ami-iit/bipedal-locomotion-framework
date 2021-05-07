@@ -24,6 +24,39 @@ bool BipedalLocomotion::Estimators::KinDynComputationsDescriptor::isValid() cons
     return kindyn != nullptr;
 }
 
+int BipedalLocomotion::Estimators::KinDynComputationsDescriptor::getNrOfDegreesOfFreedom() const
+{
+    return kindyn->getNrOfDegreesOfFreedom();
+}
+
+bool BipedalLocomotion::Estimators::KinDynComputationsDescriptor::getJointPos(Eigen::Ref<Eigen::VectorXd> q) const
+{
+    return kindyn->getJointPos(q);
+}
+
+bool BipedalLocomotion::Estimators::KinDynComputationsDescriptor::setJointPos(const Eigen::Ref<const Eigen::VectorXd> s)
+{
+    return kindyn->setJointPos(s);
+}
+
+bool BipedalLocomotion::Estimators::KinDynComputationsDescriptor::getRobotState(Eigen::Ref<Eigen::Matrix<double, 4, 4>> world_T_base,
+                                                                                Eigen::Ref<Eigen::VectorXd> s,
+                                                                                Eigen::Ref<Eigen::VectorXd> base_velocity,
+                                                                                Eigen::Ref<Eigen::VectorXd> s_dot,
+                                                                                Eigen::Ref<Eigen::VectorXd> world_gravity) const
+{
+    return kindyn->getRobotState(world_T_base, s, base_velocity, s_dot, world_gravity);
+}
+
+bool BipedalLocomotion::Estimators::KinDynComputationsDescriptor::setRobotState(Eigen::Ref<const Eigen::Matrix<double, 4, 4>> world_T_base,
+                                                                                Eigen::Ref<const Eigen::VectorXd> s,
+                                                                                Eigen::Ref<const Eigen::VectorXd> base_velocity,
+                                                                                Eigen::Ref<const Eigen::VectorXd> s_dot,
+                                                                                Eigen::Ref<const Eigen::VectorXd> world_gravity)
+{
+    return kindyn->setRobotState(world_T_base, s, base_velocity, s_dot, world_gravity);
+}
+
 KinDynComputationsDescriptor BipedalLocomotion::Estimators::constructKinDynComputationsDescriptor(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     constexpr std::string_view errorPrefix = "[constructKinDynComputationsDescriptor] ";
