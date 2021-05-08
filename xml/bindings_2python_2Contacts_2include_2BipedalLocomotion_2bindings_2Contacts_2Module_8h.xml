@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="bindings_2python_2Contacts_2include_2BipedalLocomotion_2bindings_2Contacts_2Module_8h" kind="file" language="C++">
+    <compoundname>Module.h</compoundname>
+    <includes local="no">pybind11/pybind11.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>BipedalLocomotion/bindings/Contacts/Module.h</label>
+        <link refid="bindings_2python_2Contacts_2include_2BipedalLocomotion_2bindings_2Contacts_2Module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pybind11/pybind11.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings">BipedalLocomotion::bindings</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings_1_1Contacts">BipedalLocomotion::bindings::Contacts</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Giulio Romualdi </para>
+</simplesect>
+<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/Contacts/Module.h"/>
+  </compounddef>
+</doxygen>

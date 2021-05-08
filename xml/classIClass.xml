@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIClass" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IClass</compoundname>
+    <basecompoundref refid="classICompound" prot="public" virt="non-virtual">ICompound</basecompoundref>
+    <includes local="no">doxmlintf.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIClass_1a4ca5777a61f96db43cee552fae9ddf10" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIGraph" kindref="compound">IGraph</ref> *</type>
+        <definition>virtual IGraph* IClass::inheritanceGraph</definition>
+        <argsstring>() const =0</argsstring>
+        <name>inheritanceGraph</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="971" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a2d4a0dacd92ac09748c330c3c4ec8dd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIGraph" kindref="compound">IGraph</ref> *</type>
+        <definition>virtual IGraph* IClass::collaborationGraph</definition>
+        <argsstring>() const =0</argsstring>
+        <name>collaborationGraph</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="972" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1ad56d72fa47a2bdd86b5e6e6ca276c310" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIRelatedCompoundIterator" kindref="compound">IRelatedCompoundIterator</ref> *</type>
+        <definition>virtual IRelatedCompoundIterator* IClass::baseCompounds</definition>
+        <argsstring>() const =0</argsstring>
+        <name>baseCompounds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="973" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a13263a570c7855f31b95318a454c9d31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIRelatedCompoundIterator" kindref="compound">IRelatedCompoundIterator</ref> *</type>
+        <definition>virtual IRelatedCompoundIterator* IClass::derivedCompounds</definition>
+        <argsstring>() const =0</argsstring>
+        <name>derivedCompounds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="974" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a5d0a9550c8d89d48035b51b6ca8d11d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classICompoundIterator" kindref="compound">ICompoundIterator</ref> *</type>
+        <definition>virtual ICompoundIterator* IClass::nestedCompounds</definition>
+        <argsstring>() const =0</argsstring>
+        <name>nestedCompounds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="975" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1af0da20c3596106218074774917779d08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIParamIterator" kindref="compound">IParamIterator</ref> *</type>
+        <definition>virtual IParamIterator* IClass::templateParameters</definition>
+        <argsstring>() const =0</argsstring>
+        <name>templateParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="976" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a7c065c49fb1cb6e6dc35a1f1510e998f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IClass::locationFile</definition>
+        <argsstring>() const =0</argsstring>
+        <name>locationFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="977" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a0b739d8c75ca4364048d103f3cbd6407" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IClass::locationLine</definition>
+        <argsstring>() const =0</argsstring>
+        <name>locationLine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="978" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a27bb881d8684d834d02893de5a8dfda9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IClass::locationBodyFile</definition>
+        <argsstring>() const =0</argsstring>
+        <name>locationBodyFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="979" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1a42c96b64901b45ad60eeba19b8c6615e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IClass::locationBodyStartLine</definition>
+        <argsstring>() const =0</argsstring>
+        <name>locationBodyStartLine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="980" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classIClass_1afc371fbe400695c90a7eb9d1bf39cc29" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IClass::locationBodyEndLine</definition>
+        <argsstring>() const =0</argsstring>
+        <name>locationBodyEndLine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="981" column="17"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The interface to a class in the object model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ICompound</label>
+        <link refid="classICompound"/>
+      </node>
+      <node id="1">
+        <label>IClass</label>
+        <link refid="classIClass"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ICompound</label>
+        <link refid="classICompound"/>
+      </node>
+      <node id="1">
+        <label>IClass</label>
+        <link refid="classIClass"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="doxmlintf.h" line="968" column="1" bodyfile="doxmlintf.h" bodystart="969" bodyend="988"/>
+    <listofallmembers>
+      <member refid="classIClass_1ad56d72fa47a2bdd86b5e6e6ca276c310" prot="public" virt="pure-virtual"><scope>IClass</scope><name>baseCompounds</name></member>
+      <member refid="classICompound_1a1ac3073130ef6bdd552c275e488c0658" prot="public" virt="pure-virtual"><scope>IClass</scope><name>briefDescription</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa11887b971afcddc6d7e321b73d4cbc39" prot="public" virt="non-virtual"><scope>IClass</scope><name>Category</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa388225f9147fd1e2e694c32edaec1bac" prot="public" virt="non-virtual"><scope>IClass</scope><name>Class</name></member>
+      <member refid="classIClass_1a2d4a0dacd92ac09748c330c3c4ec8dd6" prot="public" virt="pure-virtual"><scope>IClass</scope><name>collaborationGraph</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328a" prot="public" virt="non-virtual"><scope>IClass</scope><name>CompoundKind</name></member>
+      <member refid="classIClass_1a13263a570c7855f31b95318a454c9d31" prot="public" virt="pure-virtual"><scope>IClass</scope><name>derivedCompounds</name></member>
+      <member refid="classICompound_1a9630b083767887a40040cb4408d538cd" prot="public" virt="pure-virtual"><scope>IClass</scope><name>detailedDescription</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aadaf6f9b4b9e30709300408e47e0c3865" prot="public" virt="non-virtual"><scope>IClass</scope><name>Dir</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aad7a7293186a0935e202a1514f6c93408" prot="public" virt="non-virtual"><scope>IClass</scope><name>Example</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa349e8cd7a7899c10e30143f5f8884197" prot="public" virt="non-virtual"><scope>IClass</scope><name>Exception</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aacd61365fe27b683debddfe381afa6dbe" prot="public" virt="non-virtual"><scope>IClass</scope><name>File</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa47da97a354ec19bbc78deee9204a7968" prot="public" virt="non-virtual"><scope>IClass</scope><name>Group</name></member>
+      <member refid="classICompound_1ac5c371dee7e65324518532b0a58c2d9f" prot="public" virt="pure-virtual"><scope>IClass</scope><name>id</name></member>
+      <member refid="classIClass_1a4ca5777a61f96db43cee552fae9ddf10" prot="public" virt="pure-virtual"><scope>IClass</scope><name>inheritanceGraph</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aac2d2a6283e13e7068a519285dc0411b5" prot="public" virt="non-virtual"><scope>IClass</scope><name>Interface</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aab54adbc95f1165011120c550dd3366f4" prot="public" virt="non-virtual"><scope>IClass</scope><name>Invalid</name></member>
+      <member refid="classICompound_1ad0d6fb22a48b5bbddae2b88a3cab3640" prot="public" virt="pure-virtual"><scope>IClass</scope><name>kind</name></member>
+      <member refid="classICompound_1a49a7cb96ed8364494bdb7ecc1abb86c9" prot="public" virt="pure-virtual"><scope>IClass</scope><name>kindString</name></member>
+      <member refid="classIClass_1afc371fbe400695c90a7eb9d1bf39cc29" prot="public" virt="pure-virtual"><scope>IClass</scope><name>locationBodyEndLine</name></member>
+      <member refid="classIClass_1a27bb881d8684d834d02893de5a8dfda9" prot="public" virt="pure-virtual"><scope>IClass</scope><name>locationBodyFile</name></member>
+      <member refid="classIClass_1a42c96b64901b45ad60eeba19b8c6615e" prot="public" virt="pure-virtual"><scope>IClass</scope><name>locationBodyStartLine</name></member>
+      <member refid="classIClass_1a7c065c49fb1cb6e6dc35a1f1510e998f" prot="public" virt="pure-virtual"><scope>IClass</scope><name>locationFile</name></member>
+      <member refid="classIClass_1a0b739d8c75ca4364048d103f3cbd6407" prot="public" virt="pure-virtual"><scope>IClass</scope><name>locationLine</name></member>
+      <member refid="classICompound_1af30652d3b5a43722e9407c8edf9a38fb" prot="public" virt="pure-virtual"><scope>IClass</scope><name>memberById</name></member>
+      <member refid="classICompound_1af94f0805a794ec5f413c9e16347e2591" prot="public" virt="pure-virtual"><scope>IClass</scope><name>memberByName</name></member>
+      <member refid="classICompound_1ae14b5dcf513ef0d263119aeb2e2ffb15" prot="public" virt="pure-virtual"><scope>IClass</scope><name>name</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7589452d6a003b3b787338c1fba65121" prot="public" virt="non-virtual"><scope>IClass</scope><name>Namespace</name></member>
+      <member refid="classIClass_1a5d0a9550c8d89d48035b51b6ca8d11d8" prot="public" virt="pure-virtual"><scope>IClass</scope><name>nestedCompounds</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa1657b673db87988d9d143efb81e2e614" prot="public" virt="non-virtual"><scope>IClass</scope><name>Page</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7cf72c5c2b3afb897b985de04bb95188" prot="public" virt="non-virtual"><scope>IClass</scope><name>Protocol</name></member>
+      <member refid="classICompound_1a5388c74d390323ce610f752a01456b21" prot="public" virt="pure-virtual"><scope>IClass</scope><name>release</name></member>
+      <member refid="classICompound_1a966a7cac6a4f33f16ef869e74855ab3b" prot="public" virt="pure-virtual"><scope>IClass</scope><name>sections</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa26fbb700a3b4bf3fc22f1be436dbaa75" prot="public" virt="non-virtual"><scope>IClass</scope><name>Struct</name></member>
+      <member refid="classIClass_1af0da20c3596106218074774917779d08" prot="public" virt="pure-virtual"><scope>IClass</scope><name>templateParameters</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa9ee42988c8e310b1be969ccff7414b46" prot="public" virt="non-virtual"><scope>IClass</scope><name>Union</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

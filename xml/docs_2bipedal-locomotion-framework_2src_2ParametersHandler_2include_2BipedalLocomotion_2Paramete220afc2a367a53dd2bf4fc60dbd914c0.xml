@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="docs_2bipedal-locomotion-framework_2src_2ParametersHandler_2include_2BipedalLocomotion_2Paramete220afc2a367a53dd2bf4fc60dbd914c0" kind="file" language="C++">
+    <compoundname>IParametersHandler.h</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h"/>
+  </compounddef>
+</doxygen>

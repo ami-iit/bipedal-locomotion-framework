@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="src_2Planners_2include_2BipedalLocomotion_2Planners_2TimeVaryingDCMPlanner_8h" kind="file" language="C++">
+    <compoundname>TimeVaryingDCMPlanner.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">BipedalLocomotion/Planners/DCMPlanner.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</label>
+        <link refid="src_2Planners_2include_2BipedalLocomotion_2Planners_2TimeVaryingDCMPlanner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner" prot="public">BipedalLocomotion::Planners::TimeVaryingDCMPlanner</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h"/>
+  </compounddef>
+</doxygen>

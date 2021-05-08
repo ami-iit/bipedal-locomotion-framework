@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1LinearTask" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>BipedalLocomotion::System::LinearTask</compoundname>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::CoMTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::JointTrackingTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SO3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::BaseDynamicsTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::JointDynamicsTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::JointTrackingTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SO3Task</derivedcompoundref>
+    <includes local="no">BipedalLocomotion/System/LinearTask.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748a8d6af695732111686a6dcd5406dd3a9f" prot="public">
+          <name>equality</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748a4649a8ce1ca966c38e00208c6ae2731e" prot="public">
+          <name>inequality</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Namely an equality or an inequality task. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="57" column="5" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="58" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::LinearTask::m_A</definition>
+        <argsstring></argsstring>
+        <name>m_A</name>
+        <briefdescription>
+<para>Task Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="36" column="21" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::System::LinearTask::m_b</definition>
+        <argsstring></argsstring>
+        <name>m_b</name>
+        <briefdescription>
+<para>Task Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="37" column="21" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::System::LinearTask::m_description</definition>
+        <argsstring></argsstring>
+        <name>m_description</name>
+        <initializer>{&quot;Generic Linear Task Element&quot;}</initializer>
+        <briefdescription>
+<para>String describing the content of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="39" column="17" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>iDynTree::MatrixView&lt; double &gt;</type>
+        <definition>iDynTree::MatrixView&lt;double&gt; BipedalLocomotion::System::LinearTask::subA</definition>
+        <argsstring>(const System::VariablesHandler::VariableDescription &amp;description)</argsstring>
+        <name>subA</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Extract the submatrix A associated to a given variable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1ad6a0743b7902e539d634358b269741b4" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>iDynTree::MatrixView&lt; const double &gt;</type>
+        <definition>iDynTree::MatrixView&lt;const double&gt; BipedalLocomotion::System::LinearTask::subA</definition>
+        <argsstring>(const System::VariablesHandler::VariableDescription &amp;description) const</argsstring>
+        <name>subA</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Extract the submatrix A associated to a given variable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="51" column="5"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a898c2f93e48aeeb41e29d17c17b95437" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::LinearTask::setVariablesHandler</definition>
+        <argsstring>(const System::VariablesHandler &amp;variablesHandler)</argsstring>
+        <name>setVariablesHandler</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4c561605260cbec8a8b485f32977acc7">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1af494bf7f30549f2255ea9a288b8b9c3c">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1aa98dd96a1d97a79509a240bb1a00f2e1">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9ec4e8b05e99be884070f03d6cda6fcb">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ab7e33485266f942af7edd3e24fa0bc08">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ae8d7bb9e44fe6a1dc30d4f721f7d398b">setVariablesHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a054c0ac60226444020aee0eabf50d458">setVariablesHandler</reimplementedby>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kindref="compound">System::VariablesHandler</ref> &amp;</type>
+          <declname>variablesHandler</declname>
+        </param>
+        <briefdescription>
+<para>Set the set of variables required by the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The variables are stored in the <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kindref="compound">System::VariablesHandler</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>variablesHandler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>reference to a variables handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="69" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::LinearTask::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1af2061e278b2fe3e124d7b38f4fe82b73">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9832f6dbb6371acca37faedfbafd720a">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a31be6e087b7f52e424e011204ea80f92">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a12b1efcb5a2001dd18d8c3676c242dd6">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a4fe68df9a3cd0a8f290b8c7080cbcbe6">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1af2061e278b2fe3e124d7b38f4fe82b73">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9df9b3511e48b0f3c0107d022f89f516">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a06157a0b7b15abff79d447cc9038573d">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a27b500bc5211c31f4d881629b29ec273">update</reimplementedby>
+        <briefdescription>
+<para>Update the content of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="75" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
+        <definition>Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::System::LinearTask::getA</definition>
+        <argsstring>() const</argsstring>
+        <name>getA</name>
+        <briefdescription>
+<para>Get the matrix A. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a const reference to the matrix A. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="81" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+        <definition>Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::System::LinearTask::getB</definition>
+        <argsstring>() const</argsstring>
+        <name>getB</name>
+        <briefdescription>
+<para>Get the vector b. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a const reference to the vector b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="87" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; BipedalLocomotion::System::LinearTask::getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+<para>Get the description of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a string containing the description of the task. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="93" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a34621cd88c6d60909f09e95226f2cd67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t BipedalLocomotion::System::LinearTask::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1ab6ca18e2a25621c49c3c48503a123b24">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1aead6b6b76aa609c95975958b484291e5">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5ab6187fe137756b042ce2691aa9713a">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ae144756720b28fa084e87ad0f70c14df">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a646c2e4849cbae8bc45edbd1d411f5de">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1add1f2d086949575cf5350d514b12e034">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aadda63716a30397931c84195cd8415b1">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa160bbc967e85bb412ff7ef6d8166e92">size</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a08f028e5b1f82bc76dd2e452a01e81d3">size</reimplementedby>
+        <briefdescription>
+<para>Get the size of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>(I.e the number of rows of the vector b) <simplesect kind="return"><para>the size of the task. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="99" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
+        <definition>virtual Type BipedalLocomotion::System::LinearTask::type</definition>
+        <argsstring>() const =0</argsstring>
+        <name>type</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a3042433b1418622521962e99e3027357">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1afc98f7b74a0f89d3a19fc352035c0fba">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a01137d0e28475d81d7d77f3ce24a2d8b">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a35c09013202f649f35a153142dbdbe8d">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a6d90ba80aab8806c56240dc1d36a9760">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac7ae4baae1066e6c4884aa4320a9b94a">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a9f15c416528b416790ecb325cd2ad6a1">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad9ef25356e0e2b5ab19db56f46c06014">type</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a0311543cce4e4d11961121cac9b8e8ac">type</reimplementedby>
+        <briefdescription>
+<para>Get the type of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Namely equality or inequality. <simplesect kind="return"><para>the size of the task. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="105" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::LinearTask::isValid</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isValid</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4ccdae3479d871d3f7f9c7ab07312fd1">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a0afb416680e3da4cee2c11ea51dd97aa">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5bc134954b2c2e49da6eb7b322cf72f3">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a762d09e4dd536e2e54b27b87352b23c2">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ab52f89a6fdcb4e730f1d4c473c87c567">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac45bb45963eaa7df6a3d8603ec6975f3">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ae4217033c29324728b7881a536c513a3">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ac6d22ed01a62f5b8809939d5d272c4a7">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a9e7068154cfa6f90f6755caf51fe64fe">isValid</reimplementedby>
+        <briefdescription>
+<para>Determines the validity of the objects retrieved with <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" kindref="member">getA()</ref> and <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" kindref="member">getB()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the objects are valid, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="111" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> describes a Linear Task element. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="3">$A$</formula> and a vector <formula id="7">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="38">$ A $</formula> and <formula id="39">$ b $</formula> represents: <formula id="40">$ Ax = b$</formula> In case of inequality constraint <formula id="38">$ A $</formula> and <formula id="39">$ b $</formula> represents: <formula id="41">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>BipedalLocomotion::TSID::JointTrackingTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::IK::SE3Task</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::IK::JointTrackingTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::TSID::JointDynamicsTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::IK::SO3Task</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::TSID::BaseDynamicsTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion::TSID::SO3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion::TSID::SE3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::IK::CoMTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1CoMTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::LinearTask</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::LinearTask</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>m_description</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::string</label>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/System/LinearTask.h" line="33" column="1" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="34" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getA</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getB</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getDescription</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>m_A</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>m_b</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>m_description</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a898c2f93e48aeeb41e29d17c17b95437" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>setVariablesHandler</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a34621cd88c6d60909f09e95226f2cd67" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>size</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>subA</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad6a0743b7902e539d634358b269741b4" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>subA</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>Type</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>type</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

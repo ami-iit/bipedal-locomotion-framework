@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BipedalLocomotion::Planners::TimeVaryingDCMPlanner class | bipedal locomotion framework v0.1.1</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <span id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">
+        <a href="../index.html">bipedal locomotion framework</a> <span class="m-breadcrumb">|</span> <a href="index.html" class="m-thin">v0.1.1</a>
+      </span>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="pages.html">Pages</a></li>
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li>
+              <a href="pages.html">Versions</a>
+              <ol>
+                <li><a href="../index.html">Master</a></li>
+                <li><a href="../v0.1.1/index.html">v0.1.1</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="pages.html">Contacts</a>
+              <ol>
+                <li><a href="https://github.com/dic-iit/bipedal-locomotion-framework">GitHub</a></li>
+                <li><a href="https://dic.iit.it">Lab website</a></li>
+              </ol>
+            </li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>TimeVaryingDCMPlanner <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="TimeVaryingDCMPlanner_8h.html">&lt;BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h&gt;</a></div>
+        </h1>
+        <p><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="afe4ed11bbdbaabd4acbeceeb9d2aa6ad">
+              <span class="m-doc-wrap-bumper"><a href="#afe4ed11bbdbaabd4acbeceeb9d2aa6ad" class="m-doc-self">TimeVaryingDCMPlanner</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Constructor.</dd>
+            <dt id="afbef9d47aac1e766892fa8bef07ccdf1">
+              <span class="m-doc-wrap-bumper"><a href="#afbef9d47aac1e766892fa8bef07ccdf1" class="m-doc-self">~TimeVaryingDCMPlanner</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Destructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a889f0bbc53956811feecf5f2ca7ad5b7" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7040188a5ec9589ddd5112c36f04e87f" class="m-doc">computeTrajectory</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Compute the DCM trajectory.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae3a1f3b59944da2a8b0bc204a16b42ab" class="m-doc">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Get the object.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2c9f154bf5a3bcade70623423dff7452" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html#ae3a1f3b59944da2a8b0bc204a16b42ab" class="m-doc">get()</a></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad2935a4ff1c4e345a6e1b49dc5a3bfc6" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Advance the internal state.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a889f0bbc53956811feecf5f2ca7ad5b7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />TimeVaryingDCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a889f0bbc53956811feecf5f2ca7ad5b7" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to the parameter handler.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success/false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>linear_solver</code></td><td><code>string</code></td><td>Linear solver used by ipopt, the default value is mumps. Please check <a href="https://coin-or.github.io/Ipopt/#PREREQUISITES">https:/<wbr />/<wbr />coin-or.github.io/<wbr />Ipopt/<wbr />#PREREQUISITES</a> for the available solvers</td><td>No</td></tr><tr><td><code>planner_sampling_time</code></td><td><code>double</code></td><td>Sampling time of the planner</td><td>Yes</td></tr><tr><td><code>number_of_foot_corners</code></td><td><code>int</code></td><td>Number of the corner of the polygon used to describe the foot. E.g. 4</td><td>Yes</td></tr><tr><td><code>foot_corner_&lt;i&gt;</code></td><td><code>Vector3d</code></td><td>A 3d vector describing the position of the corner w.r.t. frame associated to the foot. <code>i = 0:number_of_foot_corners</code>.</td><td>Yes</td></tr><tr><td><code>omega_dot_weight</code></td><td><code>double</code></td><td>Weight associated to the <svg class="m-math" style="width: 3.487em; height: 1.069em; vertical-align: -0.243em;" viewBox="0 -7.934555 33.471345 10.259162">
+<title>
+$\dot{omega}$
+</title>
+<defs>
+<path id='eq1-g0-97' d='M3.598506-1.422665C3.53873-1.219427 3.53873-1.195517 3.371357-.968369C3.108344-.633624 2.582316-.119552 2.020423-.119552C1.530262-.119552 1.255293-.561893 1.255293-1.267248C1.255293-1.924782 1.625903-3.263761 1.853051-3.765878C2.259527-4.60274 2.82142-5.033126 3.287671-5.033126C4.076712-5.033126 4.23213-4.052802 4.23213-3.957161C4.23213-3.945205 4.196264-3.789788 4.184309-3.765878L3.598506-1.422665ZM4.363636-4.483188C4.23213-4.794022 3.90934-5.272229 3.287671-5.272229C1.936737-5.272229 .478207-3.526775 .478207-1.75741C.478207-.573848 1.171606 .119552 1.984558 .119552C2.642092 .119552 3.203985-.394521 3.53873-.789041C3.658281-.083686 4.220174 .119552 4.578829 .119552S5.224408-.095641 5.439601-.526027C5.630884-.932503 5.798257-1.661768 5.798257-1.709589C5.798257-1.769365 5.750436-1.817186 5.678705-1.817186C5.571108-1.817186 5.559153-1.75741 5.511333-1.578082C5.332005-.872727 5.104857-.119552 4.614695-.119552C4.267995-.119552 4.244085-.430386 4.244085-.669489C4.244085-.944458 4.27995-1.075965 4.387547-1.542217C4.471233-1.841096 4.531009-2.10411 4.62665-2.450809C5.068991-4.244085 5.176588-4.674471 5.176588-4.746202C5.176588-4.913574 5.045081-5.045081 4.865753-5.045081C4.483188-5.045081 4.387547-4.62665 4.363636-4.483188Z'/>
+<path id='eq1-g0-101' d='M2.139975-2.773599C2.462765-2.773599 3.275716-2.797509 3.849564-3.012702C4.758157-3.359402 4.841843-4.052802 4.841843-4.267995C4.841843-4.794022 4.387547-5.272229 3.598506-5.272229C2.343213-5.272229 .537983-4.136488 .537983-2.008468C.537983-.753176 1.255293 .119552 2.343213 .119552C3.969116 .119552 4.99726-1.147696 4.99726-1.303113C4.99726-1.374844 4.925529-1.43462 4.877709-1.43462C4.841843-1.43462 4.829888-1.422665 4.722291-1.315068C3.957161-.298879 2.82142-.119552 2.367123-.119552C1.685679-.119552 1.327024-.657534 1.327024-1.542217C1.327024-1.709589 1.327024-2.008468 1.506351-2.773599H2.139975ZM1.566127-3.012702C2.080199-4.853798 3.21594-5.033126 3.598506-5.033126C4.124533-5.033126 4.483188-4.722291 4.483188-4.267995C4.483188-3.012702 2.570361-3.012702 2.068244-3.012702H1.566127Z'/>
+<path id='eq1-g0-103' d='M4.040847-1.518306C3.993026-1.327024 3.969116-1.279203 3.813699-1.099875C3.323537-.466252 2.82142-.239103 2.450809-.239103C2.056289-.239103 1.685679-.549938 1.685679-1.374844C1.685679-2.008468 2.044334-3.347447 2.307347-3.88543C2.654047-4.554919 3.19203-5.033126 3.694147-5.033126C4.483188-5.033126 4.638605-4.052802 4.638605-3.981071L4.60274-3.813699L4.040847-1.518306ZM4.782067-4.483188C4.62665-4.829888 4.291905-5.272229 3.694147-5.272229C2.391034-5.272229 .908593-3.634371 .908593-1.853051C.908593-.609714 1.661768 0 2.426899 0C3.060523 0 3.622416-.502117 3.837609-.74122L3.574595 .334745C3.407223 .992279 3.335492 1.291158 2.905106 1.709589C2.414944 2.199751 1.960648 2.199751 1.697634 2.199751C1.338979 2.199751 1.0401 2.175841 .74122 2.080199C1.123786 1.972603 1.219427 1.637858 1.219427 1.506351C1.219427 1.315068 1.075965 1.123786 .812951 1.123786C.526027 1.123786 .215193 1.362889 .215193 1.75741C.215193 2.247572 .705355 2.438854 1.721544 2.438854C3.263761 2.438854 4.064757 1.446575 4.220174 .800996L5.547198-4.554919C5.583064-4.698381 5.583064-4.722291 5.583064-4.746202C5.583064-4.913574 5.451557-5.045081 5.272229-5.045081C4.985305-5.045081 4.817933-4.805978 4.782067-4.483188Z'/>
+<path id='eq1-g0-109' d='M2.462765-3.502864C2.486675-3.574595 2.785554-4.172354 3.227895-4.554919C3.53873-4.841843 3.945205-5.033126 4.411457-5.033126C4.889664-5.033126 5.057036-4.674471 5.057036-4.196264C5.057036-4.124533 5.057036-3.88543 4.913574-3.323537L4.614695-2.092154C4.519054-1.733499 4.291905-.848817 4.267995-.71731C4.220174-.537983 4.148443-.227148 4.148443-.179328C4.148443-.011955 4.27995 .119552 4.459278 .119552C4.817933 .119552 4.877709-.155417 4.985305-.585803L5.702615-3.443088C5.726526-3.53873 6.348194-5.033126 7.663263-5.033126C8.141469-5.033126 8.308842-4.674471 8.308842-4.196264C8.308842-3.526775 7.84259-2.223661 7.579577-1.506351C7.47198-1.219427 7.412204-1.06401 7.412204-.848817C7.412204-.310834 7.782814 .119552 8.356663 .119552C9.468493 .119552 9.886924-1.637858 9.886924-1.709589C9.886924-1.769365 9.839103-1.817186 9.767372-1.817186C9.659776-1.817186 9.647821-1.78132 9.588045-1.578082C9.313076-.621669 8.870735-.119552 8.392528-.119552C8.272976-.119552 8.081694-.131507 8.081694-.514072C8.081694-.824907 8.225156-1.207472 8.272976-1.338979C8.488169-1.912827 9.026152-3.323537 9.026152-4.016936C9.026152-4.734247 8.607721-5.272229 7.699128-5.272229C6.898132-5.272229 6.252553-4.817933 5.774346-4.112578C5.738481-4.758157 5.34396-5.272229 4.447323-5.272229C3.383313-5.272229 2.82142-4.519054 2.606227-4.220174C2.570361-4.901619 2.080199-5.272229 1.554172-5.272229C1.207472-5.272229 .932503-5.104857 .705355-4.65056C.490162-4.220174 .32279-3.490909 .32279-3.443088S.37061-3.335492 .454296-3.335492C.549938-3.335492 .561893-3.347447 .633624-3.622416C.812951-4.327771 1.0401-5.033126 1.518306-5.033126C1.793275-5.033126 1.888917-4.841843 1.888917-4.483188C1.888917-4.220174 1.769365-3.753923 1.685679-3.383313L1.350934-2.092154C1.303113-1.865006 1.171606-1.327024 1.111831-1.111831C1.028144-.800996 .896638-.239103 .896638-.179328C.896638-.011955 1.028144 .119552 1.207472 .119552C1.350934 .119552 1.518306 .047821 1.613948-.131507C1.637858-.191283 1.745455-.609714 1.80523-.848817L2.068244-1.924782L2.462765-3.502864Z'/>
+<path id='eq1-g0-111' d='M5.451557-3.287671C5.451557-4.423412 4.710336-5.272229 3.622416-5.272229C2.044334-5.272229 .490162-3.550685 .490162-1.865006C.490162-.729265 1.231382 .119552 2.319303 .119552C3.90934 .119552 5.451557-1.601993 5.451557-3.287671ZM2.331258-.119552C1.733499-.119552 1.291158-.597758 1.291158-1.43462C1.291158-1.984558 1.578082-3.203985 1.912827-3.801743C2.450809-4.722291 3.120299-5.033126 3.610461-5.033126C4.196264-5.033126 4.65056-4.554919 4.65056-3.718057C4.65056-3.239851 4.399502-1.960648 3.945205-1.231382C3.455044-.430386 2.797509-.119552 2.331258-.119552Z'/>
+<path id='eq1-g1-95' d='M2.199751-7.364384C2.199751-7.723039 1.912827-7.950187 1.625903-7.950187C1.291158-7.950187 1.0401-7.687173 1.0401-7.364384C1.0401-7.053549 1.303113-6.790535 1.613948-6.790535C1.972603-6.790535 2.199751-7.07746 2.199751-7.364384Z'/>
+</defs>
+<g id='eq1-page1'>
+<use x='15.109842' y='0' xlink:href='#eq1-g1-95'/>
+<use x='0' y='0' xlink:href='#eq1-g0-111'/>
+<use x='5.627438' y='0' xlink:href='#eq1-g0-109'/>
+<use x='15.866705' y='0' xlink:href='#eq1-g0-101'/>
+<use x='21.292145' y='0' xlink:href='#eq1-g0-103'/>
+<use x='27.326401' y='0' xlink:href='#eq1-g0-97'/>
+</g>
+</svg></td><td>Yes</td></tr><tr><td><code>dcm_tracking_weight</code></td><td><code>double</code></td><td>Weight associated to the DCM tracking</td><td>Yes</td></tr><tr><td><code>omega_dot_rate_of_change_weight</code></td><td><code>double</code></td><td>Weight associated to the rate of change of <svg class="m-math" style="width: 3.487em; height: 1.069em; vertical-align: -0.243em;" viewBox="0 -7.934555 33.471345 10.259162">
+<title>
+$\dot{omega}$
+</title>
+<defs>
+<path id='eq2-g0-97' d='M3.598506-1.422665C3.53873-1.219427 3.53873-1.195517 3.371357-.968369C3.108344-.633624 2.582316-.119552 2.020423-.119552C1.530262-.119552 1.255293-.561893 1.255293-1.267248C1.255293-1.924782 1.625903-3.263761 1.853051-3.765878C2.259527-4.60274 2.82142-5.033126 3.287671-5.033126C4.076712-5.033126 4.23213-4.052802 4.23213-3.957161C4.23213-3.945205 4.196264-3.789788 4.184309-3.765878L3.598506-1.422665ZM4.363636-4.483188C4.23213-4.794022 3.90934-5.272229 3.287671-5.272229C1.936737-5.272229 .478207-3.526775 .478207-1.75741C.478207-.573848 1.171606 .119552 1.984558 .119552C2.642092 .119552 3.203985-.394521 3.53873-.789041C3.658281-.083686 4.220174 .119552 4.578829 .119552S5.224408-.095641 5.439601-.526027C5.630884-.932503 5.798257-1.661768 5.798257-1.709589C5.798257-1.769365 5.750436-1.817186 5.678705-1.817186C5.571108-1.817186 5.559153-1.75741 5.511333-1.578082C5.332005-.872727 5.104857-.119552 4.614695-.119552C4.267995-.119552 4.244085-.430386 4.244085-.669489C4.244085-.944458 4.27995-1.075965 4.387547-1.542217C4.471233-1.841096 4.531009-2.10411 4.62665-2.450809C5.068991-4.244085 5.176588-4.674471 5.176588-4.746202C5.176588-4.913574 5.045081-5.045081 4.865753-5.045081C4.483188-5.045081 4.387547-4.62665 4.363636-4.483188Z'/>
+<path id='eq2-g0-101' d='M2.139975-2.773599C2.462765-2.773599 3.275716-2.797509 3.849564-3.012702C4.758157-3.359402 4.841843-4.052802 4.841843-4.267995C4.841843-4.794022 4.387547-5.272229 3.598506-5.272229C2.343213-5.272229 .537983-4.136488 .537983-2.008468C.537983-.753176 1.255293 .119552 2.343213 .119552C3.969116 .119552 4.99726-1.147696 4.99726-1.303113C4.99726-1.374844 4.925529-1.43462 4.877709-1.43462C4.841843-1.43462 4.829888-1.422665 4.722291-1.315068C3.957161-.298879 2.82142-.119552 2.367123-.119552C1.685679-.119552 1.327024-.657534 1.327024-1.542217C1.327024-1.709589 1.327024-2.008468 1.506351-2.773599H2.139975ZM1.566127-3.012702C2.080199-4.853798 3.21594-5.033126 3.598506-5.033126C4.124533-5.033126 4.483188-4.722291 4.483188-4.267995C4.483188-3.012702 2.570361-3.012702 2.068244-3.012702H1.566127Z'/>
+<path id='eq2-g0-103' d='M4.040847-1.518306C3.993026-1.327024 3.969116-1.279203 3.813699-1.099875C3.323537-.466252 2.82142-.239103 2.450809-.239103C2.056289-.239103 1.685679-.549938 1.685679-1.374844C1.685679-2.008468 2.044334-3.347447 2.307347-3.88543C2.654047-4.554919 3.19203-5.033126 3.694147-5.033126C4.483188-5.033126 4.638605-4.052802 4.638605-3.981071L4.60274-3.813699L4.040847-1.518306ZM4.782067-4.483188C4.62665-4.829888 4.291905-5.272229 3.694147-5.272229C2.391034-5.272229 .908593-3.634371 .908593-1.853051C.908593-.609714 1.661768 0 2.426899 0C3.060523 0 3.622416-.502117 3.837609-.74122L3.574595 .334745C3.407223 .992279 3.335492 1.291158 2.905106 1.709589C2.414944 2.199751 1.960648 2.199751 1.697634 2.199751C1.338979 2.199751 1.0401 2.175841 .74122 2.080199C1.123786 1.972603 1.219427 1.637858 1.219427 1.506351C1.219427 1.315068 1.075965 1.123786 .812951 1.123786C.526027 1.123786 .215193 1.362889 .215193 1.75741C.215193 2.247572 .705355 2.438854 1.721544 2.438854C3.263761 2.438854 4.064757 1.446575 4.220174 .800996L5.547198-4.554919C5.583064-4.698381 5.583064-4.722291 5.583064-4.746202C5.583064-4.913574 5.451557-5.045081 5.272229-5.045081C4.985305-5.045081 4.817933-4.805978 4.782067-4.483188Z'/>
+<path id='eq2-g0-109' d='M2.462765-3.502864C2.486675-3.574595 2.785554-4.172354 3.227895-4.554919C3.53873-4.841843 3.945205-5.033126 4.411457-5.033126C4.889664-5.033126 5.057036-4.674471 5.057036-4.196264C5.057036-4.124533 5.057036-3.88543 4.913574-3.323537L4.614695-2.092154C4.519054-1.733499 4.291905-.848817 4.267995-.71731C4.220174-.537983 4.148443-.227148 4.148443-.179328C4.148443-.011955 4.27995 .119552 4.459278 .119552C4.817933 .119552 4.877709-.155417 4.985305-.585803L5.702615-3.443088C5.726526-3.53873 6.348194-5.033126 7.663263-5.033126C8.141469-5.033126 8.308842-4.674471 8.308842-4.196264C8.308842-3.526775 7.84259-2.223661 7.579577-1.506351C7.47198-1.219427 7.412204-1.06401 7.412204-.848817C7.412204-.310834 7.782814 .119552 8.356663 .119552C9.468493 .119552 9.886924-1.637858 9.886924-1.709589C9.886924-1.769365 9.839103-1.817186 9.767372-1.817186C9.659776-1.817186 9.647821-1.78132 9.588045-1.578082C9.313076-.621669 8.870735-.119552 8.392528-.119552C8.272976-.119552 8.081694-.131507 8.081694-.514072C8.081694-.824907 8.225156-1.207472 8.272976-1.338979C8.488169-1.912827 9.026152-3.323537 9.026152-4.016936C9.026152-4.734247 8.607721-5.272229 7.699128-5.272229C6.898132-5.272229 6.252553-4.817933 5.774346-4.112578C5.738481-4.758157 5.34396-5.272229 4.447323-5.272229C3.383313-5.272229 2.82142-4.519054 2.606227-4.220174C2.570361-4.901619 2.080199-5.272229 1.554172-5.272229C1.207472-5.272229 .932503-5.104857 .705355-4.65056C.490162-4.220174 .32279-3.490909 .32279-3.443088S.37061-3.335492 .454296-3.335492C.549938-3.335492 .561893-3.347447 .633624-3.622416C.812951-4.327771 1.0401-5.033126 1.518306-5.033126C1.793275-5.033126 1.888917-4.841843 1.888917-4.483188C1.888917-4.220174 1.769365-3.753923 1.685679-3.383313L1.350934-2.092154C1.303113-1.865006 1.171606-1.327024 1.111831-1.111831C1.028144-.800996 .896638-.239103 .896638-.179328C.896638-.011955 1.028144 .119552 1.207472 .119552C1.350934 .119552 1.518306 .047821 1.613948-.131507C1.637858-.191283 1.745455-.609714 1.80523-.848817L2.068244-1.924782L2.462765-3.502864Z'/>
+<path id='eq2-g0-111' d='M5.451557-3.287671C5.451557-4.423412 4.710336-5.272229 3.622416-5.272229C2.044334-5.272229 .490162-3.550685 .490162-1.865006C.490162-.729265 1.231382 .119552 2.319303 .119552C3.90934 .119552 5.451557-1.601993 5.451557-3.287671ZM2.331258-.119552C1.733499-.119552 1.291158-.597758 1.291158-1.43462C1.291158-1.984558 1.578082-3.203985 1.912827-3.801743C2.450809-4.722291 3.120299-5.033126 3.610461-5.033126C4.196264-5.033126 4.65056-4.554919 4.65056-3.718057C4.65056-3.239851 4.399502-1.960648 3.945205-1.231382C3.455044-.430386 2.797509-.119552 2.331258-.119552Z'/>
+<path id='eq2-g1-95' d='M2.199751-7.364384C2.199751-7.723039 1.912827-7.950187 1.625903-7.950187C1.291158-7.950187 1.0401-7.687173 1.0401-7.364384C1.0401-7.053549 1.303113-6.790535 1.613948-6.790535C1.972603-6.790535 2.199751-7.07746 2.199751-7.364384Z'/>
+</defs>
+<g id='eq2-page1'>
+<use x='15.109842' y='0' xlink:href='#eq2-g1-95'/>
+<use x='0' y='0' xlink:href='#eq2-g0-111'/>
+<use x='5.627438' y='0' xlink:href='#eq2-g0-109'/>
+<use x='15.866705' y='0' xlink:href='#eq2-g0-101'/>
+<use x='21.292145' y='0' xlink:href='#eq2-g0-103'/>
+<use x='27.326401' y='0' xlink:href='#eq2-g0-97'/>
+</g>
+</svg></td><td>Yes</td></tr><tr><td><code>vrp_rate_of_change_weight</code></td><td><code>double</code></td><td>Weight associated to the rate of change of the VRP</td><td>Yes</td></tr><tr><td><code>dcm_rate_of_change_weight</code></td><td><code>double</code></td><td>Weight associated to the rate of change of the DCM</td><td>Yes</td></tr></tbody></table></aside>
+          </div></section>
+          <section class="m-doc-details" id="a7040188a5ec9589ddd5112c36f04e87f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />TimeVaryingDCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7040188a5ec9589ddd5112c36f04e87f" class="m-doc-self">computeTrajectory</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Compute the DCM trajectory.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>true in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae3a1f3b59944da2a8b0bc204a16b42ab"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; BipedalLocomotion::<wbr />Planners::<wbr />TimeVaryingDCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae3a1f3b59944da2a8b0bc204a16b42ab" class="m-doc-self">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Get the object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a const reference of the requested object.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2c9f154bf5a3bcade70623423dff7452"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />TimeVaryingDCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2c9f154bf5a3bcade70623423dff7452" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html#ae3a1f3b59944da2a8b0bc204a16b42ab" class="m-doc">get()</a></p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if the object is valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad2935a4ff1c4e345a6e1b49dc5a3bfc6"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />TimeVaryingDCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad2935a4ff1c4e345a6e1b49dc5a3bfc6" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Advance the internal state.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if the advance is successfull.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This may change the value retrievable from <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html#ae3a1f3b59944da2a8b0bc204a16b42ab" class="m-doc">get()</a>.</p>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script src="searchdata-v1.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>bipedal-locomotion-framework documentation. Licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">GNU Lesser General Public License v3.0</a>. Project maintained by the <a href="https://dic.iit.it/">Dynamic Interaction Control Lab</a>. Contact the team via <a href="https://github.com/dic-iit/bipedal-locomotion-framework/issues/new">GitHub</a>.<br />Generated by <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

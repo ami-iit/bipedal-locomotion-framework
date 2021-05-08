@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIDoc" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IDoc</compoundname>
+    <derivedcompoundref refid="classIDocAnchor" prot="public" virt="non-virtual">IDocAnchor</derivedcompoundref>
+    <derivedcompoundref refid="classIDocCodeLine" prot="public" virt="non-virtual">IDocCodeLine</derivedcompoundref>
+    <derivedcompoundref refid="classIDocCopy" prot="public" virt="non-virtual">IDocCopy</derivedcompoundref>
+    <derivedcompoundref refid="classIDocDotFile" prot="public" virt="non-virtual">IDocDotFile</derivedcompoundref>
+    <derivedcompoundref refid="classIDocEMail" prot="public" virt="non-virtual">IDocEMail</derivedcompoundref>
+    <derivedcompoundref refid="classIDocEntry" prot="public" virt="non-virtual">IDocEntry</derivedcompoundref>
+    <derivedcompoundref refid="classIDocFormula" prot="public" virt="non-virtual">IDocFormula</derivedcompoundref>
+    <derivedcompoundref refid="classIDocHRuler" prot="public" virt="non-virtual">IDocHRuler</derivedcompoundref>
+    <derivedcompoundref refid="classIDocHighlight" prot="public" virt="non-virtual">IDocHighlight</derivedcompoundref>
+    <derivedcompoundref refid="classIDocImage" prot="public" virt="non-virtual">IDocImage</derivedcompoundref>
+    <derivedcompoundref refid="classIDocIndexEntry" prot="public" virt="non-virtual">IDocIndexEntry</derivedcompoundref>
+    <derivedcompoundref refid="classIDocInternal" prot="public" virt="non-virtual">IDocInternal</derivedcompoundref>
+    <derivedcompoundref refid="classIDocItemizedList" prot="public" virt="non-virtual">IDocItemizedList</derivedcompoundref>
+    <derivedcompoundref refid="classIDocLineBreak" prot="public" virt="non-virtual">IDocLineBreak</derivedcompoundref>
+    <derivedcompoundref refid="classIDocLink" prot="public" virt="non-virtual">IDocLink</derivedcompoundref>
+    <derivedcompoundref refid="classIDocListItem" prot="public" virt="non-virtual">IDocListItem</derivedcompoundref>
+    <derivedcompoundref refid="classIDocMarkup" prot="public" virt="non-virtual">IDocMarkup</derivedcompoundref>
+    <derivedcompoundref refid="classIDocMarkupModifier" prot="public" virt="non-virtual">IDocMarkupModifier</derivedcompoundref>
+    <derivedcompoundref refid="classIDocOrderedList" prot="public" virt="non-virtual">IDocOrderedList</derivedcompoundref>
+    <derivedcompoundref refid="classIDocPara" prot="public" virt="non-virtual">IDocPara</derivedcompoundref>
+    <derivedcompoundref refid="classIDocParameter" prot="public" virt="non-virtual">IDocParameter</derivedcompoundref>
+    <derivedcompoundref refid="classIDocParameterItem" prot="public" virt="non-virtual">IDocParameterItem</derivedcompoundref>
+    <derivedcompoundref refid="classIDocParameterList" prot="public" virt="non-virtual">IDocParameterList</derivedcompoundref>
+    <derivedcompoundref refid="classIDocProgramListing" prot="public" virt="non-virtual">IDocProgramListing</derivedcompoundref>
+    <derivedcompoundref refid="classIDocRef" prot="public" virt="non-virtual">IDocRef</derivedcompoundref>
+    <derivedcompoundref refid="classIDocRoot" prot="public" virt="non-virtual">IDocRoot</derivedcompoundref>
+    <derivedcompoundref refid="classIDocRow" prot="public" virt="non-virtual">IDocRow</derivedcompoundref>
+    <derivedcompoundref refid="classIDocSection" prot="public" virt="non-virtual">IDocSection</derivedcompoundref>
+    <derivedcompoundref refid="classIDocSimpleSect" prot="public" virt="non-virtual">IDocSimpleSect</derivedcompoundref>
+    <derivedcompoundref refid="classIDocSymbol" prot="public" virt="non-virtual">IDocSymbol</derivedcompoundref>
+    <derivedcompoundref refid="classIDocTable" prot="public" virt="non-virtual">IDocTable</derivedcompoundref>
+    <derivedcompoundref refid="classIDocTitle" prot="public" virt="non-virtual">IDocTitle</derivedcompoundref>
+    <derivedcompoundref refid="classIDocTocItem" prot="public" virt="non-virtual">IDocTocItem</derivedcompoundref>
+    <derivedcompoundref refid="classIDocTocList" prot="public" virt="non-virtual">IDocTocList</derivedcompoundref>
+    <derivedcompoundref refid="classIDocULink" prot="public" virt="non-virtual">IDocULink</derivedcompoundref>
+    <derivedcompoundref refid="classIDocVariableList" prot="public" virt="non-virtual">IDocVariableList</derivedcompoundref>
+    <derivedcompoundref refid="classIDocVariableListEntry" prot="public" virt="non-virtual">IDocVariableListEntry</derivedcompoundref>
+    <derivedcompoundref refid="classIDocVerbatim" prot="public" virt="non-virtual">IDocVerbatim</derivedcompoundref>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classIDoc_1ada72396a5a52f43f68202112f1dd794f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Kind</name>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fafedd4d7e6880033ba356b155063426f7" prot="public">
+          <name>Invalid</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faa23a4bb509de48ec92b6b550fbc34e04" prot="public">
+          <name>Para</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faa70aef78f0e17ff9a6f977f0c06eb2cd" prot="public">
+          <name>Text</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa59435605d4a3510cd1ec4abd4b077a92" prot="public">
+          <name>MarkupModifier</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794face4f5524e3d040ffc5ed702b6e599623" prot="public">
+          <name>ItemizedList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa6bc772b34fea195b6be9463514c8f6df" prot="public">
+          <name>OrderedList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4ec69b9644f229fab7c2b2e590c560fc" prot="public">
+          <name>ListItem</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa9376859bad5324ab8f7f953940c1b916" prot="public">
+          <name>ParameterList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa1806c1d736065d8779d107c399417680" prot="public">
+          <name>Parameter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa848990001da9d2b25452c868d40aa123" prot="public">
+          <name>SimpleSect</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa074e4f8ab78f40c86df73895b1730338" prot="public">
+          <name>Title</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fae2717df5d32eb5af8ea8f1d51eecd80b" prot="public">
+          <name>Ref</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa75034bd66d4f4828ab4bda30477542a3" prot="public">
+          <name>VariableList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa181a3fbaebcff250af7a708c6e3ae827" prot="public">
+          <name>VariableListEntry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa36d565370d0a0efd5016707dc50aa3db" prot="public">
+          <name>HRuler</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fab45b525fe8665bf7a4f6d44b7cf9c9d0" prot="public">
+          <name>LineBreak</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa269444b603bd000ab89639f9b66b79da" prot="public">
+          <name>ULink</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5c6dca7ec89480b4ad284afd17c0f013" prot="public">
+          <name>EMail</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5e8280a5d94ff13af659c737628b441a" prot="public">
+          <name>Link</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa371b8cc4af36da082d92619a024fc693" prot="public">
+          <name>ProgramListing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fae1cac280884012708cec5b6710baef66" prot="public">
+          <name>CodeLine</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa881c0669cd498a5d7e0fac262ee6aa00" prot="public">
+          <name>Highlight</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa61373ae3c2c7eb929fc9df5297da6eba" prot="public">
+          <name>Formula</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fad127adc56f74c320160d7c2fea53c2c4" prot="public">
+          <name>Image</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faa7d4f85ae5e35b7702b2d98a935170c7" prot="public">
+          <name>DotFile</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa8b6b999fe64d8067ad9f17b61065700a" prot="public">
+          <name>IndexEntry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa31196716c0f38ad9e46b5d671574e743" prot="public">
+          <name>Table</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faed4832269b4332af703c9e16155a442b" prot="public">
+          <name>Row</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa58bae9208ea7accef2a7b7368c71b93c" prot="public">
+          <name>Entry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fab37b4182fe186e0ce5bb69a08c1725f8" prot="public">
+          <name>Section</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fae6cf1bdca5bc95518577cfa2ed88d60b" prot="public">
+          <name>Verbatim</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faaeef13d7bcca8890985bff6893769d36" prot="public">
+          <name>Copy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa017c2c90ee14520cc32b2d0e37232dfc" prot="public">
+          <name>TocList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fac2baf516314ee6f999aee006f2d503a6" prot="public">
+          <name>TocItem</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa491b5e1ef923747c14a422fc0fbdccf8" prot="public">
+          <name>Anchor</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faa5d881331819aed6cd46bd28b42d2364" prot="public">
+          <name>Symbol</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794faa9229303b4b5ea5cd126266c3e7bf6be" prot="public">
+          <name>Internal</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa60e777a448716998b78070c4562e65bd" prot="public">
+          <name>Root</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4e31e9d30ada4a7967fe723612a2eea3" prot="public">
+          <name>ParameterItem</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="163" column="5" bodyfile="doxmlintf.h" bodystart="164" bodyend="204"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIDoc_1a5a206eaf10cfd437e9f98ee81b972b96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Kind</type>
+        <definition>virtual Kind IDoc::kind</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="205" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="38">
+        <label>IDocVariableList</label>
+        <link refid="classIDocVariableList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>IDocSymbol</label>
+        <link refid="classIDocSymbol"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>IDocHRuler</label>
+        <link refid="classIDocHRuler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>IDocIndexEntry</label>
+        <link refid="classIDocIndexEntry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>IDocSection</label>
+        <link refid="classIDocSection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>IDocRoot</label>
+        <link refid="classIDocRoot"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>IDocOrderedList</label>
+        <link refid="classIDocOrderedList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>IDocSimpleSect</label>
+        <link refid="classIDocSimpleSect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>IDocLink</label>
+        <link refid="classIDocLink"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>IDocCopy</label>
+        <link refid="classIDocCopy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>IDocHighlight</label>
+        <link refid="classIDocHighlight"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>IDocFormula</label>
+        <link refid="classIDocFormula"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>IDocParameterList</label>
+        <link refid="classIDocParameterList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>IDocRef</label>
+        <link refid="classIDocRef"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>IDocRow</label>
+        <link refid="classIDocRow"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>IDocMarkup</label>
+        <link refid="classIDocMarkup"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>IDocVariableListEntry</label>
+        <link refid="classIDocVariableListEntry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>IDocEntry</label>
+        <link refid="classIDocEntry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>IDocLineBreak</label>
+        <link refid="classIDocLineBreak"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IDoc</label>
+        <link refid="classIDoc"/>
+      </node>
+      <node id="22">
+        <label>IDocPara</label>
+        <link refid="classIDocPara"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>IDocTocItem</label>
+        <link refid="classIDocTocItem"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>IDocItemizedList</label>
+        <link refid="classIDocItemizedList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>IDocULink</label>
+        <link refid="classIDocULink"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>IDocTitle</label>
+        <link refid="classIDocTitle"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>IDocMarkupModifier</label>
+        <link refid="classIDocMarkupModifier"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>IDocProgramListing</label>
+        <link refid="classIDocProgramListing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IDocAnchor</label>
+        <link refid="classIDocAnchor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>IDocListItem</label>
+        <link refid="classIDocListItem"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>IDocText</label>
+        <link refid="classIDocText"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>IDocImage</label>
+        <link refid="classIDocImage"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>IDocParameterItem</label>
+        <link refid="classIDocParameterItem"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>IDocParameter</label>
+        <link refid="classIDocParameter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>IDocDotFile</label>
+        <link refid="classIDocDotFile"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>IDocInternal</label>
+        <link refid="classIDocInternal"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>IDocTocList</label>
+        <link refid="classIDocTocList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>IDocVerbatim</label>
+        <link refid="classIDocVerbatim"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>IDocCodeLine</label>
+        <link refid="classIDocCodeLine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>IDocEMail</label>
+        <link refid="classIDocEMail"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>IDocTable</label>
+        <link refid="classIDocTable"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="doxmlintf.h" line="159" column="1" bodyfile="doxmlintf.h" bodystart="160" bodyend="206"/>
+    <listofallmembers>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa491b5e1ef923747c14a422fc0fbdccf8" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Anchor</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae1cac280884012708cec5b6710baef66" prot="public" virt="non-virtual"><scope>IDoc</scope><name>CodeLine</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faaeef13d7bcca8890985bff6893769d36" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Copy</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa7d4f85ae5e35b7702b2d98a935170c7" prot="public" virt="non-virtual"><scope>IDoc</scope><name>DotFile</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5c6dca7ec89480b4ad284afd17c0f013" prot="public" virt="non-virtual"><scope>IDoc</scope><name>EMail</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa58bae9208ea7accef2a7b7368c71b93c" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Entry</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa61373ae3c2c7eb929fc9df5297da6eba" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Formula</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa881c0669cd498a5d7e0fac262ee6aa00" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Highlight</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa36d565370d0a0efd5016707dc50aa3db" prot="public" virt="non-virtual"><scope>IDoc</scope><name>HRuler</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fad127adc56f74c320160d7c2fea53c2c4" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Image</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa8b6b999fe64d8067ad9f17b61065700a" prot="public" virt="non-virtual"><scope>IDoc</scope><name>IndexEntry</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa9229303b4b5ea5cd126266c3e7bf6be" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Internal</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fafedd4d7e6880033ba356b155063426f7" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Invalid</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794face4f5524e3d040ffc5ed702b6e599623" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ItemizedList</name></member>
+      <member refid="classIDoc_1a5a206eaf10cfd437e9f98ee81b972b96" prot="public" virt="pure-virtual"><scope>IDoc</scope><name>kind</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794f" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Kind</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fab45b525fe8665bf7a4f6d44b7cf9c9d0" prot="public" virt="non-virtual"><scope>IDoc</scope><name>LineBreak</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5e8280a5d94ff13af659c737628b441a" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Link</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4ec69b9644f229fab7c2b2e590c560fc" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ListItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa59435605d4a3510cd1ec4abd4b077a92" prot="public" virt="non-virtual"><scope>IDoc</scope><name>MarkupModifier</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa6bc772b34fea195b6be9463514c8f6df" prot="public" virt="non-virtual"><scope>IDoc</scope><name>OrderedList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa23a4bb509de48ec92b6b550fbc34e04" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Para</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa1806c1d736065d8779d107c399417680" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Parameter</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4e31e9d30ada4a7967fe723612a2eea3" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ParameterItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa9376859bad5324ab8f7f953940c1b916" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ParameterList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa371b8cc4af36da082d92619a024fc693" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ProgramListing</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae2717df5d32eb5af8ea8f1d51eecd80b" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Ref</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa60e777a448716998b78070c4562e65bd" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Root</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faed4832269b4332af703c9e16155a442b" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Row</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fab37b4182fe186e0ce5bb69a08c1725f8" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Section</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa848990001da9d2b25452c868d40aa123" prot="public" virt="non-virtual"><scope>IDoc</scope><name>SimpleSect</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa5d881331819aed6cd46bd28b42d2364" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Symbol</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa31196716c0f38ad9e46b5d671574e743" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Table</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa70aef78f0e17ff9a6f977f0c06eb2cd" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Text</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa074e4f8ab78f40c86df73895b1730338" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Title</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fac2baf516314ee6f999aee006f2d503a6" prot="public" virt="non-virtual"><scope>IDoc</scope><name>TocItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa017c2c90ee14520cc32b2d0e37232dfc" prot="public" virt="non-virtual"><scope>IDoc</scope><name>TocList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa269444b603bd000ab89639f9b66b79da" prot="public" virt="non-virtual"><scope>IDoc</scope><name>ULink</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa75034bd66d4f4828ab4bda30477542a3" prot="public" virt="non-virtual"><scope>IDoc</scope><name>VariableList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa181a3fbaebcff250af7a708c6e3ae827" prot="public" virt="non-virtual"><scope>IDoc</scope><name>VariableListEntry</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae6cf1bdca5bc95518577cfa2ed88d60b" prot="public" virt="non-virtual"><scope>IDoc</scope><name>Verbatim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

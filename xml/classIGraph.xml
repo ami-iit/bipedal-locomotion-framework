@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIGraph" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IGraph</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIGraph_1ad4b44dfe37fda597439656729c1df57f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classINodeIterator" kindref="compound">INodeIterator</ref> *</type>
+        <definition>virtual INodeIterator* IGraph::nodes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>nodes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="588" column="27"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="584" column="1" bodyfile="doxmlintf.h" bodystart="585" bodyend="589"/>
+    <listofallmembers>
+      <member refid="classIGraph_1ad4b44dfe37fda597439656729c1df57f" prot="public" virt="pure-virtual"><scope>IGraph</scope><name>nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

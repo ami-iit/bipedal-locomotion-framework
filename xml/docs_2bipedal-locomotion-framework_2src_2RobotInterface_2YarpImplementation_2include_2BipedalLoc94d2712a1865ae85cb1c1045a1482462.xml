@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="docs_2bipedal-locomotion-framework_2src_2RobotInterface_2YarpImplementation_2include_2BipedalLoc94d2712a1865ae85cb1c1045a1482462" kind="file" language="C++">
+    <compoundname>YarpHelper.h</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/RobotInterface/YarpHelper.h"/>
+  </compounddef>
+</doxygen>

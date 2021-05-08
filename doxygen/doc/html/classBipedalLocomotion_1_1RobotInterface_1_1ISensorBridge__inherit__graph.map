@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::RobotInterface::ISensorBridge" name="BipedalLocomotion::RobotInterface::ISensorBridge">
-<area shape="rect" id="node1" title="Sensor bridge interface." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html" title="YarpSensorBridge Yarp implementation of the ISensorBridge interface Currently available interfaces." alt="" coords="15,95,212,151"/>
-</map>

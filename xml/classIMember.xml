@@ -1,0 +1,757 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIMember" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IMember</compoundname>
+    <derivedcompoundref refid="classIDCOP" prot="public" virt="non-virtual">IDCOP</derivedcompoundref>
+    <derivedcompoundref refid="classIDefine" prot="public" virt="non-virtual">IDefine</derivedcompoundref>
+    <derivedcompoundref refid="classIEnum" prot="public" virt="non-virtual">IEnum</derivedcompoundref>
+    <derivedcompoundref refid="classIEnumValue" prot="public" virt="non-virtual">IEnumValue</derivedcompoundref>
+    <derivedcompoundref refid="classIFriend" prot="public" virt="non-virtual">IFriend</derivedcompoundref>
+    <derivedcompoundref refid="classIFunction" prot="public" virt="non-virtual">IFunction</derivedcompoundref>
+    <derivedcompoundref refid="classIProperty" prot="public" virt="non-virtual">IProperty</derivedcompoundref>
+    <derivedcompoundref refid="classIPrototype" prot="public" virt="non-virtual">IPrototype</derivedcompoundref>
+    <derivedcompoundref refid="classISignal" prot="public" virt="non-virtual">ISignal</derivedcompoundref>
+    <derivedcompoundref refid="classISlot" prot="public" virt="non-virtual">ISlot</derivedcompoundref>
+    <derivedcompoundref refid="classITypedef" prot="public" virt="non-virtual">ITypedef</derivedcompoundref>
+    <derivedcompoundref refid="classIVariable" prot="public" virt="non-virtual">IVariable</derivedcompoundref>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956" prot="public" static="no" strong="no">
+        <type></type>
+        <name>MemberKind</name>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a5edbdc7abfdc9736bdd932fc15bec964" prot="public">
+          <name>Invalid</name>
+          <initializer>=0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956af09a4abd11dcb47df2bdcefc61670dff" prot="public">
+          <name>Define</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aa0c910b17741d8f5176a6a835e990cae" prot="public">
+          <name>Property</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a1e5014c2f4066a5c1fc96c42af0d4de7" prot="public">
+          <name>Variable</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a92e68e13592c3b255c2e4f87cb7b9aec" prot="public">
+          <name>Typedef</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aec336f523fe4df9870215e80aca0c2e9" prot="public">
+          <name>Enum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aa07d800a7cebbc987fc8f0551ac1356d" prot="public">
+          <name>Function</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a99452793cc1b713b6e05f7a79793c3f9" prot="public">
+          <name>Signal</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a8dd5593a13cbf072203d74ca17c302a4" prot="public">
+          <name>Prototype</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a5aae0756494ffcd0de60cd1af20250bb" prot="public">
+          <name>Friend</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aec935e94340c99337bd4633283061041" prot="public">
+          <name>DCOP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a94fb241bf2effe6dc1f67d47f6e5b6cc" prot="public">
+          <name>Slot</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956af5867402ad736781e8f32312a1f38329" prot="public">
+          <name>EnumValue</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="595" column="5" bodyfile="doxmlintf.h" bodystart="595" bodyend="599"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIMember_1a17b671a723e1b5b0f022c05e11f91349" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classICompound" kindref="compound">ICompound</ref> *</type>
+        <definition>virtual ICompound* IMember::compound</definition>
+        <argsstring>() const =0</argsstring>
+        <name>compound</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="600" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a1bbf93636786bbfd05668dd5bb1a2ba4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* IMember::section</definition>
+        <argsstring>() const =0</argsstring>
+        <name>section</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="601" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1af571ce58747f72ee41263c19f876d6bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>MemberKind</type>
+        <definition>virtual MemberKind IMember::kind</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="602" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a576260c89b37107f38599bb7198d4231" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::kindString</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kindString</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="603" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a7f4ef36c8d6435bcebe2e2798013ed36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="604" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a9385938340a0bcbc9c1469d7c7cc3c6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::protection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>protection</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="605" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1afe73ab6bccb65f84fde62ccd4fe4bd5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::virtualness</definition>
+        <argsstring>() const =0</argsstring>
+        <name>virtualness</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="606" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ae7a0aa97e86a85d82b8bbe6d6e4f1f12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedTextIterator" kindref="compound">ILinkedTextIterator</ref> *</type>
+        <definition>virtual ILinkedTextIterator* IMember::type</definition>
+        <argsstring>() const =0</argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="607" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ae03170d5783f1bdfc70f4b0fe172f641" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::typeString</definition>
+        <argsstring>() const =0</argsstring>
+        <name>typeString</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="608" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a5407998f0ff9174fefa10fa3cbdd491a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <reimplementedby refid="classIEnumValue_1a060630c39f17edaaddd92857bbc12edd">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="609" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a4787d95f7dcd1e59e8de973bfd8fb39f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::readAccessor</definition>
+        <argsstring>() const =0</argsstring>
+        <name>readAccessor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="610" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a80f1ebc1bbbfa87ea9969dab464e8a55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::writeAccessor</definition>
+        <argsstring>() const =0</argsstring>
+        <name>writeAccessor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="611" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a919bc2bd4531f02c77ac43697ea34d90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::definition</definition>
+        <argsstring>() const =0</argsstring>
+        <name>definition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="612" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1aeee3310aaa39691c85f9e9017802f90b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::argsstring</definition>
+        <argsstring>() const =0</argsstring>
+        <name>argsstring</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="613" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a3c28cd31f2dfe490fb7dd6d27f958327" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isConst</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isConst</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="614" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1aa1e4d1d60b70a0cfa0e2fe6fec9f4cbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isVolatile</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isVolatile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="615" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a7eb70f5d8226e4c00a6abbeadaca9c94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isStatic</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isStatic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="616" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1adbb42374989740c9307195d62859be33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isExplicit</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isExplicit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="617" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a6f009c22d804c702ebccc411c9843723" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isInline</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInline</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="618" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a6c43d4a96ebb1006e65c0e13b2f421bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isMutable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isMutable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="619" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a6bf26024d267ccded87fa9ff7864e971" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isReadable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isReadable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="620" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ab8a6588e64ee9650291982660116ccfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IMember::isWritable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isWritable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="621" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ae503c16b26b3237de63360334a3d3dc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIParamIterator" kindref="compound">IParamIterator</ref> *</type>
+        <definition>virtual IParamIterator* IMember::parameters</definition>
+        <argsstring>() const =0</argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="622" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a97b3e3e227f761e487cb88984c5ef138" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIParamIterator" kindref="compound">IParamIterator</ref> *</type>
+        <definition>virtual IParamIterator* IMember::templateParameters</definition>
+        <argsstring>() const =0</argsstring>
+        <name>templateParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="623" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a0086bf38ebcd9b4ab38184848a962618" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedTextIterator" kindref="compound">ILinkedTextIterator</ref> *</type>
+        <definition>virtual ILinkedTextIterator* IMember::initializer</definition>
+        <argsstring>() const =0</argsstring>
+        <name>initializer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="624" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a7ed235ada7fb119eeed374d2579ba8c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedTextIterator" kindref="compound">ILinkedTextIterator</ref> *</type>
+        <definition>virtual ILinkedTextIterator* IMember::exceptions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>exceptions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="625" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1afa780eb808fdf432cf520834da5301c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMemberReferenceIterator" kindref="compound">IMemberReferenceIterator</ref> *</type>
+        <definition>virtual IMemberReferenceIterator* IMember::references</definition>
+        <argsstring>() const =0</argsstring>
+        <name>references</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="626" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1adb91bddf548f3ba728d20873ce50ec0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMemberReferenceIterator" kindref="compound">IMemberReferenceIterator</ref> *</type>
+        <definition>virtual IMemberReferenceIterator* IMember::referencedBy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>referencedBy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="627" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ab1bb32a7d83ebb8b8150d0e638a646a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::bodyFile</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bodyFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="628" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a2ce93188bc859187e86f8d428156c6f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IMember::bodyStart</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bodyStart</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="629" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1aac0f158429705055379c9fbe20238144" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IMember::bodyEnd</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bodyEnd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="630" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1acad5ba680a11d1e75cc90bed2b05b66e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMember::definitionFile</definition>
+        <argsstring>() const =0</argsstring>
+        <name>definitionFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="631" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a69b4100409d9125c9af0569e058b5ca6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IMember::definitionLine</definition>
+        <argsstring>() const =0</argsstring>
+        <name>definitionLine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="632" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a0469cb74868ede0532560cf11ea8b462" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMemberReference" kindref="compound">IMemberReference</ref> *</type>
+        <definition>virtual IMemberReference* IMember::reimplements</definition>
+        <argsstring>() const =0</argsstring>
+        <name>reimplements</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="633" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1ab98947cc5e497846cd3f2e610baffff8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMemberReferenceIterator" kindref="compound">IMemberReferenceIterator</ref> *</type>
+        <definition>virtual IMemberReferenceIterator* IMember::reimplementedBy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>reimplementedBy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="634" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a51e22cf0dbb09bddb5a31e652cc297b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDocRoot" kindref="compound">IDocRoot</ref> *</type>
+        <definition>virtual IDocRoot* IMember::briefDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>briefDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="635" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a063a767b3e70c03760dbe6dc254b6c38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDocRoot" kindref="compound">IDocRoot</ref> *</type>
+        <definition>virtual IDocRoot* IMember::detailedDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>detailedDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="636" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMember_1a842140442b5379fe61b793a9cbef1b0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDocRoot" kindref="compound">IDocRoot</ref> *</type>
+        <definition>virtual IDocRoot* IMember::inbodyDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>inbodyDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="637" column="22"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="10">
+        <label>ISignal</label>
+        <link refid="classISignal"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>IPrototype</label>
+        <link refid="classIPrototype"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IMember</label>
+        <link refid="classIMember"/>
+      </node>
+      <node id="4">
+        <label>IEnum</label>
+        <link refid="classIEnum"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>IEnumValue</label>
+        <link refid="classIEnumValue"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>IProperty</label>
+        <link refid="classIProperty"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ISlot</label>
+        <link refid="classISlot"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>IVariable</label>
+        <link refid="classIVariable"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ITypedef</label>
+        <link refid="classITypedef"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IDCOP</label>
+        <link refid="classIDCOP"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>IFriend</label>
+        <link refid="classIFriend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>IDefine</label>
+        <link refid="classIDefine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>IFunction</label>
+        <link refid="classIFunction"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="doxmlintf.h" line="591" column="1" bodyfile="doxmlintf.h" bodystart="592" bodyend="638"/>
+    <listofallmembers>
+      <member refid="classIMember_1aeee3310aaa39691c85f9e9017802f90b" prot="public" virt="pure-virtual"><scope>IMember</scope><name>argsstring</name></member>
+      <member refid="classIMember_1aac0f158429705055379c9fbe20238144" prot="public" virt="pure-virtual"><scope>IMember</scope><name>bodyEnd</name></member>
+      <member refid="classIMember_1ab1bb32a7d83ebb8b8150d0e638a646a1" prot="public" virt="pure-virtual"><scope>IMember</scope><name>bodyFile</name></member>
+      <member refid="classIMember_1a2ce93188bc859187e86f8d428156c6f9" prot="public" virt="pure-virtual"><scope>IMember</scope><name>bodyStart</name></member>
+      <member refid="classIMember_1a51e22cf0dbb09bddb5a31e652cc297b3" prot="public" virt="pure-virtual"><scope>IMember</scope><name>briefDescription</name></member>
+      <member refid="classIMember_1a17b671a723e1b5b0f022c05e11f91349" prot="public" virt="pure-virtual"><scope>IMember</scope><name>compound</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aec935e94340c99337bd4633283061041" prot="public" virt="non-virtual"><scope>IMember</scope><name>DCOP</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956af09a4abd11dcb47df2bdcefc61670dff" prot="public" virt="non-virtual"><scope>IMember</scope><name>Define</name></member>
+      <member refid="classIMember_1a919bc2bd4531f02c77ac43697ea34d90" prot="public" virt="pure-virtual"><scope>IMember</scope><name>definition</name></member>
+      <member refid="classIMember_1acad5ba680a11d1e75cc90bed2b05b66e" prot="public" virt="pure-virtual"><scope>IMember</scope><name>definitionFile</name></member>
+      <member refid="classIMember_1a69b4100409d9125c9af0569e058b5ca6" prot="public" virt="pure-virtual"><scope>IMember</scope><name>definitionLine</name></member>
+      <member refid="classIMember_1a063a767b3e70c03760dbe6dc254b6c38" prot="public" virt="pure-virtual"><scope>IMember</scope><name>detailedDescription</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aec336f523fe4df9870215e80aca0c2e9" prot="public" virt="non-virtual"><scope>IMember</scope><name>Enum</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956af5867402ad736781e8f32312a1f38329" prot="public" virt="non-virtual"><scope>IMember</scope><name>EnumValue</name></member>
+      <member refid="classIMember_1a7ed235ada7fb119eeed374d2579ba8c8" prot="public" virt="pure-virtual"><scope>IMember</scope><name>exceptions</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a5aae0756494ffcd0de60cd1af20250bb" prot="public" virt="non-virtual"><scope>IMember</scope><name>Friend</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aa07d800a7cebbc987fc8f0551ac1356d" prot="public" virt="non-virtual"><scope>IMember</scope><name>Function</name></member>
+      <member refid="classIMember_1a7f4ef36c8d6435bcebe2e2798013ed36" prot="public" virt="pure-virtual"><scope>IMember</scope><name>id</name></member>
+      <member refid="classIMember_1a842140442b5379fe61b793a9cbef1b0e" prot="public" virt="pure-virtual"><scope>IMember</scope><name>inbodyDescription</name></member>
+      <member refid="classIMember_1a0086bf38ebcd9b4ab38184848a962618" prot="public" virt="pure-virtual"><scope>IMember</scope><name>initializer</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a5edbdc7abfdc9736bdd932fc15bec964" prot="public" virt="non-virtual"><scope>IMember</scope><name>Invalid</name></member>
+      <member refid="classIMember_1a3c28cd31f2dfe490fb7dd6d27f958327" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isConst</name></member>
+      <member refid="classIMember_1adbb42374989740c9307195d62859be33" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isExplicit</name></member>
+      <member refid="classIMember_1a6f009c22d804c702ebccc411c9843723" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isInline</name></member>
+      <member refid="classIMember_1a6c43d4a96ebb1006e65c0e13b2f421bd" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isMutable</name></member>
+      <member refid="classIMember_1a6bf26024d267ccded87fa9ff7864e971" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isReadable</name></member>
+      <member refid="classIMember_1a7eb70f5d8226e4c00a6abbeadaca9c94" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isStatic</name></member>
+      <member refid="classIMember_1aa1e4d1d60b70a0cfa0e2fe6fec9f4cbc" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isVolatile</name></member>
+      <member refid="classIMember_1ab8a6588e64ee9650291982660116ccfd" prot="public" virt="pure-virtual"><scope>IMember</scope><name>isWritable</name></member>
+      <member refid="classIMember_1af571ce58747f72ee41263c19f876d6bb" prot="public" virt="pure-virtual"><scope>IMember</scope><name>kind</name></member>
+      <member refid="classIMember_1a576260c89b37107f38599bb7198d4231" prot="public" virt="pure-virtual"><scope>IMember</scope><name>kindString</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956" prot="public" virt="non-virtual"><scope>IMember</scope><name>MemberKind</name></member>
+      <member refid="classIMember_1a5407998f0ff9174fefa10fa3cbdd491a" prot="public" virt="pure-virtual"><scope>IMember</scope><name>name</name></member>
+      <member refid="classIMember_1ae503c16b26b3237de63360334a3d3dc1" prot="public" virt="pure-virtual"><scope>IMember</scope><name>parameters</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956aa0c910b17741d8f5176a6a835e990cae" prot="public" virt="non-virtual"><scope>IMember</scope><name>Property</name></member>
+      <member refid="classIMember_1a9385938340a0bcbc9c1469d7c7cc3c6b" prot="public" virt="pure-virtual"><scope>IMember</scope><name>protection</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a8dd5593a13cbf072203d74ca17c302a4" prot="public" virt="non-virtual"><scope>IMember</scope><name>Prototype</name></member>
+      <member refid="classIMember_1a4787d95f7dcd1e59e8de973bfd8fb39f" prot="public" virt="pure-virtual"><scope>IMember</scope><name>readAccessor</name></member>
+      <member refid="classIMember_1adb91bddf548f3ba728d20873ce50ec0b" prot="public" virt="pure-virtual"><scope>IMember</scope><name>referencedBy</name></member>
+      <member refid="classIMember_1afa780eb808fdf432cf520834da5301c1" prot="public" virt="pure-virtual"><scope>IMember</scope><name>references</name></member>
+      <member refid="classIMember_1ab98947cc5e497846cd3f2e610baffff8" prot="public" virt="pure-virtual"><scope>IMember</scope><name>reimplementedBy</name></member>
+      <member refid="classIMember_1a0469cb74868ede0532560cf11ea8b462" prot="public" virt="pure-virtual"><scope>IMember</scope><name>reimplements</name></member>
+      <member refid="classIMember_1a1bbf93636786bbfd05668dd5bb1a2ba4" prot="public" virt="pure-virtual"><scope>IMember</scope><name>section</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a99452793cc1b713b6e05f7a79793c3f9" prot="public" virt="non-virtual"><scope>IMember</scope><name>Signal</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a94fb241bf2effe6dc1f67d47f6e5b6cc" prot="public" virt="non-virtual"><scope>IMember</scope><name>Slot</name></member>
+      <member refid="classIMember_1a97b3e3e227f761e487cb88984c5ef138" prot="public" virt="pure-virtual"><scope>IMember</scope><name>templateParameters</name></member>
+      <member refid="classIMember_1ae7a0aa97e86a85d82b8bbe6d6e4f1f12" prot="public" virt="pure-virtual"><scope>IMember</scope><name>type</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a92e68e13592c3b255c2e4f87cb7b9aec" prot="public" virt="non-virtual"><scope>IMember</scope><name>Typedef</name></member>
+      <member refid="classIMember_1ae03170d5783f1bdfc70f4b0fe172f641" prot="public" virt="pure-virtual"><scope>IMember</scope><name>typeString</name></member>
+      <member refid="classIMember_1ab486b4d2fdebc7a181e8dd0a09170956a1e5014c2f4066a5c1fc96c42af0d4de7" prot="public" virt="non-virtual"><scope>IMember</scope><name>Variable</name></member>
+      <member refid="classIMember_1afe73ab6bccb65f84fde62ccd4fe4bd5d" prot="public" virt="pure-virtual"><scope>IMember</scope><name>virtualness</name></member>
+      <member refid="classIMember_1a80f1ebc1bbbfa87ea9969dab464e8a55" prot="public" virt="pure-virtual"><scope>IMember</scope><name>writeAccessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

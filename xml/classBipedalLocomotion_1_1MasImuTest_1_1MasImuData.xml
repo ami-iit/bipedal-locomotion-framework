@@ -1,0 +1,1290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData" kind="class" language="C++" prot="private">
+    <compoundname>BipedalLocomotion::MasImuTest::MasImuData</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac03954ae8e4725e403b47797f47ae5e7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_testName</definition>
+        <argsstring></argsstring>
+        <name>m_testName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="64" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abfcc1f9d1d3f9965958717d8b6231711" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_logPrefix</definition>
+        <argsstring></argsstring>
+        <name>m_logPrefix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="64" column="32" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a147733f807ed7995214f79245fe481c5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; CommonData &gt;</type>
+        <definition>std::shared_ptr&lt; CommonData &gt; BipedalLocomotion::MasImuTest::MasImuData::m_commonDataPtr</definition>
+        <argsstring></argsstring>
+        <name>m_commonDataPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="65" column="25" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a36805d7b62622f218ccf6976b36ece23" prot="private" static="no" mutable="no">
+        <type>BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr</type>
+        <definition>BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr BipedalLocomotion::MasImuTest::MasImuData::m_group</definition>
+        <argsstring></argsstring>
+        <name>m_group</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="66" column="78" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa7fed4071dfe76a829f64d6a5036920b" prot="private" static="no" mutable="no">
+        <type>iDynTree::FrameIndex</type>
+        <definition>iDynTree::FrameIndex BipedalLocomotion::MasImuTest::MasImuData::m_frame</definition>
+        <argsstring></argsstring>
+        <name>m_frame</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="67" column="30" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a9077687f4f913c29293a78d90d8fa173" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_frameName</definition>
+        <argsstring></argsstring>
+        <name>m_frameName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="68" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a87299d91056ec81693fb28cf64a61009" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_imuName</definition>
+        <argsstring></argsstring>
+        <name>m_imuName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="68" column="33" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab28bbdd8164e7f3906b974d899a104e3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_gyroName</definition>
+        <argsstring></argsstring>
+        <name>m_gyroName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="68" column="43" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1acfb00c721445872fcb3227b7f186eb04" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_accName</definition>
+        <argsstring></argsstring>
+        <name>m_accName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="68" column="54" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af2fdfb8ba5be23ab256d6263a137fd6e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::LinkIndex &gt;</type>
+        <definition>std::vector&lt; iDynTree::LinkIndex &gt; BipedalLocomotion::MasImuTest::MasImuData::m_consideredJointIndexes</definition>
+        <argsstring></argsstring>
+        <name>m_consideredJointIndexes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="69" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a362f0bdd132d412cee57540edc9cfd47" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::MasImuTest::MasImuData::m_consideredJointNames</definition>
+        <argsstring></argsstring>
+        <name>m_consideredJointNames</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="70" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac031d3a0dbea2308fc2adb0c105a9257" prot="private" static="no" mutable="no">
+        <type>iDynTree::KinDynComputations</type>
+        <definition>iDynTree::KinDynComputations BipedalLocomotion::MasImuTest::MasImuData::m_kinDyn</definition>
+        <argsstring></argsstring>
+        <name>m_kinDyn</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="71" column="38" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aaa320fa0e40df32dde8ead2a2c21f0b1" prot="private" static="no" mutable="no">
+        <type>yarp::dev::PolyDriver</type>
+        <definition>yarp::dev::PolyDriver BipedalLocomotion::MasImuTest::MasImuData::m_orientationDriver</definition>
+        <argsstring></argsstring>
+        <name>m_orientationDriver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="72" column="31" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa1971e2ff40261808795068c3417e4a7" prot="private" static="no" mutable="no">
+        <type>yarp::dev::PolyDriver</type>
+        <definition>yarp::dev::PolyDriver BipedalLocomotion::MasImuTest::MasImuData::m_robotDriver</definition>
+        <argsstring></argsstring>
+        <name>m_robotDriver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="72" column="51" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1acaba9494e53669365cddadd057bec2ef" prot="private" static="no" mutable="no">
+        <type>yarp::dev::IOrientationSensors *</type>
+        <definition>yarp::dev::IOrientationSensors * BipedalLocomotion::MasImuTest::MasImuData::m_orientationInterface</definition>
+        <argsstring></argsstring>
+        <name>m_orientationInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="73" column="40" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ae3466e976e02ce2e51d2b727aeaf1bf5" prot="private" static="no" mutable="no">
+        <type>yarp::dev::IThreeAxisGyroscopes *</type>
+        <definition>yarp::dev::IThreeAxisGyroscopes * BipedalLocomotion::MasImuTest::MasImuData::m_gyroInterface</definition>
+        <argsstring></argsstring>
+        <name>m_gyroInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="74" column="41" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a05046940c93057e48f1bc0aa47dd12a9" prot="private" static="no" mutable="no">
+        <type>yarp::dev::IThreeAxisLinearAccelerometers *</type>
+        <definition>yarp::dev::IThreeAxisLinearAccelerometers * BipedalLocomotion::MasImuTest::MasImuData::m_accInterface</definition>
+        <argsstring></argsstring>
+        <name>m_accInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="75" column="51" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a666b9c9e39807d54ba9bb32949331114" prot="private" static="no" mutable="no">
+        <type>yarp::dev::IEncodersTimed *</type>
+        <definition>yarp::dev::IEncodersTimed * BipedalLocomotion::MasImuTest::MasImuData::m_encodersInterface</definition>
+        <argsstring></argsstring>
+        <name>m_encodersInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="76" column="35" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a72a55ca488808cd2d636f066d0e76d74" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t BipedalLocomotion::MasImuTest::MasImuData::m_imuSensorIndex</definition>
+        <argsstring></argsstring>
+        <name>m_imuSensorIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="77" column="16" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5d51b26ccfaa94ec6301238ff0cdc570" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t BipedalLocomotion::MasImuTest::MasImuData::m_gyroSensorIndex</definition>
+        <argsstring></argsstring>
+        <name>m_gyroSensorIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="77" column="33" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a273876ec3321c59ac688e9eff4f40ddc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t BipedalLocomotion::MasImuTest::MasImuData::m_accSensorIndex</definition>
+        <argsstring></argsstring>
+        <name>m_accSensorIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="77" column="51" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38031791be642cc19a2529cb3da98e3f" prot="private" static="no" mutable="no">
+        <type>yarp::sig::Vector</type>
+        <definition>yarp::sig::Vector BipedalLocomotion::MasImuTest::MasImuData::m_positionFeedbackDeg</definition>
+        <argsstring></argsstring>
+        <name>m_positionFeedbackDeg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="78" column="27" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a2468015e3ee6d3c1f0b10f975bc3ab0c" prot="private" static="no" mutable="no">
+        <type>yarp::sig::Vector</type>
+        <definition>yarp::sig::Vector BipedalLocomotion::MasImuTest::MasImuData::m_rpyInDeg</definition>
+        <argsstring></argsstring>
+        <name>m_rpyInDeg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="79" column="27" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6ea3c990454d8e1cdac8daa7f3f8fb2c" prot="private" static="no" mutable="no">
+        <type>yarp::sig::Vector</type>
+        <definition>yarp::sig::Vector BipedalLocomotion::MasImuTest::MasImuData::m_gyroInDeg_s</definition>
+        <argsstring></argsstring>
+        <name>m_gyroInDeg_s</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="79" column="38" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a4b0f299f6c80906e007459685627e748" prot="private" static="no" mutable="no">
+        <type>yarp::sig::Vector</type>
+        <definition>yarp::sig::Vector BipedalLocomotion::MasImuTest::MasImuData::m_acc</definition>
+        <argsstring></argsstring>
+        <name>m_acc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="79" column="52" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1aa7e93df66ba516165c5cb55f2da1a1" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::MasImuTest::MasImuData::m_rpyInDegRemapped</definition>
+        <argsstring></argsstring>
+        <name>m_rpyInDegRemapped</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="80" column="25" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a49dd72ea1e6e5f8e3f293d9cdfeb5e78" prot="private" static="no" mutable="no">
+        <type>iDynTree::VectorDynSize</type>
+        <definition>iDynTree::VectorDynSize BipedalLocomotion::MasImuTest::MasImuData::m_positionFeedbackInRad</definition>
+        <argsstring></argsstring>
+        <name>m_positionFeedbackInRad</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="81" column="33" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a084c8cb18e0afe9bbf6fb39c4df9ab0c" prot="private" static="no" mutable="no">
+        <type>iDynTree::VectorDynSize</type>
+        <definition>iDynTree::VectorDynSize BipedalLocomotion::MasImuTest::MasImuData::m_previousPositionFeedbackInRad</definition>
+        <argsstring></argsstring>
+        <name>m_previousPositionFeedbackInRad</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="82" column="33" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af0c71bf5ab2278114608ef958817427e" prot="private" static="no" mutable="no">
+        <type>iDynTree::VectorDynSize</type>
+        <definition>iDynTree::VectorDynSize BipedalLocomotion::MasImuTest::MasImuData::m_dummyVelocity</definition>
+        <argsstring></argsstring>
+        <name>m_dummyVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="83" column="33" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a7383c1150f1270fe039d8871b672204b" prot="private" static="no" mutable="no">
+        <type>iDynTree::Rotation</type>
+        <definition>iDynTree::Rotation BipedalLocomotion::MasImuTest::MasImuData::m_rotationFeedback</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFeedback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="84" column="28" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab4caafdeb81ce1043dd894428c6c9bdb" prot="private" static="no" mutable="no">
+        <type>Eigen::Matrix3d</type>
+        <definition>Eigen::Matrix3d BipedalLocomotion::MasImuTest::MasImuData::m_rpyMapping</definition>
+        <argsstring></argsstring>
+        <name>m_rpyMapping</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="85" column="25" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0333bece7f4c37c2d14aa76b78c429d5" prot="private" static="no" mutable="no">
+        <type>iDynTree::Rotation</type>
+        <definition>iDynTree::Rotation BipedalLocomotion::MasImuTest::MasImuData::m_rotationFromEncoders</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFromEncoders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="87" column="28" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6b71b0a587a3cb9c8bf1585ee1873820" prot="private" static="no" mutable="no">
+        <type>iDynTree::Rotation</type>
+        <definition>iDynTree::Rotation BipedalLocomotion::MasImuTest::MasImuData::m_imuWorld</definition>
+        <argsstring></argsstring>
+        <name>m_imuWorld</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="88" column="28" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a85bb537850433a10d44607c80a82d2fe" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::Rotation &gt;</type>
+        <definition>std::vector&lt; iDynTree::Rotation &gt; BipedalLocomotion::MasImuTest::MasImuData::m_errorData</definition>
+        <argsstring></argsstring>
+        <name>m_errorData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="90" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad683d466bbdefff7e6d9999ce9b80a65" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::VectorDynSize &gt;</type>
+        <definition>std::vector&lt; iDynTree::VectorDynSize &gt; BipedalLocomotion::MasImuTest::MasImuData::m_jointsPositionData</definition>
+        <argsstring></argsstring>
+        <name>m_jointsPositionData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="91" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afcfeb5e2e3bdef26913ce5b53687ae77" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::Rotation &gt;</type>
+        <definition>std::vector&lt; iDynTree::Rotation &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rotationFeedbackData</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFeedbackData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="92" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac1bf2328cd32159a8f66f284fba8d96b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::Rotation &gt;</type>
+        <definition>std::vector&lt; iDynTree::Rotation &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rotationFeedbackInInertialData</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFeedbackInInertialData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="93" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64cec738e3e6e5f94c2e084ebc010c0f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::Rotation &gt;</type>
+        <definition>std::vector&lt; iDynTree::Rotation &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rotationFeedbackInInertialYawFilteredData</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFeedbackInInertialYawFilteredData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="94" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d0b948111ea7eef5de29d8b34d53c1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; yarp::sig::Vector &gt;</type>
+        <definition>std::vector&lt; yarp::sig::Vector &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rpyImuData</definition>
+        <argsstring></argsstring>
+        <name>m_rpyImuData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="95" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a32efda5b4540542a9436e92f1f83cbf5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Eigen::Vector3d &gt;</type>
+        <definition>std::vector&lt; Eigen::Vector3d &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rpyRemappedData</definition>
+        <argsstring></argsstring>
+        <name>m_rpyRemappedData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="96" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a4d2861f8e59a542f3caf6d0482153890" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; iDynTree::Rotation &gt;</type>
+        <definition>std::vector&lt; iDynTree::Rotation &gt; BipedalLocomotion::MasImuTest::MasImuData::m_rotationFromEncodersData</definition>
+        <argsstring></argsstring>
+        <name>m_rotationFromEncodersData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="97" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a81c0cd615ffb0c9b0200341630412ca6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; yarp::sig::Vector &gt;</type>
+        <definition>std::vector&lt; yarp::sig::Vector &gt; BipedalLocomotion::MasImuTest::MasImuData::m_gyroData</definition>
+        <argsstring></argsstring>
+        <name>m_gyroData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="98" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1a393b01172f65a4487d89f95e2782cc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; yarp::sig::Vector &gt;</type>
+        <definition>std::vector&lt; yarp::sig::Vector &gt; BipedalLocomotion::MasImuTest::MasImuData::m_accData</definition>
+        <argsstring></argsstring>
+        <name>m_accData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="99" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a78eeed6215effc734b5aef65b555d7bd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::m_output</definition>
+        <argsstring></argsstring>
+        <name>m_output</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="101" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afc8d2cdfff44373eaa055bc93841199d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::m_completed</definition>
+        <argsstring></argsstring>
+        <name>m_completed</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="103" column="14" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa82bf0cc839a0a55067478f2a9c98990" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::reserveData</definition>
+        <argsstring>()</argsstring>
+        <name>reserveData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="105" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1e63c98a251dd6973ecf90bd4127673c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::clearData</definition>
+        <argsstring>()</argsstring>
+        <name>clearData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="107" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a573b3f2f8f8249289c4bd3ffabe4fb0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupModel</definition>
+        <argsstring>()</argsstring>
+        <name>setupModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="109" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6877fc3e27e3e904721b13afafbe970" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupIMUDriver</definition>
+        <argsstring>()</argsstring>
+        <name>setupIMUDriver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="111" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64799609e0090b4274100c432da80d1f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupOrientationSensor</definition>
+        <argsstring>()</argsstring>
+        <name>setupOrientationSensor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="113" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a71b3f690de242aa3a96518a20d3b75db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupGyro</definition>
+        <argsstring>()</argsstring>
+        <name>setupGyro</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="115" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa04ff4038995e19a8f03d1288fcb8944" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupAccelerometer</definition>
+        <argsstring>()</argsstring>
+        <name>setupAccelerometer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="117" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aefa02c00bed5efe5e4d9d0ea96133564" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupEncoders</definition>
+        <argsstring>()</argsstring>
+        <name>setupEncoders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="119" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aadba3f81f7376274a3217c756fbd28d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::getFeedback</definition>
+        <argsstring>()</argsstring>
+        <name>getFeedback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="121" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aec0721bbab09342be09dca695c25912d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::updateRotationFromEncoders</definition>
+        <argsstring>()</argsstring>
+        <name>updateRotationFromEncoders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="123" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac35885fc93ab884c186815c0aed212fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::MasImuTest::MasImuData::maxVariation</definition>
+        <argsstring>()</argsstring>
+        <name>maxVariation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="125" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa82bf0cc839a0a55067478f2a9c98990" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::reserveData</definition>
+        <argsstring>()</argsstring>
+        <name>reserveData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="105" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1e63c98a251dd6973ecf90bd4127673c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::clearData</definition>
+        <argsstring>()</argsstring>
+        <name>clearData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="107" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a573b3f2f8f8249289c4bd3ffabe4fb0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupModel</definition>
+        <argsstring>()</argsstring>
+        <name>setupModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="109" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6877fc3e27e3e904721b13afafbe970" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupIMUDriver</definition>
+        <argsstring>()</argsstring>
+        <name>setupIMUDriver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="111" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64799609e0090b4274100c432da80d1f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupOrientationSensor</definition>
+        <argsstring>()</argsstring>
+        <name>setupOrientationSensor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="113" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a71b3f690de242aa3a96518a20d3b75db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupGyro</definition>
+        <argsstring>()</argsstring>
+        <name>setupGyro</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="115" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa04ff4038995e19a8f03d1288fcb8944" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupAccelerometer</definition>
+        <argsstring>()</argsstring>
+        <name>setupAccelerometer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="117" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aefa02c00bed5efe5e4d9d0ea96133564" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setupEncoders</definition>
+        <argsstring>()</argsstring>
+        <name>setupEncoders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="119" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aadba3f81f7376274a3217c756fbd28d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::getFeedback</definition>
+        <argsstring>()</argsstring>
+        <name>getFeedback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="121" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aec0721bbab09342be09dca695c25912d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::updateRotationFromEncoders</definition>
+        <argsstring>()</argsstring>
+        <name>updateRotationFromEncoders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="123" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac35885fc93ab884c186815c0aed212fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::MasImuTest::MasImuData::maxVariation</definition>
+        <argsstring>()</argsstring>
+        <name>maxVariation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="125" column="16"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a86ce1c6fbda0f2e1b1bc1702ce90c8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setup</definition>
+        <argsstring>(BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group, std::shared_ptr&lt; CommonData &gt; commonDataPtr)</argsstring>
+        <name>setup</name>
+        <param>
+          <type>BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; CommonData &gt;</type>
+          <declname>commonDataPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="129" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad135737bd73fd9d7c525ce914ca6ddbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::firstRun</definition>
+        <argsstring>()</argsstring>
+        <name>firstRun</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="132" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a41237e36669e05825dffb49ddb017a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::addSample</definition>
+        <argsstring>()</argsstring>
+        <name>addSample</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="134" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a628e8c2af575ffba751a6bb34761f5f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t BipedalLocomotion::MasImuTest::MasImuData::addedSamples</definition>
+        <argsstring>() const</argsstring>
+        <name>addedSamples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="136" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38cd8242a19d8a83e38203f3fb614d6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::isCompleted</definition>
+        <argsstring>() const</argsstring>
+        <name>isCompleted</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="138" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac47818c27756ebf26c4781ddc3787d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::setCompleted</definition>
+        <argsstring>()</argsstring>
+        <name>setCompleted</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="140" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3e1d2653c2c9d9d3ccc5c824fc9ebcef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::printResults</definition>
+        <argsstring>()</argsstring>
+        <name>printResults</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="142" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a275e150b1eff22e4c48ef623835ab3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::saveResults</definition>
+        <argsstring>(matioCpp::Struct &amp;logStruct)</argsstring>
+        <name>saveResults</name>
+        <param>
+          <type>matioCpp::Struct &amp;</type>
+          <declname>logStruct</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="144" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abdd2017932c98411d6c2ab9f3d9047cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="146" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d869502b51c77874803c556e345579" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="148" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0b4210aa7f4dede90d0ecbc11889a1e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; BipedalLocomotion::MasImuTest::MasImuData::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="150" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a86ce1c6fbda0f2e1b1bc1702ce90c8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::setup</definition>
+        <argsstring>(BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group, std::shared_ptr&lt; CommonData &gt; commonDataPtr)</argsstring>
+        <name>setup</name>
+        <param>
+          <type>BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; CommonData &gt;</type>
+          <declname>commonDataPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="129" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad135737bd73fd9d7c525ce914ca6ddbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::firstRun</definition>
+        <argsstring>()</argsstring>
+        <name>firstRun</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="132" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a41237e36669e05825dffb49ddb017a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::addSample</definition>
+        <argsstring>()</argsstring>
+        <name>addSample</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="134" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a628e8c2af575ffba751a6bb34761f5f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t BipedalLocomotion::MasImuTest::MasImuData::addedSamples</definition>
+        <argsstring>() const</argsstring>
+        <name>addedSamples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="136" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38cd8242a19d8a83e38203f3fb614d6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::isCompleted</definition>
+        <argsstring>() const</argsstring>
+        <name>isCompleted</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="138" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac47818c27756ebf26c4781ddc3787d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::setCompleted</definition>
+        <argsstring>()</argsstring>
+        <name>setCompleted</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="140" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3e1d2653c2c9d9d3ccc5c824fc9ebcef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::MasImuData::printResults</definition>
+        <argsstring>()</argsstring>
+        <name>printResults</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="142" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a275e150b1eff22e4c48ef623835ab3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::saveResults</definition>
+        <argsstring>(matioCpp::Struct &amp;logStruct)</argsstring>
+        <name>saveResults</name>
+        <param>
+          <type>matioCpp::Struct &amp;</type>
+          <declname>logStruct</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="144" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abdd2017932c98411d6c2ab9f3d9047cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::MasImuTest::MasImuData::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="146" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d869502b51c77874803c556e345579" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::MasImuData::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="148" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0b4210aa7f4dede90d0ecbc11889a1e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; BipedalLocomotion::MasImuTest::MasImuData::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="150" column="27"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/MasImuTest.h" line="62" column="5" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="63" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a628e8c2af575ffba751a6bb34761f5f1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>addedSamples</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a628e8c2af575ffba751a6bb34761f5f1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>addedSamples</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a41237e36669e05825dffb49ddb017a42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>addSample</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a41237e36669e05825dffb49ddb017a42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>addSample</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1e63c98a251dd6973ecf90bd4127673c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>clearData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1e63c98a251dd6973ecf90bd4127673c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>clearData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d869502b51c77874803c556e345579" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d869502b51c77874803c556e345579" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad135737bd73fd9d7c525ce914ca6ddbd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>firstRun</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad135737bd73fd9d7c525ce914ca6ddbd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>firstRun</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aadba3f81f7376274a3217c756fbd28d4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>getFeedback</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aadba3f81f7376274a3217c756fbd28d4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>getFeedback</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38cd8242a19d8a83e38203f3fb614d6f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>isCompleted</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38cd8242a19d8a83e38203f3fb614d6f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>isCompleted</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a4b0f299f6c80906e007459685627e748" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_acc</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1a393b01172f65a4487d89f95e2782cc" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_accData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a05046940c93057e48f1bc0aa47dd12a9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_accInterface</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1acfb00c721445872fcb3227b7f186eb04" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_accName</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a273876ec3321c59ac688e9eff4f40ddc" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_accSensorIndex</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a147733f807ed7995214f79245fe481c5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_commonDataPtr</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afc8d2cdfff44373eaa055bc93841199d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_completed</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af2fdfb8ba5be23ab256d6263a137fd6e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_consideredJointIndexes</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a362f0bdd132d412cee57540edc9cfd47" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_consideredJointNames</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af0c71bf5ab2278114608ef958817427e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_dummyVelocity</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a666b9c9e39807d54ba9bb32949331114" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_encodersInterface</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a85bb537850433a10d44607c80a82d2fe" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_errorData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa7fed4071dfe76a829f64d6a5036920b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_frame</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a9077687f4f913c29293a78d90d8fa173" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_frameName</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a36805d7b62622f218ccf6976b36ece23" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_group</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a81c0cd615ffb0c9b0200341630412ca6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_gyroData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6ea3c990454d8e1cdac8daa7f3f8fb2c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_gyroInDeg_s</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ae3466e976e02ce2e51d2b727aeaf1bf5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_gyroInterface</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab28bbdd8164e7f3906b974d899a104e3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_gyroName</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5d51b26ccfaa94ec6301238ff0cdc570" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_gyroSensorIndex</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a87299d91056ec81693fb28cf64a61009" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_imuName</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a72a55ca488808cd2d636f066d0e76d74" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_imuSensorIndex</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6b71b0a587a3cb9c8bf1585ee1873820" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_imuWorld</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad683d466bbdefff7e6d9999ce9b80a65" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_jointsPositionData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac031d3a0dbea2308fc2adb0c105a9257" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_kinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abfcc1f9d1d3f9965958717d8b6231711" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_logPrefix</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aaa320fa0e40df32dde8ead2a2c21f0b1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_orientationDriver</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1acaba9494e53669365cddadd057bec2ef" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_orientationInterface</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a78eeed6215effc734b5aef65b555d7bd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_output</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38031791be642cc19a2529cb3da98e3f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_positionFeedbackDeg</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a49dd72ea1e6e5f8e3f293d9cdfeb5e78" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_positionFeedbackInRad</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a084c8cb18e0afe9bbf6fb39c4df9ab0c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_previousPositionFeedbackInRad</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa1971e2ff40261808795068c3417e4a7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_robotDriver</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a7383c1150f1270fe039d8871b672204b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFeedback</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afcfeb5e2e3bdef26913ce5b53687ae77" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFeedbackData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac1bf2328cd32159a8f66f284fba8d96b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFeedbackInInertialData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64cec738e3e6e5f94c2e084ebc010c0f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFeedbackInInertialYawFilteredData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0333bece7f4c37c2d14aa76b78c429d5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFromEncoders</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a4d2861f8e59a542f3caf6d0482153890" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rotationFromEncodersData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d0b948111ea7eef5de29d8b34d53c1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rpyImuData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a2468015e3ee6d3c1f0b10f975bc3ab0c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rpyInDeg</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1aa7e93df66ba516165c5cb55f2da1a1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rpyInDegRemapped</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab4caafdeb81ce1043dd894428c6c9bdb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rpyMapping</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a32efda5b4540542a9436e92f1f83cbf5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_rpyRemappedData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac03954ae8e4725e403b47797f47ae5e7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>m_testName</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac35885fc93ab884c186815c0aed212fa" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>maxVariation</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac35885fc93ab884c186815c0aed212fa" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>maxVariation</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0b4210aa7f4dede90d0ecbc11889a1e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>name</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0b4210aa7f4dede90d0ecbc11889a1e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>name</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3e1d2653c2c9d9d3ccc5c824fc9ebcef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>printResults</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3e1d2653c2c9d9d3ccc5c824fc9ebcef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>printResults</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa82bf0cc839a0a55067478f2a9c98990" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>reserveData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa82bf0cc839a0a55067478f2a9c98990" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>reserveData</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abdd2017932c98411d6c2ab9f3d9047cd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abdd2017932c98411d6c2ab9f3d9047cd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a275e150b1eff22e4c48ef623835ab3a1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>saveResults</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a275e150b1eff22e4c48ef623835ab3a1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>saveResults</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac47818c27756ebf26c4781ddc3787d88" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setCompleted</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac47818c27756ebf26c4781ddc3787d88" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setCompleted</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a86ce1c6fbda0f2e1b1bc1702ce90c8c5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setup</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a86ce1c6fbda0f2e1b1bc1702ce90c8c5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setup</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa04ff4038995e19a8f03d1288fcb8944" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupAccelerometer</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa04ff4038995e19a8f03d1288fcb8944" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupAccelerometer</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aefa02c00bed5efe5e4d9d0ea96133564" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupEncoders</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aefa02c00bed5efe5e4d9d0ea96133564" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupEncoders</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a71b3f690de242aa3a96518a20d3b75db" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupGyro</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a71b3f690de242aa3a96518a20d3b75db" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupGyro</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6877fc3e27e3e904721b13afafbe970" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupIMUDriver</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6877fc3e27e3e904721b13afafbe970" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupIMUDriver</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a573b3f2f8f8249289c4bd3ffabe4fb0a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupModel</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a573b3f2f8f8249289c4bd3ffabe4fb0a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupModel</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64799609e0090b4274100c432da80d1f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupOrientationSensor</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64799609e0090b4274100c432da80d1f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>setupOrientationSensor</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aec0721bbab09342be09dca695c25912d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>updateRotationFromEncoders</name></member>
+      <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aec0721bbab09342be09dca695c25912d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::MasImuData</scope><name>updateRotationFromEncoders</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,4 +1,0 @@
-var structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface =
-[
-    [ "sixAxisFTSensors", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface.html#a571aab909fc2b837e6662118bff517ca", null ]
-];

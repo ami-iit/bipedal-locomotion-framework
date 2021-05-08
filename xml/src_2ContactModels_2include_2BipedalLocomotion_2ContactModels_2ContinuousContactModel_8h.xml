@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContinuousContactModel_8h" kind="file" language="C++">
+    <compoundname>ContinuousContactModel.h</compoundname>
+    <includes local="no">iDynTree/Core/Transform.h</includes>
+    <includes local="no">iDynTree/Core/Twist.h</includes>
+    <includes local="no">iDynTree/Core/Wrench.h</includes>
+    <includes local="no">BipedalLocomotion/ContactModels/ContactModel.h</includes>
+    <includes local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+      </node>
+      <node id="3">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
+      </node>
+      <node id="2">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ContactModels/ContinuousContactModel.h</label>
+        <link refid="src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContinuousContactModel_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>iDynTree/Core/Wrench.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel" prot="public">BipedalLocomotion::ContactModels::ContinuousContactModel</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1ContactModels">BipedalLocomotion::ContactModels</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContactModels/ContinuousContactModel.h"/>
+  </compounddef>
+</doxygen>

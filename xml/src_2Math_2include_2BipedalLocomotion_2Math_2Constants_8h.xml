@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="src_2Math_2include_2BipedalLocomotion_2Math_2Constants_8h" kind="file" language="C++">
+    <compoundname>Constants.h</compoundname>
+    <includedby refid="FixedBaseDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</includedby>
+    <includedby refid="FloatingBaseDynamicsWithCompliantContacts_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
+        <link refid="FixedBaseDynamics_8h"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
+        <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Math/Constants.h</label>
+        <link refid="src_2Math_2include_2BipedalLocomotion_2Math_2Constants_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Giulio Romualdi </para>
+</simplesect>
+<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Math/Constants.h"/>
+  </compounddef>
+</doxygen>

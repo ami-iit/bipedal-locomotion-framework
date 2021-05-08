@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::RobotInterface::IPointCloudBridge" name="BipedalLocomotion::RobotInterface::IPointCloudBridge">
-<area shape="rect" id="node1" title="Sensor bridge interface." alt="" coords="5,5,205,61"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense.html" title="Realsense driver class." alt="" coords="28,109,183,165"/>
-</map>

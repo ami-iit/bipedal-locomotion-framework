@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_ade3f6b558bdcc4e49ac1245c47e2793" kind="dir">
+    <compoundname>BipedalLocomotion</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2devices_2examples_2ROSPublisherTestDevice_2include_2BipedalL274b6d332a64a0870ac1f974df93ae16">ROSPublisherTestDevice.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/"/>
+  </compounddef>
+</doxygen>

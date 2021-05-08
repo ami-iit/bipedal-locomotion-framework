@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIInclude" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IInclude</compoundname>
+    <includes local="no">doxmlintf.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIInclude_1afe0fda4567dc524123cbd1bbf1cd1f22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IInclude::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="702" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIInclude_1ab738f8f672628bce7fc2a3405c6f8224" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IInclude::refId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>refId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="703" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIInclude_1ad81fe6fc542d9907adcae804bba45b38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool IInclude::isLocal</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isLocal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="704" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Include relation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="698" column="1" bodyfile="doxmlintf.h" bodystart="699" bodyend="705"/>
+    <listofallmembers>
+      <member refid="classIInclude_1ad81fe6fc542d9907adcae804bba45b38" prot="public" virt="pure-virtual"><scope>IInclude</scope><name>isLocal</name></member>
+      <member refid="classIInclude_1afe0fda4567dc524123cbd1bbf1cd1f22" prot="public" virt="pure-virtual"><scope>IInclude</scope><name>name</name></member>
+      <member refid="classIInclude_1ab738f8f672628bce7fc2a3405c6f8224" prot="public" virt="pure-virtual"><scope>IInclude</scope><name>refId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

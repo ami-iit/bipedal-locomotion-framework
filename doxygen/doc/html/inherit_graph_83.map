@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="5,5,261,61"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1Source.html" title=" " alt="" coords="309,5,528,61"/>
-<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" title="DCMPlanner defines a trajectory generator for the variable height Divergent component of motion (DCM)..." alt="" coords="576,13,743,54"/>
-<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html" title="DCMPlanner defines a trajectory generator for the variable height Divergent component of motion (DCM)..." alt="" coords="791,13,1039,54"/>
-</map>

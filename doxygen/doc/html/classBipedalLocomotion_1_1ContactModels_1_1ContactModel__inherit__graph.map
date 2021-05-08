@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::ContactModels::ContactModel" name="BipedalLocomotion::ContactModels::ContactModel">
-<area shape="rect" id="node1" title="ContactModel is a generic implementation of a contact model." alt="" coords="22,5,239,47"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel.html" title="ContinuousContactModel is a model that describe the contact using a continuous representation." alt="" coords="5,95,256,151"/>
-</map>

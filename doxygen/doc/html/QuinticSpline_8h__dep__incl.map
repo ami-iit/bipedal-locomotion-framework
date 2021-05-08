@@ -1,7 +1,0 @@
-<map id="Planners/include/BipedalLocomotion/Planners/QuinticSpline.h" name="Planners/include/BipedalLocomotion/Planners/QuinticSpline.h">
-<area shape="rect" id="node1" title=" " alt="" coords="247,5,507,47"/>
-<area shape="rect" id="node2" href="$SwingFootPlanner_8h.html" title=" " alt="" coords="14,95,243,151"/>
-<area shape="rect" id="node4" href="$QuinticSpline_8cpp.html" title=" " alt="" coords="267,109,486,136"/>
-<area shape="rect" id="node5" href="$TimeVaryingDCMPlanner_8cpp.html" title=" " alt="" coords="510,102,697,143"/>
-<area shape="rect" id="node3" href="$SwingFootPlanner_8cpp.html" title=" " alt="" coords="5,199,252,225"/>
-</map>

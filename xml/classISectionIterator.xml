@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classISectionIterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ISectionIterator</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classISectionIterator_1ab003e6582ea200f83ceab4b4a74db01e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* ISectionIterator::toFirst</definition>
+        <argsstring>()=0</argsstring>
+        <name>toFirst</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="835" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classISectionIterator_1ad1819cf5feb0ac2d16e61b3e0157dede" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* ISectionIterator::toLast</definition>
+        <argsstring>()=0</argsstring>
+        <name>toLast</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="836" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classISectionIterator_1a23f01b7c0fc804209987c930df789ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* ISectionIterator::toNext</definition>
+        <argsstring>()=0</argsstring>
+        <name>toNext</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="837" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classISectionIterator_1af43d4541086f11c27a1a640573e17aa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* ISectionIterator::toPrev</definition>
+        <argsstring>()=0</argsstring>
+        <name>toPrev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="838" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classISectionIterator_1af11fad13d99d1f7de5dd7499bda5fa66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISection" kindref="compound">ISection</ref> *</type>
+        <definition>virtual ISection* ISectionIterator::current</definition>
+        <argsstring>() const =0</argsstring>
+        <name>current</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="839" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classISectionIterator_1a5a3cd47ee8110b6bd1379d2b8f7ccfef" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ISectionIterator::release</definition>
+        <argsstring>()=0</argsstring>
+        <name>release</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="840" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="831" column="1" bodyfile="doxmlintf.h" bodystart="832" bodyend="841"/>
+    <listofallmembers>
+      <member refid="classISectionIterator_1af11fad13d99d1f7de5dd7499bda5fa66" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>current</name></member>
+      <member refid="classISectionIterator_1a5a3cd47ee8110b6bd1379d2b8f7ccfef" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>release</name></member>
+      <member refid="classISectionIterator_1ab003e6582ea200f83ceab4b4a74db01e" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>toFirst</name></member>
+      <member refid="classISectionIterator_1ad1819cf5feb0ac2d16e61b3e0157dede" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>toLast</name></member>
+      <member refid="classISectionIterator_1a23f01b7c0fc804209987c930df789ebc" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>toNext</name></member>
+      <member refid="classISectionIterator_1af43d4541086f11c27a1a640573e17aa6" prot="public" virt="pure-virtual"><scope>ISectionIterator</scope><name>toPrev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

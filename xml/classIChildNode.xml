@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIChildNode" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IChildNode</compoundname>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2" prot="public" static="no" strong="no">
+        <type></type>
+        <name>NodeRelation</name>
+        <enumvalue id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2add22c021f507c6f8537491f87fcd7f33" prot="public">
+          <name>PublicInheritance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2abdb1f6a4bcf17a990e80b04f82a7eda5" prot="public">
+          <name>ProtectedInheritance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2afe2b290db2ae8f34f0c5ebc20374e16f" prot="public">
+          <name>PrivateInheritance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2aced0291ca48454c2fa1118ff5d0bad1e" prot="public">
+          <name>Usage</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2a9ce6683f47e6b802937d4d1ebeab98ef" prot="public">
+          <name>TemplateInstance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="541" column="5" bodyfile="doxmlintf.h" bodystart="541" bodyend="543"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIChildNode_1a287bf2f26b3db29d00513ed4cee5141d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classINode" kindref="compound">INode</ref> *</type>
+        <definition>virtual INode* IChildNode::node</definition>
+        <argsstring>() const =0</argsstring>
+        <name>node</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="544" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classIChildNode_1a045cfcd9bd158c969d3bca2e61b6ddbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>NodeRelation</type>
+        <definition>virtual NodeRelation IChildNode::relation</definition>
+        <argsstring>() const =0</argsstring>
+        <name>relation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="545" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classIChildNode_1ade6412f9a9f1913a661b91eb710fb3a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IChildNode::relationString</definition>
+        <argsstring>() const =0</argsstring>
+        <name>relationString</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="546" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIChildNode_1afff75cb6461def5241bc2f1bd96d9385" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIEdgeLabelIterator" kindref="compound">IEdgeLabelIterator</ref> *</type>
+        <definition>virtual IEdgeLabelIterator* IChildNode::edgeLabels</definition>
+        <argsstring>() const =0</argsstring>
+        <name>edgeLabels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="547" column="32"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="537" column="1" bodyfile="doxmlintf.h" bodystart="538" bodyend="548"/>
+    <listofallmembers>
+      <member refid="classIChildNode_1afff75cb6461def5241bc2f1bd96d9385" prot="public" virt="pure-virtual"><scope>IChildNode</scope><name>edgeLabels</name></member>
+      <member refid="classIChildNode_1a287bf2f26b3db29d00513ed4cee5141d" prot="public" virt="pure-virtual"><scope>IChildNode</scope><name>node</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>NodeRelation</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2afe2b290db2ae8f34f0c5ebc20374e16f" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>PrivateInheritance</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2abdb1f6a4bcf17a990e80b04f82a7eda5" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>ProtectedInheritance</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2add22c021f507c6f8537491f87fcd7f33" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>PublicInheritance</name></member>
+      <member refid="classIChildNode_1a045cfcd9bd158c969d3bca2e61b6ddbc" prot="public" virt="pure-virtual"><scope>IChildNode</scope><name>relation</name></member>
+      <member refid="classIChildNode_1ade6412f9a9f1913a661b91eb710fb3a9" prot="public" virt="pure-virtual"><scope>IChildNode</scope><name>relationString</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2a9ce6683f47e6b802937d4d1ebeab98ef" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>TemplateInstance</name></member>
+      <member refid="classIChildNode_1a8f1206e7dd6aba7e62a7e50e2edf8ee2aced0291ca48454c2fa1118ff5d0bad1e" prot="public" virt="non-virtual"><scope>IChildNode</scope><name>Usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

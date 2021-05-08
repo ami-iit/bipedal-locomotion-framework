@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="bindings_2python_2System_2include_2BipedalLocomotion_2bindings_2System_2VariablesHandler_8h" kind="file" language="C++">
+    <compoundname>VariablesHandler.h</compoundname>
+    <includes local="no">pybind11/pybind11.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>pybind11/pybind11.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/bindings/System/VariablesHandler.h</label>
+        <link refid="bindings_2python_2System_2include_2BipedalLocomotion_2bindings_2System_2VariablesHandler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings">BipedalLocomotion::bindings</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings_1_1System">BipedalLocomotion::bindings::System</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/System/VariablesHandler.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_2f13a9dd203b7ecb9308ffd27b69e127" kind="dir">
+    <compoundname>BipedalLocomotion/Planners</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h">Contact.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2ContactList_8h">ContactList.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2ContactPhase_8h">ContactPhase.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2ContactPhaseList_8h">ContactPhaseList.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2ConvexHullHelper_8h">ConvexHullHelper.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2DCMPlanner_8h">DCMPlanner.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h">QuinticSpline.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2SO3Planner_8h">SO3Planner.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2SwingFootPlanner_8h">SwingFootPlanner.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2TimeVaryingDCMPlanner_8h">TimeVaryingDCMPlanner.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Planners/"/>
+  </compounddef>
+</doxygen>

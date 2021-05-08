@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_11a0ac2c512a2533bba3b77e62b44889" kind="dir">
+    <compoundname>BipedalLocomotion/bindings/FloatingBaseEstimators</compoundname>
+    <innerfile refid="FloatingBaseEstimators_8h">FloatingBaseEstimators.h</innerfile>
+    <innerfile refid="bindings_2python_2FloatingBaseEstimators_2include_2BipedalLocomotion_2bindings_2FloatingBaseEstimators_2LeggedOdometry_8h">LeggedOdometry.h</innerfile>
+    <innerfile refid="bindings_2python_2FloatingBaseEstimators_2include_2BipedalLocomotion_2bindings_2FloatingBaseEstimators_2Module_8h">Module.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/FloatingBaseEstimators/"/>
+  </compounddef>
+</doxygen>

@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::TSID::SO3Task" name="BipedalLocomotion::TSID::SO3Task">
-<area shape="rect" id="node1" title="SO3Task is a concrete implementation of the System::LinearTask." alt="" coords="5,95,160,136"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1LinearTask.html" title="LinearTask describes a Linear Task element." alt="" coords="5,5,160,47"/>
-</map>

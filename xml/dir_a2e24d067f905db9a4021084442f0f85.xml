@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_a2e24d067f905db9a4021084442f0f85" kind="dir">
+    <compoundname>BipedalLocomotion/JointTrajectoryPlayer</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2utilities_2joint-trajectory-player_2include_2BipedalLocomoti64d55ee085fb32c76afc7b7274523f38">Module.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/JointTrajectoryPlayer/"/>
+  </compounddef>
+</doxygen>

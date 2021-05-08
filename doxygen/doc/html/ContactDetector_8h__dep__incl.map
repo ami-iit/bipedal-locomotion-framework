@@ -1,8 +1,0 @@
-<map id="Contacts/include/BipedalLocomotion/ContactDetectors/ContactDetector.h" name="Contacts/include/BipedalLocomotion/ContactDetectors/ContactDetector.h">
-<area shape="rect" id="node1" title=" " alt="" coords="270,5,485,61"/>
-<area shape="rect" id="node2" href="$FixedFootDetector_8h.html" title=" " alt="" coords="26,109,241,165"/>
-<area shape="rect" id="node4" href="$SchmittTriggerDetector_8h.html" title=" " alt="" coords="270,109,485,165"/>
-<area shape="rect" id="node6" href="$ContactDetector_8cpp.html" title=" " alt="" coords="509,124,747,151"/>
-<area shape="rect" id="node3" href="$FixedFootDetector_8cpp.html" title=" " alt="" coords="5,221,256,247"/>
-<area shape="rect" id="node5" href="$SchmittTriggerDetector_8cpp.html" title=" " alt="" coords="280,213,480,255"/>
-</map>

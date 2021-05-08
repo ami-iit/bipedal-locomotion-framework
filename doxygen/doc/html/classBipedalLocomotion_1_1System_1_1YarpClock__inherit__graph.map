@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::System::YarpClock" name="BipedalLocomotion::System::YarpClock">
-<area shape="rect" id="node1" title="YarpClock implements the IClock interface using yarp functions." alt="" coords="5,95,160,136"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1IClock.html" title="IClock is the interface to the clock." alt="" coords="5,5,160,47"/>
-</map>

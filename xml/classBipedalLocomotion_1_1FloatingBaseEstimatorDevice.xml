@@ -1,0 +1,1357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::FloatingBaseEstimatorDevice</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">yarp::dev::DeviceDriver</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::dev::IMultipleWrapper</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::os::PeriodicThread</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::dev::DeviceDriver</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::dev::IMultipleWrapper</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::os::PeriodicThread</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a44e48e67f6d2e89b55084a5fe54edd73" prot="public" static="no" mutable="no">
+        <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt;</type>
+        <definition>yarp::os::BufferedPort&lt;yarp::sig::Vector&gt; BipedalLocomotion::FloatingBaseEstimatorDevice::floatingBaseStatePort</definition>
+        <argsstring></argsstring>
+        <name>floatingBaseStatePort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="72" column="32" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a761b4d3e2c3790e2fd9cdd502e40b553" prot="public" static="no" mutable="no">
+        <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt;</type>
+        <definition>yarp::os::BufferedPort&lt;yarp::sig::Vector&gt; BipedalLocomotion::FloatingBaseEstimatorDevice::internalStateAndStdDevPort</definition>
+        <argsstring></argsstring>
+        <name>internalStateAndStdDevPort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="73" column="32" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5d28ae26a88bf443095d28670b777c77" prot="public" static="no" mutable="no">
+        <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt;</type>
+        <definition>yarp::os::BufferedPort&lt;yarp::sig::Vector&gt; BipedalLocomotion::FloatingBaseEstimatorDevice::contactStatePort</definition>
+        <argsstring></argsstring>
+        <name>contactStatePort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="74" column="32" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a98df7acbe072c5db9144277423ce79cf" prot="private" static="no" mutable="no">
+        <type>struct BipedalLocomotion::FloatingBaseEstimatorDevice::@0</type>
+        <definition>struct BipedalLocomotion::FloatingBaseEstimatorDevice::@0 BipedalLocomotion::FloatingBaseEstimatorDevice::m_comms</definition>
+        <argsstring></argsstring>
+        <name>m_comms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a912bc36ef27213593e86b5f7e21dba11" prot="private" static="no" mutable="no">
+        <type>iDynTree::Model</type>
+        <definition>iDynTree::Model BipedalLocomotion::FloatingBaseEstimatorDevice::m_model</definition>
+        <argsstring></argsstring>
+        <name>m_model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="77" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae0ff951c45e19b0a68c35fcabd30e6fa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" kindref="compound">BipedalLocomotion::RobotInterface::YarpSensorBridge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; BipedalLocomotion::RobotInterface::YarpSensorBridge &gt; BipedalLocomotion::FloatingBaseEstimatorDevice::m_robotSensorBridge</definition>
+        <argsstring></argsstring>
+        <name>m_robotSensorBridge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="78" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aec293899cbc195b6d3b67dd57000a72e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator" kindref="compound">BipedalLocomotion::Estimators::FloatingBaseEstimator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; BipedalLocomotion::Estimators::FloatingBaseEstimator &gt; BipedalLocomotion::FloatingBaseEstimatorDevice::m_estimator</definition>
+        <argsstring></argsstring>
+        <name>m_estimator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="79" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a46e65878dc150099dec3e657475663bb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; iDynTree::ContactStateMachine &gt;</type>
+        <definition>std::unique_ptr&lt; iDynTree::ContactStateMachine &gt; BipedalLocomotion::FloatingBaseEstimatorDevice::m_lFootCSM</definition>
+        <argsstring></argsstring>
+        <name>m_lFootCSM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="80" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a11e40f01912a2fb30773117d5fc81960" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; iDynTree::ContactStateMachine &gt;</type>
+        <definition>std::unique_ptr&lt; iDynTree::ContactStateMachine &gt; BipedalLocomotion::FloatingBaseEstimatorDevice::m_rFootCSM</definition>
+        <argsstring></argsstring>
+        <name>m_rFootCSM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="80" column="32" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a0d051d908f5356a35208eea794780261" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::m_currentlFootState</definition>
+        <argsstring></argsstring>
+        <name>m_currentlFootState</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="81" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a73aea620686d855357c114678e612237" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::m_currentrFootState</definition>
+        <argsstring></argsstring>
+        <name>m_currentrFootState</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="81" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a6d69ea1da162af6260090c8c313c8450" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::FloatingBaseEstimatorDevice::m_currentlContactNormal</definition>
+        <argsstring></argsstring>
+        <name>m_currentlContactNormal</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="82" column="12" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae06ab77a3488c27e5ddd5717c9815477" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::FloatingBaseEstimatorDevice::m_currentrContactNormal</definition>
+        <argsstring></argsstring>
+        <name>m_currentrContactNormal</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="82" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a19bc01c20c550e04264a2d7cab6cf9c7" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex BipedalLocomotion::FloatingBaseEstimatorDevice::m_deviceMutex</definition>
+        <argsstring></argsstring>
+        <name>m_deviceMutex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="83" column="16" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5ce0337efc6e14a069cf81fbaba7d068" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_portPrefix</definition>
+        <argsstring></argsstring>
+        <name>m_portPrefix</name>
+        <initializer>{&quot;/base-estimator&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="84" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af8dd403ee5f3014bdfb566dbf6b40838" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_robot</definition>
+        <argsstring></argsstring>
+        <name>m_robot</name>
+        <initializer>{&quot;icubSim&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="85" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abf59a6c8908d89b37b27f29ea14a6d96" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_estimatorType</definition>
+        <argsstring></argsstring>
+        <name>m_estimatorType</name>
+        <initializer>{&quot;InvEKF&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="86" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f1b5eb97f8e4c5b65fba2b467bd6100" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_baseLinkImuName</definition>
+        <argsstring></argsstring>
+        <name>m_baseLinkImuName</name>
+        <initializer>{&quot;root_link_imu_acc&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="87" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a09161cbb568e08915d8219075e0a03a7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_leftFootWrenchName</definition>
+        <argsstring></argsstring>
+        <name>m_leftFootWrenchName</name>
+        <initializer>{&quot;left_foot_cartesian_wrench&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="88" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aea4126a5181c12289297687141ea16a1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::FloatingBaseEstimatorDevice::m_rightFootWrenchName</definition>
+        <argsstring></argsstring>
+        <name>m_rightFootWrenchName</name>
+        <initializer>{&quot;right_foot_cartesian_wrench&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="89" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4aa09cc3948a67252830c80313fbfd9b" prot="private" static="no" mutable="no">
+        <type>yarp::dev::PolyDriver</type>
+        <definition>yarp::dev::PolyDriver BipedalLocomotion::FloatingBaseEstimatorDevice::m_transformBroadcaster</definition>
+        <argsstring></argsstring>
+        <name>m_transformBroadcaster</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="91" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4fc8e98febbf378406c47691aaea9b8e" prot="private" static="no" mutable="no">
+        <type>yarp::dev::IFrameTransform *</type>
+        <definition>yarp::dev::IFrameTransform * BipedalLocomotion::FloatingBaseEstimatorDevice::m_transformInterface</definition>
+        <argsstring></argsstring>
+        <name>m_transformInterface</name>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="92" column="32" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a40a06631aac63c6c359fb222e4cffe88" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::m_publishROSTF</definition>
+        <argsstring></argsstring>
+        <name>m_publishROSTF</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="93" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad2a3f3a5dc6ac5b6cb74084c5068fec9" prot="private" static="no" mutable="no">
+        <type>struct BipedalLocomotion::FloatingBaseEstimatorDevice::@1</type>
+        <definition>struct BipedalLocomotion::FloatingBaseEstimatorDevice::@1 BipedalLocomotion::FloatingBaseEstimatorDevice::m_comms</definition>
+        <argsstring></argsstring>
+        <name>m_comms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5979d6d25632584ce20e2cd37bfb5ae3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+        <definition>std::shared_ptr&lt;iDynTree::KinDynComputations&gt; BipedalLocomotion::FloatingBaseEstimatorDevice::m_kinDyn</definition>
+        <argsstring></argsstring>
+        <name>m_kinDyn</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="78" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a28c5a663413391eb6a1701358d98cd15" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::FloatingBaseEstimatorDevice::m_basePos</definition>
+        <argsstring></argsstring>
+        <name>m_basePos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="96" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a876e7efa3d8498223d8c985424ad36d9" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::FloatingBaseEstimatorDevice::m_baseRPY</definition>
+        <argsstring></argsstring>
+        <name>m_baseRPY</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="97" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a82f876d5013773e568dcb20c57e419e2" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::FloatingBaseEstimatorDevice::m_baseLinearVel</definition>
+        <argsstring></argsstring>
+        <name>m_baseLinearVel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="98" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ab8c62fa2c036b670771d58d945ff16b2" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::FloatingBaseEstimatorDevice::m_baseAngularVel</definition>
+        <argsstring></argsstring>
+        <name>m_baseAngularVel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="99" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa2447750a349af1a12f9aa62e2409ac1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::FloatingBaseEstimatorDevice</definition>
+        <argsstring>(double period, yarp::os::ShouldUseSystemClock useSystemClock=yarp::os::ShouldUseSystemClock::No)</argsstring>
+        <name>FloatingBaseEstimatorDevice</name>
+        <param>
+          <type>double</type>
+          <declname>period</declname>
+        </param>
+        <param>
+          <type>yarp::os::ShouldUseSystemClock</type>
+          <declname>useSystemClock</declname>
+          <defval>yarp::os::ShouldUseSystemClock::No</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="37" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af62e5bea12c54130caeec388ddeb62b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::FloatingBaseEstimatorDevice</definition>
+        <argsstring>()</argsstring>
+        <name>FloatingBaseEstimatorDevice</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad150a4727f1746c7b877a3ed5aa842cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::~FloatingBaseEstimatorDevice</definition>
+        <argsstring>()</argsstring>
+        <name>~FloatingBaseEstimatorDevice</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae742bc32d4ff8844382762db0cf59bb3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::open</definition>
+        <argsstring>(yarp::os::Searchable &amp;config) final</argsstring>
+        <name>open</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5309e4513f04a710e12e8d4bd74eea33" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::close</definition>
+        <argsstring>() final</argsstring>
+        <name>close</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="42" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a1a511294297ff0cd6a416ed2808bfdbb" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::attachAll</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;poly) final</argsstring>
+        <name>attachAll</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>poly</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a54dc197e189b8901de03a80a4fd79a6c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::detachAll</definition>
+        <argsstring>() final</argsstring>
+        <name>detachAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="44" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae425a3f2ef0a6bafb5114a4854c8ae8e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void BipedalLocomotion::FloatingBaseEstimatorDevice::run</definition>
+        <argsstring>() final</argsstring>
+        <name>run</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="45" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa2447750a349af1a12f9aa62e2409ac1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::FloatingBaseEstimatorDevice</definition>
+        <argsstring>(double period, yarp::os::ShouldUseSystemClock useSystemClock=yarp::os::ShouldUseSystemClock::No)</argsstring>
+        <name>FloatingBaseEstimatorDevice</name>
+        <param>
+          <type>double</type>
+          <declname>period</declname>
+        </param>
+        <param>
+          <type>yarp::os::ShouldUseSystemClock</type>
+          <declname>useSystemClock</declname>
+          <defval>yarp::os::ShouldUseSystemClock::No</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="37" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af62e5bea12c54130caeec388ddeb62b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::FloatingBaseEstimatorDevice</definition>
+        <argsstring>()</argsstring>
+        <name>FloatingBaseEstimatorDevice</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad150a4727f1746c7b877a3ed5aa842cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::FloatingBaseEstimatorDevice::~FloatingBaseEstimatorDevice</definition>
+        <argsstring>()</argsstring>
+        <name>~FloatingBaseEstimatorDevice</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae742bc32d4ff8844382762db0cf59bb3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::open</definition>
+        <argsstring>(yarp::os::Searchable &amp;config) final</argsstring>
+        <name>open</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5309e4513f04a710e12e8d4bd74eea33" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::close</definition>
+        <argsstring>() final</argsstring>
+        <name>close</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="42" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a1a511294297ff0cd6a416ed2808bfdbb" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::attachAll</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;poly) final</argsstring>
+        <name>attachAll</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>poly</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a54dc197e189b8901de03a80a4fd79a6c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::FloatingBaseEstimatorDevice::detachAll</definition>
+        <argsstring>() final</argsstring>
+        <name>detachAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="44" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae425a3f2ef0a6bafb5114a4854c8ae8e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void BipedalLocomotion::FloatingBaseEstimatorDevice::run</definition>
+        <argsstring>() final</argsstring>
+        <name>run</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="45" column="18"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af82c61eaaccf7b56e1f55f4205f35d17" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupRobotModel</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupRobotModel</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="48" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4709558600cf2d6da8c3ca3f52a764ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupRobotSensorBridge</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupRobotSensorBridge</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="49" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa51b844d013f09dea10987a0c13cc1d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupFeetContactStateMachines</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupFeetContactStateMachines</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="50" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f49afe5fcf432e620efe67d351ef711" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::parseFootSchmittParams</definition>
+        <argsstring>(yarp::os::Searchable &amp;config, iDynTree::SchmittParams &amp;params)</argsstring>
+        <name>parseFootSchmittParams</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>iDynTree::SchmittParams &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="51" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a53430bd6ce74bf5f533e35b8df0506b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupBaseEstimator</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupBaseEstimator</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="52" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abfd1dd5ea4ae2cb3922e68f76e370cc0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::loadTransformBroadcaster</definition>
+        <argsstring>()</argsstring>
+        <name>loadTransformBroadcaster</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="53" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae5c3081a9c312e4f672a954a103bc06c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateMeasurements</definition>
+        <argsstring>()</argsstring>
+        <name>updateMeasurements</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="54" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a49b0b285b6f8ec9efdfa72475e0037d2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateInertialBuffers</definition>
+        <argsstring>()</argsstring>
+        <name>updateInertialBuffers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="55" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a608b04e8e0d4786289565d5c1d4747b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateContactStates</definition>
+        <argsstring>()</argsstring>
+        <name>updateContactStates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="56" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4eaf6ab28c37e32865fcfe17f9282cac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateKinematics</definition>
+        <argsstring>()</argsstring>
+        <name>updateKinematics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="57" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aee1e82dd5fdfea834b1745ebba38c4af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publish</definition>
+        <argsstring>()</argsstring>
+        <name>publish</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="59" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac0564eebb44d25fca790c3aa8bd2de6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishBaseLinkState</definition>
+        <argsstring>(const BipedalLocomotion::Estimators::FloatingBaseEstimators::Output &amp;out)</argsstring>
+        <name>publishBaseLinkState</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="60" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad9ac5bf329d6319a829da4cadf913713" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishInternalStateAndStdDev</definition>
+        <argsstring>(const BipedalLocomotion::Estimators::FloatingBaseEstimators::Output &amp;out)</argsstring>
+        <name>publishInternalStateAndStdDev</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="61" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a985ab8141402a9547bdb2fe616ba114d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishFootContactStatesAndNormalForces</definition>
+        <argsstring>()</argsstring>
+        <name>publishFootContactStatesAndNormalForces</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="62" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac772d26416b1a40a862eb09dcbf1844f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::openCommunications</definition>
+        <argsstring>()</argsstring>
+        <name>openCommunications</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="63" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abae540dbbbd6ca83ba3d3bb4164dc8ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::closeCommunications</definition>
+        <argsstring>()</argsstring>
+        <name>closeCommunications</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="64" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8feef60d92d808937129d30571301fbd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::openBufferedSigPort</definition>
+        <argsstring>(yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;port, const std::string &amp;portPrefix, const std::string &amp;address)</argsstring>
+        <name>openBufferedSigPort</name>
+        <param>
+          <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>portPrefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a115d0d573995d19cedfdb203d8e199f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::closeBufferedSigPort</definition>
+        <argsstring>(yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;port)</argsstring>
+        <name>closeBufferedSigPort</name>
+        <param>
+          <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="68" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af82c61eaaccf7b56e1f55f4205f35d17" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupRobotModel</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupRobotModel</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="48" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4709558600cf2d6da8c3ca3f52a764ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupRobotSensorBridge</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupRobotSensorBridge</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="49" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa51b844d013f09dea10987a0c13cc1d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupFeetContactStateMachines</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupFeetContactStateMachines</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="50" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f49afe5fcf432e620efe67d351ef711" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::parseFootSchmittParams</definition>
+        <argsstring>(yarp::os::Searchable &amp;config, iDynTree::SchmittParams &amp;params)</argsstring>
+        <name>parseFootSchmittParams</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>iDynTree::SchmittParams &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="51" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a53430bd6ce74bf5f533e35b8df0506b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::setupBaseEstimator</definition>
+        <argsstring>(yarp::os::Searchable &amp;config)</argsstring>
+        <name>setupBaseEstimator</name>
+        <param>
+          <type>yarp::os::Searchable &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="52" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abfd1dd5ea4ae2cb3922e68f76e370cc0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::loadTransformBroadcaster</definition>
+        <argsstring>()</argsstring>
+        <name>loadTransformBroadcaster</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="53" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae5c3081a9c312e4f672a954a103bc06c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateMeasurements</definition>
+        <argsstring>()</argsstring>
+        <name>updateMeasurements</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="54" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a49b0b285b6f8ec9efdfa72475e0037d2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateInertialBuffers</definition>
+        <argsstring>()</argsstring>
+        <name>updateInertialBuffers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="55" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a608b04e8e0d4786289565d5c1d4747b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateContactStates</definition>
+        <argsstring>()</argsstring>
+        <name>updateContactStates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="56" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4eaf6ab28c37e32865fcfe17f9282cac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::updateKinematics</definition>
+        <argsstring>()</argsstring>
+        <name>updateKinematics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="57" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aee1e82dd5fdfea834b1745ebba38c4af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publish</definition>
+        <argsstring>()</argsstring>
+        <name>publish</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="59" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac0564eebb44d25fca790c3aa8bd2de6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishBaseLinkState</definition>
+        <argsstring>(const BipedalLocomotion::Estimators::FloatingBaseEstimators::Output &amp;out)</argsstring>
+        <name>publishBaseLinkState</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="60" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad9ac5bf329d6319a829da4cadf913713" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishInternalStateAndStdDev</definition>
+        <argsstring>(const BipedalLocomotion::Estimators::FloatingBaseEstimators::Output &amp;out)</argsstring>
+        <name>publishInternalStateAndStdDev</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="61" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a985ab8141402a9547bdb2fe616ba114d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::publishFootContactStatesAndNormalForces</definition>
+        <argsstring>()</argsstring>
+        <name>publishFootContactStatesAndNormalForces</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="62" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac772d26416b1a40a862eb09dcbf1844f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::openCommunications</definition>
+        <argsstring>()</argsstring>
+        <name>openCommunications</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="63" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abae540dbbbd6ca83ba3d3bb4164dc8ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::closeCommunications</definition>
+        <argsstring>()</argsstring>
+        <name>closeCommunications</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="64" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8feef60d92d808937129d30571301fbd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::FloatingBaseEstimatorDevice::openBufferedSigPort</definition>
+        <argsstring>(yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;port, const std::string &amp;portPrefix, const std::string &amp;address)</argsstring>
+        <name>openBufferedSigPort</name>
+        <param>
+          <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>portPrefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a115d0d573995d19cedfdb203d8e199f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::FloatingBaseEstimatorDevice::closeBufferedSigPort</definition>
+        <argsstring>(yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;port)</argsstring>
+        <name>closeBufferedSigPort</name>
+        <param>
+          <type>yarp::os::BufferedPort&lt; yarp::sig::Vector &gt; &amp;</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="68" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>yarp::dev::IMultipleWrapper</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::FloatingBaseEstimatorDevice</label>
+        <link refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>yarp::os::PeriodicThread</label>
+      </node>
+      <node id="2">
+        <label>yarp::dev::DeviceDriver</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>yarp::dev::IMultipleWrapper</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::FloatingBaseEstimatorDevice</label>
+        <link refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>yarp::os::PeriodicThread</label>
+      </node>
+      <node id="2">
+        <label>yarp::dev::DeviceDriver</label>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h" line="32" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimatorDevice.h" bodystart="35" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a1a511294297ff0cd6a416ed2808bfdbb" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>attachAll</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a1a511294297ff0cd6a416ed2808bfdbb" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>attachAll</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5309e4513f04a710e12e8d4bd74eea33" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5309e4513f04a710e12e8d4bd74eea33" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a115d0d573995d19cedfdb203d8e199f4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>closeBufferedSigPort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a115d0d573995d19cedfdb203d8e199f4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>closeBufferedSigPort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abae540dbbbd6ca83ba3d3bb4164dc8ad" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>closeCommunications</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abae540dbbbd6ca83ba3d3bb4164dc8ad" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>closeCommunications</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5d28ae26a88bf443095d28670b777c77" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>contactStatePort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a54dc197e189b8901de03a80a4fd79a6c" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>detachAll</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a54dc197e189b8901de03a80a4fd79a6c" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>detachAll</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa2447750a349af1a12f9aa62e2409ac1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>FloatingBaseEstimatorDevice</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af62e5bea12c54130caeec388ddeb62b7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>FloatingBaseEstimatorDevice</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa2447750a349af1a12f9aa62e2409ac1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>FloatingBaseEstimatorDevice</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af62e5bea12c54130caeec388ddeb62b7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>FloatingBaseEstimatorDevice</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a44e48e67f6d2e89b55084a5fe54edd73" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>floatingBaseStatePort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a761b4d3e2c3790e2fd9cdd502e40b553" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>internalStateAndStdDevPort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abfd1dd5ea4ae2cb3922e68f76e370cc0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>loadTransformBroadcaster</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abfd1dd5ea4ae2cb3922e68f76e370cc0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>loadTransformBroadcaster</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ab8c62fa2c036b670771d58d945ff16b2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_baseAngularVel</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a82f876d5013773e568dcb20c57e419e2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_baseLinearVel</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f1b5eb97f8e4c5b65fba2b467bd6100" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_baseLinkImuName</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a28c5a663413391eb6a1701358d98cd15" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_basePos</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a876e7efa3d8498223d8c985424ad36d9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_baseRPY</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a98df7acbe072c5db9144277423ce79cf" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_comms</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad2a3f3a5dc6ac5b6cb74084c5068fec9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_comms</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a6d69ea1da162af6260090c8c313c8450" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_currentlContactNormal</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a0d051d908f5356a35208eea794780261" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_currentlFootState</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae06ab77a3488c27e5ddd5717c9815477" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_currentrContactNormal</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a73aea620686d855357c114678e612237" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_currentrFootState</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a19bc01c20c550e04264a2d7cab6cf9c7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_deviceMutex</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aec293899cbc195b6d3b67dd57000a72e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_estimator</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abf59a6c8908d89b37b27f29ea14a6d96" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_estimatorType</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5979d6d25632584ce20e2cd37bfb5ae3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_kinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a09161cbb568e08915d8219075e0a03a7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_leftFootWrenchName</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a46e65878dc150099dec3e657475663bb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_lFootCSM</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a912bc36ef27213593e86b5f7e21dba11" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_model</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5ce0337efc6e14a069cf81fbaba7d068" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_portPrefix</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a40a06631aac63c6c359fb222e4cffe88" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_publishROSTF</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a11e40f01912a2fb30773117d5fc81960" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_rFootCSM</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aea4126a5181c12289297687141ea16a1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_rightFootWrenchName</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af8dd403ee5f3014bdfb566dbf6b40838" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_robot</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae0ff951c45e19b0a68c35fcabd30e6fa" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_robotSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4aa09cc3948a67252830c80313fbfd9b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_transformBroadcaster</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4fc8e98febbf378406c47691aaea9b8e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>m_transformInterface</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae742bc32d4ff8844382762db0cf59bb3" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>open</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae742bc32d4ff8844382762db0cf59bb3" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>open</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8feef60d92d808937129d30571301fbd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>openBufferedSigPort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8feef60d92d808937129d30571301fbd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>openBufferedSigPort</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac772d26416b1a40a862eb09dcbf1844f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>openCommunications</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac772d26416b1a40a862eb09dcbf1844f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>openCommunications</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f49afe5fcf432e620efe67d351ef711" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>parseFootSchmittParams</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f49afe5fcf432e620efe67d351ef711" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>parseFootSchmittParams</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aee1e82dd5fdfea834b1745ebba38c4af" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publish</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aee1e82dd5fdfea834b1745ebba38c4af" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publish</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac0564eebb44d25fca790c3aa8bd2de6a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishBaseLinkState</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac0564eebb44d25fca790c3aa8bd2de6a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishBaseLinkState</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a985ab8141402a9547bdb2fe616ba114d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishFootContactStatesAndNormalForces</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a985ab8141402a9547bdb2fe616ba114d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishFootContactStatesAndNormalForces</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad9ac5bf329d6319a829da4cadf913713" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishInternalStateAndStdDev</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad9ac5bf329d6319a829da4cadf913713" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>publishInternalStateAndStdDev</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae425a3f2ef0a6bafb5114a4854c8ae8e" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>run</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae425a3f2ef0a6bafb5114a4854c8ae8e" prot="public" virt="virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>run</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a53430bd6ce74bf5f533e35b8df0506b1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupBaseEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a53430bd6ce74bf5f533e35b8df0506b1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupBaseEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa51b844d013f09dea10987a0c13cc1d7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupFeetContactStateMachines</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa51b844d013f09dea10987a0c13cc1d7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupFeetContactStateMachines</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af82c61eaaccf7b56e1f55f4205f35d17" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupRobotModel</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af82c61eaaccf7b56e1f55f4205f35d17" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupRobotModel</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4709558600cf2d6da8c3ca3f52a764ba" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupRobotSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4709558600cf2d6da8c3ca3f52a764ba" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>setupRobotSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a608b04e8e0d4786289565d5c1d4747b6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateContactStates</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a608b04e8e0d4786289565d5c1d4747b6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateContactStates</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a49b0b285b6f8ec9efdfa72475e0037d2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateInertialBuffers</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a49b0b285b6f8ec9efdfa72475e0037d2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateInertialBuffers</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4eaf6ab28c37e32865fcfe17f9282cac" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateKinematics</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4eaf6ab28c37e32865fcfe17f9282cac" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateKinematics</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae5c3081a9c312e4f672a954a103bc06c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateMeasurements</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae5c3081a9c312e4f672a954a103bc06c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>updateMeasurements</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad150a4727f1746c7b877a3ed5aa842cf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>~FloatingBaseEstimatorDevice</name></member>
+      <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad150a4727f1746c7b877a3ed5aa842cf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::FloatingBaseEstimatorDevice</scope><name>~FloatingBaseEstimatorDevice</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

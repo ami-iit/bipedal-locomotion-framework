@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="RobotControl_8h" kind="file" language="C++">
+    <compoundname>RobotControl.h</compoundname>
+    <includes local="no">pybind11/pybind11.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>pybind11/pybind11.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/bindings/RobotInterface/RobotControl.h</label>
+        <link refid="RobotControl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings">BipedalLocomotion::bindings</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1bindings_1_1RobotInterface">BipedalLocomotion::bindings::RobotInterface</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Giulio Romualdi </para>
+</simplesect>
+<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/RobotInterface/RobotControl.h"/>
+  </compounddef>
+</doxygen>

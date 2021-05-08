@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIRelatedCompound" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IRelatedCompound</compoundname>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Protection</name>
+        <enumvalue id="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709aabfdc7d0e744cd507cdc5c6e1d813266" prot="public">
+          <name>Public</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709aedc6702ec27d2fde94e77a688df68691" prot="public">
+          <name>Protected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709a4872939f58990f6e794201920e6c603d" prot="public">
+          <name>Private</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="945" column="5" bodyfile="doxmlintf.h" bodystart="945" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="enum" id="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Kind</name>
+        <enumvalue id="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363a2b4172b0e338fdb261b6e05fef99012a" prot="public">
+          <name>Normal</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363af14fde96e82afbb53810bc8c77fe8e13" prot="public">
+          <name>Virtual</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="946" column="5" bodyfile="doxmlintf.h" bodystart="946" bodyend="946"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIRelatedCompound_1a81bf8516e2502f8a21d5004c19f3e73d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classICompound" kindref="compound">ICompound</ref> *</type>
+        <definition>virtual ICompound* IRelatedCompound::compound</definition>
+        <argsstring>() const =0</argsstring>
+        <name>compound</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="947" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classIRelatedCompound_1ab68e4040e3d77d60cce7dd97b788c867" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Protection</type>
+        <definition>virtual Protection IRelatedCompound::protection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>protection</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="948" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classIRelatedCompound_1aac173393a82a87f8139459c1c0e9c138" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Kind</type>
+        <definition>virtual Kind IRelatedCompound::kind</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="949" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIRelatedCompound_1a9d3880ea4da5a8f55ecf30eac948470c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IRelatedCompound::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="950" column="27"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="941" column="1" bodyfile="doxmlintf.h" bodystart="942" bodyend="952"/>
+    <listofallmembers>
+      <member refid="classIRelatedCompound_1a81bf8516e2502f8a21d5004c19f3e73d" prot="public" virt="pure-virtual"><scope>IRelatedCompound</scope><name>compound</name></member>
+      <member refid="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Kind</name></member>
+      <member refid="classIRelatedCompound_1aac173393a82a87f8139459c1c0e9c138" prot="public" virt="pure-virtual"><scope>IRelatedCompound</scope><name>kind</name></member>
+      <member refid="classIRelatedCompound_1a9d3880ea4da5a8f55ecf30eac948470c" prot="public" virt="pure-virtual"><scope>IRelatedCompound</scope><name>name</name></member>
+      <member refid="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363a2b4172b0e338fdb261b6e05fef99012a" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Normal</name></member>
+      <member refid="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709a4872939f58990f6e794201920e6c603d" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Private</name></member>
+      <member refid="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709aedc6702ec27d2fde94e77a688df68691" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Protected</name></member>
+      <member refid="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Protection</name></member>
+      <member refid="classIRelatedCompound_1ab68e4040e3d77d60cce7dd97b788c867" prot="public" virt="pure-virtual"><scope>IRelatedCompound</scope><name>protection</name></member>
+      <member refid="classIRelatedCompound_1ac12e6e12784095cde8962012102e9709aabfdc7d0e744cd507cdc5c6e1d813266" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Public</name></member>
+      <member refid="classIRelatedCompound_1a70abfb2e64571aa06b83bd7da0888363af14fde96e82afbb53810bc8c77fe8e13" prot="public" virt="non-virtual"><scope>IRelatedCompound</scope><name>Virtual</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

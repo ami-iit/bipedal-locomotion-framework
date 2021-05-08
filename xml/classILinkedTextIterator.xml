@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classILinkedTextIterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ILinkedTextIterator</compoundname>
+    <includes local="no">doxmlintf.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classILinkedTextIterator_1aa08006b03a45fb041643f3e800a824b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedText" kindref="compound">ILinkedText</ref> *</type>
+        <definition>virtual ILinkedText* ILinkedTextIterator::toFirst</definition>
+        <argsstring>()=0</argsstring>
+        <name>toFirst</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="101" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classILinkedTextIterator_1a1b6a262c370835c034d683f62e9cc874" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedText" kindref="compound">ILinkedText</ref> *</type>
+        <definition>virtual ILinkedText* ILinkedTextIterator::toLast</definition>
+        <argsstring>()=0</argsstring>
+        <name>toLast</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="102" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classILinkedTextIterator_1abf50d307500a5eac81ba9490798efa0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedText" kindref="compound">ILinkedText</ref> *</type>
+        <definition>virtual ILinkedText* ILinkedTextIterator::toNext</definition>
+        <argsstring>()=0</argsstring>
+        <name>toNext</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="103" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classILinkedTextIterator_1a201eb64f1c748ada8a8caefe8b8b88f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedText" kindref="compound">ILinkedText</ref> *</type>
+        <definition>virtual ILinkedText* ILinkedTextIterator::toPrev</definition>
+        <argsstring>()=0</argsstring>
+        <name>toPrev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="104" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classILinkedTextIterator_1a2021ae332e83cd86a63b83175532a01f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classILinkedText" kindref="compound">ILinkedText</ref> *</type>
+        <definition>virtual ILinkedText* ILinkedTextIterator::current</definition>
+        <argsstring>() const =0</argsstring>
+        <name>current</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="105" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classILinkedTextIterator_1a843587325f105cf1a7e1341b6aa9e5d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ILinkedTextIterator::release</definition>
+        <argsstring>()=0</argsstring>
+        <name>release</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="106" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Iterates over a list of <ref refid="classILinkedText" kindref="compound">ILinkedText</ref> fragments. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="97" column="1" bodyfile="doxmlintf.h" bodystart="98" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classILinkedTextIterator_1a2021ae332e83cd86a63b83175532a01f" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>current</name></member>
+      <member refid="classILinkedTextIterator_1a843587325f105cf1a7e1341b6aa9e5d8" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>release</name></member>
+      <member refid="classILinkedTextIterator_1aa08006b03a45fb041643f3e800a824b1" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>toFirst</name></member>
+      <member refid="classILinkedTextIterator_1a1b6a262c370835c034d683f62e9cc874" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>toLast</name></member>
+      <member refid="classILinkedTextIterator_1abf50d307500a5eac81ba9490798efa0f" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>toNext</name></member>
+      <member refid="classILinkedTextIterator_1a201eb64f1c748ada8a8caefe8b8b88f1" prot="public" virt="pure-virtual"><scope>ILinkedTextIterator</scope><name>toPrev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

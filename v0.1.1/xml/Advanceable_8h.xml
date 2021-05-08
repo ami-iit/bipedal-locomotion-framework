@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="Advanceable_8h" kind="file" language="C++">
+    <compoundname>Advanceable.h</compoundname>
+    <includedby refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includedby>
+    <includedby refid="ContactDetector_8h" local="no">BipedalLocomotion/ContactDetectors/ContactDetector.h</includedby>
+    <includedby refid="RecursiveLeastSquare_8h" local="no">BipedalLocomotion/Estimators/RecursiveLeastSquare.h</includedby>
+    <includedby refid="FloatingBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includedby>
+    <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
+    <includedby refid="QuinticSpline_8h" local="no">BipedalLocomotion/Planners/QuinticSpline.h</includedby>
+    <includedby refid="SO3Planner_8h" local="no">BipedalLocomotion/Planners/SO3Planner.h</includedby>
+    <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
+    <invincdepgraph>
+      <node id="14">
+        <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
+        <link refid="QuinticSpline_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/Estimators/RecursiveLeastSquare.h</label>
+        <link refid="RecursiveLeastSquare_8h"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridge.h</label>
+        <link refid="YarpSensorBridge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
+        <link refid="YarpSensorBridgeImpl_8h"/>
+      </node>
+      <node id="16">
+        <label>BipedalLocomotion/Planners/SO3Planner.h</label>
+        <link refid="SO3Planner_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/FloatingBaseEstimatorDevice.h</label>
+        <link refid="FloatingBaseEstimatorDevice_8h"/>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
+        <link refid="DCMPlanner_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/System/Advanceable.h</label>
+        <link refid="Advanceable_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion/JointTrajectoryPlayer/Module.h</label>
+        <link refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h"/>
+      </node>
+      <node id="11">
+        <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
+        <link refid="InvariantEKFBaseEstimator_8h"/>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
+        <link refid="FloatingBaseEstimator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/JointPositionTracking/Module.h</label>
+        <link refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h"/>
+      </node>
+      <node id="13">
+        <label>BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</label>
+        <link refid="TimeVaryingDCMPlanner_8h"/>
+      </node>
+      <node id="15">
+        <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
+        <link refid="SwingFootPlanner_8h"/>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
+        <link refid="ContactDetector_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
+        <link refid="SchmittTriggerDetector_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Stefano Dafarra </para>
+</simplesect>
+<simplesect kind="copyright"><para>2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/System/Advanceable.h"/>
+  </compounddef>
+</doxygen>

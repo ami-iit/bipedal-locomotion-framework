@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/gh-pages/doxygen/tags/cppreference-doxygen-web.tag.xml$cpp/types/integral_constant.html" title=" " alt="" coords="5,115,124,142"/>
-<area shape="rect" id="node2" href="$structBipedalLocomotion_1_1GenericContainer_1_1is__span__constructible.html" title="is_span_constructible is a utility metafunction to check if iDynTree::Span is constructible given a r..." alt="" coords="195,5,357,76"/>
-<area shape="rect" id="node3" href="$structBipedalLocomotion_1_1GenericContainer_1_1is__vector.html" title="is_vector is a utility metafunction used to check if T is a GenericContainer::Vector." alt="" coords="199,101,353,157"/>
-<area shape="rect" id="node4" href="$structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible.html" title="is_vector_constructible is a utility metafunction to check if GenericContainer::Vector is constructib..." alt="" coords="172,181,380,252"/>
-</map>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_a917e6bf87f4cf6a2263414a534d1453" kind="dir">
+    <compoundname>BipedalLocomotion</compoundname>
+    <innerdir refid="dir_22be0dbea0ea25d35fa9f2d7de48eca3">BipedalLocomotion/ContactModels</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/"/>
+  </compounddef>
+</doxygen>

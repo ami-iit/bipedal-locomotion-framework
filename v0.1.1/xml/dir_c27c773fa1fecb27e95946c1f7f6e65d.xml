@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_c27c773fa1fecb27e95946c1f7f6e65d" kind="dir">
+    <compoundname>BipedalLocomotion/JointPositionTracking</compoundname>
+    <innerfile refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h">Module.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/JointPositionTracking/"/>
+  </compounddef>
+</doxygen>

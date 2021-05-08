@@ -1,5 +1,0 @@
-<map id="BipedalLocomotion::System::Sink&lt; Input &gt;" name="BipedalLocomotion::System::Sink&lt; Input &gt;">
-<area shape="rect" id="node1" title="Sink is a template specialization of Advanceable and represents a block that does not contains output..." alt="" coords="7,229,178,271"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="5,124,180,180"/>
-<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title="Basic class that represents a discrete system." alt="" coords="11,5,174,61"/>
-</map>

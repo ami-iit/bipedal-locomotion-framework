@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="utilities_2mas-imu-test_2include_2BipedalLocomotion_2MasImuTest_8h" kind="file" language="C++">
+    <compoundname>MasImuTest.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">yarp/os/RFModule.h</includes>
+    <includes local="no">yarp/dev/PolyDriver.h</includes>
+    <includes local="no">yarp/os/Property.h</includes>
+    <includes local="no">yarp/dev/MultipleAnalogSensorsInterfaces.h</includes>
+    <includes local="no">yarp/dev/IEncodersTimed.h</includes>
+    <includes local="no">iDynTree/Model/Model.h</includes>
+    <includes local="no">iDynTree/Model/Traversal.h</includes>
+    <includes local="no">iDynTree/Core/Rotation.h</includes>
+    <includes local="no">iDynTree/KinDynComputations.h</includes>
+    <includes local="no">iDynTree/Core/VectorDynSize.h</includes>
+    <includes local="no">iDynTree/Core/Transform.h</includes>
+    <includes local="no">Eigen/Core</includes>
+    <includes local="no">matioCpp/matioCpp.h</includes>
+    <includes local="no">thrifts/MasImuTestCommands.h</includes>
+    <includes local="no">BipedalLocomotion/ParametersHandler/YarpImplementation.h</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>BipedalLocomotion/ParametersHandler/YarpImplementation.h</label>
+      </node>
+      <node id="17">
+        <label>matioCpp/matioCpp.h</label>
+      </node>
+      <node id="16">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="8">
+        <label>yarp/dev/MultipleAnalogSensorsInterfaces.h</label>
+      </node>
+      <node id="5">
+        <label>yarp/os/RFModule.h</label>
+      </node>
+      <node id="6">
+        <label>yarp/dev/PolyDriver.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>iDynTree/Model/Traversal.h</label>
+      </node>
+      <node id="12">
+        <label>iDynTree/Core/Rotation.h</label>
+      </node>
+      <node id="13">
+        <label>iDynTree/KinDynComputations.h</label>
+      </node>
+      <node id="10">
+        <label>iDynTree/Model/Model.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+      <node id="7">
+        <label>yarp/os/Property.h</label>
+      </node>
+      <node id="15">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="18">
+        <label>thrifts/MasImuTestCommands.h</label>
+      </node>
+      <node id="14">
+        <label>iDynTree/Core/VectorDynSize.h</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/MasImuTest.h</label>
+        <link refid="utilities_2mas-imu-test_2include_2BipedalLocomotion_2MasImuTest_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>yarp/dev/IEncodersTimed.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1MasImuTest" prot="public">BipedalLocomotion::MasImuTest</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData" prot="private">BipedalLocomotion::MasImuTest::CommonData</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData" prot="private">BipedalLocomotion::MasImuTest::MasImuData</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/MasImuTest.h"/>
+  </compounddef>
+</doxygen>

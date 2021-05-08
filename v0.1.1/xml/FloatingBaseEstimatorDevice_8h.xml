@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="FloatingBaseEstimatorDevice_8h" kind="file" language="C++">
+    <compoundname>FloatingBaseEstimatorDevice.h</compoundname>
+    <includes refid="YarpImplementation_8h" local="no">BipedalLocomotion/ParametersHandler/YarpImplementation.h</includes>
+    <includes refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includes>
+    <includes refid="FloatingBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includes>
+    <includes local="no">iDynTree/Estimation/ContactStateMachine.h</includes>
+    <includes local="no">iDynTree/ModelIO/ModelLoader.h</includes>
+    <includes local="no">yarp/os/PeriodicThread.h</includes>
+    <includes local="no">yarp/dev/DeviceDriver.h</includes>
+    <includes local="no">yarp/dev/Wrapper.h</includes>
+    <includes local="no">yarp/os/ResourceFinder.h</includes>
+    <includes local="no">yarp/dev/IFrameTransform.h</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridge.h</label>
+        <link refid="YarpSensorBridge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>yarp/os/Bottle.h</label>
+      </node>
+      <node id="30">
+        <label>yarp/dev/Wrapper.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/FloatingBaseEstimatorDevice.h</label>
+        <link refid="FloatingBaseEstimatorDevice_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
+        <link refid="FloatingBaseEstimatorIO_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>yarp/os/ResourceFinder.h</label>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>iDynTree/ModelIO/ModelLoader.h</label>
+      </node>
+      <node id="18">
+        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h</label>
+        <link refid="FloatingBaseEstimatorParams_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>yarp/os/Searchable.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>BipedalLocomotion/System/Advanceable.h</label>
+        <link refid="Advanceable_8h"/>
+      </node>
+      <node id="24">
+        <label>iDynTree/Model/JointState.h</label>
+      </node>
+      <node id="11">
+        <label>YarpImplementation.tpp</label>
+      </node>
+      <node id="16">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="17">
+        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
+        <link refid="FloatingBaseEstimator_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>iDynTree/KinDynComputations.h</label>
+      </node>
+      <node id="22">
+        <label>iDynTree/Model/Model.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+      <node id="28">
+        <label>yarp/os/PeriodicThread.h</label>
+      </node>
+      <node id="21">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="13">
+        <label>yarp/dev/PolyDriverList.h</label>
+      </node>
+      <node id="7">
+        <label>yarp/os/Property.h</label>
+      </node>
+      <node id="20">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="29">
+        <label>yarp/dev/DeviceDriver.h</label>
+      </node>
+      <node id="25">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="33">
+        <label>mutex</label>
+      </node>
+      <node id="32">
+        <label>yarp/dev/IFrameTransform.h</label>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion/ParametersHandler/YarpImplementation.h</label>
+        <link refid="YarpImplementation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>BipedalLocomotion/RobotInterface/ISensorBridge.h</label>
+        <link refid="ISensorBridge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="26">
+        <label>iDynTree/Estimation/ContactStateMachine.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice" prot="public">BipedalLocomotion::FloatingBaseEstimatorDevice</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Prashanth Ramadoss </para>
+</simplesect>
+<simplesect kind="copyright"><para>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/FloatingBaseEstimatorDevice.h"/>
+  </compounddef>
+</doxygen>

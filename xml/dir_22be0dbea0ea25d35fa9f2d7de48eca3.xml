@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_22be0dbea0ea25d35fa9f2d7de48eca3" kind="dir">
+    <compoundname>BipedalLocomotion/ContactModels</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContactModel_8h">ContactModel.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContinuousContactModel_8h">ContinuousContactModel.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContactModels/"/>
+  </compounddef>
+</doxygen>

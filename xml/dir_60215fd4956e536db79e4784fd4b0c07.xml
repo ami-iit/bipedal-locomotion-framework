@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_60215fd4956e536db79e4784fd4b0c07" kind="dir">
+    <compoundname>BipedalLocomotion</compoundname>
+    <innerfile refid="devices_2FloatingBaseEstimatorDevice_2include_2BipedalLocomotion_2FloatingBaseEstimatorDevice_8h">FloatingBaseEstimatorDevice.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/"/>
+  </compounddef>
+</doxygen>

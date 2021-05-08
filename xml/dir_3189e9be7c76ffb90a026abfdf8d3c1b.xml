@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_3189e9be7c76ffb90a026abfdf8d3c1b" kind="dir">
+    <compoundname>BipedalLocomotion/System</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2Advanceable_8h">Advanceable.h</innerfile>
+    <innerfile refid="ContactWrench_8h">ContactWrench.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2DynamicalSystem_8h">DynamicalSystem.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
+    <innerfile refid="FloatingBaseSystemDynamics_8h">FloatingBaseSystemDynamics.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2ForwardEuler_8h">ForwardEuler.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2Integrator_8h">Integrator.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2VariablesHandler_8h">VariablesHandler.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/System/"/>
+  </compounddef>
+</doxygen>

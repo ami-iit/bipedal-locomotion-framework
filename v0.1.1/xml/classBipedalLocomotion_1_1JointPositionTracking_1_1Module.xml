@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::JointPositionTracking::Module</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">yarp::os::RFModule</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aeba4f771cb83a511ce9acd2219fdbe50" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointPositionTracking::Module::m_dT</definition>
+        <argsstring></argsstring>
+        <name>m_dT</name>
+        <briefdescription>
+<para>RFModule period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="32" column="12" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6f4fd8c1194b1ffb5753756b248a4c25" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::JointPositionTracking::Module::m_robot</definition>
+        <argsstring></argsstring>
+        <name>m_robot</name>
+        <briefdescription>
+<para>Robot name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="33" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1af0fe4870d9a00500e730f07589a7e42b" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::JointPositionTracking::Module::m_currentJointPos</definition>
+        <argsstring></argsstring>
+        <name>m_currentJointPos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="35" column="21" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6684ab229dec7718347df03efacfff42" prot="private" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">BipedalLocomotion::RobotInterface::PolyDriverDescriptor</ref></type>
+        <definition>BipedalLocomotion::RobotInterface::PolyDriverDescriptor BipedalLocomotion::JointPositionTracking::Module::m_controlBoard</definition>
+        <argsstring></argsstring>
+        <name>m_controlBoard</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="37" column="61" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a93c96a5b79a301c3dfa003e41740cbd7" prot="private" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" kindref="compound">BipedalLocomotion::RobotInterface::YarpRobotControl</ref></type>
+        <definition>BipedalLocomotion::RobotInterface::YarpRobotControl BipedalLocomotion::JointPositionTracking::Module::m_robotControl</definition>
+        <argsstring></argsstring>
+        <name>m_robotControl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="39" column="57" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1acfb3c691a58ae594f1af93a1801f3f3d" prot="private" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" kindref="compound">BipedalLocomotion::RobotInterface::YarpSensorBridge</ref></type>
+        <definition>BipedalLocomotion::RobotInterface::YarpSensorBridge BipedalLocomotion::JointPositionTracking::Module::m_sensorBridge</definition>
+        <argsstring></argsstring>
+        <name>m_sensorBridge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="40" column="57" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a48ab69366d058dc7295936f2d54a7f53" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; BipedalLocomotion::JointPositionTracking::Module::m_setPoints</definition>
+        <argsstring></argsstring>
+        <name>m_setPoints</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="42" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a4d047ef2253519f39ead271fc0bdc0e8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;::const_iterator</type>
+        <definition>std::vector&lt;double&gt;::const_iterator BipedalLocomotion::JointPositionTracking::Module::m_currentSetPoint</definition>
+        <argsstring></argsstring>
+        <name>m_currentSetPoint</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="43" column="34" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aa672c0f953c916b2227a734c161fd4c6" prot="private" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" kindref="compound">BipedalLocomotion::Planners::QuinticSpline</ref></type>
+        <definition>BipedalLocomotion::Planners::QuinticSpline BipedalLocomotion::JointPositionTracking::Module::m_spline</definition>
+        <argsstring></argsstring>
+        <name>m_spline</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="45" column="48" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1d2ea2dfd8b0c29c5b09010585f017d8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; BipedalLocomotion::JointPositionTracking::Module::m_timeKnots</definition>
+        <argsstring></argsstring>
+        <name>m_timeKnots</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="46" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a10731e1bda2656d8e65b97eff5f5c5a6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Eigen::VectorXd &gt;</type>
+        <definition>std::vector&lt;Eigen::VectorXd&gt; BipedalLocomotion::JointPositionTracking::Module::m_trajectoryKnots</definition>
+        <argsstring></argsstring>
+        <name>m_trajectoryKnots</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="47" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1abd7747000a0c235f1008b103898cccdc" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointPositionTracking::Module::m_initTrajectoryTime</definition>
+        <argsstring></argsstring>
+        <name>m_initTrajectoryTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="49" column="12" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab8ae00d2b68d1fe43179dfa89cf63cf3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; BipedalLocomotion::JointPositionTracking::Module::m_logJointPos</definition>
+        <argsstring></argsstring>
+        <name>m_logJointPos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="62" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a812b896737bc4cef854d9d930bc8f089" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; BipedalLocomotion::JointPositionTracking::Module::m_logDesiredJointPos</definition>
+        <argsstring></argsstring>
+        <name>m_logDesiredJointPos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="63" column="17" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1df7eed88852bc19a5a87d7baee56cb2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::generateNewTrajectory</definition>
+        <argsstring>()</argsstring>
+        <name>generateNewTrajectory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="51" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aaa7068dd884169f626c9fcae50a48b5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::createPolydriver</definition>
+        <argsstring>(std::shared_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>createPolydriver</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="53" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ad9ef5a79ddb21e9ce02a4bc4d95b370e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::initializeRobotControl</definition>
+        <argsstring>(std::shared_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>initializeRobotControl</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="56" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1add677e96151e24b50464695a88ede426" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::instantiateSensorBridge</definition>
+        <argsstring>(std::shared_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>instantiateSensorBridge</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="59" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a7731f087fc051d0cc7a9c244cecae001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointPositionTracking::Module::getPeriod</definition>
+        <argsstring>() override</argsstring>
+        <name>getPeriod</name>
+        <briefdescription>
+<para>Get the period of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the period of the module. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="70" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a3002870422ca1345a5309f6dfbc1b639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::updateModule</definition>
+        <argsstring>() override</argsstring>
+        <name>updateModule</name>
+        <briefdescription>
+<para>Main function of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="76" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a01fa2e847d5de5418c8ab9d4c8823ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::configure</definition>
+        <argsstring>(yarp::os::ResourceFinder &amp;rf) override</argsstring>
+        <name>configure</name>
+        <param>
+          <type>yarp::os::ResourceFinder &amp;</type>
+          <declname>rf</declname>
+        </param>
+        <briefdescription>
+<para>Configure the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the reference to a resource finder object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="83" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab129798d8801ff426c272406b2e08166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointPositionTracking::Module::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <briefdescription>
+<para>Close the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="89" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BipedalLocomotion::JointPositionTracking::Module</label>
+        <link refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>yarp::os::RFModule</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::JointPositionTracking::Module</label>
+        <link refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>yarp::os::RFModule</label>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/JointPositionTracking/Module.h" line="30" column="1" bodyfile="BipedalLocomotion/JointPositionTracking/Module.h" bodystart="31" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab129798d8801ff426c272406b2e08166" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a01fa2e847d5de5418c8ab9d4c8823ef4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>configure</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aaa7068dd884169f626c9fcae50a48b5e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>createPolydriver</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1df7eed88852bc19a5a87d7baee56cb2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>generateNewTrajectory</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a7731f087fc051d0cc7a9c244cecae001" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>getPeriod</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ad9ef5a79ddb21e9ce02a4bc4d95b370e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>initializeRobotControl</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1add677e96151e24b50464695a88ede426" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>instantiateSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6684ab229dec7718347df03efacfff42" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_controlBoard</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1af0fe4870d9a00500e730f07589a7e42b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_currentJointPos</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a4d047ef2253519f39ead271fc0bdc0e8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_currentSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aeba4f771cb83a511ce9acd2219fdbe50" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_dT</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1abd7747000a0c235f1008b103898cccdc" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_initTrajectoryTime</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a812b896737bc4cef854d9d930bc8f089" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_logDesiredJointPos</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab8ae00d2b68d1fe43179dfa89cf63cf3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_logJointPos</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6f4fd8c1194b1ffb5753756b248a4c25" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_robot</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a93c96a5b79a301c3dfa003e41740cbd7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_robotControl</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1acfb3c691a58ae594f1af93a1801f3f3d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_sensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a48ab69366d058dc7295936f2d54a7f53" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_setPoints</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aa672c0f953c916b2227a734c161fd4c6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_spline</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1d2ea2dfd8b0c29c5b09010585f017d8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_timeKnots</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a10731e1bda2656d8e65b97eff5f5c5a6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>m_trajectoryKnots</name></member>
+      <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a3002870422ca1345a5309f6dfbc1b639" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointPositionTracking::Module</scope><name>updateModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

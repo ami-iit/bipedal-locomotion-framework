@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="utilities_2joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h" kind="file" language="C++">
+    <compoundname>Module.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">yarp/os/RFModule.h</includes>
+    <includes local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includes local="no">BipedalLocomotion/Planners/QuinticSpline.h</includes>
+    <includes local="no">BipedalLocomotion/RobotInterface/YarpRobotControl.h</includes>
+    <includes local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includes>
+    <includes local="no">BipedalLocomotion/RobotInterface/YarpHelper.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/RobotInterface/YarpRobotControl.h</label>
+      </node>
+      <node id="5">
+        <label>yarp/os/RFModule.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/JointPositionTracking/Module.h</label>
+        <link refid="utilities_2joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion/RobotInterface/YarpHelper.h</label>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridge.h</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module" prot="public">BipedalLocomotion::JointPositionTracking::Module</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1JointPositionTracking">BipedalLocomotion::JointPositionTracking</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/JointPositionTracking/Module.h"/>
+  </compounddef>
+</doxygen>

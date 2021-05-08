@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_1b732a22691dd3d789d7e6b875bcf541" kind="dir">
+    <compoundname>BipedalLocomotion/bindings/RobotInterface</compoundname>
+    <innerfile refid="bindings_2python_2RobotInterface_2include_2BipedalLocomotion_2bindings_2RobotInterface_2Module_8h">Module.h</innerfile>
+    <innerfile refid="Polydriver_8h">Polydriver.h</innerfile>
+    <innerfile refid="RobotControl_8h">RobotControl.h</innerfile>
+    <innerfile refid="SensorBridge_8h">SensorBridge.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/RobotInterface/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_cc71f1cb7aec0bf0e8ebc332b65c656b" kind="dir">
+    <compoundname>BipedalLocomotion/bindings/Planners</compoundname>
+    <innerfile refid="bindings_2python_2Planners_2include_2BipedalLocomotion_2bindings_2Planners_2DCMPlanner_8h">DCMPlanner.h</innerfile>
+    <innerfile refid="bindings_2python_2Planners_2include_2BipedalLocomotion_2bindings_2Planners_2Module_8h">Module.h</innerfile>
+    <innerfile refid="bindings_2python_2Planners_2include_2BipedalLocomotion_2bindings_2Planners_2QuinticSpline_8h">QuinticSpline.h</innerfile>
+    <innerfile refid="bindings_2python_2Planners_2include_2BipedalLocomotion_2bindings_2Planners_2SwingFootPlanner_8h">SwingFootPlanner.h</innerfile>
+    <innerfile refid="bindings_2python_2Planners_2include_2BipedalLocomotion_2bindings_2Planners_2TimeVaryingDCMPlanner_8h">TimeVaryingDCMPlanner.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/Planners/"/>
+  </compounddef>
+</doxygen>

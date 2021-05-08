@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structBipedalLocomotion_1_1Contacts_1_1ContactBase.html" title="Definition of the type of contact base class." alt="" coords="5,71,175,112"/>
-<area shape="rect" id="node2" href="$structBipedalLocomotion_1_1Contacts_1_1ContactWrench.html" title="Definition of an ContactWrench structure." alt="" coords="231,5,417,47"/>
-<area shape="rect" id="node3" href="$structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" title="Definition of an Estimated Contact structure." alt="" coords="223,71,425,112"/>
-<area shape="rect" id="node4" href="$structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" title="Definition of a Planned Contact structure." alt="" coords="229,136,419,177"/>
-</map>

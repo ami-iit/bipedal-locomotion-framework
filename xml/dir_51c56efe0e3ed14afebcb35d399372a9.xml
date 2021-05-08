@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_51c56efe0e3ed14afebcb35d399372a9" kind="dir">
+    <compoundname>BipedalLocomotion/bindings</compoundname>
+    <innerdir refid="dir_cc71f1cb7aec0bf0e8ebc332b65c656b">BipedalLocomotion/bindings/Planners</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/bindings/"/>
+  </compounddef>
+</doxygen>

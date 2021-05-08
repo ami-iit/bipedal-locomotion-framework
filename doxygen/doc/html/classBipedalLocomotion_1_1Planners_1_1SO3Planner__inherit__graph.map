@@ -1,9 +1,0 @@
-<map id="BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;" name="BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;">
-<area shape="rect" id="node1" title="SO3Planner implements a minimum jerk trajectory planner for object belonging to SO(3)." alt="" coords="1539,29,1700,85"/>
-<area shape="rect" id="node7" href="$classBipedalLocomotion_1_1Planners_1_1SO3Planner.html" title=" " alt="" coords="1909,22,2088,93"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1System_1_1Source.html" title=" " alt="" coords="1276,29,1489,85"/>
-<area shape="rect" id="node3" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="612,5,863,61"/>
-<area shape="rect" id="node4" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title="Basic class that represents a discrete system." alt="" coords="5,36,168,92"/>
-<area shape="rect" id="node6" href="$classBipedalLocomotion_1_1System_1_1Advanceable.html" title=" " alt="" coords="401,69,588,125"/>
-<area shape="rect" id="node5" href="$classBipedalLocomotion_1_1System_1_1Source.html" title="Source is a template specialization of Advanceable and represents a block that does not contains inpu..." alt="" coords="887,73,1084,114"/>
-</map>

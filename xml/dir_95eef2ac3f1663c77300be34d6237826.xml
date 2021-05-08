@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_95eef2ac3f1663c77300be34d6237826" kind="dir">
+    <compoundname>BipedalLocomotion/Math</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Math_2include_2BipedalLocomotion_2Math_2CARE_8h">CARE.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Math/"/>
+  </compounddef>
+</doxygen>

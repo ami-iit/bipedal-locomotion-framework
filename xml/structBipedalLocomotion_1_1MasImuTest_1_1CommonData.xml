@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData" kind="struct" language="C++" prot="private">
+    <compoundname>BipedalLocomotion::MasImuTest::CommonData</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a1207fcbd5727577d7a8ee443e4e1a8f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::CommonData::robotName</definition>
+        <argsstring></argsstring>
+        <name>robotName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="51" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1ade32fa092011c6d001d75ab03d4c6291" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::MasImuTest::CommonData::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="52" column="21" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a66b593c8bafa4c001928a364cf085b97" prot="public" static="no" mutable="no">
+        <type>iDynTree::Model</type>
+        <definition>iDynTree::Model BipedalLocomotion::MasImuTest::CommonData::fullModel</definition>
+        <argsstring></argsstring>
+        <name>fullModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="53" column="25" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a140e9973c6bc71655757f1ce19da1f62" prot="public" static="no" mutable="no">
+        <type>iDynTree::Traversal</type>
+        <definition>iDynTree::Traversal BipedalLocomotion::MasImuTest::CommonData::traversal</definition>
+        <argsstring></argsstring>
+        <name>traversal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="54" column="29" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a3c3a4fa948df4dfdec24f0635346515e" prot="public" static="no" mutable="no">
+        <type>iDynTree::Transform</type>
+        <definition>iDynTree::Transform BipedalLocomotion::MasImuTest::CommonData::baseTransform</definition>
+        <argsstring></argsstring>
+        <name>baseTransform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="55" column="29" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a9fe85c3dbafc698bc63b6b655990e201" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::MasImuTest::CommonData::filterYaw</definition>
+        <argsstring></argsstring>
+        <name>filterYaw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="56" column="14" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a072cbeae3be608a2c568478f091015b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int BipedalLocomotion::MasImuTest::CommonData::maxSamples</definition>
+        <argsstring></argsstring>
+        <name>maxSamples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="57" column="13" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a292bf77f58ed9182a0013ca0aec1efbe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::MasImuTest::CommonData::minJointVariationRad</definition>
+        <argsstring></argsstring>
+        <name>minJointVariationRad</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="58" column="16" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a00aff4ed9e5fe74e0fcf15850dc27063" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::MasImuTest::CommonData::masTimeout</definition>
+        <argsstring></argsstring>
+        <name>masTimeout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/MasImuTest.h" line="59" column="16" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::MasImuTest::CommonData</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>prefix</edgelabel>
+          <edgelabel>robotName</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="2">
+        <label>std::string</label>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/MasImuTest.h" line="49" column="5" bodyfile="BipedalLocomotion/MasImuTest.h" bodystart="50" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a3c3a4fa948df4dfdec24f0635346515e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>baseTransform</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a9fe85c3dbafc698bc63b6b655990e201" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>filterYaw</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a66b593c8bafa4c001928a364cf085b97" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>fullModel</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a00aff4ed9e5fe74e0fcf15850dc27063" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>masTimeout</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a072cbeae3be608a2c568478f091015b3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>maxSamples</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a292bf77f58ed9182a0013ca0aec1efbe" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>minJointVariationRad</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1ade32fa092011c6d001d75ab03d4c6291" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>prefix</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a1207fcbd5727577d7a8ee443e4e1a8f5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>robotName</name></member>
+      <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a140e9973c6bc71655757f1ce19da1f62" prot="public" virt="non-virtual"><scope>BipedalLocomotion::MasImuTest::CommonData</scope><name>traversal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

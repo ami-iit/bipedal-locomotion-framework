@@ -1,0 +1,692 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::JointTrajectoryPlayer::Module</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">yarp::os::RFModule</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">yarp::os::RFModule</basecompoundref>
+      <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04" prot="private" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04aec2f993aec2c27fc750119ab17b16cdb" prot="private">
+          <name>idle</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a319cea54e5298516993cebd73afb1483" prot="private">
+          <name>positioning</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a75101dcdfc88455bcafc9e53e0b06689" prot="private">
+          <name>running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04aec2f993aec2c27fc750119ab17b16cdb" prot="private">
+          <name>idle</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a319cea54e5298516993cebd73afb1483" prot="private">
+          <name>positioning</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a75101dcdfc88455bcafc9e53e0b06689" prot="private">
+          <name>running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="57" column="5" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="enum" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04" prot="private" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04aec2f993aec2c27fc750119ab17b16cdb" prot="private">
+          <name>idle</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a319cea54e5298516993cebd73afb1483" prot="private">
+          <name>positioning</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a75101dcdfc88455bcafc9e53e0b06689" prot="private">
+          <name>running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04aec2f993aec2c27fc750119ab17b16cdb" prot="private">
+          <name>idle</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a319cea54e5298516993cebd73afb1483" prot="private">
+          <name>positioning</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a75101dcdfc88455bcafc9e53e0b06689" prot="private">
+          <name>running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="57" column="5" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae0bc079bdc851a9785497c945e903841" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointTrajectoryPlayer::Module::m_dT</definition>
+        <argsstring></argsstring>
+        <name>m_dT</name>
+        <briefdescription>
+<para>RFModule period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="35" column="12" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a03ac50d10aaf5ecf3277d6a2a2fdd0d5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::JointTrajectoryPlayer::Module::m_robot</definition>
+        <argsstring></argsstring>
+        <name>m_robot</name>
+        <briefdescription>
+<para>Robot name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="36" column="17" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8b28820982495099c2c5acb34181c261" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::JointTrajectoryPlayer::Module::m_currentJointPos</definition>
+        <argsstring></argsstring>
+        <name>m_currentJointPos</name>
+        <briefdescription>
+<para>Current joint positions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="38" column="21" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ad89dcc86f91829c7b5f21f61f155a5b2" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::JointTrajectoryPlayer::Module::m_currentJointVel</definition>
+        <argsstring></argsstring>
+        <name>m_currentJointVel</name>
+        <briefdescription>
+<para>Current joint velocities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="39" column="21" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a06fb03aeb6afa8493201d59376a257ca" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::JointTrajectoryPlayer::Module::m_currentMotorCurr</definition>
+        <argsstring></argsstring>
+        <name>m_currentMotorCurr</name>
+        <briefdescription>
+<para>Current motor currents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="40" column="21" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aa3aa9a00ef676dc8005198410cc0018b" prot="private" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">BipedalLocomotion::RobotInterface::PolyDriverDescriptor</ref></type>
+        <definition>BipedalLocomotion::RobotInterface::PolyDriverDescriptor BipedalLocomotion::JointTrajectoryPlayer::Module::m_controlBoard</definition>
+        <argsstring></argsstring>
+        <name>m_controlBoard</name>
+        <briefdescription>
+<para>Control board remapper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="42" column="61" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4adc2549f8639b8f4c09d8d9e423ce80" prot="private" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" kindref="compound">RobotInterface::YarpRobotControl</ref></type>
+        <definition>RobotInterface::YarpRobotControl BipedalLocomotion::JointTrajectoryPlayer::Module::m_robotControl</definition>
+        <argsstring></argsstring>
+        <name>m_robotControl</name>
+        <briefdescription>
+<para>Robot control object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="44" column="38" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae5917c668cf4a4f2c6b477f8c82fc321" prot="private" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" kindref="compound">RobotInterface::YarpSensorBridge</ref></type>
+        <definition>RobotInterface::YarpSensorBridge BipedalLocomotion::JointTrajectoryPlayer::Module::m_sensorBridge</definition>
+        <argsstring></argsstring>
+        <name>m_sensorBridge</name>
+        <briefdescription>
+<para>Sensor bridge object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="45" column="38" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a36ce66153a69fb298967335cddb25889" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int BipedalLocomotion::JointTrajectoryPlayer::Module::m_numOfJoints</definition>
+        <argsstring></argsstring>
+        <name>m_numOfJoints</name>
+        <briefdescription>
+<para>Number of joints to control. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="47" column="9" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab0ba2983cce30fa6a3b8593596332479" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; double &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::vector&lt; double &gt; &gt; BipedalLocomotion::JointTrajectoryPlayer::Module::m_log</definition>
+        <argsstring></argsstring>
+        <name>m_log</name>
+        <briefdescription>
+<para>Measured joint and motor quantities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="49" column="24" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aa0255053c483e88df6f2bf97e8f384e4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::JointTrajectoryPlayer::Module::m_axisList</definition>
+        <argsstring></argsstring>
+        <name>m_axisList</name>
+        <briefdescription>
+<para>Axis name list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="51" column="17" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a3413c37ee1f021fb653a9c8fe0112339" prot="private" static="no" mutable="no">
+        <type>matioCpp::MultiDimensionalArray&lt; double &gt;</type>
+        <definition>matioCpp::MultiDimensionalArray&lt; double &gt; BipedalLocomotion::JointTrajectoryPlayer::Module::m_traj</definition>
+        <argsstring></argsstring>
+        <name>m_traj</name>
+        <briefdescription>
+<para>Joint trajectory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="53" column="37" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1abfdb0e105de575f7fa2f5f59d1874c24" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int BipedalLocomotion::JointTrajectoryPlayer::Module::m_idxTraj</definition>
+        <argsstring></argsstring>
+        <name>m_idxTraj</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Index to iterate the trajectory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="55" column="18" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1adafc387ececdeca1df9ce2785d922143" prot="private" static="no" mutable="no">
+        <type>State</type>
+        <definition>State BipedalLocomotion::JointTrajectoryPlayer::Module::m_state</definition>
+        <argsstring></argsstring>
+        <name>m_state</name>
+        <initializer>{State::idle}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="63" column="11" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a76d59405fd8441ad970471c00e965c72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::createPolydriver</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>createPolydriver</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>State machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8728d6bec301fd3a46554ca91d63cd99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::initializeRobotControl</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>initializeRobotControl</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="67" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4e2d248c7745eb62f6627d4c0b5504a0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::instantiateSensorBridge</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>instantiateSensorBridge</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="69" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7e49b2d8b1976f4ccb5204ee52473145" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::readStateFromFile</definition>
+        <argsstring>(const std::string &amp;filename, const std::size_t numFields)</argsstring>
+        <name>readStateFromFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::size_t</type>
+          <declname>numFields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="71" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a76d59405fd8441ad970471c00e965c72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::createPolydriver</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>createPolydriver</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>State machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8728d6bec301fd3a46554ca91d63cd99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::initializeRobotControl</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>initializeRobotControl</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="67" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4e2d248c7745eb62f6627d4c0b5504a0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::instantiateSensorBridge</definition>
+        <argsstring>(std::shared_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>instantiateSensorBridge</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="69" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7e49b2d8b1976f4ccb5204ee52473145" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::readStateFromFile</definition>
+        <argsstring>(const std::string &amp;filename, const std::size_t numFields)</argsstring>
+        <name>readStateFromFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::size_t</type>
+          <declname>numFields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="71" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aff72dd92c3a9d1ba5e87bed131cb6e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointTrajectoryPlayer::Module::getPeriod</definition>
+        <argsstring>() override</argsstring>
+        <name>getPeriod</name>
+        <briefdescription>
+<para>Get the period of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the period of the module. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="78" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab1d5143527ab7f9d83e96d880097a907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::updateModule</definition>
+        <argsstring>() override</argsstring>
+        <name>updateModule</name>
+        <briefdescription>
+<para>Main function of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="84" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a712c5f82913939408c77370aeb989f10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::configure</definition>
+        <argsstring>(yarp::os::ResourceFinder &amp;rf) override</argsstring>
+        <name>configure</name>
+        <param>
+          <type>yarp::os::ResourceFinder &amp;</type>
+          <declname>rf</declname>
+        </param>
+        <briefdescription>
+<para>Configure the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the reference to a resource finder object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="91" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a25fcdb2b17ef7d290a64f11daedfa478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <briefdescription>
+<para>Close the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="97" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aff72dd92c3a9d1ba5e87bed131cb6e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::JointTrajectoryPlayer::Module::getPeriod</definition>
+        <argsstring>() override</argsstring>
+        <name>getPeriod</name>
+        <briefdescription>
+<para>Get the period of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the period of the module. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="78" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab1d5143527ab7f9d83e96d880097a907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::updateModule</definition>
+        <argsstring>() override</argsstring>
+        <name>updateModule</name>
+        <briefdescription>
+<para>Main function of the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="84" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a712c5f82913939408c77370aeb989f10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::configure</definition>
+        <argsstring>(yarp::os::ResourceFinder &amp;rf) override</argsstring>
+        <name>configure</name>
+        <param>
+          <type>yarp::os::ResourceFinder &amp;</type>
+          <declname>rf</declname>
+        </param>
+        <briefdescription>
+<para>Configure the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the reference to a resource finder object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="91" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a25fcdb2b17ef7d290a64f11daedfa478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointTrajectoryPlayer::Module::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <briefdescription>
+<para>Close the RFModule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success and false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="97" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BipedalLocomotion::JointTrajectoryPlayer::Module</label>
+        <link refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>yarp::os::RFModule</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::JointTrajectoryPlayer::Module</label>
+        <link refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>yarp::os::RFModule</label>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/JointTrajectoryPlayer/Module.h" line="33" column="1" bodyfile="BipedalLocomotion/JointTrajectoryPlayer/Module.h" bodystart="34" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a25fcdb2b17ef7d290a64f11daedfa478" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a25fcdb2b17ef7d290a64f11daedfa478" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a712c5f82913939408c77370aeb989f10" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>configure</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a712c5f82913939408c77370aeb989f10" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>configure</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a76d59405fd8441ad970471c00e965c72" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>createPolydriver</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a76d59405fd8441ad970471c00e965c72" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>createPolydriver</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aff72dd92c3a9d1ba5e87bed131cb6e00" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>getPeriod</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aff72dd92c3a9d1ba5e87bed131cb6e00" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>getPeriod</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8728d6bec301fd3a46554ca91d63cd99" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>initializeRobotControl</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8728d6bec301fd3a46554ca91d63cd99" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>initializeRobotControl</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4e2d248c7745eb62f6627d4c0b5504a0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>instantiateSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4e2d248c7745eb62f6627d4c0b5504a0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>instantiateSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aa0255053c483e88df6f2bf97e8f384e4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_axisList</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aa3aa9a00ef676dc8005198410cc0018b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_controlBoard</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8b28820982495099c2c5acb34181c261" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_currentJointPos</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ad89dcc86f91829c7b5f21f61f155a5b2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_currentJointVel</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a06fb03aeb6afa8493201d59376a257ca" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_currentMotorCurr</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae0bc079bdc851a9785497c945e903841" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_dT</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1abfdb0e105de575f7fa2f5f59d1874c24" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_idxTraj</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab0ba2983cce30fa6a3b8593596332479" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_log</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a36ce66153a69fb298967335cddb25889" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_numOfJoints</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a03ac50d10aaf5ecf3277d6a2a2fdd0d5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_robot</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4adc2549f8639b8f4c09d8d9e423ce80" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_robotControl</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae5917c668cf4a4f2c6b477f8c82fc321" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_sensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1adafc387ececdeca1df9ce2785d922143" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_state</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a3413c37ee1f021fb653a9c8fe0112339" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>m_traj</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7e49b2d8b1976f4ccb5204ee52473145" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>readStateFromFile</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7e49b2d8b1976f4ccb5204ee52473145" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>readStateFromFile</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04" prot="private" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab1d5143527ab7f9d83e96d880097a907" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>updateModule</name></member>
+      <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab1d5143527ab7f9d83e96d880097a907" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointTrajectoryPlayer::Module</scope><name>updateModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

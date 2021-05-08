@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIDocRef" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IDocRef</compoundname>
+    <basecompoundref refid="classIDoc" prot="public" virt="non-virtual">IDoc</basecompoundref>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classIDocRef_1af94834302f9f23860d170dc0a8529c08" prot="public" static="no" strong="no">
+        <type></type>
+        <name>TargetKind</name>
+        <enumvalue id="classIDocRef_1af94834302f9f23860d170dc0a8529c08a5b610bc37d82324b938ad2449640874c" prot="public">
+          <name>Member</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classIDocRef_1af94834302f9f23860d170dc0a8529c08afb6e5ed9acf4b5fd5af2003ead76c788" prot="public">
+          <name>Compound</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="313" column="5" bodyfile="doxmlintf.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIDocRef_1a941caa7f9be9cca367944c6c9ef35c7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IDocRef::refId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>refId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="314" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocRef_1a2e628bb491696542b6397135db0f5359" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>TargetKind</type>
+        <definition>virtual TargetKind IDocRef::targetKind</definition>
+        <argsstring>() const =0</argsstring>
+        <name>targetKind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="315" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocRef_1a4589e3ff94336e997ab08f91ee904c53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IDocRef::external</definition>
+        <argsstring>() const =0</argsstring>
+        <name>external</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="316" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocRef_1af5982e27f656c7ef7fe39e9c2e657c8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IDocRef::text</definition>
+        <argsstring>() const =0</argsstring>
+        <name>text</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="317" column="28"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IDocRef</label>
+        <link refid="classIDocRef"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IDoc</label>
+        <link refid="classIDoc"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IDocRef</label>
+        <link refid="classIDocRef"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IDoc</label>
+        <link refid="classIDoc"/>
+      </node>
+    </collaborationgraph>
+    <location file="doxmlintf.h" line="310" column="1" bodyfile="doxmlintf.h" bodystart="311" bodyend="318"/>
+    <listofallmembers>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa491b5e1ef923747c14a422fc0fbdccf8" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Anchor</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae1cac280884012708cec5b6710baef66" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>CodeLine</name></member>
+      <member refid="classIDocRef_1af94834302f9f23860d170dc0a8529c08afb6e5ed9acf4b5fd5af2003ead76c788" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Compound</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faaeef13d7bcca8890985bff6893769d36" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Copy</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa7d4f85ae5e35b7702b2d98a935170c7" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>DotFile</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5c6dca7ec89480b4ad284afd17c0f013" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>EMail</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa58bae9208ea7accef2a7b7368c71b93c" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Entry</name></member>
+      <member refid="classIDocRef_1a4589e3ff94336e997ab08f91ee904c53" prot="public" virt="pure-virtual"><scope>IDocRef</scope><name>external</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa61373ae3c2c7eb929fc9df5297da6eba" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Formula</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa881c0669cd498a5d7e0fac262ee6aa00" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Highlight</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa36d565370d0a0efd5016707dc50aa3db" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>HRuler</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fad127adc56f74c320160d7c2fea53c2c4" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Image</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa8b6b999fe64d8067ad9f17b61065700a" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>IndexEntry</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa9229303b4b5ea5cd126266c3e7bf6be" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Internal</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fafedd4d7e6880033ba356b155063426f7" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Invalid</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794face4f5524e3d040ffc5ed702b6e599623" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ItemizedList</name></member>
+      <member refid="classIDoc_1a5a206eaf10cfd437e9f98ee81b972b96" prot="public" virt="pure-virtual"><scope>IDocRef</scope><name>kind</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794f" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Kind</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fab45b525fe8665bf7a4f6d44b7cf9c9d0" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>LineBreak</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa5e8280a5d94ff13af659c737628b441a" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Link</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4ec69b9644f229fab7c2b2e590c560fc" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ListItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa59435605d4a3510cd1ec4abd4b077a92" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>MarkupModifier</name></member>
+      <member refid="classIDocRef_1af94834302f9f23860d170dc0a8529c08a5b610bc37d82324b938ad2449640874c" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Member</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa6bc772b34fea195b6be9463514c8f6df" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>OrderedList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa23a4bb509de48ec92b6b550fbc34e04" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Para</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa1806c1d736065d8779d107c399417680" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Parameter</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa4e31e9d30ada4a7967fe723612a2eea3" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ParameterItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa9376859bad5324ab8f7f953940c1b916" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ParameterList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa371b8cc4af36da082d92619a024fc693" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ProgramListing</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae2717df5d32eb5af8ea8f1d51eecd80b" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Ref</name></member>
+      <member refid="classIDocRef_1a941caa7f9be9cca367944c6c9ef35c7c" prot="public" virt="pure-virtual"><scope>IDocRef</scope><name>refId</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa60e777a448716998b78070c4562e65bd" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Root</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faed4832269b4332af703c9e16155a442b" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Row</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fab37b4182fe186e0ce5bb69a08c1725f8" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Section</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa848990001da9d2b25452c868d40aa123" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>SimpleSect</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa5d881331819aed6cd46bd28b42d2364" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Symbol</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa31196716c0f38ad9e46b5d671574e743" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Table</name></member>
+      <member refid="classIDocRef_1af94834302f9f23860d170dc0a8529c08" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>TargetKind</name></member>
+      <member refid="classIDocRef_1a2e628bb491696542b6397135db0f5359" prot="public" virt="pure-virtual"><scope>IDocRef</scope><name>targetKind</name></member>
+      <member refid="classIDocRef_1af5982e27f656c7ef7fe39e9c2e657c8e" prot="public" virt="pure-virtual"><scope>IDocRef</scope><name>text</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794faa70aef78f0e17ff9a6f977f0c06eb2cd" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Text</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa074e4f8ab78f40c86df73895b1730338" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Title</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fac2baf516314ee6f999aee006f2d503a6" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>TocItem</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa017c2c90ee14520cc32b2d0e37232dfc" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>TocList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa269444b603bd000ab89639f9b66b79da" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>ULink</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa75034bd66d4f4828ab4bda30477542a3" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>VariableList</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fa181a3fbaebcff250af7a708c6e3ae827" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>VariableListEntry</name></member>
+      <member refid="classIDoc_1ada72396a5a52f43f68202112f1dd794fae6cf1bdca5bc95518577cfa2ed88d60b" prot="public" virt="non-virtual"><scope>IDocRef</scope><name>Verbatim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

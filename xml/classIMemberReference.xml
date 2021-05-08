@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIMemberReference" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IMemberReference</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIMemberReference_1ab4661b465ced109b00ef6eb16cc86cae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMember" kindref="compound">IMember</ref> *</type>
+        <definition>virtual IMember* IMemberReference::member</definition>
+        <argsstring>() const =0</argsstring>
+        <name>member</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="139" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMemberReference_1a9a088e72007a90f84ff891fb75b42264" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMemberReference::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="140" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMemberReference_1a03c260b8caefa88f1795a07fe58725d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMemberReference::scope</definition>
+        <argsstring>() const =0</argsstring>
+        <name>scope</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="141" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMemberReference_1a72be0800929ad0d6203dec8d54c51f46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMemberReference::protection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>protection</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="142" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMemberReference_1aaca18605eb8061bb6aacc2d003508e68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMemberReference::virtualness</definition>
+        <argsstring>() const =0</argsstring>
+        <name>virtualness</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="143" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classIMemberReference_1a22d546b2a7ec35b9e162f47b9f09000f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* IMemberReference::ambiguityScope</definition>
+        <argsstring>() const =0</argsstring>
+        <name>ambiguityScope</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="144" column="28"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="135" column="1" bodyfile="doxmlintf.h" bodystart="136" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classIMemberReference_1a22d546b2a7ec35b9e162f47b9f09000f" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>ambiguityScope</name></member>
+      <member refid="classIMemberReference_1ab4661b465ced109b00ef6eb16cc86cae" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>member</name></member>
+      <member refid="classIMemberReference_1a9a088e72007a90f84ff891fb75b42264" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>name</name></member>
+      <member refid="classIMemberReference_1a72be0800929ad0d6203dec8d54c51f46" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>protection</name></member>
+      <member refid="classIMemberReference_1a03c260b8caefa88f1795a07fe58725d0" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>scope</name></member>
+      <member refid="classIMemberReference_1aaca18605eb8061bb6aacc2d003508e68" prot="public" virt="pure-virtual"><scope>IMemberReference</scope><name>virtualness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

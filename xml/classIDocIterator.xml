@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classIDocIterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>IDocIterator</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classIDocIterator_1aadc1f61e6894944f5487ac6e0d186a90" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDoc" kindref="compound">IDoc</ref> *</type>
+        <definition>virtual IDoc* IDocIterator::toFirst</definition>
+        <argsstring>()=0</argsstring>
+        <name>toFirst</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="510" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocIterator_1a8356a7431b9470d74a2e935fa6d1956e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDoc" kindref="compound">IDoc</ref> *</type>
+        <definition>virtual IDoc* IDocIterator::toLast</definition>
+        <argsstring>()=0</argsstring>
+        <name>toLast</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="511" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocIterator_1a6f1bc9563d9008d3f661b98c5c87066c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDoc" kindref="compound">IDoc</ref> *</type>
+        <definition>virtual IDoc* IDocIterator::toNext</definition>
+        <argsstring>()=0</argsstring>
+        <name>toNext</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="512" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocIterator_1a4132ed88a702854345611b79b9a23eee" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDoc" kindref="compound">IDoc</ref> *</type>
+        <definition>virtual IDoc* IDocIterator::toPrev</definition>
+        <argsstring>()=0</argsstring>
+        <name>toPrev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="513" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocIterator_1ace3bcef00bcf5d5d641b69018ddb9a18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDoc" kindref="compound">IDoc</ref> *</type>
+        <definition>virtual IDoc* IDocIterator::current</definition>
+        <argsstring>() const =0</argsstring>
+        <name>current</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="514" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classIDocIterator_1a0876d4fe51d8dc795764951ff6eee220" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void IDocIterator::release</definition>
+        <argsstring>()=0</argsstring>
+        <name>release</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="515" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="506" column="1" bodyfile="doxmlintf.h" bodystart="507" bodyend="516"/>
+    <listofallmembers>
+      <member refid="classIDocIterator_1ace3bcef00bcf5d5d641b69018ddb9a18" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>current</name></member>
+      <member refid="classIDocIterator_1a0876d4fe51d8dc795764951ff6eee220" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>release</name></member>
+      <member refid="classIDocIterator_1aadc1f61e6894944f5487ac6e0d186a90" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>toFirst</name></member>
+      <member refid="classIDocIterator_1a8356a7431b9470d74a2e935fa6d1956e" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>toLast</name></member>
+      <member refid="classIDocIterator_1a6f1bc9563d9008d3f661b98c5c87066c" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>toNext</name></member>
+      <member refid="classIDocIterator_1a4132ed88a702854345611b79b9a23eee" prot="public" virt="pure-virtual"><scope>IDocIterator</scope><name>toPrev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

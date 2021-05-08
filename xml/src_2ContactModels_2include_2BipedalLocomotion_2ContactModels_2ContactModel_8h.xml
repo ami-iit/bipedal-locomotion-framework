@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContactModel_8h" kind="file" language="C++">
+    <compoundname>ContactModel.h</compoundname>
+    <includes local="no">any</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">iDynTree/Core/MatrixDynSize.h</includes>
+    <includes local="no">iDynTree/Core/MatrixFixSize.h</includes>
+    <includes local="no">iDynTree/Core/Transform.h</includes>
+    <includes local="no">iDynTree/Core/Twist.h</includes>
+    <includes local="no">iDynTree/Core/VectorFixSize.h</includes>
+    <includes local="no">iDynTree/Core/Wrench.h</includes>
+    <includes local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>iDynTree/Core/MatrixFixSize.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>iDynTree/Core/MatrixDynSize.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
+        <link refid="src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContactModel_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>iDynTree/Core/VectorFixSize.h</label>
+      </node>
+      <node id="2">
+        <label>any</label>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+      </node>
+      <node id="9">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="8">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="11">
+        <label>iDynTree/Core/Wrench.h</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1ContactModels_1_1ContactModel" prot="public">BipedalLocomotion::ContactModels::ContactModel</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1ContactModels">BipedalLocomotion::ContactModels</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContactModels/ContactModel.h"/>
+  </compounddef>
+</doxygen>

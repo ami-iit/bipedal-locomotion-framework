@@ -1,4 +1,0 @@
-<map id="BipedalLocomotion::RobotInterface::YarpCameraBridge" name="BipedalLocomotion::RobotInterface::YarpCameraBridge">
-<area shape="rect" id="node1" title="YarpCameraBridge Yarp implementation of the ICameraBridge interface Currently available interfaces." alt="" coords="15,95,219,151"/>
-<area shape="rect" id="node2" href="$classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" title="Sensor bridge interface." alt="" coords="5,5,228,47"/>
-</map>

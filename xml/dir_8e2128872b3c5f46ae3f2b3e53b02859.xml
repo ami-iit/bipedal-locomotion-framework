@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_8e2128872b3c5f46ae3f2b3e53b02859" kind="dir">
+    <compoundname>BipedalLocomotion/Estimators</compoundname>
+    <innerfile refid="docs_2bipedal-locomotion-framework_2src_2Estimators_2include_2BipedalLocomotion_2Estimators_2RecursiveLeastSquare_8h">RecursiveLeastSquare.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Estimators/"/>
+  </compounddef>
+</doxygen>

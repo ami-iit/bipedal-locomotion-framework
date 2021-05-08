@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classICompoundIterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ICompoundIterator</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classICompoundIterator_1afeedd038aee7af106664cca550f0c9b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompoundIterator::toFirst</definition>
+        <argsstring>()=0</argsstring>
+        <name>toFirst</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="933" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompoundIterator_1a9344ff9c3e0574b9da3240fc21a43d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompoundIterator::toLast</definition>
+        <argsstring>()=0</argsstring>
+        <name>toLast</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="934" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompoundIterator_1a9b4c1b65d047fcc32508f227ba6929bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompoundIterator::toNext</definition>
+        <argsstring>()=0</argsstring>
+        <name>toNext</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="935" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompoundIterator_1a424b2507309eb8780c9f37ad2969e518" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompoundIterator::toPrev</definition>
+        <argsstring>()=0</argsstring>
+        <name>toPrev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="936" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompoundIterator_1abd7c76572bec8cb0134806c6996248c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classICompound" kindref="compound">ICompound</ref> *</type>
+        <definition>virtual ICompound* ICompoundIterator::current</definition>
+        <argsstring>() const =0</argsstring>
+        <name>current</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="937" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompoundIterator_1ac794e88582cb85cf13a355b907e88cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompoundIterator::release</definition>
+        <argsstring>()=0</argsstring>
+        <name>release</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="938" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="doxmlintf.h" line="929" column="1" bodyfile="doxmlintf.h" bodystart="930" bodyend="939"/>
+    <listofallmembers>
+      <member refid="classICompoundIterator_1abd7c76572bec8cb0134806c6996248c3" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>current</name></member>
+      <member refid="classICompoundIterator_1ac794e88582cb85cf13a355b907e88cea" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>release</name></member>
+      <member refid="classICompoundIterator_1afeedd038aee7af106664cca550f0c9b7" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>toFirst</name></member>
+      <member refid="classICompoundIterator_1a9344ff9c3e0574b9da3240fc21a43d88" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>toLast</name></member>
+      <member refid="classICompoundIterator_1a9b4c1b65d047fcc32508f227ba6929bf" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>toNext</name></member>
+      <member refid="classICompoundIterator_1a424b2507309eb8780c9f37ad2969e518" prot="public" virt="pure-virtual"><scope>ICompoundIterator</scope><name>toPrev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classICompound" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ICompound</compoundname>
+    <derivedcompoundref refid="classIClass" prot="public" virt="non-virtual">IClass</derivedcompoundref>
+    <derivedcompoundref refid="classIDir" prot="public" virt="non-virtual">IDir</derivedcompoundref>
+    <derivedcompoundref refid="classIException" prot="public" virt="non-virtual">IException</derivedcompoundref>
+    <derivedcompoundref refid="classIFile" prot="public" virt="non-virtual">IFile</derivedcompoundref>
+    <derivedcompoundref refid="classIGroup" prot="public" virt="non-virtual">IGroup</derivedcompoundref>
+    <derivedcompoundref refid="classIInterface" prot="public" virt="non-virtual">IInterface</derivedcompoundref>
+    <derivedcompoundref refid="classINamespace" prot="public" virt="non-virtual">INamespace</derivedcompoundref>
+    <derivedcompoundref refid="classIPage" prot="public" virt="non-virtual">IPage</derivedcompoundref>
+    <derivedcompoundref refid="classIStruct" prot="public" virt="non-virtual">IStruct</derivedcompoundref>
+    <derivedcompoundref refid="classIUnion" prot="public" virt="non-virtual">IUnion</derivedcompoundref>
+    <includes local="no">doxmlintf.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classICompound_1a6b86be2ca9f6759434c1dd8405be328a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>CompoundKind</name>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aab54adbc95f1165011120c550dd3366f4" prot="public">
+          <name>Invalid</name>
+          <initializer>=0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa388225f9147fd1e2e694c32edaec1bac" prot="public">
+          <name>Class</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa26fbb700a3b4bf3fc22f1be436dbaa75" prot="public">
+          <name>Struct</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa9ee42988c8e310b1be969ccff7414b46" prot="public">
+          <name>Union</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aac2d2a6283e13e7068a519285dc0411b5" prot="public">
+          <name>Interface</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7cf72c5c2b3afb897b985de04bb95188" prot="public">
+          <name>Protocol</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa11887b971afcddc6d7e321b73d4cbc39" prot="public">
+          <name>Category</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa349e8cd7a7899c10e30143f5f8884197" prot="public">
+          <name>Exception</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aacd61365fe27b683debddfe381afa6dbe" prot="public">
+          <name>File</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7589452d6a003b3b787338c1fba65121" prot="public">
+          <name>Namespace</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa47da97a354ec19bbc78deee9204a7968" prot="public">
+          <name>Group</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa1657b673db87988d9d143efb81e2e614" prot="public">
+          <name>Page</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aad7a7293186a0935e202a1514f6c93408" prot="public">
+          <name>Example</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classICompound_1a6b86be2ca9f6759434c1dd8405be328aadaf6f9b4b9e30709300408e47e0c3865" prot="public">
+          <name>Dir</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents the kind of compounds recognised by doxygen. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="873" column="5" bodyfile="doxmlintf.h" bodystart="873" bodyend="876"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classICompound_1ae14b5dcf513ef0d263119aeb2e2ffb15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* ICompound::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the name of this compound </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="879" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1ac5c371dee7e65324518532b0a58c2d9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* ICompound::id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the id of this compound. The id is a unique string representing a specific compound object. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="884" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1ad0d6fb22a48b5bbddae2b88a3cab3640" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328a" kindref="member">CompoundKind</ref></type>
+        <definition>virtual CompoundKind ICompound::kind</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the kind of compound. See <ref refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328a" kindref="member">CompoundKind</ref> for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="889" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1a49a7cb96ed8364494bdb7ecc1abb86c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="classIString" kindref="compound">IString</ref> *</type>
+        <definition>virtual const IString* ICompound::kindString</definition>
+        <argsstring>() const =0</argsstring>
+        <name>kindString</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a string representation of the compound kind. <simplesect kind="see"><para><ref refid="classICompound_1ad0d6fb22a48b5bbddae2b88a3cab3640" kindref="member">kind()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="894" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1a966a7cac6a4f33f16ef869e74855ab3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classISectionIterator" kindref="compound">ISectionIterator</ref> *</type>
+        <definition>virtual ISectionIterator* ICompound::sections</definition>
+        <argsstring>() const =0</argsstring>
+        <name>sections</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an iterator for the different member sections in this compound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="899" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1a1ac3073130ef6bdd552c275e488c0658" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDocRoot" kindref="compound">IDocRoot</ref> *</type>
+        <definition>virtual IDocRoot* ICompound::briefDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>briefDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a tree-structured representation of the brief description that is attached to this compound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="904" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1a9630b083767887a40040cb4408d538cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIDocRoot" kindref="compound">IDocRoot</ref> *</type>
+        <definition>virtual IDocRoot* ICompound::detailedDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>detailedDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a tree-structured representation of the detailed description that is attached to this compound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="909" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1af30652d3b5a43722e9407c8edf9a38fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMember" kindref="compound">IMember</ref> *</type>
+        <definition>virtual IMember* ICompound::memberById</definition>
+        <argsstring>(const char *id) const =0</argsstring>
+        <name>memberById</name>
+        <param>
+          <type>const char *</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an interface to a member given its id. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The member id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="914" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1af94f0805a794ec5f413c9e16347e2591" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classIMemberIterator" kindref="compound">IMemberIterator</ref> *</type>
+        <definition>virtual IMemberIterator* ICompound::memberByName</definition>
+        <argsstring>(const char *name) const =0</argsstring>
+        <name>memberByName</name>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a list of all members within the compound having a certain name. Member overloading is the reason why there can be more than one member. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the member. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="921" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classICompound_1a5388c74d390323ce610f752a01456b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void ICompound::release</definition>
+        <argsstring>()=0</argsstring>
+        <name>release</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decreases the reference counter for this compound. If it reaches zero, the memory for the compound will be released. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="doxmlintf.h" line="926" column="18"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The interface to a compound in the object model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A compound has a name which can be obtained via the <ref refid="classICompound_1ae14b5dcf513ef0d263119aeb2e2ffb15" kindref="member">name()</ref> method and a unique id, which is return via the <ref refid="classICompound_1ac5c371dee7e65324518532b0a58c2d9f" kindref="member">id()</ref> method. A compound consists zero or more members which are grouped into sections. The <ref refid="classICompound_1a966a7cac6a4f33f16ef869e74855ab3b" kindref="member">sections()</ref> method can be used to access the individual sections. Alternatively, members can be obtained by name or id. There are different types of compounds. The <ref refid="classICompound_1ad0d6fb22a48b5bbddae2b88a3cab3640" kindref="member">kind()</ref> method returns what kind of compound this is. Depending on the return value one can dynamically cast an interface pointer to an more specialised interface that provides additional methods. Example: <programlisting><codeline><highlight class="normal">ICompound<sp/>*comp=...;</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(comp-&gt;kind()==ICompound::Class)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>IClass<sp/>*cls<sp/>=<sp/>dynamic_cast&lt;IClass*&gt;(comp);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>use<sp/>methods<sp/>of<sp/>IClass</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> The documentation that is provided by a compound is available via the <ref refid="classICompound_1a1ac3073130ef6bdd552c275e488c0658" kindref="member">briefDescription()</ref> and <ref refid="classICompound_1a9630b083767887a40040cb4408d538cd" kindref="member">detailedDescription()</ref> methods. To avoid excessive memory usage, <ref refid="classICompound_1a5388c74d390323ce610f752a01456b21" kindref="member">release()</ref> should be called (once) on each compound interface pointer that is no longer needed. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>IFile</label>
+        <link refid="classIFile"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ICompound</label>
+        <link refid="classICompound"/>
+      </node>
+      <node id="10">
+        <label>IStruct</label>
+        <link refid="classIStruct"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>IUnion</label>
+        <link refid="classIUnion"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>IException</label>
+        <link refid="classIException"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>IDir</label>
+        <link refid="classIDir"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>IPage</label>
+        <link refid="classIPage"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>IGroup</label>
+        <link refid="classIGroup"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>IInterface</label>
+        <link refid="classIInterface"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>INamespace</label>
+        <link refid="classINamespace"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IClass</label>
+        <link refid="classIClass"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="doxmlintf.h" line="868" column="1" bodyfile="doxmlintf.h" bodystart="869" bodyend="927"/>
+    <listofallmembers>
+      <member refid="classICompound_1a1ac3073130ef6bdd552c275e488c0658" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>briefDescription</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa11887b971afcddc6d7e321b73d4cbc39" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Category</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa388225f9147fd1e2e694c32edaec1bac" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Class</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328a" prot="public" virt="non-virtual"><scope>ICompound</scope><name>CompoundKind</name></member>
+      <member refid="classICompound_1a9630b083767887a40040cb4408d538cd" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>detailedDescription</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aadaf6f9b4b9e30709300408e47e0c3865" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Dir</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aad7a7293186a0935e202a1514f6c93408" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Example</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa349e8cd7a7899c10e30143f5f8884197" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Exception</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aacd61365fe27b683debddfe381afa6dbe" prot="public" virt="non-virtual"><scope>ICompound</scope><name>File</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa47da97a354ec19bbc78deee9204a7968" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Group</name></member>
+      <member refid="classICompound_1ac5c371dee7e65324518532b0a58c2d9f" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>id</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aac2d2a6283e13e7068a519285dc0411b5" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Interface</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aab54adbc95f1165011120c550dd3366f4" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Invalid</name></member>
+      <member refid="classICompound_1ad0d6fb22a48b5bbddae2b88a3cab3640" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>kind</name></member>
+      <member refid="classICompound_1a49a7cb96ed8364494bdb7ecc1abb86c9" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>kindString</name></member>
+      <member refid="classICompound_1af30652d3b5a43722e9407c8edf9a38fb" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>memberById</name></member>
+      <member refid="classICompound_1af94f0805a794ec5f413c9e16347e2591" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>memberByName</name></member>
+      <member refid="classICompound_1ae14b5dcf513ef0d263119aeb2e2ffb15" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>name</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7589452d6a003b3b787338c1fba65121" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Namespace</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa1657b673db87988d9d143efb81e2e614" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Page</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa7cf72c5c2b3afb897b985de04bb95188" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Protocol</name></member>
+      <member refid="classICompound_1a5388c74d390323ce610f752a01456b21" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>release</name></member>
+      <member refid="classICompound_1a966a7cac6a4f33f16ef869e74855ab3b" prot="public" virt="pure-virtual"><scope>ICompound</scope><name>sections</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa26fbb700a3b4bf3fc22f1be436dbaa75" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Struct</name></member>
+      <member refid="classICompound_1a6b86be2ca9f6759434c1dd8405be328aa9ee42988c8e310b1be969ccff7414b46" prot="public" virt="non-virtual"><scope>ICompound</scope><name>Union</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
