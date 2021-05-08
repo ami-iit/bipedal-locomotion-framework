@@ -2,18 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1System" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::System</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1ContactWrench" prot="public">BipedalLocomotion::System::ContactWrench</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" prot="public">BipedalLocomotion::System::DynamicalSystem</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1FixedStepIntegrator" prot="public">BipedalLocomotion::System::FixedStepIntegrator</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem" prot="public">BipedalLocomotion::System::FloatingBaseDynamicalSystem</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::System::FloatingBaseSystemKinematics</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1ForwardEuler" prot="public">BipedalLocomotion::System::ForwardEuler</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1Integrator" prot="public">BipedalLocomotion::System::Integrator</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" prot="public">BipedalLocomotion::System::LinearTimeInvariantSystem</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" prot="public">BipedalLocomotion::System::VariablesHandler</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public">BipedalLocomotion::System::YarpClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" prot="public">BipedalLocomotion::System::ClockBuilder</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public">BipedalLocomotion::System::IClock</innerclass>
@@ -24,8 +15,9 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Source" prot="public">BipedalLocomotion::System::Source</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClock" prot="public">BipedalLocomotion::System::StdClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClockFactory" prot="public">BipedalLocomotion::System::StdClockFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" prot="public">BipedalLocomotion::System::VariablesHandler</innerclass>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="src_2System_2include_2BipedalLocomotion_2System_2Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" prot="public" static="no">
+      <memberdef kind="typedef" id="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" prot="public" static="no">
         <type>std::monostate</type>
         <definition>using BipedalLocomotion::System::EmptySignal = typedef std::monostate</definition>
         <argsstring></argsstring>
@@ -96,6 +88,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/System/Advanceable.h" line="13" column="1"/>
+    <location file="BipedalLocomotion/System/YarpClock.h" line="19" column="1"/>
   </compounddef>
 </doxygen>

@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators.html">Estimators</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators.html">FloatingBaseEstimators</a>::<wbr/></span>StateStdDev <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2Estimators_2include_2BipedalLocomotion_2FloatingBaseEstimators_2FloatingBaseEstimatorParams_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="FloatingBaseEstimatorParams_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h&gt;</a></div>
         </h1>
         <p>Struct containing prior state deviation parameters of floating base estimators.</p>
         <div class="m-block m-default">
@@ -89,6 +89,10 @@
               Eigen::Vector3d <a href="#af56d9d4ec3aab19da1c1af6bf50f08a0" class="m-doc-self">imuLinearVelocity</a>
             </dt>
             <dd>Prior deviation of mixed-trivialized IMU linear velocity expressed in m/s.</dd>
+            <dt id="ade96ef2095999b55a181b97315bdecfe">
+              Eigen::Vector3d <a href="#ade96ef2095999b55a181b97315bdecfe" class="m-doc-self">imuAngularVelocity</a>
+            </dt>
+            <dd>Prior deviation of mixed-trivialized IMU angular velocity expressed in rad/s.</dd>
             <dt id="aaca6b096ab495c6c1124de03b05548ca">
               Eigen::Vector3d <a href="#aaca6b096ab495c6c1124de03b05548ca" class="m-doc-self">lContactFrameOrientation</a>
             </dt>
@@ -113,10 +117,6 @@
               Eigen::Vector3d <a href="#aaa970ab4c9bd72cb2e61abd448422d32" class="m-doc-self">gyroscopeBias</a>
             </dt>
             <dd>Prior deviation of IMU gyroscope bias in local frame expressed in rad/s.</dd>
-            <dt id="ade96ef2095999b55a181b97315bdecfe">
-              Eigen::Vector3d <a href="#ade96ef2095999b55a181b97315bdecfe" class="m-doc-self">imuAngularVelocity</a>
-            </dt>
-            <dd>Prior deviation of mixed-trivialized IMU angular velocity expressed in rad/s.</dd>
             <dt id="a53525f7ab5246719c1b7a71a51e34a33">
               PoseCovariance <a href="#a53525f7ab5246719c1b7a71a51e34a33" class="m-doc-self">supportFramePose</a>
             </dt>

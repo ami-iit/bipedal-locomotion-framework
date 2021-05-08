@@ -60,9 +60,9 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TSID.html">TSID</a>::<wbr/></span>BaseDynamicsTask <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2TSID_2include_2BipedalLocomotion_2TSID_2BaseDynamicsTask_8h.html">&lt;BipedalLocomotion/TSID/BaseDynamicsTask.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="BaseDynamicsTask_8h.html">&lt;BipedalLocomotion/TSID/BaseDynamicsTask.h&gt;</a></div>
         </h1>
-        <p><a href="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask.html" class="m-doc">BaseDynamicsTask</a> is a concrete implementation of the <a href="classBipedalLocomotion_1_1TSID_1_1Task.html" class="m-doc">Task</a>.</p>
+        <p><a href="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask.html" class="m-doc">BaseDynamicsTask</a> is a concrete implementation of the Task.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -160,10 +160,6 @@ $d_k$
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classBipedalLocomotion_1_1TSID_1_1Task.html" class="m-doc">Task</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1TSID_1_1Task.html" class="m-doc">Task</a> describes a control problem element.</dd>
-            <dt>
               class <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">BipedalLocomotion::System::LinearTask</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> describes a Linear Task element.</dd>
@@ -172,15 +168,6 @@ $d_k$
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7d7b0b05f6d2cbdc066d94d59b264824" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
-              const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Initialize the planner.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af2061e278b2fe3e124d7b38f4fe82b73" class="m-doc">update</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Update the content of the element.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ad603b6ecbe0c934131fb1c630a901e9a" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) -&gt; bool</span>
             </dt>
@@ -208,54 +195,11 @@ $d_k$
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ab52f89a6fdcb4e730f1d4c473c87c567" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1TSID_1_1Task.html#ab1b9db3088782cc404248471d855f2f0" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1TSID_1_1Task.html#a0c0af249d4a7677d7a1c30890d94f111" class="m-doc">getB()</a></dd>
+            <dd>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#ad510fff46eb9cbbc65775b1a9490e297" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a8c65780b85d3927038c3320d3cfca730" class="m-doc">getB()</a></dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a7d7b0b05f6d2cbdc066d94d59b264824"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />BaseDynamicsTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7d7b0b05f6d2cbdc066d94d59b264824" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
-              const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Initialize the planner.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">paramHandler</td>
-                  <td>pointer to the parameters handler.</td>
-                </tr>
-                <tr>
-                  <td>variablesHandler</td>
-                  <td>reference to a variables handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>max_number_of_contacts</code></td><td><code>int</code></td><td>Maximum number of contacts. The default value is 0.</td><td>No</td></tr><tr><td><code>CONTACT_&lt;i&gt;</code></td><td><code>group</code></td><td><code>i</code> is an <code>int</code> between <code>0</code> and <code>max_number_of_contacts</code> The group must contain <code>variable_name</code> and <code>frame_name</code></td><td>Yes</td></tr><tr><td><code>variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the contact</td><td>Yes</td></tr><tr><td><code>frame_name</code></td><td><code>string</code></td><td>Name of the frame associated to the contact</td><td>Yes</td></tr></tbody></table></aside>
-          </div></section>
-          <section class="m-doc-details" id="af2061e278b2fe3e124d7b38f4fe82b73"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />BaseDynamicsTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af2061e278b2fe3e124d7b38f4fe82b73" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Update the content of the element.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="ad603b6ecbe0c934131fb1c630a901e9a"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />BaseDynamicsTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad603b6ecbe0c934131fb1c630a901e9a" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler)</span></span>
@@ -374,7 +318,7 @@ $d_k$
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />BaseDynamicsTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab52f89a6fdcb4e730f1d4c473c87c567" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1TSID_1_1Task.html#ab1b9db3088782cc404248471d855f2f0" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1TSID_1_1Task.html#a0c0af249d4a7677d7a1c30890d94f111" class="m-doc">getB()</a></p>
+            <p>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#ad510fff46eb9cbbc65775b1a9490e297" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a8c65780b85d3927038c3320d3cfca730" class="m-doc">getB()</a></p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>

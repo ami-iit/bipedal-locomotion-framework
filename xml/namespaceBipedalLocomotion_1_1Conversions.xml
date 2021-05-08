@@ -3,14 +3,14 @@
   <compounddef id="namespaceBipedalLocomotion_1_1Conversions" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Conversions</compoundname>
       <sectiondef kind="func">
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2CommonConversions_8h_1aa5a9686f8f1587867138f974593d9f2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class Scalar</type>
           </param>
         </templateparamlist>
         <type>Eigen::Matrix&lt; Scalar, 4, 4 &gt;</type>
-        <definition>Eigen::Matrix&lt; Scalar, 4, 4 &gt; BipedalLocomotion::Conversions::toEigenPose</definition>
+        <definition>Eigen::Matrix&lt;Scalar, 4, 4&gt; BipedalLocomotion::Conversions::toEigenPose</definition>
         <argsstring>(const Eigen::Matrix&lt; Scalar, 3, 3 &gt; &amp;rotation, const Eigen::Matrix&lt; Scalar, 3, 1 &gt; &amp;translation)</argsstring>
         <name>toEigenPose</name>
         <param>
@@ -50,14 +50,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/CommonConversions.h" line="25" column="19" bodyfile="BipedalLocomotion/Conversions/CommonConversions.h" bodystart="25" bodyend="34"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1af964cf525546c7ee4fae854b21c3b5eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1a6eca022cc68f31749418d297b83d67ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class Scalar</type>
           </param>
         </templateparamlist>
         <type>manif::SE3&lt; Scalar &gt;</type>
-        <definition>manif::SE3&lt; Scalar &gt; BipedalLocomotion::Conversions::toManifPose</definition>
+        <definition>manif::SE3&lt;Scalar&gt; BipedalLocomotion::Conversions::toManifPose</definition>
         <argsstring>(const Eigen::Matrix&lt; Scalar, 3, 3 &gt; &amp;rotation, const Eigen::Matrix&lt; Scalar, 3, 1 &gt; &amp;translation)</argsstring>
         <name>toManifPose</name>
         <param>
@@ -97,7 +97,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="28" column="16" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="28" bodyend="34"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1a0a64a78d62562574dd0466585928371e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1a0a64a78d62562574dd0466585928371e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SE3d</type>
         <definition>manif::SE3d BipedalLocomotion::Conversions::toManifPose</definition>
         <argsstring>(Eigen::Ref&lt; const Eigen::Matrix3d &gt; rotation, Eigen::Ref&lt; const Eigen::Vector3d &gt; translation)</argsstring>
@@ -139,7 +139,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="43" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="43" bodyend="49"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1ac71646fdf92888d3f6897ae090ce0a9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1ac71646fdf92888d3f6897ae090ce0a9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SE3d</type>
         <definition>manif::SE3d BipedalLocomotion::Conversions::toManifPose</definition>
         <argsstring>(const iDynTree::Transform &amp;H)</argsstring>
@@ -169,14 +169,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="57" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="57" bodyend="61"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1a032433927746fbeb239566f908d7729d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1af56866b8b1ef81c3e00c5b53939386d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class Scalar</type>
           </param>
         </templateparamlist>
         <type>manif::SO3&lt; Scalar &gt;</type>
-        <definition>manif::SO3&lt; Scalar &gt; BipedalLocomotion::Conversions::toManifRot</definition>
+        <definition>manif::SO3&lt;Scalar&gt; BipedalLocomotion::Conversions::toManifRot</definition>
         <argsstring>(const Eigen::Matrix&lt; Scalar, 3, 3 &gt; &amp;rotation)</argsstring>
         <name>toManifRot</name>
         <param>
@@ -204,7 +204,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="70" column="16" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="70" bodyend="75"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SO3d</type>
         <definition>manif::SO3d BipedalLocomotion::Conversions::toManifRot</definition>
         <argsstring>(Eigen::Ref&lt; const Eigen::Matrix3d &gt; rotation)</argsstring>
@@ -242,7 +242,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="84" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="84" bodyend="89"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SO3d</type>
         <definition>manif::SO3d BipedalLocomotion::Conversions::toManifRot</definition>
         <argsstring>(const iDynTree::Rotation &amp;R)</argsstring>
@@ -272,14 +272,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="97" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="97" bodyend="100"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1ae9031d2afb2953c8b4bc0d561e5f2f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename type</type>
           </param>
         </templateparamlist>
         <type>Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, Eigen::Dynamic &gt; &gt;</type>
-        <definition>Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, Eigen::Dynamic &gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <definition>Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
         <argsstring>(matioCpp::MultiDimensionalArray&lt; type &gt; &amp;input)</argsstring>
         <name>toEigen</name>
         <param>
@@ -307,14 +307,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="27" column="12" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="27" bodyend="32"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a91ba1e823bfdcbb989f83856d6818de8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a3f906ee29461e114c48e47503c43e965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename type</type>
           </param>
         </templateparamlist>
         <type>const Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, Eigen::Dynamic &gt; &gt;</type>
-        <definition>const Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, Eigen::Dynamic &gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <definition>const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
         <argsstring>(const matioCpp::MultiDimensionalArray&lt; type &gt; &amp;input)</argsstring>
         <name>toEigen</name>
         <param>
@@ -342,14 +342,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="40" column="18" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="40" bodyend="45"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a93a648a8427e1fa59e653ee12578bb2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1acfc3f7c49d05947006f079d92f9b8839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename type</type>
           </param>
         </templateparamlist>
         <type>Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, 1 &gt; &gt;</type>
-        <definition>Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, 1 &gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <definition>Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
         <argsstring>(matioCpp::Vector&lt; type &gt; &amp;input)</argsstring>
         <name>toEigen</name>
         <param>
@@ -377,14 +377,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="53" column="12" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="53" bodyend="57"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a444aba4179c8d707342c01bef22ff2d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a585706043cef191172d7d84e32be5f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename type</type>
           </param>
         </templateparamlist>
         <type>const Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, 1 &gt; &gt;</type>
-        <definition>const Eigen::Map&lt; Eigen::Matrix&lt; type, Eigen::Dynamic, 1 &gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <definition>const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt; &gt; BipedalLocomotion::Conversions::toEigen</definition>
         <argsstring>(const matioCpp::Vector&lt; type &gt; &amp;input)</argsstring>
         <name>toEigen</name>
         <param>
@@ -412,7 +412,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="65" column="18" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="65" bodyend="69"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a19df0895eed9e11a7547a087a3d006c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1af267c27331ddf097dd1410274ea8bf86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename EigenDerived</type>
@@ -423,7 +423,7 @@
           </param>
         </templateparamlist>
         <type>matioCpp::MultiDimensionalArray&lt; typename EigenDerived::Scalar &gt;</type>
-        <definition>matioCpp::MultiDimensionalArray&lt; typename EigenDerived::Scalar &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::MultiDimensionalArray&lt;typename EigenDerived::Scalar&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const Eigen::MatrixBase&lt; EigenDerived &gt; &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -463,9 +463,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="79" column="33" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="79" bodyend="84"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a613a613d0af3e70692c12da78652c8de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1ad70b8b51222d7801852366863c895788" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>matioCpp::MultiDimensionalArray&lt; double &gt;</type>
-        <definition>matioCpp::MultiDimensionalArray&lt; double &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::MultiDimensionalArray&lt;double&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const iDynTree::MatrixDynSize &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -505,7 +505,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="92" column="40" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="92" bodyend="96"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1ae520e4ea21d98bc1f9df99ab0f9df410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a032525b730552c9af26767c7f2deaacc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>unsigned int</type>
@@ -519,7 +519,7 @@
           </param>
         </templateparamlist>
         <type>matioCpp::MultiDimensionalArray&lt; double &gt;</type>
-        <definition>matioCpp::MultiDimensionalArray&lt; double &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::MultiDimensionalArray&lt;double&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const iDynTree::MatrixFixSize&lt; nRows, nCols &gt; &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -559,7 +559,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="105" column="33" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="105" bodyend="109"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a57c42b79a92d76f608edf265c753d7c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a47866b78d0385a6d47fb8bd64ed66cfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class Vector</type>
@@ -570,7 +570,7 @@
           </param>
         </templateparamlist>
         <type>matioCpp::Vector&lt; typename std::remove_cv_t&lt; typename BipedalLocomotion::container_data&lt; Vector &gt;::type &gt; &gt;</type>
-        <definition>matioCpp::Vector&lt; typename std::remove_cv_t&lt; typename BipedalLocomotion::container_data&lt; Vector &gt;::type &gt; &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::Vector&lt;typename std::remove_cv_t&lt;typename BipedalLocomotion::container_data&lt;Vector&gt;::type&gt; &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const Vector &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -610,7 +610,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="119" column="19" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="119" bodyend="124"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a9bb5a4571c033efda2a8ee47ea78cc5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a9bb5a4571c033efda2a8ee47ea78cc5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>matioCpp::String</type>
         <definition>matioCpp::String BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const std::string &amp;input, const std::string &amp;name)</argsstring>
@@ -652,9 +652,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="132" column="25" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="132" bodyend="135"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a8f9f3594bd72a81b490e409411516efa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1acdca681271f326337ba415f2a8917b73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>matioCpp::Vector&lt; matioCpp::Logical &gt;</type>
-        <definition>matioCpp::Vector&lt; matioCpp::Logical &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::Vector&lt;matioCpp::Logical&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const std::vector&lt; bool &gt; &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -694,7 +694,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="143" column="25" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="143" bodyend="146"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1ac032c6bafa08e6b59858a404c32a5d59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a2b1bbb537e151f9db04920bcafd1ee09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename type</type>
@@ -705,7 +705,7 @@
           </param>
         </templateparamlist>
         <type>matioCpp::Element&lt; type &gt;</type>
-        <definition>matioCpp::Element&lt; type &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::Element&lt;type&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const type &amp;input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -745,9 +745,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="155" column="19" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="155" bodyend="158"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a914a2ec03844c11e1c0bf7e1cdb51f10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1aae6f5c5ef40cef9da3444106f7e0255d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>matioCpp::Element&lt; matioCpp::Logical &gt;</type>
-        <definition>matioCpp::Element&lt; matioCpp::Logical &gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
+        <definition>matioCpp::Element&lt;matioCpp::Logical&gt; BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(bool input, const std::string &amp;name)</argsstring>
         <name>tomatioCpp</name>
         <param>
@@ -787,7 +787,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="166" column="26" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="166" bodyend="169"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a45c2dd5b085948c64f498e667ea1ff7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a45c2dd5b085948c64f498e667ea1ff7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>matioCpp::CellArray</type>
         <definition>matioCpp::CellArray BipedalLocomotion::Conversions::tomatioCpp</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;input, const std::string &amp;name)</argsstring>
@@ -829,7 +829,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="177" column="28" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="177" bodyend="186"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1a4101bbca2961617b67cc7ca464a1def0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1a4101bbca2961617b67cc7ca464a1def0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class iterator</type>
@@ -892,7 +892,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/matioCppConversions.h" line="199" column="18" bodyfile="BipedalLocomotion/Conversions/matioCppConversions.h" bodystart="199" bodyend="210"/>
       </memberdef>
-      <memberdef kind="function" id="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h_1af3036db9a887e7f936d293c4a9f2c89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="matioCppConversions_8h_1af3036db9a887e7f936d293c4a9f2c89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class iterator</type>

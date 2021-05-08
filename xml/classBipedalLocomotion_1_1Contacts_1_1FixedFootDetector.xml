@@ -211,7 +211,7 @@
 </simplesect>
 <simplesect kind="warning"><para>The presented logic may not fit in a real scenario. Indeed the class implements an approach completely based on the desired footsteps and it does not consider the current state of the robot. We suggest to use <ref refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" kindref="compound">Contacts::SchmittTriggerDetector</ref> class if you want consider the force acting on the robot. </para>
 </simplesect>
-<simplesect kind="note"><para>Given the current implementation of the class, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" kindref="member">ContactDetector::advance</ref></computeroutput> only to <computeroutput>advance</computeroutput> the current time stored within the class. If you want to get the fixed foot at the initial time <formula id="77">$t=t_i$</formula>, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kindref="member">FixedFootDetector::getFixedFoot</ref></computeroutput> before calling advance. The following snippet can be used as a reference: <programlisting filename=".cpp"><codeline><highlight class="normal">FixedFootDetector<sp/>detector;</highlight></codeline>
+<simplesect kind="note"><para>Given the current implementation of the class, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" kindref="member">ContactDetector::advance</ref></computeroutput> only to <computeroutput>advance</computeroutput> the current time stored within the class. If you want to get the fixed foot at the initial time <formula id="70">$t=t_i$</formula>, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kindref="member">FixedFootDetector::getFixedFoot</ref></computeroutput> before calling advance. The following snippet can be used as a reference: <programlisting filename=".cpp"><codeline><highlight class="normal">FixedFootDetector<sp/>detector;</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>initialize<sp/>the<sp/>detector</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">detector.initialize(paramsHandler);</highlight></codeline>
@@ -271,8 +271,6 @@
       <node id="8">
         <label>BipedalLocomotion::Contacts::EstimatedContact</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
-        <childnode refid="9" relation="public-inheritance">
-        </childnode>
         <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
@@ -367,13 +365,11 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1acae539041db3bf7ddc2de9693d6a4012" prot="private" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>get</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acdc6bea64f45e65e188f340aec439c95" prot="public" virt="pure-virtual" ambiguityscope="Source&lt; EstimatedContactList &gt;::"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>getFixedFoot</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>isOutputValid</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a902e470bf636111b0b7e13c49c1659ef" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a268884e697deca78b8d25350152f9a1e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>m_contactPhaselist</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>m_contactStates</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1abc67248060b923b21a476ac0c83afb79" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>m_currentTime</name></member>

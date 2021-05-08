@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir">
     <compoundname>BipedalLocomotion/AutoDiff</compoundname>
-    <innerfile refid="src_2AutoDiff_2include_2BipedalLocomotion_2AutoDiff_2CppAD_8h">CppAD.h</innerfile>
+    <innerfile refid="CppAD_8h">CppAD.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

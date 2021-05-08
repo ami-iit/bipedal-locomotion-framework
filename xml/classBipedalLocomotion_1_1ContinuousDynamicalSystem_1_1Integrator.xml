@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="53" column="10"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="53" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="78" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" kindref="member">DynamicalSystem</ref> &gt;</type>

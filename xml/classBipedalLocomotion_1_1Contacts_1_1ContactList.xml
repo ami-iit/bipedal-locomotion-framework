@@ -62,11 +62,11 @@
         <location file="BipedalLocomotion/Contacts/ContactList.h" line="46" column="17" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a497aa67f6d3be55e10e04f7d2fabbe7f" prot="private" static="no" mutable="no">
-        <type>BipedalLocomotion::Contacts::ContactType</type>
+        <type><ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">BipedalLocomotion::Contacts::ContactType</ref></type>
         <definition>BipedalLocomotion::Contacts::ContactType BipedalLocomotion::Contacts::ContactList::m_defaultContactType</definition>
         <argsstring></argsstring>
         <name>m_defaultContactType</name>
-        <initializer>{BipedalLocomotion::Contacts::ContactType::FULL}</initializer>
+        <initializer>{<ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" kindref="member">BipedalLocomotion::Contacts::ContactType::FULL</ref>}</initializer>
         <briefdescription>
 <para>Default name for the contact list. </para>
         </briefdescription>
@@ -145,7 +145,7 @@
         <argsstring>(const BipedalLocomotion::Contacts::ContactType &amp;type)</argsstring>
         <name>setDefaultContactType</name>
         <param>
-          <type>const BipedalLocomotion::Contacts::ContactType &amp;</type>
+          <type>const <ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">BipedalLocomotion::Contacts::ContactType</ref> &amp;</type>
           <declname>type</declname>
         </param>
         <briefdescription>
@@ -213,7 +213,7 @@
         <location file="BipedalLocomotion/Contacts/ContactList.h" line="84" column="9"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae46e41130807480653ec39dba6cd576e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const BipedalLocomotion::Contacts::ContactType &amp;</type>
+        <type>const <ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">BipedalLocomotion::Contacts::ContactType</ref> &amp;</type>
         <definition>const BipedalLocomotion::Contacts::ContactType&amp; BipedalLocomotion::Contacts::ContactList::defaultContactType</definition>
         <argsstring>() const</argsstring>
         <name>defaultContactType</name>

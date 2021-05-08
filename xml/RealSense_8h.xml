@@ -4,7 +4,6 @@
     <compoundname>RealSense.h</compoundname>
     <includes refid="ICameraBridge_8h" local="no">BipedalLocomotion/RobotInterface/ICameraBridge.h</includes>
     <includes refid="IPointCloudBridge_8h" local="no">BipedalLocomotion/RobotInterface/IPointCloudBridge.h</includes>
-    <includedby refid="utilities_2realsense-test_2include_2BipedalLocomotion_2RealSenseTest_2Module_8h" local="no">BipedalLocomotion/RealSenseTest/Module.h</includedby>
     <innerclass refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense" prot="public">BipedalLocomotion::Perception::Capture::RealSense</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Perception">BipedalLocomotion::Perception</innernamespace>

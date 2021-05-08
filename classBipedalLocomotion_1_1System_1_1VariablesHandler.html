@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>VariablesHandler <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2System_2include_2BipedalLocomotion_2System_2VariablesHandler_8h.html">&lt;BipedalLocomotion/System/VariablesHandler.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="VariablesHandler_8h.html">&lt;BipedalLocomotion/System/VariablesHandler.h&gt;</a></div>
         </h1>
         <p>VariableHandler is useful to handle variables in an optimization problem, Their name, dimension and position.</p>
         <div class="m-block m-default">
@@ -87,24 +87,6 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a877a88ced767cecb576549022e69eba5" class="m-doc">addVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
-              const std::size_t&amp; size) -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Add a new variable to the list.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9fbb0a990d36d36ab756f452e835e1cd" class="m-doc">getVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; <a href="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Get a variable from the list.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a068903e29c12046b10eef247a6b6f74d" class="m-doc">getVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
-              <a href="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a>&amp; description) const -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Get a variable from the list.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#abd2b00cba19ce9978cc4d0e247e061b0" class="m-doc">getNumberOfVariables</a>(</span><span class="m-doc-wrap">) const -&gt; const std::size_t&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Get the number of variables.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a0e44cf73ad0607f1aea89ff028d0c8c4" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -139,99 +121,6 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a877a88ced767cecb576549022e69eba5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />VariablesHandler::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a877a88ced767cecb576549022e69eba5" class="m-doc-self">addVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
-              const std::size_t&amp; size) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Add a new variable to the list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>of the variable</td>
-                </tr>
-                <tr>
-                  <td>size</td>
-                  <td>the size of the variable</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true/false in case of success/failure</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a9fbb0a990d36d36ab756f452e835e1cd"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a href="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a> BipedalLocomotion::<wbr />System::<wbr />VariablesHandler::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9fbb0a990d36d36ab756f452e835e1cd" class="m-doc-self">getVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Get a variable from the list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>of the variable</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>the index range associated to the variable</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a068903e29c12046b10eef247a6b6f74d"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />VariablesHandler::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a068903e29c12046b10eef247a6b6f74d" class="m-doc-self">getVariable</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
-              <a href="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a>&amp; description) const <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Get a variable from the list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>of the variable</td>
-                </tr>
-                <tr>
-                  <td>description&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>the description of the variable</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true/false in case of success/failure</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="abd2b00cba19ce9978cc4d0e247e061b0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const std::size_t&amp; BipedalLocomotion::<wbr />System::<wbr />VariablesHandler::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abd2b00cba19ce9978cc4d0e247e061b0" class="m-doc-self">getNumberOfVariables</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Get the number of variables.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the total number of variables</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="a0e44cf73ad0607f1aea89ff028d0c8c4"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />VariablesHandler::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0e44cf73ad0607f1aea89ff028d0c8c4" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-success">noexcept</span></span></span>

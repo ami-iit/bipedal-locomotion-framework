@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1RobotInterface.html">RobotInterface</a>::<wbr/></span>YarpRobotControl <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2RobotInterface_2YarpImplementation_2include_2BipedalLocaa0bed0b30228c0c2064f42d73a4ec2e.html">&lt;BipedalLocomotion/RobotInterface/YarpRobotControl.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="YarpRobotControl_8h.html">&lt;BipedalLocomotion/RobotInterface/YarpRobotControl.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a> interface.</p>
         <div class="m-block m-default">
@@ -84,23 +84,11 @@
               class <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>
             </dt>
             <dd>Robot control interface.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>
-            </dt>
-            <dd>Robot control interface.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a4ec6b9d2a7d24b197431776c257d7c50">
-              <span class="m-doc-wrap-bumper"><a href="#a4ec6b9d2a7d24b197431776c257d7c50" class="m-doc-self">YarpRobotControl</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Constructor.</dd>
-            <dt id="a2fc36acedb0eb8d541d20a720247f83f">
-              <span class="m-doc-wrap-bumper"><a href="#a2fc36acedb0eb8d541d20a720247f83f" class="m-doc-self">~YarpRobotControl</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Destructor.</dd>
             <dt id="a4ec6b9d2a7d24b197431776c257d7c50">
               <span class="m-doc-wrap-bumper"><a href="#a4ec6b9d2a7d24b197431776c257d7c50" class="m-doc-self">YarpRobotControl</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
@@ -142,178 +130,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a4968e571c4433e54b89a7c83fdfeace2" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Get the list of the controlled joints.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a85dbd7d4b6312bf184bb03054a0240b5" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Initialize the Interface.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a37085e21adddb1bc55193d452623fc82" class="m-doc">setDriver</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;yarp::dev::PolyDriver&gt; robotDevice) -&gt; bool</span>
-            </dt>
-            <dd>Set the driver required to control the robot.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a69d3aac94055729d5fbff666ae1ceb83" class="m-doc">checkMotionDone</a>(</span><span class="m-doc-wrap">bool&amp; motionDone,
-              bool&amp; isTimeExpired,
-              std::vector&lt;std::pair&lt;std::string, double&gt;&gt;&amp; info) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Check if the motion set through the position control mode ended.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab229c5fe700419a24550d89f042e68b1" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Set the desired reference.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a94bc2f427bffa43aa1bd4da7ff0a9ad8" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Set the desired reference.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4968e571c4433e54b89a7c83fdfeace2" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Get the list of the controlled joints.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a85dbd7d4b6312bf184bb03054a0240b5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a85dbd7d4b6312bf184bb03054a0240b5" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Initialize the Interface.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to a parameter handler interface</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>reading_timeout</code></td><td><code>int</code></td><td>Timeout used while reading from the YARP interfaces in microseconds. (Positive Number)</td><td>No</td></tr><tr><td><code>max_reading_attempts</code></td><td><code>int</code></td><td>Max number of attempts used for reading from the YARP interfaces. (Positive Number)</td><td>No</td></tr><tr><td><code>positioning_duration</code></td><td><code>double</code></td><td>Duration of the trajectory generated when the joint is controlled in position mode [seconds]</td><td>Yes</td></tr><tr><td><code>positioning_tolerance</code></td><td><code>double</code></td><td>Max Admissible error for position control joint [rad]</td><td>Yes</td></tr><tr><td><code>position_direct_max_admissible_error</code></td><td><code>double</code></td><td>Max admissible error for position direct control joint [rad]</td><td>Yes</td></tr></tbody></table></aside>
-          </div></section>
-          <section class="m-doc-details" id="a37085e21adddb1bc55193d452623fc82"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a37085e21adddb1bc55193d452623fc82" class="m-doc-self">setDriver</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;yarp::dev::PolyDriver&gt; robotDevice)</span></span>
-            </h3>
-            <p>Set the driver required to control the robot.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">robotDevice</td>
-                  <td>device used to control the robot.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a69d3aac94055729d5fbff666ae1ceb83"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a69d3aac94055729d5fbff666ae1ceb83" class="m-doc-self">checkMotionDone</a>(</span><span class="m-doc-wrap">bool&amp; motionDone,
-              bool&amp; isTimeExpired,
-              std::vector&lt;std::pair&lt;std::string, double&gt;&gt;&amp; info) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Check if the motion set through the position control mode ended.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">motionDone&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>true if the motion ended.</td>
-                </tr>
-                <tr>
-                  <td>isTimeExpired</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>info&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>vector containing the list of the joint whose motion did not finish yet.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>If the timer is expired and the motion did not finish yet, there may be a problem with the robot.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ab229c5fe700419a24550d89f042e68b1"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab229c5fe700419a24550d89f042e68b1" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Set the desired reference.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">jointValues</td>
-                  <td>desired joint values.</td>
-                </tr>
-                <tr>
-                  <td>controlModes</td>
-                  <td>vector containing the control mode for each joint.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>At the current stage only revolute joints are supported.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a94bc2f427bffa43aa1bd4da7ff0a9ad8"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a94bc2f427bffa43aa1bd4da7ff0a9ad8" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Set the desired reference.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode. Otherwise call setReferences(Eigen::Ref&lt;const Eigen::VectorXd&gt;, const std::vector&lt;IRobotControl::ControlMode&gt;&amp;).</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a4968e571c4433e54b89a7c83fdfeace2"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4968e571c4433e54b89a7c83fdfeace2" class="m-doc-self">getJointList</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Get the list of the controlled joints.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>A vector containing the name of the controlled joints.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="a85dbd7d4b6312bf184bb03054a0240b5"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a85dbd7d4b6312bf184bb03054a0240b5" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">final</span></span></span>

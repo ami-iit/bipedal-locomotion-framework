@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators.html">Estimators</a>::<wbr/></span>InvariantEKFBaseEstimator <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2Estimators_2include_2BipedalLocomotion_2FloatingBaseEstimators_2InvariantEKFBaseEstimator_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="InvariantEKFBaseEstimator_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator.html" class="m-doc">InvariantEKFBaseEstimator</a> class implements the Contact Aided Invariant EKF algorithm, developed by Ross Hartley, Maani Ghaffari, Ryan M.</p>
         <div class="m-block m-default">
@@ -85,23 +85,11 @@
               class <a href="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator.html" class="m-doc">FloatingBaseEstimator</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator.html" class="m-doc">FloatingBaseEstimator</a> class contains the bare-bones implementation for a <a href="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry.html" class="m-doc">LeggedOdometry</a> based or Extended Kalman Filter based floating base estimation algorithms for bipedal robots.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator.html" class="m-doc">FloatingBaseEstimator</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator.html" class="m-doc">FloatingBaseEstimator</a> class contains the bare-bones implementation for a <a href="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry.html" class="m-doc">LeggedOdometry</a> based or Extended Kalman Filter based floating base estimation algorithms for bipedal robots.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a87ffffd28df33f28031a04f9d6e47990">
-              <span class="m-doc-wrap-bumper"><a href="#a87ffffd28df33f28031a04f9d6e47990" class="m-doc-self">InvariantEKFBaseEstimator</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Constructor.</dd>
-            <dt id="aa3b055aa205ec634f8114abe9940af73">
-              <span class="m-doc-wrap-bumper"><a href="#aa3b055aa205ec634f8114abe9940af73" class="m-doc-self">~InvariantEKFBaseEstimator</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Destructor (necessary for PIMPL idiom)</dd>
             <dt id="a87ffffd28df33f28031a04f9d6e47990">
               <span class="m-doc-wrap-bumper"><a href="#a87ffffd28df33f28031a04f9d6e47990" class="m-doc-self">InvariantEKFBaseEstimator</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
@@ -134,52 +122,6 @@
               <span class="m-doc-wrap-bumper">void <a href="#af1720624f0378a9580e6beddef327894" class="m-doc">toggleEKFUpdate</a>(</span><span class="m-doc-wrap">const bool&amp; flag)</span>
             </dt>
             <dd>Toggle EKF update.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a75d32f4d2f3545e5bda5ca59958cef73" class="m-doc">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />StateStdDev</a>&amp; newPriorDev) -&gt; bool</span>
-            </dt>
-            <dd>Reset the base pose estimate and consequently the internal state of the estimator.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1fab62bab1fdbea2685515939e2463fb" class="m-doc">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />StateStdDev</a>&amp; newPriorDev,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />SensorsStdDev</a>&amp; newSensorsDev) -&gt; bool</span>
-            </dt>
-            <dd>Reset the base pose estimate and consequently the internal state of the estimator.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a55fe75746c6a20ed499f4346a0decaae" class="m-doc">toggleBiasEstimation</a>(</span><span class="m-doc-wrap">const bool&amp; flag)</span>
-            </dt>
-            <dd>Toggle bias estimation.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#af1720624f0378a9580e6beddef327894" class="m-doc">toggleEKFUpdate</a>(</span><span class="m-doc-wrap">const bool&amp; flag)</span>
-            </dt>
-            <dd>Toggle EKF update.</dd>
-            <dt id="a529f9d8ec5ff8448a6ee853f03c99a90">
-              <span class="m-doc-wrap-bumper">auto <a href="#a529f9d8ec5ff8448a6ee853f03c99a90" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
-            <dt id="abbba797785c6492b25395122e4694432">
-              <span class="m-doc-wrap-bumper">auto <a href="#abbba797785c6492b25395122e4694432" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const Eigen::Quaterniond&amp; newBaseOrientation,
-              const Eigen::Vector3d&amp; newBasePosition) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
-            <dt id="afaa96d18ba685b1cb5cb9a56f4d862cb">
-              <span class="m-doc-wrap-bumper">auto <a href="#afaa96d18ba685b1cb5cb9a56f4d862cb" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState) -&gt; bool</span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
-            <dt id="a3b6896ce5674651e673761bbce201154">
-              <span class="m-doc-wrap-bumper">auto <a href="#a3b6896ce5674651e673761bbce201154" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const Eigen::Quaterniond&amp; newBaseOrientation,
-              const Eigen::Vector3d&amp; newBasePosition) -&gt; bool</span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
-            <dt id="a529f9d8ec5ff8448a6ee853f03c99a90">
-              <span class="m-doc-wrap-bumper">auto <a href="#a529f9d8ec5ff8448a6ee853f03c99a90" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
-            <dt id="abbba797785c6492b25395122e4694432">
-              <span class="m-doc-wrap-bumper">auto <a href="#abbba797785c6492b25395122e4694432" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const Eigen::Quaterniond&amp; newBaseOrientation,
-              const Eigen::Vector3d&amp; newBasePosition) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>To prevent function hiding due to overloading of virtual methods.</dd>
             <dt id="afaa96d18ba685b1cb5cb9a56f4d862cb">
               <span class="m-doc-wrap-bumper">auto <a href="#afaa96d18ba685b1cb5cb9a56f4d862cb" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState) -&gt; bool</span>
             </dt>
@@ -194,20 +136,6 @@
         <section id="pro-methods">
           <h2><a href="#pro-methods">Protected functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a88d89de191ce004ad8fc1556f635f4d0" class="m-doc">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>These custom parameter specifications should be specified by the derived class.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a66a181d6038b6b61030bf51a86426afa" class="m-doc">predictState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements.html" class="m-doc">FloatingBaseEstimators::<wbr />Measurements</a>&amp; meas,
-              const double&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Propagate the states through the prediction model, if there exists any (eg.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#afb7b1c76913f5166d0e4ce6641466d91" class="m-doc">updateKinematics</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements.html" class="m-doc">FloatingBaseEstimators::<wbr />Measurements</a>&amp; meas,
-              const double&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Update the predicted state estimates using kinematics and contact measurements.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a88d89de191ce004ad8fc1556f635f4d0" class="m-doc">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
@@ -321,183 +249,6 @@
                   <td>flag for ekf update</td>
                 </tr>
               </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a75d32f4d2f3545e5bda5ca59958cef73"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a75d32f4d2f3545e5bda5ca59958cef73" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />StateStdDev</a>&amp; newPriorDev)</span></span>
-            </h3>
-            <p>Reset the base pose estimate and consequently the internal state of the estimator.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">newState&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>internal state of the estimator</td>
-                </tr>
-                <tr>
-                  <td>newPriorDev&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>internal state priors</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>reset and advance estimator to get updated estimator output</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a1fab62bab1fdbea2685515939e2463fb"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1fab62bab1fdbea2685515939e2463fb" class="m-doc-self">resetEstimator</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState.html" class="m-doc">FloatingBaseEstimators::<wbr />InternalState</a>&amp; newState,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />StateStdDev</a>&amp; newPriorDev,
-              const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev.html" class="m-doc">FloatingBaseEstimators::<wbr />SensorsStdDev</a>&amp; newSensorsDev)</span></span>
-            </h3>
-            <p>Reset the base pose estimate and consequently the internal state of the estimator.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">newState&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>internal state of the estimator</td>
-                </tr>
-                <tr>
-                  <td>newPriorDev&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>internal state priors</td>
-                </tr>
-                <tr>
-                  <td>newSensorsDev&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>sensor measurement noise</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>reset and advance estimator to get updated estimator output</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a55fe75746c6a20ed499f4346a0decaae"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a55fe75746c6a20ed499f4346a0decaae" class="m-doc-self">toggleBiasEstimation</a>(</span><span class="m-doc-wrap">const bool&amp; flag)</span></span>
-            </h3>
-            <p>Toggle bias estimation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">flag&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>flag for bias estimation</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="af1720624f0378a9580e6beddef327894"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af1720624f0378a9580e6beddef327894" class="m-doc-self">toggleEKFUpdate</a>(</span><span class="m-doc-wrap">const bool&amp; flag)</span></span>
-            </h3>
-            <p>Toggle EKF update.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">flag&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>flag for ekf update</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a88d89de191ce004ad8fc1556f635f4d0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a88d89de191ce004ad8fc1556f635f4d0" class="m-doc-self">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>These custom parameter specifications should be specified by the derived class.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>configure the custom parameters for the estimator</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>bool</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a66a181d6038b6b61030bf51a86426afa"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a66a181d6038b6b61030bf51a86426afa" class="m-doc-self">predictState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements.html" class="m-doc">FloatingBaseEstimators::<wbr />Measurements</a>&amp; meas,
-              const double&amp; dt) <span class="m-label m-warning">override</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>Propagate the states through the prediction model, if there exists any (eg.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">meas&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>measurements passed as exogeneous inputs to the prediction model</td>
-                </tr>
-                <tr>
-                  <td>dt&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>sampling period in seconds</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>a strap-down IMU model)</p>
-          </div></section>
-          <section class="m-doc-details" id="afb7b1c76913f5166d0e4ce6641466d91"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />InvariantEKFBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afb7b1c76913f5166d0e4ce6641466d91" class="m-doc-self">updateKinematics</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements.html" class="m-doc">FloatingBaseEstimators::<wbr />Measurements</a>&amp; meas,
-              const double&amp; dt) <span class="m-label m-warning">override</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>Update the predicted state estimates using kinematics and contact measurements.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">meas&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>measurements to update the predicted states</td>
-                </tr>
-                <tr>
-                  <td>dt&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>sampling period in seconds</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
             </table>
           </div></section>
           <section class="m-doc-details" id="a88d89de191ce004ad8fc1556f635f4d0"><div>

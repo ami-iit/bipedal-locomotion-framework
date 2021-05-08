@@ -7,14 +7,33 @@
     <includes refid="LinearTask_8h" local="no">BipedalLocomotion/System/LinearTask.h</includes>
     <includes local="no">LieGroupControllers/ProportionalDerivativeController.h</includes>
     <incdepgraph>
-      <node id="10">
+      <node id="12">
         <label>LieGroupControllers/ProportionalDerivativeController.h</label>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>string</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
+        <link refid="VariablesHandler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion/System/LinearTask.h</label>
@@ -29,7 +48,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -38,8 +57,11 @@
       <node id="3">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
-      <node id="8">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+      <node id="9">
+        <label>vector</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
@@ -50,7 +72,7 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="7">

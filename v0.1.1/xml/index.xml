@@ -27,17 +27,6 @@
   <compound refid="structEigen_1_1internal_1_1cast__impl_3_01CppAD_1_1AD_3_01Scalar_01_4_00_01Scalar_01_4" kind="struct"><name>Eigen::internal::cast_impl&lt; CppAD::AD&lt; Scalar &gt;, Scalar &gt;</name>
     <member refid="structEigen_1_1internal_1_1cast__impl_3_01CppAD_1_1AD_3_01Scalar_01_4_00_01Scalar_01_4_1a6cab4c37aaea55a47c360e99501768d5" kind="function"><name>run</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData" kind="struct"><name>BipedalLocomotion::MasImuTest::CommonData</name>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a1207fcbd5727577d7a8ee443e4e1a8f5" kind="variable"><name>robotName</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1ade32fa092011c6d001d75ab03d4c6291" kind="variable"><name>prefix</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a66b593c8bafa4c001928a364cf085b97" kind="variable"><name>fullModel</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a140e9973c6bc71655757f1ce19da1f62" kind="variable"><name>traversal</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a3c3a4fa948df4dfdec24f0635346515e" kind="variable"><name>baseTransform</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a9fe85c3dbafc698bc63b6b655990e201" kind="variable"><name>filterYaw</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a072cbeae3be608a2c568478f091015b3" kind="variable"><name>maxSamples</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a292bf77f58ed9182a0013ca0aec1efbe" kind="variable"><name>minJointVariationRad</name></member>
-    <member refid="structBipedalLocomotion_1_1MasImuTest_1_1CommonData_1a00aff4ed9e5fe74e0fcf15850dc27063" kind="variable"><name>masTimeout</name></member>
-  </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1Contact" kind="struct"><name>BipedalLocomotion::Planners::Contact</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1Contact_1a3d135aee217f35c598ddaf876700a6e6" kind="variable"><name>pose</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1Contact_1abf746083a049407901e04d9903935fcf" kind="variable"><name>activationTime</name></member>
@@ -317,57 +306,6 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" kind="function"><name>setupFixedVectorParamPrivate</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a4b30bd2271c3f84d936b6f2ea5e01a40" kind="function"><name>updateBaseStateFromIMUState</name></member>
   </compound>
-  <compound refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice" kind="class"><name>BipedalLocomotion::FloatingBaseEstimatorDevice</name>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a44e48e67f6d2e89b55084a5fe54edd73" kind="variable"><name>floatingBaseStatePort</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a761b4d3e2c3790e2fd9cdd502e40b553" kind="variable"><name>internalStateAndStdDevPort</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5d28ae26a88bf443095d28670b777c77" kind="variable"><name>contactStatePort</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a98df7acbe072c5db9144277423ce79cf" kind="variable"><name>m_comms</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a912bc36ef27213593e86b5f7e21dba11" kind="variable"><name>m_model</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a221f4a148a92b419352184fbdf679dae" kind="variable"><name>m_robotSensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a0749415f7779b7a56b8ed630ff6dbca8" kind="variable"><name>m_estimator</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a6f7c9862506994494ac0f2ddf171b6ba" kind="variable"><name>m_lFootCSM</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aed3c27d382147d4e9f00681cc8943d2f" kind="variable"><name>m_rFootCSM</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a0d051d908f5356a35208eea794780261" kind="variable"><name>m_currentlFootState</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a73aea620686d855357c114678e612237" kind="variable"><name>m_currentrFootState</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a6d69ea1da162af6260090c8c313c8450" kind="variable"><name>m_currentlContactNormal</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae06ab77a3488c27e5ddd5717c9815477" kind="variable"><name>m_currentrContactNormal</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a19bc01c20c550e04264a2d7cab6cf9c7" kind="variable"><name>m_deviceMutex</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5ce0337efc6e14a069cf81fbaba7d068" kind="variable"><name>m_portPrefix</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af8dd403ee5f3014bdfb566dbf6b40838" kind="variable"><name>m_robot</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abf59a6c8908d89b37b27f29ea14a6d96" kind="variable"><name>m_estimatorType</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f1b5eb97f8e4c5b65fba2b467bd6100" kind="variable"><name>m_baseLinkImuName</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a09161cbb568e08915d8219075e0a03a7" kind="variable"><name>m_leftFootWrenchName</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aea4126a5181c12289297687141ea16a1" kind="variable"><name>m_rightFootWrenchName</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4aa09cc3948a67252830c80313fbfd9b" kind="variable"><name>m_transformBroadcaster</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8885d8e40445c358723811b24a5ba3ad" kind="variable"><name>m_transformInterface</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a40a06631aac63c6c359fb222e4cffe88" kind="variable"><name>m_publishROSTF</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa2447750a349af1a12f9aa62e2409ac1" kind="function"><name>FloatingBaseEstimatorDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af62e5bea12c54130caeec388ddeb62b7" kind="function"><name>FloatingBaseEstimatorDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad150a4727f1746c7b877a3ed5aa842cf" kind="function"><name>~FloatingBaseEstimatorDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae742bc32d4ff8844382762db0cf59bb3" kind="function"><name>open</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a5309e4513f04a710e12e8d4bd74eea33" kind="function"><name>close</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a1a511294297ff0cd6a416ed2808bfdbb" kind="function"><name>attachAll</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a54dc197e189b8901de03a80a4fd79a6c" kind="function"><name>detachAll</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae425a3f2ef0a6bafb5114a4854c8ae8e" kind="function"><name>run</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1af82c61eaaccf7b56e1f55f4205f35d17" kind="function"><name>setupRobotModel</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4709558600cf2d6da8c3ca3f52a764ba" kind="function"><name>setupRobotSensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aa51b844d013f09dea10987a0c13cc1d7" kind="function"><name>setupFeetContactStateMachines</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a9f49afe5fcf432e620efe67d351ef711" kind="function"><name>parseFootSchmittParams</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a53430bd6ce74bf5f533e35b8df0506b1" kind="function"><name>setupBaseEstimator</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abfd1dd5ea4ae2cb3922e68f76e370cc0" kind="function"><name>loadTransformBroadcaster</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ae5c3081a9c312e4f672a954a103bc06c" kind="function"><name>updateMeasurements</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a49b0b285b6f8ec9efdfa72475e0037d2" kind="function"><name>updateInertialBuffers</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a608b04e8e0d4786289565d5c1d4747b6" kind="function"><name>updateContactStates</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a4eaf6ab28c37e32865fcfe17f9282cac" kind="function"><name>updateKinematics</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1aee1e82dd5fdfea834b1745ebba38c4af" kind="function"><name>publish</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac0564eebb44d25fca790c3aa8bd2de6a" kind="function"><name>publishBaseLinkState</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ad9ac5bf329d6319a829da4cadf913713" kind="function"><name>publishInternalStateAndStdDev</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a985ab8141402a9547bdb2fe616ba114d" kind="function"><name>publishFootContactStatesAndNormalForces</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1ac772d26416b1a40a862eb09dcbf1844f" kind="function"><name>openCommunications</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1abae540dbbbd6ca83ba3d3bb4164dc8ad" kind="function"><name>closeCommunications</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a8feef60d92d808937129d30571301fbd" kind="function"><name>openBufferedSigPort</name></member>
-    <member refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice_1a115d0d573995d19cedfdb203d8e199f4" kind="function"><name>closeBufferedSigPort</name></member>
-  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics" kind="class"><name>BipedalLocomotion::System::FloatingBaseSystemKinematics</name>
     <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics_1a6ed3ca64012c2c4b660ad58c168d90b1" kind="variable"><name>m_rho</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics_1a3b9b513156c3b1286a3a17da61f1042e" kind="function"><name>initalize</name></member>
@@ -597,101 +535,6 @@
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6d77563ffad010c6649df8320148ab92" kind="function"><name>dynamics</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a850db8298b3214235384ec0219c13c83" kind="function"><name>~LinearTimeInvariantSystem</name></member>
   </compound>
-  <compound refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData" kind="class"><name>BipedalLocomotion::MasImuTest::MasImuData</name>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac03954ae8e4725e403b47797f47ae5e7" kind="variable"><name>m_testName</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abfcc1f9d1d3f9965958717d8b6231711" kind="variable"><name>m_logPrefix</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1986a1c2646a9e55314325bb23b85b0c" kind="variable"><name>m_commonDataPtr</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a36805d7b62622f218ccf6976b36ece23" kind="variable"><name>m_group</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa7fed4071dfe76a829f64d6a5036920b" kind="variable"><name>m_frame</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a9077687f4f913c29293a78d90d8fa173" kind="variable"><name>m_frameName</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a87299d91056ec81693fb28cf64a61009" kind="variable"><name>m_imuName</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab28bbdd8164e7f3906b974d899a104e3" kind="variable"><name>m_gyroName</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1acfb00c721445872fcb3227b7f186eb04" kind="variable"><name>m_accName</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad3967e494cab51e189f0dfe24f00f1b9" kind="variable"><name>m_consideredJointIndexes</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af65b5b31bcfa4abb10bd812f41805668" kind="variable"><name>m_consideredJointNames</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac031d3a0dbea2308fc2adb0c105a9257" kind="variable"><name>m_kinDyn</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aaa320fa0e40df32dde8ead2a2c21f0b1" kind="variable"><name>m_orientationDriver</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa1971e2ff40261808795068c3417e4a7" kind="variable"><name>m_robotDriver</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5693edeff24d0f4f3c2c2baf04d5ff49" kind="variable"><name>m_orientationInterface</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a2a3e4f0b0e2d4c35cafb7e714f81424d" kind="variable"><name>m_gyroInterface</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a10375b4e9cea8458521b2bf349dfeacc" kind="variable"><name>m_accInterface</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a863d2d66c9166cc420f3510f9cf08fc0" kind="variable"><name>m_encodersInterface</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a72a55ca488808cd2d636f066d0e76d74" kind="variable"><name>m_imuSensorIndex</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5d51b26ccfaa94ec6301238ff0cdc570" kind="variable"><name>m_gyroSensorIndex</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a273876ec3321c59ac688e9eff4f40ddc" kind="variable"><name>m_accSensorIndex</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38031791be642cc19a2529cb3da98e3f" kind="variable"><name>m_positionFeedbackDeg</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a2468015e3ee6d3c1f0b10f975bc3ab0c" kind="variable"><name>m_rpyInDeg</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6ea3c990454d8e1cdac8daa7f3f8fb2c" kind="variable"><name>m_gyroInDeg_s</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a4b0f299f6c80906e007459685627e748" kind="variable"><name>m_acc</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1aa7e93df66ba516165c5cb55f2da1a1" kind="variable"><name>m_rpyInDegRemapped</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a49dd72ea1e6e5f8e3f293d9cdfeb5e78" kind="variable"><name>m_positionFeedbackInRad</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a084c8cb18e0afe9bbf6fb39c4df9ab0c" kind="variable"><name>m_previousPositionFeedbackInRad</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af0c71bf5ab2278114608ef958817427e" kind="variable"><name>m_dummyVelocity</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a7383c1150f1270fe039d8871b672204b" kind="variable"><name>m_rotationFeedback</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ab4caafdeb81ce1043dd894428c6c9bdb" kind="variable"><name>m_rpyMapping</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0333bece7f4c37c2d14aa76b78c429d5" kind="variable"><name>m_rotationFromEncoders</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6b71b0a587a3cb9c8bf1585ee1873820" kind="variable"><name>m_imuWorld</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5ee3c6086f6fa2e333cf2b631d50e56b" kind="variable"><name>m_errorData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afe4373f8a0f8691bd45c8a06f3b07b81" kind="variable"><name>m_jointsPositionData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3f2923a02d12b321343c4c42843fd2c5" kind="variable"><name>m_rotationFeedbackData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1af66cf80d2a9c6fe3d63576bb5c75bc38" kind="variable"><name>m_rotationFeedbackInInertialData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a6c4c9c62aa83884d3ffb4161e7ffb09d" kind="variable"><name>m_rotationFeedbackInInertialYawFilteredData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a47c63b7b882557d0edf48f935b60bb58" kind="variable"><name>m_rpyImuData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a712994df7d2511d19409495385d3c173" kind="variable"><name>m_rpyRemappedData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a8f9d036c12854c725b2bf618f9443b6c" kind="variable"><name>m_rotationFromEncodersData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a5fa533db152f5297285b09f6649aaf21" kind="variable"><name>m_gyroData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a020cb3c619ee5587d82700857260bf1d" kind="variable"><name>m_accData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a78eeed6215effc734b5aef65b555d7bd" kind="variable"><name>m_output</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1afc8d2cdfff44373eaa055bc93841199d" kind="variable"><name>m_completed</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa82bf0cc839a0a55067478f2a9c98990" kind="function"><name>reserveData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a1e63c98a251dd6973ecf90bd4127673c" kind="function"><name>clearData</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a573b3f2f8f8249289c4bd3ffabe4fb0a" kind="function"><name>setupModel</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6877fc3e27e3e904721b13afafbe970" kind="function"><name>setupIMUDriver</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a64799609e0090b4274100c432da80d1f" kind="function"><name>setupOrientationSensor</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a71b3f690de242aa3a96518a20d3b75db" kind="function"><name>setupGyro</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aa04ff4038995e19a8f03d1288fcb8944" kind="function"><name>setupAccelerometer</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aefa02c00bed5efe5e4d9d0ea96133564" kind="function"><name>setupEncoders</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aadba3f81f7376274a3217c756fbd28d4" kind="function"><name>getFeedback</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1aec0721bbab09342be09dca695c25912d" kind="function"><name>updateRotationFromEncoders</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac35885fc93ab884c186815c0aed212fa" kind="function"><name>maxVariation</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a86ce1c6fbda0f2e1b1bc1702ce90c8c5" kind="function"><name>setup</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad135737bd73fd9d7c525ce914ca6ddbd" kind="function"><name>firstRun</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a41237e36669e05825dffb49ddb017a42" kind="function"><name>addSample</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a628e8c2af575ffba751a6bb34761f5f1" kind="function"><name>addedSamples</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a38cd8242a19d8a83e38203f3fb614d6f" kind="function"><name>isCompleted</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ac47818c27756ebf26c4781ddc3787d88" kind="function"><name>setCompleted</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a3e1d2653c2c9d9d3ccc5c824fc9ebcef" kind="function"><name>printResults</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a275e150b1eff22e4c48ef623835ab3a1" kind="function"><name>saveResults</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1abdd2017932c98411d6c2ab9f3d9047cd" kind="function"><name>reset</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1ad6d869502b51c77874803c556e345579" kind="function"><name>close</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1_1MasImuData_1a0b4210aa7f4dede90d0ecbc11889a1e2" kind="function"><name>name</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1MasImuTest" kind="class"><name>BipedalLocomotion::MasImuTest</name>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a7fc312783841823d4c0deda2e364a66c" kind="enum"><name>State</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a7fc312783841823d4c0deda2e364a66ca17130e6c806885e23770df1519b18eb7" kind="enumvalue"><name>STARTED</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a7fc312783841823d4c0deda2e364a66ca6bbfc22048d63183dd626a026e63e497" kind="enumvalue"><name>PREPARED</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a7fc312783841823d4c0deda2e364a66ca783883998f7aab8b07ea12e5a11468af" kind="enumvalue"><name>FIRST_RUN</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a7fc312783841823d4c0deda2e364a66ca43491564ebcfd38568918efbd6e840fd" kind="enumvalue"><name>RUNNING</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a5886eab9e270cd4011b643f712135ae4" kind="variable"><name>m_parametersPtr</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1abca8e2198aeb8f370a48f6193bd5c163" kind="variable"><name>m_commonDataPtr</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1ae4bf3189dc75d283a44fab330e47438a" kind="variable"><name>m_period</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1ab321caecb19863b5746682ee96ac11c6" kind="variable"><name>m_tests</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a1dd564faf64c607feb4527e3dc026c42" kind="variable"><name>m_state</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a56ffcb673811d4cb0ec7a2e93ac7131b" kind="variable"><name>m_mutex</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1aaff8a8ed60245508dfbeba9a824fee9e" kind="variable"><name>m_rpcPort</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1abfefba8671f95a3e66c1fb4273f13c3c" kind="variable"><name>m_outputFile</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a8ac1675dec1a757fd8711eee795a5620" kind="function"><name>reset</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a68cd7a2337da72251d4f9cd34e4b1bd7" kind="function"><name>printResultsPrivate</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1afcb526d37a9415444c0770416f2fd8b5" kind="function"><name>saveResultsPrivate</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1af2d4393eb7c18decf118b5dcc5357fee" kind="function"><name>getPeriod</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a18e923ebb713eaa3792453e2ac834ac6" kind="function"><name>updateModule</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a1e6f586500ee85a447486427949e4307" kind="function"><name>configure</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a669b6772d0d6e97acaab1281faa34da3" kind="function"><name>close</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1adbaf777d7ce82fed4362ce7ded5f206f" kind="function"><name>startTest</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1add2c0b85e7333ddcbaec7a18eb7338ae" kind="function"><name>stopTest</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a776830a5714ac00a4817e3e497b68e1c" kind="function"><name>printResults</name></member>
-    <member refid="classBipedalLocomotion_1_1MasImuTest_1a2c833212d8a6a3fd1cc923e6c2b2903e" kind="function"><name>quit</name></member>
-  </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1a71fbc272beb1c338054b79dbb92cf735" kind="variable"><name>accelerometer</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1aa05dee7a432fc3fe7328e77aa8d83409" kind="variable"><name>gyroscopes</name></member>
@@ -734,58 +577,6 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1add1a535f7f013d340f48869d541a4593" kind="function"><name>rightFootContactFrame</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a7680f59d2cbeb26a7c2c903fb7e22614" kind="function"><name>base_H_IMU</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1ad1bdf5faa5d1c43f375d499d7f49f38a" kind="function"><name>isModelSet</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module" kind="class"><name>BipedalLocomotion::JointPositionTracking::Module</name>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aeba4f771cb83a511ce9acd2219fdbe50" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6f4fd8c1194b1ffb5753756b248a4c25" kind="variable"><name>m_robot</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1af0fe4870d9a00500e730f07589a7e42b" kind="variable"><name>m_currentJointPos</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a6684ab229dec7718347df03efacfff42" kind="variable"><name>m_controlBoard</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a93c96a5b79a301c3dfa003e41740cbd7" kind="variable"><name>m_robotControl</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1acfb3c691a58ae594f1af93a1801f3f3d" kind="variable"><name>m_sensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a48ab69366d058dc7295936f2d54a7f53" kind="variable"><name>m_setPoints</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a4d047ef2253519f39ead271fc0bdc0e8" kind="variable"><name>m_currentSetPoint</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aa672c0f953c916b2227a734c161fd4c6" kind="variable"><name>m_spline</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1d2ea2dfd8b0c29c5b09010585f017d8" kind="variable"><name>m_timeKnots</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a10731e1bda2656d8e65b97eff5f5c5a6" kind="variable"><name>m_trajectoryKnots</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1abd7747000a0c235f1008b103898cccdc" kind="variable"><name>m_initTrajectoryTime</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab8ae00d2b68d1fe43179dfa89cf63cf3" kind="variable"><name>m_logJointPos</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a812b896737bc4cef854d9d930bc8f089" kind="variable"><name>m_logDesiredJointPos</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a1df7eed88852bc19a5a87d7baee56cb2" kind="function"><name>generateNewTrajectory</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1aaa7068dd884169f626c9fcae50a48b5e" kind="function"><name>createPolydriver</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ad9ef5a79ddb21e9ce02a4bc4d95b370e" kind="function"><name>initializeRobotControl</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1add677e96151e24b50464695a88ede426" kind="function"><name>instantiateSensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a7731f087fc051d0cc7a9c244cecae001" kind="function"><name>getPeriod</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a3002870422ca1345a5309f6dfbc1b639" kind="function"><name>updateModule</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1a01fa2e847d5de5418c8ab9d4c8823ef4" kind="function"><name>configure</name></member>
-    <member refid="classBipedalLocomotion_1_1JointPositionTracking_1_1Module_1ab129798d8801ff426c272406b2e08166" kind="function"><name>close</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module" kind="class"><name>BipedalLocomotion::JointTrajectoryPlayer::Module</name>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04" kind="enum"><name>State</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04aec2f993aec2c27fc750119ab17b16cdb" kind="enumvalue"><name>idle</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a319cea54e5298516993cebd73afb1483" kind="enumvalue"><name>positioning</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a812d77c501c11599e37c0dbca492ec04a75101dcdfc88455bcafc9e53e0b06689" kind="enumvalue"><name>running</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae0bc079bdc851a9785497c945e903841" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a03ac50d10aaf5ecf3277d6a2a2fdd0d5" kind="variable"><name>m_robot</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8b28820982495099c2c5acb34181c261" kind="variable"><name>m_currentJointPos</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ad89dcc86f91829c7b5f21f61f155a5b2" kind="variable"><name>m_currentJointVel</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a06fb03aeb6afa8493201d59376a257ca" kind="variable"><name>m_currentMotorCurr</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aa3aa9a00ef676dc8005198410cc0018b" kind="variable"><name>m_controlBoard</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4adc2549f8639b8f4c09d8d9e423ce80" kind="variable"><name>m_robotControl</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ae5917c668cf4a4f2c6b477f8c82fc321" kind="variable"><name>m_sensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a36ce66153a69fb298967335cddb25889" kind="variable"><name>m_numOfJoints</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ad1634f2a3840289a094af7f02fc4e141" kind="variable"><name>m_log</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4dd507309a19dcf7925a1fa24a0a4b0e" kind="variable"><name>m_axisList</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7d680c3ec24177e1fde388afa9365f2c" kind="variable"><name>m_traj</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1abfdb0e105de575f7fa2f5f59d1874c24" kind="variable"><name>m_idxTraj</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1adafc387ececdeca1df9ce2785d922143" kind="variable"><name>m_state</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a76d59405fd8441ad970471c00e965c72" kind="function"><name>createPolydriver</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a8728d6bec301fd3a46554ca91d63cd99" kind="function"><name>initializeRobotControl</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a4e2d248c7745eb62f6627d4c0b5504a0" kind="function"><name>instantiateSensorBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a7e49b2d8b1976f4ccb5204ee52473145" kind="function"><name>readStateFromFile</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1aff72dd92c3a9d1ba5e87bed131cb6e00" kind="function"><name>getPeriod</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1ab1d5143527ab7f9d83e96d880097a907" kind="function"><name>updateModule</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a712c5f82913939408c77370aeb989f10" kind="function"><name>configure</name></member>
-    <member refid="classBipedalLocomotion_1_1JointTrajectoryPlayer_1_1Module_1a25fcdb2b17ef7d290a64f11daedfa478" kind="function"><name>close</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options" kind="struct"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options_1a47215fa1057791f8e403f2e9f8bdb4db" kind="variable"><name>imuBiasEstimationEnabled</name></member>
@@ -886,15 +677,6 @@
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a659a350fef218f88ce8012073d7a1f18" kind="function"><name>RosPublisher</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a0d8f6c9c085f6c8a6bfbc896645bc753" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a111407193a2f97dfc741d22dfb217b3f" kind="function"><name>operator=</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1ROSPublisherTestDevice" kind="class"><name>BipedalLocomotion::ROSPublisherTestDevice</name>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1ab4a14c09c36651ce5362c8eafc67c109" kind="variable"><name>pub</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1acf8969de878aeb67fdac3fadbdc4cb92" kind="function"><name>ROSPublisherTestDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1a96460ba1fb79fec07e7b0f194404524f" kind="function"><name>ROSPublisherTestDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1ac03f8dfb0c8f54ec394c2441cea12581" kind="function"><name>~ROSPublisherTestDevice</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1a05e27b0a7106fce21e4f0bcc4d38c3ae" kind="function"><name>open</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1ad1bbd0266af91de7688130563a8a2d3a" kind="function"><name>close</name></member>
-    <member refid="classBipedalLocomotion_1_1ROSPublisherTestDevice_1a8a4369abcbd93b4a63499ba322880051" kind="function"><name>run</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1SchmittTriggerDetector" kind="class"><name>BipedalLocomotion::Estimators::SchmittTriggerDetector</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1SchmittTriggerDetector_1aaa18a5afef42d1327f039f7256a3436b" kind="variable"><name>m_pimpl</name></member>
@@ -1296,10 +1078,6 @@
   <compound refid="namespaceBipedalLocomotion_1_1GenericContainer" kind="namespace"><name>BipedalLocomotion::GenericContainer</name>
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
-  <compound refid="namespaceBipedalLocomotion_1_1JointPositionTracking" kind="namespace"><name>BipedalLocomotion::JointPositionTracking</name>
-  </compound>
-  <compound refid="namespaceBipedalLocomotion_1_1JointTrajectoryPlayer" kind="namespace"><name>BipedalLocomotion::JointTrajectoryPlayer</name>
-  </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Math" kind="namespace"><name>BipedalLocomotion::Math</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
@@ -1343,16 +1121,6 @@
   <compound refid="namespaceEigen_1_1internal" kind="namespace"><name>Eigen::internal</name>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
-  </compound>
-  <compound refid="namespaceyarp" kind="namespace"><name>yarp</name>
-  </compound>
-  <compound refid="namespaceyarp_1_1dev" kind="namespace"><name>yarp::dev</name>
-  </compound>
-  <compound refid="namespaceyarp_1_1os" kind="namespace"><name>yarp::os</name>
-  </compound>
-  <compound refid="ROSPublisherTestDevice_8h" kind="file"><name>ROSPublisherTestDevice.h</name>
-  </compound>
-  <compound refid="FloatingBaseEstimatorDevice_8h" kind="file"><name>FloatingBaseEstimatorDevice.h</name>
   </compound>
   <compound refid="README_8md" kind="file"><name>README.md</name>
   </compound>
@@ -1466,89 +1234,69 @@
   </compound>
   <compound refid="RosPublisher_8h" kind="file"><name>RosPublisher.h</name>
   </compound>
-  <compound refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h" kind="file"><name>Module.h</name>
+  <compound refid="dir_37cc90df092f7132d70b1c73f92abcd7" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h" kind="file"><name>Module.h</name>
+  <compound refid="dir_91c2441da59622c57293fb216bf9f982" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="MasImuTest_8h" kind="file"><name>MasImuTest.h</name>
+  <compound refid="dir_b7bc20b466f53aa6287716c29f6e5a1c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
+  <compound refid="dir_c2b8344d5edfc50cd6fccee59bac7555" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_60215fd4956e536db79e4784fd4b0c07" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_b36f497e16c17e10f888dbf0334f5146" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_19869de7de31ae3d2fc94372b61155d8" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_5d7ce3e31a7a7d2a623b206abb047173" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_8289ec7ec187ecef83d2b4bc7d147af4" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_9fd679679692794f21da78f90e6149b4" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_5f83c9b73df0ad3629be1b2ab25e30c8" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ddf391fe403635d3f89a3ec81913d0f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ca55280438ccdca640803e542d4d56fa" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ac8bc67de35c8e46e85a575d4e1d9255" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_3711bb4510814fcf3bca83cf1553fa96" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_a2bb25c2700ae5b4992b43bb36bdf2f0" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_9fec4c6e41852c2ec4601c1038255757" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_7c8c37115c891cd5af34a0f253d970ce" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_9cdbab1e9051b4a277c0ec04b92ab5c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_d519c713466180a07e801187407a5df6" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_297bc6027b7b0d153961eabe0d3e252f" kind="dir"><name>BipedalLocomotion/ContactDetectors</name>
   </compound>
-  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_a0d51a3f84427e4b706742440369bd85" kind="dir"><name>BipedalLocomotion/ContactModels</name>
   </compound>
-  <compound refid="dir_1b3d0e250476b67474c313df24852c34" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_57e6714789f5382b0f176540fd7f5521" kind="dir"><name>BipedalLocomotion/Contacts</name>
   </compound>
-  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_36770f145e8c3ab50247effed7fcebd7" kind="dir"><name>BipedalLocomotion/Conversions</name>
   </compound>
-  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_f166336a84a379978bdb386d14d5adc9" kind="dir"><name>BipedalLocomotion/Estimators</name>
   </compound>
-  <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_1ba5740042f71f7e986abdc01d70e168" kind="dir"><name>BipedalLocomotion/FloatingBaseEstimators</name>
   </compound>
-  <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_8eed5723bdcf28f63c5ed7be69c272f2" kind="dir"><name>BipedalLocomotion/GenericContainer</name>
   </compound>
-  <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_6a02d5b30682b8fd373750a443c4d9d4" kind="dir"><name>BipedalLocomotion/Math</name>
   </compound>
-  <compound refid="dir_dc0097ddda3e77b37082e1bb46eb5526" kind="dir"><name>BipedalLocomotion/ContactDetectors</name>
+  <compound refid="dir_38fd987228b03343ff9ce6ff920521c7" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
-  <compound refid="dir_c53320ebddb96f61bc65663541c2329a" kind="dir"><name>BipedalLocomotion/ContactModels</name>
+  <compound refid="dir_f454cf27b9bd5305b13c934edf351ada" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
-  <compound refid="dir_16fec6c370e9d5c39f9aa413b0bfb552" kind="dir"><name>BipedalLocomotion/Contacts</name>
+  <compound refid="dir_34242e811c64f15e913b0479436a874d" kind="dir"><name>BipedalLocomotion/Planners</name>
   </compound>
-  <compound refid="dir_f169f9ad25e4cf15063c9adf88655887" kind="dir"><name>BipedalLocomotion/Conversions</name>
+  <compound refid="dir_5d68f2add9e03e0d0f403cb504003208" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>
-  <compound refid="dir_ee07514d2807e20bc45d06fa42085a9b" kind="dir"><name>BipedalLocomotion/Estimators</name>
+  <compound refid="dir_5caa57f5e0da1990e2de3fa4772b3a6e" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>
-  <compound refid="dir_eb2aee06d54bf141ab9a7f577cd1a1c7" kind="dir"><name>BipedalLocomotion/FloatingBaseEstimators</name>
+  <compound refid="dir_dcddc83874c26cc7d8cc22f05f40f6c4" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
-  <compound refid="dir_9b8bc455776f91c55bab9889a797904f" kind="dir"><name>BipedalLocomotion/GenericContainer</name>
+  <compound refid="dir_e2d866c591016485a2671ea115fc486e" kind="dir"><name>BipedalLocomotion/TSID</name>
   </compound>
-  <compound refid="dir_c27c773fa1fecb27e95946c1f7f6e65d" kind="dir"><name>BipedalLocomotion/JointPositionTracking</name>
-  </compound>
-  <compound refid="dir_34a60b3de6559e50c079a8adb63381e5" kind="dir"><name>BipedalLocomotion/JointTrajectoryPlayer</name>
-  </compound>
-  <compound refid="dir_1f797251479fe07b8714ed87c6242cbe" kind="dir"><name>BipedalLocomotion/Math</name>
-  </compound>
-  <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
-  </compound>
-  <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
-  </compound>
-  <compound refid="dir_9a2340c01aedb0f76560dc44ac9c4ec3" kind="dir"><name>BipedalLocomotion/Planners</name>
-  </compound>
-  <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
-  </compound>
-  <compound refid="dir_0508a58ae2d23521ceabe770d09ae119" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
-  </compound>
-  <compound refid="dir_1a41e7752d0b8c023e1d3ecf18af98b7" kind="dir"><name>BipedalLocomotion/System</name>
-  </compound>
-  <compound refid="dir_14e94b1d2b214f46e7485b8938bfc05d" kind="dir"><name>BipedalLocomotion/TSID</name>
-  </compound>
-  <compound refid="dir_d792c8169525b3134e3d3a9911cdd860" kind="dir"><name>BipedalLocomotion/YarpUtilities</name>
+  <compound refid="dir_2696d1f3c603dd0f0fca586a7f1b77b5" kind="dir"><name>BipedalLocomotion/YarpUtilities</name>
   </compound>
   <compound refid="indexpage" kind="page"><name>index</name>
   </compound>

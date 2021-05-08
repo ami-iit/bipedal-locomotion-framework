@@ -59,11 +59,11 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2System_2include_2BipedalLocomotion_2System_2Advanceable_8h.html">&lt;BipedalLocomotion/System/Advanceable.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Advanceable_8h.html">&lt;BipedalLocomotion/System/Advanceable.h&gt;</a></div>
           <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>Advanceable <span class="m-thin">struct</span>
         </h1>
-        <p>Basic class that contains only a <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a> and an <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a67107e46e831d93f572558b541aab6d2" class="m-doc">advance()</a> method.</p>
+        <p>Basic class that represents a discrete system.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -77,7 +77,7 @@
             </li>
           </ul>
         </div>
-<p>Basic class that represents a discrete system.</p><p>It is possible to check the validity of the retrieved value with <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a902e470bf636111b0b7e13c49c1659ef" class="m-doc">isValid()</a></p><p>The interface contains method to set inputs and output.</p>
+<p>The interface contains method to set inputs and output.</p>
         <section id="derived-classes">
           <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
@@ -155,18 +155,6 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get</a>(</span><span class="m-doc-wrap">) const -&gt; const T&amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get the object.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a902e470bf636111b0b7e13c49c1659ef" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a67107e46e831d93f572558b541aab6d2" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Advance the internal state.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a6db247d3db83217a16e963d01f6bcb77" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Initialize the advanceable.</dd>
@@ -194,58 +182,6 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="acdc6bea64f45e65e188f340aec439c95"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;class _Input, class _Output&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">const T&amp; BipedalLocomotion::<wbr />System::<wbr />Advanceable&lt;_Input, _Output&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acdc6bea64f45e65e188f340aec439c95" class="m-doc-self">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get the object.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>a const reference of the requested object.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a902e470bf636111b0b7e13c49c1659ef"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;class _Input, class _Output&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />Advanceable&lt;_Input, _Output&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a902e470bf636111b0b7e13c49c1659ef" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a></p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if the object is valid, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a67107e46e831d93f572558b541aab6d2"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;class _Input, class _Output&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />Advanceable&lt;_Input, _Output&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a67107e46e831d93f572558b541aab6d2" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Advance the internal state.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if the advance is successfull.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>This may change the value retrievable from <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a>.</p>
-          </div></section>
           <section class="m-doc-details" id="a6db247d3db83217a16e963d01f6bcb77"><div>
             <h3>
               <div class="m-doc-template">

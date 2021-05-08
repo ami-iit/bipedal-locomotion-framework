@@ -3,7 +3,6 @@
   <compounddef id="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible" kind="struct" language="C++" prot="public">
     <compoundname>BipedalLocomotion::GenericContainer::is_vector_constructible</compoundname>
     <basecompoundref prot="public" virt="non-virtual">std::false_type</basecompoundref>
-    <basecompoundref prot="public" virt="non-virtual">std::false_type</basecompoundref>
     <includes local="no">BipedalLocomotion/GenericContainer/Vector.h</includes>
     <templateparamlist>
       <param>
@@ -32,8 +31,6 @@
         <link refid="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-        <childnode refid="2" relation="public-inheritance">
-        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -43,8 +40,6 @@
       <node id="1">
         <label>BipedalLocomotion::GenericContainer::is_vector_constructible&lt; T, typename, typename &gt;</label>
         <link refid="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible"/>
-        <childnode refid="2" relation="public-inheritance">
-        </childnode>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>

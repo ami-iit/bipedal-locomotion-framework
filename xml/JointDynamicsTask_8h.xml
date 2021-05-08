@@ -6,14 +6,33 @@
     <includes local="no">memory</includes>
     <includes local="no">Eigen/Dense</includes>
     <includes refid="LinearTask_8h" local="no">BipedalLocomotion/System/LinearTask.h</includes>
-    <includes local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
+    <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
     <incdepgraph>
+      <node id="8">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
       <node id="6">
         <label>string</label>
       </node>
       <node id="9">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
+        <link refid="VariablesHandler_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>BipedalLocomotion/System/LinearTask.h</label>
@@ -34,14 +53,14 @@
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="2">
         <label>vector</label>
       </node>
-      <node id="8">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+      <node id="10">
+        <label>unordered_map</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/TSID/JointDynamicsTask.h</label>
@@ -56,7 +75,7 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="7">

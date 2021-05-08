@@ -4,14 +4,14 @@
     <compoundname>BipedalLocomotion/ContinuousDynamicalSystem</compoundname>
     <innerdir refid="dir_d32d817a4db95a21286fb6e6fac94d14">BipedalLocomotion/ContinuousDynamicalSystem/impl</innerdir>
     <innerfile refid="CompliantContactWrench_8h">CompliantContactWrench.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2DynamicalSystem_8h">DynamicalSystem.h</innerfile>
+    <innerfile refid="DynamicalSystem_8h">DynamicalSystem.h</innerfile>
     <innerfile refid="FixedBaseDynamics_8h">FixedBaseDynamics.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
+    <innerfile refid="FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
     <innerfile refid="FloatingBaseDynamicsWithCompliantContacts_8h">FloatingBaseDynamicsWithCompliantContacts.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2ForwardEuler_8h">ForwardEuler.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2Integrator_8h">Integrator.h</innerfile>
-    <innerfile refid="src_2ContinuousDynamicalSystem_2include_2BipedalLocomotion_2ContinuousDynamicalSystem_2LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
+    <innerfile refid="FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
+    <innerfile refid="ForwardEuler_8h">ForwardEuler.h</innerfile>
+    <innerfile refid="Integrator_8h">Integrator.h</innerfile>
+    <innerfile refid="LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

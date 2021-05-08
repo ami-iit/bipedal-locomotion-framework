@@ -486,8 +486,6 @@
         <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
         <childnode refid="9" relation="public-inheritance">
         </childnode>
-        <childnode refid="9" relation="public-inheritance">
-        </childnode>
       </node>
       <node id="13">
         <label>K</label>
@@ -582,12 +580,10 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a7a89fda43f5015ec24919151c3b005cc" prot="protected" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>get</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acdc6bea64f45e65e188f340aec439c95" prot="public" virt="pure-virtual" ambiguityscope="Source&lt; EstimatedContactList &gt;::"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>isOutputValid</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a902e470bf636111b0b7e13c49c1659ef" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>m_contactStates</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af9644dfa23468dd4c37532600c491810" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>m_detectorState</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1aba3a015baeb0ae1f981477be8a69f225" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>m_pimpl</name></member>

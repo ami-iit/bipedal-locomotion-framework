@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContactModels.html">ContactModels</a>::<wbr/></span>ContactModel <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2ContactModels_2include_2BipedalLocomotion_2ContactModels_2ContactModel_8h.html">&lt;BipedalLocomotion/ContactModels/ContactModel.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ContactModel_8h.html">&lt;BipedalLocomotion/ContactModels/ContactModel.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1ContactModels_1_1ContactModel.html" class="m-doc">ContactModel</a> is a generic implementation of a contact model.</p>
         <div class="m-block m-default">
@@ -81,10 +81,6 @@
         <section id="derived-classes">
           <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
-            <dt>
-              class <a href="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel.html" class="m-doc">ContinuousContactModel</a> <span class="m-label m-flat m-warning">final</span>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel.html" class="m-doc">ContinuousContactModel</a> is a model that describe the contact using a continuous representation.</dd>
             <dt>
               class <a href="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel.html" class="m-doc">ContinuousContactModel</a> <span class="m-label m-flat m-warning">final</span>
             </dt>
@@ -123,69 +119,11 @@
               <span class="m-doc-wrap-bumper">void <a href="#a5cf86bc458a5fe97a8d75414a894e730" class="m-doc-self">setNullForceTransform</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; transform)</span>
             </dt>
             <dd><span></span></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aec684c55eabd6211a4c178271c641231" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
-            </dt>
-            <dd>Initialization of the class.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a51c9f098f585b4249784a92163548129" class="m-doc">getContactWrench</a>(</span><span class="m-doc-wrap">) -&gt; const iDynTree::Wrench&amp;</span>
-            </dt>
-            <dd>Get and compute (only if it is necessary) the contact wrench.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a628acabb211dbf7337b2252791b63eed" class="m-doc">getAutonomousDynamics</a>(</span><span class="m-doc-wrap">) -&gt; const iDynTree::Vector6&amp;</span>
-            </dt>
-            <dd>Get and compute (only if it is necessary) the autonomous system dynamics.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a88153915d404be1ad67e1429a4b4bf51" class="m-doc">getControlMatrix</a>(</span><span class="m-doc-wrap">) -&gt; const iDynTree::Matrix6x6&amp;</span>
-            </dt>
-            <dd>Get and compute (only if it is necessary) the control matrix.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1fb37ab2f967c20ceb657543c2bdc550" class="m-doc">getRegressor</a>(</span><span class="m-doc-wrap">) -&gt; const iDynTree::MatrixDynSize&amp;</span>
-            </dt>
-            <dd>Get and compute (only if it is necessary) the regressor.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a69f8339216cb9747cb67dc473e1afc7e" class="m-doc">setState</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist,
-              const iDynTree::Transform&amp; transform)</span>
-            </dt>
-            <dd>Set the internal state of the model.</dd>
-            <dt id="a5cf86bc458a5fe97a8d75414a894e730">
-              <span class="m-doc-wrap-bumper">void <a href="#a5cf86bc458a5fe97a8d75414a894e730" class="m-doc-self">setNullForceTransform</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; transform)</span>
-            </dt>
-            <dd><span></span></dd>
           </dl>
         </section>
         <section id="pro-methods">
           <h2><a href="#pro-methods">Protected functions</a></h2>
           <dl class="m-doc">
-            <dt id="a31d0abb5a17c4a588fcc44f69e4998d5">
-              <span class="m-doc-wrap-bumper">void <a href="#a31d0abb5a17c4a588fcc44f69e4998d5" class="m-doc-self">computeContactWrench</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Evaluate the contact wrench given a specific contact model.</dd>
-            <dt id="aad44bef7cb17c9803573180fbc4a920f">
-              <span class="m-doc-wrap-bumper">void <a href="#aad44bef7cb17c9803573180fbc4a920f" class="m-doc-self">computeAutonomousDynamics</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Evaluate the Autonomous System Dynamics of the derivative of a specific contact model.</dd>
-            <dt id="ae986c8d9d443cf8571deda56681550aa">
-              <span class="m-doc-wrap-bumper">void <a href="#ae986c8d9d443cf8571deda56681550aa" class="m-doc-self">computeControlMatrix</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Evaluate the Control Matrix of the derivative of a specific contact model.</dd>
-            <dt id="abad25d99dd98fd49d1c8178577c69a54">
-              <span class="m-doc-wrap-bumper">void <a href="#abad25d99dd98fd49d1c8178577c69a54" class="m-doc-self">computeRegressor</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Evaluate the regressor matrix.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad443712019e10ffd779e06cf918f0bbf" class="m-doc">initializePrivate</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Initialization of the class.</dd>
-            <dt id="a2b7748c81a4ab550e1bd9d7d5eee931f">
-              <span class="m-doc-wrap-bumper">void <a href="#a2b7748c81a4ab550e1bd9d7d5eee931f" class="m-doc-self">setStatePrivate</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist,
-              const iDynTree::Transform&amp; transform) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the internal state of the model.</dd>
-            <dt id="a3ee56d7d5d720334943daab1bbce0578">
-              <span class="m-doc-wrap-bumper">void <a href="#a3ee56d7d5d720334943daab1bbce0578" class="m-doc-self">setNullForceTransformPrivate</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; transform) <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the null force transform.</dd>
             <dt id="a31d0abb5a17c4a588fcc44f69e4998d5">
               <span class="m-doc-wrap-bumper">void <a href="#a31d0abb5a17c4a588fcc44f69e4998d5" class="m-doc-self">computeContactWrench</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
@@ -327,118 +265,6 @@
             </h3>
             <p>Set the internal state of the model.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>the meaning of the parameters may depend on the particular implementation. An example can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="aec684c55eabd6211a4c178271c641231"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aec684c55eabd6211a4c178271c641231" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
-            </h3>
-            <p>Initialization of the class.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>std::weak_ptr to a parameter container. This class does not have the ownership of the container.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true/false in case of success/failure</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>Please call this method before evaluating any other function</p><aside class="m-note m-danger"><h4>Warning</h4><p>std::weak_ptr models temporary ownership: when the handler is accessed only if it exists, the std::weak_ptr is converted in a std::shared_ptr.</p></aside><aside class="m-note m-info"><h4>Note</h4><p>the required parameters may depends on the particular implementation. An example can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a51c9f098f585b4249784a92163548129"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const iDynTree::Wrench&amp; BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a51c9f098f585b4249784a92163548129" class="m-doc-self">getContactWrench</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Get and compute (only if it is necessary) the contact wrench.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the contact wrench expressed in mixed representation</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a628acabb211dbf7337b2252791b63eed"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const iDynTree::Vector6&amp; BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a628acabb211dbf7337b2252791b63eed" class="m-doc-self">getAutonomousDynamics</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Get and compute (only if it is necessary) the autonomous system dynamics.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the autonomous system dynamics at a given state</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a88153915d404be1ad67e1429a4b4bf51"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const iDynTree::Matrix6x6&amp; BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a88153915d404be1ad67e1429a4b4bf51" class="m-doc-self">getControlMatrix</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Get and compute (only if it is necessary) the control matrix.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the control matrix at a given state</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a1fb37ab2f967c20ceb657543c2bdc550"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const iDynTree::MatrixDynSize&amp; BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1fb37ab2f967c20ceb657543c2bdc550" class="m-doc-self">getRegressor</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Get and compute (only if it is necessary) the regressor.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the regressor at a given state</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a69f8339216cb9747cb67dc473e1afc7e"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a69f8339216cb9747cb67dc473e1afc7e" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist,
-              const iDynTree::Transform&amp; transform)</span></span>
-            </h3>
-            <p>Set the internal state of the model.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>the meaning of the parameters may depend on the particular implementation. An example can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::setState</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ad443712019e10ffd779e06cf918f0bbf"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContactModels::<wbr />ContactModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad443712019e10ffd779e06cf918f0bbf" class="m-doc-self">initializePrivate</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">pure virtual</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>Initialization of the class.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>std::weak_ptr to a parameter container. This class does not have the ownership of the container.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true/false in case of success/failure</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the required parameters may depends on the particular implementation. An example can be found in BipedalLocomotionControllers::ContactModel::ContinuousContactmodel::initializePrivate</p></aside>
           </div></section>
           <section class="m-doc-details" id="ad443712019e10ffd779e06cf918f0bbf"><div>
             <h3>

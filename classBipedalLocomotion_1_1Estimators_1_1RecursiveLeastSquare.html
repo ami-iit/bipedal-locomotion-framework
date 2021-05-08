@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators.html">Estimators</a>::<wbr/></span>RecursiveLeastSquare <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2Estimators_2include_2BipedalLocomotion_2Estimators_2RecursiveLeastSquare_8h.html">&lt;BipedalLocomotion/Estimators/RecursiveLeastSquare.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="RecursiveLeastSquare_8h.html">&lt;BipedalLocomotion/Estimators/RecursiveLeastSquare.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -79,11 +79,6 @@
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              struct <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;RecursiveLeastSquareState&gt;</a>
-            </dt>
-            <dd>Basic class that contains only a <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a> and an <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a67107e46e831d93f572558b541aab6d2" class="m-doc">advance()</a> method.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;class Output&gt;</div>
               class <a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">BipedalLocomotion::System::Source&lt;RecursiveLeastSquareState&gt;</a>
             </dt>
@@ -93,34 +88,6 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a82d5e0bf129cb338266bf2ef327acfdd" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handlerWeak) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Initialize the filter.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a82b462c0e3cbbb9d3d45865238a7613a" class="m-doc">setRegressorFunction</a>(</span><span class="m-doc-wrap">std::function&lt;Eigen::MatrixXd(void)&gt; regressor)</span>
-            </dt>
-            <dd>Set the regressor function.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#ac29279c5794195e4fb8e709c57a884fa" class="m-doc">setRegressor</a>(</span><span class="m-doc-wrap">const Eigen::Ref&lt;const Eigen::MatrixXd&gt;&amp; regressor)</span>
-            </dt>
-            <dd>Set the regressor function.</dd>
-            <dt id="a676c2e41954b046a6491b83d5daa8a01">
-              <span class="m-doc-wrap-bumper">void <a href="#a676c2e41954b046a6491b83d5daa8a01" class="m-doc-self">setMeasurements</a>(</span><span class="m-doc-wrap">const Eigen::Ref&lt;const Eigen::VectorXd&gt;&amp; measurements)</span>
-            </dt>
-            <dd>Set the measurements @parameter measurements vector containing all the measurements.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a24cd1a3554e663f9745152f1aa7f3360" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Compute one step of the filter.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquareState.html" class="m-doc">RecursiveLeastSquareState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Get the expected value and the covariance matrix of the estimated parameters.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#abafaecf5e01405497ca2d2175fa80206" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc">get()</a></dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a0bb457e9ead4d3c7d62aab47457de1f8" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handlerWeak) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
@@ -148,91 +115,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a7d9bea401a1490a1c3074773a7d0f31a" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
-            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc">get()</a></dd>
+            <dd>Determines the validity of the object retrieved with get()</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a82d5e0bf129cb338266bf2ef327acfdd"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a82d5e0bf129cb338266bf2ef327acfdd" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handlerWeak) <span class="m-label m-warning">virtual</span></span></span>
-            </h3>
-            <p>Initialize the filter.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handlerWeak</td>
-                  <td>weak pointer to a <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a> interface @tparameter Derived particular implementation of the IParameterHandler</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>The following parameter are required by the filter:</p><ul><li>&quot;measurement_covariance&quot; vector containing the covariance of the measurements. We assume that the measurements are uncorrelated (furthermore since the model of the noise is Gaussian the random variable are also independent) Since the variable are independent we are interested only on the element in the diagonal of the matrix</li><li>&quot;lambda&quot; double containing the filter gain. (The recursive least square filter is equivalent to a kalman filter if lambda is equal to 1)</li><li>&quot;state&quot; vector containing the initial guess of the state</li><li>&quot;state_covariance&quot; vector containing the diagonal matrix of the covariance of the state</li></ul></aside>
-          </div></section>
-          <section class="m-doc-details" id="a82b462c0e3cbbb9d3d45865238a7613a"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a82b462c0e3cbbb9d3d45865238a7613a" class="m-doc-self">setRegressorFunction</a>(</span><span class="m-doc-wrap">std::function&lt;Eigen::MatrixXd(void)&gt; regressor)</span></span>
-            </h3>
-            <p>Set the regressor function.</p>
-<p>@parameter regressor function that return an Eigen::MatrixXd containing the regressor of the system</p><aside class="m-note m-info"><h4>Note</h4><p>The user can decide to set the regressor function or set the regressor matrix by calling setReressor(). If <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a82b462c0e3cbbb9d3d45865238a7613a" class="m-doc">setRegressorFunction()</a> is called, the RLS algorithm will compute the regressor every time the <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a24cd1a3554e663f9745152f1aa7f3360" class="m-doc">advance()</a> function is called.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ac29279c5794195e4fb8e709c57a884fa"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac29279c5794195e4fb8e709c57a884fa" class="m-doc-self">setRegressor</a>(</span><span class="m-doc-wrap">const Eigen::Ref&lt;const Eigen::MatrixXd&gt;&amp; regressor)</span></span>
-            </h3>
-            <p>Set the regressor function.</p>
-<p>@parameter regressor is the regressor matrix.</p><aside class="m-note m-info"><h4>Note</h4><p>The user can decide to set the regressor function or set the regressor matrix by calling setReressor(). If <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a82b462c0e3cbbb9d3d45865238a7613a" class="m-doc">setRegressorFunction()</a> is called, the RLS algorithm will compute the regressor every time the <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a24cd1a3554e663f9745152f1aa7f3360" class="m-doc">advance()</a> function is called.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a24cd1a3554e663f9745152f1aa7f3360"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a24cd1a3554e663f9745152f1aa7f3360" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Compute one step of the filter.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True in case of success, false otherwise</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a3f5bbcedcab571b4c0ccdaec584e3f48"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquareState.html" class="m-doc">RecursiveLeastSquareState</a>&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc-self">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Get the expected value and the covariance matrix of the estimated parameters.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>A struct containing the expected value and the covariance of the estimated parameters.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="abafaecf5e01405497ca2d2175fa80206"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abafaecf5e01405497ca2d2175fa80206" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc">get()</a></p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if the object is valid, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="a0bb457e9ead4d3c7d62aab47457de1f8"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0bb457e9ead4d3c7d62aab47457de1f8" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handlerWeak) <span class="m-label m-warning">override</span></span></span>
@@ -303,7 +190,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RecursiveLeastSquare::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7d9bea401a1490a1c3074773a7d0f31a" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
             </h3>
-            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare.html#a3f5bbcedcab571b4c0ccdaec584e3f48" class="m-doc">get()</a></p>
+            <p>Determines the validity of the object retrieved with get()</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>

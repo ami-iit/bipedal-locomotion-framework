@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>DCMPlanner <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2DCMPlanner_8h.html">&lt;BipedalLocomotion/Planners/DCMPlanner.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="DCMPlanner_8h.html">&lt;BipedalLocomotion/Planners/DCMPlanner.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</p>
         <div class="m-block m-default">
@@ -83,11 +83,6 @@
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              struct <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;DCMPlannerState&gt;</a>
-            </dt>
-            <dd>Basic class that contains only a <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a> and an <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a67107e46e831d93f572558b541aab6d2" class="m-doc">advance()</a> method.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;class Output&gt;</div>
               class <a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">BipedalLocomotion::System::Source&lt;DCMPlannerState&gt;</a>
             </dt>
@@ -101,10 +96,6 @@
               class <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html" class="m-doc">TimeVaryingDCMPlanner</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html" class="m-doc">TimeVaryingDCMPlanner</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -114,31 +105,11 @@
               <span class="m-doc-wrap-bumper"><a href="#a4be34427ec06b98edcdd7ab62ab2728e" class="m-doc-self">~DCMPlanner</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Destructor.</dd>
-            <dt id="a4be34427ec06b98edcdd7ab62ab2728e">
-              <span class="m-doc-wrap-bumper"><a href="#a4be34427ec06b98edcdd7ab62ab2728e" class="m-doc-self">~DCMPlanner</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Destructor.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a64b7a1fb8998ff1b9e35606f78c254b2" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Initialize the planner.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a291443113b24e1a7c18f6347d14cea87" class="m-doc">setInitialState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; initialState)</span>
-            </dt>
-            <dd>Set the initial state of the planner.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0ef330e914694b578ad2a4562ec6ac9b" class="m-doc">setContactPhaseList</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;const <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&gt; contactPhaseList) -&gt; bool</span>
-            </dt>
-            <dd>Set the contact phase list.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab53cdcad13421f631a811dcdcae1126c" class="m-doc">computeTrajectory</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Compute the DCM trajectory.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">void <a href="#a43cc8ee9d3c9eeb4e856f3a7556be5c5" class="m-doc">setInitialState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; initialState) <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
@@ -160,101 +131,18 @@
         <section id="pro-attribs">
           <h2><a href="#pro-attribs">Protected variables</a></h2>
           <dl class="m-doc">
-            <dt id="a916afbd796e7e1f84664cdec3c934e8a">
-              std::shared_ptr&lt;const <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&gt; <a href="#a916afbd796e7e1f84664cdec3c934e8a" class="m-doc-self">m_contactPhaseList</a>
+            <dt id="afd0891b02c4ecda84047fce1c7804ca2">
+              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">Contacts::<wbr />ContactPhaseList</a> <a href="#afd0891b02c4ecda84047fce1c7804ca2" class="m-doc-self">m_contactPhaseList</a>
             </dt>
-            <dd>Pointer containing the contact phases.</dd>
+            <dd>Contact phases.</dd>
             <dt id="af1b8d72d4fe9eddc15fad125b4655c94">
               <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a> <a href="#af1b8d72d4fe9eddc15fad125b4655c94" class="m-doc-self">m_initialState</a>
             </dt>
             <dd>Initial state of the planner.</dd>
-            <dt id="afd0891b02c4ecda84047fce1c7804ca2">
-              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">Contacts::<wbr />ContactPhaseList</a> <a href="#afd0891b02c4ecda84047fce1c7804ca2" class="m-doc-self">m_contactPhaseList</a>
-            </dt>
-            <dd><a href="structBipedalLocomotion_1_1Planners_1_1Contact.html" class="m-doc">Contact</a> phases.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a64b7a1fb8998ff1b9e35606f78c254b2"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />DCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a64b7a1fb8998ff1b9e35606f78c254b2" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">virtual</span></span></span>
-            </h3>
-            <p>Initialize the planner.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to the parameter handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true in case of success/false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a291443113b24e1a7c18f6347d14cea87"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />DCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a291443113b24e1a7c18f6347d14cea87" class="m-doc-self">setInitialState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; initialState)</span></span>
-            </h3>
-            <p>Set the initial state of the planner.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">initialState</td>
-                  <td>the initial state of the planner</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a0ef330e914694b578ad2a4562ec6ac9b"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />DCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0ef330e914694b578ad2a4562ec6ac9b" class="m-doc-self">setContactPhaseList</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;const <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&gt; contactPhaseList)</span></span>
-            </h3>
-            <p>Set the contact phase list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">contactPhaseList</td>
-                  <td>pointer containing the list of the contact phases</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the contactPhaseList pointer should point to an already initialized <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>. Please be sure that the memory pointed is reachable for the entire life time of the <a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> class.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ab53cdcad13421f631a811dcdcae1126c"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />DCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab53cdcad13421f631a811dcdcae1126c" class="m-doc-self">computeTrajectory</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Compute the DCM trajectory.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>true in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Please implement the function in your custom planner.</p></aside>
-          </div></section>
           <section class="m-doc-details" id="a43cc8ee9d3c9eeb4e856f3a7556be5c5"><div>
             <h3>
               <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />DCMPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a43cc8ee9d3c9eeb4e856f3a7556be5c5" class="m-doc-self">setInitialState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState.html" class="m-doc">DCMPlannerState</a>&amp; initialState) <span class="m-label m-warning">virtual</span></span></span>
@@ -294,7 +182,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the contactPhaseList pointer should point to an already initialized <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>. Please be sure that the memory pointed is reachable for the entire life time of the <a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> class.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the contactPhaseList pointer should point to an already initialized ContactPhaseList. Please be sure that the memory pointed is reachable for the entire life time of the <a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> class.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ab53cdcad13421f631a811dcdcae1126c"><div>
             <h3>

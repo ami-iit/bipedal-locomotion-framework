@@ -267,7 +267,7 @@
         <name>isOutputValid</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acdc6bea64f45e65e188f340aec439c95" kindref="member">get()</ref> </para>
+<para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
@@ -356,14 +356,12 @@
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a02ffb159f04eddb8e4d6c99888b31c74" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a704549a7f794294d0d9bfb1c1e6509d1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>ArucoDetector</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acdc6bea64f45e65e188f340aec439c95" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a9e7d3b8691bac6d6b35c039978531501" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>getDetectedMarkerData</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a89cd9f299246c192e44575b71fd1417a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>getImageWithDetectedMarkers</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1ae4891a46aa7b4fe04e03f2e94c9d34e8" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a5a8a2f85e818f4426566853ed1e23999" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a733a50a2bdc34dbd0ee708e04d7fb2bb" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>isOutputValid</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a902e470bf636111b0b7e13c49c1659ef" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a1c02a982577ef5797a1cbf1d8dbf5b99" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a58e5dd0676db6b7be6a5ec05e9753c3c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>setImage</name></member>

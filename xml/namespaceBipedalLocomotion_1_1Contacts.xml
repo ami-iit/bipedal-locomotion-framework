@@ -2,24 +2,24 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1Contacts" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Contacts</compoundname>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" prot="public">BipedalLocomotion::Contacts::ContactBase</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" prot="public">BipedalLocomotion::Contacts::PlannedContact</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" prot="public">BipedalLocomotion::Contacts::EstimatedContact</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector" prot="public">BipedalLocomotion::Contacts::ContactDetector</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" prot="public">BipedalLocomotion::Contacts::FixedFootDetector</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" prot="public">BipedalLocomotion::Contacts::SchmittTriggerDetector</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams" prot="public">BipedalLocomotion::Contacts::SchmittTriggerParams</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Contacts::SchmittTriggerInput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit" prot="public">BipedalLocomotion::Contacts::SchmittTriggerUnit</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" prot="public">BipedalLocomotion::Contacts::ContactBase</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" prot="public">BipedalLocomotion::Contacts::PlannedContact</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" prot="public">BipedalLocomotion::Contacts::EstimatedContact</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" prot="public">BipedalLocomotion::Contacts::ContactWrench</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactList" prot="public">BipedalLocomotion::Contacts::ContactList</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase" prot="public">BipedalLocomotion::Contacts::ContactPhase</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" prot="public">BipedalLocomotion::Contacts::ContactPhaseList</innerclass>
       <sectiondef kind="enum">
-      <memberdef kind="enum" id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" prot="public" static="no" strong="yes">
+      <memberdef kind="enum" id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" prot="public" static="no" strong="yes">
         <type></type>
         <name>ContactType</name>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
+        <enumvalue id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
           <name>FULL</name>
           <briefdescription>
 <para>The contact impose a full pose constraint. </para>
@@ -27,67 +27,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
-          <name>POINT</name>
-          <briefdescription>
-<para>The contact impose a position constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
-          <name>FULL</name>
-          <briefdescription>
-<para>The contact impose a full pose constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
-          <name>POINT</name>
-          <briefdescription>
-<para>The contact impose a position constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <briefdescription>
-<para>Definition of the type of contact. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="23" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="24" bodyend="34"/>
-      </memberdef>
-      <memberdef kind="enum" id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" prot="public" static="no" strong="yes">
-        <type></type>
-        <name>ContactType</name>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
-          <name>FULL</name>
-          <briefdescription>
-<para>The contact impose a full pose constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
-          <name>POINT</name>
-          <briefdescription>
-<para>The contact impose a position constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
-          <name>FULL</name>
-          <briefdescription>
-<para>The contact impose a full pose constraint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
+        <enumvalue id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
           <name>POINT</name>
           <briefdescription>
 <para>The contact impose a position constraint. </para>
@@ -106,7 +46,7 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="src_2Contacts_2include_2BipedalLocomotion_2ContactDetectors_2ContactDetector_8h_1ace202ec51b1a593717e2f279ef90386f" prot="public" static="no">
+      <memberdef kind="typedef" id="ContactDetector_8h_1ace202ec51b1a593717e2f279ef90386f" prot="public" static="no">
         <type>std::unordered_map&lt; std::string, <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &gt;</type>
         <definition>using BipedalLocomotion::Contacts::EstimatedContactList = typedef std::unordered_map&lt;std::string, Contacts::EstimatedContact&gt;</definition>
         <argsstring></argsstring>
@@ -119,7 +59,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="22" column="1" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="22" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1ad2d4f7afefeb8c02566b8498aea79042" prot="public" static="no">
+      <memberdef kind="typedef" id="Contact_8h_1ad2d4f7afefeb8c02566b8498aea79042" prot="public" static="no">
         <type><ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">EstimatedContact</ref></type>
         <definition>using BipedalLocomotion::Contacts::EstimatedLandmark = typedef EstimatedContact</definition>
         <argsstring></argsstring>
@@ -132,7 +72,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/Contact.h" line="123" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="123" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="src_2Contacts_2include_2BipedalLocomotion_2Contacts_2ContactPhaseList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" prot="public" static="no">
+      <memberdef kind="typedef" id="ContactPhaseList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" prot="public" static="no">
         <type>std::unordered_map&lt; std::string, <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactList" kindref="compound">ContactList</ref> &gt;</type>
         <definition>using BipedalLocomotion::Contacts::ContactListMap = typedef std::unordered_map&lt;std::string, ContactList&gt;</definition>
         <argsstring></argsstring>
@@ -151,6 +91,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="17" column="1"/>
+    <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="19" column="1"/>
   </compounddef>
 </doxygen>

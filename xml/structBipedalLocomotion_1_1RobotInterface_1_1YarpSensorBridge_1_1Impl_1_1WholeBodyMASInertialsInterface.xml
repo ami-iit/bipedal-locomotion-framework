@@ -4,9 +4,9 @@
     <compoundname>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</compoundname>
     <includes local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1aa1004bab974bd2b0e44cd2786df6aecf" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a9954b7197adaf0aa7019ad93440ea6fb" prot="public" static="no" mutable="no">
         <type>yarp::dev::IThreeAxisLinearAccelerometers *</type>
-        <definition>yarp::dev::IThreeAxisLinearAccelerometers * BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::accelerometers</definition>
+        <definition>yarp::dev::IThreeAxisLinearAccelerometers* BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::accelerometers</definition>
         <argsstring></argsstring>
         <name>accelerometers</name>
         <initializer>{nullptr}</initializer>
@@ -16,11 +16,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="67" column="51" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="71" column="51" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="71" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a28f8e3f479a68a8ae247aa5dfff7c64e" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1af9a2d910c114287ba0d82d691a150db7" prot="public" static="no" mutable="no">
         <type>yarp::dev::IThreeAxisGyroscopes *</type>
-        <definition>yarp::dev::IThreeAxisGyroscopes * BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::gyroscopes</definition>
+        <definition>yarp::dev::IThreeAxisGyroscopes* BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::gyroscopes</definition>
         <argsstring></argsstring>
         <name>gyroscopes</name>
         <initializer>{nullptr}</initializer>
@@ -30,11 +30,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="68" column="41" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="68" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="72" column="41" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="72" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a2c1ec3f45fe56b6249590b9e1e1afd48" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a24daa0ea533e341e07eab2cb1a4c3fa5" prot="public" static="no" mutable="no">
         <type>yarp::dev::IThreeAxisMagnetometers *</type>
-        <definition>yarp::dev::IThreeAxisMagnetometers * BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::magnetometers</definition>
+        <definition>yarp::dev::IThreeAxisMagnetometers* BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::magnetometers</definition>
         <argsstring></argsstring>
         <name>magnetometers</name>
         <initializer>{nullptr}</initializer>
@@ -44,11 +44,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="69" column="44" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="69" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="73" column="44" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="73" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1ab849cb3cfe00f0162caa7e3460f1e5cc" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1aec3ffb8c816e69b02d0e4512ad51213b" prot="public" static="no" mutable="no">
         <type>yarp::dev::IOrientationSensors *</type>
-        <definition>yarp::dev::IOrientationSensors * BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::orientationSensors</definition>
+        <definition>yarp::dev::IOrientationSensors* BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface::orientationSensors</definition>
         <argsstring></argsstring>
         <name>orientationSensors</name>
         <initializer>{nullptr}</initializer>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="70" column="40" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="70" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="74" column="40" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -66,12 +66,12 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="65" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="66" bodyend="71"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="69" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="70" bodyend="75"/>
     <listofallmembers>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1aa1004bab974bd2b0e44cd2786df6aecf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>accelerometers</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a28f8e3f479a68a8ae247aa5dfff7c64e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>gyroscopes</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a2c1ec3f45fe56b6249590b9e1e1afd48" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>magnetometers</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1ab849cb3cfe00f0162caa7e3460f1e5cc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>orientationSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a9954b7197adaf0aa7019ad93440ea6fb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>accelerometers</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1af9a2d910c114287ba0d82d691a150db7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>gyroscopes</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a24daa0ea533e341e07eab2cb1a4c3fa5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>magnetometers</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1aec3ffb8c816e69b02d0e4512ad51213b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</scope><name>orientationSensors</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

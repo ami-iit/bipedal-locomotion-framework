@@ -2,51 +2,72 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="ArucoDetector_8h" kind="file" language="C++">
     <compoundname>ArucoDetector.h</compoundname>
-    <includes local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <includes local="no">Eigen/Dense</includes>
     <includes local="no">opencv2/core.hpp</includes>
     <includes local="no">memory</includes>
     <includes local="no">unordered_map</includes>
     <incdepgraph>
-      <node id="3">
-        <label>BipedalLocomotion/System/Source.h</label>
-        <link refid="Source_8h"/>
-        <childnode refid="4" relation="include">
+      <node id="7">
+        <label>BipedalLocomotion/System/Advanceable.h</label>
+        <link refid="Advanceable_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>Eigen/Dense</label>
-      </node>
-      <node id="4">
-        <label>BipedalLocomotion/System/Advanceable.h</label>
-      </node>
-      <node id="6">
-        <label>opencv2/core.hpp</label>
+      <node id="8">
+        <label>variant</label>
       </node>
       <node id="2">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion/System/Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="10">
+        <label>opencv2/core.hpp</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/Perception/Features/ArucoDetector.h</label>
         <link refid="ArucoDetector_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="11">
         <label>unordered_map</label>
       </node>
-      <node id="7">
+      <node id="3">
         <label>memory</label>
       </node>
     </incdepgraph>

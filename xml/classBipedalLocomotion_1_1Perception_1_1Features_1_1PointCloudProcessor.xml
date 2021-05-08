@@ -296,19 +296,6 @@
 </listitem></itemizedlist>
 </para>
     </detaileddescription>
-    <inheritancegraph>
-      <node id="1">
-        <label>BipedalLocomotion::Perception::Features::PointCloudProcessor&lt; PointType &gt;</label>
-        <link refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor"/>
-      </node>
-      <node id="2">
-        <label>BipedalLocomotion::Perception::Features::PointCloudProcessor&lt; pcl::PointXYZRGB &gt;</label>
-        <link refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor"/>
-        <childnode refid="1" relation="template-instance">
-          <edgelabel>&lt; pcl::PointXYZRGB &gt;</edgelabel>
-        </childnode>
-      </node>
-    </inheritancegraph>
     <location file="BipedalLocomotion/Perception/Features/PointCloudProcessor.h" line="47" column="1" bodyfile="BipedalLocomotion/Perception/Features/PointCloudProcessor.h" bodystart="48" bodyend="104"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor_1a00e028e7d74014d1c57f1befd3ee6902" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Perception::Features::PointCloudProcessor</scope><name>checkInitialization</name></member>

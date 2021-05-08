@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1RobotInterface.html">RobotInterface</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html">YarpSensorBridge</a>::<wbr/></span>Impl <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2RobotInterface_2YarpImplementation_2include_2BipedalLoc89f9d580136c8208891f83886c60808d.html">&lt;BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="YarpSensorBridgeImpl_8h.html">&lt;BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -107,18 +107,6 @@
               using <a href="#ab45e080a337f6cf66ed8da8bad101d4b" class="m-doc-self">StampedYARPImage</a> = std::pair&lt;yarp::sig::Image, double&gt;
             </dt>
             <dd><span></span></dd>
-            <dt id="a720526d7141f22ebb222bfc5f15019e5">
-              using <a href="#a720526d7141f22ebb222bfc5f15019e5" class="m-doc-self">SubConfigLoader</a> = bool(YarpSensorBridge::Impl::*)(std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt;, <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp;)
-            </dt>
-            <dd><span></span></dd>
-            <dt id="affb6f61e8c5fd651c2b443d86e298f01">
-              using <a href="#affb6f61e8c5fd651c2b443d86e298f01" class="m-doc-self">StampedYARPVector</a> = std::pair&lt;yarp::sig::Vector, double&gt;
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ab45e080a337f6cf66ed8da8bad101d4b">
-              using <a href="#ab45e080a337f6cf66ed8da8bad101d4b" class="m-doc-self">StampedYARPImage</a> = std::pair&lt;yarp::sig::Image, double&gt;
-            </dt>
-            <dd><span></span></dd>
             <dt id="a1670ba59d4dd962196014b0f7cb3f80e">
               using <a href="#a1670ba59d4dd962196014b0f7cb3f80e" class="m-doc-self">SubConfigLoader</a> = bool(YarpSensorBridge::Impl::*)(std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt;, <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp;)
             </dt>
@@ -128,210 +116,6 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ae40e9ebd2e149185271355e5ce76b24b">
-              <span class="m-doc-wrap-bumper">auto <a href="#ae40e9ebd2e149185271355e5ce76b24b" class="m-doc-self">getIndexFromVector</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; vec,
-              const std::string&amp; query,
-              int&amp; index) -&gt; bool</span>
-            </dt>
-            <dd>Utility function to get index from vector.</dd>
-            <dt id="abc402b85eafcfce370c770a252ae54eb">
-              <span class="m-doc-wrap-bumper">auto <a href="#abc402b85eafcfce370c770a252ae54eb" class="m-doc-self">nanExistsInVec</a>(</span><span class="m-doc-wrap">const yarp::sig::Vector&amp; vec,
-              std::string_view logPrefix,
-              const std::string&amp; sensorName) -&gt; bool</span>
-            </dt>
-            <dd>Utility function to check for nan in vector.</dd>
-            <dt id="afa13471ba8ceda5871ce5e9fad1c2251">
-              <span class="m-doc-wrap-bumper">auto <a href="#afa13471ba8ceda5871ce5e9fad1c2251" class="m-doc-self">subConfigLoader</a>(</span><span class="m-doc-wrap">const std::string&amp; enableStreamString,
-              const std::string&amp; streamGroupString,
-              const SubConfigLoader loader,
-              std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData,
-              bool&amp; enableStreamFlag) -&gt; bool</span>
-            </dt>
-            <dd>Checks is a stream is enabled in configuration and loads the relevant stream group from configuration.</dd>
-            <dt id="ac1533ec89fb6f01d90a20c740b6a0d98">
-              <span class="m-doc-wrap-bumper">auto <a href="#ac1533ec89fb6f01d90a20c740b6a0d98" class="m-doc-self">configureRemoteControlBoardRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
-            </dt>
-            <dd>Configure remote control board remapper meta data Related to kinematics and other joint/motor relevant quantities.</dd>
-            <dt id="a1e6fd11510cb99217518adcd7e823923">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1e6fd11510cb99217518adcd7e823923" class="m-doc-self">configureInertialSensors</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
-            </dt>
-            <dd>Configure inertial sensors meta data.</dd>
-            <dt id="aeacae8a60d5940e898938c22698b5da1">
-              <span class="m-doc-wrap-bumper">auto <a href="#aeacae8a60d5940e898938c22698b5da1" class="m-doc-self">configureSixAxisForceTorqueSensors</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
-            </dt>
-            <dd>Configure six axis force torque sensors meta data.</dd>
-            <dt id="af7cc53c2d449fafca5e5cabbd091c7a7">
-              <span class="m-doc-wrap-bumper">auto <a href="#af7cc53c2d449fafca5e5cabbd091c7a7" class="m-doc-self">configureCartesianWrenches</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
-            </dt>
-            <dd>Configure cartesian wrenches meta data.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename SensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3b2d10014cc5407a3b55f04698f02208" class="m-doc">attachGenericOrAnalogSensor</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              const std::string&amp; sensorName,
-              const int&amp; nrChannelsInSensor,
-              std::unordered_map&lt;std::string, SensorType*&gt;&amp; sensorMap) -&gt; bool</span>
-            </dt>
-            <dd>Attach device with IGenericSensor or IAnalogSensor interfaces Important assumptions here,.</dd>
-            <dt id="a5f3f7403f9008c35f2475972141b2c78">
-              <div class="m-doc-template">template&lt;typename SensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5f3f7403f9008c35f2475972141b2c78" class="m-doc-self">attachAllGenericOrAnalogSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              std::unordered_map&lt;std::string, SensorType*&gt;&amp; sensorMap,
-              const int&amp; nrChannelsInSensor,
-              const std::vector&lt;std::string&gt;&amp; sensorList,
-              std::string_view interfaceType) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="adf4d0b28af08b6e17444d36afd3749e2">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#adf4d0b28af08b6e17444d36afd3749e2" class="m-doc-self">attachAndCheckMASSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              MASSensorType*&amp; sensorInterface,
-              const std::vector&lt;std::string&gt;&amp; sensorList,
-              const std::string_view interfaceName) -&gt; bool</span>
-            </dt>
-            <dd>Attach Remapped Multiple Analog Sensor Interfaces and check available sensors.</dd>
-            <dt id="af8b8ef85cd2d9787c7ed7581fa17d700">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#af8b8ef85cd2d9787c7ed7581fa17d700" class="m-doc-self">attachRemappedMASSensor</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              MASSensorType*&amp; masSensorInterface) -&gt; bool</span>
-            </dt>
-            <dd>Attach Remapped Multiple Analog Sensor Interfaces Looks for a specific MAS Sensor interface in the attached MAS Remapper.</dd>
-            <dt id="a4b4afc019fd78a05c6e14e8d55ad2b0e">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4b4afc019fd78a05c6e14e8d55ad2b0e" class="m-doc-self">checkAttachedMASSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              MASSensorType*&amp; sensorInterface,
-              const std::vector&lt;std::string&gt;&amp; sensorList) -&gt; bool</span>
-            </dt>
-            <dd>Check if all the desired MAS sensors are availabled in the attached MAS interface.</dd>
-            <dt id="af65be9001db4db26ab6b5f44c67d9ebb">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#af65be9001db4db26ab6b5f44c67d9ebb" class="m-doc-self">getNumberOfMASSensors</a>(</span><span class="m-doc-wrap">MASSensorType*&amp; sensorInterface) -&gt; std::size_t</span>
-            </dt>
-            <dd>Get number of MAS Sensors.</dd>
-            <dt id="a8058a10b782c3809a4ec759542b960e4">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8058a10b782c3809a4ec759542b960e4" class="m-doc-self">getMASSensorName</a>(</span><span class="m-doc-wrap">MASSensorType*&amp; sensorInterface,
-              const std::size_t&amp; sensIdx,
-              std::string&amp; sensorName) -&gt; bool</span>
-            </dt>
-            <dd>Get name of MAS Sensors.</dd>
-            <dt id="a8f32ca5ff7055bc6340ebf937fd26371">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8f32ca5ff7055bc6340ebf937fd26371" class="m-doc-self">getAllSensorsInMASInterface</a>(</span><span class="m-doc-wrap">MASSensorType* sensorInterface) -&gt; std::vector&lt;std::string&gt;</span>
-            </dt>
-            <dd>Get all sensor names in a MAS Inerface.</dd>
-            <dt id="aa364d5e0808a88adb5990188a772b24b">
-              <div class="m-doc-template">template&lt;typename SensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa364d5e0808a88adb5990188a772b24b" class="m-doc-self">checkSensor</a>(</span><span class="m-doc-wrap">const std::unordered_map&lt;std::string, SensorType*&gt;&amp; sensorMap,
-              const std::string&amp; sensorName) -&gt; bool</span>
-            </dt>
-            <dd>Check if sensor is available in the relevant sensor map.</dd>
-            <dt id="a65d7097f2ad3b41707ea97fe46509a85">
-              <div class="m-doc-template">template&lt;typename YARPDataType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a65d7097f2ad3b41707ea97fe46509a85" class="m-doc-self">checkValidSensorMeasure</a>(</span><span class="m-doc-wrap">std::string_view logPrefix,
-              const std::unordered_map&lt;std::string, YARPDataType&gt;&amp; sensorMap,
-              const std::string&amp; sensorName) -&gt; bool</span>
-            </dt>
-            <dd>Check if sensor is available in the relevant sensor measurement map.</dd>
-            <dt id="a30d2088aa0e66fb413c561f8c08feb98">
-              <span class="m-doc-wrap-bumper">auto <a href="#a30d2088aa0e66fb413c561f8c08feb98" class="m-doc-self">checkValid</a>(</span><span class="m-doc-wrap">const std::string_view methodName) -&gt; bool</span>
-            </dt>
-            <dd>Check if the bridge is successfully initialized and attached to required device drivers.</dd>
-            <dt id="a2e4b18fccd7384fac60a967ffb74bf4b">
-              <span class="m-doc-wrap-bumper">auto <a href="#a2e4b18fccd7384fac60a967ffb74bf4b" class="m-doc-self">attachAllInertials</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
-            </dt>
-            <dd>Attach generic IMU sensor types and MAS inertials.</dd>
-            <dt id="a1acf90173fd12a89f642fc288bc87946">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1acf90173fd12a89f642fc288bc87946" class="m-doc-self">attachRemappedRemoteControlBoard</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
-            </dt>
-            <dd>Attach a remapped control board and check the availability of desired interface Further, resize joint data buffers and check if the control board joints list and the desired joints list match Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations.</dd>
-            <dt id="a77ef4bc9f2b8602e32b697356149fca6">
-              <span class="m-doc-wrap-bumper">void <a href="#a77ef4bc9f2b8602e32b697356149fca6" class="m-doc-self">resetControlBoardBuffers</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>resize and set control board buffers to zero</dd>
-            <dt id="a70958c115107f220d4d6ad5538a00cda">
-              <span class="m-doc-wrap-bumper">auto <a href="#a70958c115107f220d4d6ad5538a00cda" class="m-doc-self">compareControlBoardJointsList</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
-            </dt>
-            <dd>check and match control board joints with the sensorbridge joints list</dd>
-            <dt id="a2998f82b666aa2a06a7e352948965dab">
-              <span class="m-doc-wrap-bumper">auto <a href="#a2998f82b666aa2a06a7e352948965dab" class="m-doc-self">attachAllSixAxisForceTorqueSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aa8f34bfd335827bcc8101263c7d03b56">
-              <span class="m-doc-wrap-bumper">auto <a href="#aa8f34bfd335827bcc8101263c7d03b56" class="m-doc-self">attachCartesianWrenchInterface</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
-            </dt>
-            <dd>Attach to cartesian wrench interface.</dd>
-            <dt id="a3a882f8cdc12216473a706327db2fea2">
-              <span class="m-doc-wrap-bumper">auto <a href="#a3a882f8cdc12216473a706327db2fea2" class="m-doc-self">deg2rad</a>(</span><span class="m-doc-wrap">double deg) -&gt; double</span>
-            </dt>
-            <dd>utility function</dd>
-            <dt id="ac660b2cd4be78ce657eb97f7854e29e1">
-              <div class="m-doc-template">template&lt;typename SensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#ac660b2cd4be78ce657eb97f7854e29e1" class="m-doc-self">readAnalogOrGenericSensor</a>(</span><span class="m-doc-wrap">const std::string&amp; sensorName,
-              const int&amp; nrChannelsInYARPSensor,
-              std::unordered_map&lt;std::string, SensorType*&gt;&amp; interfaceMap,
-              std::unordered_map&lt;std::string, StampedYARPVector&gt;&amp; measurementMap,
-              bool checkForNan = false) -&gt; bool</span>
-            </dt>
-            <dd>Read generic or analog sensor stream and update internal measurement buffer.</dd>
-            <dt id="a992caac13c61cf02db7ecea0eea7171c">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a992caac13c61cf02db7ecea0eea7171c" class="m-doc-self">readMASSensor</a>(</span><span class="m-doc-wrap">MASSensorType* interface,
-              const std::string&amp; sensorName,
-              const std::unordered_map&lt;std::string, std::size_t&gt;&amp; sensorIdxMap,
-              std::unordered_map&lt;std::string, StampedYARPVector&gt;&amp; measurementMap,
-              bool checkForNan = false) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a849f6076aaf1ed72a02234cc63f35b4f">
-              <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a849f6076aaf1ed72a02234cc63f35b4f" class="m-doc-self">readAllMASSensors</a>(</span><span class="m-doc-wrap">MASSensorType* interface,
-              std::unordered_map&lt;std::string, std::size_t&gt; sensIdxMap,
-              std::unordered_map&lt;std::string, StampedYARPVector&gt;&amp; measurementMap,
-              std::vector&lt;std::string&gt;&amp; failedSensorReads,
-              bool checkForNan = false) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ab21dc032893cf0ad554211a9c1a5d51d">
-              <span class="m-doc-wrap-bumper">auto <a href="#ab21dc032893cf0ad554211a9c1a5d51d" class="m-doc-self">readControlBoardInterface</a>(</span><span class="m-doc-wrap">bool checkForNan = false) -&gt; bool</span>
-            </dt>
-            <dd>Read control board remapper interfaces.</dd>
-            <dt id="acddbd04b6cb2df2b75005e62786baa9a">
-              <span class="m-doc-wrap-bumper">auto <a href="#acddbd04b6cb2df2b75005e62786baa9a" class="m-doc-self">readAllIMUs</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a816e32aeabd4d463336adbcf125254df">
-              <span class="m-doc-wrap-bumper">auto <a href="#a816e32aeabd4d463336adbcf125254df" class="m-doc-self">readAllCartesianWrenches</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a5058da8da784edc580c5624b659849ff">
-              <span class="m-doc-wrap-bumper">auto <a href="#a5058da8da784edc580c5624b659849ff" class="m-doc-self">readAllMASLinearAccelerometers</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a9ca81ae007e1f4aa5dcc7fe3317c0536">
-              <span class="m-doc-wrap-bumper">auto <a href="#a9ca81ae007e1f4aa5dcc7fe3317c0536" class="m-doc-self">readAllMASGyroscopes</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a294cd716ab56034d55a4909f05657191">
-              <span class="m-doc-wrap-bumper">auto <a href="#a294cd716ab56034d55a4909f05657191" class="m-doc-self">readAllMASOrientationSensors</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a2b3c9d5dff3e0dc13ca55bb3d1ecb8c2">
-              <span class="m-doc-wrap-bumper">auto <a href="#a2b3c9d5dff3e0dc13ca55bb3d1ecb8c2" class="m-doc-self">readAllMASMagnetometers</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a056ed2622f5d5cf4d3529c05bd114318">
-              <span class="m-doc-wrap-bumper">auto <a href="#a056ed2622f5d5cf4d3529c05bd114318" class="m-doc-self">readAllMASSixAxisForceTorqueSensors</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ad9596982c7236d76378db18a1f78c85e">
-              <span class="m-doc-wrap-bumper">auto <a href="#ad9596982c7236d76378db18a1f78c85e" class="m-doc-self">readAllSensors</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedReadAllSensors) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
             <dt id="ae40e9ebd2e149185271355e5ce76b24b">
               <span class="m-doc-wrap-bumper">auto <a href="#ae40e9ebd2e149185271355e5ce76b24b" class="m-doc-self">getIndexFromVector</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; vec,
               const std::string&amp; query,
@@ -561,38 +345,38 @@
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures.html" class="m-doc">ControlBoardRemapperMeasures</a> <a href="#a38999672bf88950164c018940dc333fa" class="m-doc-self">controlBoardRemapperMeasures</a>
             </dt>
             <dd>map of IMU sensors attached through generic sensor interfaces</dd>
-            <dt id="a25658f9e0fc7aaa44a1510126076671e">
-              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#a25658f9e0fc7aaa44a1510126076671e" class="m-doc-self">wholeBodyAnalogIMUInterface</a>
+            <dt id="add7f72bc98131e7143128a4e402a5c83">
+              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#add7f72bc98131e7143128a4e402a5c83" class="m-doc-self">wholeBodyAnalogIMUInterface</a>
             </dt>
             <dd>map of cartesian wrench streams attached through generic sensor interfaces</dd>
-            <dt>
-              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#a7aca1c9a4353e146904c67ee263da65e" class="m-doc">wholeBodyCartesianWrenchInterface</a>
+            <dt id="a8fcc3495e3ca8243257a707503c3f83d">
+              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#a8fcc3495e3ca8243257a707503c3f83d" class="m-doc-self">wholeBodyCartesianWrenchInterface</a>
             </dt>
-            <dd>&lt; map of IMU sensors attached through generic sensor interfaces</dd>
-            <dt id="a3042995a161f2180476eaebd08c38aa9">
-              std::unordered_map&lt;std::string, yarp::dev::IAnalogSensor*&gt; <a href="#a3042995a161f2180476eaebd08c38aa9" class="m-doc-self">wholeBodyAnalogSixAxisFTSensorsInterface</a>
+            <dd>map of six axis force torque sensors attached through analog sensor interfaces</dd>
+            <dt id="a5999d83428894f606cc716db736b815f">
+              std::unordered_map&lt;std::string, yarp::dev::IAnalogSensor*&gt; <a href="#a5999d83428894f606cc716db736b815f" class="m-doc-self">wholeBodyAnalogSixAxisFTSensorsInterface</a>
             </dt>
-            <dd>&lt; map of cartesian wrench streams attached through generic sensor interfaces</dd>
+            <dd><span></span></dd>
             <dt>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#abd89f4032cb2c547342b2dad65e2f97e" class="m-doc">wholeBodyIMUMeasures</a>
-            </dt>
-            <dd>&lt; map of six axis force torque sensors attached through analog sensor interfaces</dd>
-            <dt>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a95f9c8c56ede6642f0480e60f1d57b78" class="m-doc">wholeBodyFTMeasures</a>
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a4e11c913cf23a04e1df20057e89427f4" class="m-doc">wholeBodyIMUMeasures</a>
             </dt>
             <dd>&lt; map holding analog IMU sensor measurements</dd>
-            <dt>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a668d6f98b546994b3ea36e777890155f" class="m-doc">wholeBodyInertialMeasures</a>
+            <dt id="a146b0f13d791bbabb8f534d585968b4c">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a146b0f13d791bbabb8f534d585968b4c" class="m-doc-self">wholeBodyFTMeasures</a>
             </dt>
-            <dd>&lt; map holding six axis force torque measures</dd>
-            <dt id="a67453a498ca89adfb6a00f00768d5c00">
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a67453a498ca89adfb6a00f00768d5c00" class="m-doc-self">wholeBodyCartesianWrenchMeasures</a>
+            <dd>map holding three axis inertial sensor measures</dd>
+            <dt id="af591902e04acb12f6fe233009b08c615">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#af591902e04acb12f6fe233009b08c615" class="m-doc-self">wholeBodyInertialMeasures</a>
             </dt>
-            <dd>&lt; map holding three axis inertial sensor measures</dd>
+            <dd>map holding cartesian wrench measures</dd>
+            <dt id="ae823a598bcdd7c2d564809113917bbc8">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#ae823a598bcdd7c2d564809113917bbc8" class="m-doc-self">wholeBodyCartesianWrenchMeasures</a>
+            </dt>
+            <dd><span></span></dd>
             <dt id="aec19fa9be3de7df28e3f98f55e984e34">
               const int <a href="#aec19fa9be3de7df28e3f98f55e984e34" class="m-doc-self">nrChannelsInYARPGenericIMUSensor</a>
             </dt>
-            <dd>&lt; map holding cartesian wrench measures</dd>
+            <dd><span></span></dd>
             <dt id="ab3105b232abcf38f738f0b1c6d96cffa">
               const int <a href="#ab3105b232abcf38f738f0b1c6d96cffa" class="m-doc-self">nrChannelsInYARPGenericCartesianWrench</a>
             </dt>
@@ -601,8 +385,8 @@
               const int <a href="#a15cda4d7b2907a8489fdad15b6bf0527" class="m-doc-self">nrChannelsInYARPAnalogSixAxisFTSensor</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="abceae4141115753aa09b1572610b98c0">
-              std::vector&lt;std::string&gt; <a href="#abceae4141115753aa09b1572610b98c0" class="m-doc-self">failedSensorReads</a>
+            <dt id="a6c1876b48914af81c30ff6e0f5a7734b">
+              std::vector&lt;std::string&gt; <a href="#a6c1876b48914af81c30ff6e0f5a7734b" class="m-doc-self">failedSensorReads</a>
             </dt>
             <dd><span></span></dd>
             <dt id="a0d4ec42cac457a091742b5541d7ddf14">
@@ -638,49 +422,15 @@
             <p>Attach device with IGenericSensor or IAnalogSensor interfaces Important assumptions here,.</p>
 <ul><li>Any generic sensor with 12 channels is a IMU sensor</li><li>Any generic sensor with 6 channels is a cartesian wrench sensor</li><li>Any analog sensor with 6 channels is a six axis force torque sensor</li></ul>
           </div></section>
-          <section class="m-doc-details" id="a3b2d10014cc5407a3b55f04698f02208"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename SensorType&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3b2d10014cc5407a3b55f04698f02208" class="m-doc-self">attachGenericOrAnalogSensor</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
-              const std::string&amp; sensorName,
-              const int&amp; nrChannelsInSensor,
-              std::unordered_map&lt;std::string, SensorType*&gt;&amp; sensorMap)</span></span>
-            </h3>
-            <p>Attach device with IGenericSensor or IAnalogSensor interfaces Important assumptions here,.</p>
-<ul><li>Any generic sensor with 12 channels is a IMU sensor</li><li>Any generic sensor with 6 channels is a cartesian wrench sensor</li><li>Any analog sensor with 6 channels is a six axis force torque sensor</li></ul>
-          </div></section>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="a7aca1c9a4353e146904c67ee263da65e"><div>
+          <section class="m-doc-details" id="a4e11c913cf23a04e1df20057e89427f4"><div>
             <h3>
-              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a7aca1c9a4353e146904c67ee263da65e" class="m-doc-self">wholeBodyCartesianWrenchInterface</a>
-            </h3>
-            <p>&lt; map of IMU sensors attached through generic sensor interfaces</p>
-<p>map of six axis force torque sensors attached through analog sensor interfaces</p>
-          </div></section>
-          <section class="m-doc-details" id="abd89f4032cb2c547342b2dad65e2f97e"><div>
-            <h3>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#abd89f4032cb2c547342b2dad65e2f97e" class="m-doc-self">wholeBodyIMUMeasures</a>
-            </h3>
-            <p>&lt; map of six axis force torque sensors attached through analog sensor interfaces</p>
-<p>&lt; map holding analog IMU sensor measurements</p><p>map holding six axis force torque measures</p>
-          </div></section>
-          <section class="m-doc-details" id="a95f9c8c56ede6642f0480e60f1d57b78"><div>
-            <h3>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a95f9c8c56ede6642f0480e60f1d57b78" class="m-doc-self">wholeBodyFTMeasures</a>
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a4e11c913cf23a04e1df20057e89427f4" class="m-doc-self">wholeBodyIMUMeasures</a>
             </h3>
             <p>&lt; map holding analog IMU sensor measurements</p>
-<p>map holding three axis inertial sensor measures</p>
-          </div></section>
-          <section class="m-doc-details" id="a668d6f98b546994b3ea36e777890155f"><div>
-            <h3>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a668d6f98b546994b3ea36e777890155f" class="m-doc-self">wholeBodyInertialMeasures</a>
-            </h3>
-            <p>&lt; map holding six axis force torque measures</p>
-<p>map holding cartesian wrench measures</p>
+<p>map holding six axis force torque measures</p>
           </div></section>
         </section>
       </div>

@@ -9,7 +9,7 @@
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev" prot="public">BipedalLocomotion::Estimators::FloatingBaseEstimators::StateStdDev</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options" prot="public">BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</innerclass>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="src_2Estimators_2include_2BipedalLocomotion_2FloatingBaseEstimators_2FloatingBaseEstimatorParams_8h_1a0278244abffd2414273812bafbda7395" prot="public" static="no">
+      <memberdef kind="typedef" id="FloatingBaseEstimatorParams_8h_1a0278244abffd2414273812bafbda7395" prot="public" static="no">
         <type>std::map&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</type>
         <definition>using BipedalLocomotion::Estimators::FloatingBaseEstimators::PoseCovariance = typedef std::map&lt;int, Eigen::Matrix&lt;double, 6, 1&gt;, std::less&lt;int&gt;, Eigen::aligned_allocator&lt;std::pair&lt;const int, Eigen::Matrix&lt;double, 6, 1&gt; &gt; &gt; &gt;</definition>
         <argsstring></argsstring>
@@ -27,6 +27,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="19" column="1"/>
+    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="22" column="1"/>
   </compounddef>
 </doxygen>

@@ -227,7 +227,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>kd</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Derivative Gain of the controller. if not specified <formula id="29">$k_d = 2 \sqrt{k_p}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Derivative Gain of the controller. if not specified <formula id="67">$k_d = 2 \sqrt{k_p}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
@@ -477,7 +477,7 @@
         <name>type</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a">type</reimplements>
         <briefdescription>
-<para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1JointsTrackingTask" kindref="compound">JointsTrackingTask</ref> is an equality task. </para>
+<para>The JointsTrackingTask is an equality task. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>the type of the task. </para>
@@ -508,10 +508,10 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1TSID_1_1JointsTrackingTask" kindref="compound">JointsTrackingTask</ref> is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1TSID_1_1Task" kindref="compound">Task</ref>. </para>
+<para>JointsTrackingTask is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="25">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \ddot{s} ^ * \]</formula> where <formula id="26">$0_6$</formula> and <formula id="27">$I_n$</formula> are the zero and the identity matrix. The desired joint acceleration is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="28">$\mathbb{R}^n$</formula>. </para>
+<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="66">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \ddot{s} ^ * \]</formula> where <formula id="12">$0_6$</formula> and <formula id="13">$I_n$</formula> are the zero and the identity matrix. The desired joint acceleration is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="14">$\mathbb{R}^n$</formula>. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

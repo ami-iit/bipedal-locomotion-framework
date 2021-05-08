@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Math.html">Math</a>::<wbr/></span>CARE <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="src_2Math_2include_2BipedalLocomotion_2Math_2CARE_8h.html">&lt;BipedalLocomotion/Math/CARE.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CARE_8h.html">&lt;BipedalLocomotion/Math/CARE.h&gt;</a></div>
         </h1>
         <p>Computes the unique stabilizing solution S to the continuous-time algebraic equation.</p>
         <div class="m-block m-default">
@@ -126,14 +126,6 @@
               <span class="m-doc-wrap-bumper"><a href="#a6abf538a98bae06b4bd035b14e89c221" class="m-doc-self">~CARE</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Destructor.</dd>
-            <dt id="abefb1f45c90ef7071755b73ef4327b38">
-              <span class="m-doc-wrap-bumper"><a href="#abefb1f45c90ef7071755b73ef4327b38" class="m-doc-self">CARE</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Constructor.</dd>
-            <dt id="a6abf538a98bae06b4bd035b14e89c221">
-              <span class="m-doc-wrap-bumper"><a href="#a6abf538a98bae06b4bd035b14e89c221" class="m-doc-self">~CARE</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd>Destructor.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -158,119 +150,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a81188a9ac4f8b51f7c8f824e996c8cc0" class="m-doc">getSolution</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
             </dt>
             <dd>Get the solution.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae2ab8acc66e7297d82c3506c27fcaae1" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
-            </dt>
-            <dd>Initialize the continuous algebraic riccati equation solver.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a17555a3c926181c9e2af2ee31df15bf7" class="m-doc">setMatrices</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::MatrixXd&gt; A,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; B,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; Q,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; R) -&gt; bool</span>
-            </dt>
-            <dd>Initialize the matrices.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9d75b97377178c91de7c26c9ae9a1101" class="m-doc">solve</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
-            </dt>
-            <dd>Run the algorithm to compute the unique stabilizing solution of the continuous algebriac Riccati equation.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a81188a9ac4f8b51f7c8f824e996c8cc0" class="m-doc">getSolution</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
-            </dt>
-            <dd>Get the solution.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ae2ab8acc66e7297d82c3506c27fcaae1"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Math::<wbr />CARE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae2ab8acc66e7297d82c3506c27fcaae1" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
-            </h3>
-            <p>Initialize the continuous algebraic riccati equation solver.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to the parameter handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true in case of success/false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are optional:</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>tolerance</code></td><td><code>double</code></td><td>Tolerance of the solution (default value <code>1e-9</code>)</td><td>No</td></tr><tr><td><code>is_verbose</code></td><td><code>boolean</code></td><td>If <code>true</code> the algorithm will print some information (default value <code>false</code>)</td><td>No</td></tr><tr><td><code>max_iterations</code></td><td><code>int</code></td><td>Max number of the interation used by the algorithm (default value <code>100</code>)</td><td>No</td></tr></tbody></table></aside>
-          </div></section>
-          <section class="m-doc-details" id="a17555a3c926181c9e2af2ee31df15bf7"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Math::<wbr />CARE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a17555a3c926181c9e2af2ee31df15bf7" class="m-doc-self">setMatrices</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::MatrixXd&gt; A,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; B,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; Q,
-              Eigen::Ref&lt;const Eigen::MatrixXd&gt; R)</span></span>
-            </h3>
-            <p>Initialize the matrices.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">A</td>
-                  <td>n x n square matrix</td>
-                </tr>
-                <tr>
-                  <td>B</td>
-                  <td>n x m matrix</td>
-                </tr>
-                <tr>
-                  <td>Q</td>
-                  <td>n x n symmetric-square matrix</td>
-                </tr>
-                <tr>
-                  <td>R</td>
-                  <td>m x m square positive definite matrix</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success and false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a9d75b97377178c91de7c26c9ae9a1101"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Math::<wbr />CARE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9d75b97377178c91de7c26c9ae9a1101" class="m-doc-self">solve</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Run the algorithm to compute the unique stabilizing solution of the continuous algebriac Riccati equation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True in case of success and false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a81188a9ac4f8b51f7c8f824e996c8cc0"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Math::<wbr />CARE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a81188a9ac4f8b51f7c8f824e996c8cc0" class="m-doc-self">getSolution</a>(</span><span class="m-doc-wrap">) const</span></span>
-            </h3>
-            <p>Get the solution.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the solution</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="ae2ab8acc66e7297d82c3506c27fcaae1"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Math::<wbr />CARE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae2ab8acc66e7297d82c3506c27fcaae1" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>

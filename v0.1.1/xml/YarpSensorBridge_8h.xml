@@ -6,9 +6,6 @@
     <includes local="no">yarp/dev/PolyDriverList.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
     <includes refid="ISensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/ISensorBridge.h</includes>
-    <includedby refid="FloatingBaseEstimatorDevice_8h" local="no">BipedalLocomotion/FloatingBaseEstimatorDevice.h</includedby>
-    <includedby refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h" local="no">BipedalLocomotion/JointTrajectoryPlayer/Module.h</includedby>
-    <includedby refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h" local="no">BipedalLocomotion/JointPositionTracking/Module.h</includedby>
     <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
     <incdepgraph>
       <node id="1">
@@ -78,28 +75,10 @@
         <link refid="YarpSensorBridge_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
-        <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
       <node id="2">
-        <label>BipedalLocomotion/FloatingBaseEstimatorDevice.h</label>
-        <link refid="FloatingBaseEstimatorDevice_8h"/>
-      </node>
-      <node id="3">
-        <label>BipedalLocomotion/JointTrajectoryPlayer/Module.h</label>
-        <link refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h"/>
-      </node>
-      <node id="4">
-        <label>BipedalLocomotion/JointPositionTracking/Module.h</label>
-        <link refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h"/>
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
+        <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge</innerclass>

@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1RobotInterface.html">RobotInterface</a>::<wbr/></span>IRobotControl <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2RobotInterface_2include_2BipedalLocomotion_2RobotInterface_2IRobotControl_8h.html">&lt;BipedalLocomotion/RobotInterface/IRobotControl.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IRobotControl_8h.html">&lt;BipedalLocomotion/RobotInterface/IRobotControl.h&gt;</a></div>
         </h1>
         <p>Robot control interface.</p>
         <div class="m-block m-default">
@@ -84,10 +84,6 @@
               class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a> interface.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a> interface.</dd>
           </dl>
         </section>
         <section id="pub-types">
@@ -99,42 +95,9 @@
               <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88156d46910a2d733443c339a9231d12" class="m-doc">Velocity</a>,
               <a href="#a4d0ff64a201bf8ed884da1c41e3497bca1aaf5a08dfe16d89a8ca6f8de4cfb0ca" class="m-doc">Torque</a>,
               <a href="#a4d0ff64a201bf8ed884da1c41e3497bcae599161956d626eda4cb0a5ffb85271c" class="m-doc">Idle</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc">Unknown</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca52f5e0bc3859bc5f5e25130b6c7e8881" class="m-doc">Position</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcaa72edba28a392d1e46a021cdc04a4536" class="m-doc">PositionDirect</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88156d46910a2d733443c339a9231d12" class="m-doc">Velocity</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca1aaf5a08dfe16d89a8ca6f8de4cfb0ca" class="m-doc">Torque</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcae599161956d626eda4cb0a5ffb85271c" class="m-doc">Idle</a>,
               <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc">Unknown</a> }</span>
             </dt>
             <dd>ControlMode contains the supported control mode.</dd>
-            <dt id="a4d0ff64a201bf8ed884da1c41e3497bc">
-              <span class="m-doc-wrap-bumper">enum class <a href="#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc-self">ControlMode</a> { </span><span class="m-doc-wrap"><a href="#a4d0ff64a201bf8ed884da1c41e3497bca52f5e0bc3859bc5f5e25130b6c7e8881" class="m-doc">Position</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcaa72edba28a392d1e46a021cdc04a4536" class="m-doc">PositionDirect</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88156d46910a2d733443c339a9231d12" class="m-doc">Velocity</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca1aaf5a08dfe16d89a8ca6f8de4cfb0ca" class="m-doc">Torque</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcae599161956d626eda4cb0a5ffb85271c" class="m-doc">Idle</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc">Unknown</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca52f5e0bc3859bc5f5e25130b6c7e8881" class="m-doc">Position</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcaa72edba28a392d1e46a021cdc04a4536" class="m-doc">PositionDirect</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88156d46910a2d733443c339a9231d12" class="m-doc">Velocity</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca1aaf5a08dfe16d89a8ca6f8de4cfb0ca" class="m-doc">Torque</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bcae599161956d626eda4cb0a5ffb85271c" class="m-doc">Idle</a>,
-              <a href="#a4d0ff64a201bf8ed884da1c41e3497bca88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc">Unknown</a> }</span>
-            </dt>
-            <dd>ControlMode contains the supported control mode.</dd>
-            <dt id="a83a31cc243335220b2c218b8534f6851">
-              using <a href="#a83a31cc243335220b2c218b8534f6851" class="m-doc-self">unique_ptr</a> = std::unique_ptr&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>&gt;
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a5f3690c4c924d5e5fbf590a102bd4234">
-              using <a href="#a5f3690c4c924d5e5fbf590a102bd4234" class="m-doc-self">shared_ptr</a> = std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>&gt;
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a470535808ebda4b9634455c638a1649c">
-              using <a href="#a470535808ebda4b9634455c638a1649c" class="m-doc-self">weak_ptr</a> = std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>&gt;
-            </dt>
-            <dd><span></span></dd>
             <dt id="a83a31cc243335220b2c218b8534f6851">
               using <a href="#a83a31cc243335220b2c218b8534f6851" class="m-doc-self">unique_ptr</a> = std::unique_ptr&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a>&gt;
             </dt>
@@ -152,10 +115,6 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a137aaccf768f40582b2df587e55657eb">
-              <span class="m-doc-wrap-bumper"><a href="#a137aaccf768f40582b2df587e55657eb" class="m-doc-self">~IRobotControl</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Destructor.</dd>
             <dt id="a137aaccf768f40582b2df587e55657eb">
               <span class="m-doc-wrap-bumper"><a href="#a137aaccf768f40582b2df587e55657eb" class="m-doc-self">~IRobotControl</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
@@ -189,163 +148,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get the list of the controlled joints.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae6bb2f00cd191a0cc65c062928b65327" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Initialize the Interface.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1d8c631649d6111f17a9ba821f550497" class="m-doc">checkMotionDone</a>(</span><span class="m-doc-wrap">bool&amp; motionDone,
-              bool&amp; isTimerExpired,
-              std::vector&lt;std::pair&lt;std::string, double&gt;&gt;&amp; info) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Check if the motion set through the position control mode ended.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#adbbafcb80056c18f40e25cf4865dfe56" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the desired reference.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#abaeb6208365c23fe845893b6e59e84ac" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; controlMode) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the desired reference.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get the list of the controlled joints.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ae6bb2f00cd191a0cc65c062928b65327"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae6bb2f00cd191a0cc65c062928b65327" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">virtual</span></span></span>
-            </h3>
-            <p>Initialize the Interface.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to a parameter handler interface</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a1d8c631649d6111f17a9ba821f550497"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1d8c631649d6111f17a9ba821f550497" class="m-doc-self">checkMotionDone</a>(</span><span class="m-doc-wrap">bool&amp; motionDone,
-              bool&amp; isTimerExpired,
-              std::vector&lt;std::pair&lt;std::string, double&gt;&gt;&amp; info) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Check if the motion set through the position control mode ended.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">motionDone&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>true if the motion ended.</td>
-                </tr>
-                <tr>
-                  <td>isTimerExpired&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>true if the internal timer is expired or not.</td>
-                </tr>
-                <tr>
-                  <td>info&nbsp;<span class="m-label m-flat m-warning">out</span></td>
-                  <td>vector containing the list of the joint whose motion did not finish yet.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>If the timer is expired and the motion did not finish yet, there may be a problem with the robot.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="adbbafcb80056c18f40e25cf4865dfe56"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adbbafcb80056c18f40e25cf4865dfe56" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Set the desired reference.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">jointValues</td>
-                  <td>desired joint values.</td>
-                </tr>
-                <tr>
-                  <td>controlModes</td>
-                  <td>vector containing the control mode for each joint.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="abaeb6208365c23fe845893b6e59e84ac"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abaeb6208365c23fe845893b6e59e84ac" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; controlMode) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Set the desired reference.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">desiredJointValues</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>controlMode</td>
-                  <td>a control mode for all the joints.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. @warining Call this function if you want to control all the joint with the same control mode. Otherwise call setReferences(Eigen::Ref&lt;const Eigen::VectorXd&gt;, const std::vector&lt;IRobotControl::ControlMode&gt;&amp;).</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a039679ebcb7f4317aebdc1218410639c"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc-self">getJointList</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get the list of the controlled joints.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>A vector containing the name of the controlled joints.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="ae6bb2f00cd191a0cc65c062928b65327"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae6bb2f00cd191a0cc65c062928b65327" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">virtual</span></span></span>

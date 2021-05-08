@@ -60,7 +60,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>SwingFootPlanner <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="docs_2bipedal-locomotion-framework_2src_2Planners_2include_2BipedalLocomotion_2Planners_2SwingFootPlanner_8h.html">&lt;BipedalLocomotion/Planners/SwingFootPlanner.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SwingFootPlanner_8h.html">&lt;BipedalLocomotion/Planners/SwingFootPlanner.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html" class="m-doc">SwingFootPlanner</a> implement a minimum jerk trajectory planner for the swing foot.</p>
         <div class="m-block m-default">
@@ -80,11 +80,6 @@
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              struct <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;SwingFootPlannerState&gt;</a>
-            </dt>
-            <dd>Basic class that contains only a <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#acdc6bea64f45e65e188f340aec439c95" class="m-doc">get()</a> and an <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a67107e46e831d93f572558b541aab6d2" class="m-doc">advance()</a> method.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;class Output&gt;</div>
               class <a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">BipedalLocomotion::System::Source&lt;SwingFootPlannerState&gt;</a>
             </dt>
@@ -94,26 +89,6 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7a5ff3aede4f87d39dca4bce7ab17944" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
-            </dt>
-            <dd>Initialize the planner.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a8d4baca8af2e9f9beb867d7a7b2363f3" class="m-doc">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Planners_1_1ContactList.html" class="m-doc">ContactList</a>&amp; contactList)</span>
-            </dt>
-            <dd>Set the contact list.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState.html" class="m-doc">SwingFootPlannerState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Get the object.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa01611b85fa067067a4bd30fc9ac58c7" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a273fc940688dc888d1c3cb7ea3c8b6de" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Advance the internal state.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#aee5c47374eb365a445abf15300ecaea6" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -129,7 +104,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#af9b02eaefe72c8800c50e061a5ea0d87" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
-            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a></dd>
+            <dd>Determines the validity of the object retrieved with get()</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a273fc940688dc888d1c3cb7ea3c8b6de" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -138,90 +113,6 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a7a5ff3aede4f87d39dca4bce7ab17944"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7a5ff3aede4f87d39dca4bce7ab17944" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
-            </h3>
-            <p>Initialize the planner.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to the parameter handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success/false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling time of the planner in seconds</td><td>Yes</td></tr><tr><td><code>step_height</code></td><td><code>double</code></td><td>Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 <code>step_height</code> is the maximum</td><td>Yes</td></tr><tr><td><code>foot_apex_time</code></td><td><code>double</code></td><td>Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down</td><td>Yes</td></tr><tr><td><code>foot_landing_velocity</code></td><td><code>double</code></td><td>Landing vertical velocity</td><td>Yes</td></tr><tr><td><code>foot_landing_acceleration</code></td><td><code>double</code></td><td>Landing vertical acceleration</td><td>Yes</td></tr></tbody></table></aside>
-          </div></section>
-          <section class="m-doc-details" id="a8d4baca8af2e9f9beb867d7a7b2363f3"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8d4baca8af2e9f9beb867d7a7b2363f3" class="m-doc-self">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Planners_1_1ContactList.html" class="m-doc">ContactList</a>&amp; contactList)</span></span>
-            </h3>
-            <p>Set the contact list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">contactList</td>
-                  <td>contains the list fora given contact</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a8b3a5420e2e35693d5c60590a0eeb358"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState.html" class="m-doc">SwingFootPlannerState</a>&amp; BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc-self">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Get the object.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>a const reference of the requested object.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="aa01611b85fa067067a4bd30fc9ac58c7"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa01611b85fa067067a4bd30fc9ac58c7" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a></p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if the object is valid, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a273fc940688dc888d1c3cb7ea3c8b6de"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a273fc940688dc888d1c3cb7ea3c8b6de" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Advance the internal state.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if the advance is successfull.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>This may change the value retrievable from <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a>.</p>
-          </div></section>
           <section class="m-doc-details" id="aee5c47374eb365a445abf15300ecaea6"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aee5c47374eb365a445abf15300ecaea6" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">final</span></span></span>
@@ -281,7 +172,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af9b02eaefe72c8800c50e061a5ea0d87" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
             </h3>
-            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a></p>
+            <p>Determines the validity of the object retrieved with get()</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -304,7 +195,7 @@
                 </tr>
               </tfoot>
             </table>
-<p>This may change the value retrievable from <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html#a8b3a5420e2e35693d5c60590a0eeb358" class="m-doc">get()</a>.</p>
+<p>This may change the value retrievable from get().</p>
           </div></section>
         </section>
       </div>

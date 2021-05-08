@@ -10,7 +10,6 @@
     <includes local="no">iDynTree/KinDynComputations.h</includes>
     <includes local="no">iDynTree/Model/JointState.h</includes>
     <includes local="no">iostream</includes>
-    <includedby refid="FloatingBaseEstimatorDevice_8h" local="no">BipedalLocomotion/FloatingBaseEstimatorDevice.h</includedby>
     <includedby refid="InvariantEKFBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</includedby>
     <incdepgraph>
       <node id="9">
@@ -96,10 +95,6 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>BipedalLocomotion/FloatingBaseEstimatorDevice.h</label>
-        <link refid="FloatingBaseEstimatorDevice_8h"/>
-      </node>
-      <node id="3">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
@@ -107,8 +102,6 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
         <link refid="FloatingBaseEstimator_8h"/>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

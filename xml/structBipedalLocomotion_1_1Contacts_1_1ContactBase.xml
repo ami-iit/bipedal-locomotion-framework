@@ -4,8 +4,6 @@
     <compoundname>BipedalLocomotion::Contacts::ContactBase</compoundname>
     <derivedcompoundref refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::ContactWrench</derivedcompoundref>
     <derivedcompoundref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::EstimatedContact</derivedcompoundref>
-    <derivedcompoundref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::EstimatedContact</derivedcompoundref>
-    <derivedcompoundref refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::PlannedContact</derivedcompoundref>
     <derivedcompoundref refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::PlannedContact</derivedcompoundref>
     <includes local="no">BipedalLocomotion/Contacts/Contact.h</includes>
       <sectiondef kind="public-attrib">
@@ -22,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="44" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="44" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="46" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -37,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="49" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="51" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -52,14 +50,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="54" column="9" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="56" column="9" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1ac6477ddb8311dc0739d0c2a1022c073f" prot="public" static="no" mutable="no">
-        <type>ContactType</type>
+        <type><ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">ContactType</ref></type>
         <definition>ContactType BipedalLocomotion::Contacts::ContactBase::type</definition>
         <argsstring></argsstring>
         <name>type</name>
-        <initializer>{ContactType::FULL}</initializer>
+        <initializer>{<ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" kindref="member">ContactType::FULL</ref>}</initializer>
         <briefdescription>
 <para>Type of contact. </para>
         </briefdescription>
@@ -67,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="59" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="59" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="61" column="17" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -79,8 +77,6 @@
       <node id="3">
         <label>BipedalLocomotion::Contacts::EstimatedContact</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -97,8 +93,6 @@
       <node id="4">
         <label>BipedalLocomotion::Contacts::PlannedContact</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -120,7 +114,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="39" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="40" bodyend="60"/>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="41" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="42" bodyend="62"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactBase</scope><name>index</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactBase</scope><name>name</name></member>

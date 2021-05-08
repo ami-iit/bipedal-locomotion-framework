@@ -2,8 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="dir_d792c8169525b3134e3d3a9911cdd860" kind="dir">
     <compoundname>BipedalLocomotion/YarpUtilities</compoundname>
-    <innerfile refid="src_2YarpUtilities_2include_2BipedalLocomotion_2YarpUtilities_2Helper_8h">Helper.h</innerfile>
-    <innerfile refid="src_2YarpUtilities_2include_2BipedalLocomotion_2YarpUtilities_2RosPublisher_8h">RosPublisher.h</innerfile>
+    <innerfile refid="Helper_8h">Helper.h</innerfile>
+    <innerfile refid="RosPublisher_8h">RosPublisher.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="matioCppConversions_8h" kind="file" language="C++">
+    <compoundname>matioCppConversions.h</compoundname>
+    <includes local="no">Eigen/Core</includes>
+    <includes local="no">iDynTree/Core/MatrixDynSize.h</includes>
+    <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
+    <includes local="no">iDynTree/Core/MatrixFixSize.h</includes>
+    <includes local="no">matioCpp/matioCpp.h</includes>
+    <includes refid="Vector_8h" local="no">BipedalLocomotion/GenericContainer/Vector.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>iDynTree/Core/EigenHelpers.h</label>
+      </node>
+      <node id="6">
+        <label>matioCpp/matioCpp.h</label>
+      </node>
+      <node id="5">
+        <label>iDynTree/Core/MatrixFixSize.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Conversions/matioCppConversions.h</label>
+        <link refid="matioCppConversions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="3">
+        <label>iDynTree/Core/MatrixDynSize.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Conversions">BipedalLocomotion::Conversions</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Stefano Dafarra </para>
+</simplesect>
+<simplesect kind="copyright"><para>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Conversions/matioCppConversions.h"/>
+  </compounddef>
+</doxygen>

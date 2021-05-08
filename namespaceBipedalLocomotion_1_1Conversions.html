@@ -78,117 +78,117 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;class Scalar&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2CommonConversions_8h.html#aa5a9686f8f1587867138f974593d9f2a" class="m-doc">toEigenPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
+              <span class="m-doc-wrap-bumper">auto <a href="CommonConversions_8h.html#ab559baf769548fa6dc9b2319b05e61b7" class="m-doc">toEigenPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
               const Eigen::Matrix&lt;Scalar, 3, 1&gt;&amp; translation) -&gt; Eigen::Matrix&lt;Scalar, 4, 4&gt;</span>
             </dt>
             <dd>Construct homogeneous transformation matrix from rotation matrix and translation vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class Scalar&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#af964cf525546c7ee4fae854b21c3b5eb" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#a6eca022cc68f31749418d297b83d67ad" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
               const Eigen::Matrix&lt;Scalar, 3, 1&gt;&amp; translation) -&gt; manif::SE3&lt;Scalar&gt;</span>
             </dt>
             <dd>Convert rotation matrix and translation vector to manif SE3 object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#a0a64a78d62562574dd0466585928371e" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Matrix3d&gt; rotation,
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#a0a64a78d62562574dd0466585928371e" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Matrix3d&gt; rotation,
               Eigen::Ref&lt;const Eigen::Vector3d&gt; translation) -&gt; manif::SE3d</span>
             </dt>
             <dd>Convert rotation matrix and translation vector to manif SE3d object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#ac71646fdf92888d3f6897ae090ce0a9c" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; H) -&gt; manif::SE3d</span>
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#ac71646fdf92888d3f6897ae090ce0a9c" class="m-doc">toManifPose</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; H) -&gt; manif::SE3d</span>
             </dt>
             <dd>Convert iDynTree transform object to manif SE3d object.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class Scalar&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#a032433927746fbeb239566f908d7729d" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation) -&gt; manif::SO3&lt;Scalar&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#af56866b8b1ef81c3e00c5b53939386d4" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation) -&gt; manif::SO3&lt;Scalar&gt;</span>
             </dt>
             <dd>Convert rotation matrix to manif SO3 object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#a2b82cd2819e93a949cdf1afb56555565" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Matrix3d&gt; rotation) -&gt; manif::SO3d</span>
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#a2b82cd2819e93a949cdf1afb56555565" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Matrix3d&gt; rotation) -&gt; manif::SO3d</span>
             </dt>
             <dd>Convert rotation matrix to manif SO3d object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2ManifConversions_8h.html#aa3cbc74d297378895e4686cd4f8f3b3f" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">const iDynTree::Rotation&amp; R) -&gt; manif::SO3d</span>
+              <span class="m-doc-wrap-bumper">auto <a href="ManifConversions_8h.html#aa3cbc74d297378895e4686cd4f8f3b3f" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">const iDynTree::Rotation&amp; R) -&gt; manif::SO3d</span>
             </dt>
             <dd>Convert iDynTree rotation object to manif SE3d object.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename type&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#ae9031d2afb2953c8b4bc0d561e5f2f6f" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a02e0b795745b9a9a6553bc9bcdcd8da9" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
             </dt>
             <dd>Conversion from a matioCpp::MultiDimensionalArray to an Eigen matrix.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename type&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a91ba1e823bfdcbb989f83856d6818de8" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a3f906ee29461e114c48e47503c43e965" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
             </dt>
             <dd>Conversion from a const matioCpp::MultiDimensionalArray to an Eigen matrix.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename type&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a93a648a8427e1fa59e653ee12578bb2b" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::Vector&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#acfc3f7c49d05947006f079d92f9b8839" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::Vector&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
             </dt>
             <dd>Conversion from a matioCpp::Vector to an Eigen vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename type&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a444aba4179c8d707342c01bef22ff2d9" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::Vector&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a585706043cef191172d7d84e32be5f63" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::Vector&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
             </dt>
             <dd>Conversion from a const matioCpp::Vector to an Eigen vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename EigenDerived, typename = std::enable_if_t&lt;Eigen::MatrixBase&lt;EigenDerived&gt;::RowsAtCompileTime != 1&amp;&amp;                                                             Eigen::MatrixBase&lt;EigenDerived&gt;::ColsAtCompileTime != 1&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a19df0895eed9e11a7547a087a3d006c4" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Eigen::MatrixBase&lt;EigenDerived&gt;&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#af267c27331ddf097dd1410274ea8bf86" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Eigen::MatrixBase&lt;EigenDerived&gt;&amp; input,
               const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;typename EigenDerived::Scalar&gt;</span>
             </dt>
             <dd>Conversion from an Eigen matrix to a matioCpp::MultiDimensionalArray.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a613a613d0af3e70692c12da78652c8de" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixDynSize&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#ad70b8b51222d7801852366863c895788" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixDynSize&amp; input,
               const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;double&gt;</span>
             </dt>
             <dd>Conversion from an iDynTree::MatrixDynSize to a matioCpp::MultiDimensionalArray.</dd>
             <dt>
               <div class="m-doc-template">template&lt;unsigned int nRows, unsigned int nCols&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#ae520e4ea21d98bc1f9df99ab0f9df410" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixFixSize&lt;nRows, nCols&gt;&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a032525b730552c9af26767c7f2deaacc" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixFixSize&lt;nRows, nCols&gt;&amp; input,
               const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;double&gt;</span>
             </dt>
             <dd>Conversion from an iDynTree::MatrixFixSize to a matioCpp::MultiDimensionalArray.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class Vector, typename = typename std::enable_if_t&lt;<a href="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />is_vector_constructible</a>&lt;Vector&gt;::value&amp;&amp;                                                             !std::is_same_v&lt;Vector, std::string&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a57c42b79a92d76f608edf265c753d7c9" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Vector&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a47866b78d0385a6d47fb8bd64ed66cfc" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Vector&amp; input,
               const std::string&amp; name) -&gt; matioCpp::Vector&lt;typename std::remove_cv_t&lt;typename BipedalLocomotion::container_data&lt;Vector&gt;::type&gt;&gt;</span>
             </dt>
             <dd>Conversion from a generic Vector to a matioCpp::Vector.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a9bb5a4571c033efda2a8ee47ea78cc5d" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::string&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a9bb5a4571c033efda2a8ee47ea78cc5d" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::string&amp; input,
               const std::string&amp; name) -&gt; matioCpp::String</span>
             </dt>
             <dd>Conversion from a std::string to a matioCpp::String.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a8f9f3594bd72a81b490e409411516efa" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;bool&gt;&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#acdca681271f326337ba415f2a8917b73" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;bool&gt;&amp; input,
               const std::string&amp; name) -&gt; matioCpp::Vector&lt;matioCpp::Logical&gt;</span>
             </dt>
             <dd>Conversion from a boolean vector to a matioCpp::Vector&lt;matioCpp::Logical&gt;</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename type, typename = std::enable_if_t&lt;std::is_fundamental_v&lt;type&gt;&amp;&amp; !std::is_same_v&lt;type, bool&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#ac032c6bafa08e6b59858a404c32a5d59" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const type&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a2b1bbb537e151f9db04920bcafd1ee09" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const type&amp; input,
               const std::string&amp; name) -&gt; matioCpp::Element&lt;type&gt;</span>
             </dt>
             <dd>Conversion from a fundamental type to the corresponding matioCpp::Element.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a914a2ec03844c11e1c0bf7e1cdb51f10" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">bool input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#aae6f5c5ef40cef9da3444106f7e0255d" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">bool input,
               const std::string&amp; name) -&gt; matioCpp::Element&lt;matioCpp::Logical&gt;</span>
             </dt>
             <dd>Conversion from a boolean to a matioCpp::Element&lt;matioCpp::Logical&gt;</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a45c2dd5b085948c64f498e667ea1ff7f" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a45c2dd5b085948c64f498e667ea1ff7f" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; input,
               const std::string&amp; name) -&gt; matioCpp::CellArray</span>
             </dt>
             <dd>Conversion from a vector of strings to a matioCpp::CellArray containing the input strings.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class iterator, typename = typename std::enable_if_t&lt;is_pair_iterator_string&lt;iterator&gt;::value&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#a4101bbca2961617b67cc7ca464a1def0" class="m-doc">tomatioCppStruct</a>(</span><span class="m-doc-wrap">iterator begin,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#a4101bbca2961617b67cc7ca464a1def0" class="m-doc">tomatioCppStruct</a>(</span><span class="m-doc-wrap">iterator begin,
               iterator end,
               const std::string&amp; name) -&gt; matioCpp::Struct</span>
             </dt>
             <dd>Create a matioCpp::Struct starting from the begin and end iterators of a map-like container The dereferenced value of the iterator has to be a pair (like with std::maps and std::unordered_map) with the key being a string.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class iterator&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="src_2Conversions_2include_2BipedalLocomotion_2Conversions_2matioCppConversions_8h.html#af3036db9a887e7f936d293c4a9f2c89d" class="m-doc">toMatioCppCellArray</a>(</span><span class="m-doc-wrap">const iterator&amp; begin,
+              <span class="m-doc-wrap-bumper">auto <a href="matioCppConversions_8h.html#af3036db9a887e7f936d293c4a9f2c89d" class="m-doc">toMatioCppCellArray</a>(</span><span class="m-doc-wrap">const iterator&amp; begin,
               const iterator&amp; end,
               const std::string&amp; name) -&gt; matioCpp::CellArray</span>
             </dt>

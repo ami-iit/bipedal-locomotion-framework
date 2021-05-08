@@ -4,9 +4,9 @@
     <compoundname>BipedalLocomotion::RobotInterface::SensorLists</compoundname>
     <includes local="no">BipedalLocomotion/RobotInterface/ISensorBridge.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ac56097c1fb3cc768eb92cfb72daa9919" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ac3d8f6104a89d25a58824f21e93934df" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::jointsList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::jointsList</definition>
         <argsstring></argsstring>
         <name>jointsList</name>
         <briefdescription>
@@ -16,11 +16,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="51" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="51" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="50" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="50" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aba22ff61ba443076ffbf99f3f2d1afa8" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aa8ecb94abbbaeaeeded7aa6f2db02add" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::IMUsList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::IMUsList</definition>
         <argsstring></argsstring>
         <name>IMUsList</name>
         <briefdescription>
@@ -30,11 +30,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="52" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="52" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="51" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="51" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a0543b9205fa4aa67c48727f739fdd0a9" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a5980391c929a8e2821eb911be1f2d58d" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::linearAccelerometersList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::linearAccelerometersList</definition>
         <argsstring></argsstring>
         <name>linearAccelerometersList</name>
         <briefdescription>
@@ -44,11 +44,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="53" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="53" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="52" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="52" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a63f1bde051324aead4ab49f386793138" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a2fc94f6d4973e65146c56833982ef8f3" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::gyroscopesList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::gyroscopesList</definition>
         <argsstring></argsstring>
         <name>gyroscopesList</name>
         <briefdescription>
@@ -58,11 +58,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="54" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="53" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="53" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1afc73c6991797779f65c125abb9137841" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a4a45472db1ea54117c7d4614be22a5d5" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::orientationSensorsList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::orientationSensorsList</definition>
         <argsstring></argsstring>
         <name>orientationSensorsList</name>
         <briefdescription>
@@ -72,11 +72,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="55" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="55" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="54" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="54" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1adeeeb86871b127be8f57856a0bd284dc" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a4e104e0082cd8ae7315a6f75c9bc0782" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::magnetometersList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::magnetometersList</definition>
         <argsstring></argsstring>
         <name>magnetometersList</name>
         <briefdescription>
@@ -86,11 +86,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="56" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="55" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="55" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ae11082903234d890a2911ab1ceb535ef" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a90201ab87eb0bee988e3420bc6027a88" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::sixAxisForceTorqueSensorsList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::sixAxisForceTorqueSensorsList</definition>
         <argsstring></argsstring>
         <name>sixAxisForceTorqueSensorsList</name>
         <briefdescription>
@@ -100,11 +100,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="57" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="57" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="56" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="56" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a21b2d8930a5e21bd2a556b2761c64826" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1af3a0ea1976b13e59246c45667dbfd2fe" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::threeAxisForceTorqueSensorsList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::threeAxisForceTorqueSensorsList</definition>
         <argsstring></argsstring>
         <name>threeAxisForceTorqueSensorsList</name>
         <briefdescription>
@@ -114,11 +114,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="58" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="58" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="57" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="57" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1afeddedc9be867ed5ab8df2671d097f2b" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aba407eaf04ef1dd0cdac261bed171edc" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; BipedalLocomotion::RobotInterface::SensorLists::cartesianWrenchesList</definition>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::SensorLists::cartesianWrenchesList</definition>
         <argsstring></argsstring>
         <name>cartesianWrenchesList</name>
         <briefdescription>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="59" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="59" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="58" column="17" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -179,17 +179,17 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="49" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="50" bodyend="60"/>
+    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="48" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="49" bodyend="59"/>
     <listofallmembers>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1afeddedc9be867ed5ab8df2671d097f2b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>cartesianWrenchesList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a63f1bde051324aead4ab49f386793138" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>gyroscopesList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aba22ff61ba443076ffbf99f3f2d1afa8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>IMUsList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ac56097c1fb3cc768eb92cfb72daa9919" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>jointsList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a0543b9205fa4aa67c48727f739fdd0a9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>linearAccelerometersList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1adeeeb86871b127be8f57856a0bd284dc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>magnetometersList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1afc73c6991797779f65c125abb9137841" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>orientationSensorsList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ae11082903234d890a2911ab1ceb535ef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>sixAxisForceTorqueSensorsList</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a21b2d8930a5e21bd2a556b2761c64826" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>threeAxisForceTorqueSensorsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aba407eaf04ef1dd0cdac261bed171edc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>cartesianWrenchesList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a2fc94f6d4973e65146c56833982ef8f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>gyroscopesList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aa8ecb94abbbaeaeeded7aa6f2db02add" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>IMUsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ac3d8f6104a89d25a58824f21e93934df" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>jointsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a5980391c929a8e2821eb911be1f2d58d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>linearAccelerometersList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a4e104e0082cd8ae7315a6f75c9bc0782" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>magnetometersList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a4a45472db1ea54117c7d4614be22a5d5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>orientationSensorsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a90201ab87eb0bee988e3420bc6027a88" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>sixAxisForceTorqueSensorsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1af3a0ea1976b13e59246c45667dbfd2fe" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorLists</scope><name>threeAxisForceTorqueSensorsList</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

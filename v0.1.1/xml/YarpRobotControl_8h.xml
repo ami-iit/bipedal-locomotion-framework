@@ -6,8 +6,6 @@
     <includes local="no">Eigen/Dense</includes>
     <includes local="no">yarp/dev/PolyDriver.h</includes>
     <includes refid="IRobotControl_8h" local="no">BipedalLocomotion/RobotInterface/IRobotControl.h</includes>
-    <includedby refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h" local="no">BipedalLocomotion/JointTrajectoryPlayer/Module.h</includedby>
-    <includedby refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h" local="no">BipedalLocomotion/JointPositionTracking/Module.h</includedby>
     <incdepgraph>
       <node id="6">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -57,24 +55,6 @@
         <label>memory</label>
       </node>
     </incdepgraph>
-    <invincdepgraph>
-      <node id="1">
-        <label>BipedalLocomotion/RobotInterface/YarpRobotControl.h</label>
-        <link refid="YarpRobotControl_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>BipedalLocomotion/JointTrajectoryPlayer/Module.h</label>
-        <link refid="joint-trajectory-player_2include_2BipedalLocomotion_2JointTrajectoryPlayer_2Module_8h"/>
-      </node>
-      <node id="3">
-        <label>BipedalLocomotion/JointPositionTracking/Module.h</label>
-        <link refid="joint-position-tracking_2include_2BipedalLocomotion_2JointPositionTracking_2Module_8h"/>
-      </node>
-    </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" prot="public">BipedalLocomotion::RobotInterface::YarpRobotControl</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>

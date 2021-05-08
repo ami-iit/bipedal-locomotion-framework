@@ -19,9 +19,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="32" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="32" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a66c7159a89bd2e71c04e6898e25082ee" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a606f5f10f90b91288f922dd3206c74ef" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; yarp::dev::PolyDriver &gt;</type>
-        <definition>std::shared_ptr&lt; yarp::dev::PolyDriver &gt; BipedalLocomotion::RobotInterface::PolyDriverDescriptor::poly</definition>
+        <definition>std::shared_ptr&lt;yarp::dev::PolyDriver&gt; BipedalLocomotion::RobotInterface::PolyDriverDescriptor::poly</definition>
         <argsstring></argsstring>
         <name>poly</name>
         <initializer>{nullptr}</initializer>
@@ -36,59 +36,6 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a383807d2a8a3ee408f320e58b24818fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>BipedalLocomotion::RobotInterface::PolyDriverDescriptor::PolyDriverDescriptor</definition>
-        <argsstring>(const std::string &amp;key, std::shared_ptr&lt; yarp::dev::PolyDriver &gt; poly)</argsstring>
-        <name>PolyDriverDescriptor</name>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>key</declname>
-        </param>
-        <param>
-          <type>std::shared_ptr&lt; yarp::dev::PolyDriver &gt;</type>
-          <declname>poly</declname>
-        </param>
-        <briefdescription>
-<para>Constructor. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="38" column="5"/>
-      </memberdef>
-      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>BipedalLocomotion::RobotInterface::PolyDriverDescriptor::PolyDriverDescriptor</definition>
-        <argsstring>()</argsstring>
-        <name>PolyDriverDescriptor</name>
-        <briefdescription>
-<para>Constructor. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="43" column="5"/>
-      </memberdef>
-      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::PolyDriverDescriptor::isValid</definition>
-        <argsstring>() const</argsstring>
-        <name>isValid</name>
-        <briefdescription>
-<para>Check if the poly driver descriptor is valid. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if the polydriver is valid, false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="49" column="10"/>
-      </memberdef>
       <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a383807d2a8a3ee408f320e58b24818fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>BipedalLocomotion::RobotInterface::PolyDriverDescriptor::PolyDriverDescriptor</definition>
@@ -189,11 +136,8 @@
     <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="31" bodyend="50"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>isValid</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>isValid</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ab97d9fa94d06f4f5c53e8fd2b9243eba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>key</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a66c7159a89bd2e71c04e6898e25082ee" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>poly</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a383807d2a8a3ee408f320e58b24818fc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>PolyDriverDescriptor</name></member>
-      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>PolyDriverDescriptor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a606f5f10f90b91288f922dd3206c74ef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>poly</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a383807d2a8a3ee408f320e58b24818fc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>PolyDriverDescriptor</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>PolyDriverDescriptor</name></member>
     </listofallmembers>

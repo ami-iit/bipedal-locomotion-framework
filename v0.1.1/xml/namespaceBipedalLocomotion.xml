@@ -2,17 +2,12 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1ROSPublisherTestDevice" prot="public">BipedalLocomotion::ROSPublisherTestDevice</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1FloatingBaseEstimatorDevice" prot="public">BipedalLocomotion::FloatingBaseEstimatorDevice</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1MasImuTest" prot="public">BipedalLocomotion::MasImuTest</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1AutoDiff">BipedalLocomotion::AutoDiff</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContactModels">BipedalLocomotion::ContactModels</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Contacts">BipedalLocomotion::Contacts</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Conversions">BipedalLocomotion::Conversions</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1GenericContainer">BipedalLocomotion::GenericContainer</innernamespace>
-    <innernamespace refid="namespaceBipedalLocomotion_1_1JointPositionTracking">BipedalLocomotion::JointPositionTracking</innernamespace>
-    <innernamespace refid="namespaceBipedalLocomotion_1_1JointTrajectoryPlayer">BipedalLocomotion::JointTrajectoryPlayer</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ParametersHandler">BipedalLocomotion::ParametersHandler</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
@@ -24,6 +19,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/ROSPublisherTestDevice.h" line="18" column="1"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="20" column="1"/>
   </compounddef>
 </doxygen>
