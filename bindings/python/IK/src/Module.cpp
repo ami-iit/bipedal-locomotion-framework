@@ -12,6 +12,8 @@
 #include <BipedalLocomotion/bindings/IK/SE3Task.h>
 #include <BipedalLocomotion/bindings/IK/SO3Task.h>
 #include <BipedalLocomotion/bindings/IK/JointTrackingTask.h>
+#include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
+#include <BipedalLocomotion/bindings/IK/QPInverseKinematics.h>
 
 namespace BipedalLocomotion
 {
@@ -27,6 +29,8 @@ void CreateModule(pybind11::module& module)
     CreateSE3Task(module);
     CreateSO3Task(module);
     CreateJointTrackingTask(module);
+    CreateIntegrationBasedIK(module);
+    CreateQPInverseKinematics(module);
 }
 } // namespace IK
 } // namespace bindings
