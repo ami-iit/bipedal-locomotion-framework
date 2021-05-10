@@ -35,6 +35,7 @@ All notable changes to this project are documented in this file.
 - Implement `FixedFootDetector` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/284)
 - Implement QPFixedBaseTSID class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/251)
 - Implement `YarpImplementation::setFromFile()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/307)
+- Implement `CoMTask` in TSID (https://github.com/dic-iit/bipedal-locomotion-framework/pull/304)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
