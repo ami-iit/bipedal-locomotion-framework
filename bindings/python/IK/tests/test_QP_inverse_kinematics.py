@@ -237,7 +237,14 @@ def test_qp_inverse_kinematics():
     joint_tracking_var_handler = blf.system.VariablesHandler()
     assert joint_tracking_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
     assert joint_tracking_task.set_variables_handler(variablesHandler=joint_tracking_var_handler)
-    joint_values_delta = [np.random.uniform(-0.005,0.005) for _ in range(kindyn_desc.get_nr_of_dofs())]
+    joint_values_delta = [0.0011392677340292786, -0.0014866937971185989, -0.004861065064457352, 0.004832281257788355,
+                          0.0005562676932744891, 0.0008835707784638569, -0.0013229485588518307, -0.00018524688500568074,
+                          0.004053491738164755,0.0005340230664127431, 0.001292758583814022, -0.0011011443677521105,
+                          -0.004805235090001216, 0.004329144865816151, 0.0030415719471654805, -0.0010637207416641682,
+                          0.0012597145585905769, 0.0032216098557258663, -0.0016280333730231602, -0.004994650881888809,
+                          -0.0019178037434056305, -0.004435872749372345, 0.0001002683234802371, 0.0038944749640689212,
+                          0.004691540110817683, -0.0034115105556102344, 0.004406950159849346, 0.0019877633599394316,
+                          -0.0027563483992913964, 0.004620313400111453, -0.0033082107094529693, -0.003320732925114648]
     assert joint_tracking_task.set_set_point(jointPosition=np.add(joint_values,joint_values_delta))
 
     # Add joint tracking task as soft constraint
@@ -263,7 +270,14 @@ def test_qp_inverse_kinematics():
     assert com_task.set_set_point(position=np.array([0.,0.,0.5]), velocity=np.array([0.,0.,0.]))
     assert se3_task.set_set_point(I_H_F=manif.SE3(position=[-0.02, 0.2, 0.0], quaternion=[1, 0, 0, 0]),
                                   mixedVelocity=manif.SE3Tangent()) # TODO: proper assignment
-    joint_values_delta = [np.random.uniform(-0.005,0.005) for _ in range(kindyn_desc.get_nr_of_dofs())]
+    joint_values_delta = [0.0007451200584672694, -0.001696359535882248, -5.733476699915606e-05, 0.0030691521323187162,
+                          0.0016973417783450306, 0.004965361525630099, 0.002047452821820156, -0.0022178648205978,
+                          -0.00499874605446799, -0.00021545355652612206, 0.002249046530448772, -0.0048592565096339324,
+                          -0.001961899445335763, -0.00026554592901836555, -0.00317120389321911, -0.001743324389545805,
+                          0.00482031870263355, 0.004596501967191832, -0.0023257148997022237, 0.0014664643967757674,
+                          0.0038198161285948337, 0.0016210907365087892, 0.002195183413977628, -0.003929755444460801,
+                          0.0018093019088196369, -0.0024510752337251096, 0.0033390174283683413, 0.001312063212095667,
+                          -0.004458151270494718, -0.0008821295391808395,5.635798856415061e-05, -0.003568065094916102]
     assert joint_tracking_task.set_set_point(jointPosition=np.add(joint_values,joint_values_delta))
 
     # Solve the updated inverse kinematics
