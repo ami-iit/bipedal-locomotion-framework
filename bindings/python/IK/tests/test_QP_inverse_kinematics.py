@@ -289,4 +289,4 @@ def test_qp_inverse_kinematics():
 
     # Check that with different desiderata the ik solution is different
     assert state.joint_velocity != pytest.approx(updated_state.joint_velocity)
-    assert state.base_velocity != pytest.approx(updated_state.base_velocity)
+    assert state.base_velocity.coeffs() != pytest.approx(updated_state.base_velocity.coeffs())
