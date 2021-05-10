@@ -67,7 +67,7 @@ def test_se3_task():
 
     # Set desiderata
     I_H_F = manif.SE3(position=[1.0, -2.0, 3.3], quaternion=[0, 0, -1, 0])
-    mixedVelocity = manif.SE3Tangent() # TODO: proper assignment
+    mixedVelocity = manif.SE3Tangent([0.0]*6) # TODO: proper assignment
     assert se3_task.set_set_point(I_H_F=I_H_F, mixedVelocity=mixedVelocity)
 
 
@@ -102,7 +102,7 @@ def test_so3_task():
 
     # Set desiderata
     I_R_F = manif.SO3(quaternion=[0, 0, -1, 0])
-    angularVelocity = manif.SO3Tangent() # TODO: proper assignment
+    angularVelocity = manif.SO3Tangent([0.0]*3) # TODO: proper assignment
     assert so3_task.set_set_point(I_R_F=I_R_F, angularVelocity=angularVelocity)
 
 
@@ -151,9 +151,9 @@ def test_integration_based_ik_state():
     state.joint_velocity = random_joint_velocity
     assert state.joint_velocity == pytest.approx(random_joint_velocity)
 
-    random_base_velocity = manif.SE3Tangent() # TODO: proper assignment
+    random_base_velocity = manif.SE3Tangent([0.0]*6) # TODO: proper assignment
     state.base_velocity = random_base_velocity
-    assert state.base_velocity == pytest.approx(random_base_velocity)
+    assert state.base_velocity.coeffs() == pytest.approx(random_base_velocity.coeffs())
 
 def test_qp_inverse_kinematics():
 
@@ -221,7 +221,7 @@ def test_qp_inverse_kinematics():
     assert se3_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
     assert se3_task.set_variables_handler(variablesHandler=se3_var_handler)
     I_H_F = manif.SE3(position=[-0.02, 0.1, 0.0], quaternion=[1, 0, 0, 0])
-    mixedVelocity = manif.SE3Tangent()  # TODO: proper assignment
+    mixedVelocity = manif.SE3Tangent([0.0]*6)  # TODO: proper assignment
     assert se3_task.set_set_point(I_H_F=I_H_F, mixedVelocity=mixedVelocity)
 
     # Add SE3 task as hard constraint
@@ -269,7 +269,7 @@ def test_qp_inverse_kinematics():
     # Update the desiderata for all the tasks
     assert com_task.set_set_point(position=np.array([0.,0.,0.5]), velocity=np.array([0.,0.,0.]))
     assert se3_task.set_set_point(I_H_F=manif.SE3(position=[-0.02, 0.2, 0.0], quaternion=[1, 0, 0, 0]),
-                                  mixedVelocity=manif.SE3Tangent()) # TODO: proper assignment
+                                  mixedVelocity=manif.SE3Tangent([0.0]*6)) # TODO: proper assignment
     joint_values_delta = [0.0007451200584672694, -0.001696359535882248, -5.733476699915606e-05, 0.0030691521323187162,
                           0.0016973417783450306, 0.004965361525630099, 0.002047452821820156, -0.0022178648205978,
                           -0.00499874605446799, -0.00021545355652612206, 0.002249046530448772, -0.0048592565096339324,
