@@ -137,7 +137,7 @@ std::string VariablesHandler::toString() const noexcept
     std::string out;
     for (const auto& [key, variable] : m_variables)
     {
-        out = key + " size: " + std::to_string(variable.size)
+        out += key + " size: " + std::to_string(variable.size)
               + ", offset: " + std::to_string(variable.offset) + ". ";
     }
 
