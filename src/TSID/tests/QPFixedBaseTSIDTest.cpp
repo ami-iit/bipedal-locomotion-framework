@@ -35,8 +35,8 @@ using namespace BipedalLocomotion::TSID;
 
 constexpr auto robotAcceleration = "robotAccelration";
 constexpr auto jointTorques = "jointTorques";
-constexpr int maxNumOfContacts = 1;
-constexpr double dT = 0.01;
+constexpr int maxNumOfContacts = 0;
+constexpr double dT = 0.001;
 
 struct TSIDAndTasks
 {
@@ -67,8 +67,8 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
     parameterHandler->setParameter("verbosity", false);
 
     /////// SE3 Task
-    constexpr double kp_se3task = 100.0;
-    constexpr double kd_se3task = 20.0;
+    constexpr double kp_se3task = 300.0;
+    const double kd_se3task = 2*std::sqrt(kp_se3task);
     auto SE3ParameterHandler = std::make_shared<StdImplementation>();
 
     SE3ParameterHandler->setParameter("robot_acceleration_variable_name",
@@ -98,13 +98,14 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     const Eigen::VectorXd kpRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd kdRegularization = 2 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd weightRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
-    const Eigen::VectorXd weightSE3Task = 1 * Eigen::VectorXd::Ones(6); // 6 is the size of the end-effector DoF
+
     handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kp", kpRegularization);
     handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kd", kdRegularization);
 
     TSIDAndTasks out;
 
     constexpr std::size_t lowPriority = 1;
+    constexpr std::size_t highPriority = 0;
 
     out.tsid = std::make_shared<QPFixedBaseTSID>();
     REQUIRE(out.tsid->setKinDyn(kinDyn));
@@ -113,7 +114,7 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     out.se3Task = std::make_shared<SE3Task>();
     REQUIRE(out.se3Task->setKinDyn(kinDyn));
     REQUIRE(out.se3Task->initialize(handler->getGroup("EE_SE3_TASK")));
-    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", lowPriority, weightSE3Task));
+    REQUIRE(out.tsid->addTask(out.se3Task, "se3_task", highPriority));
 
     out.regularizationTask = std::make_shared<JointTrackingTask>();
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
@@ -150,10 +151,9 @@ DesiredSetPoints getDesiredReference(std::shared_ptr<iDynTree::KinDynComputation
         joint = 0;
     }
 
-    for (auto& element : gravity)
-    {
-        element = iDynTree::getRandomDouble();
-    }
+    gravity(0) = 0;
+    gravity(1) = 0;
+    gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;;
 
     REQUIRE(kinDyn->setRobotState(worldBasePos, jointsPos, baseVel, jointsVel, gravity));
 
@@ -166,7 +166,7 @@ DesiredSetPoints getDesiredReference(std::shared_ptr<iDynTree::KinDynComputation
     return out;
 }
 
-System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn, const iDynTree::Model model)
 {
     System out;
 
@@ -178,7 +178,7 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 
     out.dynamics = std::make_shared<FixedBaseDynamics>();
     out.dynamics->setState({jointVelocities, jointPositions});
-    REQUIRE(out.dynamics->setKinDyn(kinDyn));
+    REQUIRE(out.dynamics->setRobotModel(model));
 
     out.integrator = std::make_shared<ForwardEuler<FixedBaseDynamics>>();
     REQUIRE(out.integrator->setIntegrationStep(dT));
@@ -214,21 +214,22 @@ void resetKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 
 TEST_CASE("QP-TSID")
 {
-    auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
     constexpr double tolerance = 5e-2;
 
-    // set the velocity representation
-    REQUIRE(kinDyn->setFrameVelocityRepresentation(
-        iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
-
-    for (std::size_t numberOfJoints = 20; numberOfJoints < 40; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 15; numberOfJoints < 40; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
+            auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+
+            REQUIRE(kinDyn->setFrameVelocityRepresentation(
+            iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
+
+
             // create the model
-            const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+            const iDynTree::Model model = iDynTree::getRandomChain(numberOfJoints);
             REQUIRE(kinDyn->loadRobotModel(model));
 
             const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);
@@ -240,7 +241,7 @@ TEST_CASE("QP-TSID")
 
             resetKinDyn(kinDyn);
 
-            auto system = getSystem(kinDyn);
+            auto system = getSystem(kinDyn, model);
 
             // Set the frame name
             const std::string controlledFrame = model.getFrameName(numberOfJoints);
@@ -257,9 +258,9 @@ TEST_CASE("QP-TSID")
             REQUIRE(tsidAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
             // propagate the inverse dynamics for
-            constexpr std::size_t iterations = 100;
+            constexpr std::size_t iterations = 500;
             Eigen::Vector3d gravity;
-            gravity << 0, 0, -9.81;
+            gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;;
             Eigen::Matrix4d baseTransform;
             baseTransform.setIdentity();
             Eigen::Matrix<double, 6, 1> baseVelocity;
