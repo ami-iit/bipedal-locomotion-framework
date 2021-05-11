@@ -104,22 +104,26 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
+      </node>
+      <node id="20">
+        <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
+        <link refid="QPFixedBaseTSID_8h"/>
       </node>
       <node id="13">
         <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
         <link refid="LeggedOdometry_8h"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
         <link refid="ContactDetector_8h"/>
-        <childnode refid="21" relation="include">
-        </childnode>
         <childnode refid="22" relation="include">
         </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
@@ -138,6 +142,8 @@
       <node id="19">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
@@ -167,7 +173,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
       </node>

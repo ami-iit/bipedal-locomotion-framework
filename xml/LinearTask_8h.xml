@@ -95,6 +95,10 @@
         <label>BipedalLocomotion/IK/SO3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h"/>
       </node>
+      <node id="12">
+        <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
+        <link refid="QPFixedBaseTSID_8h"/>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/IK/SE3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h"/>
@@ -134,6 +138,8 @@
       <node id="11">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>

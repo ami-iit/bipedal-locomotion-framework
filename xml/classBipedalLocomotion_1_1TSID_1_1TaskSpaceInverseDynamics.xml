@@ -3,6 +3,7 @@
   <compounddef id="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; TSIDState &gt;</basecompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID" prot="public" virt="non-virtual">BipedalLocomotion::TSID::QPFixedBaseTSID</derivedcompoundref>
     <includes local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includes>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_1a7e8fb52df133f300617042d44eaeb0be" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
@@ -10,6 +11,7 @@
         <definition>virtual bool BipedalLocomotion::TSID::TaskSpaceInverseDynamics::addTask</definition>
         <argsstring>(std::shared_ptr&lt; System::LinearTask &gt; task, const std::string &amp;taskName, std::size_t priority, std::optional&lt; Eigen::Ref&lt; const Eigen::VectorXd &gt;&gt; weight={})=0</argsstring>
         <name>addTask</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a78bae44707c00085378c6e1f81be0ed8">addTask</reimplementedby>
         <param>
           <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">System::LinearTask</ref> &gt;</type>
           <declname>task</declname>
@@ -69,6 +71,7 @@
         <definition>virtual std::vector&lt;std::string&gt; BipedalLocomotion::TSID::TaskSpaceInverseDynamics::getTaskNames</definition>
         <argsstring>() const =0</argsstring>
         <name>getTaskNames</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a7952098f2454d90169e71e65f7241a5b">getTaskNames</reimplementedby>
         <briefdescription>
 <para>Get a vector containing the name of the tasks. </para>
         </briefdescription>
@@ -86,6 +89,7 @@
         <definition>virtual bool BipedalLocomotion::TSID::TaskSpaceInverseDynamics::finalize</definition>
         <argsstring>(const System::VariablesHandler &amp;handler)=0</argsstring>
         <name>finalize</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab30128e846c93bcf6cd4ebdf86e0db85">finalize</reimplementedby>
         <param>
           <type>const <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kindref="compound">System::VariablesHandler</ref> &amp;</type>
           <declname>handler</declname>
@@ -118,6 +122,7 @@
         <definition>virtual std::weak_ptr&lt;System::LinearTask&gt; BipedalLocomotion::TSID::TaskSpaceInverseDynamics::getTask</definition>
         <argsstring>(const std::string &amp;name) const =0</argsstring>
         <name>getTask</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ac6e35d76787370cd38b66db3eca88966">getTask</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -148,6 +153,7 @@
         <definition>virtual bool BipedalLocomotion::TSID::TaskSpaceInverseDynamics::setKinDyn</definition>
         <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
         <name>setKinDyn</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a1c6714e1c88ef08aa67a62f32691323e">setKinDyn</reimplementedby>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -213,6 +219,12 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::TSID::QPFixedBaseTSID</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID"/>
+        <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">

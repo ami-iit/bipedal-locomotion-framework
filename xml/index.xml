@@ -924,6 +924,20 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" kind="function"><name>PolyDriverDescriptor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID" kind="class"><name>BipedalLocomotion::TSID::QPFixedBaseTSID</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afe34535ba7f72e8f8a8951eb7f57a48a" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a45b6c66204b18531b9a120079fa2dcf5" kind="function"><name>QPFixedBaseTSID</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1aad6d8bb491894542587d0aed95927ea5" kind="function"><name>~QPFixedBaseTSID</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a78bae44707c00085378c6e1f81be0ed8" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a7952098f2454d90169e71e65f7241a5b" kind="function"><name>getTaskNames</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ac6e35d76787370cd38b66db3eca88966" kind="function"><name>getTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afd8a4a3f3823189efaee3def7fdfd86f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab30128e846c93bcf6cd4ebdf86e0db85" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab67015f1d23dd44241d9118a43125d95" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1af9c485d4b3be985b2c2a79f4d8eeb043" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a819d5bdc96e87fd5fb7cd475d42f16b5" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a1c6714e1c88ef08aa67a62f32691323e" kind="function"><name>setKinDyn</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics" kind="class"><name>BipedalLocomotion::IK::QPInverseKinematics</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ae07de2d2f2e45f7cab298d77c7a32037" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5e8f8d2855c94ef0539815664b65a0fb" kind="function"><name>QPInverseKinematics</name></member>
@@ -1814,6 +1828,8 @@
   <compound refid="BaseDynamicsTask_8h" kind="file"><name>BaseDynamicsTask.h</name>
   </compound>
   <compound refid="JointDynamicsTask_8h" kind="file"><name>JointDynamicsTask.h</name>
+  </compound>
+  <compound refid="QPFixedBaseTSID_8h" kind="file"><name>QPFixedBaseTSID.h</name>
   </compound>
   <compound refid="TaskSpaceInverseDynamics_8h" kind="file"><name>TaskSpaceInverseDynamics.h</name>
   </compound>
