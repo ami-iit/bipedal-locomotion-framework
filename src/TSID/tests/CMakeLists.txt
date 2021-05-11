@@ -21,3 +21,8 @@ add_bipedal_test(
   NAME DynamicsTaskTSID
   SOURCES DynamicsTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
+
+ add_bipedal_test(
+  NAME QPFixedBaseTSID
+  SOURCES QPFixedBaseTSIDTest.cpp
+  LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions BipedalLocomotion::ContinuousDynamicalSystem)
