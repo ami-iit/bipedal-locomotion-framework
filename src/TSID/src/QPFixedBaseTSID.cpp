@@ -61,6 +61,66 @@ struct QPFixedBaseTSID::Impl
     std::shared_ptr<SE3Task> baseSE3Task;
     std::shared_ptr<JointDynamicsTask> dynamicsTask;
 
+    bool createBaseSE3Task()
+    {
+        constexpr auto logPrefix = "[QPFixedBaseTSID::createBaseSE3Task]";
+
+        auto baseSE3ParameterHandler = std::make_shared<StdImplementation>();
+        baseSE3ParameterHandler->setParameter("robot_acceleration_variable_name",
+                                              robotAccelerationVariable.name);
+
+        // This task is to consider the robot fixed base, so the controller gains are set to 0.
+        baseSE3ParameterHandler->setParameter("kp_linear", 0.0);
+        baseSE3ParameterHandler->setParameter("kd_linear", 0.0);
+        baseSE3ParameterHandler->setParameter("kp_angular", 0.0);
+        baseSE3ParameterHandler->setParameter("kd_angular", 0.0);
+        baseSE3ParameterHandler->setParameter("frame_name", baseLink);
+
+        if (!baseSE3Task->initialize(baseSE3ParameterHandler))
+        {
+            log()->error("{} Error initializing se3task on the base", logPrefix);
+            return false;
+        }
+
+        baseSE3Task->setSetPoint(manif::SE3d::Identity(),
+                                          manif::SE3d::Tangent::Zero(),
+                                          manif::SE3d::Tangent::Zero());
+
+        return true;
+    }
+
+    bool createDynamicsTask()
+    {
+        constexpr auto logPrefix = "[QPFixedBaseTSID::createDynamicsTask]";
+
+        auto dynamicsParameterHandler = std::make_shared<StdImplementation>();
+
+        dynamicsParameterHandler->setParameter("robot_acceleration_variable_name",
+                                               robotAccelerationVariable.name);
+        dynamicsParameterHandler->setParameter("joint_torques_variable_name",
+                                               jointTorquesVariable.name);
+        dynamicsParameterHandler->setParameter("max_number_of_contacts", 1); // We assume the external
+                                                                             // wrench acting on only
+                                                                             // the base link.
+
+        auto contactGroup = std::make_shared<StdImplementation>();
+        contactGroup->setParameter("variable_name", "base_contact_wrench");
+        contactGroup->setParameter("frame_name", baseLink);
+        if (!dynamicsParameterHandler->setGroup("CONTACT_0", contactGroup))
+        {
+            log()->error("{} Error setting group for base contact.", logPrefix);
+            return false;
+        }
+
+        if (!dynamicsTask->initialize(dynamicsParameterHandler))
+        {
+            log()->error("{} Error initializing dynamics task", logPrefix);
+            return false;
+        }
+
+        return true;
+    }
+
     OsqpEigen::Solver solver; /**< Optimization solver. */
 
     Eigen::MatrixXd hessian;
@@ -293,73 +353,13 @@ bool QPFixedBaseTSID::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> ki
     return true;
 }
 
-bool QPFixedBaseTSID::createBaseSE3Task()
-{
-    constexpr auto logPrefix = "[QPFixedBaseTSID::createBaseSE3Task]";
-
-    auto baseSE3ParameterHandler = std::make_shared<StdImplementation>();
-    baseSE3ParameterHandler->setParameter("robot_acceleration_variable_name",
-                                          m_pimpl->robotAccelerationVariable.name);
-
-    // This task is to consider the robot fixed base, so the controller gains are set to 0.
-    baseSE3ParameterHandler->setParameter("kp_linear", 0.0);
-    baseSE3ParameterHandler->setParameter("kd_linear", 0.0);
-    baseSE3ParameterHandler->setParameter("kp_angular", 0.0);
-    baseSE3ParameterHandler->setParameter("kd_angular", 0.0);
-    baseSE3ParameterHandler->setParameter("frame_name", m_pimpl->baseLink);
-
-    if (!m_pimpl->baseSE3Task->initialize(baseSE3ParameterHandler))
-    {
-        log()->error("{} Error initializing se3task on the base", logPrefix);
-        return false;
-    }
-
-    m_pimpl->baseSE3Task->setSetPoint(manif::SE3d::Identity(),
-                                      manif::SE3d::Tangent::Zero(),
-                                      manif::SE3d::Tangent::Zero());
-
-    return true;
-}
-
-bool QPFixedBaseTSID::createDynamicsTask()
-{
-    constexpr auto logPrefix = "[QPFixedBaseTSID::createDynamicsTask]";
-
-    auto dynamicsParameterHandler = std::make_shared<StdImplementation>();
-
-    dynamicsParameterHandler->setParameter("robot_acceleration_variable_name",
-                                           m_pimpl->robotAccelerationVariable.name);
-    dynamicsParameterHandler->setParameter("joint_torques_variable_name",
-                                           m_pimpl->jointTorquesVariable.name);
-    dynamicsParameterHandler->setParameter("max_number_of_contacts", 1); // We assume the external
-                                                                         // wrench acting on only
-                                                                         // the base link.
-
-    auto contactGroup = std::make_shared<StdImplementation>();
-    contactGroup->setParameter("variable_name", "base_contact_wrench");
-    contactGroup->setParameter("frame_name", m_pimpl->baseLink);
-    if (!dynamicsParameterHandler->setGroup("CONTACT_0", contactGroup))
-    {
-        log()->error("{} Error setting group for base contact.", logPrefix);
-        return false;
-    }
-
-    if (!m_pimpl->dynamicsTask->initialize(dynamicsParameterHandler))
-    {
-        log()->error("{} Error initializing dynamics task", logPrefix);
-        return false;
-    }
-
-    return true;
-}
-
 bool QPFixedBaseTSID::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[QPFixedBaseTSID::initialize]";
 
     if (!m_pimpl->isKinDynSet)
     {
-        log()->error("{} The object kinDyn is not set for the base SE3Task.", logPrefix);
+        log()->error("{} The object kinDyn is not valid.", logPrefix);
         return false;
     }
 
@@ -390,12 +390,12 @@ bool QPFixedBaseTSID::initialize(std::weak_ptr<const ParametersHandler::IParamet
         return false;
     }
 
-    if (!createBaseSE3Task())
+    if (!m_pimpl->createBaseSE3Task())
     {
-        log()->error("{} Error creating se3task for the base.", logPrefix);
+        log()->error("{} Error creating SE3task for the base.", logPrefix);
         return false;
     }
-    if (!createDynamicsTask())
+    if (!m_pimpl->createDynamicsTask())
     {
         log()->error("{} Error creating task for the joint dynamics.", logPrefix);
         return false;
@@ -597,6 +597,10 @@ bool QPFixedBaseTSID::advance()
     // retrieve the solution
     constexpr std::size_t spatialAccelerationSize = 6;
     const std::size_t joints = m_pimpl->robotAccelerationVariable.size - spatialAccelerationSize;
+
+    m_pimpl->solution.jointAccelerations
+        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset,
+                                                joints);
 
     m_pimpl->solution.jointTorques
         = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset

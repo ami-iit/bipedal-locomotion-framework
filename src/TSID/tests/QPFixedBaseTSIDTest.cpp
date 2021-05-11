@@ -218,6 +218,11 @@ TEST_CASE("QP-TSID")
 
     constexpr double tolerance = 5e-2;
 
+    // propagate the inverse dynamics for
+    constexpr std::size_t iterations = 500;
+    Eigen::Vector3d gravity;
+    gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+
     for (std::size_t numberOfJoints = 15; numberOfJoints < 40; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
@@ -257,10 +262,7 @@ TEST_CASE("QP-TSID")
                                                       manif::SE3d::Tangent::Zero()));
             REQUIRE(tsidAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
-            // propagate the inverse dynamics for
-            constexpr std::size_t iterations = 500;
-            Eigen::Vector3d gravity;
-            gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;;
+
             Eigen::Matrix4d baseTransform;
             baseTransform.setIdentity();
             Eigen::Matrix<double, 6, 1> baseVelocity;

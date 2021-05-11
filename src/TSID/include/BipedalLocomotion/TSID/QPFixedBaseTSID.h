@@ -27,7 +27,7 @@ namespace TSID
  * The TSID is here implemented as Quadratic Programming (QP) problem. The user should
  * set the desired task with the method QPFixedBaseTSID::addTask. Each task has a given
  * priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0
- * the task will be considered as hard task, thus treated as an equality constraint. If the priority
+ * the task will be considered as a hard task, thus treated as a constraint. If the priority
  * is equal to 1 the task will be embedded in the cost function. The class is also able to treat
  * inequality constraints. Note that this class considers just one contact wrench as we assume the
  * external wrench acting on only the base link.
@@ -39,9 +39,6 @@ class QPFixedBaseTSID : public TaskSpaceInverseDynamics
      */
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;
-
-    bool createBaseSE3Task();
-    bool createDynamicsTask();
 
 public:
 
@@ -95,7 +92,6 @@ public:
      * |:------------------------------------:|:--------:|:--------------------------------------------------------------------------------------------------:|:---------:|
      * |  `robot_acceleration_variable_name`  | `string` | Name of the variable contained in `VariablesHandler` describing the generalized robot acceleration |    Yes    |
      * |    `robot_torque_variable_name`      | `string` |         Name of the variable contained in `VariablesHandler` describing the robot torque           |    Yes    |
-     * | `robot_contact_wrench_variable_name` | `string` |      Name of the variable contained in `VariablesHandler` describing the robot contact wrench      |    Yes    |
      * |             `verbosity`              |  `bool`  |                        Verbosity of the solver. Default value `false`                              |     No    |
      * Where the generalized robot acceleration is a vector containing the base acceleration
      (expressed in mixed representation) and the joint accelerations,
