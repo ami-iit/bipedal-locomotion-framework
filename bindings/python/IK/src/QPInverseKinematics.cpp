@@ -47,6 +47,7 @@ void CreateQPInverseKinematics(pybind11::module& module)
         .def("get_output", &QPInverseKinematics::getOutput)
         .def("is_output_valid", &QPInverseKinematics::isOutputValid);
 }
-}
-}
-}
+
+} // namespace IK
+} // namespace bindings
+} // namespace BipedalLocomotion

@@ -32,18 +32,19 @@ void CreateSO3Task(pybind11::module& module)
             [](SO3Task& impl,
                std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>
                    paramHandler) -> bool { return impl.initialize(paramHandler); },
-            py::arg("paramHandler"))
+            py::arg("param_handler"))
         .def("set_kin_dyn",
              &SO3Task::setKinDyn,
-             py::arg("kinDyn"))
+             py::arg("kin_dyn"))
         .def("set_variables_handler",
              &SO3Task::setVariablesHandler,
-             py::arg("variablesHandler"))
+             py::arg("variables_handler"))
         .def("set_set_point",
              &SO3Task::setSetPoint,
              py::arg("I_R_F"),
-             py::arg("angularVelocity"));
+             py::arg("angular_velocity"));
 }
-}
-}
-}
+
+} // namespace IK
+} // namespace bindings
+} // namespace BipedalLocomotion

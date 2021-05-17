@@ -36,6 +36,6 @@ void CreateIntegrationBasedIK(pybind11::module& module)
     py::class_<IntegrationBasedIK, Source<IntegrationBasedIKState>>(module, "IntegrationBasedIK");
 }
 
-}
-}
-}
+} // namespace IK
+} // namespace bindings
+} // namespace BipedalLocomotion

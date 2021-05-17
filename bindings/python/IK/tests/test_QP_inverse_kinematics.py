@@ -28,10 +28,10 @@ def test_com_task():
     # Initialize the task
     com_task = blf.ik.CoMTask()
     assert com_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert com_task.initialize(paramHandler=com_param_handler)
+    assert com_task.initialize(param_handler=com_param_handler)
     com_var_handler = blf.system.VariablesHandler()
     assert com_var_handler.add_variable("robotVelocity", 32) is True # robot velocity size = 26 (joints) + 6 (base)
-    assert com_task.set_variables_handler(variablesHandler=com_var_handler)
+    assert com_task.set_variables_handler(variables_handler=com_var_handler)
     assert com_task.set_set_point(position=np.array([1.,1.,1.5]), velocity=np.array([0.,0.5,0.5]))
 
 
@@ -60,15 +60,15 @@ def test_se3_task():
     # Initialize the task
     se3_task = blf.ik.SE3Task()
     assert se3_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert se3_task.initialize(paramHandler=se3_param_handler)
+    assert se3_task.initialize(param_handler=se3_param_handler)
     se3_var_handler = blf.system.VariablesHandler()
     assert se3_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
-    assert se3_task.set_variables_handler(variablesHandler=se3_var_handler)
+    assert se3_task.set_variables_handler(variables_handler=se3_var_handler)
 
     # Set desiderata
     I_H_F = manif.SE3(position=[1.0, -2.0, 3.3], quaternion=[0, 0, -1, 0])
-    mixedVelocity = manif.SE3Tangent([0.0]*6) # TODO: proper assignment
-    assert se3_task.set_set_point(I_H_F=I_H_F, mixedVelocity=mixedVelocity)
+    mixed_velocity = manif.SE3Tangent([0.0]*6) # TODO: proper assignment
+    assert se3_task.set_set_point(I_H_F=I_H_F, mixed_velocity=mixed_velocity)
 
 
 def test_so3_task():
@@ -95,15 +95,15 @@ def test_so3_task():
     # Initialize the task
     so3_task = blf.ik.SO3Task()
     assert so3_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert so3_task.initialize(paramHandler=so3_param_handler)
+    assert so3_task.initialize(param_handler=so3_param_handler)
     so3_var_handler = blf.system.VariablesHandler()
     assert so3_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
-    assert so3_task.set_variables_handler(variablesHandler=so3_var_handler)
+    assert so3_task.set_variables_handler(variables_handler=so3_var_handler)
 
     # Set desiderata
     I_R_F = manif.SO3(quaternion=[0, 0, -1, 0])
     angularVelocity = manif.SO3Tangent([0.0]*3) # TODO: proper assignment
-    assert so3_task.set_set_point(I_R_F=I_R_F, angularVelocity=angularVelocity)
+    assert so3_task.set_set_point(I_R_F=I_R_F, angular_velocity=angularVelocity)
 
 
 def test_joint_tracking_task():
@@ -124,24 +124,24 @@ def test_joint_tracking_task():
     # Set the parameters
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
     joint_tracking_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
-    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.get_nr_of_dofs())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.kindyn.get_nr_of_dofs())
 
     # Initialize the task
     joint_tracking_task = blf.ik.JointTrackingTask()
     assert joint_tracking_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert joint_tracking_task.initialize(paramHandler=joint_tracking_param_handler)
+    assert joint_tracking_task.initialize(param_handler=joint_tracking_param_handler)
     joint_tracking_var_handler = blf.system.VariablesHandler()
     assert joint_tracking_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
-    assert joint_tracking_task.set_variables_handler(variablesHandler=joint_tracking_var_handler)
+    assert joint_tracking_task.set_variables_handler(variables_handler=joint_tracking_var_handler)
 
     # Set desired joint pos
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
-    assert joint_tracking_task.set_set_point(jointPosition=joint_values)
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    assert joint_tracking_task.set_set_point(joint_position=joint_values)
 
     # Set desired joint pos and vel
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
-    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
-    assert joint_tracking_task.set_set_point(jointPosition=joint_values,jointVelocity=joint_velocities)
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
 def test_integration_based_ik_state():
 
@@ -189,9 +189,9 @@ def test_qp_inverse_kinematics():
                     0.5398797698508592, 5.367856260643534e-05, -0.0010455524092736824, 6.414366731688693e-05]
     s = np.array(joint_values)
     base_velocity = [0.0] * 6
-    s_dot = [0.0] * kindyn_desc.get_nr_of_dofs()
+    s_dot = [0.0] * kindyn_desc.kindyn.get_nr_of_dofs()
     world_gravity = [0.0, 0.0, blf.math.StandardAccelerationOfGravitation]
-    assert kindyn_desc.set_robot_state(world_T_base, s, base_velocity, s_dot, world_gravity)
+    assert kindyn_desc.kindyn.set_robot_state(world_T_base, s, base_velocity, s_dot, world_gravity)
 
     # Configure CoM task
     com_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -199,10 +199,10 @@ def test_qp_inverse_kinematics():
     com_param_handler.set_parameter_float(name="kp_linear", value=10.0)
     com_task = blf.ik.CoMTask()
     assert com_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert com_task.initialize(paramHandler=com_param_handler)
+    assert com_task.initialize(param_handler=com_param_handler)
     com_var_handler = blf.system.VariablesHandler()
     assert com_var_handler.add_variable("robotVelocity", 38) is True # robot velocity size = 32 (joints) + 6 (base)
-    assert com_task.set_variables_handler(variablesHandler=com_var_handler)
+    assert com_task.set_variables_handler(variables_handler=com_var_handler)
     assert com_task.set_set_point(position=np.array([0.,0.,0.53]), velocity=np.array([0.,0.,0.]))
 
     # Add CoM task as hard constraint
@@ -216,13 +216,13 @@ def test_qp_inverse_kinematics():
     se3_param_handler.set_parameter_float(name="kp_angular", value=10.0)
     se3_task = blf.ik.SE3Task()
     assert se3_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert se3_task.initialize(paramHandler=se3_param_handler)
+    assert se3_task.initialize(param_handler=se3_param_handler)
     se3_var_handler = blf.system.VariablesHandler()
     assert se3_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
-    assert se3_task.set_variables_handler(variablesHandler=se3_var_handler)
+    assert se3_task.set_variables_handler(variables_handler=se3_var_handler)
     I_H_F = manif.SE3(position=[-0.02, 0.1, 0.0], quaternion=[1, 0, 0, 0])
-    mixedVelocity = manif.SE3Tangent([0.0]*6)  # TODO: proper assignment
-    assert se3_task.set_set_point(I_H_F=I_H_F, mixedVelocity=mixedVelocity)
+    mixed_velocity = manif.SE3Tangent([0.0]*6)  # TODO: proper assignment
+    assert se3_task.set_set_point(I_H_F=I_H_F, mixed_velocity=mixed_velocity)
 
     # Add SE3 task as hard constraint
     assert qp_ik.add_task(task=se3_task, taskName="se3_task", priority=0)
@@ -230,13 +230,13 @@ def test_qp_inverse_kinematics():
     # Configure joint tracking task (regularization)
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
     joint_tracking_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
-    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.get_nr_of_dofs())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.kindyn.get_nr_of_dofs())
     joint_tracking_task = blf.ik.JointTrackingTask()
     assert joint_tracking_task.set_kin_dyn(kindyn_desc.kindyn)
-    assert joint_tracking_task.initialize(paramHandler=joint_tracking_param_handler)
+    assert joint_tracking_task.initialize(param_handler=joint_tracking_param_handler)
     joint_tracking_var_handler = blf.system.VariablesHandler()
     assert joint_tracking_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
-    assert joint_tracking_task.set_variables_handler(variablesHandler=joint_tracking_var_handler)
+    assert joint_tracking_task.set_variables_handler(variables_handler=joint_tracking_var_handler)
     joint_values_delta = [0.0011392677340292786, -0.0014866937971185989, -0.004861065064457352, 0.004832281257788355,
                           0.0005562676932744891, 0.0008835707784638569, -0.0013229485588518307, -0.00018524688500568074,
                           0.004053491738164755,0.0005340230664127431, 0.001292758583814022, -0.0011011443677521105,
@@ -245,10 +245,10 @@ def test_qp_inverse_kinematics():
                           -0.0019178037434056305, -0.004435872749372345, 0.0001002683234802371, 0.0038944749640689212,
                           0.004691540110817683, -0.0034115105556102344, 0.004406950159849346, 0.0019877633599394316,
                           -0.0027563483992913964, 0.004620313400111453, -0.0033082107094529693, -0.003320732925114648]
-    assert joint_tracking_task.set_set_point(jointPosition=np.add(joint_values,joint_values_delta))
+    assert joint_tracking_task.set_set_point(joint_position=np.add(joint_values,joint_values_delta))
 
     # Add joint tracking task as soft constraint
-    assert qp_ik.add_task(task=joint_tracking_task, taskName="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.get_nr_of_dofs())
+    assert qp_ik.add_task(task=joint_tracking_task, taskName="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
 
     # Check that all the tasks have been added
     task_names = qp_ik.get_task_names()
@@ -269,7 +269,7 @@ def test_qp_inverse_kinematics():
     # Update the desiderata for all the tasks
     assert com_task.set_set_point(position=np.array([0.,0.,0.5]), velocity=np.array([0.,0.,0.]))
     assert se3_task.set_set_point(I_H_F=manif.SE3(position=[-0.02, 0.2, 0.0], quaternion=[1, 0, 0, 0]),
-                                  mixedVelocity=manif.SE3Tangent([0.0]*6)) # TODO: proper assignment
+                                  mixed_velocity=manif.SE3Tangent([0.0]*6)) # TODO: proper assignment
     joint_values_delta = [0.0007451200584672694, -0.001696359535882248, -5.733476699915606e-05, 0.0030691521323187162,
                           0.0016973417783450306, 0.004965361525630099, 0.002047452821820156, -0.0022178648205978,
                           -0.00499874605446799, -0.00021545355652612206, 0.002249046530448772, -0.0048592565096339324,
@@ -278,7 +278,7 @@ def test_qp_inverse_kinematics():
                           0.0038198161285948337, 0.0016210907365087892, 0.002195183413977628, -0.003929755444460801,
                           0.0018093019088196369, -0.0024510752337251096, 0.0033390174283683413, 0.001312063212095667,
                           -0.004458151270494718, -0.0008821295391808395,5.635798856415061e-05, -0.003568065094916102]
-    assert joint_tracking_task.set_set_point(jointPosition=np.add(joint_values,joint_values_delta))
+    assert joint_tracking_task.set_set_point(joint_position=np.add(joint_values,joint_values_delta))
 
     # Solve the updated inverse kinematics
     assert qp_ik.advance()
