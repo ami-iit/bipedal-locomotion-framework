@@ -22,43 +22,34 @@ def test_legged_odometry():
     assert kindyn_desc.is_valid()
 
     # Check the number of degrees of freedom of the model
-    assert kindyn_desc.get_nr_of_dofs() == len(joints_list)
+    assert kindyn_desc.kindyn.get_nr_of_dofs() == len(joints_list)
 
     # Set the joint positions to random values
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
-    assert kindyn_desc.set_joint_pos(joint_values)
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    assert kindyn_desc.kindyn.set_joint_pos(joint_values)
 
     # Check that the joint positions are all set to the desired values
-    updated_joint_pos = np.zeros(kindyn_desc.get_nr_of_dofs())
-    assert kindyn_desc.get_joint_pos(updated_joint_pos)
+    updated_joint_pos = kindyn_desc.kindyn.get_joint_pos()
     assert updated_joint_pos == pytest.approx(joint_values)
-
-    # Get the robot state
-    # TODO: world_T_base.flags['F_CONTIGUOUS'] is required to be True
-    world_T_base = np.asfortranarray(np.zeros((4,4)))
-    s = np.zeros(kindyn_desc.get_nr_of_dofs())
-    base_velocity = np.zeros(6)
-    s_dot = np.zeros(kindyn_desc.get_nr_of_dofs())
-    world_gravity = np.zeros(3)
-    assert kindyn_desc.get_robot_state(world_T_base,s,base_velocity,s_dot,world_gravity)
 
     # Set the robot state
     # TODO: world_T_base.flags['F_CONTIGUOUS'] is required to be True
     updated_world_T_base = np.asfortranarray([[1., 0., 0., 0.],[0., 0., -1., 0.],[0., 1., 0., 0.],[0., 0., 0., 1.]])
-    updated_s = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
+    updated_s = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
     updated_base_velocity = [np.random.uniform(-0.5,0.5) for _ in range(6)]
-    updated_s_dot = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.get_nr_of_dofs())]
+    updated_s_dot = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
     updated_world_gravity = [np.random.uniform(-0.5,0.5) for _ in range(3)]
-    assert kindyn_desc.set_robot_state(updated_world_T_base,updated_s,updated_base_velocity,
-                                       updated_s_dot,updated_world_gravity)
+    assert kindyn_desc.kindyn.set_robot_state(updated_world_T_base,updated_s,updated_base_velocity,
+                                              updated_s_dot,updated_world_gravity)
 
     # Check that the robot state is set to the desired values
-    assert kindyn_desc.get_robot_state(world_T_base,s,base_velocity,s_dot,world_gravity)
-    assert world_T_base == pytest.approx(updated_world_T_base)
-    assert s == pytest.approx(updated_s)
-    assert base_velocity == pytest.approx(updated_base_velocity)
-    assert s_dot == pytest.approx(updated_s_dot)
-    assert world_gravity == pytest.approx(updated_world_gravity)
+    updated_state = kindyn_desc.kindyn.get_robot_state()
+    assert updated_state["world_T_base"] == pytest.approx(updated_world_T_base)
+    assert updated_state["s"] == pytest.approx(updated_s)
+    assert updated_state["base_velocity"] == pytest.approx(updated_base_velocity)
+    assert updated_state["s_dot"] == pytest.approx(updated_s_dot)
+    assert updated_state["world_gravity"] == pytest.approx(updated_world_gravity)
+
 
     dt = 0.01
     # create configuration parameters handler for legged odometry
