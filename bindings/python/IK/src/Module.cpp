@@ -7,13 +7,13 @@
 
 #include <pybind11/pybind11.h>
 
-#include <BipedalLocomotion/bindings/IK/Module.h>
 #include <BipedalLocomotion/bindings/IK/CoMTask.h>
+#include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
+#include <BipedalLocomotion/bindings/IK/JointTrackingTask.h>
+#include <BipedalLocomotion/bindings/IK/Module.h>
+#include <BipedalLocomotion/bindings/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/bindings/IK/SE3Task.h>
 #include <BipedalLocomotion/bindings/IK/SO3Task.h>
-#include <BipedalLocomotion/bindings/IK/JointTrackingTask.h>
-#include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
-#include <BipedalLocomotion/bindings/IK/QPInverseKinematics.h>
 
 namespace BipedalLocomotion
 {

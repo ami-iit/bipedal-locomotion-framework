@@ -25,7 +25,6 @@ void CreateLinearTask(pybind11::module& module)
     using namespace BipedalLocomotion::System;
 
     py::class_<LinearTask, std::shared_ptr<LinearTask>>(module, "LinearTask");
-
 }
 
 } // namespace System

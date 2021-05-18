@@ -9,8 +9,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/IK/SE3Task.h>
+#include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/IK/SE3Task.h>
 
 namespace BipedalLocomotion
@@ -28,21 +28,15 @@ void CreateSE3Task(pybind11::module& module)
 
     py::class_<SE3Task, std::shared_ptr<SE3Task>, LinearTask>(module, "SE3Task")
         .def(py::init())
-        .def("initialize",
+        .def(
+            "initialize",
             [](SE3Task& impl,
                std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>
                    paramHandler) -> bool { return impl.initialize(paramHandler); },
             py::arg("param_handler"))
-        .def("set_kin_dyn",
-             &SE3Task::setKinDyn,
-             py::arg("kin_dyn"))
-        .def("set_variables_handler",
-             &SE3Task::setVariablesHandler,
-             py::arg("variables_handler"))
-        .def("set_set_point",
-             &SE3Task::setSetPoint,
-             py::arg("I_H_F"),
-             py::arg("mixed_velocity"));
+        .def("set_kin_dyn", &SE3Task::setKinDyn, py::arg("kin_dyn"))
+        .def("set_variables_handler", &SE3Task::setVariablesHandler, py::arg("variables_handler"))
+        .def("set_set_point", &SE3Task::setSetPoint, py::arg("I_H_F"), py::arg("mixed_velocity"));
 }
 
 } // namespace IK

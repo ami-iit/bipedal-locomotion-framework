@@ -27,47 +27,51 @@ void CreateKinDynComputations(pybind11::module& module)
     using namespace iDynTree;
     py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module,
                                                                         "KinDynComputations")
-         .def("get_nr_of_dofs", [](const KinDynComputations& impl) {
-                return impl.getNrOfDegreesOfFreedom();
-            })
-         .def("get_joint_pos", [](const KinDynComputations& impl) {
-                Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
-                if (!impl.getJointPos(s))
-                {
-                    throw py::value_error("Failed to get the joint position.");
-                }
-                return s;
-            })
-        .def("set_joint_pos", [](KinDynComputations& impl, Eigen::Ref<const Eigen::VectorXd> s) {
+        .def("get_nr_of_dofs",
+             [](const KinDynComputations& impl) { return impl.getNrOfDegreesOfFreedom(); })
+        .def("get_joint_pos",
+             [](const KinDynComputations& impl) {
+                 Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
+                 if (!impl.getJointPos(s))
+                 {
+                     throw py::value_error("Failed to get the joint position.");
+                 }
+                 return s;
+             })
+        .def(
+            "set_joint_pos",
+            [](KinDynComputations& impl, Eigen::Ref<const Eigen::VectorXd> s) {
                 return impl.setJointPos(iDynTree::make_span(s.data(), s.size()));
             },
             py::arg("s"))
-         .def("get_robot_state", [](KinDynComputations& impl) {
-                Eigen::Matrix<double, 4, 4> world_T_base;
-                Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
-                Eigen::VectorXd base_velocity(6);
-                Eigen::VectorXd s_dot(impl.getNrOfDegreesOfFreedom());
-                Eigen::VectorXd world_gravity(3);
-                if (!impl.getRobotState(world_T_base,s,base_velocity,s_dot,world_gravity))
-                {
-                    throw py::value_error("Failed to get the robot state.");
-                }
-                py::dict robot_state;
-                robot_state["world_T_base"] = world_T_base;
-                robot_state["s"] = s;
-                robot_state["base_velocity"] = base_velocity;
-                robot_state["s_dot"] = s_dot;
-                robot_state["world_gravity"] = world_gravity;
-                return robot_state;
-            })
-            .def("set_robot_state", [](KinDynComputations& impl,
-                                       Eigen::Ref<const Eigen::Matrix<double, 4, 4>> world_T_base,
-                                       Eigen::Ref<const Eigen::VectorXd> s,
-                                       Eigen::Ref<const Eigen::VectorXd> base_velocity,
-                                       Eigen::Ref<const Eigen::VectorXd> s_dot,
-                                       Eigen::Ref<const Eigen::VectorXd> world_gravity) {
-                return impl.setRobotState(world_T_base,s,base_velocity,s_dot,world_gravity);
-            });
+        .def("get_robot_state",
+             [](KinDynComputations& impl) {
+                 Eigen::Matrix<double, 4, 4> world_T_base;
+                 Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
+                 Eigen::VectorXd base_velocity(6);
+                 Eigen::VectorXd s_dot(impl.getNrOfDegreesOfFreedom());
+                 Eigen::VectorXd world_gravity(3);
+                 if (!impl.getRobotState(world_T_base, s, base_velocity, s_dot, world_gravity))
+                 {
+                     throw py::value_error("Failed to get the robot state.");
+                 }
+                 py::dict robot_state;
+                 robot_state["world_T_base"] = world_T_base;
+                 robot_state["s"] = s;
+                 robot_state["base_velocity"] = base_velocity;
+                 robot_state["s_dot"] = s_dot;
+                 robot_state["world_gravity"] = world_gravity;
+                 return robot_state;
+             })
+        .def("set_robot_state",
+             [](KinDynComputations& impl,
+                Eigen::Ref<const Eigen::Matrix<double, 4, 4>> world_T_base,
+                Eigen::Ref<const Eigen::VectorXd> s,
+                Eigen::Ref<const Eigen::VectorXd> base_velocity,
+                Eigen::Ref<const Eigen::VectorXd> s_dot,
+                Eigen::Ref<const Eigen::VectorXd> world_gravity) {
+                 return impl.setRobotState(world_T_base, s, base_velocity, s_dot, world_gravity);
+             });
 }
 
 void CreateKinDynComputationsDescriptor(pybind11::module& module)
@@ -168,7 +172,8 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
     py::class_<Source<Output>>(module, "FloatingBaseEstimatorOutputSource");
 
     py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator(module,
-                                                                            "FloatingBaseEstimator");
+                                                                            "FloatingBaseEstimato"
+                                                                            "r");
 
     floatingBaseEstimator.def(py::init())
         .def("set_imu_measurement",

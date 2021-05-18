@@ -7,9 +7,9 @@
 
 #include <pybind11/pybind11.h>
 
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/System/Module.h>
 #include <BipedalLocomotion/bindings/System/VariablesHandler.h>
-#include <BipedalLocomotion/bindings/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {

@@ -19,7 +19,6 @@ namespace System
 
 void CreateLinearTask(pybind11::module& module);
 
-
 } // namespace System
 } // namespace bindings
 } // namespace BipedalLocomotion
