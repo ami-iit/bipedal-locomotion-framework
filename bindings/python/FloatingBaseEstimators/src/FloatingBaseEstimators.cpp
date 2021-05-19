@@ -171,9 +171,9 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
 
     py::class_<Source<Output>>(module, "FloatingBaseEstimatorOutputSource");
 
-    py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator(module,
-                                                                            "FloatingBaseEstimato"
-                                                                            "r");
+    py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator( //
+        module,
+        "FloatingBaseEstimator");
 
     floatingBaseEstimator.def(py::init())
         .def("set_imu_measurement",

@@ -33,7 +33,7 @@ def test_legged_odometry():
     assert updated_joint_pos == pytest.approx(joint_values)
 
     # Set the robot state
-    updated_world_T_base = np.asarray([[1., 0., 0., 0.],[0., 0., -1., 0.],[0., 1., 0., 0.],[0., 0., 0., 1.]])
+    updated_world_T_base = np.array([[1., 0., 0., 0.],[0., 0., -1., 0.],[0., 1., 0., 0.],[0., 0., 0., 1.]])
     updated_s = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
     updated_base_velocity = [np.random.uniform(-0.5,0.5) for _ in range(6)]
     updated_s_dot = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
