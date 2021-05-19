@@ -20,6 +20,7 @@ namespace Contacts
 void CreateContactDetector(pybind11::module& module);
 void CreateSchmittTriggerUnit(pybind11::module& module);
 void CreateSchmittTriggerDetector(pybind11::module& module);
+void CreateFixedFootDetector(pybind11::module& module);
 
 } // namespace Contacts
 } // namespace bindings

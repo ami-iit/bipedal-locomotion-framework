@@ -10,6 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
+#include <BipedalLocomotion/ContactDetectors/FixedFootDetector.h>
 #include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
 
 #include <BipedalLocomotion/bindings/Contacts/ContactDetectors.h>
@@ -125,6 +126,28 @@ void CreateSchmittTriggerDetector(pybind11::module& module)
              py::arg("state"),
              py::arg("params"))
         .def("remove_contact", &SchmittTriggerDetector::removeContact, py::arg("contact_name"));
+}
+
+void CreateFixedFootDetector(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+    using namespace BipedalLocomotion::Contacts;
+    using namespace BipedalLocomotion::System;
+    using namespace BipedalLocomotion::ParametersHandler;
+
+    py::class_<FixedFootDetector, ContactDetector>(module, "FixedFootDetector")
+        .def(py::init())
+        .def(
+            "initialize",
+            [](FixedFootDetector& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
+                return impl.initialize(handler);
+            },
+            py::arg("handler"))
+        .def("advance", &FixedFootDetector::advance)
+        .def("get_fixed_foot", &FixedFootDetector::getFixedFoot)
+        .def("set_contact_phase_list",
+             &FixedFootDetector::setContactPhaseList,
+             py::arg("phase_list"));
 }
 
 } // namespace Contacts
