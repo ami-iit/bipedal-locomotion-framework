@@ -1472,6 +1472,7 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a2029a7fe24230683465d6ab99ef0d297" kind="function"><name>YarpImplementation</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ae5223e6348970d0c3c388ac46abe5857" kind="function"><name>YarpImplementation</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a60cf026ca1362f6762dca4abcc2b4ee6" kind="function"><name>set</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a19e160a13499f83b82e189813b7e371c" kind="function"><name>setFromFile</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a484bf26a05d767b7f13589e25721b1ce" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1aa5c5c9f4dbd352fbd5f9c17985accfb3" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ad76663f0dc1955660886542f3adfd173" kind="function"><name>getParameter</name></member>
@@ -1543,8 +1544,8 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" kind="function"><name>getMotorCurrents</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
-    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
     <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1AutoDiff" kind="namespace"><name>BipedalLocomotion::AutoDiff</name>
   </compound>

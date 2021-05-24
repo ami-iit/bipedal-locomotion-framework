@@ -105,7 +105,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="17">$\dot{omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="11">$\dot{omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -117,7 +117,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_rate_of_change_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="17">$\dot{omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="11">$\dot{omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
