@@ -34,6 +34,7 @@ All notable changes to this project are documented in this file.
 - Implement the possibility to set the default contact in the `ContactList` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/297)
 - Implement `FixedFootDetector` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/284)
 - Implement QPFixedBaseTSID class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/251)
+- Implement `YarpImplementation::setFromFile()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/307)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
