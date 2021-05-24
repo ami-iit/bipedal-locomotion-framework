@@ -25,70 +25,72 @@ void CreateIParameterHandler(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::ParametersHandler;
 
-    py::class_<IParametersHandler, std::shared_ptr<IParametersHandler>>(module,
-                                                                        "IParametersHandler");
-}
-
-void CreateStdParameterHandler(pybind11::module& module)
-{
-    namespace py = ::pybind11;
-    using namespace BipedalLocomotion::ParametersHandler;
-
     py::class_<GenericContainer::Vector<const int>>(module, "GenericContainerVectorInt");
     py::class_<GenericContainer::Vector<const double>>(module, "GenericContainerVectorDouble");
 
-    py::class_<StdImplementation, //
-               std::shared_ptr<StdImplementation>,
-               IParametersHandler>(module, "StdParametersHandler")
-        .def(py::init())
+    py::class_<IParametersHandler, std::shared_ptr<IParametersHandler>>(module,
+                                                                        "IParametersHandler")
         // Note: the order of the following overloads matters!
         .def("set_parameter_bool",
-             py::overload_cast<const std::string&, const bool&>(&StdImplementation::setParameter),
+             py::overload_cast<const std::string&, const bool&>(&IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
         .def("set_parameter_int",
-             py::overload_cast<const std::string&, const int&>(&StdImplementation::setParameter),
+             py::overload_cast<const std::string&, const int&>(&IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
         .def("set_parameter_float",
-             py::overload_cast<const std::string&, const double&>(&StdImplementation::setParameter),
+             py::overload_cast<const std::string&, const double&>(
+                 &IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
         .def("set_parameter_string",
              py::overload_cast<const std::string&, const std::string&>(
-                 &StdImplementation::setParameter),
+                 &IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
         .def("set_parameter_vector_bool",
              py::overload_cast<const std::string&, const std::vector<bool>&>(
-                 &StdImplementation::setParameter),
+                 &IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
         .def(
             "set_parameter_vector_int",
-            [](StdImplementation& impl, const std::string& name, const std::vector<int>& vec) {
+            [](IParametersHandler& impl, const std::string& name, const std::vector<int>& vec) {
                 impl.setParameter(name, vec);
             },
             py::arg("name"),
             py::arg("value"))
         .def(
             "set_parameter_vector_float",
-            [](StdImplementation& impl, const std::string& name, const std::vector<double>& vec) {
+            [](IParametersHandler& impl, const std::string& name, const std::vector<double>& vec) {
                 impl.setParameter(name, vec);
             },
             py::arg("name"),
             py::arg("value"))
         .def(
             "set_parameter_vector_string",
-            [](StdImplementation& impl,
+            [](IParametersHandler& impl,
                const std::string& name,
                const std::vector<std::string>& vec) { impl.setParameter(name, vec); },
             py::arg("name"),
             py::arg("value"))
-        .def("set_group", &StdImplementation::setGroup, py::arg("name"), py::arg("new_group"))
+        .def("set_group", &IParametersHandler::setGroup, py::arg("name"), py::arg("new_group"))
+        .def(
+            "get_group",
+            [](IParametersHandler& impl, const std::string& name) {
+                auto group = impl.getGroup(name).lock();
+                if (group == nullptr)
+                {
+                    throw py::value_error("Failed to find the group named " + name);
+                }
+
+                return group;
+            },
+            py::arg("name"))
         .def(
             "get_parameter_bool",
-            [](const StdImplementation& impl, const std::string& name) -> bool {
+            [](const IParametersHandler& impl, const std::string& name) -> bool {
                 bool ret;
 
                 if (!impl.getParameter(name, ret))
@@ -101,7 +103,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_int",
-            [](const StdImplementation& impl, const std::string& name) -> int {
+            [](const IParametersHandler& impl, const std::string& name) -> int {
                 int ret;
 
                 if (!impl.getParameter(name, ret))
@@ -114,7 +116,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_float",
-            [](const StdImplementation& impl, const std::string& name) -> double {
+            [](const IParametersHandler& impl, const std::string& name) -> double {
                 double ret;
 
                 if (!impl.getParameter(name, ret))
@@ -127,7 +129,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_string",
-            [](const StdImplementation& impl, const std::string& name) -> std::string {
+            [](const IParametersHandler& impl, const std::string& name) -> std::string {
                 std::string ret;
 
                 if (!impl.getParameter(name, ret))
@@ -140,7 +142,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_vector_bool",
-            [](const StdImplementation& impl, const std::string& name) {
+            [](const IParametersHandler& impl, const std::string& name) {
                 if (std::vector<bool> ret; !impl.getParameter(name, ret))
                 {
                     throw py::value_error("Failed to find a parameter that matches the type");
@@ -152,7 +154,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_vector_int",
-            [](const StdImplementation& impl, const std::string& name) {
+            [](const IParametersHandler& impl, const std::string& name) {
                 if (std::vector<int> ret; !impl.getParameter(name, ret))
                 {
                     throw py::value_error("Failed to find a parameter that matches the type");
@@ -164,7 +166,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_vector_float",
-            [](const StdImplementation& impl, const std::string& name) {
+            [](const IParametersHandler& impl, const std::string& name) {
                 if (std::vector<double> ret; !impl.getParameter(name, ret))
                 {
                     throw py::value_error("Failed to find a parameter that matches the type");
@@ -176,7 +178,7 @@ void CreateStdParameterHandler(pybind11::module& module)
             py::arg("name"))
         .def(
             "get_parameter_vector_string",
-            [](const StdImplementation& impl, const std::string& name) {
+            [](const IParametersHandler& impl, const std::string& name) {
                 if (std::vector<std::string> ret; !impl.getParameter(name, ret))
                 {
                     throw py::value_error("Failed to find a parameter that matches the type");
@@ -186,9 +188,19 @@ void CreateStdParameterHandler(pybind11::module& module)
                 }
             },
             py::arg("name"))
-        .def("clear", &StdImplementation::clear)
-        .def("is_empty", &StdImplementation::isEmpty)
-        .def("__repr__", &StdImplementation::toString);
+        .def("clear", &IParametersHandler::clear)
+        .def("is_empty", &IParametersHandler::isEmpty)
+        .def("__repr__", &IParametersHandler::toString);
+}
+
+void CreateStdParameterHandler(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+    using namespace BipedalLocomotion::ParametersHandler;
+    py::class_<StdImplementation, //
+               std::shared_ptr<StdImplementation>,
+               IParametersHandler>(module, "StdParametersHandler")
+        .def(py::init());
 }
 
 } // namespace ParametersHandler
