@@ -144,6 +144,25 @@ void YarpImplementation::set(const yarp::os::Searchable& searchable)
     }
 }
 
+bool YarpImplementation::setFromFile(const std::string& filename)
+{
+    // load the configuration file
+    yarp::os::Property prop;
+    if (!prop.fromConfigFile(filename))
+    {
+        log()->error("[YarpImplementation::setFromFile] Unable to interpret the file named '{}' as "
+                     "a configuration file.",
+                     filename);
+
+        return false;
+    }
+
+    // set the parameters handler
+    this->set(prop);
+
+    return true;
+}
+
 YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& name) const
 {
     if (m_lists.find(name) != m_lists.end())

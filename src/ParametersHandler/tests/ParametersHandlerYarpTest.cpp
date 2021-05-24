@@ -138,6 +138,59 @@ TEST_CASE("Get parameters")
         REQUIRE(expected == 10);
     }
 
+    SECTION("Set from file")
+    {
+        parameterHandler->clear();
+
+        REQUIRE(originalHandler->setFromFile(getConfigPath()));
+
+        {
+            int element;
+            REQUIRE(parameterHandler->getParameter("answer_to_the_ultimate_question_of_life", //
+                                                   element));
+            REQUIRE(element == 42);
+        }
+
+        {
+            double element;
+            REQUIRE(parameterHandler->getParameter("pi", element));
+            REQUIRE(element == 3.14);
+        }
+
+        {
+            std::string element;
+            REQUIRE(parameterHandler->getParameter("John", element));
+            REQUIRE(element == "Smith");
+        }
+
+        {
+            std::vector<int> element;
+            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        auto cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(cartoonsGroup);
+
+        {
+            std::vector<std::string> element;
+            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
+            REQUIRE(element == donaldsNephews);
+        }
+
+        {
+            std::vector<int> element(fibonacciNumbers.size());
+            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        {
+            std::string element;
+            REQUIRE(cartoonsGroup->getParameter("John", element));
+            REQUIRE(element == "Doe");
+        }
+    }
+
     SECTION("Set from RF")
     {
         yarp::os::ResourceFinder &rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
