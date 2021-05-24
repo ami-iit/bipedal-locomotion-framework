@@ -31,6 +31,7 @@ TEST_CASE("Get parameters")
 {
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
+    bool flag = true;
 
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
@@ -38,6 +39,9 @@ TEST_CASE("Get parameters")
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
     parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
+    parameterHandler->setParameter("flag", flag);
+
+    std::cout << parameterHandler->toString() << std::endl;
 
     SECTION("Get integer")
     {
@@ -52,6 +56,14 @@ TEST_CASE("Get parameters")
         REQUIRE(parameterHandler->getParameter("pi", element));
         REQUIRE(element == 3.14);
     }
+
+    SECTION("Get Bool")
+    {
+        bool element ;
+        REQUIRE(parameterHandler->getParameter("flag", element));
+        REQUIRE(element == flag);
+    }
+
 
     SECTION("Get String")
     {
