@@ -76,9 +76,16 @@ public:
 
     /**
      * Set the handler from an object.
-     * @param object The object to copy
+     * @param searchable The object to copy
      */
     void set(const yarp::os::Searchable& searchable);
+
+    /**
+     * Set the handler from a file.
+     * @param filename the name of the file that should be loaded.
+     * @return true/false in case of success/failure.
+     */
+    bool setFromFile(const std::string& filename);
 
     /**
      * Get a parameter [int]
