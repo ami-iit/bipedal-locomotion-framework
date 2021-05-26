@@ -94,7 +94,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
 
     for (size_t i = 0; i < inputPtr->size(); i++)
     {
-        if (!(inputPtr->get(i).isBool()) && !(inputPtr->get(i).isInt()))
+        if (!inputPtr->get(i).isBool())
         {
             log()->error("{} The element of the list associated to the value named {} is not a "
                          "Boolean.",
