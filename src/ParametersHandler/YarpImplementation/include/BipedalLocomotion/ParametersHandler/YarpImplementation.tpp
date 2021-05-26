@@ -83,8 +83,8 @@ void YarpImplementation::setParameterPrivate(const std::string& parameterName, c
         {
             // if the parameter is a boolean we cannot use the usual way to add the new parameter
             // Please check https://github.com/robotology/yarp/issues/2584#issuecomment-847778679
-            if constexpr (std::is_same<typename std::remove_cv<typename std::remove_reference<
-                                           decltype(element)>::type>::type,
+            if constexpr (std::is_same<typename std::remove_cv_t<
+                                           typename std::remove_reference_t<decltype(element)>>,
                                        bool>::value)
             {
                 if (element)
