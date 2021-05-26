@@ -2,10 +2,28 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+set(H_PREFIX include/BipedalLocomotion/bindings/ParametersHandler)
+
 add_bipedal_locomotion_python_module(
   NAME ParametersHandlerBindings
   SOURCES src/ParametersHandler.cpp src/Module.cpp
-  HEADERS include/BipedalLocomotion/bindings/ParametersHandler/ParametersHandler.h include/BipedalLocomotion/bindings/ParametersHandler/Module.h
+  HEADERS ${H_PREFIX}/ParametersHandler.h ${H_PREFIX}/Module.h
   LINK_LIBRARIES BipedalLocomotion::ParametersHandler
   TESTS tests/test_parameters_handler_std.py
   )
+
+
+if(FRAMEWORK_COMPILE_YarpImplementation)
+
+  add_bipedal_locomotion_python_module(
+    NAME  ParametersHandlerYarpImplementationBindings
+    SOURCES src/YarpParametersHandler.cpp src/YarpModule.cpp
+    HEADERS ${H_PREFIX}/YarpParametersHandler.h ${H_PREFIX}/YarpModule.h
+    LINK_LIBRARIES BipedalLocomotion::ParametersHandlerYarpImplementation
+    TESTS tests/test_parameters_handler_yarp.py
+    )
+
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/config.ini ${PROJECT_BINARY_DIR}/config.ini COPYONLY)
+
+
+endif()
