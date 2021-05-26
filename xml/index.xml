@@ -129,6 +129,23 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a3042433b1418622521962e99e3027357" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4ccdae3479d871d3f7f9c7ab07312fd1" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1CoMTask" kind="class"><name>BipedalLocomotion::TSID::CoMTask</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3cbd9ce108e18ad263c9224b80c299f4" kind="variable"><name>m_R3Controller</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a1b46891a07c8931963e69ca5f4ad230f" kind="variable"><name>m_robotAccelerationVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a7d11d085ea0b666bb291d8aa939604e4" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa642d8da6bae5013709a456ef8157767" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a23ffff245ee7de0d7f2406159abd5b61" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aede268494a33319a87ef83fe5e554575" kind="variable"><name>m_linearVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a7590ca0048132445108daa3d67a0e659" kind="variable"><name>m_spatialVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a85131d8255f77cbdd2258f8bcea4191f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a2662893646184c5116ca58361769bd45" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9dad79e04ccbb53e994f48261cdfedd2" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a51f32365f6d523620a057332f59cd9ac" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd85b1f23d8e8832794ab3aa70a894de" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a903008ca278ca76560e8e33d92793766" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd58f75e69dedcec3085b8ad1a320183" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa54d65b28cbfc9624c4a98cf7e3a2a30" kind="function"><name>isValid</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" kind="struct"><name>BipedalLocomotion::Contacts::ContactBase</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1aff58e7de425dabd599c896b6090fe861" kind="variable"><name>pose</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" kind="variable"><name>name</name></member>
@@ -1732,7 +1749,9 @@
   </compound>
   <compound refid="Vector_8h" kind="file"><name>Vector.h</name>
   </compound>
-  <compound refid="CoMTask_8h" kind="file"><name>CoMTask.h</name>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
   </compound>
   <compound refid="IntegrationBasedIK_8h" kind="file"><name>IntegrationBasedIK.h</name>
   </compound>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
-  <compounddef id="CoMTask_8h" kind="file" language="C++">
+  <compounddef id="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file" language="C++">
     <compoundname>CoMTask.h</compoundname>
     <includes local="no">memory</includes>
     <includes local="no">manif/manif.h</includes>
@@ -10,7 +10,7 @@
     <incdepgraph>
       <node id="1">
         <label>BipedalLocomotion/IK/CoMTask.h</label>
-        <link refid="CoMTask_8h"/>
+        <link refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
