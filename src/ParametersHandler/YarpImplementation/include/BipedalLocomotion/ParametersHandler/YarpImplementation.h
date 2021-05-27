@@ -261,6 +261,17 @@ public:
      */
     ~YarpImplementation() = default;
 };
+
+/**
+ * Private implementation of setParameter
+ * @param parameterName name of the parameter
+ * @param parameter parameter
+ * @note The specialization is required because std::vector<bool> is not a container and the
+ * operator[] does not return a bool&
+ */
+template <>
+void YarpImplementation::setParameterPrivate<std::vector<bool>>(const std::string& parameterName,
+                                                                const std::vector<bool>& parameter);
 } // namespace ParametersHandler
 } // namespace BipedalLocomotion
 
