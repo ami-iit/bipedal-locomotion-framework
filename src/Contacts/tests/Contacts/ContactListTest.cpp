@@ -12,6 +12,7 @@
 #include <manif/manif.h>
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 
 using namespace BipedalLocomotion::Contacts;
@@ -114,5 +115,28 @@ TEST_CASE("ContactList")
             it++;
         }
         REQUIRE(ok);
+    }
+}
+
+TEST_CASE("ContactList JSON parser")
+{
+    ContactListMap contactListMap;
+    contactListMap["left"].setDefaultName("left_foot");
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Random(), 0.0, 1.0));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Random(), 2.0, 5.0));
+
+    contactListMap["right"].setDefaultName("right_foot");
+    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Random(), 0.0, 3.0));
+
+    REQUIRE(contactListMapToJson(contactListMap, "contact_list.json"));
+
+    ContactListMap newContactListMap = contactListMapFromJson("contact_list.json");
+
+    REQUIRE(newContactListMap.size() == contactListMap.size());
+
+    for (const auto& [key, contacts] : newContactListMap)
+    {
+        for (int i = 0; i < contacts.size(); i++)
+            REQUIRE(contactsAreEqual(contactListMap[key][i], contacts[i]));
     }
 }
