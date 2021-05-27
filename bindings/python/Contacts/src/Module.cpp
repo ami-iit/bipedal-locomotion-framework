@@ -25,6 +25,7 @@ void CreateModule(pybind11::module& module)
     CreateContactList(module);
     CreateContactPhase(module);
     CreateContactPhaseList(module);
+    CreateContactListJsonParser(module);
 
     CreateContactDetector(module);
     CreateSchmittTriggerUnit(module);
