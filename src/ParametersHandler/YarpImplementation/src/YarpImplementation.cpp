@@ -15,6 +15,35 @@
 
 using namespace BipedalLocomotion::ParametersHandler;
 
+template <>
+void YarpImplementation::setParameterPrivate<std::vector<bool>>(const std::string& parameterName,
+                                                                const std::vector<bool>& parameter)
+{
+    yarp::os::Value yarpValue;
+    auto property = yarpValue.asList();
+    property->add(yarp::os::Value(parameterName));
+
+    yarp::os::Value yarpNewList;
+    auto newList = yarpNewList.asList();
+
+    for (const auto& element : parameter)
+    {
+        // if the parameter is a boolean we cannot use the usual way to add the new parameter
+        // Please check https://github.com/robotology/yarp/issues/2584#issuecomment-847778679
+        if (element)
+        {
+            newList->add(yarp::os::Value::makeValue("true"));
+        } else
+        {
+            newList->add(yarp::os::Value::makeValue("false"));
+        }
+    }
+
+    property->add(yarpNewList);
+
+    m_lists[parameterName] = std::make_shared<YarpImplementation>(yarpValue);
+}
+
 bool YarpImplementation::getParameter(const std::string& parameterName, int& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
