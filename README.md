@@ -48,7 +48,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |          [AutoDiff](./src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |         [`manif`](https://github.com/artivis/manif)          |
+|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [nlohmann json](https://github.com/nlohmann/json/) |
 |    [CommonConversions](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
 |    [ManifConversions](./src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |        [Estimators](./src/Estimators)        |                 Library containing observers                 |                              -                               |
