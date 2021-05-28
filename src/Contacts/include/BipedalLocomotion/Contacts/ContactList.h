@@ -231,6 +231,7 @@ public:
 
 /**
  * @brief Utility alias to a map of ContacLists.
+ * @note The key of the map is a user define label representing the contact name.
  */
 using ContactListMap = std::unordered_map<std::string, ContactList>;
 
