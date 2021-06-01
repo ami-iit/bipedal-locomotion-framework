@@ -132,7 +132,18 @@ void CreateContactList(pybind11::module& module)
                  return "ContactList(" + std::to_string(list.size()) + ")";
              })
         .def("__reverse__",
-             [](const ContactList& l) { return py::make_iterator(l.crbegin(), l.crend()); });
+             [](const ContactList& l) { return py::make_iterator(l.crbegin(), l.crend()); })
+        .def(
+            "__eq__",
+            [](const ContactList& lhs, const ContactList& rhs) -> bool {
+                for (std::size_t i = 0; i < lhs.size(); ++i)
+                {
+                    if (!(lhs[i] == rhs[i]))
+                        return false;
+                }
+                return lhs.size() == rhs.size();
+            },
+            py::is_operator());
 }
 
 void CreateContactPhase(pybind11::module& module)
@@ -184,6 +195,6 @@ void CreateContactListJsonParser(pybind11::module& module)
                py::arg("filename"));
 }
 
-} // namespace contatcs
+} // namespace Contacts
 } // namespace bindings
 } // namespace BipedalLocomotion
