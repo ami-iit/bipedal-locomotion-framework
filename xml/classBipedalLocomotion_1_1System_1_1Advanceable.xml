@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
-  <compounddef id="classBipedalLocomotion_1_1System_1_1Advanceable" kind="struct" language="C++" prot="public" abstract="yes">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::Advanceable</compoundname>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; RecursiveLeastSquareState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; QuinticSplineState &gt;</derivedcompoundref>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="35" column="5" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="35" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="36" column="5" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" static="no">
         <type>_Output</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="36" column="5" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="36" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="37" column="5" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="43" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="88" bodyend="92"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="44" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="89" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>const Output &amp;</type>
@@ -111,7 +111,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="49" column="26"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="50" column="26"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="55" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="56" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -163,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="61" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="62" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -192,7 +192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="67" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="68" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -211,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="74" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="82" bodyend="85"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="75" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="83" bodyend="86"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -468,7 +468,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/System/Advanceable.h" line="33" column="14" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="34" bodyend="75"/>
+    <location file="BipedalLocomotion/System/Advanceable.h" line="33" column="14" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="34" bodyend="76"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Advanceable</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Advanceable</scope><name>close</name></member>

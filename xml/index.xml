@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
-  <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="struct"><name>BipedalLocomotion::System::Advanceable</name>
+  <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class"><name>BipedalLocomotion::System::Advanceable</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" kind="typedef"><name>Output</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" kind="function"><name>initialize</name></member>
