@@ -14,10 +14,11 @@
 //iDynTree
 #include <manif/manif.h>
 
-//std
+// std
+#include <functional>
 #include <set>
 #include <string>
-#include <functional>
+#include <unordered_map>
 
 namespace BipedalLocomotion
 {
@@ -228,9 +229,13 @@ public:
 
 };
 
-} //namespace Contacts
-} //namespace BipedalLocomotion
+/**
+ * @brief Utility alias to a map of ContacLists.
+ * @note The key of the map is a user define label representing the contact name.
+ */
+using ContactListMap = std::unordered_map<std::string, ContactList>;
 
-
+} // namespace Contacts
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H

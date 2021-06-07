@@ -8,9 +8,10 @@ if (FRAMEWORK_COMPILE_Contact)
   add_bipedal_locomotion_library(
     NAME                  Contacts
     SUBDIRECTORIES        tests/Contacts
-    PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h
-    SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp
+    PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h ${H_PREFIX}/ContactListJsonParser.h
+    SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp src/ContactListJsonParser.cpp
     PUBLIC_LINK_LIBRARIES MANIF::manif BipedalLocomotion::Math BipedalLocomotion::TextLogging
+    PRIVATE_LINK_LIBRARIES nlohmann_json::nlohmann_json
     INSTALLATION_FOLDER   Contacts)
 
   set(H_PREFIX include/BipedalLocomotion/ContactDetectors)
