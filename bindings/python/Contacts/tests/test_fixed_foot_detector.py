@@ -75,59 +75,47 @@ def test_fixed_foot_detector():
     assert (fixed_foot.switch_time == 0.0)
     assert (fixed_foot.last_update_time == 0.0)
 
-    # Retrieve fixed foots along the trajectory
+    # Retrieve fixed foot along the trajectory
     for i in np.arange(start=dt, step=dt, stop=10.0):
 
         assert (detector.advance())
         fixed_foot = detector.get_fixed_foot()
 
+        # Fixed foot: left - Phase: double support
         if i <= 3.0:
-
-            # Fixed foot: left - double support -> last_update_time updated incrementally
             assert (fixed_foot.name == "l_sole")
             assert (fixed_foot.pose == manif.SE3(position=np.array(l_foot_position), quaternion=l_foot_quat))
             assert (fixed_foot.switch_time == 0.0)
-            # TODO: assert (fixed_foot.last_update_time == i) occasionally fails
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2))
+            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
 
+        # Fixed foot: right - Phase: single support
         elif i <= 4.0:
-
-            # Fixed foot: right - single support -> last_update_time updated incrementally
             assert (fixed_foot.name == "r_sole")
             assert (fixed_foot.pose == manif.SE3(position=np.array(r_foot_position), quaternion=r_foot_quat))
             assert (fixed_foot.switch_time == 3.0)
-            # TODO: assert (fixed_foot.last_update_time == i) occasionally fails
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2))
+            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
 
+        # Fixed foot: right - Phase: double support
         elif i <= 6.0:
-
-            # Fixed foot: right - double support  -> last_update_time fixed to the beginning of double support
             assert (fixed_foot.name == "r_sole")
             assert (fixed_foot.pose == manif.SE3(position=np.array(r_foot_position), quaternion=r_foot_quat))
             assert (fixed_foot.switch_time == 3.0)
-            # TODO: assert (fixed_foot.last_update_time == i) occasionally fails
-            # TODO: assert (round(fixed_foot.last_update_time,2) == round(i,2)) fails
-            assert (round(fixed_foot.last_update_time, 2) == 4.0)
+            assert (round(fixed_foot.last_update_time, 2) == 4.0) # last_update_time fixed to the beginning of DS
 
+        # Fixed foot: left - Phase: single support
         elif i <= 7.0:
-
-            # Fixed foot: left - single support -> last_update_time updated incrementally
             assert (fixed_foot.name == "l_sole")
             assert (fixed_foot.pose == manif.SE3(
                 position=np.array(np.array([l_foot_position[0] + 0.1, l_foot_position[1], 0.0])),
                 quaternion=l_foot_quat))
             assert (fixed_foot.switch_time == 6.0)
-            # TODO: assert (fixed_foot.last_update_time == i) occasionally fails
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2))
+            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
 
+        # Fixed foot: left - Phase: double support
         elif i <= 10.0:
-
-            # Fixed foot: left - double support -> last_update_time fixed to the beginning of double support
             assert (fixed_foot.name == "l_sole")
             assert (fixed_foot.pose == manif.SE3(
                 position=np.array(np.array([l_foot_position[0] + 0.1, l_foot_position[1], 0.0])),
                 quaternion=l_foot_quat))
             assert (fixed_foot.switch_time == 6.0)
-            # TODO: assert (fixed_foot.last_update_time == i) occasionally fails
-            # TODO: assert (round(fixed_foot.last_update_time,2) == round(i,2)) fails
-            assert (round(fixed_foot.last_update_time, 2) == 7.0)
+            assert (round(fixed_foot.last_update_time, 2) == 7.0) # last_update_time fixed to the beginning of DS
