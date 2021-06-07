@@ -71,6 +71,7 @@
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -154,9 +155,23 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              using <a href="ContactPhaseList_8h.html#a6d1a0a8ca118c9933d2c4f7a8c799b0e" class="m-doc">ContactListMap</a> = std::unordered_map&lt;std::string, <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">ContactList</a>&gt;
+              using <a href="ContactList_8h.html#a6d1a0a8ca118c9933d2c4f7a8c799b0e" class="m-doc">ContactListMap</a> = std::unordered_map&lt;std::string, <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">ContactList</a>&gt;
             </dt>
             <dd>Utility alias to a map of ContacLists.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="ContactListJsonParser_8h.html#a1633a539039e00059b437ca778c5d4d6" class="m-doc">contactListMapFromJson</a>(</span><span class="m-doc-wrap">const std::string&amp; filename) -&gt; <a href="ContactList_8h.html#a6d1a0a8ca118c9933d2c4f7a8c799b0e" class="m-doc">ContactListMap</a></span>
+            </dt>
+            <dd>Parse a ContactListMap from a JSON file.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="ContactListJsonParser_8h.html#a9cdffabdd4841b37271e56376ba4d079" class="m-doc">contactListMapToJson</a>(</span><span class="m-doc-wrap">const <a href="ContactList_8h.html#a6d1a0a8ca118c9933d2c4f7a8c799b0e" class="m-doc">ContactListMap</a>&amp; map,
+              const std::string&amp; filename) -&gt; bool</span>
+            </dt>
+            <dd>Store a ContactListMap to a JSON file.</dd>
           </dl>
         </section>
       </div>

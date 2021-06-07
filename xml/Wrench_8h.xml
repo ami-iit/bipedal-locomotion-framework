@@ -35,6 +35,8 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
@@ -61,12 +63,12 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
@@ -86,7 +88,7 @@
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
       </node>
@@ -94,10 +96,14 @@
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="13">
+      <node id="12">
+        <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
+        <link refid="ContactListJsonParser_8h"/>
+      </node>
+      <node id="14">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="1">

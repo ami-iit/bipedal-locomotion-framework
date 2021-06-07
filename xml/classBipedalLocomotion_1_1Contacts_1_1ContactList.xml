@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="51" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="52" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="52" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9e6e4e7ec16cb0555372607be0446b03" prot="public" static="no">
         <type>std::set&lt; <ref refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" kindref="compound">BipedalLocomotion::Contacts::PlannedContact</ref>, ContactCompare &gt;::const_reverse_iterator</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="53" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="54" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="43" column="14" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="44" column="14" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ade88313ed2844d9e899d215adbf48ff5" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="46" column="17" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="46" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="47" column="17" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a497aa67f6d3be55e10e04f7d2fabbe7f" prot="private" static="no" mutable="no">
         <type><ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">BipedalLocomotion::Contacts::ContactType</ref></type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="47" column="46" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="48" column="46" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9b46bdd594655bb5f683e42fba5c8bf6" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="48" column="9" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="48" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="49" column="9" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="60" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="61" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a4c7349af0eeb90d147342a3cfdbd95a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="66" column="23"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="67" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0f6c9177ead1c0edf999693371ea4365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="72" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="73" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afe083245f09cdf581d93b4c43adcc3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -193,7 +193,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="78" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="79" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ac74016d057feec7c884aff7f4b726396" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -210,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="84" column="9"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="85" column="9"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae46e41130807480653ec39dba6cd576e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kindref="member">BipedalLocomotion::Contacts::ContactType</ref> &amp;</type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="90" column="52"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="91" column="52"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae3ed40a1a38d8878bfc30ea6fbb7ae7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -257,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="98" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="99" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a74dd5fac898c362635adff1b4fe2bf90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -311,7 +311,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="111" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a8a5b2fe4dc34c6241440ecbda2113336" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -341,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="117" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="118" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9e8cda2df67a75c09a0bff7b8c265070" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -355,7 +355,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="122" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="123" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0dbf3384cf7cd47f383181642e8abe22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -369,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="127" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="128" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1aad29463b9e1731b5ac744855ccf732ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -383,7 +383,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="132" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="133" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a6f059f21cd8202bfecda88a6f9277cc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -397,7 +397,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="137" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="138" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a45dbd1687bf2ce59e16618e6fed455c7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -412,7 +412,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="144" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="145" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9114e79fc750c2f0b5df006c24760937" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -427,7 +427,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="151" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="152" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a4f21ea4ece874b68db0501572403e53d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -442,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="158" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="159" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a99518bded02dd9e7224a4aa59460ee35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -457,7 +457,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="165" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="166" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a941b59a10e2f753cac46994b772252af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" kindref="compound">BipedalLocomotion::Contacts::PlannedContact</ref> &amp;</type>
@@ -489,7 +489,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="173" column="55"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="174" column="55"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0455d9dad6976ca0cc5238992cefd9f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -506,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="179" column="12"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="180" column="12"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afd8a456aecdff7cad92a4a502117b0e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -520,7 +520,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="184" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="185" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a09ce629f873b5aa12cab37d563f71e4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -534,7 +534,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="189" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="190" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a84461637e0570046ef937728593f2d7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -576,7 +576,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="197" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="198" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1af5ee9ee3799d245bcf4b95ada05bd137" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_iterator</type>
@@ -606,7 +606,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="210" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="211" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a11626809b8bbbca9030087732afa27c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -636,7 +636,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="217" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="218" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a56e370cad1add2f78dc27ec49d51b009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -650,7 +650,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="222" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="223" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a16ec57481a746a75d30e0c52f9a136c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -664,7 +664,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="227" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="228" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -673,7 +673,7 @@
     <detaileddescription>
 <para>The contact are added such that the activation time is strictly growing. In addition, contacts cannot be overlapping. It represents a series of contact activations and deactivations of a single entity. </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactList.h" line="32" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="33" bodyend="229"/>
+    <location file="BipedalLocomotion/Contacts/ContactList.h" line="33" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="34" bodyend="230"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae3ed40a1a38d8878bfc30ea6fbb7ae7e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a74dd5fac898c362635adff1b4fe2bf90" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>

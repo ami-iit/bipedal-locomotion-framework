@@ -1576,7 +1576,9 @@
     <member refid="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
     <member refid="ContactDetector_8h_1ace202ec51b1a593717e2f279ef90386f" kind="typedef"><name>EstimatedContactList</name></member>
     <member refid="Contact_8h_1ad2d4f7afefeb8c02566b8498aea79042" kind="typedef"><name>EstimatedLandmark</name></member>
-    <member refid="ContactPhaseList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" kind="typedef"><name>ContactListMap</name></member>
+    <member refid="ContactList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" kind="typedef"><name>ContactListMap</name></member>
+    <member refid="ContactListJsonParser_8h_1a1633a539039e00059b437ca778c5d4d6" kind="function"><name>contactListMapFromJson</name></member>
+    <member refid="ContactListJsonParser_8h_1a9cdffabdd4841b37271e56376ba4d079" kind="function"><name>contactListMapToJson</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem</name>
   </compound>
@@ -1692,6 +1694,8 @@
   <compound refid="Contact_8h" kind="file"><name>Contact.h</name>
   </compound>
   <compound refid="ContactList_8h" kind="file"><name>ContactList.h</name>
+  </compound>
+  <compound refid="ContactListJsonParser_8h" kind="file"><name>ContactListJsonParser.h</name>
   </compound>
   <compound refid="ContactPhase_8h" kind="file"><name>ContactPhase.h</name>
   </compound>

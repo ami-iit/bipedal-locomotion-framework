@@ -5,13 +5,12 @@
     <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
     <includes refid="ContactList_8h" local="no">BipedalLocomotion/Contacts/ContactList.h</includes>
     <includes refid="ContactPhase_8h" local="no">BipedalLocomotion/Contacts/ContactPhase.h</includes>
-    <includes local="no">unordered_map</includes>
     <includes local="no">initializer_list</includes>
     <includes local="no">vector</includes>
     <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
     <includedby refid="FixedFootDetector_8h" local="no">BipedalLocomotion/ContactDetectors/FixedFootDetector.h</includedby>
     <incdepgraph>
-      <node id="11">
+      <node id="10">
         <label>functional</label>
       </node>
       <node id="8">
@@ -23,9 +22,11 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -54,8 +55,6 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
@@ -66,14 +65,14 @@
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -91,13 +90,13 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="12">
         <label>unordered_map</label>
       </node>
       <node id="6">
         <label>manif/SO3.h</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>set</label>
       </node>
       <node id="14">
