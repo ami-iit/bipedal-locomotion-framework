@@ -43,6 +43,20 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
+    double footTakeOffVelocity;
+    if (!ptr->getParameter("foot_take_off_velocity", footTakeOffVelocity))
+    {
+        log()->error("{} Unable to initialize the foot take-off velocity.", logPrefix);
+        return false;
+    }
+
+    double footTakeOffAcceleration;
+    if (!ptr->getParameter("foot_take_off_acceleration", footTakeOffAcceleration))
+    {
+        log()->error("{} Unable to initialize the foot take-off acceleration.", logPrefix);
+        return false;
+    }
+
     double footLandingVelocity;
     if (!ptr->getParameter("foot_landing_velocity", footLandingVelocity))
     {
@@ -58,7 +72,7 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
     }
 
     // check the parameters passed to the planner
-    bool ok = (m_dT > 0) && ((m_footApexTime > 0) && (m_footApexTime < 1));
+    const bool ok = (m_dT > 0) && ((m_footApexTime > 0) && (m_footApexTime < 1));
     if (!ok)
     {
         log()->error("{} The sampling time should be a positive number and the foot_apex_time must "
@@ -70,7 +84,8 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
     m_planarPlanner.setInitialConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
     m_planarPlanner.setFinalConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
 
-    m_heightPlanner.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
+    m_heightPlanner.setInitialConditions(Vector1d::Constant(footTakeOffVelocity),
+                                         Vector1d::Constant(footTakeOffAcceleration));
     m_heightPlanner.setFinalConditions(Vector1d::Constant(footLandingVelocity),
                                        Vector1d::Constant(footLandingAcceleration));
 
