@@ -9,10 +9,11 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
+#include <iDynTree/Model/Model.h>
 
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
 namespace BipedalLocomotion
 {
@@ -27,6 +28,8 @@ void CreateKinDynComputations(pybind11::module& module)
     using namespace iDynTree;
     py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module,
                                                                         "KinDynComputations")
+        .def("__repr__",
+             [](const KinDynComputations& impl) { return impl.model().toString(); })
         .def("get_nr_of_dofs",
              [](const KinDynComputations& impl) { return impl.getNrOfDegreesOfFreedom(); })
         .def("get_joint_pos",
@@ -38,12 +41,44 @@ void CreateKinDynComputations(pybind11::module& module)
                  }
                  return s;
              })
+        .def("get_center_of_mass_position",
+             [](KinDynComputations& impl) {
+                 Eigen::VectorXd pos(3);
+                 if (!impl.getCenterOfMassPosition(pos))
+                 {
+                     throw py::value_error("Failed to get the center of mass position.");
+                 }
+                 return pos;
+             })
+        .def("get_center_of_mass_velocity",
+             [](KinDynComputations& impl) {
+                 Eigen::VectorXd vel(3);
+                 if (!impl.getCenterOfMassVelocity(vel))
+                 {
+                     throw py::value_error("Failed to get the center of mass velocity.");
+                 }
+                 return vel;
+             })
+        .def("get_world_transform",
+             [](KinDynComputations& impl, std::string name) {
+                 Eigen::Matrix<double, 4, 4> world_T_frame;
+                 if (!impl.getWorldTransform(name, world_T_frame))
+                 {
+                     throw py::value_error("Failed to get the trasform for the specified frame.");
+                 }
+                 return world_T_frame;
+             })
         .def(
             "set_joint_pos",
             [](KinDynComputations& impl, Eigen::Ref<const Eigen::VectorXd> s) {
                 return impl.setJointPos(iDynTree::make_span(s.data(), s.size()));
             },
             py::arg("s"))
+        .def(
+            "set_floating_base",
+            [](KinDynComputations& impl, const std::string & s) {
+                return impl.setFloatingBase(s);
+            })
         .def("get_robot_state",
              [](KinDynComputations& impl) {
                  Eigen::Matrix<double, 4, 4> world_T_base;
