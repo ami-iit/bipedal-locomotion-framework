@@ -22,14 +22,14 @@ namespace Contacts
  * Parse a ContactListMap from a JSON file.
  * @param filename the name of the file that should be loaded.
  * @return return a ContactListMap containing all the contacts.
- * @note The JSON file should have the following structure
+ * @note The JSON file should have a structure similar to the following example.
  * ```json
  * {
- *  "left": [
+ *  "my_left_foot": [
  *    {
  *      "activation_time": 0.0,
  *      "deactivation_time": 1.0,
- *      "index": -1,
+ *      "index": 42,
  *      "name": "left_foot",
  *      "position": [
  *        0.5968800669521466,
@@ -46,7 +46,7 @@ namespace Contacts
  *    {
  *      "activation_time": 2.0,
  *      "deactivation_time": 5.0,
- *      "index": -1,
+ *      "index": 42,
  *      "name": "left_foot",
  *      "position": [
  *        0.10793991159086103,
@@ -61,11 +61,11 @@ namespace Contacts
  *      ]
  *    }
  *  ],
- *  "right": [
+ *  "my_right_foot": [
  *    {
  *      "activation_time": 0.0,
  *      "deactivation_time": 3.0,
- *      "index": -1,
+ *      "index": 33,
  *      "name": "right_foot",
  *      "position": [
  *        0.8323901360074013,
@@ -82,6 +82,7 @@ namespace Contacts
  *  ]
  *}
  * ```
+ * @note The structure of each step replicates the attributes of PlannedContact
  */
 ContactListMap contactListMapFromJson(const std::string& filename);
 
@@ -90,6 +91,7 @@ ContactListMap contactListMapFromJson(const std::string& filename);
  * @param map a ContactListMap containing the list of the contacts.
  * @param filename the name of the file that should be loaded.
  * @return return true in case of success, failure otherwise.
+ * @note The function generates a JSON file readable by contactListMapFromJson()
  */
 bool contactListMapToJson(const ContactListMap& map, const std::string& filename);
 
