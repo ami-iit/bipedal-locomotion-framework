@@ -39,7 +39,6 @@ All notable changes to this project are documented in this file.
 - Implement `YarpParametersHandler` bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/309)
 - Implement `contactListMapFromJson()` and `contactListMapToJson()` methods and python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/issues/316)
 
-
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
 - Move all the ContactDetectors related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/209)
