@@ -10,6 +10,10 @@
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
 
+@cmakeif FRAMEWORK_COMPILE_YarpImplementation
+#include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+
 @cmakeif FRAMEWORK_COMPILE_System
 #include <BipedalLocomotion/bindings/System/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_System
@@ -45,6 +49,10 @@ PYBIND11_MODULE(bindings, m)
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
+
+    @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+    bindings::ParametersHandler::CreateYarpModule(parametersHandlerModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
 
     py::module mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);

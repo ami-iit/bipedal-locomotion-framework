@@ -70,13 +70,15 @@ public:
      * Initialize the planner.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |        Parameter Name       |   Type   |                                                      Description                                                     | Mandatory |
-     * |:---------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |       `sampling_time`       | `double` |                                        Sampling time of the planner in seconds                                       |    Yes    |
-     * |        `step_height`        | `double` | Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum |    Yes    |
-     * |       `foot_apex_time`      | `double` |   Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down    |    Yes    |
-     * |   `foot_landing_velocity`   | `double` |                                               Landing vertical velocity                                              |    Yes    |
-     * | `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration                                            |    Yes    |
+     * |         Parameter Name       |   Type   |                                                      Description                                                     | Mandatory |
+     * |:----------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |        `sampling_time`       | `double` |                                        Sampling time of the planner in seconds                                       |    Yes    |
+     * |         `step_height`        | `double` | Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum |    Yes    |
+     * |        `foot_apex_time`      | `double` |   Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down    |    Yes    |
+     * |    `foot_landing_velocity`   | `double` |                                               Landing vertical velocity                                              |    Yes    |
+     * |  `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration                                            |    Yes    |
+     * |   `foot_take_off_velocity`   | `double` |                                              Take-off vertical velocity                                              |    Yes    |
+     * | `foot_take_off_acceleration` | `double` |                                            Take-off vertical acceleration                                            |    Yes    |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;

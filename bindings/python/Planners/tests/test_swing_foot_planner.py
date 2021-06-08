@@ -75,6 +75,8 @@ def test_swing_foot_planner():
     parameters_handler.set_parameter_float("foot_apex_time", 0.5)
     parameters_handler.set_parameter_float("foot_landing_velocity", 0.0)
     parameters_handler.set_parameter_float("foot_landing_acceleration", 0.0)
+    parameters_handler.set_parameter_float("foot_take_off_velocity", 0.0)
+    parameters_handler.set_parameter_float("foot_take_off_acceleration", 0.0)
 
     planner = blf.planners.SwingFootPlanner()
     assert planner.initialize(handler=parameters_handler)

@@ -31,6 +31,8 @@ TEST_CASE("Get parameters")
 {
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
+    bool flag = true;
+    std::vector<bool> flags{true, false, false, true, true, true};
 
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
@@ -38,6 +40,8 @@ TEST_CASE("Get parameters")
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
     parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
+    parameterHandler->setParameter("flag", flag);
+    parameterHandler->setParameter("flags", flags);
 
     SECTION("Get integer")
     {
@@ -52,6 +56,14 @@ TEST_CASE("Get parameters")
         REQUIRE(parameterHandler->getParameter("pi", element));
         REQUIRE(element == 3.14);
     }
+
+    SECTION("Get Bool")
+    {
+        bool element ;
+        REQUIRE(parameterHandler->getParameter("flag", element));
+        REQUIRE(element == flag);
+    }
+
 
     SECTION("Get String")
     {
@@ -74,6 +86,14 @@ TEST_CASE("Get parameters")
         REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
         REQUIRE(element == fibonacciNumbers);
     }
+
+    SECTION("Get bool Vector")
+    {
+        std::vector<bool> element;
+        REQUIRE(parameterHandler->getParameter("flags", element));
+        REQUIRE(element == flags);
+    }
+
 
     SECTION("Change Vector")
     {
@@ -136,6 +156,59 @@ TEST_CASE("Get parameters")
         int expected;
         REQUIRE(parameterHandler->getParameter("value", expected));
         REQUIRE(expected == 10);
+    }
+
+    SECTION("Set from file")
+    {
+        parameterHandler->clear();
+
+        REQUIRE(originalHandler->setFromFile(getConfigPath()));
+
+        {
+            int element;
+            REQUIRE(parameterHandler->getParameter("answer_to_the_ultimate_question_of_life", //
+                                                   element));
+            REQUIRE(element == 42);
+        }
+
+        {
+            double element;
+            REQUIRE(parameterHandler->getParameter("pi", element));
+            REQUIRE(element == 3.14);
+        }
+
+        {
+            std::string element;
+            REQUIRE(parameterHandler->getParameter("John", element));
+            REQUIRE(element == "Smith");
+        }
+
+        {
+            std::vector<int> element;
+            REQUIRE(parameterHandler->getParameter("Fibonacci Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        auto cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        REQUIRE(cartoonsGroup);
+
+        {
+            std::vector<std::string> element;
+            REQUIRE(cartoonsGroup->getParameter("Donald's nephews", element));
+            REQUIRE(element == donaldsNephews);
+        }
+
+        {
+            std::vector<int> element(fibonacciNumbers.size());
+            REQUIRE(cartoonsGroup->getParameter("Fibonacci_Numbers", element));
+            REQUIRE(element == fibonacciNumbers);
+        }
+
+        {
+            std::string element;
+            REQUIRE(cartoonsGroup->getParameter("John", element));
+            REQUIRE(element == "Doe");
+        }
     }
 
     SECTION("Set from RF")

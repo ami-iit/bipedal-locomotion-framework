@@ -129,8 +129,13 @@ TEST_CASE("Get bool vector from searchable", "[std::vector<bool>]")
     for (unsigned int i = 0; i < 10000; i++)
     {
         bool result = distribution(generator);
-        list->add(yarp::os::Value(result));
         value.push_back(result);
+
+        // please check https://github.com/robotology/yarp/issues/2584#issuecomment-847778679
+        if (result)
+            list->add(yarp::os::Value::makeValue("true"));
+        else
+            list->add(yarp::os::Value::makeValue("false"));
     }
 
     property.put(key, yarpValue);

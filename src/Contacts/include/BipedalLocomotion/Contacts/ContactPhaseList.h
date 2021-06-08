@@ -12,7 +12,6 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhase.h>
 
-#include <unordered_map>
 #include <initializer_list>
 #include <vector>
 
@@ -20,10 +19,6 @@ namespace BipedalLocomotion
 {
 namespace Contacts
 {
-/**
- * @brief Utility alias to a map of ContacLists.
- */
-using ContactListMap = std::unordered_map<std::string, ContactList>;
 
 /**
  * @brief The ContactPhaseList class computes the contact phases according to a bunch of input contact lists.

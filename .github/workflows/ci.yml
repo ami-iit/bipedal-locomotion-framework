@@ -92,8 +92,8 @@ jobs:
         ./bootstrap-vcpkg.bat
         ./vcpkg.exe install catch2:x64-windows
 
-        # Install pybind11
-        ./vcpkg.exe install pybind11:x64-windows
+        # Install pybind11 and nlohmann_json
+        ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
@@ -107,7 +107,7 @@ jobs:
         brew unlink gcc@9
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog opencv pcl librealsense
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog opencv pcl librealsense nlohmann-json
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
@@ -117,10 +117,10 @@ jobs:
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-        sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo focal main" -u
+        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo focal main" -u
         # please see https://github.com/IntelRealSense/realsense-ros/blob/a161efb84c9cf8077fbd37d6a78ef1fad0b677d0/.travis.yml#L17-L19
         sudo apt-get update -qq
         sudo apt-get install librealsense2-dev --allow-unauthenticated -y
