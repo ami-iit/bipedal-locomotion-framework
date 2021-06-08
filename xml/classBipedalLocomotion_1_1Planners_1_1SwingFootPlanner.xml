@@ -195,7 +195,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>the following parameters are required by the class <table rows="6" cols="4"><row>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="8" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
@@ -229,6 +229,18 @@
 <entry thead="no" align='center'><para><computeroutput>foot_landing_acceleration</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para>Landing vertical acceleration   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_take_off_velocity</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical velocity   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_take_off_acceleration</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical acceleration   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
@@ -240,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="82" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="84" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab0702a02ddf314accd88d2a143583ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -268,7 +280,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="88" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="90" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" kindref="compound">SwingFootPlannerState</ref> &amp;</type>
@@ -286,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="94" column="34"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="96" column="34"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -304,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="100" column="11"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="102" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -322,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="106" column="11"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="108" column="11"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -399,7 +411,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="42" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="43" bodyend="107"/>
+    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="42" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="43" bodyend="109"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>close</name></member>
