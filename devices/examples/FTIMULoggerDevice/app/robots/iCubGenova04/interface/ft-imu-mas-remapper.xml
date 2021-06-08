@@ -18,9 +18,9 @@ GNU Lesser General Public License v2.1 or any later version. -->
            r_foot_ft_acc_3b14)
         </param>
         <param name="OrientationSensorsNames">
-          (l_upper_leg_ft_eul_3b12 
-           l_foot_ft_eul_3b13 
-           r_upper_leg_ft_eul_3b11 
+          (l_upper_leg_ft_eul_3b12
+           l_foot_ft_eul_3b13
+           r_upper_leg_ft_eul_3b11
            r_foot_ft_eul_3b14)
         </param>
         <param name="SixAxisForceTorqueSensorsNames">

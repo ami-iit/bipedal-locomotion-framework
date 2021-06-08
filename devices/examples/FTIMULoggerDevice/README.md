@@ -1,6 +1,6 @@
 ### iCubGenova04 strain2 FT-IMU logger
 
-A logger device based on `YarpSensorBridge` and `matioCpp` to record dataset from strain2 sensor boards mounted on the iCubGenova04 robot. 
+A logger device based on `YarpSensorBridge` and `matioCpp` to record dataset from strain2 sensor boards mounted on the iCubGenova04 robot.
 
 
 
@@ -11,7 +11,7 @@ A logger device based on `YarpSensorBridge` and `matioCpp` to record dataset fro
   ```
   yarprobotinterface --config icub_wbd_inertials.xml
   ```
-  
+
 - Launch the FT-IMU logger device,
   ```
   YARP_ROBOT_NAME=iCubGenova04 yarprobotinterface --config launch-ft-imu-logger.xml
