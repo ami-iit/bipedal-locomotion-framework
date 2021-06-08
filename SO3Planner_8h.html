@@ -69,6 +69,8 @@
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
               </ul>
             </li>
           </ul>
@@ -95,6 +97,29 @@
               class <a href="classBipedalLocomotion_1_1Planners_1_1SO3Planner.html" class="m-doc">BipedalLocomotion::Planners::SO3Planner</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1Planners_1_1SO3Planner.html" class="m-doc">SO3Planner</a> implements a minimum jerk trajectory planner for object belonging to SO(3).</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="ae114d1c1f94f336e09b0a6b8f9d4ffe7">
+              <span class="m-doc-wrap-bumper">enum class <a href="#ae114d1c1f94f336e09b0a6b8f9d4ffe7" class="m-doc-self">LieGroupTrivialization</a> { </span><span class="m-doc-wrap"><a href="#ae114d1c1f94f336e09b0a6b8f9d4ffe7a945d5e233cf7d6240f6b783b36a374ff" class="m-doc">Left</a>,
+              <a href="#ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" class="m-doc">Right</a> }</span>
+            </dt>
+            <dd>Trivialization used in the <a href="classBipedalLocomotion_1_1Planners_1_1SO3Planner.html" class="m-doc">SO3Planner</a>.</dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt id="ae8bb8f4783a1e0e0c231333334c9675f">
+              using <a href="#ae8bb8f4783a1e0e0c231333334c9675f" class="m-doc-self">SO3PlannerInertial</a> = SO3Planner&lt;LieGroupTrivialization::Right&gt;
+            </dt>
+            <dd>The right trivialization planner generates a velocity and an acceleration expressed in the inertial frame.</dd>
+            <dt id="a89d591b2acb67115a659156984eef104">
+              using <a href="#a89d591b2acb67115a659156984eef104" class="m-doc-self">SO3PlannerBody</a> = SO3Planner&lt;LieGroupTrivialization::Left&gt;
+            </dt>
+            <dd>The left trivialization planner generates a velocity and an acceleration expressed in the body-fixed frame.</dd>
           </dl>
         </section>
       </div>

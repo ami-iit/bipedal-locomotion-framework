@@ -69,6 +69,7 @@
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -91,6 +92,70 @@
             </dt>
             <dd><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a> describes a PolyDriver.</dd>
           </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4d8ce7de2788fe1398fb5988c3d77744" class="m-doc">constructRemoteControlBoardRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a RemoteControlBoardRemapper device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9c135e684813536bf24d091cd60456a9" class="m-doc">constructGenericSensorClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a GenericSensorClient device.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a4d8ce7de2788fe1398fb5988c3d77744"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4d8ce7de2788fe1398fb5988c3d77744" class="m-doc-self">constructRemoteControlBoardRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a RemoteControlBoardRemapper device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>. If one of the parameters is missing an invalid <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the function</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>joints_list</code></td><td><code>vector&lt;string&gt;</code></td><td>List of the controlled joints</td><td>Yes</td></tr><tr><td><code>remote_control_boards</code></td><td><code>vector&lt;string&gt;</code></td><td>List of the remote control boards associated to the joints</td><td>Yes</td></tr><tr><td><code>robot_name</code></td><td><code>string</code></td><td>Name of the robot</td><td>Yes</td></tr><tr><td><code>local_prefix</code></td><td><code>string</code></td><td>Prefix of the local port (e.g. the application name)</td><td>Yes</td></tr></tbody></table></aside>
+          </div></section>
+          <section class="m-doc-details" id="a9c135e684813536bf24d091cd60456a9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9c135e684813536bf24d091cd60456a9" class="m-doc-self">constructGenericSensorClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a GenericSensorClient device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>. If one of the parameters is missing an invalid <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the function</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>description</code></td><td><code>string</code></td><td>Description of the genericSensorClient. It is the device name</td><td>Yes</td></tr><tr><td><code>remote_port_name</code></td><td><code>string</code></td><td>Name of the port associate to the remote</td><td>Yes</td></tr><tr><td><code>local_prefix</code></td><td><code>string</code></td><td>Prefix of the local port (e.g. the application name)</td><td>Yes</td></tr><tr><td><code>local_port_name_suffix</code></td><td><code>string</code></td><td>Suffix of the local port. The local port name is <code>/&lt;local_prefix&gt;&lt;local_port_name_suffix&gt;</code></td><td>Yes</td></tr></tbody></table><p>The genericSensorClient device is implement in <a href="https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient">whole-body-estimators</a>.</p></aside>
+          </div></section>
         </section>
       </div>
     </div>

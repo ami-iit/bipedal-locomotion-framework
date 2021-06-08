@@ -1133,12 +1133,35 @@
   <compound refid="ContinuousContactModel_8h" kind="file"><name>ContinuousContactModel.h</name>
   </compound>
   <compound refid="CommonConversions_8h" kind="file"><name>CommonConversions.h</name>
+    <member refid="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" kind="function"><name>toEigenPose</name></member>
   </compound>
   <compound refid="ManifConversions_8h" kind="file"><name>ManifConversions.h</name>
+    <member refid="ManifConversions_8h_1a6eca022cc68f31749418d297b83d67ad" kind="function"><name>toManifPose</name></member>
+    <member refid="ManifConversions_8h_1a0a64a78d62562574dd0466585928371e" kind="function"><name>toManifPose</name></member>
+    <member refid="ManifConversions_8h_1ac71646fdf92888d3f6897ae090ce0a9c" kind="function"><name>toManifPose</name></member>
+    <member refid="ManifConversions_8h_1af56866b8b1ef81c3e00c5b53939386d4" kind="function"><name>toManifRot</name></member>
+    <member refid="ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" kind="function"><name>toManifRot</name></member>
+    <member refid="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" kind="function"><name>toManifRot</name></member>
   </compound>
   <compound refid="matioCppConversions_8h" kind="file"><name>matioCppConversions.h</name>
+    <member refid="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" kind="function"><name>toEigen</name></member>
+    <member refid="matioCppConversions_8h_1a3f906ee29461e114c48e47503c43e965" kind="function"><name>toEigen</name></member>
+    <member refid="matioCppConversions_8h_1acfc3f7c49d05947006f079d92f9b8839" kind="function"><name>toEigen</name></member>
+    <member refid="matioCppConversions_8h_1a585706043cef191172d7d84e32be5f63" kind="function"><name>toEigen</name></member>
+    <member refid="matioCppConversions_8h_1af267c27331ddf097dd1410274ea8bf86" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1ad70b8b51222d7801852366863c895788" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a032525b730552c9af26767c7f2deaacc" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a47866b78d0385a6d47fb8bd64ed66cfc" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a9bb5a4571c033efda2a8ee47ea78cc5d" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1acdca681271f326337ba415f2a8917b73" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a2b1bbb537e151f9db04920bcafd1ee09" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1aae6f5c5ef40cef9da3444106f7e0255d" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a45c2dd5b085948c64f498e667ea1ff7f" kind="function"><name>tomatioCpp</name></member>
+    <member refid="matioCppConversions_8h_1a4101bbca2961617b67cc7ca464a1def0" kind="function"><name>tomatioCppStruct</name></member>
+    <member refid="matioCppConversions_8h_1af3036db9a887e7f936d293c4a9f2c89d" kind="function"><name>toMatioCppCellArray</name></member>
   </compound>
   <compound refid="ContactDetector_8h" kind="file"><name>ContactDetector.h</name>
+    <member refid="ContactDetector_8h_1a5e59ede0df7070d0c5763122e7708c6c" kind="typedef"><name>EstimatedContactList</name></member>
   </compound>
   <compound refid="SchmittTriggerDetector_8h" kind="file"><name>SchmittTriggerDetector.h</name>
   </compound>
@@ -1155,6 +1178,7 @@
   <compound refid="TemplateHelpers_8h" kind="file"><name>TemplateHelpers.h</name>
   </compound>
   <compound refid="Vector_8h" kind="file"><name>Vector.h</name>
+    <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
   <compound refid="CARE_8h" kind="file"><name>CARE.h</name>
   </compound>
@@ -1165,14 +1189,21 @@
   <compound refid="YarpImplementation_8h" kind="file"><name>YarpImplementation.h</name>
   </compound>
   <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h" kind="file"><name>Contact.h</name>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9dd" kind="enum"><name>ContactType</name></member>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
   </compound>
   <compound refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h" kind="file"><name>Contact.h</name>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kind="enum"><name>ContactType</name></member>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
   </compound>
   <compound refid="ContactList_8h" kind="file"><name>ContactList.h</name>
   </compound>
   <compound refid="ContactPhase_8h" kind="file"><name>ContactPhase.h</name>
   </compound>
   <compound refid="ContactPhaseList_8h" kind="file"><name>ContactPhaseList.h</name>
+    <member refid="ContactPhaseList_8h_1a3ede998731e904bcb3270d6291f5f3f4" kind="typedef"><name>ContactListMap</name></member>
   </compound>
   <compound refid="ConvexHullHelper_8h" kind="file"><name>ConvexHullHelper.h</name>
   </compound>
@@ -1181,6 +1212,11 @@
   <compound refid="QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
   </compound>
   <compound refid="SO3Planner_8h" kind="file"><name>SO3Planner.h</name>
+    <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7" kind="enum"><name>LieGroupTrivialization</name></member>
+    <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a945d5e233cf7d6240f6b783b36a374ff" kind="enumvalue"><name>Left</name></member>
+    <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" kind="enumvalue"><name>Right</name></member>
+    <member refid="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" kind="typedef"><name>SO3PlannerInertial</name></member>
+    <member refid="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" kind="typedef"><name>SO3PlannerBody</name></member>
   </compound>
   <compound refid="SwingFootPlanner_8h" kind="file"><name>SwingFootPlanner.h</name>
   </compound>
@@ -1193,6 +1229,8 @@
     <member refid="ISensorBridge_8h_1a44f103cf5fdeb3f539ceeeb9cd3a0a28" kind="typedef"><name>Vector6d</name></member>
   </compound>
   <compound refid="YarpHelper_8h" kind="file"><name>YarpHelper.h</name>
+    <member refid="YarpHelper_8h_1a4d8ce7de2788fe1398fb5988c3d77744" kind="function"><name>constructRemoteControlBoardRemapper</name></member>
+    <member refid="YarpHelper_8h_1a9c135e684813536bf24d091cd60456a9" kind="function"><name>constructGenericSensorClient</name></member>
   </compound>
   <compound refid="YarpRobotControl_8h" kind="file"><name>YarpRobotControl.h</name>
   </compound>
@@ -1231,6 +1269,19 @@
   <compound refid="Task_8h" kind="file"><name>Task.h</name>
   </compound>
   <compound refid="Helper_8h" kind="file"><name>Helper.h</name>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a574238d46c75541efac18d9a98976b23" kind="function"><name>convertValue</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a20b68ac280f66d0c36958f23f38d1616" kind="function"><name>convertValue&lt; int &gt;</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a7a561eb766144016b6b608ff67421f9a" kind="function"><name>convertValue&lt; double &gt;</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a23dd786f66e376e52a3a1d2eba248d69" kind="function"><name>convertValue&lt; std::string &gt;</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a694bc52a19571ec2a9f02290f1bb8013" kind="function"><name>convertValue&lt; bool &gt;</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1ae40e1f1de588c491cbaf379f1f5bd90a" kind="function"><name>addVectorOfStringToProperty</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1ab39451f762c0bb0fc0dd4e0aa5c1503b" kind="function"><name>getElementFromSearchable</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a10b842ee279d3fdeca5833e490fabeb6" kind="function"><name>getVectorFromSearchable</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a319356197d5d389746595e0833ae27da" kind="function"><name>getVectorFromSearchable&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a93353a6fcf35110f266c35ed33f149be" kind="function"><name>mergeSigVector</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a8fed6fdcfea023c9054ea330a69e6585" kind="function"><name>mergeSigVector</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a254e07b98bb1e13845b0f9a9476009ea" kind="function"><name>sendVariadicVector</name></member>
+    <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a5773cfa7434d8a83e3cdc774c86d5607" kind="function"><name>populateBottleWithStrings</name></member>
   </compound>
   <compound refid="RosPublisher_8h" kind="file"><name>RosPublisher.h</name>
   </compound>

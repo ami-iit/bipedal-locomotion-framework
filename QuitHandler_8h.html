@@ -68,6 +68,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -81,6 +82,51 @@
             <dt>namespace <a href="namespaceBipedalLocomotion_1_1System.html" class="m-doc">BipedalLocomotion::System</a></dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a2e69b33ec2397a9c294c5d5ebbe79e3c" class="m-doc">handleQuitSignals</a>(</span><span class="m-doc-wrap">std::function&lt;void()&gt; customHandler = std::function&lt;void()&gt;())</span>
+            </dt>
+            <dd>handleQuitSignals should be called if you want to call a function when ctrl-c event is detected.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a2e69b33ec2397a9c294c5d5ebbe79e3c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2e69b33ec2397a9c294c5d5ebbe79e3c" class="m-doc-self">handleQuitSignals</a>(</span><span class="m-doc-wrap">std::function&lt;void()&gt; customHandler = std::function&lt;void()&gt;())</span></span>
+            </h3>
+            <p>handleQuitSignals should be called if you want to call a function when ctrl-c event is detected.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">customHandler</td>
+                  <td>function that will be called when ctrl-c event is detected</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>Please check the following example if you want to use the function</p><pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;BipedalLocomotion/System/QuitHandler.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// When ctrl-c event is called the application will print &quot;Closing...&quot; in the terminal.</span>
+    <span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">System</span><span class="o">::</span><span class="n">handleQuitSignals</span><span class="p">([](){</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Closing...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;});</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span></pre><p>The original implementation can be found here: <a href="https://github.com/robotology/idyntree-yarp-tools/blob/main/src/lib/Utilities/Utilities.h">https:/<wbr />/<wbr />github.com/<wbr />robotology/<wbr />idyntree-yarp-tools/<wbr />blob/<wbr />main/<wbr />src/<wbr />lib/<wbr />Utilities/<wbr />Utilities.h</a></p></aside>
+          </div></section>
         </section>
       </div>
     </div>

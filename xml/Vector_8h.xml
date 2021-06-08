@@ -453,6 +453,27 @@
     <innerclass refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1_1Ref" prot="public">BipedalLocomotion::GenericContainer::Vector::Ref</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1GenericContainer">BipedalLocomotion::GenericContainer</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::shared_ptr&lt; Vector&lt; T &gt; &gt;</type>
+        <definition>using BipedalLocomotion::GenericContainer::Vector_ptr = typedef std::shared_ptr&lt;Vector&lt;T&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector_ptr</name>
+        <briefdescription>
+<para>Utility alias to a std::shared_ptr of a <ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">Vector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/GenericContainer/Vector.h" line="36" column="1" bodyfile="BipedalLocomotion/GenericContainer/Vector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

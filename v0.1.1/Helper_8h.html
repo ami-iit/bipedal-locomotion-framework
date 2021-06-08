@@ -68,6 +68,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -80,6 +81,87 @@
             <dd><span></span></dd>
             <dt>namespace <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html" class="m-doc">BipedalLocomotion::YarpUtilities</a></dt>
             <dd>Helper for YARP library.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a574238d46c75541efac18d9a98976b23" class="m-doc">convertValue</a>(</span><span class="m-doc-wrap">const yarp::os::Value&amp; value) -&gt; T</span>
+            </dt>
+            <dd>Convert a value in a element of type T.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a20b68ac280f66d0c36958f23f38d1616" class="m-doc">convertValue&lt;int&gt;</a>(</span><span class="m-doc-wrap">const yarp::os::Value&amp; value) -&gt; int</span>
+            </dt>
+            <dd>Convert a value in a element of type int.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a7a561eb766144016b6b608ff67421f9a" class="m-doc">convertValue&lt;double&gt;</a>(</span><span class="m-doc-wrap">const yarp::os::Value&amp; value) -&gt; double</span>
+            </dt>
+            <dd>Convert a value in a element of type double.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a23dd786f66e376e52a3a1d2eba248d69" class="m-doc">convertValue&lt;std::string&gt;</a>(</span><span class="m-doc-wrap">const yarp::os::Value&amp; value) -&gt; std::string</span>
+            </dt>
+            <dd>Convert a value in a element of type string.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a694bc52a19571ec2a9f02290f1bb8013" class="m-doc">convertValue&lt;bool&gt;</a>(</span><span class="m-doc-wrap">const yarp::os::Value&amp; value) -&gt; bool</span>
+            </dt>
+            <dd>Convert a value in a element of type Boolean.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#ae40e1f1de588c491cbaf379f1f5bd90a" class="m-doc">addVectorOfStringToProperty</a>(</span><span class="m-doc-wrap">yarp::os::Property&amp; prop,
+              const std::string&amp; key,
+              const std::vector&lt;std::string&gt;&amp; list) -&gt; bool</span>
+            </dt>
+            <dd>Add a vector of string to a property of a given name.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#ab39451f762c0bb0fc0dd4e0aa5c1503b" class="m-doc">getElementFromSearchable</a>(</span><span class="m-doc-wrap">const yarp::os::Searchable&amp; config,
+              const std::string&amp; key,
+              T&amp; number) -&gt; bool</span>
+            </dt>
+            <dd>Extract a double from a searchable object.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a10b842ee279d3fdeca5833e490fabeb6" class="m-doc">getVectorFromSearchable</a>(</span><span class="m-doc-wrap">const yarp::os::Searchable&amp; config,
+              const std::string&amp; key,
+              T&amp; vector) -&gt; bool</span>
+            </dt>
+            <dd>Extract a vector from searchable.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a319356197d5d389746595e0833ae27da" class="m-doc">getVectorFromSearchable&lt;std::vector&lt;bool&gt;&gt;</a>(</span><span class="m-doc-wrap">const yarp::os::Searchable&amp; config,
+              const std::string&amp; key,
+              std::vector&lt;bool&gt;&amp; vector) -&gt; bool</span>
+            </dt>
+            <dd>Extract an <code>std::vector&lt;bool&gt;</code> from searchable.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a93353a6fcf35110f266c35ed33f149be" class="m-doc">mergeSigVector</a>(</span><span class="m-doc-wrap">yarp::sig::Vector&amp; vector,
+              const T&amp; t)</span>
+            </dt>
+            <dd>Append a scalar to a vector.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a8fed6fdcfea023c9054ea330a69e6585" class="m-doc">mergeSigVector</a>(</span><span class="m-doc-wrap">yarp::sig::Vector&amp; vector,
+              const T&amp; t,
+              const Args&amp;... args)</span>
+            </dt>
+            <dd>Variadic function used to merge several vectors.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a254e07b98bb1e13845b0f9a9476009ea" class="m-doc">sendVariadicVector</a>(</span><span class="m-doc-wrap">yarp::os::BufferedPort&lt;yarp::sig::Vector&gt;&amp; port,
+              const Args&amp;... args)</span>
+            </dt>
+            <dd>Send a variadic vector through a yarp buffered port.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="namespaceBipedalLocomotion_1_1YarpUtilities.html#a5773cfa7434d8a83e3cdc774c86d5607" class="m-doc">populateBottleWithStrings</a>(</span><span class="m-doc-wrap">yarp::os::Bottle&amp; bottle,
+              const std::initializer_list&lt;std::string&gt;&amp; strings)</span>
+            </dt>
+            <dd>Add strings to a bottle.</dd>
           </dl>
         </section>
       </div>

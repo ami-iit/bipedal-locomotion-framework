@@ -68,6 +68,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -81,6 +82,51 @@
             <dt>namespace <a href="namespaceBipedalLocomotion_1_1Conversions.html" class="m-doc">BipedalLocomotion::Conversions</a></dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;class Scalar&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab559baf769548fa6dc9b2319b05e61b7" class="m-doc">toEigenPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
+              const Eigen::Matrix&lt;Scalar, 3, 1&gt;&amp; translation) -&gt; Eigen::Matrix&lt;Scalar, 4, 4&gt;</span>
+            </dt>
+            <dd>Construct homogeneous transformation matrix from rotation matrix and translation vector.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="ab559baf769548fa6dc9b2319b05e61b7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">Eigen::Matrix&lt;Scalar, 4, 4&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab559baf769548fa6dc9b2319b05e61b7" class="m-doc-self">toEigenPose</a>(</span><span class="m-doc-wrap">const Eigen::Matrix&lt;Scalar, 3, 3&gt;&amp; rotation,
+              const Eigen::Matrix&lt;Scalar, 3, 1&gt;&amp; translation)</span></span>
+            </h3>
+            <p>Construct homogeneous transformation matrix from rotation matrix and translation vector.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">rotation</td>
+                  <td>reference of rotation matrix</td>
+                </tr>
+                <tr>
+                  <td>translation</td>
+                  <td>reference of translation vector</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>homogeneous transform as a Eigen::Matrix4d object</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>

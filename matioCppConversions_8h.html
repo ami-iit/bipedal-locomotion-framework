@@ -68,6 +68,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -81,6 +82,539 @@
             <dt>namespace <a href="namespaceBipedalLocomotion_1_1Conversions.html" class="m-doc">BipedalLocomotion::Conversions</a></dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename type&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a02e0b795745b9a9a6553bc9bcdcd8da9" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
+            </dt>
+            <dd>Conversion from a matioCpp::MultiDimensionalArray to an Eigen matrix.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename type&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3f906ee29461e114c48e47503c43e965" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt;</span>
+            </dt>
+            <dd>Conversion from a const matioCpp::MultiDimensionalArray to an Eigen matrix.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename type&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#acfc3f7c49d05947006f079d92f9b8839" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::Vector&lt;type&gt;&amp; input) -&gt; Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
+            </dt>
+            <dd>Conversion from a matioCpp::Vector to an Eigen vector.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename type&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a585706043cef191172d7d84e32be5f63" class="m-doc">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::Vector&lt;type&gt;&amp; input) -&gt; const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt;</span>
+            </dt>
+            <dd>Conversion from a const matioCpp::Vector to an Eigen vector.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename EigenDerived, typename = std::enable_if_t&lt;Eigen::MatrixBase&lt;EigenDerived&gt;::RowsAtCompileTime != 1&amp;&amp;                                                             Eigen::MatrixBase&lt;EigenDerived&gt;::ColsAtCompileTime != 1&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#af267c27331ddf097dd1410274ea8bf86" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Eigen::MatrixBase&lt;EigenDerived&gt;&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;typename EigenDerived::Scalar&gt;</span>
+            </dt>
+            <dd>Conversion from an Eigen matrix to a matioCpp::MultiDimensionalArray.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad70b8b51222d7801852366863c895788" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixDynSize&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;double&gt;</span>
+            </dt>
+            <dd>Conversion from an iDynTree::MatrixDynSize to a matioCpp::MultiDimensionalArray.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;unsigned int nRows, unsigned int nCols&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a032525b730552c9af26767c7f2deaacc" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixFixSize&lt;nRows, nCols&gt;&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::MultiDimensionalArray&lt;double&gt;</span>
+            </dt>
+            <dd>Conversion from an iDynTree::MatrixFixSize to a matioCpp::MultiDimensionalArray.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class Vector, typename = typename std::enable_if_t&lt;<a href="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />is_vector_constructible</a>&lt;Vector&gt;::value&amp;&amp;                                                             !std::is_same_v&lt;Vector, std::string&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a47866b78d0385a6d47fb8bd64ed66cfc" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const Vector&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::Vector&lt;typename std::remove_cv_t&lt;typename BipedalLocomotion::container_data&lt;Vector&gt;::type&gt;&gt;</span>
+            </dt>
+            <dd>Conversion from a generic Vector to a matioCpp::Vector.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9bb5a4571c033efda2a8ee47ea78cc5d" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::string&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::String</span>
+            </dt>
+            <dd>Conversion from a std::string to a matioCpp::String.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#acdca681271f326337ba415f2a8917b73" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;bool&gt;&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::Vector&lt;matioCpp::Logical&gt;</span>
+            </dt>
+            <dd>Conversion from a boolean vector to a matioCpp::Vector&lt;matioCpp::Logical&gt;</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename type, typename = std::enable_if_t&lt;std::is_fundamental_v&lt;type&gt;&amp;&amp; !std::is_same_v&lt;type, bool&gt;&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2b1bbb537e151f9db04920bcafd1ee09" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const type&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::Element&lt;type&gt;</span>
+            </dt>
+            <dd>Conversion from a fundamental type to the corresponding matioCpp::Element.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aae6f5c5ef40cef9da3444106f7e0255d" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">bool input,
+              const std::string&amp; name) -&gt; matioCpp::Element&lt;matioCpp::Logical&gt;</span>
+            </dt>
+            <dd>Conversion from a boolean to a matioCpp::Element&lt;matioCpp::Logical&gt;</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a45c2dd5b085948c64f498e667ea1ff7f" class="m-doc">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; input,
+              const std::string&amp; name) -&gt; matioCpp::CellArray</span>
+            </dt>
+            <dd>Conversion from a vector of strings to a matioCpp::CellArray containing the input strings.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class iterator, typename = typename std::enable_if_t&lt;is_pair_iterator_string&lt;iterator&gt;::value&gt;&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4101bbca2961617b67cc7ca464a1def0" class="m-doc">tomatioCppStruct</a>(</span><span class="m-doc-wrap">iterator begin,
+              iterator end,
+              const std::string&amp; name) -&gt; matioCpp::Struct</span>
+            </dt>
+            <dd>Create a matioCpp::Struct starting from the begin and end iterators of a map-like container The dereferenced value of the iterator has to be a pair (like with std::maps and std::unordered_map) with the key being a string.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class iterator&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#af3036db9a887e7f936d293c4a9f2c89d" class="m-doc">toMatioCppCellArray</a>(</span><span class="m-doc-wrap">const iterator&amp; begin,
+              const iterator&amp; end,
+              const std::string&amp; name) -&gt; matioCpp::CellArray</span>
+            </dt>
+            <dd>Create a matioCpp::CellArray starting from the begin and end iterators of a container.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a02e0b795745b9a9a6553bc9bcdcd8da9"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename type&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a02e0b795745b9a9a6553bc9bcdcd8da9" class="m-doc-self">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input)</span></span>
+            </h3>
+            <p>Conversion from a matioCpp::MultiDimensionalArray to an Eigen matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The matioCpp::MultiDimensionalArray</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A map from the internal data of the MultiDimensionalArray</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a3f906ee29461e114c48e47503c43e965"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename type&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, Eigen::Dynamic&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3f906ee29461e114c48e47503c43e965" class="m-doc-self">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::MultiDimensionalArray&lt;type&gt;&amp; input)</span></span>
+            </h3>
+            <p>Conversion from a const matioCpp::MultiDimensionalArray to an Eigen matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The matioCpp::MultiDimensionalArray</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A const map from the internal data of the MultiDimensionalArray</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="acfc3f7c49d05947006f079d92f9b8839"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename type&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acfc3f7c49d05947006f079d92f9b8839" class="m-doc-self">toEigen</a>(</span><span class="m-doc-wrap">matioCpp::Vector&lt;type&gt;&amp; input)</span></span>
+            </h3>
+            <p>Conversion from a matioCpp::Vector to an Eigen vector.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The matioCpp::Vector</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A map from the internal data of the Vector</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a585706043cef191172d7d84e32be5f63"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename type&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const Eigen::Map&lt;Eigen::Matrix&lt;type, Eigen::Dynamic, 1&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a585706043cef191172d7d84e32be5f63" class="m-doc-self">toEigen</a>(</span><span class="m-doc-wrap">const matioCpp::Vector&lt;type&gt;&amp; input)</span></span>
+            </h3>
+            <p>Conversion from a const matioCpp::Vector to an Eigen vector.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The matioCpp::Vector</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A const map from the internal data of the Vector</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af267c27331ddf097dd1410274ea8bf86"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename EigenDerived, typename = std::enable_if_t&lt;Eigen::MatrixBase&lt;EigenDerived&gt;::RowsAtCompileTime != 1&amp;&amp;                                                             Eigen::MatrixBase&lt;EigenDerived&gt;::ColsAtCompileTime != 1&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::MultiDimensionalArray&lt;typename EigenDerived::Scalar&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af267c27331ddf097dd1410274ea8bf86" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const Eigen::MatrixBase&lt;EigenDerived&gt;&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from an Eigen matrix to a matioCpp::MultiDimensionalArray.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input matrix.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::MultiDimensionalArray containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad70b8b51222d7801852366863c895788"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">matioCpp::MultiDimensionalArray&lt;double&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad70b8b51222d7801852366863c895788" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixDynSize&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from an iDynTree::MatrixDynSize to a matioCpp::MultiDimensionalArray.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input matrix.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::MultiDimensionalArray containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a032525b730552c9af26767c7f2deaacc"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;unsigned int nRows, unsigned int nCols&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::MultiDimensionalArray&lt;double&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a032525b730552c9af26767c7f2deaacc" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const iDynTree::MatrixFixSize&lt;nRows, nCols&gt;&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from an iDynTree::MatrixFixSize to a matioCpp::MultiDimensionalArray.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input matrix.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::MultiDimensionalArray containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a47866b78d0385a6d47fb8bd64ed66cfc"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class Vector, typename = typename std::enable_if_t&lt;<a href="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />is_vector_constructible</a>&lt;Vector&gt;::value&amp;&amp;                                                             !std::is_same_v&lt;Vector, std::string&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::Vector&lt;typename std::remove_cv_t&lt;typename BipedalLocomotion::container_data&lt;Vector&gt;::type&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a47866b78d0385a6d47fb8bd64ed66cfc" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const Vector&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a generic Vector to a matioCpp::Vector.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input vector.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::Vector containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a9bb5a4571c033efda2a8ee47ea78cc5d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">matioCpp::String </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9bb5a4571c033efda2a8ee47ea78cc5d" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::string&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a std::string to a matioCpp::String.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input string.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::String containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="acdca681271f326337ba415f2a8917b73"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">matioCpp::Vector&lt;matioCpp::Logical&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acdca681271f326337ba415f2a8917b73" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;bool&gt;&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a boolean vector to a matioCpp::Vector&lt;matioCpp::Logical&gt;</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input vector.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::Vector&lt;matioCpp::Logical&gt; containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2b1bbb537e151f9db04920bcafd1ee09"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename type, typename = std::enable_if_t&lt;std::is_fundamental_v&lt;type&gt;&amp;&amp; !std::is_same_v&lt;type, bool&gt;&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::Element&lt;type&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2b1bbb537e151f9db04920bcafd1ee09" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const type&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a fundamental type to the corresponding matioCpp::Element.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input element.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::Element containing a copy of the input data</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aae6f5c5ef40cef9da3444106f7e0255d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">matioCpp::Element&lt;matioCpp::Logical&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aae6f5c5ef40cef9da3444106f7e0255d" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">bool input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a boolean to a matioCpp::Element&lt;matioCpp::Logical&gt;</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input element.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::Element&lt;matioCpp::Logical&gt; whose value is equal to the input.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a45c2dd5b085948c64f498e667ea1ff7f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">matioCpp::CellArray </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a45c2dd5b085948c64f498e667ea1ff7f" class="m-doc-self">tomatioCpp</a>(</span><span class="m-doc-wrap">const std::vector&lt;std::string&gt;&amp; input,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Conversion from a vector of strings to a matioCpp::CellArray containing the input strings.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>The input vector of strings.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the resulting matioCpp variable.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A matioCpp::CellArray of dimensions nx1 (with n the number of strings)</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a4101bbca2961617b67cc7ca464a1def0"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class iterator, typename = typename std::enable_if_t&lt;is_pair_iterator_string&lt;iterator&gt;::value&gt;&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::Struct </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4101bbca2961617b67cc7ca464a1def0" class="m-doc-self">tomatioCppStruct</a>(</span><span class="m-doc-wrap">iterator begin,
+              iterator end,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Create a matioCpp::Struct starting from the begin and end iterators of a map-like container The dereferenced value of the iterator has to be a pair (like with std::maps and std::unordered_map) with the key being a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">begin</td>
+                  <td>The iterator to the first element</td>
+                </tr>
+                <tr>
+                  <td>end</td>
+                  <td>The iterator to the element after the last.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the struct.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The corresponding matioCpp::Struct</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>For each key, there is the corresponding field in the Struct.</p>
+          </div></section>
+          <section class="m-doc-details" id="af3036db9a887e7f936d293c4a9f2c89d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class iterator&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">matioCpp::CellArray </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af3036db9a887e7f936d293c4a9f2c89d" class="m-doc-self">toMatioCppCellArray</a>(</span><span class="m-doc-wrap">const iterator&amp; begin,
+              const iterator&amp; end,
+              const std::string&amp; name)</span></span>
+            </h3>
+            <p>Create a matioCpp::CellArray starting from the begin and end iterators of a container.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">begin</td>
+                  <td>The iterator to the first element</td>
+                </tr>
+                <tr>
+                  <td>end</td>
+                  <td>The iterator to the element after the last.</td>
+                </tr>
+                <tr>
+                  <td>name</td>
+                  <td>The name of the CellArray.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>The corresponding matioCpp::CellArray.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>If dereferenced value of the iterator is a pair (like with std::maps and std::unordered_map), only the &quot;second&quot; element is considered. The name of the imported variable in the CellArray is &quot;imported_element_x&quot;, where &quot;x&quot; is the corresponding raw index. If the iterator is a pair, and &quot;first&quot; is a string, this will be used as a name.</p>
+          </div></section>
         </section>
       </div>
     </div>

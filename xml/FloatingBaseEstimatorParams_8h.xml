@@ -51,6 +51,21 @@
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators">BipedalLocomotion::Estimators::FloatingBaseEstimators</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="FloatingBaseEstimatorParams_8h_1a0278244abffd2414273812bafbda7395" prot="public" static="no">
+        <type>std::map&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</type>
+        <definition>using BipedalLocomotion::Estimators::FloatingBaseEstimators::PoseCovariance = typedef std::map&lt;int, Eigen::Matrix&lt;double, 6, 1&gt;, std::less&lt;int&gt;, Eigen::aligned_allocator&lt;std::pair&lt;const int, Eigen::Matrix&lt;double, 6, 1&gt; &gt; &gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>PoseCovariance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h" line="22" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

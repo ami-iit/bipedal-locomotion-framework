@@ -187,6 +187,23 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" prot="public" static="no">
+        <type>std::monostate</type>
+        <definition>using BipedalLocomotion::System::EmptySignal = typedef std::monostate</definition>
+        <argsstring></argsstring>
+        <name>EmptySignal</name>
+        <briefdescription>
+<para>Type that can be used to described an empty signal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It should be used with advanceable if Input or Output are not required. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="23" column="1" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

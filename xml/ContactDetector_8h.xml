@@ -111,6 +111,21 @@
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector" prot="public">BipedalLocomotion::Contacts::ContactDetector</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Contacts">BipedalLocomotion::Contacts</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="ContactDetector_8h_1ace202ec51b1a593717e2f279ef90386f" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, Contacts::EstimatedContact &gt;</type>
+        <definition>using BipedalLocomotion::Contacts::EstimatedContactList = typedef std::unordered_map&lt;std::string, Contacts::EstimatedContact&gt;</definition>
+        <argsstring></argsstring>
+        <name>EstimatedContactList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="22" column="1" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

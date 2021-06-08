@@ -52,6 +52,36 @@
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1Contact" prot="public">BipedalLocomotion::Planners::Contact</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9dd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContactType</name>
+        <enumvalue id="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+<para>The contact impose a full pose constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaaebdbcb765394d25d6a604589a890f82" prot="public">
+          <name>POINT</name>
+          <briefdescription>
+<para>The contact impose a position constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Definition of the type of contact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Contact.h" line="23" column="1" bodyfile="BipedalLocomotion/Planners/Contact.h" bodystart="24" bodyend="34"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

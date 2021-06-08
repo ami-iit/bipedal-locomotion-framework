@@ -106,6 +106,22 @@
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList" prot="public">BipedalLocomotion::Planners::ContactPhaseList</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="ContactPhaseList_8h_1a3ede998731e904bcb3270d6291f5f3f4" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, ContactList &gt;</type>
+        <definition>using BipedalLocomotion::Planners::ContactListMap = typedef std::unordered_map&lt;std::string, ContactList&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContactListMap</name>
+        <briefdescription>
+<para>Utility alias to a map of ContacLists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/ContactPhaseList.h" line="26" column="1" bodyfile="BipedalLocomotion/Planners/ContactPhaseList.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

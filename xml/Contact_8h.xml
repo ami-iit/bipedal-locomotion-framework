@@ -140,6 +140,51 @@
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" prot="public">BipedalLocomotion::Contacts::ContactWrench</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Contacts">BipedalLocomotion::Contacts</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContactType</name>
+        <enumvalue id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+<para>The contact impose a full pose constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" prot="public">
+          <name>POINT</name>
+          <briefdescription>
+<para>The contact impose a position constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Definition of the type of contact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="25" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="26" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Contact_8h_1ad2d4f7afefeb8c02566b8498aea79042" prot="public" static="no">
+        <type>EstimatedContact</type>
+        <definition>using BipedalLocomotion::Contacts::EstimatedLandmark = typedef EstimatedContact</definition>
+        <argsstring></argsstring>
+        <name>EstimatedLandmark</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="123" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

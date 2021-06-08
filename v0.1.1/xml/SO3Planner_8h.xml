@@ -44,6 +44,64 @@
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" prot="public">BipedalLocomotion::Planners::SO3Planner</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LieGroupTrivialization</name>
+        <enumvalue id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a945d5e233cf7d6240f6b783b36a374ff" prot="public">
+          <name>Left</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" prot="public">
+          <name>Right</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Trivialization used in the <ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="23" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="24" bodyend="27"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" prot="public" static="no">
+        <type>SO3Planner&lt; LieGroupTrivialization::Right &gt;</type>
+        <definition>using BipedalLocomotion::Planners::SO3PlannerInertial = typedef SO3Planner&lt;LieGroupTrivialization::Right&gt;</definition>
+        <argsstring></argsstring>
+        <name>SO3PlannerInertial</name>
+        <briefdescription>
+<para>The right trivialization planner generates a velocity and an acceleration expressed in the inertial frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="146" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" prot="public" static="no">
+        <type>SO3Planner&lt; LieGroupTrivialization::Left &gt;</type>
+        <definition>using BipedalLocomotion::Planners::SO3PlannerBody = typedef SO3Planner&lt;LieGroupTrivialization::Left&gt;</definition>
+        <argsstring></argsstring>
+        <name>SO3PlannerBody</name>
+        <briefdescription>
+<para>The left trivialization planner generates a velocity and an acceleration expressed in the body-fixed frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="152" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

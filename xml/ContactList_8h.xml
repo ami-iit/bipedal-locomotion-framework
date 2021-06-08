@@ -102,6 +102,25 @@
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactList_1_1ContactCompare" prot="private">BipedalLocomotion::Contacts::ContactList::ContactCompare</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Contacts">BipedalLocomotion::Contacts</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="ContactList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, ContactList &gt;</type>
+        <definition>using BipedalLocomotion::Contacts::ContactListMap = typedef std::unordered_map&lt;std::string, ContactList&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContactListMap</name>
+        <briefdescription>
+<para>Utility alias to a map of ContacLists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The key of the map is a user define label representing the contact name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="236" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

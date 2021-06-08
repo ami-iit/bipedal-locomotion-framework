@@ -24,6 +24,23 @@
     </invincdepgraph>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="Constants_8h_1a8dc72d6e2ec8af58271cf20db8ec00b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double BipedalLocomotion::Math::StandardAccelerationOfGravitation</definition>
+        <argsstring></argsstring>
+        <name>StandardAccelerationOfGravitation</name>
+        <initializer>= 9.80665</initializer>
+        <briefdescription>
+<para>The standard acceleration due to gravity (or standard acceleration of free fall), sometimes abbreviated as standard gravity, is the nominal gravitational acceleration of an object in a vacuum near the surface of the Earth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/Constants.h" line="20" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
