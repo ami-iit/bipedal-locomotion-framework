@@ -73,6 +73,10 @@ find_package(nlohmann_json 3.7.3 QUIET)
 checkandset_dependency(nlohmann_json)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
+find_package(tomlplusplus 2.4.0 QUIET)
+checkandset_dependency(tomlplusplus)
+dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
+
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
 
@@ -95,6 +99,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
 framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
   "FRAMEWORK_COMPILE_YarpUtilities" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_TomlImplementation
+  "Compile All the TOML implementations?" ON
+  "FRAMEWORK_USE_tomlplusplus" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Math
   "Compile Math library?" ON
