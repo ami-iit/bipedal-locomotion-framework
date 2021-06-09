@@ -12,6 +12,7 @@
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::RobotInterface;
+using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion;
 
 FTIMULoggerDevice::FTIMULoggerDevice(double period,
@@ -173,22 +174,10 @@ bool FTIMULoggerDevice::logData()
     auto outTime = Conversions::tomatioCpp(time, "time");
 
     // left leg ft
-    matioCpp::MultiDimensionalArray<double> outLFTLeg{"l_leg_ft_sensor",
-                                                      {static_cast<std::size_t>(m_ftimupair.at("l_leg").ft.rows()),
-                                                      static_cast<std::size_t>(m_ftimupair.at("l_leg").ft.cols())},
-                                                      m_ftimupair.at("l_leg").ft.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTAccLeg{"l_leg_ft_acc",
-                                                         {static_cast<std::size_t>(m_ftimupair.at("l_leg").acc.rows()),
-                                                         static_cast<std::size_t>(m_ftimupair.at("l_leg").acc.cols())},
-                                                         m_ftimupair.at("l_leg").acc.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTGyroLeg{"l_leg_ft_gyro",
-                                                          {static_cast<std::size_t>(m_ftimupair.at("l_leg").gyro.rows()),
-                                                          static_cast<std::size_t>(m_ftimupair.at("l_leg").gyro.cols())},
-                                                          m_ftimupair.at("l_leg").gyro.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTOrientLeg{"l_leg_ft_orient",
-                                                            {static_cast<std::size_t>(m_ftimupair.at("l_leg").orient.rows()),
-                                                            static_cast<std::size_t>(m_ftimupair.at("l_leg").orient.cols())},
-                                                            m_ftimupair.at("l_leg").orient.data()};
+    matioCpp::MultiDimensionalArray<double> outLFTLeg = tomatioCpp(m_ftimupair.at("l_leg").ft, "l_leg_ft_sensor");
+    matioCpp::MultiDimensionalArray<double> outLFTAccLeg = tomatioCpp(m_ftimupair.at("l_leg").acc, "l_leg_ft_acc");
+    matioCpp::MultiDimensionalArray<double> outLFTGyroLeg = tomatioCpp(m_ftimupair.at("l_leg").gyro, "l_leg_ft_gyro");
+    matioCpp::MultiDimensionalArray<double> outLFTOrientLeg = tomatioCpp(m_ftimupair.at("l_leg").orient, "l_leg_ft_orient");
 
     std::vector<matioCpp::Variable> l_leg_ftimu;
     l_leg_ftimu.emplace_back(outLFTLeg);
@@ -198,22 +187,10 @@ bool FTIMULoggerDevice::logData()
     matioCpp::Struct outLL("l_leg_ft_imu", l_leg_ftimu);
 
     // right leg ft
-    matioCpp::MultiDimensionalArray<double> outRFTLeg{"r_leg_ft_sensor",
-                                                      {static_cast<std::size_t>(m_ftimupair.at("r_leg").ft.rows()),
-                                                      static_cast<std::size_t>(m_ftimupair.at("r_leg").ft.cols())},
-                                                      m_ftimupair.at("r_leg").ft.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTAccLeg{"r_leg_ft_acc",
-                                                         {static_cast<std::size_t>(m_ftimupair.at("r_leg").acc.rows()),
-                                                         static_cast<std::size_t>(m_ftimupair.at("r_leg").acc.cols())},
-                                                         m_ftimupair.at("r_leg").acc.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTGyroLeg{"r_leg_ft_gyro",
-                                                          {static_cast<std::size_t>(m_ftimupair.at("r_leg").gyro.rows()),
-                                                          static_cast<std::size_t>(m_ftimupair.at("r_leg").gyro.cols())},
-                                                          m_ftimupair.at("r_leg").gyro.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTOrientLeg{"r_leg_ft_orient",
-                                                            {static_cast<std::size_t>(m_ftimupair.at("r_leg").orient.rows()),
-                                                            static_cast<std::size_t>(m_ftimupair.at("r_leg").orient.cols())},
-                                                            m_ftimupair.at("r_leg").orient.data()};
+    matioCpp::MultiDimensionalArray<double> outRFTLeg = tomatioCpp(m_ftimupair.at("r_leg").ft, "r_leg_ft_sensor");
+    matioCpp::MultiDimensionalArray<double> outRFTAccLeg = tomatioCpp(m_ftimupair.at("r_leg").acc, "r_leg_ft_acc");
+    matioCpp::MultiDimensionalArray<double> outRFTGyroLeg = tomatioCpp(m_ftimupair.at("r_leg").gyro, "r_leg_ft_gyro");
+    matioCpp::MultiDimensionalArray<double> outRFTOrientLeg = tomatioCpp(m_ftimupair.at("r_leg").orient, "r_leg_ft_orient");
 
     std::vector<matioCpp::Variable> r_leg_ftimu;
     r_leg_ftimu.emplace_back(outRFTLeg);
@@ -223,22 +200,10 @@ bool FTIMULoggerDevice::logData()
     matioCpp::Struct outRL("r_leg_ft_imu", r_leg_ftimu);
 
     // left foot ft
-    matioCpp::MultiDimensionalArray<double> outLFTFoot{"l_foot_ft_sensor",
-                                                      {static_cast<std::size_t>(m_ftimupair.at("l_foot").ft.rows()),
-                                                       static_cast<std::size_t>(m_ftimupair.at("l_foot").ft.cols())},
-                                                       m_ftimupair.at("l_foot").ft.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTAccFoot{"l_leg_ft_acc",
-                                                         {static_cast<std::size_t>(m_ftimupair.at("l_foot").acc.rows()),
-                                                          static_cast<std::size_t>(m_ftimupair.at("l_foot").acc.cols())},
-                                                          m_ftimupair.at("l_foot").acc.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTGyroFoot{"l_foot_ft_gyro",
-                                                          {static_cast<std::size_t>(m_ftimupair.at("l_foot").gyro.rows()),
-                                                           static_cast<std::size_t>(m_ftimupair.at("l_foot").gyro.cols())},
-                                                           m_ftimupair.at("l_foot").gyro.data()};
-    matioCpp::MultiDimensionalArray<double> outLFTOrientFoot{"l_foot_ft_orient",
-                                                            {static_cast<std::size_t>(m_ftimupair.at("l_foot").orient.rows()),
-                                                             static_cast<std::size_t>(m_ftimupair.at("l_foot").orient.cols())},
-                                                             m_ftimupair.at("l_foot").orient.data()};
+    matioCpp::MultiDimensionalArray<double> outLFTFoot = tomatioCpp(m_ftimupair.at("l_foot").ft, "l_foot_ft_sensor");
+    matioCpp::MultiDimensionalArray<double> outLFTAccFoot = tomatioCpp(m_ftimupair.at("l_foot").acc, "l_leg_ft_acc");
+    matioCpp::MultiDimensionalArray<double> outLFTGyroFoot = tomatioCpp(m_ftimupair.at("l_foot").gyro, "l_foot_ft_gyro");
+    matioCpp::MultiDimensionalArray<double> outLFTOrientFoot = tomatioCpp(m_ftimupair.at("l_foot").orient, "l_foot_ft_orient");
 
     std::vector<matioCpp::Variable> l_foot_ftimu;
     l_foot_ftimu.emplace_back(outLFTFoot);
@@ -248,23 +213,12 @@ bool FTIMULoggerDevice::logData()
     matioCpp::Struct outLF("l_foot_ft_imu", l_foot_ftimu);
 
 
+
     // right foot ft
-    matioCpp::MultiDimensionalArray<double> outRFTFoot{"r_foot_ft_sensor",
-                                                      {static_cast<std::size_t>(m_ftimupair.at("r_foot").ft.rows()),
-                                                       static_cast<std::size_t>(m_ftimupair.at("r_foot").ft.cols())},
-                                                       m_ftimupair.at("r_foot").ft.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTAccFoot{"r_leg_ft_acc",
-                                                         {static_cast<std::size_t>(m_ftimupair.at("r_foot").acc.rows()),
-                                                          static_cast<std::size_t>(m_ftimupair.at("r_foot").acc.cols())},
-                                                          m_ftimupair.at("r_foot").acc.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTGyroFoot{"r_foot_ft_gyro",
-                                                          {static_cast<std::size_t>(m_ftimupair.at("r_foot").gyro.rows()),
-                                                           static_cast<std::size_t>(m_ftimupair.at("r_foot").gyro.cols())},
-                                                           m_ftimupair.at("r_foot").gyro.data()};
-    matioCpp::MultiDimensionalArray<double> outRFTOrientFoot{"r_foot_ft_orient",
-                                                            {static_cast<std::size_t>(m_ftimupair.at("r_foot").orient.rows()),
-                                                             static_cast<std::size_t>(m_ftimupair.at("r_foot").orient.cols())},
-                                                             m_ftimupair.at("r_foot").orient.data()};
+    matioCpp::MultiDimensionalArray<double> outRFTFoot = tomatioCpp(m_ftimupair.at("r_foot").ft, "r_foot_ft_sensor");
+    matioCpp::MultiDimensionalArray<double> outRFTAccFoot = tomatioCpp(m_ftimupair.at("r_foot").acc, "r_leg_ft_acc");
+    matioCpp::MultiDimensionalArray<double> outRFTGyroFoot = tomatioCpp(m_ftimupair.at("r_foot").gyro, "r_foot_ft_gyro");
+    matioCpp::MultiDimensionalArray<double> outRFTOrientFoot = tomatioCpp(m_ftimupair.at("r_foot").orient, "r_foot_ft_orient");
 
     std::vector<matioCpp::Variable> r_foot_ftimu;
     r_foot_ftimu.emplace_back(outRFTFoot);
