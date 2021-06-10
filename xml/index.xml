@@ -1353,6 +1353,41 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ae3452250d0c1ff2c505e160837cdebc9" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ad2935a4ff1c4e345a6e1b49dc5a3bfc6" kind="function"><name>advance</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation" kind="class"><name>BipedalLocomotion::ParametersHandler::TomlImplementation</name>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a855f1b3cc063980b3b7b5cb0790ca57d" kind="variable"><name>m_container</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a699b33053f2d27f000f9adc1fe673265" kind="variable"><name>m_lists</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a28261ed5290820c00cbd00ca7a95aa4c" kind="function"><name>getParameterPrivate</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1aab6b245af25b1643f063df7e1cfe9884" kind="function"><name>setParameterPrivate</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5bc95be4154e386ebe1025072866f4d3" kind="function"><name>clonePrivate</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a10741fc6e67b7132d01fe661b8fa9161" kind="function"><name>TomlImplementation</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a3ed139758fa6c4e99bffc59666d6a8af" kind="function"><name>TomlImplementation</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a65e64026771b47b0618b637a997dee4f" kind="function"><name>set</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a16f1f04aedcf5fb04008cb4436371def" kind="function"><name>setFromFile</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5511a7d71159bb8d2e2f284431eac5d1" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a12d106023924ec3ae4599d5c1f57d52e" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7e96f4db775bfd6c6229cdfdbb705e9e" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ad2e89673adfcb9898f9ba76b3f6a4a89" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a6a77664180a9e9d54ecd13ddc44844de" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a58095752b261b5dc62b2bf438d9269d5" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a945893028ec4c53aa0731026ee67cb1a" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a9bbdb6fd83abc1eece7385c4dd1d39f0" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7b99e8520fcd89dfc002cd76e62283ca" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ada5d517cd6712e7fdcade0f3d0de55c9" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a099f42898ff8dbf795c7c75928065453" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5b79540432064125097af70ca2f0718c" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ae1cf9094a7f84519bb19771b7cd29c52" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a06aa8f03332037cc857472982daf8b21" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af5d54035b958caa5850ca5bcd2ba2b47" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a3b23017dce6e3baffeba093ac2059c96" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1afd3e0f168562bbe9bb0d973975cd15ee" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7967601e80d345c45915e2d8ca843088" kind="function"><name>getGroup</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac0f5b19fdabc727f3baf3589c57f7d10" kind="function"><name>setGroup</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac79cb2e2193a73685e3197c2bf269e3d" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a4623cca36f2a12cef8d48560746b383c" kind="function"><name>isEmpty</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a454498de819a8547a721fb91d97332ca" kind="function"><name>clear</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a803b0534eba653136f5eef379b393065" kind="function"><name>clone</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a65d91dd7675d844644b3e2510dd33af3" kind="function"><name>~TomlImplementation</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits</name>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01const_01T_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; const T &gt;</name>
@@ -1823,6 +1858,8 @@
   </compound>
   <compound refid="StdImplementation_8h" kind="file"><name>StdImplementation.h</name>
   </compound>
+  <compound refid="TomlImplementation_8h" kind="file"><name>TomlImplementation.h</name>
+  </compound>
   <compound refid="YarpImplementation_8h" kind="file"><name>YarpImplementation.h</name>
     <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
@@ -1929,13 +1966,15 @@
   </compound>
   <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -1943,19 +1982,19 @@
   </compound>
   <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -1998,6 +2037,8 @@
   <compound refid="dir_ef3b2545113449f8f25e623a543d64e3" kind="dir"><name>/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/pages</name>
   </compound>
   <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
+  </compound>
+  <compound refid="dir_5de36add22bf70f2482142ec548a1759" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>

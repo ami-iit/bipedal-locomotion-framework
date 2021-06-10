@@ -37,21 +37,21 @@
         <label>BipedalLocomotion/RobotInterface/YarpRobotControl.h</label>
         <link refid="YarpRobotControl_8h"/>
       </node>
-      <node id="45">
+      <node id="46">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
         <link refid="DynamicalSystem_8h"/>
-        <childnode refid="46" relation="include">
-        </childnode>
         <childnode refid="47" relation="include">
         </childnode>
         <childnode refid="48" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
         </childnode>
       </node>
-      <node id="46">
+      <node id="47">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
         <link refid="FixedBaseDynamics_8h"/>
       </node>
@@ -65,7 +65,7 @@
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="47">
+      <node id="48">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
         <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
       </node>
@@ -91,7 +91,7 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="48">
+      <node id="49">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</label>
         <link refid="FloatingBaseSystemKinematics_8h"/>
       </node>
@@ -168,15 +168,17 @@
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-        <childnode refid="56" relation="include">
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -287,21 +289,21 @@
         <label>BipedalLocomotion/Estimators/RecursiveLeastSquare.h</label>
         <link refid="RecursiveLeastSquare_8h"/>
       </node>
-      <node id="54">
+      <node id="55">
         <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
         <link refid="ContactModel_8h"/>
-        <childnode refid="55" relation="include">
-        </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-      </node>
-      <node id="49">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="50" relation="include">
+        <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="44">
+      <node id="50">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
+        <link refid="Integrator_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
         <label>BipedalLocomotion/ParametersHandler/StdImplementation.h</label>
         <link refid="StdImplementation_8h"/>
       </node>
@@ -309,7 +311,11 @@
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
-      <node id="53">
+      <node id="43">
+        <label>BipedalLocomotion/ParametersHandler/TomlImplementation.h</label>
+        <link refid="TomlImplementation_8h"/>
+      </node>
+      <node id="54">
         <label>BipedalLocomotion/YarpUtilities/RosPublisher.h</label>
         <link refid="RosPublisher_8h"/>
       </node>
@@ -330,29 +336,29 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
         </childnode>
       </node>
       <node id="8">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="50">
+      <node id="51">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
-        <childnode refid="51" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
       </node>
-      <node id="55">
+      <node id="56">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</label>
         <link refid="CompliantContactWrench_8h"/>
-        <childnode refid="46" relation="include">
-        </childnode>
         <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
         </childnode>
       </node>
       <node id="24">
@@ -365,7 +371,7 @@
         <label>BipedalLocomotion/TSID/CoMTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h"/>
       </node>
-      <node id="43">
+      <node id="44">
         <label>BipedalLocomotion/ParametersHandler/YarpImplementation.h</label>
         <link refid="YarpImplementation_8h"/>
       </node>
@@ -379,7 +385,7 @@
         <label>BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</label>
         <link refid="TimeVaryingDCMPlanner_8h"/>
       </node>
-      <node id="56">
+      <node id="57">
         <label>BipedalLocomotion/ContactModels/ContinuousContactModel.h</label>
         <link refid="ContinuousContactModel_8h"/>
       </node>
@@ -409,11 +415,11 @@
         <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="52">
+      <node id="53">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
       </node>
-      <node id="51">
+      <node id="52">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
       </node>
