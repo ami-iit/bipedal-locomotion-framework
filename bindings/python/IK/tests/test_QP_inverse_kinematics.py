@@ -2,6 +2,7 @@ import pytest
 pytestmark = pytest.mark.ik
 
 import bipedal_locomotion_framework.bindings as blf
+import gym_ignition_models as m
 import manifpy as manif
 import numpy as np
 
@@ -9,7 +10,7 @@ def test_com_task():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -39,7 +40,7 @@ def test_se3_task():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -75,7 +76,7 @@ def test_so3_task():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -110,7 +111,7 @@ def test_joint_tracking_task():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -167,7 +168,7 @@ def test_qp_inverse_kinematics():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
     joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'r_hip_pitch',
                    'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'torso_pitch', 'torso_roll',
                    'torso_yaw', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', 'l_wrist_prosup',
