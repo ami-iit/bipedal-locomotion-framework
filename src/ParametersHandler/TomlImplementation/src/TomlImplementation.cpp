@@ -93,8 +93,9 @@ void TomlImplementation::setParameter(const std::string& parameterName,
 {
     return setParameterPrivate(parameterName, parameter);
 }
-void TomlImplementation::setParameter(const std::string& parameterName,
-                                      const GenericContainer::Vector<const std::string>::Ref parameter)
+void TomlImplementation::setParameter(
+    const std::string& parameterName,
+    const GenericContainer::Vector<const std::string>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
@@ -112,7 +113,19 @@ TomlImplementation::TomlImplementation(const toml::table& container)
 
 void TomlImplementation::set(const toml::table& container)
 {
-    m_container = container;
+    // clear the content of ParametersHandler
+    this->clear();
+
+    for (const auto& [k, v] : container)
+    {
+        if (v.is_table())
+        {
+            m_lists.emplace(k, std::make_shared<TomlImplementation>(*v.as_table()));
+        } else
+        {
+            m_container.insert(k, v);
+        }
+    }
 }
 
 bool TomlImplementation::setFromFile(const std::string& filename)
@@ -125,8 +138,7 @@ bool TomlImplementation::setFromFile(const std::string& filename)
     {
         auto config = toml::parse_file(filename);
         this->set(config);
-    }
-    catch(const std::exception& e)
+    } catch (const std::exception& e)
     {
         log()->debug("{} Unable to parse the file named {}. The following exception has been "
                      "thrown {}.",
@@ -154,20 +166,38 @@ bool TomlImplementation::setFromFile(const std::string& filename)
 
 TomlImplementation::weak_ptr TomlImplementation::getGroup(const std::string& name) const
 {
-    log()->error("[TomlImplementation::getGroup] This function is not implemented");
+    if (m_lists.find(name) != m_lists.end())
+    {
+        return m_lists.at(name);
+    }
+
     return std::make_shared<TomlImplementation>();
 }
 
 bool TomlImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
 {
-    log()->error("[TomlImplementation::setGroup] This function is not implemented");
-    return false;
+    auto downcastedPtr = std::dynamic_pointer_cast<TomlImplementation>(newGroup); // to access
+                                                                                  // m_container
+    if (downcastedPtr == nullptr)
+    {
+        log()->debug("[TomlImplementation::setGroup] Unable to downcast the pointer to "
+                     "TomlImplementation.");
+
+        return false;
+    }
+
+    m_lists[name] = downcastedPtr;
+    return true;
 }
 
 std::string TomlImplementation::toString() const
 {
     std::ostringstream stream;
-    stream << m_container;
+    stream << m_container << std::endl;
+    for (const auto& [key, container] : m_lists)
+    {
+        stream << "[" << key << "]" << std::endl << container->toString();
+    }
     return stream.str();
 }
 
@@ -179,6 +209,7 @@ bool TomlImplementation::isEmpty() const
 void TomlImplementation::clear()
 {
     m_container.clear();
+    m_lists.clear();
 }
 
 std::shared_ptr<TomlImplementation> TomlImplementation::clonePrivate() const

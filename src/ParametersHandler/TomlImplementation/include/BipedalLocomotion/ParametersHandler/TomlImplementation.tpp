@@ -10,9 +10,9 @@
 
 #include <type_traits>
 
+#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/ParametersHandler/TomlImplementation.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
-#include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 
 namespace BipedalLocomotion
 {
@@ -134,8 +134,18 @@ bool TomlImplementation::getParameterPrivate(const std::string& parameterName, T
 template <typename T>
 void TomlImplementation::setParameterPrivate(const std::string& parameterName, const T& parameter)
 {
-    BipedalLocomotion::log()->error("[TomlImplementation::setParameterPrivate] This function is "
-                                    "not implemented");
+    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    {
+        m_container.insert_or_assign(parameterName, parameter);
+    } else // if it is a vector
+    {
+        m_container.insert_or_assign(parameterName, toml::array());
+        for(const auto& element : parameter)
+        {
+            m_container[parameterName].as_array()->push_back(element);
+        }
+
+    }
 }
 
 } // namespace ParametersHandler

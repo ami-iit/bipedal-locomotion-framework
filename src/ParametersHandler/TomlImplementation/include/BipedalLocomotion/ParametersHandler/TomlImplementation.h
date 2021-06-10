@@ -30,6 +30,9 @@ class TomlImplementation : public IParametersHandler
 {
     toml::table m_container; /**< Main container */
 
+    /** Map containing pointers to the (asked) groups */
+    std::unordered_map<std::string, std::shared_ptr<TomlImplementation>> m_lists;
+
     /**
      * Private implementation of getParameter
      * @param parameterName name of the parameter
