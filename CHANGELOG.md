@@ -39,6 +39,7 @@ All notable changes to this project are documented in this file.
 - Implement `YarpParametersHandler` bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/309)
 - Implement `contactListMapFromJson()` and `contactListMapToJson()` methods and python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/issues/316)
 - Implement a matioCpp-based strain2 sensors' FT-IMU logger example device (https://github.com/dic-iit/bipedal-locomotion-framework/pull/326)
+- Implement `TomlImplementation` in `ParametersHandler` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/328)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
