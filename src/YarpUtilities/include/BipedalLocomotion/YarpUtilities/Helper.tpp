@@ -72,13 +72,13 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        log()->error("{} Missing field named: {}.", logPrefix, key);
+        log()->debug("{} Missing field named: {}.", logPrefix, key);
         return false;
     }
 
     if (!(value->*YARP_UTILITES_GET_CHECKER_NAME(T))())
     {
-        log()->error("{} The value named: {} is not a {}.",
+        log()->debug("{} The value named: {} is not a {}.",
                      logPrefix,
                      key,
                      YARP_UTILITES_GET_ELEMENT_TYPE(T));
@@ -104,26 +104,26 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        log()->error("{} Missing field named: {}.", logPrefix, key);
+        log()->debug("{} Missing field named: {}.", logPrefix, key);
         return false;
     }
 
     if (value->isNull())
     {
-        log()->error("{} Empty input named: {}.", logPrefix, key);
+        log()->debug("{} Empty input named: {}.", logPrefix, key);
         return false;
     }
 
     if (!value->isList())
     {
-        log()->error("{} The value named: {} is not associated to a list.", logPrefix, key);
+        log()->debug("{} The value named: {} is not associated to a list.", logPrefix, key);
         return false;
     }
 
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        log()->error("{} The list associated to the value named: {} is empty.", logPrefix, key);
+        log()->debug("{} The list associated to the value named: {} is empty.", logPrefix, key);
         return false;
     }
 
@@ -135,7 +135,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
         {
             if (!vector.resizeVector(inputPtr->size()))
             {
-                log()->error("{} Unable to resize {}, List size: {}. Vector size: {}.",
+                log()->debug("{} Unable to resize {}, List size: {}. Vector size: {}.",
                              logPrefix,
                              type_name<T>(),
                              inputPtr->size(),
@@ -147,7 +147,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
             vector.resize(inputPtr->size());
         else
         {
-            log()->error("{} The size of the vector does not match with the size of the list. List "
+            log()->debug("{} The size of the vector does not match with the size of the list. List "
                          "size {}. Vector size {}.",
                          logPrefix,
                          inputPtr->size(),
@@ -160,7 +160,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     {
         if (!(inputPtr->get(i).*YARP_UTILITES_GET_CHECKER_NAME(elementType))())
         {
-            log()->error("{} The element of the list associated to the value named {} is not a {}.",
+            log()->debug("{} The element of the list associated to the value named {} is not a {}.",
                          logPrefix,
                          key,
                          YARP_UTILITES_GET_ELEMENT_TYPE(elementType));

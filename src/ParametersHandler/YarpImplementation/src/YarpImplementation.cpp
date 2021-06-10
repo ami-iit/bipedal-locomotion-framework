@@ -208,7 +208,7 @@ bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::s
                                                                                   // m_container
     if (downcastedPtr == nullptr)
     {
-        log()->error("[YarpImplementation::setGroup] Unable to downcast the pointer to "
+        log()->debug("[YarpImplementation::setGroup] Unable to downcast the pointer to "
                      "YarpImplementation.");
 
         return false;

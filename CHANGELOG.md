@@ -57,6 +57,7 @@ All notable changes to this project are documented in this file.
 - Use `TextLogging` in `VariablesHandler` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
 - Fix `YarpImplementation::setParameterPrivate()` when a boolean or a vector of boolean is passed (https://github.com/dic-iit/bipedal-locomotion-framework/pull/311)
 - Add `foot_take_off_acceleration` and `foot_take_off_velocity` parameters in the `SwingFootPlanner` class (https://github.com/dic-iit/bipedal-locomotion-framework/issues/323)
+- Change the parameters handler verbosity (https://github.com/dic-iit/bipedal-locomotion-framework/pull/330)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
