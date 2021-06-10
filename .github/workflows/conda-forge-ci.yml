@@ -10,6 +10,7 @@ on:
 
 env:
   manif_TAG: c8b4f16ea4d64e8d145aaf50bdbe31c756edb5b2
+  tomlplusplus_TAG: v2.4.0
 
 jobs:
   build:
@@ -52,6 +53,15 @@ jobs:
         cmake -GNinja -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # tomlplusplus
+        cd ${GITHUB_WORKSPACE}
+        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
+        cd tomlplusplus
+        mkdir -p build
+        cd build
+        cmake -GNinja -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
     - name: Dependencies [manif - windows]
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
@@ -62,6 +72,17 @@ jobs:
         cd manif
         git checkout ${manif_TAG}
         mkdir build
+        cd build
+        cmake -G"Visual Studio 16 2019" \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX}/Library ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # tomlplusplus
+        cd ${GITHUB_WORKSPACE}
+        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
+        cd tomlplusplus
+        mkdir -p build
         cd build
         cmake -G"Visual Studio 16 2019" \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \

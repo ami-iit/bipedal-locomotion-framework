@@ -22,6 +22,7 @@ env:
   LieGroupControllers_TAG: v0.0.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.6.3
+  tomlplusplus_TAG: v2.4.0
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
@@ -92,8 +93,8 @@ jobs:
         ./bootstrap-vcpkg.bat
         ./vcpkg.exe install catch2:x64-windows
 
-        # Install pybind11 and nlohmann_json
-        ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows
+        # Install pybind11, nlohmann_json and tomlplusplus
+        ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macOS-latest'
@@ -124,7 +125,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -273,6 +274,16 @@ jobs:
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest')
       shell: bash
       run: |
+
+        # Tomlplusplus
+        cd ${GITHUB_WORKSPACE}
+        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
+        cd tomlplusplus
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
         # YCM
         cd ${GITHUB_WORKSPACE}
         git clone -b ${YCM_TAG} https://github.com/robotology/ycm
