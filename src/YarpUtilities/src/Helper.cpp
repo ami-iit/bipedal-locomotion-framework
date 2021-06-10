@@ -66,26 +66,26 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     yarp::os::Value* value;
     if (!config.check(key, value))
     {
-        log()->error("{} Missing field {}.", logPrefix, key);
+        log()->debug("{} Missing field {}.", logPrefix, key);
         return false;
     }
 
     if (value->isNull())
     {
-        log()->error("{} Empty input value named: {}.", logPrefix, key);
+        log()->debug("{} Empty input value named: {}.", logPrefix, key);
         return false;
     }
 
     if (!value->isList())
     {
-        log()->error("{} The value named: {} is not associated to a list.", logPrefix, key);
+        log()->debug("{} The value named: {} is not associated to a list.", logPrefix, key);
         return false;
     }
 
     yarp::os::Bottle* inputPtr = value->asList();
     if (inputPtr == nullptr)
     {
-        log()->error("{} The list associated to the value named: {} is empty.", logPrefix, key);
+        log()->debug("{} The list associated to the value named: {} is empty.", logPrefix, key);
         return false;
     }
 
@@ -96,7 +96,7 @@ bool YarpUtilities::getVectorFromSearchable<std::vector<bool>>(const yarp::os::S
     {
         if (!inputPtr->get(i).isBool())
         {
-            log()->error("{} The element of the list associated to the value named {} is not a "
+            log()->debug("{} The element of the list associated to the value named {} is not a "
                          "Boolean.",
                          logPrefix,
                          key);
