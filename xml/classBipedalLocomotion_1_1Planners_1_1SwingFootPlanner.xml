@@ -222,26 +222,26 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>foot_landing_velocity</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Landing vertical velocity   </para>
-</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry><entry thead="no" align='center'><para>Landing vertical velocity (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>foot_landing_acceleration</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Landing vertical acceleration   </para>
-</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry><entry thead="no" align='center'><para>Landing vertical acceleration (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>foot_take_off_velocity</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Take-off vertical velocity   </para>
-</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical velocity (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>foot_take_off_acceleration</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Take-off vertical acceleration   </para>
-</entry><entry thead="no" align='center'><para>Yes   </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical acceleration (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
 </para>
