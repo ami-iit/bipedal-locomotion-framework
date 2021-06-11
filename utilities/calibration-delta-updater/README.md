@@ -16,7 +16,7 @@ Please move the joint associated to the `input` configuration file in _zero_. Pl
 
 You can run the script with following command
 ```shell
-blf_calibration_delta_updater.py -i <robots-configuration_dir>/iCubGenova09/calibrators/left_leg-calib.xml \
+blf-calibration-delta-updater.py -i <robots-configuration_dir>/iCubGenova09/calibrators/left_leg-calib.xml \
                                  -o <robots-configuration_dir>/iCubGenova09/calibrators/left_leg-calib.xml \
                                  -r icub \
                                  -b left_leg \
