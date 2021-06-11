@@ -195,3 +195,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_RealsenseCapture
 framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
   "Compile realsense-test application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_RealsenseCapture;FRAMEWORK_COMPILE_PerceptionInterface" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
+  "Compile calibration-delta-updater application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)
