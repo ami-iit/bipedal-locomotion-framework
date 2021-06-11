@@ -43,32 +43,32 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
-    double footTakeOffVelocity;
+    double footTakeOffVelocity = 0.0;
     if (!ptr->getParameter("foot_take_off_velocity", footTakeOffVelocity))
     {
-        log()->error("{} Unable to initialize the foot take-off velocity.", logPrefix);
-        return false;
+        log()->info("{} Using default foot_take_off_velocity={}.", logPrefix, footTakeOffVelocity);
     }
 
-    double footTakeOffAcceleration;
+    double footTakeOffAcceleration = 0.0;
     if (!ptr->getParameter("foot_take_off_acceleration", footTakeOffAcceleration))
     {
-        log()->error("{} Unable to initialize the foot take-off acceleration.", logPrefix);
-        return false;
+        log()->info("{} Using default foot_take_off_acceleration={}.",
+                    logPrefix,
+                    footTakeOffAcceleration);
     }
 
-    double footLandingVelocity;
+    double footLandingVelocity = 0.0;
     if (!ptr->getParameter("foot_landing_velocity", footLandingVelocity))
     {
-        log()->error("{} Unable to initialize the foot landing velocity.", logPrefix);
-        return false;
+        log()->info("{} Using default foot_landing_velocity={}.", logPrefix, footLandingVelocity);
     }
 
-    double footLandingAcceleration;
+    double footLandingAcceleration = 0.0;
     if (!ptr->getParameter("foot_landing_acceleration", footLandingAcceleration))
     {
-        log()->error("{} Unable to initialize the foot landing acceleration.", logPrefix);
-        return false;
+        log()->info("{} Using default foot_landing_acceleration={}.",
+                    logPrefix,
+                    footLandingAcceleration);
     }
 
     // check the parameters passed to the planner
