@@ -4,7 +4,8 @@
 
 if(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication)
 
-  install(FILES script/blf_calibration_delta_updater.py
-    DESTINATION "${CMAKE_INSTALL_PREFIX}/share/BipedalLocomotionFramework/python")
+  install(FILES script/blf-calibration-delta-updater.py
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+    DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 endif()
