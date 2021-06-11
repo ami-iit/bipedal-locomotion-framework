@@ -7,7 +7,7 @@
 **calibration-delta-updater** depends of the [`YarpImplementation` of the `ISensorBridge`](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface/YarpImplementation) and on the [python bindings](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/bindings/python/RobotInterface). To run the script you also need to install some additional python dependencies
 
 ```
-pip install numpy lxml
+sudo apt-get install python3-numpy python3-lxml
 ```
 
 ## :running: How to use the application
