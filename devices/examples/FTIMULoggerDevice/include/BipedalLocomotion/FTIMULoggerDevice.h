@@ -37,14 +37,22 @@ public:
     virtual bool detachAll() final;
     virtual void run() final;
 
-    struct FTIMUPair
+    struct IMUPair
+    {
+        // todo: make it a circular buffer
+        // with periodic flushing to the file
+        Eigen::MatrixXd acc;
+        Eigen::MatrixXd gyro;
+        Eigen::MatrixXd orient;
+    };
+
+
+    struct FTIMUPair : public IMUPair
     {
         // todo: make it a circular buffer
         // with periodic flushing to the file
         Eigen::MatrixXd ft;
-        Eigen::MatrixXd acc;
-        Eigen::MatrixXd gyro;
-        Eigen::MatrixXd orient;
+
     };
 
 private:
@@ -56,6 +64,8 @@ private:
     std::mutex m_deviceMutex;
 
     std::unordered_map<std::string, FTIMUPair> m_ftimupair;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
+    std::unordered_map<std::string, IMUPair> m_imupair;
 
     Eigen::VectorXd time;
 
@@ -64,9 +74,13 @@ private:
     Eigen::Matrix<double, 3, 1> gyro;
     Eigen::Matrix<double, 3, 1> orient;
     Eigen::Matrix<double, 6, 1> ft;
+
+    Eigen::Matrix<double, 12, 1> analogSensorBuffer;
+
+    Eigen::VectorXd jointsPos;
+    Eigen::VectorXd jointsVel;
 };
 
 
 
 #endif //BIPEDAL_LOCOMOTION_FRAMEWORK_FT_IMU_LOGGER_DEVICE_H
-

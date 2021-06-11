@@ -48,6 +48,11 @@ bool FTIMULoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    m_jointState["joint_positions"] = Eigen::MatrixXd();
+    m_jointState["joint_velocities"] = Eigen::MatrixXd();
+
+    m_imupair["root_link_imu"] = IMUPair();
+
     m_ftimupair["r_leg"] = FTIMUPair();
     m_ftimupair["l_leg"] = FTIMUPair();
     m_ftimupair["l_foot"] = FTIMUPair();
@@ -86,6 +91,17 @@ bool FTIMULoggerDevice::attachAll(const yarp::dev::PolyDriverList & poly)
         yError() << "[FTIMULoggerDevice][attachAll] Could not attach drivers list to sensor bridge";
         return false;
     }
+
+    std::vector<std::string> jointsList;
+
+    if (!m_robotSensorBridge->getJointsList(jointsList))
+    {
+        return false;
+    }
+
+    jointsPos.resize(jointsList.size());
+    jointsVel.resize(jointsList.size());
+
 
     start();
     return true;
@@ -158,6 +174,28 @@ void FTIMULoggerDevice::run()
     m_ftimupair.at("r_foot").gyro.row(bufferSize) << gyro(0), gyro(1), gyro(2);
     m_ftimupair.at("r_foot").orient.row(bufferSize) << orient(0), orient(1), orient(2);
 
+    // base imu (analog sensor)
+    ok = ok
+         && m_robotSensorBridge->getIMUMeasurement("root_link_imu_acc",
+                                                   analogSensorBuffer,
+                                                   timeNow);
+
+    m_imupair.at("root_link_imu").acc.conservativeResize(bufferSize+1, 3);
+    m_imupair.at("root_link_imu").gyro.conservativeResize(bufferSize+1, 3);
+    m_imupair.at("root_link_imu").orient.conservativeResize(bufferSize+1, 3);
+    m_imupair.at("root_link_imu").acc.row(bufferSize) << analogSensorBuffer.segment<3>(3);
+    m_imupair.at("root_link_imu").gyro.row(bufferSize) << analogSensorBuffer.segment<3>(6);
+    m_imupair.at("root_link_imu").orient.row(bufferSize) << analogSensorBuffer.segment<3>(0);
+
+
+    // joint state
+    ok = ok && m_robotSensorBridge->getJointPositions(jointsPos, timeNow);
+    ok = ok && m_robotSensorBridge->getJointVelocities(jointsVel, timeNow);
+    m_jointState.at("joint_positions").conservativeResize(bufferSize + 1, jointsPos.size());
+    m_jointState.at("joint_velocities").conservativeResize(bufferSize + 1, jointsVel.size());
+    m_jointState.at("joint_positions").row(bufferSize) = jointsPos;
+    m_jointState.at("joint_velocities").row(bufferSize) = jointsVel;
+
     time.conservativeResize(bufferSize+1);
     time.row(bufferSize) << timeNow;
 
@@ -213,7 +251,6 @@ bool FTIMULoggerDevice::logData()
     matioCpp::Struct outLF("l_foot_ft_imu", l_foot_ftimu);
 
 
-
     // right foot ft
     matioCpp::MultiDimensionalArray<double> outRFTFoot = tomatioCpp(m_ftimupair.at("r_foot").ft, "r_foot_ft_sensor");
     matioCpp::MultiDimensionalArray<double> outRFTAccFoot = tomatioCpp(m_ftimupair.at("r_foot").acc, "r_leg_ft_acc");
@@ -227,11 +264,32 @@ bool FTIMULoggerDevice::logData()
     r_foot_ftimu.emplace_back(outRFTOrientFoot);
     matioCpp::Struct outRF("r_foot_ft_imu", r_foot_ftimu);
 
+    // base imu
+    matioCpp::MultiDimensionalArray<double> outBaseAcc = tomatioCpp(m_imupair.at("root_link_imu").acc, "root_link_imu_acc");
+    matioCpp::MultiDimensionalArray<double> outBaseGyro = tomatioCpp(m_imupair.at("root_link_imu").gyro, "root_link_imu_gyro");
+    matioCpp::MultiDimensionalArray<double> outBaseOrient = tomatioCpp(m_imupair.at("root_link_imu").orient, "root_link_imu_orient");
+
+    std::vector<matioCpp::Variable> base_imu;
+    base_imu.emplace_back(outBaseAcc);
+    base_imu.emplace_back(outBaseGyro);
+    base_imu.emplace_back(outBaseOrient);
+    matioCpp::Struct outBase("root_imu", base_imu);
+
+    // joint state
+    matioCpp::MultiDimensionalArray<double> outJointPos = tomatioCpp(m_jointState.at("joint_positions"), "joint_positions");
+    matioCpp::MultiDimensionalArray<double> outJointVel = tomatioCpp(m_jointState.at("joint_velocities"), "joint_velocities");
+    std::vector<matioCpp::Variable> jointState;
+    jointState.emplace_back(outJointPos);
+    jointState.emplace_back(outJointVel);
+    matioCpp::Struct outJointState("joint_state", jointState);
+
     bool write_ok{true};
     write_ok = write_ok && file.write(outLL);
     write_ok = write_ok && file.write(outRL);
     write_ok = write_ok && file.write(outLF);
     write_ok = write_ok && file.write(outRF);
+    write_ok = write_ok && file.write(outBase);
+    write_ok = write_ok && file.write(outJointState);
     write_ok = write_ok && file.write(outTime);
 
     if (!write_ok)
