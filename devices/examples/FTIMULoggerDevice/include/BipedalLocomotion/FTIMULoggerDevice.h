@@ -25,7 +25,9 @@ class BipedalLocomotion::FTIMULoggerDevice : public yarp::dev::DeviceDriver,
                                              public yarp::os::PeriodicThread
 {
 public:
-    explicit FTIMULoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock = yarp::os::ShouldUseSystemClock::No);
+    FTIMULoggerDevice(double period,
+                      yarp::os::ShouldUseSystemClock useSystemClock
+                      = yarp::os::ShouldUseSystemClock::No);
     FTIMULoggerDevice();
     ~FTIMULoggerDevice();
 
