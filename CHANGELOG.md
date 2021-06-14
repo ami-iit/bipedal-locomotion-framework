@@ -75,6 +75,7 @@ All notable changes to this project are documented in this file.
 - Avoid to use the default copy-constructor and copy-assignment operator in `ContactPhaseList` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/295)
 - Fix `toString()` method of `VariablesHandler` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/302)
 - Fix in `YarpUtilities::getVectorFromSearchable` when a vector of boolean is passed as input (https://github.com/dic-iit/bipedal-locomotion-framework/pull/313)
+- Various fixes for the yarp devices (https://github.com/dic-iit/bipedal-locomotion-framework/pull/337)
 
 ## [0.1.1] - 2021-05-08
 ### Fix

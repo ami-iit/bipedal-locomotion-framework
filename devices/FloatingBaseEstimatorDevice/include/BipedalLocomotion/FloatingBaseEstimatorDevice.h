@@ -34,7 +34,9 @@ class BipedalLocomotion::FloatingBaseEstimatorDevice : public yarp::dev::DeviceD
                                                        public yarp::os::PeriodicThread
 {
 public:
-    explicit FloatingBaseEstimatorDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock = yarp::os::ShouldUseSystemClock::No);
+    FloatingBaseEstimatorDevice(double period,
+                                yarp::os::ShouldUseSystemClock useSystemClock
+                                = yarp::os::ShouldUseSystemClock::No);
     FloatingBaseEstimatorDevice();
     ~FloatingBaseEstimatorDevice();
 

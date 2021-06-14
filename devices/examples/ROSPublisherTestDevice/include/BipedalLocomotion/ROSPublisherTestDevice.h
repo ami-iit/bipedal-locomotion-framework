@@ -24,7 +24,9 @@ class BipedalLocomotion::ROSPublisherTestDevice : public yarp::dev::DeviceDriver
                                                   public yarp::os::PeriodicThread
 {
 public:
-    explicit ROSPublisherTestDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock = yarp::os::ShouldUseSystemClock::No);
+    ROSPublisherTestDevice(double period,
+                           yarp::os::ShouldUseSystemClock useSystemClock
+                           = yarp::os::ShouldUseSystemClock::No);
     ROSPublisherTestDevice();
     ~ROSPublisherTestDevice();
 
