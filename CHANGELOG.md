@@ -61,6 +61,7 @@ All notable changes to this project are documented in this file.
 - Add `foot_take_off_acceleration` and `foot_take_off_velocity` parameters in the `SwingFootPlanner` class (https://github.com/dic-iit/bipedal-locomotion-framework/issues/323)
 - Change the parameters handler verbosity (https://github.com/dic-iit/bipedal-locomotion-framework/pull/330)
 - Restore backward compatibility of SwingFootPlanner parameters (https://github.com/dic-iit/bipedal-locomotion-framework/pull/334)
+- Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
