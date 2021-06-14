@@ -9,11 +9,13 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <iomanip>
+
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 #include <BipedalLocomotion/Contacts/ContactPhase.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 
 #include <BipedalLocomotion/bindings/Contacts/Contacts.h>
 
@@ -26,8 +28,6 @@ namespace Contacts
 
 std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
 {
-    std::string description;
-
     const Eigen::IOFormat FormatEigenVector //
         (Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", ", ", "", "", "[", "]");
 
@@ -38,12 +38,13 @@ std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
     pose << "SE3 (position = " << position.format(FormatEigenVector)
          << ", quaternion = " << quaternion.format(FormatEigenVector) << ")";
 
-    description = "Contact (name = " + contact.name + ", pose = " + pose.str()
-                  + ", activation_time = " + std::to_string(contact.activationTime)
-                  + ", deactivation_time = " + std::to_string(contact.deactivationTime)
-                  + ", type = " + std::to_string(static_cast<int>(contact.type)) + ")";
+    std::stringstream description;
+    description << "Contact (name = " << contact.name << ", pose = " << pose.str()
+                << std::setprecision(7) << ", activation_time = " << contact.activationTime
+                << ", deactivation_time = " << contact.deactivationTime
+                << ", type = " << static_cast<int>(contact.type) << ")";
 
-    return description;
+    return description.str();
 }
 
 void CreateContact(pybind11::module& module)
