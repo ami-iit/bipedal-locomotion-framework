@@ -31,6 +31,7 @@ if(FRAMEWORK_COMPILE_Planners AND FRAMEWORK_COMPILE_Unicycle)
     tests/test_quintic_spline.py
     tests/test_swing_foot_planner.py
     tests/test_time_verying_dcm_planner.py
+    tests/test_unicycle_planner.py
     )
 
 endif()
