@@ -21,7 +21,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |          [AutoDiff](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Contacts)          |              Syntactic description of a contact              |         [`manif`](https://github.com/artivis/manif)          |
+|          [Contacts](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Contacts)          |              Syntactic description of a contact              |         [`manif`](https://github.com/artivis/manif)    [nlohmann json](https://github.com/nlohmann/json/) |
 |    [CommonConversions](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
 |    [ManifConversions](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |        [Estimators](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Estimators)        |                 Library containing observers                 |                              -                               |
@@ -29,7 +29,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |  [GenericContainer](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/GenericContainer)  |      Data structure similar to ``span`` but resizable.       |                              -                               |
 |               [IK](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/IK)                 |                      Inverse kinematics                      | [`manif`](https://github.com/artivis/manif) [`osqp-eigen`](https://github.com/robotology/osqp-eigen) |
 |              [Math](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
-| [ParametersHandler](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
+| [ParametersHandler](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`tomlplusplus`](https://github.com/marzer/tomlplusplus/) (only if you want the `toml` implementation) |
 |          [Planners](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
@@ -53,17 +53,17 @@ cmake -DCMAKE_INSTALL_PREFIX=<path/where/you/want/to/install> \
 cmake --build . --config Release --target install
 ~~~~~~~~~~~~~
 
-⚠️  Remark: If you manually compile the framework remember to install the dependencies required by the component you are interested in.
+\warning ⚠️  If you manually compile the framework remember to install the dependencies required by the component you are interested in.
 
 \section some-utilities 🖥️  Some utilities
 
-The **bipedal-locomotion-framework** ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the [`utilities` folder](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/utilities). Each utility contains a well-documented` README` where you can find further details.
+The **bipedal-locomotion-framework** ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the [`utilities` folder](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/utilities). Each utility contains a well-documented `README` where you can find further details.
 
 \section python 🐍 Python
 
-**bipedal-locomotion-framework** provides also python bindings. Only a small set of the components implemented in the library have the corresponding python bindings.
+\b bipedal-locomotion-framework provides also python bindings. Only a small set of the components implemented in the library have the corresponding python bindings.
 
-If you want to compile the bindings please install `python3` and `pybind11` in your system then you can run the following `CMake` command in your `build` folder
+If you want to compile the bindings please install `python3` and `pybind11` in your system then you can run the following `CMake` command in your `build` folder. You also need to install [`manifpy`](https://github.com/artivis/manif/releases/tag/0.0.4).
 
 ~~~~~~~~~~~~~{.sh}
 cmake -DCMAKE_INSTALL_PREFIX=<path/where/you/want/to/install> \
@@ -75,12 +75,12 @@ cmake -DCMAKE_INSTALL_PREFIX=<path/where/you/want/to/install> \
 cmake --build . --config Release --target install
 ~~~~~~~~~~~~~
 
-**Disclaimer:** The python bindings are currently supported on Linux.
+\warning ⚠️  The python bindings are currently supported on Linux.
 
 \section how-to-use-the-libraries 🏃 How to use the libraries
-The **bipedal-locomotion-framework** provides native `CMake` support which allows the library to be easily used in `CMake` projects.
+\b bipedal-locomotion-framework provides native `CMake` support which allows the library to be easily used in `CMake` projects.
 
-**bipedal-locomotion-framework** exports the `CMake` targets presented in Exported components section. The targets can be imported using the `find_package`  command and used by calling `target_link_libraries`.
+\b bipedal-locomotion-framework exports the `CMake` targets presented in Exported components section. The targets can be imported using the `find_package`  command and used by calling `target_link_libraries`.
 
 For instance, `Math` component can be used as follows:
 
@@ -94,6 +94,6 @@ target_link_libraries(example PRIVATE BipedalLocomotion::Math)
 
 \section contributing ⚙️  Contributing
 
-The **bipedal-locomotion-framework** is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request \emoji :rocket:
+The **bipedal-locomotion-framework** is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request 🚀
 
 **/
