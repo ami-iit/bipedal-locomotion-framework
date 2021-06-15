@@ -35,7 +35,7 @@
 <row>
 <entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Contacts">Contacts</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Syntactic description of a contact   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
+</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/nlohmann/json/">nlohmann json</ulink>    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Conversions">CommonConversions</ulink>   </para>
@@ -75,7 +75,7 @@
 <row>
 <entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ParametersHandler">ParametersHandler</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library for retrieving parameters from configuration files   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation)    </para>
+</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation) <ulink url="https://github.com/marzer/tomlplusplus/"><computeroutput>tomlplusplus</computeroutput></ulink> (only if you want the <computeroutput>toml</computeroutput> implementation)    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Planners">Planners</ulink>   </para>
@@ -131,16 +131,18 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-DCMAKE_BUILD_TYPE=Release<sp/>\</highlight></codeline>
 <codeline><highlight class="normal">cmake<sp/>--build<sp/>.<sp/>--config<sp/>Release<sp/>--target<sp/>install</highlight></codeline>
 </programlisting></para>
-<para>⚠️ Remark: If you manually compile the framework remember to install the dependencies required by the component you are interested in.</para>
+<para><simplesect kind="warning"><para>⚠️ If you manually compile the framework remember to install the dependencies required by the component you are interested in.</para>
+</simplesect>
+</para>
 </sect1>
 <sect1 id="index_1some-utilities">
 <title>🖥️  Some utilities</title>
-<para>The <bold>bipedal-locomotion-framework</bold> ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the <ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/utilities"><computeroutput>utilities</computeroutput> folder</ulink>. Each utility contains a well-documented<computeroutput>README</computeroutput> where you can find further details.</para>
+<para>The <bold>bipedal-locomotion-framework</bold> ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the <ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/utilities"><computeroutput>utilities</computeroutput> folder</ulink>. Each utility contains a well-documented <computeroutput>README</computeroutput> where you can find further details.</para>
 </sect1>
 <sect1 id="index_1python">
 <title>🐍 Python</title>
-<para>bipedal-locomotion-framework** provides also python bindings. Only a small set of the components implemented in the library have the corresponding python bindings.</para>
-<para>If you want to compile the bindings please install <computeroutput>python3</computeroutput> and <computeroutput>pybind11</computeroutput> in your system then you can run the following <computeroutput>CMake</computeroutput> command in your <computeroutput>build</computeroutput> folder</para>
+<para><bold>bipedal-locomotion-framework</bold> provides also python bindings. Only a small set of the components implemented in the library have the corresponding python bindings.</para>
+<para>If you want to compile the bindings please install <computeroutput>python3</computeroutput> and <computeroutput>pybind11</computeroutput> in your system then you can run the following <computeroutput>CMake</computeroutput> command in your <computeroutput>build</computeroutput> folder. You also need to install <ulink url="https://github.com/artivis/manif/releases/tag/0.0.4"><computeroutput>manifpy</computeroutput></ulink>.</para>
 <para><programlisting filename=".sh"><codeline><highlight class="normal">cmake<sp/>-DCMAKE_INSTALL_PREFIX=&lt;path/where/you/want/to/install&gt;<sp/>\</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-DCMAKE_BUILD_TYPE=Release<sp/>\</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON<sp/>\</highlight></codeline>
@@ -149,12 +151,14 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>-DFRAMEWORK_USE_pybind11:BOOL=ON<sp/>.</highlight></codeline>
 <codeline><highlight class="normal">cmake<sp/>--build<sp/>.<sp/>--config<sp/>Release<sp/>--target<sp/>install</highlight></codeline>
 </programlisting></para>
-<para>Disclaimer:** The python bindings are currently supported on Linux.</para>
+<para><simplesect kind="warning"><para>⚠️ The python bindings are currently supported on Linux.</para>
+</simplesect>
+</para>
 </sect1>
 <sect1 id="index_1how-to-use-the-libraries">
 <title>🏃 How to use the libraries</title>
-<para>The <bold>bipedal-locomotion-framework</bold> provides native <computeroutput>CMake</computeroutput> support which allows the library to be easily used in <computeroutput>CMake</computeroutput> projects.</para>
-<para>bipedal-locomotion-framework** exports the <computeroutput>CMake</computeroutput> targets presented in Exported components section. The targets can be imported using the <computeroutput>find_package</computeroutput> command and used by calling <computeroutput>target_link_libraries</computeroutput>.</para>
+<para><bold>bipedal-locomotion-framework</bold> provides native <computeroutput>CMake</computeroutput> support which allows the library to be easily used in <computeroutput>CMake</computeroutput> projects.</para>
+<para><bold>bipedal-locomotion-framework</bold> exports the <computeroutput>CMake</computeroutput> targets presented in Exported components section. The targets can be imported using the <computeroutput>find_package</computeroutput> command and used by calling <computeroutput>target_link_libraries</computeroutput>.</para>
 <para>For instance, <computeroutput>Math</computeroutput> component can be used as follows:</para>
 <para><programlisting filename=".cmake"><codeline><highlight class="normal">cmake_minimum_required(VERSION<sp/>3.0)</highlight></codeline>
 <codeline><highlight class="normal">project(myproject)</highlight></codeline>
@@ -165,7 +169,7 @@
 </sect1>
 <sect1 id="index_1contributing">
 <title>⚙️  Contributing</title>
-<para>The <bold>bipedal-locomotion-framework</bold> is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request <emoji name="rocket" unicode="&amp;#x1f680;"/> </para>
+<para>The <bold>bipedal-locomotion-framework</bold> is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request 🚀 </para>
 </sect1>
     </detaileddescription>
     <location file="/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/pages/main-page.dox"/>
