@@ -9,7 +9,7 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  manif_TAG: c8b4f16ea4d64e8d145aaf50bdbe31c756edb5b2
+  manif_TAG: 0.0.4
   tomlplusplus_TAG: v2.4.0
 
 jobs:
