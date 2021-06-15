@@ -35,9 +35,9 @@ find_package(cppad QUIET)
 checkandset_dependency(cppad)
 dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
-find_package(manif 0.0.3 QUIET)
+find_package(manif 0.0.4 QUIET)
 checkandset_dependency(manif)
-dependency_classifier(manif MINIMUM_VERSION 0.0.3 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
+dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
 find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
