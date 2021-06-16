@@ -8,29 +8,21 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/System/Source.h>
+#include <BipedalLocomotion/Planners/Spline.h>
 
 namespace BipedalLocomotion
 {
 namespace Planners
 {
-
-struct QuinticSplineState
-{
-    Eigen::VectorXd position;
-    Eigen::VectorXd velocity;
-    Eigen::VectorXd acceleration;
-};
-
 /**
  * Quintic spline implement a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
  */
-class QuinticSpline : public System::Source<QuinticSplineState>
+class QuinticSpline : public Spline
 {
     /**
      * Private implementation of the class
@@ -56,7 +48,7 @@ public:
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */
-    bool setAdvanceTimeStep(const double& dt);
+    bool setAdvanceTimeStep(const double& dt) final;
 
     /**
      * Set the knots of the spline.
@@ -64,7 +56,8 @@ public:
      * @param time vector containing the time instant of the knots.
      * @return True in case of success, false otherwise.
      */
-    bool setKnots(const std::vector<Eigen::VectorXd>& position, const std::vector<double>& time);
+    bool setKnots(const std::vector<Eigen::VectorXd>& position, //
+                  const std::vector<double>& time) final;
 
     /**
      * Set the initial condition of the spline
@@ -73,7 +66,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
-                              Eigen::Ref<const Eigen::VectorXd> acceleration);
+                              Eigen::Ref<const Eigen::VectorXd> acceleration) final;
 
     /**
      * Set the final condition of the spline
@@ -82,7 +75,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
-                            Eigen::Ref<const Eigen::VectorXd> acceleration);
+                            Eigen::Ref<const Eigen::VectorXd> acceleration) final;
 
     /**
      * Evaluate the spline at a given point
@@ -95,7 +88,7 @@ public:
     bool evaluatePoint(const double& t,
                        Eigen::Ref<Eigen::VectorXd> position,
                        Eigen::Ref<Eigen::VectorXd> velocity,
-                       Eigen::Ref<Eigen::VectorXd> acceleration);
+                       Eigen::Ref<Eigen::VectorXd> acceleration) final;
 
     /**
      * Evaluate the spline at a given point
@@ -103,8 +96,7 @@ public:
      * @param state of the system
      * @return True in case of success, false otherwise.
      */
-    bool evaluatePoint(const double& t,
-                       QuinticSplineState& state);
+    bool evaluatePoint(const double& t, SplineState& state) final;
 
     /**
      * Get the state of the system.
@@ -112,7 +104,7 @@ public:
      * features.
      * @return a const reference of the requested object.
      */
-    const QuinticSplineState& getOutput() const final;
+    const SplineState& getOutput() const final;
 
     /**
      * Determines the validity of the object retrieved with get()
@@ -129,7 +121,6 @@ public:
      * @return True if the advance is successfull.
      */
     bool advance() final;
-
 };
 } // namespace Planners
 } // namespace BipedalLocomotion
