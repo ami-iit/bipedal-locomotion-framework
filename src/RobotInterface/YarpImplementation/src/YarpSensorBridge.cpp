@@ -475,3 +475,38 @@ bool YarpSensorBridge::getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrent
 
     return true;
 }
+
+bool YarpSensorBridge::getMotorTorque(const std::string& jointName,
+                                       double& motorTorque,
+                                       OptionalDoubleRef receiveTimeInSeconds)
+{
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("[YarpSensorBridge::getMotorTorque] {} could not be found in the configured "
+                     "list of joints.",
+                     jointName);
+        return false;
+    }
+
+    motorTorque = m_pimpl->controlBoardRemapperMeasures.motorTorques[idx];
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorTorques(Eigen::Ref<Eigen::VectorXd> motorTorques,
+                                        OptionalDoubleRef receiveTimeInSeconds)
+{
+
+    motorTorques = m_pimpl->controlBoardRemapperMeasures.motorTorques;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}

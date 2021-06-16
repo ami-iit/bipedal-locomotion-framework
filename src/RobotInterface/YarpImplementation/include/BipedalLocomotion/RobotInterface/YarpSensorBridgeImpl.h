@@ -23,6 +23,7 @@
 #include <yarp/dev/IAnalogSensor.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IGenericSensor.h>
+#include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
 
 // YARP Camera Interfaces
@@ -59,6 +60,8 @@ struct YarpSensorBridge::Impl
         yarp::dev::IEncodersTimed* encoders{nullptr};
         yarp::dev::IAxisInfo* axis{nullptr};
         yarp::dev::ICurrentControl* currsensors{nullptr};
+        yarp::dev::ITorqueControl* itrq{ nullptr };
+
     };
 
     ControlBoardRemapperInterfaces controlBoardRemapperInterfaces;
@@ -107,10 +110,12 @@ struct YarpSensorBridge::Impl
         Eigen::VectorXd jointPositions;
         Eigen::VectorXd jointVelocities;
         Eigen::VectorXd motorCurrents;
+        Eigen::VectorXd motorTorques;
 
         Eigen::VectorXd jointPositionsUnordered;
         Eigen::VectorXd jointVelocitiesUnordered;
         Eigen::VectorXd motorCurrentsUnordered;
+        Eigen::VectorXd motorTorquesUnordered;
 
         double receivedTimeInSeconds;
     };
@@ -851,6 +856,7 @@ struct YarpSensorBridge::Impl
             ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.axis);
             ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.encoders);
             ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.itrq);
             if (ok)
             {
                 break;
@@ -887,18 +893,21 @@ struct YarpSensorBridge::Impl
         controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorTorques.resize(metaData.bridgeOptions.nrJoints);
 
         controlBoardRemapperMeasures.jointPositionsUnordered.resize(
             metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
             metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.motorCurrentsUnordered.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorTorquesUnordered.resize(metaData.bridgeOptions.nrJoints);
 
         // zero buffers
         controlBoardRemapperMeasures.remappedJointPermutationMatrix.setIdentity();
         controlBoardRemapperMeasures.jointPositions.setZero();
         controlBoardRemapperMeasures.jointVelocities.setZero();
         controlBoardRemapperMeasures.motorCurrents.setZero();
+        controlBoardRemapperMeasures.motorTorques.setZero();
     }
 
     /**
@@ -1268,6 +1277,9 @@ struct YarpSensorBridge::Impl
         ok = ok
              && controlBoardRemapperInterfaces.currsensors->getCurrents(
                  controlBoardRemapperMeasures.motorCurrentsUnordered.data());
+        ok = ok
+             && controlBoardRemapperInterfaces.itrq->getTorques(
+                 controlBoardRemapperMeasures.motorTorquesUnordered.data());
 
         if (!ok)
         {
@@ -1298,6 +1310,13 @@ struct YarpSensorBridge::Impl
             {
                 return false;
             }
+
+            if (nanExistsInVec(controlBoardRemapperMeasures.motorTorquesUnordered,
+                               logPrefix,
+                               "torque sensors"))
+            {
+                return false;
+            }
         }
 
         // convert from degrees to radians - YARP convention is to store joint positions in degrees
@@ -1312,6 +1331,10 @@ struct YarpSensorBridge::Impl
         controlBoardRemapperMeasures.motorCurrents.noalias()
             = controlBoardRemapperMeasures.remappedJointPermutationMatrix
               * controlBoardRemapperMeasures.motorCurrentsUnordered;
+
+        controlBoardRemapperMeasures.motorTorques.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.motorTorquesUnordered;
 
         controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
 

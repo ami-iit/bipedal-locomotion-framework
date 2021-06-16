@@ -365,6 +365,37 @@ protected:
     {
         return false;
     };
+
+    /**
+     * Get motor torques in NewtonMeter
+     * @param[in] jointName name of the joint
+     * @param[out] motorTorque motor current in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorTorque(const std::string& jointName,
+                                  double& motorTorque,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all motors' torque in NewtonMeter
+     * @param[out] motorTorques all motors' torque in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorTorques" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorTorques(Eigen::Ref<Eigen::VectorXd> motorTorques,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
 };
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
