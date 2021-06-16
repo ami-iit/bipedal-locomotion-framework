@@ -138,7 +138,7 @@ bool FTIMULoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         m_orientations[orientation] = Eigen::MatrixXd();
     }
 
-    // an IMU consist in gyro acc and orient
+    // an IMU consists gyro acc and orient
     for (const auto& IMU : m_IMUNames)
     {
         m_gyros[IMU] = Eigen::MatrixXd();
@@ -160,7 +160,7 @@ void FTIMULoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                                   Eigen::Ref<gyro_t> gyro,
                                   Eigen::Ref<orientation_t> orientation)
 {
-    // theThe output consists in 12 double, organized as follows:
+    // the output consists 12 double, organized as follows:
     //  euler angles [3]
     // linear acceleration [3]
     // angular speed [3]
