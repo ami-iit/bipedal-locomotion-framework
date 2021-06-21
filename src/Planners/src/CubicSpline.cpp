@@ -183,6 +183,7 @@ bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocit
                                        Eigen::Ref<const Eigen::VectorXd> /**acceleration*/)
 {
     m_pimpl->initialCondition.velocity = velocity;
+    m_pimpl->initialCondition.acceleration = Eigen::VectorXd::Zero(velocity.size());
 
     // Set the initial state for the advance interface
     m_pimpl->currentTrajectory.velocity = velocity;
@@ -190,6 +191,11 @@ bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocit
 
     // The initial conditions changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
+
+    if (m_pimpl->finalCondition.velocity.size() != 0 && !m_pimpl->knots.empty())
+    {
+        return this->evaluatePoint(m_pimpl->knots.front().timeInstant, m_pimpl->currentTrajectory);
+    }
 
     return true;
 }
@@ -202,6 +208,11 @@ bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
 
     // The final conditions changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
+
+    if (m_pimpl->initialCondition.velocity.size() != 0 && !m_pimpl->knots.empty())
+    {
+        return this->evaluatePoint(m_pimpl->knots.front().timeInstant, m_pimpl->currentTrajectory);
+    }
 
     return true;
 }
@@ -267,6 +278,12 @@ bool CubicSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
 
     // The knots changed. The coefficients are outdated.
     m_pimpl->areCoefficientsComputed = false;
+
+    if (m_pimpl->initialCondition.velocity.size() != 0
+        && m_pimpl->finalCondition.velocity.size() != 0)
+    {
+        return this->evaluatePoint(m_pimpl->knots.front().timeInstant, m_pimpl->currentTrajectory);
+    }
 
     return true;
 }
@@ -477,10 +494,8 @@ void CubicSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
     const auto& j = coordinateIndex;
 
     b[0] += 6
-            * (1 / std::pow(poly[i - 1].duration, 2)
-                   * (knots[i].position[j] - knots[i - 1].position[j])
-               + 1 / std::pow(poly[i].duration, 3)
-                     * (knots[i].position[j] - knots[i + 1].position[j]));
+            * ((knots[i].position[j] - knots[i - 1].position[j]) / std::pow(poly[i - 1].duration, 2)
+               + (knots[i + 1].position[j] - knots[i].position[j]) / std::pow(poly[i].duration, 2));
 }
 
 void CubicSpline::Impl::addKnownTermNextKnot(const std::size_t& knotIndex,
@@ -518,7 +533,7 @@ void CubicSpline::Impl::setPolynomialCoefficients(Polynomial& poly)
     poly.a0 = x0;
     poly.a1 = dx0;
     poly.a2 = -(3 * x0 - 3 * xT + 2 * T * dx0 + T * dxT) / (T * T);
-    poly.a3 = (2*x0 - 2*xT + T*dx0 + T*dxT) / (T * T * T);
+    poly.a3 = (2 * x0 - 2 * xT + T * dx0 + T * dxT) / (T * T * T);
 }
 
 void CubicSpline::Impl::computeIntermediateVelocities()
@@ -664,8 +679,8 @@ void CubicSpline::Impl::getVelocityAtTime(const double& t,
 }
 
 void CubicSpline::Impl::getAccelerationAtTime(const double& t,
-                                                const Polynomial& poly,
-                                                Eigen::Ref<Eigen::VectorXd> acceleration)
+                                              const Polynomial& poly,
+                                              Eigen::Ref<Eigen::VectorXd> acceleration)
 {
     // improve the readability of the code
     const auto& a2 = poly.a2;
@@ -691,19 +706,23 @@ bool CubicSpline::evaluatePoint(const double& t,
 
     if (t < m_pimpl->polynomials.front().initialPoint->timeInstant)
     {
-        position = m_pimpl->knots.front().position;
-        velocity = m_pimpl->knots.front().velocity;
-        acceleration = m_pimpl->knots.front().acceleration;
+        constexpr double initialTime = 0;
+
+        m_pimpl->getPositionAtTime(initialTime, m_pimpl->polynomials.front(), position);
+        m_pimpl->getVelocityAtTime(initialTime, m_pimpl->polynomials.front(), velocity);
+        m_pimpl->getAccelerationAtTime(initialTime, m_pimpl->polynomials.front(), acceleration);
+
 
         return true;
     }
 
     if (t >= m_pimpl->polynomials.back().finalPoint->timeInstant)
     {
-        position = m_pimpl->knots.back().position;
-        velocity = m_pimpl->knots.back().velocity;
-        acceleration = m_pimpl->knots.back().acceleration;
-
+        const double finalTime = m_pimpl->polynomials.back().finalPoint->timeInstant
+                                 - m_pimpl->polynomials.back().initialPoint->timeInstant;
+        m_pimpl->getPositionAtTime(finalTime, m_pimpl->polynomials.back(), position);
+        m_pimpl->getVelocityAtTime(finalTime, m_pimpl->polynomials.back(), velocity);
+        m_pimpl->getAccelerationAtTime(finalTime, m_pimpl->polynomials.back(), acceleration);
         return true;
     }
 
@@ -759,7 +778,7 @@ bool CubicSpline::advance()
     // indeed this function performs a binary search to find the sub-trajectory for a given time
     // instant. When the advance is called the sequence of the sub-trajectory is already
     // predetermined.
-    return evaluatePoint(m_pimpl->advanceCurrentTime, m_pimpl->currentTrajectory);
+    return this->evaluatePoint(m_pimpl->advanceCurrentTime, m_pimpl->currentTrajectory);
 }
 
 const SplineState& CubicSpline::getOutput() const
