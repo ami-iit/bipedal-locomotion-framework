@@ -6,6 +6,8 @@
  */
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Planners/CubicSpline.h>
+#include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -81,13 +83,42 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
-    m_planarPlanner.setInitialConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
-    m_planarPlanner.setFinalConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
+    std::string interpolationMethod{"min_acceleration"};
+    if (ptr->getParameter("interpolation_method", interpolationMethod))
+    {
+        if (interpolationMethod == "min_acceleration")
+        {
+            m_planarPlanner = std::make_unique<CubicSpline>();
+            m_heightPlanner = std::make_unique<CubicSpline>();
+        } else if (interpolationMethod == "min_jerk")
+        {
+            m_planarPlanner = std::make_unique<QuinticSpline>();
+            m_heightPlanner = std::make_unique<QuinticSpline>();
+        } else
+        {
+            log()->warn("{} The parameter named 'interpolation_method' must be equal to "
+                        "'min_acceleration' or 'min_jerk'. The 'min_acceleration' method will be "
+                        "used.",
+                        logPrefix);
+            m_planarPlanner = std::make_unique<CubicSpline>();
+            m_heightPlanner = std::make_unique<CubicSpline>();
+        }
+    } else
+    {
+        log()->info("{} The parameter named 'interpolation_method' not found. The "
+                    "'min_acceleration' method will be used.",
+                    logPrefix);
+        m_planarPlanner = std::make_unique<CubicSpline>();
+        m_heightPlanner = std::make_unique<CubicSpline>();
+    }
 
-    m_heightPlanner.setInitialConditions(Vector1d::Constant(footTakeOffVelocity),
-                                         Vector1d::Constant(footTakeOffAcceleration));
-    m_heightPlanner.setFinalConditions(Vector1d::Constant(footLandingVelocity),
-                                       Vector1d::Constant(footLandingAcceleration));
+    m_planarPlanner->setInitialConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
+    m_planarPlanner->setFinalConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
+
+    m_heightPlanner->setInitialConditions(Vector1d::Constant(footTakeOffVelocity),
+                                          Vector1d::Constant(footTakeOffAcceleration));
+    m_heightPlanner->setFinalConditions(Vector1d::Constant(footLandingVelocity),
+                                        Vector1d::Constant(footLandingAcceleration));
 
     return true;
 }
@@ -146,10 +177,10 @@ bool SwingFootPlanner::updateSE3Traj()
     }
 
     manif::SE3d::Translation position;
-    if (!m_planarPlanner.evaluatePoint(m_currentTrajectoryTime,
-                                       position.head<2>(),
-                                       m_state.mixedVelocity.coeffs().head<2>(),
-                                       m_state.mixedAcceleration.coeffs().head<2>()))
+    if (!m_planarPlanner->evaluatePoint(m_currentTrajectoryTime,
+                                        position.head<2>(),
+                                        m_state.mixedVelocity.coeffs().head<2>(),
+                                        m_state.mixedAcceleration.coeffs().head<2>()))
     {
         log()->error("{} Unable to get the planar trajectory at time t = {}.",
                      logPrefix,
@@ -157,10 +188,10 @@ bool SwingFootPlanner::updateSE3Traj()
         return false;
     }
 
-    if (!m_heightPlanner.evaluatePoint(m_currentTrajectoryTime,
-                                       position.segment<1>(2),
-                                       m_state.mixedVelocity.coeffs().segment<1>(2),
-                                       m_state.mixedAcceleration.coeffs().segment<1>(2)))
+    if (!m_heightPlanner->evaluatePoint(m_currentTrajectoryTime,
+                                        position.segment<1>(2),
+                                        m_state.mixedVelocity.coeffs().segment<1>(2),
+                                        m_state.mixedAcceleration.coeffs().segment<1>(2)))
     {
         log()->error("{} Unable to the height trajectory at time t = {}.",
                      logPrefix,
@@ -223,10 +254,10 @@ bool SwingFootPlanner::advance()
             return false;
         }
 
-        if (!m_planarPlanner.setKnots({m_currentContactPtr->pose.translation().head<2>(),
-                                       nextContactPtr->pose.translation().head<2>()},
-                                      {m_currentContactPtr->deactivationTime,
-                                       nextContactPtr->activationTime}))
+        if (!m_planarPlanner->setKnots({m_currentContactPtr->pose.translation().head<2>(),
+                                        nextContactPtr->pose.translation().head<2>()},
+                                       {m_currentContactPtr->deactivationTime,
+                                        nextContactPtr->activationTime}))
         {
             log()->error("{} Unable to set the knots for the planar planner.", logPrefix);
             return false;
@@ -240,12 +271,12 @@ bool SwingFootPlanner::advance()
         const double footHeightViaPointTime = m_footApexTime * T //
                                               + m_currentContactPtr->deactivationTime;
 
-        if (!m_heightPlanner.setKnots({m_currentContactPtr->pose.translation().tail<1>(),
-                                       Vector1d::Constant(footHeightViaPointPos),
-                                       nextContactPtr->pose.translation().tail<1>()},
-                                      {m_currentContactPtr->deactivationTime,
-                                       footHeightViaPointTime,
-                                       nextContactPtr->activationTime}))
+        if (!m_heightPlanner->setKnots({m_currentContactPtr->pose.translation().tail<1>(),
+                                        Vector1d::Constant(footHeightViaPointPos),
+                                        nextContactPtr->pose.translation().tail<1>()},
+                                       {m_currentContactPtr->deactivationTime,
+                                        footHeightViaPointTime,
+                                        nextContactPtr->activationTime}))
         {
             log()->error("{} Unable to set the knots for the knots for the height planner.",
                          logPrefix);
