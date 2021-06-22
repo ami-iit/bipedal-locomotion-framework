@@ -34,6 +34,7 @@ public:
         PositionDirect,
         Velocity,
         Torque,
+        PWM,
         Idle,
         Unknown
     };
