@@ -1,7 +1,7 @@
 /**
  * @file CubicSpline.cpp
  * @authors Giulio Romualdi
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -39,8 +39,8 @@ struct CubicSpline::Impl
     };
 
     /**
-     * Description of a 5-th polynomial. It contains the coefficients, the initial/final knots and
-     * the duration of the sub-trajectory.
+     * Description of a 3-rd order polynomial. It contains the coefficients, the initial/final knots
+     * and the duration of the sub-trajectory.
      */
     struct Polynomial
     {
