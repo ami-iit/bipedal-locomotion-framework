@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Implement `CubicSpline` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/344)
+
 ### Changed
 ### Fix
 

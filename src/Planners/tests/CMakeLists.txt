@@ -13,8 +13,8 @@ add_bipedal_test(
   LINKS BipedalLocomotion::Planners BipedalLocomotion::Math)
 
 add_bipedal_test(
-  NAME QuinticSpline
-  SOURCES QuinticSplineTest.cpp
+  NAME Spline
+  SOURCES SplineTest.cpp
   LINKS BipedalLocomotion::Planners)
 
 add_bipedal_test(
