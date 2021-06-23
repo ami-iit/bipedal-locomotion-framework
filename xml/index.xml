@@ -325,6 +325,20 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper_1a4766ad4374ab2f8166e0da45c369d5ff" kind="function"><name>getB</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper_1a6e074f7a65e5a4f21abc308cad879254" kind="function"><name>doesPointBelongToConvexHull</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline" kind="class"><name>BipedalLocomotion::Planners::CubicSpline</name>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" kind="function"><name>CubicSpline</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" kind="function"><name>~CubicSpline</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1acbee3fa75198f035fe81ee91745c8799" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" kind="function"><name>setInitialConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" kind="function"><name>setFinalConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" kind="function"><name>advance</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner" kind="class"><name>BipedalLocomotion::Planners::DCMPlanner</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner_1afd0891b02c4ecda84047fce1c7804ca2" kind="variable"><name>m_contactPhaseList</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner_1af1b8d72d4fe9eddc15fad125b4655c94" kind="variable"><name>m_initialState</name></member>
@@ -972,20 +986,15 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a7c5da046de13a4c62daa918fe741dae3" kind="function"><name>QuinticSpline</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a9baf5f5d4cb3b31a87367fa06c8c28aa" kind="function"><name>~QuinticSpline</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a105ca567abca30688a2722f6f062bdba" kind="function"><name>setAdvanceTimeStep</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aba1cdaadf1952e4b43f94711fa3c68cc" kind="function"><name>setKnots</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1abfdd332e0cf65e2d4b231663b938c5cb" kind="function"><name>setInitialConditions</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afa680e10fef4fc43abab83bc92546009" kind="function"><name>setFinalConditions</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ae3ec3f6b124d26b9f43c87a9e47256f1" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a038826cb0f15b2f4558d67104448136b" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a172bdca6699f854afe9a0d568d30bb27" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aa0d30f220b34263ad6478c220d9453e8" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a5911832330c2e084958f95abe4e82f2e" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a855f70765cc5897ab037dc5e32321336" kind="function"><name>setInitialConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a2d51cc453148c20f5e614a24d981fd12" kind="function"><name>setFinalConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a231485a164f44b5c6e533b5e2b2bd38c" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ae32c2232d61cad9767f73de365795054" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a4c1563c14094002279156a834fa1bc8b" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aade486dcd2cb26b789d0ef5fa8020b7a" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19" kind="function"><name>advance</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1QuinticSplineState" kind="struct"><name>BipedalLocomotion::Planners::QuinticSplineState</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1QuinticSplineState_1a7680f934f4132c100255212cd52b7c7d" kind="variable"><name>position</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1QuinticSplineState_1a3d030d9f5929dab361cf5904b9594e08" kind="variable"><name>velocity</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1QuinticSplineState_1adb7c4e04f1279006a05ad856aeadb715" kind="variable"><name>acceleration</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense" kind="class"><name>BipedalLocomotion::Perception::Capture::RealSense</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3f194396f0831ef9592e5e511769187a" kind="variable"><name>m_pimpl</name></member>
@@ -1253,6 +1262,20 @@
   <compound refid="classBipedalLocomotion_1_1System_1_1Source" kind="class"><name>BipedalLocomotion::System::Source</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" kind="function"><name>setInput</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Planners_1_1Spline" kind="class"><name>BipedalLocomotion::Planners::Spline</name>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" kind="function"><name>~Spline</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a40f1241c9e553e8a4f33b62f9a9a32e3" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1af1b18d50995240b7bf3f14098a1e6b8b" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a2551f619b85dfd0f728e9b03cf789f8c" kind="function"><name>setInitialConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a65f6e6d2c5294b562c9aa8e491acd1ef" kind="function"><name>setFinalConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a9023fedffb5a53b2789ff1eccb794b2a" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a6d6f6c042859aaa97738aafec74c6b8e" kind="function"><name>evaluatePoint</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kind="struct"><name>BipedalLocomotion::Planners::SplineState</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1aa070f24d1636fd05fd15f1460f7d23d9" kind="variable"><name>position</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1a821f4bd8438a473aa362d6f11a3c1f1f" kind="variable"><name>velocity</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1a6ef3083a77f769c4f3d12cfec22ecac9" kind="variable"><name>acceleration</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev" kind="struct"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators::StateStdDev</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev_1a8355c40668f028c2cec98b61d0839455" kind="variable"><name>imuOrientation</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev_1a679da3ba4320b6a783aa43fefb6344fb" kind="variable"><name>imuPosition</name></member>
@@ -1315,8 +1338,8 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a11f2f1f64a11a1e80c1e37d8fda93e64" kind="variable"><name>m_contactList</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1abbe64bad1f881b30483dfe2c880a0465" kind="variable"><name>m_currentContactPtr</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" kind="variable"><name>m_SO3Planner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a419127b1cec32bd0827b160f132cc122" kind="variable"><name>m_planarPlanner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aecf4110df14aac0f0cac596c6abac33f" kind="variable"><name>m_heightPlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a23846c39d1f958e505203548f3a4308e" kind="variable"><name>m_planarPlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a45a257e2358aaa3bbe6c02a993d3ea85" kind="variable"><name>m_heightPlanner</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad22ed48af0c25891c140707a2308c350" kind="variable"><name>m_stepHeight</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a5a169917029284c391fb12021e22bb6a" kind="variable"><name>m_footApexTime</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" kind="function"><name>updateSE3Traj</name></member>
@@ -1871,6 +1894,8 @@
   </compound>
   <compound refid="ConvexHullHelper_8h" kind="file"><name>ConvexHullHelper.h</name>
   </compound>
+  <compound refid="CubicSpline_8h" kind="file"><name>CubicSpline.h</name>
+  </compound>
   <compound refid="DCMPlanner_8h" kind="file"><name>DCMPlanner.h</name>
   </compound>
   <compound refid="QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
@@ -1881,6 +1906,8 @@
     <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" kind="enumvalue"><name>Right</name></member>
     <member refid="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" kind="typedef"><name>SO3PlannerInertial</name></member>
     <member refid="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" kind="typedef"><name>SO3PlannerBody</name></member>
+  </compound>
+  <compound refid="Spline_8h" kind="file"><name>Spline.h</name>
   </compound>
   <compound refid="SwingFootPlanner_8h" kind="file"><name>SwingFootPlanner.h</name>
   </compound>

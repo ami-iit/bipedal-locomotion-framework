@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::Planners::QuinticSpline class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Planners::CubicSpline class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -60,10 +60,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>QuinticSpline <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="QuinticSpline_8h.html">&lt;BipedalLocomotion/Planners/QuinticSpline.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>CubicSpline <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CubicSpline_8h.html">&lt;BipedalLocomotion/Planners/CubicSpline.h&gt;</a></div>
         </h1>
-        <p>Quintic spline implement a 5-th order polynomial spline in $f\mathbb{R}^n$f.</p>
+        <p>Cubic spline implement a 3-rd order polynomial spline in $f\mathbb{R}^n$f.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -101,12 +101,12 @@ $\mathbb{R}^n$
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a7c5da046de13a4c62daa918fe741dae3">
-              <span class="m-doc-wrap-bumper"><a href="#a7c5da046de13a4c62daa918fe741dae3" class="m-doc-self">QuinticSpline</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="a9af3abe5caf25faa64356c6f8c3a3a70">
+              <span class="m-doc-wrap-bumper"><a href="#a9af3abe5caf25faa64356c6f8c3a3a70" class="m-doc-self">CubicSpline</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a href="#a9baf5f5d4cb3b31a87367fa06c8c28aa" class="m-doc">~QuinticSpline</a>(</span><span class="m-doc-wrap">)</span>
+              <span class="m-doc-wrap-bumper"><a href="#a356f153c295d5c215e3bdb16c126b733" class="m-doc">~CubicSpline</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Destructor.</dd>
           </dl>
@@ -115,62 +115,62 @@ $\mathbb{R}^n$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa0d30f220b34263ad6478c220d9453e8" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#acbee3fa75198f035fe81ee91745c8799" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the time step of the advance interface.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5911832330c2e084958f95abe4e82f2e" class="m-doc">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
+              <span class="m-doc-wrap-bumper">auto <a href="#a2690aadc0eea0b3f48ea5037a7fc4bd1" class="m-doc">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
               const std::vector&lt;double&gt;&amp; time) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the knots of the spline.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a855f70765cc5897ab037dc5e32321336" class="m-doc">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
+              <span class="m-doc-wrap-bumper">auto <a href="#a3ffc62e16b2197e769d0fcbea22300f6" class="m-doc">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; acceleration) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the initial condition of the spline.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2d51cc453148c20f5e614a24d981fd12" class="m-doc">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
+              <span class="m-doc-wrap-bumper">auto <a href="#ae4c21ccbd97d190d54cd9aafc7df2109" class="m-doc">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; acceleration) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the final condition of the spline.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a231485a164f44b5c6e533b5e2b2bd38c" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">auto <a href="#a837809322e9e6b336cc3b598f94bf278" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
               Eigen::Ref&lt;Eigen::VectorXd&gt; position,
               Eigen::Ref&lt;Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;Eigen::VectorXd&gt; acceleration) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Evaluate the spline at a given point.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae32c2232d61cad9767f73de365795054" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">auto <a href="#a63ab469c950c7f5f12f8fc5ae07248b9" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
               <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; state) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Evaluate the spline at a given point.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4c1563c14094002279156a834fa1bc8b" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a002da0f215ba10ca204e84de2e1080de" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Get the state of the system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aade486dcd2cb26b789d0ef5fa8020b7a" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac09c1790195dc45acfb5838072e8d6e7" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Determines the validity of the object retrieved with get()</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#afaf364e18dc00d866aef74cf9aff1a19" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1129d62c0563b8c6b522d4dbc670de1d" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Advance the internal state.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a9baf5f5d4cb3b31a87367fa06c8c28aa"><div>
+          <section class="m-doc-details" id="a356f153c295d5c215e3bdb16c126b733"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9baf5f5d4cb3b31a87367fa06c8c28aa" class="m-doc-self">~QuinticSpline</a>(</span><span class="m-doc-wrap">)</span></span>
+              <span class="m-doc-wrap-bumper"> BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a356f153c295d5c215e3bdb16c126b733" class="m-doc-self">~CubicSpline</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
             <p>Destructor.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>It is required by the PIMPL idiom.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa0d30f220b34263ad6478c220d9453e8"><div>
+          <section class="m-doc-details" id="acbee3fa75198f035fe81ee91745c8799"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa0d30f220b34263ad6478c220d9453e8" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acbee3fa75198f035fe81ee91745c8799" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the time step of the advance interface.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -192,9 +192,9 @@ $\mathbb{R}^n$
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>if the the time step is not set the user cannot use the advance features.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a5911832330c2e084958f95abe4e82f2e"><div>
+          <section class="m-doc-details" id="a2690aadc0eea0b3f48ea5037a7fc4bd1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5911832330c2e084958f95abe4e82f2e" class="m-doc-self">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2690aadc0eea0b3f48ea5037a7fc4bd1" class="m-doc-self">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
               const std::vector&lt;double&gt;&amp; time) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the knots of the spline.</p>
@@ -220,9 +220,9 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a855f70765cc5897ab037dc5e32321336"><div>
+          <section class="m-doc-details" id="a3ffc62e16b2197e769d0fcbea22300f6"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a855f70765cc5897ab037dc5e32321336" class="m-doc-self">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3ffc62e16b2197e769d0fcbea22300f6" class="m-doc-self">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; acceleration) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the initial condition of the spline.</p>
@@ -247,10 +247,11 @@ $\mathbb{R}^n$
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the acceleration is not considered in the spline evaluation</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a2d51cc453148c20f5e614a24d981fd12"><div>
+          <section class="m-doc-details" id="ae4c21ccbd97d190d54cd9aafc7df2109"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2d51cc453148c20f5e614a24d981fd12" class="m-doc-self">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae4c21ccbd97d190d54cd9aafc7df2109" class="m-doc-self">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; acceleration) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the final condition of the spline.</p>
@@ -275,10 +276,11 @@ $\mathbb{R}^n$
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the acceleration is not considered in the spline evaluation</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a231485a164f44b5c6e533b5e2b2bd38c"><div>
+          <section class="m-doc-details" id="a837809322e9e6b336cc3b598f94bf278"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a231485a164f44b5c6e533b5e2b2bd38c" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a837809322e9e6b336cc3b598f94bf278" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
               Eigen::Ref&lt;Eigen::VectorXd&gt; position,
               Eigen::Ref&lt;Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;Eigen::VectorXd&gt; acceleration) <span class="m-label m-warning">final</span></span></span>
@@ -314,9 +316,9 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ae32c2232d61cad9767f73de365795054"><div>
+          <section class="m-doc-details" id="a63ab469c950c7f5f12f8fc5ae07248b9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae32c2232d61cad9767f73de365795054" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a63ab469c950c7f5f12f8fc5ae07248b9" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
               <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; state) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Evaluate the spline at a given point.</p>
@@ -342,9 +344,9 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a4c1563c14094002279156a834fa1bc8b"><div>
+          <section class="m-doc-details" id="a002da0f215ba10ca204e84de2e1080de"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4c1563c14094002279156a834fa1bc8b" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a002da0f215ba10ca204e84de2e1080de" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Get the state of the system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -357,9 +359,9 @@ $\mathbb{R}^n$
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>if the the time step of the advance is not set the user cannot use the advance features.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aade486dcd2cb26b789d0ef5fa8020b7a"><div>
+          <section class="m-doc-details" id="ac09c1790195dc45acfb5838072e8d6e7"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aade486dcd2cb26b789d0ef5fa8020b7a" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac09c1790195dc45acfb5838072e8d6e7" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Determines the validity of the object retrieved with get()</p>
             <table class="m-table m-fullwidth m-flat">
@@ -372,9 +374,9 @@ $\mathbb{R}^n$
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>if the the time step of the advance is not set the user cannot use the advance features.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="afaf364e18dc00d866aef74cf9aff1a19"><div>
+          <section class="m-doc-details" id="a1129d62c0563b8c6b522d4dbc670de1d"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />QuinticSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afaf364e18dc00d866aef74cf9aff1a19" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1129d62c0563b8c6b522d4dbc670de1d" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Advance the internal state.</p>
             <table class="m-table m-fullwidth m-flat">

@@ -41,11 +41,9 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="21">
+      <node id="25">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="QuinticSpline_8h"/>
-        <childnode refid="22" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
@@ -75,7 +73,7 @@
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
       </node>
-      <node id="23">
+      <node id="21">
         <label>BipedalLocomotion/Planners/SO3Planner.h</label>
         <link refid="SO3Planner_8h"/>
         <childnode refid="22" relation="include">
@@ -135,6 +133,10 @@
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
+      <node id="24">
+        <label>BipedalLocomotion/Planners/CubicSpline.h</label>
+        <link refid="CubicSpline_8h"/>
+      </node>
       <node id="22">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
@@ -181,6 +183,16 @@
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
         <link refid="DCMPlanner_8h"/>
         <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>BipedalLocomotion/Planners/Spline.h</label>
+        <link refid="Spline_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

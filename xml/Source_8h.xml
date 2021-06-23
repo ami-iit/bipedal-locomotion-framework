@@ -11,8 +11,8 @@
     <includedby refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includedby>
     <includedby refid="ContactDetector_8h" local="no">BipedalLocomotion/ContactDetectors/ContactDetector.h</includedby>
     <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
-    <includedby refid="QuinticSpline_8h" local="no">BipedalLocomotion/Planners/QuinticSpline.h</includedby>
     <includedby refid="SO3Planner_8h" local="no">BipedalLocomotion/Planners/SO3Planner.h</includedby>
+    <includedby refid="Spline_8h" local="no">BipedalLocomotion/Planners/Spline.h</includedby>
     <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
     <incdepgraph>
       <node id="2">
@@ -53,11 +53,9 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="18">
+      <node id="22">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="QuinticSpline_8h"/>
-        <childnode refid="19" relation="include">
-        </childnode>
       </node>
       <node id="8">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
@@ -71,7 +69,7 @@
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
       </node>
-      <node id="20">
+      <node id="18">
         <label>BipedalLocomotion/Planners/SO3Planner.h</label>
         <link refid="SO3Planner_8h"/>
         <childnode refid="19" relation="include">
@@ -131,6 +129,10 @@
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
+      <node id="21">
+        <label>BipedalLocomotion/Planners/CubicSpline.h</label>
+        <link refid="CubicSpline_8h"/>
+      </node>
       <node id="19">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
@@ -173,6 +175,16 @@
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
         <link refid="DCMPlanner_8h"/>
         <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>BipedalLocomotion/Planners/Spline.h</label>
+        <link refid="Spline_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
