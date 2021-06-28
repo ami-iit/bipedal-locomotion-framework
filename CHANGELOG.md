@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [Unreleased]
 ### Added
 - Implement `CubicSpline` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/344)
+- Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
 
 ### Changed
 ### Fix
