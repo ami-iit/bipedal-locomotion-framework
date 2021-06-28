@@ -667,6 +667,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bcaa72edba28a392d1e46a021cdc04a4536" kind="enumvalue"><name>PositionDirect</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bca88156d46910a2d733443c339a9231d12" kind="enumvalue"><name>Velocity</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bca1aaf5a08dfe16d89a8ca6f8de4cfb0ca" kind="enumvalue"><name>Torque</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bca8449bc264b69c3a0fe8b60361eaf7aeb" kind="enumvalue"><name>PWM</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bcae599161956d626eda4cb0a5ffb85271c" kind="enumvalue"><name>Idle</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bca88183b946cc5f0e8c96b2e66e1c74a7e" kind="enumvalue"><name>Unknown</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a83a31cc243335220b2c218b8534f6851" kind="typedef"><name>unique_ptr</name></member>

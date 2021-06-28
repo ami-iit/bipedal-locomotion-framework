@@ -228,7 +228,7 @@
 </parameterlist>
 <simplesect kind="return"><para>True/False in case of success/failure. </para>
 </simplesect>
-<simplesect kind="note"><para>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. </para>
+<simplesect kind="note"><para>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. If the robot is controlled in PWM, the desired joint values are between -100 and 100. </para>
 </simplesect>
 <simplesect kind="warning"><para>At the current stage only revolute joints are supported. </para>
 </simplesect>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="89" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="90" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a94bc2f427bffa43aa1bd4da7ff0a9ad8" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -275,7 +275,7 @@
 </parameterlist>
 <simplesect kind="return"><para>True/False in case of success/failure. </para>
 </simplesect>
-<simplesect kind="note"><para>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. </para>
+<simplesect kind="note"><para>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. If the robot is controlled in PWM, the desired joint values are between -100 and 100. </para>
 </simplesect>
 <simplesect kind="warning"><para>Call this function if you want to control all the joint with the same control mode. Otherwise call setReferences(Eigen::Ref&lt;const Eigen::VectorXd&gt;, const std::vector&lt;IRobotControl::ControlMode&gt;&amp;). </para>
 </simplesect>
@@ -283,7 +283,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="106" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a4968e571c4433e54b89a7c83fdfeace2" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -301,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="111" column="17"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="113" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a2fc36acedb0eb8d541d20a720247f83f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -315,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="116" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="118" column="5"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -350,7 +350,7 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="31" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpRobotControl.h" bodystart="32" bodyend="117"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="31" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpRobotControl.h" bodystart="32" bodyend="119"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a69d3aac94055729d5fbff666ae1ceb83" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>checkMotionDone</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>ControlMode</name></member>
