@@ -52,11 +52,16 @@ namespace RobotInterface
  * |     Group                  |         Parameter               | Type              |                   Description                   |
  * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
  * |                            |check_for_nan                    | boolean           |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
- * |                            |stream_joint_states              | boolean           |Flag to activate the attachment to IMU sensor devices       |
+ * |                            |stream_joint_states              | boolean           |Flag to activate the attachment to remapped control boards for joint states reading     |
  * |                            |stream_inertials                 | boolean           |Flag to activate the attachment to IMU sensor devices       |
  * |                            |stream_cartesian_wrenches        | boolean           |Flag to activate the attachment to Cartesian wrench related devices       |
  * |                            |stream_forcetorque_sensors       | boolean           |Flag to activate the attachment to six axis FT sensor devices       |
  * |                            |stream_cameras                   | boolean           |Flag to activate the attachment to Cameras devices       |
+ * |                            |stream_pids                      | boolean           |Flag to activate the attachment to remapped control boards for pids reading      |
+ * |                            |stream_motor_states              | boolean           |Flag to activate the attachment to remapped control boards for motor states reading      |
+ * |                            |stream_motor_PWM                 | boolean           |Flag to activate the attachment to remapped control boards for PWM reading      |
+ * |                            |stream_joint_torques             | boolean           |Flag to activate the attachment to remapped control boards for joint torques reading      |
+ * |                            |stream_current_sensors           | boolean           |Flag to activate the attachment to remapped control boards for current sensors reading      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
@@ -362,29 +367,154 @@ public:
                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
-     * Get motor torque in NewtonMeter
+     * Get motor PWM
      * @param[in] jointName name of the joint
-     * @param[out] motorTorque motor current in NewtonMeter
+     * @param[out] motorPWM motor PWM
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @return true/false in case of success/failure
      */
-    bool getMotorTorque(const std::string& jointName,
-                          double& motorTorque,
+    bool getMotorPWM(const std::string& jointName,
+                          double& motorPWM,
                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
-     * Get all motors' torques in NewtonMeter
-     * @param[out] motorTorques all motors' torque in NewtonMeter
+     * Get all motors' PWMs
+     * @param[out] motorPWMs all motors' PWM in ampere
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "motorTorques" to this method
+     * This means that the user must pass a resized argument "motorPWMs" to this method
      *
      * @return true/false in case of success/failure
      */
-    bool getMotorTorques(Eigen::Ref<Eigen::VectorXd> motorTorques,
+    bool getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get motor torque in NewtonMeter
+     * @param[in] jointName name of the joint
+     * @param[out] jointTorque motor torque in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    bool getJointTorque(const std::string& jointName,
+                          double& jointTorque,
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all motors' torques in NewtonMeter
+     * @param[out] jointTorques all motors' torque in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "jointTorques" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    bool getJointTorques(Eigen::Ref<Eigen::VectorXd> jointTorques,
+                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get pid position in rad
+     * @param[in] jointName name of the joint
+     * @param[out] pidPosition pid position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPosition(const std::string& jointName,
+                                  double& pidPosition,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all pid positions in rad
+     * @param[out] pidPositions all pid positions in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "pidPositions" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositions(Eigen::Ref<Eigen::VectorXd> pidPositions,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get pid position error in rad
+     * @param[in] jointName name of the joint
+     * @param[out] pidPositionError pid position error in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositionError(const std::string& jointName,
+                                  double& pidPositionError,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all pid position errors in rad
+     * @param[out] pidPositionErrors all pid position errors in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "pidPositionErrors" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositionErrors(Eigen::Ref<Eigen::VectorXd> pidPositionErrors,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get motor position in rad
+     * @param[in] jointName name of the joint
+     * @param[out] motorPosition motor position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorPosition(const std::string& jointName,
+                                  double& motorPosition,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all motors' positions in rad
+     * @param[out] parameter all motors' position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorPositions" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorPositions(Eigen::Ref<Eigen::VectorXd> motorPositions,
+                                   OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get motor velocity in rad/s
+     * @param[in] jointName name of the joint
+     * @param[out] motorVelocity motor velocity in radians per second
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorVelocity(const std::string& jointName,
+                                  double& motorVelocity,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all motors' velocities in rad/s
+     * @param[out] parameter all motors' velocities in radians per second
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorVelocties" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVelocties,
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
 private:
     /** Private implementation */

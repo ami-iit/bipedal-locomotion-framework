@@ -25,6 +25,9 @@
 #include <yarp/dev/IGenericSensor.h>
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
+#include <yarp/dev/IMotorEncoders.h>
+#include <yarp/dev/IPidControl.h>
+#include <yarp/dev/IAmplifierControl.h>
 
 // YARP Camera Interfaces
 #include <yarp/dev/FrameGrabberInterfaces.h>
@@ -60,8 +63,10 @@ struct YarpSensorBridge::Impl
         yarp::dev::IEncodersTimed* encoders{nullptr};
         yarp::dev::IAxisInfo* axis{nullptr};
         yarp::dev::ICurrentControl* currsensors{nullptr};
-        yarp::dev::ITorqueControl* itrq{ nullptr };
-
+        yarp::dev::ITorqueControl* torques{ nullptr };
+        yarp::dev::IMotorEncoders* motorEncoders{ nullptr };
+        yarp::dev::IPidControl* pids{ nullptr };
+        yarp::dev::IAmplifierControl* amp{nullptr};
     };
 
     ControlBoardRemapperInterfaces controlBoardRemapperInterfaces;
@@ -110,12 +115,22 @@ struct YarpSensorBridge::Impl
         Eigen::VectorXd jointPositions;
         Eigen::VectorXd jointVelocities;
         Eigen::VectorXd motorCurrents;
-        Eigen::VectorXd motorTorques;
+        Eigen::VectorXd jointTorques;
+        Eigen::VectorXd motorPositions;
+        Eigen::VectorXd motorVelocities;
+        Eigen::VectorXd pidPositions;
+        Eigen::VectorXd pidPositionErrors;
+        Eigen::VectorXd motorPWMs;
 
         Eigen::VectorXd jointPositionsUnordered;
         Eigen::VectorXd jointVelocitiesUnordered;
         Eigen::VectorXd motorCurrentsUnordered;
-        Eigen::VectorXd motorTorquesUnordered;
+        Eigen::VectorXd jointTorquesUnordered;
+        Eigen::VectorXd motorPositionsUnordered;
+        Eigen::VectorXd motorVelocitiesUnordered;
+        Eigen::VectorXd pidPositionsUnordered;
+        Eigen::VectorXd pidPositionErrorsUnordered;
+        Eigen::VectorXd motorPWMsUnordered;
 
         double receivedTimeInSeconds;
     };
@@ -855,8 +870,6 @@ struct YarpSensorBridge::Impl
         {
             ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.axis);
             ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.encoders);
-            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
-            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.itrq);
             if (ok)
             {
                 break;
@@ -881,6 +894,229 @@ struct YarpSensorBridge::Impl
     }
 
     /**
+     * Attach a remapped control board for current measurements and check the availability of desired interface
+     * Further, resize joint data buffers and check if
+     * the control board joints list and the desired joints list match
+     * Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations
+     */
+    bool attachCurrentSensors(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isCurrentSensorsEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachCurrentSensors]";
+
+        bool ok{true};
+        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+        {
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);;
+            if (ok)
+            {
+                break;
+            }
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
+            return false;
+        }
+
+        // resize control boards data buffers
+        controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorCurrentsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorCurrents.setZero();
+
+        return true;
+    }
+
+    /**
+     * Attach a remapped control board for pwm measurements and check the availability of desired interface
+     * Further, resize joint data buffers and check if
+     * the control board joints list and the desired joints list match
+     * Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations
+     */
+    bool attachMotorPWMs(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isPWMControlEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachMotorPWM]";
+
+        bool ok{true};
+        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+        {
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);;
+            if (ok)
+            {
+                break;
+            }
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
+            return false;
+        }
+
+        // resize control boards data buffers
+        controlBoardRemapperMeasures.motorPWMs.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorPWMsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorPWMs.setZero();
+
+        return true;
+    }
+
+    /**
+     * Attach a remapped control board for current measurements and check the availability of desired interface
+     * Further, resize joint data buffers and check if
+     * the control board joints list and the desired joints list match
+     * Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations
+     */
+    bool attachMotorEncoders(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isMotorEncodersEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachMotorEncoders]";
+
+        bool ok{true};
+        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+        {
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motorEncoders);;
+            if (ok)
+            {
+                break;
+            }
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
+            return false;
+        }
+
+        // resize control boards data buffers
+        controlBoardRemapperMeasures.motorPositions.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorVelocities.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorPositionsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorVelocitiesUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.motorPositions.setZero();
+        controlBoardRemapperMeasures.motorVelocities.setZero();
+
+        return true;
+    }
+
+    /**
+     * Attach a remapped control board for torque estimation and check the availability of desired interface
+     * Further, resize joint data buffers and check if
+     * the control board joints list and the desired joints list match
+     * Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations
+     */
+    bool attachWBDJointTorqueEstimates(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isWBDEstimatesEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachWBDJointTorqueEstimates]";
+
+        bool ok{true};
+        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+        {
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.torques);
+            if (ok)
+            {
+                break;
+            }
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
+            return false;
+        }
+
+        // resize control boards data buffers
+        controlBoardRemapperMeasures.jointTorques.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.jointTorquesUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.jointTorques.setZero();
+
+        return true;
+    }
+
+    /**
+     * Attach a remapped control board for pids and check the availability of desired interface
+     * Further, resize joint data buffers and check if
+     * the control board joints list and the desired joints list match
+     * Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations
+     */
+    bool attachPIDsRemappedControlBoard(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isPIDsEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachPIDs]";
+
+        bool ok{true};
+        for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+        {
+            ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
+            if (ok)
+            {
+                break;
+            }
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Could not find a remapped remote control board with the desired "
+                         "interfaces",
+                         logPrefix);
+            return false;
+        }
+
+        // resize control boards data buffers
+        controlBoardRemapperMeasures.pidPositions.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.pidPositionErrors.resize(metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.pidPositionsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.pidPositionErrorsUnordered.resize(
+            metaData.bridgeOptions.nrJoints);
+        controlBoardRemapperMeasures.pidPositions.setZero();
+        controlBoardRemapperMeasures.pidPositionErrors.setZero();
+
+        return true;
+    }
+
+    /**
      * resize and set control board buffers to zero
      */
     void resetControlBoardBuffers()
@@ -892,22 +1128,16 @@ struct YarpSensorBridge::Impl
 
         controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
-        controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
-        controlBoardRemapperMeasures.motorTorques.resize(metaData.bridgeOptions.nrJoints);
 
         controlBoardRemapperMeasures.jointPositionsUnordered.resize(
             metaData.bridgeOptions.nrJoints);
         controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
             metaData.bridgeOptions.nrJoints);
-        controlBoardRemapperMeasures.motorCurrentsUnordered.resize(metaData.bridgeOptions.nrJoints);
-        controlBoardRemapperMeasures.motorTorquesUnordered.resize(metaData.bridgeOptions.nrJoints);
 
         // zero buffers
         controlBoardRemapperMeasures.remappedJointPermutationMatrix.setIdentity();
         controlBoardRemapperMeasures.jointPositions.setZero();
         controlBoardRemapperMeasures.jointVelocities.setZero();
-        controlBoardRemapperMeasures.motorCurrents.setZero();
-        controlBoardRemapperMeasures.motorTorques.setZero();
     }
 
     /**
@@ -1277,10 +1507,6 @@ struct YarpSensorBridge::Impl
         ok = ok
              && controlBoardRemapperInterfaces.currsensors->getCurrents(
                  controlBoardRemapperMeasures.motorCurrentsUnordered.data());
-        ok = ok
-             && controlBoardRemapperInterfaces.itrq->getTorques(
-                 controlBoardRemapperMeasures.motorTorquesUnordered.data());
-
         if (!ok)
         {
             log()->error("{} Unable to read from encoders interface, use previous measurement.",
@@ -1310,13 +1536,6 @@ struct YarpSensorBridge::Impl
             {
                 return false;
             }
-
-            if (nanExistsInVec(controlBoardRemapperMeasures.motorTorquesUnordered,
-                               logPrefix,
-                               "torque sensors"))
-            {
-                return false;
-            }
         }
 
         // convert from degrees to radians - YARP convention is to store joint positions in degrees
@@ -1332,9 +1551,233 @@ struct YarpSensorBridge::Impl
             = controlBoardRemapperMeasures.remappedJointPermutationMatrix
               * controlBoardRemapperMeasures.motorCurrentsUnordered;
 
-        controlBoardRemapperMeasures.motorTorques.noalias()
-                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorTorquesUnordered;
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    /**
+     * Read current sensor measurements
+     */
+    bool readAllCurrentSensors(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isCurrentSensorsEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllCurrentSensors]";
+        bool ok;
+        ok = controlBoardRemapperInterfaces.currsensors->getCurrents(
+                 controlBoardRemapperMeasures.motorCurrentsUnordered.data());
+
+        if (!ok)
+        {
+            log()->error("{} Unable to read from currentsensors, use previous measurement.",
+                         logPrefix);
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (nanExistsInVec(controlBoardRemapperMeasures.motorCurrentsUnordered,
+                               logPrefix,
+                               "CurrentSensors"))
+            {
+                return false;
+            }
+        }
+
+        controlBoardRemapperMeasures.motorCurrents.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.motorCurrentsUnordered;
+
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    /**
+     * Read motor encoders measurements
+     */
+    bool readAllMotorEncoders(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isMotorEncodersEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllMotorEncoders]";
+        bool ok{ true };
+        ok = ok && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoders(
+                 controlBoardRemapperMeasures.motorPositionsUnordered.data());
+        ok = ok && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoderSpeeds(
+                 controlBoardRemapperMeasures.motorVelocitiesUnordered.data());
+
+        if (!ok)
+        {
+            log()->error("{} Unable to read from motor encoders, use previous measurement.",
+                         logPrefix);
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (nanExistsInVec(controlBoardRemapperMeasures.motorCurrentsUnordered,
+                               logPrefix,
+                               "MotorEncoders"))
+            {
+                return false;
+            }
+        }
+
+        controlBoardRemapperMeasures.motorPositions.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.motorPositionsUnordered;
+        controlBoardRemapperMeasures.motorVelocities.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.motorVelocitiesUnordered;
+
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    /**
+     * Read motor encoders measurements
+     */
+    bool readAllMotorPWMs(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isPWMControlEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllMotorPWMs]";
+        bool ok{ true };
+        for (int j = 0; j < controlBoardRemapperMeasures.motorPWMsUnordered.size(); j++)
+        {
+            ok &= controlBoardRemapperInterfaces.amp->getPWM(j, &(controlBoardRemapperMeasures.motorPWMsUnordered[j]));
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Unable to read from amplifiers, use previous measurement.",
+                         logPrefix);
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (nanExistsInVec(controlBoardRemapperMeasures.motorPWMsUnordered,
+                               logPrefix,
+                               "MotorPWMs"))
+            {
+                return false;
+            }
+        }
+
+        controlBoardRemapperMeasures.motorPWMs.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.motorPWMsUnordered;
+
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    /**
+     * Read joint torque estimates
+     */
+    bool readAllWBDJointTorques(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isWBDEstimatesEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllWBDJointTorques]";
+        bool ok;
+        ok = controlBoardRemapperInterfaces.torques->getTorques(
+                 controlBoardRemapperMeasures.jointTorquesUnordered.data());
+
+        if (!ok)
+        {
+            log()->error("{} Unable to read from wholebodydynamics, use previous measurement.",
+                         logPrefix);
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (nanExistsInVec(controlBoardRemapperMeasures.jointTorquesUnordered,
+                               logPrefix,
+                               "WBDJointTorques"))
+            {
+                return false;
+            }
+        }
+
+        controlBoardRemapperMeasures.jointTorques.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.jointTorquesUnordered;
+
+        controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
+
+        return true;
+    }
+
+    /**
+     * Read pid references
+     */
+    bool readAllPIDs(bool checkForNan = false)
+    {
+        if (!metaData.bridgeOptions.isPIDsEnabled || !metaData.bridgeOptions.isKinematicsEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllPIDs]";
+        bool ok{true};
+        ok = ok && controlBoardRemapperInterfaces.pids->getPidReferences(yarp::dev::VOCAB_PIDTYPE_POSITION,
+                 controlBoardRemapperMeasures.pidPositionsUnordered.data());
+        ok = ok && controlBoardRemapperInterfaces.pids->getPidErrors(yarp::dev::VOCAB_PIDTYPE_POSITION,
+                 controlBoardRemapperMeasures.pidPositionErrorsUnordered.data());
+
+        if (!ok)
+        {
+            log()->error("{} Unable to read from pids, use previous measurement.",
+                         logPrefix);
+            return false;
+        }
+
+        if (checkForNan)
+        {
+            if (nanExistsInVec(controlBoardRemapperMeasures.pidPositionsUnordered,
+                               logPrefix,
+                               "PIDs"))
+            {
+                return false;
+            }
+            if (nanExistsInVec(controlBoardRemapperMeasures.pidPositionErrorsUnordered,
+                               logPrefix,
+                               "PIDs"))
+            {
+                return false;
+            }
+        }
+
+        controlBoardRemapperMeasures.pidPositions.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.pidPositionsUnordered * M_PI / 180;
+        controlBoardRemapperMeasures.pidPositionErrors.noalias()
+            = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+              * controlBoardRemapperMeasures.pidPositionErrorsUnordered * M_PI / 180;
 
         controlBoardRemapperMeasures.receivedTimeInSeconds = yarp::os::Time::now();
 
@@ -1530,6 +1973,41 @@ struct YarpSensorBridge::Impl
         }
 
         if (!readAllMASSixAxisForceTorqueSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllCurrentSensors(checkForNAN))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllWBDJointTorques(checkForNAN))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllPIDs(checkForNAN))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllMotorEncoders(checkForNAN))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllMotorPWMs(checkForNAN))
         {
             failedReadAllSensors.insert(failedReadAllSensors.end(),
                                         failedReads.begin(),

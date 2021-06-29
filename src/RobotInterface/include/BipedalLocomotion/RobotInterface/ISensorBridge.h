@@ -38,6 +38,11 @@ struct SensorBridgeOptions
     bool isSixAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isThreeAxisForceTorqueSensorEnabled{false}; /**< flag to connect six axis force torque measurement sources */
     bool isCartesianWrenchEnabled{false}; /**< flag to connect cartesian wrench measurement sources */
+    bool isPIDsEnabled{ false }; /** flag to connect pid position measurement sources */
+    bool isMotorEncodersEnabled{ false }; /** flag to connect motor measurement sources */
+    bool isPWMControlEnabled{ false }; /** flag to connect PWM measurement sources */
+    bool isWBDEstimatesEnabled{ false }; /** flag to connect WBD estimates sources */
+    bool isCurrentSensorsEnabled{ false }; /** flag to connect current measurement sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured at initialization */
 };
@@ -367,32 +372,187 @@ protected:
     };
 
     /**
-     * Get motor torques in NewtonMeter
+     * Get motor PWM
      * @param[in] jointName name of the joint
-     * @param[out] motorTorque motor current in NewtonMeter
+     * @param[out] motorPWM motor PWM
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @return true/false in case of success/failure
      */
-    virtual bool getMotorTorque(const std::string& jointName,
-                                  double& motorTorque,
+    virtual bool getMotorPWM(const std::string& jointName,
+                                  double& motorPWM,
                                   OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };
 
     /**
-     * Get all motors' torque in NewtonMeter
-     * @param[out] motorTorques all motors' torque in NewtonMeter
+     * Get all motors' PWM
+     * @param[out] motorPWMs all motors' PWM
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "motorTorques" to this method
+     * This means that the user must pass a resized argument "motorPWMs" to this method
      *
      * @return true/false in case of success/failure
      */
-    virtual bool getMotorTorques(Eigen::Ref<Eigen::VectorXd> motorTorques,
+    virtual bool getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
                                   OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get joint torques in NewtonMeter
+     * @param[in] jointName name of the joint
+     * @param[out] jointTorque motor torque in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getJointTorque(const std::string& jointName,
+                                  double& jointTorque,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all joints' torque in NewtonMeter
+     * @param[out] jointTorques all motors' torque in NewtonMeter
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "jointTorques" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getJointTorques(Eigen::Ref<Eigen::VectorXd> jointTorques,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get pid position in rad
+     * @param[in] jointName name of the joint
+     * @param[out] pidPosition pid position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPosition(const std::string& jointName,
+                                  double& pidPosition,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all pid positions in rad
+     * @param[out] pidPositions all pid positions in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "pidPositions" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositions(Eigen::Ref<Eigen::VectorXd> pidPositions,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get pid position error in rad
+     * @param[in] jointName name of the joint
+     * @param[out] pidPositionError pid position error in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositionError(const std::string& jointName,
+                                  double& pidPositionError,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all pid position errors in rad
+     * @param[out] pidPositionErrors all pid position errors in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "pidPositionErrors" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getPidPositionErrors(Eigen::Ref<Eigen::VectorXd> pidPositionErrors,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get motor position in rad
+     * @param[in] jointName name of the joint
+     * @param[out] motorPosition motor position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorPosition(const std::string& jointName,
+                                  double& motorPosition,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all motors' positions in rad
+     * @param[out] parameter all motors' position in radians
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorPositions" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorPositions(Eigen::Ref<Eigen::VectorXd> motorPositions,
+                                   OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get motor velocity in rad/s
+     * @param[in] jointName name of the joint
+     * @param[out] motorVelocity motor velocity in radians per second
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorVelocity(const std::string& jointName,
+                                  double& motorVelocity,
+                                  OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all motors' velocities in rad/s
+     * @param[out] parameter all motors' velocities in radians per second
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     *
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorVelocties" to this method
+     *
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVelocties,
+                                    OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };
