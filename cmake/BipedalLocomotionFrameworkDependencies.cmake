@@ -43,8 +43,15 @@ find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
 dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
-find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
-checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
+# https://github.com/pybind/pybind11/pull/2689
+if(${CMAKE_VERSION} VERSION_LESS "3.18.0")
+  set(BLF_Python_Development_Component "Development")
+else()
+  set(BLF_Python_Development_Component "Development.Module")
+endif()
+
+find_package(Python3 3.6 COMPONENTS Interpreter ${BLF_Python_Development_Component} QUIET)
+checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter ${BLF_Python_Development_Component})
 
 find_package(pybind11 2.4.3 CONFIG QUIET)
 checkandset_dependency(pybind11)
