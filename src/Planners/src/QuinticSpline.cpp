@@ -63,7 +63,7 @@ struct QuinticSpline::Impl
 
     bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
 
-    QuinticSplineState currentTrajectory; /**< Current trajectory stored in the advance state */
+    SplineState currentTrajectory; /**< Current trajectory stored in the advance state */
     double advanceTimeStep{0.0}; /**< Time step of the advance interface. */
     double advanceCurrentTime{0.0}; /**< current time of the advance object. */
 
@@ -841,7 +841,7 @@ bool QuinticSpline::evaluatePoint(const double& t,
     return true;
 }
 
-bool QuinticSpline::evaluatePoint(const double& t, QuinticSplineState& state)
+bool QuinticSpline::evaluatePoint(const double& t, SplineState& state)
 {
     return this->evaluatePoint(t, state.position, state.velocity, state.acceleration);
 }
@@ -875,7 +875,7 @@ bool QuinticSpline::advance()
     return evaluatePoint(m_pimpl->advanceCurrentTime, m_pimpl->currentTrajectory);
 }
 
-const QuinticSplineState& QuinticSpline::getOutput() const
+const SplineState& QuinticSpline::getOutput() const
 {
     return m_pimpl->currentTrajectory;
 }

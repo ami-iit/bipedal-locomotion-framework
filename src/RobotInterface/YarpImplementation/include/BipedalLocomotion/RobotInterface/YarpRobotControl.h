@@ -83,7 +83,8 @@ public:
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
-     * expressed in Nm.
+     * expressed in Nm. If the robot is controlled in PWM, the desired joint values are
+     * between -100 and 100.
      * @warning At the current stage only revolute joints are supported.
      */
     bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
@@ -96,7 +97,8 @@ public:
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
-     * expressed in Nm.
+     * expressed in Nm. If the robot is controlled in PWM, the desired joint values are
+     * between -100 and 100.
      * @warning Call this function if you want to control all the joint with the same control mode.
      * Otherwise call setReferences(Eigen::Ref<const Eigen::VectorXd>, const
      * std::vector<IRobotControl::ControlMode>&).

@@ -2,12 +2,10 @@
 
 mcss_script=$1
 
-versions=(v0.1.1)
-main_pages=(README.md)
-src_folder=(bipedal-locomotion-framework)
-number_of_versions=0
+versions=(v0.1.1 v0.2.0)
+main_pages=(README.md docs/pages/main-page.dox)
 
-for version in ${versions}
+for version in ${versions[@]}
 do
     mkdir -p site/${version}
 done
