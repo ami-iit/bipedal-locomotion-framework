@@ -1,0 +1,171 @@
+name: Python CI/CD
+
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+  pull_request:
+  release:
+    types:
+      - published
+
+jobs:
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - uses: actions/checkout@master
+      - run: git fetch --prune --unshallow
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Update pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install pypa/build
+        run: pip install build
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          # yarp
+          sudo apt-get install -y libace-dev swig
+          # idyntree
+          sudo apt-get install -y libassimp-dev libxml2-dev coinor-libipopt-dev
+          # blf
+          sudo apt-get install -y build-essential libspdlog-dev libeigen3-dev libqhull-dev
+
+      - name: Build sdist
+        run: python -m build --sdist --outdir dist/
+
+      - name: Install sdist
+        run: pip -v install --use-feature=in-tree-build dist/bipedal_locomotion_framework-*.tar.gz
+
+      - name: Python tests
+        run: |
+          pip install pytest
+          pytest $(find bindings/python/ -name "test_*.py")
+
+      - name: Remove external wheels
+        run: find dist/ -type f -not -name 'bipedal_locomotion_framework-*' -delete -print
+
+      - name: Inspect dist folder
+        run: ls -lah dist/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist/*.tar.gz
+
+  build_wheels:
+    name: Build wheels [${{ matrix.os }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - 3.8
+        os:
+          - ubuntu-20.04
+          #- macos-latest
+          #- windows-latest
+
+    steps:
+
+      - uses: actions/checkout@master
+      - run: git fetch --prune --unshallow
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install cibuildwheel
+        run: pip install --pre cibuildwheel
+
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_BUILD: cp37-*_x86_64 cp38-*_x86_64 cp39-*_x86_64
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_24
+          CIBW_ENVIRONMENT_LINUX: "AUDITWHEEL_PLAT=manylinux_2_24_x86_64 CC=clang-7 CXX=clang++-7"
+          CIBW_BEFORE_ALL_LINUX: |
+              apt-get update &&\
+              apt-get install -y libace-dev &&\
+              apt-get install -y libassimp-dev libxml2-dev coinor-libipopt-dev &&\
+              apt-get install -y clang-7 libspdlog-dev libeigen3-dev &&\
+              apt-get install -y git &&\
+              git clone https://github.com/qhull/qhull /tmp/qhull &&\
+              cmake -B /tmp/qhull/build -S /tmp/qhull &&\
+              cd /tmp/qhull/build && make install &&\
+              git clone --recursive https://github.com/oxfordcontrol/osqp /tmp/osqp &&\
+              cmake -B /tmp/osqp/build -S /tmp/osqp -DBUILD_SHARED_LIBS:BOOL=OFF &&\
+              cmake --build /tmp/osqp/build --target install &&\
+              git clone https://github.com/robotology/osqp-eigen /tmp/osqp-eigen &&\
+              cmake -B /tmp/osqp-eigen/build -S /tmp/osqp-eigen -DBUILD_SHARED_LIBS:BOOL=OFF &&\
+              cmake --build /tmp/osqp-eigen/build --target install &&\
+              git clone https://github.com/nlohmann/json /tmp/json &&\
+              cmake -B /tmp/json/build -S /tmp/json -DBUILD_SHARED_LIBS:BOOL=OFF &&\
+              cmake --build /tmp/json/build --target install
+          CIBW_BEFORE_BUILD_LINUX: python -m pip install --upgrade pip
+          CIBW_TEST_REQUIRES: pytest
+          CIBW_TEST_COMMAND: "pytest $(find bindings/python/ -name 'test_*.py')"
+
+      - name: Inspect wheelhouse folder
+        run: ls -lah wheelhouse/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: ./wheelhouse/*.whl
+
+  upload_pypi:
+    needs:
+      - build_sdist
+      - build_wheels
+    runs-on: ubuntu-latest
+    # Master branch produces pre-releases.
+    # GitHub Releases 'vX.Y.Z' produce stable releases.
+
+    steps:
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Inspect dist folder
+        run: ls -lah dist/
+
+      # Validate the tag accordingly to PEP440
+      # From https://stackoverflow.com/a/37972030/12150968
+      - name: Check PEP440 compliance
+        if: github.event_name == 'release'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y source-highlight
+          last_tag_with_v="$(git describe --abbrev=0 --tags)"
+          last_tag=${last_tag_with_v#v}
+          rel_regexp='^(\d+!)?(\d+)(\.\d+)+([\.\-\_])?((a(lpha)?|b(eta)?|c|r(c|ev)?|pre(view)?)\d*)?(\.?(post|dev)\d*)?$'
+          echo ""
+          echo $last_tag
+          echo ""
+          check-regexp ${rel_regexp} ${last_tag}
+          match=$(check-regexp ${rel_regexp} ${last_tag} | grep matches | cut -d ' ' -f 5)
+          test $match -eq 1 && true
+
+      - uses: pypa/gh-action-pypi-publish@master
+        if: |
+          github.repository == 'dic-iit/bipedal-locomotion-framework' &&
+          ((github.event_name == 'release' && github.event.action == 'published') ||
+           (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
