@@ -3,9 +3,9 @@
   <compounddef id="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::ParametersHandler</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation" prot="public">BipedalLocomotion::ParametersHandler::YarpImplementation</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation" prot="public">BipedalLocomotion::ParametersHandler::TomlImplementation</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" prot="public">BipedalLocomotion::ParametersHandler::IParametersHandler</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation" prot="public">BipedalLocomotion::ParametersHandler::StdImplementation</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation" prot="public">BipedalLocomotion::ParametersHandler::TomlImplementation</innerclass>
       <sectiondef kind="func">
       <memberdef kind="function" id="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
