@@ -8,6 +8,8 @@
 #include <cmath>
 #include <numeric>
 
+#include <manif/manif.h>
+
 #include <BipedalLocomotion/Math/ContactWrenchCone.h>
 #include <BipedalLocomotion/Math/LinearizedFrictionCone.h>
 #include <BipedalLocomotion/Math/Wrench.h>
@@ -18,6 +20,8 @@ using namespace BipedalLocomotion::Math;
 bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto errorPrefix = "[ContactWrenchCone::initialize]";
+    constexpr int wrenchSize = Wrench<double>::SizeAtCompileTime;
+
     LinearizedFrictionCone forceCone;
 
     auto ptr = handler.lock();
@@ -31,9 +35,8 @@ bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersH
     bool ok =  ptr->getParameter("static_friction_coefficient", staticFrictionCoefficient);
     ok = ok && staticFrictionCoefficient > 0;
 
-    std::vector<double> limitsX;
+    std::vector<double> limitsX, limitsY;
     ok = ok && ptr->getParameter("foot_limits_x", limitsX);
-    std::vector<double> limitsY;
     ok = ok && ptr->getParameter("foot_limits_y", limitsY);
     ok = ok && (limitsX.size() == limitsY.size()) && (limitsX.size() == 2);
 
@@ -49,8 +52,10 @@ bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersH
         return false;
     }
 
-    const double centerX = std::accumulate(limitsX.begin(), limitsX.end(), 0.0) / limitsX.size();
-    const double centerY = std::accumulate(limitsY.begin(), limitsY.end(), 0.0) / limitsY.size();
+    Eigen::Vector3d center;
+    center << std::accumulate(limitsX.begin(), limitsX.end(), 0.0) / limitsX.size(),
+              std::accumulate(limitsY.begin(), limitsY.end(), 0.0) / limitsY.size(),
+              0;
 
     const double halfRectangleLength = (std::abs(limitsX[0]) + std::abs(limitsX[1])) / 2.0;
     const double halfRectangleWidth = (std::abs(limitsY[0]) + std::abs(limitsY[1])) / 2.0;
@@ -58,7 +63,7 @@ bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersH
     constexpr std::size_t copConstraints = 2;
     constexpr std::size_t yawTorqueConstraints = 8;
     constexpr std::size_t torqueConstraints = 2 * copConstraints + yawTorqueConstraints;
-    m_A.resize(forceCone.getB().size() + torqueConstraints, Wrench<double>::SizeAtCompileTime);
+    m_A.resize(forceCone.getB().size() + torqueConstraints, wrenchSize);
     m_A.setZero();
     m_A.topLeftCorner(forceCone.getA().rows(), forceCone.getA().cols()) = forceCone.getA();
 
@@ -76,38 +81,48 @@ bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersH
 
     // please refer to the last 8 rows of the matrix U presented in
     // https://scaron.info/publications/icra-2015.html
-    Eigen::Ref<Eigen::MatrixXd> AYawTorque = m_A.bottomRows(yawTorqueConstraints);
-    AYawTorque.row(0) << -halfRectangleWidth - centerY, -halfRectangleLength + centerX,
+    Eigen::MatrixXd AYawTorque(yawTorqueConstraints, 6);
+    AYawTorque.row(0) << -halfRectangleWidth, -halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         staticFrictionCoefficient, staticFrictionCoefficient, -1;
 
-    AYawTorque.row(1) << -halfRectangleWidth - centerY, halfRectangleLength + centerX,
+    AYawTorque.row(1) << -halfRectangleWidth, halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         staticFrictionCoefficient, -staticFrictionCoefficient, -1;
 
-    AYawTorque.row(2) << halfRectangleWidth - centerY, -halfRectangleLength + centerX,
+    AYawTorque.row(2) << halfRectangleWidth, -halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         -staticFrictionCoefficient, staticFrictionCoefficient, -1;
 
-    AYawTorque.row(3) << halfRectangleWidth - centerY, halfRectangleLength + centerX,
+    AYawTorque.row(3) << halfRectangleWidth, halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         -staticFrictionCoefficient, -staticFrictionCoefficient, -1;
 
-    AYawTorque.row(4) << halfRectangleWidth + centerY, halfRectangleLength - centerX,
+    AYawTorque.row(4) << halfRectangleWidth, halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         staticFrictionCoefficient, staticFrictionCoefficient, 1;
 
-    AYawTorque.row(5) << halfRectangleWidth + centerY, -halfRectangleLength - centerX,
+    AYawTorque.row(5) << halfRectangleWidth, -halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         staticFrictionCoefficient, -staticFrictionCoefficient, 1;
 
-    AYawTorque.row(6) << -halfRectangleWidth + centerY, halfRectangleLength - centerX,
+    AYawTorque.row(6) << -halfRectangleWidth, halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         -staticFrictionCoefficient, staticFrictionCoefficient, 1;
 
-    AYawTorque.row(7) << -halfRectangleWidth + centerY, -halfRectangleLength - centerX,
+    AYawTorque.row(7) << -halfRectangleWidth, -halfRectangleLength,
         -(halfRectangleWidth + halfRectangleLength) * staticFrictionCoefficient,
         -staticFrictionCoefficient, -staticFrictionCoefficient, 1;
+
+    // AYawTorque expects a wrench expressed in the center of the contact surface. The following
+    // adjoin transform brings the wrench expressed in the frame attached to the contact surface in
+    // the center of the surface. The orientation of the two frames is identical and the translation
+    // is given by the 3d vector named center.
+    Eigen::Matrix<double, wrenchSize, wrenchSize> adjointTransform
+        = Eigen::Matrix<double, wrenchSize, wrenchSize>::Identity();
+    adjointTransform.bottomLeftCorner<3, 3>() = manif::skew(-center);
+
+    m_A.bottomRows(yawTorqueConstraints).noalias() = AYawTorque * adjointTransform;
 
     m_b.resize(m_A.rows());
     m_b.head(forceCone.getB().size()) = forceCone.getB();

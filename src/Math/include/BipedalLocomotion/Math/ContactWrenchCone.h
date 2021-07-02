@@ -38,8 +38,24 @@ namespace Math
  * paper](https://ieeexplore.ieee.org/document/7139910). However differently from the original
  * work, the origin of the frame attached to the contact surface is not required to be in the
  * center of the surface.
+ * @note The ContactWrenchCone class express the constraints in body representation (so called right
+ * trivialization). Please check
+ * [here](https://pure.tue.nl/ws/files/25753352/Traversaro_en_Saccon_DC_2016.064.pdf) for further
+ * details. If you want to express the constraint in mixed representation please remember to
+ * postmultiply the matrix A for the corresponding adjoint matrix. Namely:
+ * \f[
+ * A_{\text{mixed}} = A
+ * \begin{bmatrix}
+ * {}^I R _ B ^\top & 0 \\
+ * 0 & {}^I R _ B^\top
+ * \end{bmatrix}
+ * \f]
+ * where \f$I\f$ and \f$B\f$ are the inertial and the frame attached to the contact surface
+ * respectively.
  * @note If you want to specify only the constraints related to the contact force please take a look
  * at LinearizedFrictionCone class.
+ * @warning ContactWrenchCone class does not consider the unilaterally constraint of the normal
+ * force.
  */
 class ContactWrenchCone
 {
