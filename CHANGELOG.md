@@ -7,6 +7,8 @@ All notable changes to this project are documented in this file.
 - Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
 
 ### Changed
+- Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+
 ### Fix
 
 ## [0.2.0] - 2021-06-15
@@ -69,7 +71,6 @@ All notable changes to this project are documented in this file.
 - Add `foot_take_off_acceleration` and `foot_take_off_velocity` parameters in the `SwingFootPlanner` class (https://github.com/dic-iit/bipedal-locomotion-framework/issues/323)
 - Change the parameters handler verbosity (https://github.com/dic-iit/bipedal-locomotion-framework/pull/330)
 - Restore backward compatibility of SwingFootPlanner parameters (https://github.com/dic-iit/bipedal-locomotion-framework/pull/334)
-- Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
 - Bump manif version to 0.0.4  (https://github.com/dic-iit/bipedal-locomotion-framework/pull/339)
 
 ### Fixed
