@@ -37,7 +37,7 @@ jobs:
         # Compilation related dependencies
         mamba install cmake compilers make ninja pkg-config
         # Actual dependencies
-        mamba install -c robotology idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull casadi cppad spdlog catch2 nlohmann_json
+        mamba install -c robotology idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json
 
     - name: Dependencies [manif - Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
