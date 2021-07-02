@@ -7,6 +7,8 @@ All notable changes to this project are documented in this file.
 - Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
 
 ### Changed
+- Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+
 ### Fix
 
 ## [0.2.0] - 2021-06-15
