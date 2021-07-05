@@ -115,7 +115,7 @@ bool ContactWrenchCone::initialize(std::weak_ptr<ParametersHandler::IParametersH
         -staticFrictionCoefficient, -staticFrictionCoefficient, 1;
 
     // AYawTorque expects a wrench expressed in the center of the contact surface. The following
-    // adjoin transform brings the wrench expressed in the frame attached to the contact surface in
+    // adjoint transform brings the wrench expressed in the frame attached to the contact surface in
     // the center of the surface. The orientation of the two frames is identical and the translation
     // is given by the 3d vector named center.
     Eigen::Matrix<double, wrenchSize, wrenchSize> adjointTransform
