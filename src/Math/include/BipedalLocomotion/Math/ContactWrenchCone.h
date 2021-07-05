@@ -22,7 +22,7 @@ namespace Math
 
 /**
  * ContactWrenchCone computes the polyhedral approximation of the contact wrench friction cone.
- * A surface remains fixed with respect the environment if the contact wrench lies in a cone
+ * A surface remains fixed with respect to the environment if the contact wrench lies in a cone
  * described by
  * \f[
  * f ^c \cdot n > 0 \quad | f ^t | \le \mu f^c \cdot n
@@ -31,14 +31,14 @@ namespace Math
  * contact force, \f$ n \f$ is the vector normal to the contact surface. \f$ f^t \f$ is the
  * tangential force to the contact surface and \f$ \mu \f$ is the friction parameter. In addition we
  * require CoP inside the support area and a bounded yaw torque. The ContactWrenchCone aims to
- * compute the polyhedral approximation of \f$ | f ^t | \le \mu f^c \cdot n \f$ by spitting the base
+ * compute the polyhedral approximation of \f$ | f ^t | \le \mu f^c \cdot n \f$ by splitting the base
  * of the cone into slices while considering the contact torque constraints. The class implements
  * the equations presented in [_Stability of Surface Contacts for Humanoid Robots: Closed-Form
  * Formulae of the Contact Wrench Cone for Rectangular Support Areas_
  * paper](https://ieeexplore.ieee.org/document/7139910). However differently from the original
  * work, the origin of the frame attached to the contact surface is not required to be in the
  * center of the surface.
- * @note The ContactWrenchCone class express the constraints in body representation (so called right
+ * @note The ContactWrenchCone class express the constraints in body representation (so called left
  * trivialization). Please check
  * [here](https://pure.tue.nl/ws/files/25753352/Traversaro_en_Saccon_DC_2016.064.pdf) for further
  * details. If you want to express the constraint in mixed representation please remember to
