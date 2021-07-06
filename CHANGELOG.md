@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+- Add the possibility to control a subset of coordinates in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/356)
 
 ### Fix
 
