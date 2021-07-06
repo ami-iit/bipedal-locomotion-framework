@@ -56,10 +56,11 @@ bool CoMTask::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // resize the matrices
-    m_A.resize(m_linearVelocitySize, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_DoFs, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_linearVelocitySize);
+    m_b.resize(m_DoFs);
     m_b.setZero();
+    m_jacobian.resize(m_linearVelocitySize, m_robotVelocityVariable.size);
 
     return true;
 }
@@ -68,7 +69,15 @@ bool CoMTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 {
     constexpr auto errorPrefix = "[CoMTask::initialize]";
 
-    m_description = "CoMTask Optimal Control Element";
+    m_description = "CoMTask";
+
+    std::string maskDescription = "";
+    auto boolToString = [](bool b) { return b ? " true" : " false"; };
+    for(const auto flag : m_mask)
+    {
+        maskDescription += boolToString(flag);
+    }
+
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -114,6 +123,31 @@ bool CoMTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     m_R3Controller.setGains(kpLinear);
 
+    std::vector<bool> mask;
+    if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
+    {
+        log()->info("{} [{}] Unable to find the mask parameter. The default value is used:{}.",
+                    errorPrefix,
+                    m_description,
+                    maskDescription);
+    }
+    else
+    {
+        // covert an std::vector in a std::array
+        std::copy(mask.begin(), mask.end(), m_mask.begin());
+        // compute the DoFs associated to the task
+        m_DoFs = std::count(m_mask.begin(), m_mask.end(), true);
+
+        // Update the mask description
+        maskDescription.clear();
+        for(const auto flag : m_mask)
+        {
+            maskDescription += boolToString(flag);
+        }
+    }
+
+    m_description += " Mask:" + maskDescription;
+
     m_isInitialized = true;
 
     return true;
@@ -132,13 +166,37 @@ bool CoMTask::update()
     // update the controller
     m_R3Controller.computeControlLaw();
 
-    m_b = m_R3Controller.getControl().coeffs();
-
-    // get the CoM jacobian
-    if (!m_kinDyn->getCenterOfMassJacobian(this->subA(m_robotVelocityVariable)))
+    // if we want to control all 3 DoF we avoid to lose performances
+    if (m_DoFs == m_linearVelocitySize)
     {
-        log()->error("[CoMTask::update] Unable to get the jacobian.");
-        return m_isValid;
+
+        m_b = m_R3Controller.getControl().coeffs();
+
+        // get the CoM jacobian
+        if (!m_kinDyn->getCenterOfMassJacobian(this->subA(m_robotVelocityVariable)))
+        {
+            log()->error("[CoMTask::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+    } else
+    {
+        // get the CoM jacobian
+        if (!m_kinDyn->getCenterOfMassJacobian(m_jacobian))
+        {
+            log()->error("[CoMTask::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+
+        int index = 0;
+        for (std::size_t i = 0; i < m_linearVelocitySize; i++)
+        {
+            if (m_mask[i])
+            {
+                m_b(index) = m_R3Controller.getControl().coeffs()(i);
+                toEigen(this->subA(m_robotVelocityVariable)).row(index) = m_jacobian.row(i);
+                index++;
+            }
+        }
     }
 
     // A and b are now valid
@@ -158,7 +216,7 @@ bool CoMTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
 
 std::size_t CoMTask::size() const
 {
-    return m_linearVelocitySize;
+    return m_DoFs;
 }
 
 CoMTask::Type CoMTask::type() const
