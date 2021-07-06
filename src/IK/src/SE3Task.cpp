@@ -82,7 +82,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
-        log()->error("{}, [{} {}] KinDynComputations object is not valid.",
+        log()->error("{} [{} {}] KinDynComputations object is not valid.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -92,7 +92,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     if (m_kinDyn->getFrameVelocityRepresentation()
         != iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION)
     {
-        log()->error("{}, [{} {}] The task supports only quantities expressed in MIXED "
+        log()->error("{} [{} {}] The task supports only quantities expressed in MIXED "
                      "representation. Please provide a KinDynComputations with Frame velocity "
                      "representation set to MIXED_REPRESENTATION.",
                      errorPrefix,
@@ -104,7 +104,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     auto ptr = paramHandler.lock();
     if (ptr == nullptr)
     {
-        log()->error("{}, [{} {}] The parameter handler is not valid.",
+        log()->error("{} [{} {}] The parameter handler is not valid.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -113,7 +113,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     if (!ptr->getParameter("robot_velocity_variable_name", m_robotVelocityVariable.name))
     {
-        log()->error("{}, [{} {}] Error while retrieving the robot velocity variable.",
+        log()->error("{} [{} {}] Error while retrieving the robot velocity variable.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -124,7 +124,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
                == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("{}, [{} {}] Error while retrieving the frame that should be controlled.",
+        log()->error("{} [{} {}] Error while retrieving the frame that should be controlled.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -136,7 +136,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     double kpAngular;
     if (!ptr->getParameter("kp_linear", kpLinear))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional linear gain.",
+        log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -145,7 +145,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     if (!ptr->getParameter("kp_angular", kpAngular))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
+        log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
