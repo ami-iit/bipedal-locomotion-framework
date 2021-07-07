@@ -212,11 +212,9 @@ public:
      * Get all joints' positions in radians
      * @param[out] parameter all joints' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointPositions" to this method
-     *
      * @return true/false in case of success/failure
      */
     bool getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositions,
@@ -237,11 +235,9 @@ public:
      * Get all joints' velocities in rad/s
      * @param[out] parameter all joints' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointVelocties" to this method
-     *
      * @return true/false in case of success/failure
      */
     bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
@@ -356,11 +352,9 @@ public:
      * Get all motors' currents in ampere
      * @param[out] motorCurrents all motors' current in ampere
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "motorCurrents" to this method
-     *
      * @return true/false in case of success/failure
      */
     bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
@@ -381,20 +375,18 @@ public:
      * Get all motors' PWMs
      * @param[out] motorPWMs all motors' PWM in ampere
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "motorPWMs" to this method
-     *
+     * This means that the user must pass a resized argument "motorPWMs" to this methodW
      * @return true/false in case of success/failure
      */
     bool getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
-     * Get motor torque in NewtonMeter
+     * Get motor torque in Nm
      * @param[in] jointName name of the joint
-     * @param[out] jointTorque motor torque in NewtonMeter
+     * @param[out] jointTorque motor torque in Nm
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @return true/false in case of success/failure
      */
@@ -403,14 +395,12 @@ public:
                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
-     * Get all motors' torques in NewtonMeter
-     * @param[out] jointTorques all motors' torque in NewtonMeter
-     * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
+     * Get all motors' torques in Nm
+     * @param[out] jointTorques all motors' torque in Nm
+     * @param[out] receiveTimeInSeconds time at which the measurement was receivedW
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "jointTorques" to this method
-     *
      * @return true/false in case of success/failure
      */
     bool getJointTorques(Eigen::Ref<Eigen::VectorXd> jointTorques,
@@ -431,11 +421,9 @@ public:
      * Get all pid positions in rad
      * @param[out] pidPositions all pid positions in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "pidPositions" to this method
-     *
+     * This means that the user must pass a resized argument "pidPositions" to this methodW
      * @return true/false in case of success/failure
      */
     virtual bool getPidPositions(Eigen::Ref<Eigen::VectorXd> pidPositions,
@@ -456,11 +444,9 @@ public:
      * Get all pid position errors in rad
      * @param[out] pidPositionErrors all pid position errors in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "pidPositionErrors" to this method
-     *
      * @return true/false in case of success/failure
      */
     virtual bool getPidPositionErrors(Eigen::Ref<Eigen::VectorXd> pidPositionErrors,
@@ -481,11 +467,9 @@ public:
      * Get all motors' positions in rad
      * @param[out] parameter all motors' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "motorPositions" to this method
-     *
      * @return true/false in case of success/failure
      */
     virtual bool getMotorPositions(Eigen::Ref<Eigen::VectorXd> motorPositions,
@@ -506,11 +490,9 @@ public:
      * Get all motors' velocities in rad/s
      * @param[out] parameter all motors' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
-     *
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
      * This means that the user must pass a resized argument "motorVelocties" to this method
-     *
      * @return true/false in case of success/failure
      */
     virtual bool getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVelocties,
