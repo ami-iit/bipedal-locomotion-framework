@@ -71,7 +71,7 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
                                    handler,
                                    m_pimpl->metaData,
-                                   m_pimpl->metaData.bridgeOptions.isMotorEncodersEnabled);
+                                   m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled);
     if (!ret)
     {
         log()->info("{} Skipping the configuration of configureRemoteControlBoardRemapper. "
@@ -86,34 +86,6 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    handler,
                                    m_pimpl->metaData,
                                    m_pimpl->metaData.bridgeOptions.isPWMControlEnabled);
-    if (!ret)
-    {
-        log()->info("{} Skipping the configuration of configureRemoteControlBoardRemapper. "
-                    "YarpSensorBridge "
-                    "will not stream relevant measures.",
-                    logPrefix);
-    }
-
-    ret = m_pimpl->subConfigLoader("stream_joint_torques",
-                                   "WBDEstimates",
-                                   &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
-                                   handler,
-                                   m_pimpl->metaData,
-                                   m_pimpl->metaData.bridgeOptions.isWBDEstimatesEnabled);
-    if (!ret)
-    {
-        log()->info("{} Skipping the configuration of configureRemoteControlBoardRemapper. "
-                    "YarpSensorBridge "
-                    "will not stream relevant measures.",
-                    logPrefix);
-    }
-
-    ret = m_pimpl->subConfigLoader("stream_current_sensors",
-                                   "Currents",
-                                   &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
-                                   handler,
-                                   m_pimpl->metaData,
-                                   m_pimpl->metaData.bridgeOptions.isCurrentSensorsEnabled);
     if (!ret)
     {
         log()->info("{} Skipping the configuration of configureRemoteControlBoardRemapper. "

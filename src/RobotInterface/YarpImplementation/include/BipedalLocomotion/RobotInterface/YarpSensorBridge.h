@@ -60,8 +60,6 @@ namespace RobotInterface
  * |                            |stream_pids                      | boolean           |Flag to activate the attachment to remapped control boards for pids reading      |
  * |                            |stream_motor_states              | boolean           |Flag to activate the attachment to remapped control boards for motor states reading      |
  * |                            |stream_motor_PWM                 | boolean           |Flag to activate the attachment to remapped control boards for PWM reading      |
- * |                            |stream_joint_torques             | boolean           |Flag to activate the attachment to remapped control boards for joint torques reading      |
- * |                            |stream_current_sensors           | boolean           |Flag to activate the attachment to remapped control boards for current sensors reading      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |

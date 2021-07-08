@@ -43,10 +43,8 @@ struct SensorBridgeOptions
     bool isCartesianWrenchEnabled{false}; /**< flag to connect cartesian wrench measurement sources
                                            */
     bool isPIDsEnabled{false}; /** flag to connect pid position measurement sources */
-    bool isMotorEncodersEnabled{false}; /** flag to connect motor measurement sources */
+    bool isMotorSensorsEnabled{false}; /** flag to connect motor measurement sources */
     bool isPWMControlEnabled{false}; /** flag to connect PWM measurement sources */
-    bool isWBDEstimatesEnabled{false}; /** flag to connect WBD estimates sources */
-    bool isCurrentSensorsEnabled{false}; /** flag to connect current measurement sources */
 
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured
                            at initialization */
