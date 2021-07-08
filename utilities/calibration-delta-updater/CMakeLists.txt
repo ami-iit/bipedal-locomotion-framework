@@ -8,4 +8,6 @@ if(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication)
     PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
+  install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/config)
+
 endif()
