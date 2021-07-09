@@ -12,7 +12,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -39,7 +39,7 @@ namespace IK
  * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
-class SO3Task : public System::LinearTask
+class SO3Task : public IKLinearTask
 {
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
 

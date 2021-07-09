@@ -12,7 +12,7 @@
 
 #include <iDynTree/KinDynComputations.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 
 #include <LieGroupControllers/ProportionalDerivativeController.h>
 
@@ -32,7 +32,7 @@ namespace IK
  * The desired joint velocity is chosen such that the joint will converge to the desired
  * trajectory and it is computed with a standard standard PD controller in \f$\mathbb{R}^n\f$.
  */
-class JointTrackingTask : public System::LinearTask
+class JointTrackingTask : public IKLinearTask
 {
     Eigen::VectorXd m_kp; /**< Proportional gain. */
     Eigen::VectorXd m_jointPosition; /**< Joints position in radians */

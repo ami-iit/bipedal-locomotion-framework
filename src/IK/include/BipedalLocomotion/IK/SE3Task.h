@@ -12,7 +12,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -47,7 +47,7 @@ namespace IK
  * @note SE3Task can be used to control also a subset of element of the linear part of the SE3.
  * Please refer to `mask` parameter in IK::SE3Task::initialize method.
  */
-class SE3Task : public System::LinearTask
+class SE3Task : public IKLinearTask
 {
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */

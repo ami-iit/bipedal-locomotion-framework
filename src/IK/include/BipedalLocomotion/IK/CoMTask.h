@@ -12,7 +12,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -45,7 +45,7 @@ namespace IK
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class CoMTask : public System::LinearTask
+class CoMTask : public IKLinearTask
 {
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */
 
