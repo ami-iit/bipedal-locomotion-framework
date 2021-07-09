@@ -1,10 +1,10 @@
 # blf-calibration-delta-updater
 
-**blf-calibration-delta-updater** is a simple tool to semi-automatic update of the calibration delta of a YARP-based robot.
+**blf-calibration-delta-updater** is a simple tool to semi-automatically update the calibration delta of a YARP-based robot.
 
 ## :computer: Dependencies
 
-**blf-calibration-delta-updater** depends of the [`YarpImplementation` of the `ISensorBridge`](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface/YarpImplementation) and on the [python bindings](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/bindings/python/RobotInterface). To run the script you also need to install some additional python dependencies
+**blf-calibration-delta-updater** depends on the [`YarpImplementation` of the `ISensorBridge`](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface/YarpImplementation) and on the [python bindings](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/bindings/python/RobotInterface). To run the script you also need to install some additional python dependencies
 
 ```
 sudo apt-get install python3-numpy python3-lxml
