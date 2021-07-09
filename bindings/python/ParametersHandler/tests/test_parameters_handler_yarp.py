@@ -201,7 +201,7 @@ def test_clear():
 def test_load_from_file():
 
     handler = blf.YarpParametersHandler()
-    assert handler.set_from_file('config.ini') == True
+    assert handler.set_from_file_path('config.ini') == True
 
     assert handler.get_parameter_int("answer_to_the_ultimate_question_of_life") == 42
     assert handler.get_group("CARTOONS").get_parameter_string("John") == "Doe"

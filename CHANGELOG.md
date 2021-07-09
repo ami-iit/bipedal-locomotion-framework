@@ -5,9 +5,12 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement `CubicSpline` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/344)
 - Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
+- Implement `ContactWrenchCone` class in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
+- Implement `skew` function in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+- General improvements of `blf-calibration-delta-updater` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/361)
 - Add the possibility to control a subset of coordinates in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/356)
 
 ### Fix

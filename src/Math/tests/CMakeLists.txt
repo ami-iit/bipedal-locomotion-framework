@@ -9,8 +9,8 @@ add_bipedal_test(
   LINKS BipedalLocomotion::Math)
 
 add_bipedal_test(
-  NAME LinearizedFrictionConeTest
-  SOURCES LinearizedFrictionConeTest.cpp
+  NAME FrictionCones
+  SOURCES FrictionConesTest.cpp
   LINKS BipedalLocomotion::Math)
 
 add_bipedal_test(
