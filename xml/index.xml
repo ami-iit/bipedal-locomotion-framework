@@ -277,6 +277,14 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench_1ab85cd79c8811fb2caad6edc7dd0738c1" kind="variable"><name>frameIndex</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench_1a3ec5a942414989c77b28593d1ea68b4e" kind="variable"><name>variable</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone" kind="class"><name>BipedalLocomotion::Math::ContactWrenchCone</name>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aceb03e22fad8ed6e8f134ddfede7b949" kind="variable"><name>m_A</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aab1bd189f7ae2acf23cab416501bd7c9" kind="variable"><name>m_b</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aed8a479d53922fb1ca5e55a2015333f5" kind="variable"><name>m_isIntialized</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a5e5c8399793a7df1cdad07fbdc933ffc" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a18e6c6135c856327c71129547f66f4e4" kind="function"><name>getA</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a2abd98cdbd311e660046b4d1ae7c71d0" kind="function"><name>getB</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel" kind="class"><name>BipedalLocomotion::ContactModels::ContinuousContactModel</name>
     <member refid="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel_1a4fc23eac6a42e8d1af29a3164cc3c195" kind="variable"><name>m_frameTransform</name></member>
     <member refid="classBipedalLocomotion_1_1ContactModels_1_1ContinuousContactModel_1a8890170c4cf79f54ddfed8d3c81758c8" kind="variable"><name>m_nullForceTransform</name></member>
@@ -1854,6 +1862,8 @@
   </compound>
   <compound refid="Constants_8h" kind="file"><name>Constants.h</name>
     <member refid="Constants_8h_1a8dc72d6e2ec8af58271cf20db8ec00b3" kind="variable"><name>StandardAccelerationOfGravitation</name></member>
+  </compound>
+  <compound refid="ContactWrenchCone_8h" kind="file"><name>ContactWrenchCone.h</name>
   </compound>
   <compound refid="LinearizedFrictionCone_8h" kind="file"><name>LinearizedFrictionCone.h</name>
   </compound>
