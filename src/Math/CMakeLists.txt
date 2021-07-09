@@ -8,9 +8,12 @@ if(FRAMEWORK_COMPILE_Math)
 
   add_bipedal_locomotion_library(
     NAME                  Math
-    PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/Wrench.h
-    SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp
-    PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging MANIF::manif
+    PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h
+                          ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/ContactWrenchCone.h
+                          ${H_PREFIX}/Wrench.h
+    SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp src/ContactWrenchCone.cpp
+    PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler
+                          BipedalLocomotion::TextLogging MANIF::manif
     SUBDIRECTORIES        tests)
 
 endif()
