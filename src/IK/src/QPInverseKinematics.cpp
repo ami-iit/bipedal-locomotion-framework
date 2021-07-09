@@ -19,14 +19,14 @@ struct QPInverseKinematics::Impl
 {
     struct TaskWithPriority
     {
-        std::shared_ptr<System::LinearTask> task;
+        std::shared_ptr<QPInverseKinematics::Task> task;
         std::size_t priority;
         Eigen::VectorXd weight;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix usefull to reduce dynamics allocation
                                 in advance method */
     };
 
-    IntegrationBasedIKState solution;
+    QPInverseKinematics::State solution;
 
     System::VariablesHandler::VariableDescription robotVelocityVariable;
 
@@ -132,7 +132,7 @@ QPInverseKinematics::QPInverseKinematics()
 
 QPInverseKinematics::~QPInverseKinematics() = default;
 
-bool QPInverseKinematics::addTask(std::shared_ptr<System::LinearTask> task,
+bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> task,
                                   const std::string& taskName,
                                   std::size_t priority,
                                   std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
@@ -414,12 +414,12 @@ bool QPInverseKinematics::isOutputValid() const
     return m_pimpl->isValid;
 }
 
-const IntegrationBasedIKState& QPInverseKinematics::getOutput() const
+const QPInverseKinematics::State& QPInverseKinematics::getOutput() const
 {
     return m_pimpl->solution;
 }
 
-std::weak_ptr<System::LinearTask> QPInverseKinematics::getTask(const std::string& name) const
+std::weak_ptr<QPInverseKinematics::Task> QPInverseKinematics::getTask(const std::string& name) const
 {
     constexpr auto logPrefix = "[QPInverseKinematics::getTask]";
     auto task = m_pimpl->tasks.find(name);
@@ -429,7 +429,7 @@ std::weak_ptr<System::LinearTask> QPInverseKinematics::getTask(const std::string
         log()->warn("{} The task named {} does not exist. A nullptr will be returned.",
                     logPrefix,
                     name);
-        return std::shared_ptr<System::LinearTask>(nullptr);
+        return std::shared_ptr<QPInverseKinematics::Task>(nullptr);
     }
 
     return task->second.task;
