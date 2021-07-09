@@ -67,7 +67,7 @@ class ContactWrenchCone
 public:
 
     /**
-     * Initialize the continuous algebraic riccati equation solver.
+     * Initialize the Contact Wrench Cone class.
      * @param handler pointer to the parameter handler.
      * @note The following parameters are required:
      * |         Parameter Name        |       Type       |                               Description                               | Mandatory |
