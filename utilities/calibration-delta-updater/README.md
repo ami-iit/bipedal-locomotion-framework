@@ -15,7 +15,18 @@ sudo apt-get install python3-numpy python3-lxml
 The syntax of the application follows:
 
 ```shell
-blf-calibration-delta-updater.py [-h] -i INPUT -o OUTPUT -p PART [--config CONFIG]
+usage: blf-calibration-delta-updater.py [-h] -i INPUT -o OUTPUT -p PART [--config CONFIG]
+
+Simple tool to semi-automatically update the calibration delta of a YARP-based robot.
+
+optional arguments:
+  -h, --help            show the help message and exit
+  -i INPUT, --input INPUT
+                        Path to the input xml file containing the calibration deltas
+  -o OUTPUT, --output OUTPUT
+                        Path to the output xml file containing the calibration deltas
+  -p PART, --part PART  Name of the group will be loaded in the configuration file. For instance left_leg or right_leg.
+  --config CONFIG       Path to the configuration file loaded by the application. By default the blf-calibration-delta-updater uses YARP ResourceFinder to locate a file named blf-calibration-delta-updater-options.ini
 ```
 
 where:
