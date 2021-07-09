@@ -13,6 +13,8 @@
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpParametersHandler.h>
 
+#include <yarp/os/ResourceFinder.h>
+
 namespace BipedalLocomotion
 {
 namespace bindings
@@ -28,7 +30,14 @@ void CreateYarpParameterHandler(pybind11::module& module)
                std::shared_ptr<YarpImplementation>,
                IParametersHandler>(module, "YarpParametersHandler")
         .def(py::init())
-        .def("set_from_file", &YarpImplementation::setFromFile, py::arg("Filename"));
+        .def("set_from_filename",
+             [](YarpImplementation& impl, const std::string& filename) -> bool {
+                 const auto filePath
+                     = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName(
+                         filename);
+                 return impl.setFromFile(filePath);
+             })
+        .def("set_from_file_path", &YarpImplementation::setFromFile, py::arg("file_path"));
 }
 
 } // namespace ParametersHandler

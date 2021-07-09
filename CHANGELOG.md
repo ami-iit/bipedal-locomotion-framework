@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+- General improvements of `blf-calibration-delta-updater` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/361)
 
 ### Fix
 
