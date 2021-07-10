@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <type_traits>
 
