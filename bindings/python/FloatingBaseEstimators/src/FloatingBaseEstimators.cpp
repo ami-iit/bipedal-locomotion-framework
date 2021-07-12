@@ -121,21 +121,11 @@ void CreateKinDynComputations(pybind11::module& module)
             })
         .def("get_robot_state",
              [](KinDynComputations& impl) {
-                 Eigen::Matrix<double, 4, 4> world_T_base;
-                 Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
-                 Eigen::VectorXd base_velocity(6);
-                 Eigen::VectorXd s_dot(impl.getNrOfDegreesOfFreedom());
-                 Eigen::VectorXd world_gravity(3);
-                 if (!impl.getRobotState(world_T_base, s, base_velocity, s_dot, world_gravity))
+                 KinDynKinematicsRobotState robot_state(impl.getNrOfDegreesOfFreedom());
+                 if (!impl.getRobotState(robot_state.baseTransform, robot_state.jointPositions, robot_state.baseVelocity, robot_state.jointVelocities, robot_state.worldGravity))
                  {
                      throw py::value_error("Failed to get the robot state.");
                  }
-                 KinDynKinematicsRobotState robot_state;
-                 robot_state.baseTransform = world_T_base;
-                 robot_state.jointPositions = s;
-                 robot_state.baseVelocity = base_velocity;
-                 robot_state.jointVelocities = s_dot;
-                 robot_state.worldGravity = world_gravity;
                  return robot_state;
              })
         .def("set_robot_state",
