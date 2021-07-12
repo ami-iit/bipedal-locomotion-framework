@@ -14,7 +14,6 @@ if(FRAMEWORK_COMPILE_TSID)
                            ${H_PREFIX}/QPFixedBaseTSID.h
     SOURCES                src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp
                            src/BaseDynamicsTask.cpp src/JointDynamicsTask.cpp
-                           src/TaskSpaceInverseDynamics.cpp
                            src/QPFixedBaseTSID.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::Contacts
