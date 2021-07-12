@@ -73,7 +73,6 @@
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
@@ -83,10 +82,10 @@
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">BipedalLocomotion::System::Source&lt;TSIDState&gt;</a>
+              <div class="m-doc-template">template&lt;class _Task, class _State&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">BipedalLocomotion::System::ILinearTaskSolver&lt;TSIDLinearTask, TSIDState&gt;</a>
             </dt>
-            <dd><a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">Source</a> is a template specialization of <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a> and represents a block that does not contains input.</dd>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">ILinearTaskSolver</a> describes the interface for solving problem related to <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> class.</dd>
           </dl>
         </section>
         <section id="derived-classes">
@@ -106,160 +105,6 @@
             </dt>
             <dd>Destructor.</dd>
           </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7e8fb52df133f300617042d44eaeb0be" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Add a linear task in the task space inverse dynamics.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad6ad697a02d42805623c75442a57330f" class="m-doc">getTaskNames</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get a vector containing the name of the tasks.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a18fd7435603d4dc3159db6dfcfa1f664" class="m-doc">finalize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; handler) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Finalize the TSID.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a83ce2f73d9cae6bc9fa5ef27759fd509" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get a specific task.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acf21bf3ba478ec6dd28c5da1c76e4362" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Set the kinDynComputations object.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a7e8fb52df133f300617042d44eaeb0be"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />TaskSpaceInverseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7e8fb52df133f300617042d44eaeb0be" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Add a linear task in the task space inverse dynamics.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">task</td>
-                  <td>pointer to a given linear task</td>
-                </tr>
-                <tr>
-                  <td>taskName</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>priority</td>
-                  <td>Priority associated to the task. The lower the number the higher the priority.</td>
-                </tr>
-                <tr>
-                  <td>weight</td>
-                  <td>Weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true if the task has been added to the fixed base TSID.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ad6ad697a02d42805623c75442a57330f"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />TSID::<wbr />TaskSpaceInverseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad6ad697a02d42805623c75442a57330f" class="m-doc-self">getTaskNames</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get a vector containing the name of the tasks.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>an std::vector containing all the names associated to the tasks</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a18fd7435603d4dc3159db6dfcfa1f664"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />TaskSpaceInverseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a18fd7435603d4dc3159db6dfcfa1f664" class="m-doc-self">finalize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; handler) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Finalize the TSID.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>parameter handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>You should call this method after you add ALL the tasks.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a83ce2f73d9cae6bc9fa5ef27759fd509"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; BipedalLocomotion::<wbr />TSID::<wbr />TaskSpaceInverseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a83ce2f73d9cae6bc9fa5ef27759fd509" class="m-doc-self">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get a specific task.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>name associated to the task.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>a weak ptr associated to an existing task in the TSID. If the task does not exist a nullptr is returned.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="acf21bf3ba478ec6dd28c5da1c76e4362"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />TaskSpaceInverseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acf21bf3ba478ec6dd28c5da1c76e4362" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) <span class="m-label m-warning">virtual</span></span></span>
-            </h3>
-            <p>Set the kinDynComputations object.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">kinDyn</td>
-                  <td>pointer to a kinDynComputations object.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This implementation does nothing.</p></aside>
-          </div></section>
         </section>
       </div>
     </div>

@@ -2,16 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1System_1_1LinearTask" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::LinearTask</compoundname>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::CoMTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::JointTrackingTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SO3Task</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::BaseDynamicsTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1CoMTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::CoMTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::JointDynamicsTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::JointTrackingTask</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SO3Task</derivedcompoundref>
+    <derivedcompoundref refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::IKLinearTask</derivedcompoundref>
+    <derivedcompoundref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::TSIDLinearTask</derivedcompoundref>
     <includes local="no">BipedalLocomotion/System/LinearTask.h</includes>
       <sectiondef kind="public-type">
       <memberdef kind="enum" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" static="no" strong="yes">
@@ -335,64 +327,76 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="9">
+      <node id="11">
         <label>BipedalLocomotion::TSID::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion::TSID::CoMTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1CoMTask"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::IK::SE3Task</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
+        <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
       <node id="7">
-        <label>BipedalLocomotion::TSID::CoMTask</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1CoMTask"/>
+        <label>BipedalLocomotion::TSID::TSIDLinearTask</label>
+        <link refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
-        <label>BipedalLocomotion::IK::SE3Task</label>
-        <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="3">
         <label>BipedalLocomotion::IK::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>BipedalLocomotion::TSID::JointDynamicsTask</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion::IK::SO3Task</label>
-        <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>BipedalLocomotion::TSID::BaseDynamicsTask</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>BipedalLocomotion::TSID::SO3Task</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
       <node id="10">
-        <label>BipedalLocomotion::TSID::SE3Task</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
-        <childnode refid="1" relation="public-inheritance">
+        <label>BipedalLocomotion::TSID::JointDynamicsTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::IK::SO3Task</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::TSID::BaseDynamicsTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>BipedalLocomotion::TSID::SO3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
+        <label>BipedalLocomotion::IK::IKLinearTask</label>
+        <link refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion::TSID::SE3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>BipedalLocomotion::IK::CoMTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1CoMTask"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">

@@ -11,6 +11,7 @@
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public">BipedalLocomotion::TSID::SO3Task</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TSIDState" prot="public">BipedalLocomotion::TSID::TSIDState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" prot="public">BipedalLocomotion::TSID::TaskSpaceInverseDynamics</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" prot="public">BipedalLocomotion::TSID::TSIDLinearTask</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

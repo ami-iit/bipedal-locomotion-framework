@@ -63,7 +63,7 @@
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1IK.html">IK</a>::<wbr/></span>IntegrationBasedIK <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IntegrationBasedIK_8h.html">&lt;BipedalLocomotion/IK/IntegrationBasedIK.h&gt;</a></div>
         </h1>
-        <p>IntegrationBasedInverseKinematics implements the interface for the integration base inverse kinematics.</p>
+        <p><a href="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK.html" class="m-doc">IntegrationBasedIK</a> implements the interface for the integration base inverse kinematics.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -75,7 +75,6 @@
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
@@ -137,10 +136,10 @@ $ R^3 \times SO(3) \times R^n$
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">BipedalLocomotion::System::Source&lt;IntegrationBasedIKState&gt;</a>
+              <div class="m-doc-template">template&lt;class _Task, class _State&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">BipedalLocomotion::System::ILinearTaskSolver&lt;IKLinearTask, IntegrationBasedIKState&gt;</a>
             </dt>
-            <dd><a href="classBipedalLocomotion_1_1System_1_1Source.html" class="m-doc">Source</a> is a template specialization of <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a> and represents a block that does not contains input.</dd>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">ILinearTaskSolver</a> describes the interface for solving problem related to <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> class.</dd>
           </dl>
         </section>
         <section id="derived-classes">
@@ -160,132 +159,6 @@ $ R^3 \times SO(3) \times R^n$
             </dt>
             <dd>Destructor.</dd>
           </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8fd7172789b10c3e70028e714b6f9d5e" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Add a linear task in the inverse kinematics.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa61b7fef25e790c8abb2f87947f74ced" class="m-doc">getTaskNames</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get a vector containing the name of the tasks.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad1058f0747db5421a81c25dabe56010a" class="m-doc">finalize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; handler) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Finalize the IK.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae4704a2fafd2b803cb8d7e9ef59e9c78" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get a specific task.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a8fd7172789b10c3e70028e714b6f9d5e"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />IntegrationBasedIK::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8fd7172789b10c3e70028e714b6f9d5e" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Add a linear task in the inverse kinematics.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">task</td>
-                  <td>pointer to a given linear task</td>
-                </tr>
-                <tr>
-                  <td>taskName</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>priority</td>
-                  <td>Priority associated to the task. The lower the number the higher the priority.</td>
-                </tr>
-                <tr>
-                  <td>weight</td>
-                  <td>Weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true if the task has been added to the inverse kinematics.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="aa61b7fef25e790c8abb2f87947f74ced"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />IK::<wbr />IntegrationBasedIK::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa61b7fef25e790c8abb2f87947f74ced" class="m-doc-self">getTaskNames</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get a vector containing the name of the tasks.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>an std::vector containing all the names associated to the tasks</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ad1058f0747db5421a81c25dabe56010a"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />IntegrationBasedIK::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad1058f0747db5421a81c25dabe56010a" class="m-doc-self">finalize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; handler) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Finalize the IK.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>parameter handler.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>You should call this method after you add ALL the tasks.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ae4704a2fafd2b803cb8d7e9ef59e9c78"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; BipedalLocomotion::<wbr />IK::<wbr />IntegrationBasedIK::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae4704a2fafd2b803cb8d7e9ef59e9c78" class="m-doc-self">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get a specific task.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>name associated to the task.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>a weak ptr associated to an existing task in the IK. If the task does not exist a nullptr is returned.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

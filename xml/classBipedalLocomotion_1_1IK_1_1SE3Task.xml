@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1IK_1_1SE3Task" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::IK::SE3Task</compoundname>
-    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public" virt="non-virtual">BipedalLocomotion::System::LinearTask</basecompoundref>
+    <basecompoundref refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::IKLinearTask</basecompoundref>
     <includes local="no">BipedalLocomotion/IK/SE3Task.h</includes>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a60c5df2127f15287d73a9ced0ce6456d" prot="private" static="no" mutable="no">
@@ -467,6 +467,12 @@
         </childnode>
       </node>
       <node id="2">
+        <label>BipedalLocomotion::IK::IKLinearTask</label>
+        <link refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>BipedalLocomotion::System::LinearTask</label>
         <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
       </node>
@@ -478,19 +484,25 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>std::basic_string&lt; Char &gt;</label>
       </node>
       <node id="2">
-        <label>BipedalLocomotion::System::LinearTask</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>m_description</edgelabel>
+        <label>BipedalLocomotion::IK::IKLinearTask</label>
+        <link refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask"/>
+        <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
+        <label>BipedalLocomotion::System::LinearTask</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>m_description</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
         <label>std::string</label>
-        <childnode refid="4" relation="public-inheritance">
+        <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

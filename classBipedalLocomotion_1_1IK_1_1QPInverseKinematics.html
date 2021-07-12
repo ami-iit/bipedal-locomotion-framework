@@ -77,7 +77,7 @@
             </li>
           </ul>
         </div>
-<p>The inverse kinematics is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a81e6ec3a9708cc5326d5ba50c5454024" class="m-doc">QPInverseKinematics::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM Based
+<p>The inverse kinematics is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a2858997d7e7a47d2f602d1a158a49800" class="m-doc">QPInverseKinematics::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM Based
 Architectures for Position and Velocity Controlled Walking of Humanoid Robots&quot; <a href="https://doi.org/10.1109/HUMANOIDS.2018.8625025">https:/<wbr />/<wbr />doi.org/<wbr />10.1109/<wbr />HUMANOIDS.2018.8625025</a></p>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -85,7 +85,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
             <dt>
               class <a href="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK.html" class="m-doc">IntegrationBasedIK</a>
             </dt>
-            <dd>IntegrationBasedInverseKinematics implements the interface for the integration base inverse kinematics.</dd>
+            <dd><a href="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK.html" class="m-doc">IntegrationBasedIK</a> implements the interface for the integration base inverse kinematics.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -95,8 +95,8 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               <span class="m-doc-wrap-bumper"><a href="#a5e8f8d2855c94ef0539815664b65a0fb" class="m-doc-self">QPInverseKinematics</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Constructor.</dd>
-            <dt id="a9ec71b3033a8ab760da3f7db3ac019e3">
-              <span class="m-doc-wrap-bumper"><a href="#a9ec71b3033a8ab760da3f7db3ac019e3" class="m-doc-self">~QPInverseKinematics</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="ab66c09c2e12b3496f357018d0818e831">
+              <span class="m-doc-wrap-bumper"><a href="#ab66c09c2e12b3496f357018d0818e831" class="m-doc-self">~QPInverseKinematics</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Destructor.</dd>
           </dl>
@@ -105,7 +105,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a81e6ec3a9708cc5326d5ba50c5454024" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
+              <span class="m-doc-wrap-bumper">auto <a href="#a2858997d7e7a47d2f602d1a158a49800" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
               std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
@@ -132,20 +132,20 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
             </dt>
             <dd>Solve the inverse kinematics.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a564a3771559edd04b367ac4a3b43f418" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState.html" class="m-doc">IntegrationBasedIKState</a>&amp; <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac3382473c18f86c151e40e567b048b68" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const State&amp; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the outcome of the optimization problem.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a74e55e1fb89dd53173b283d23c9ec5da" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7fd5fd750763109e53b5369fd5517e86" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;Task&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get a specific task.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a81e6ec3a9708cc5326d5ba50c5454024"><div>
+          <section class="m-doc-details" id="a2858997d7e7a47d2f602d1a158a49800"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a81e6ec3a9708cc5326d5ba50c5454024" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; task,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2858997d7e7a47d2f602d1a158a49800" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
               std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">override</span></span></span>
@@ -258,9 +258,9 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a564a3771559edd04b367ac4a3b43f418"><div>
+          <section class="m-doc-details" id="ac3382473c18f86c151e40e567b048b68"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState.html" class="m-doc">IntegrationBasedIKState</a>&amp; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a564a3771559edd04b367ac4a3b43f418" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">const State&amp; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac3382473c18f86c151e40e567b048b68" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Get the outcome of the optimization problem.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -272,9 +272,9 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a74e55e1fb89dd53173b283d23c9ec5da"><div>
+          <section class="m-doc-details" id="a7fd5fd750763109e53b5369fd5517e86"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">System::<wbr />LinearTask</a>&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a74e55e1fb89dd53173b283d23c9ec5da" class="m-doc-self">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;Task&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7fd5fd750763109e53b5369fd5517e86" class="m-doc-self">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Get a specific task.</p>
             <table class="m-table m-fullwidth m-flat">

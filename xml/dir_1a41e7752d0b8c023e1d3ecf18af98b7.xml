@@ -6,6 +6,7 @@
     <innerfile refid="AdvanceableRunner_8h">AdvanceableRunner.h</innerfile>
     <innerfile refid="Clock_8h">Clock.h</innerfile>
     <innerfile refid="IClock_8h">IClock.h</innerfile>
+    <innerfile refid="ILinearTaskSolver_8h">ILinearTaskSolver.h</innerfile>
     <innerfile refid="LinearTask_8h">LinearTask.h</innerfile>
     <innerfile refid="QuitHandler_8h">QuitHandler.h</innerfile>
     <innerfile refid="SharedResource_8h">SharedResource.h</innerfile>
