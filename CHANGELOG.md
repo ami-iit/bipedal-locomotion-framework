@@ -31,6 +31,7 @@ All notable changes to this project are documented in this file.
 - Implement `SO3Task` in `TSID` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/281)
 - Implement clone method in ParametersHandler classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/288)
 - Implement `VariablesHandler::clear()` and `VariablesHandler::initialize()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
+- Implement python bindings for QPInverseKinematics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/303)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
