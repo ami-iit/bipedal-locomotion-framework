@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
 - General improvements of `blf-calibration-delta-updater` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/361)
 - Add the possibility to control a subset of coordinates in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/356)
+- Add the possibility to control a subset of coordinates in `IK::CoMTask` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/357)
 - Reduce the duplicate code in IK and TSID (https://github.com/dic-iit/bipedal-locomotion-framework/pull/364)
 
 ### Fix
