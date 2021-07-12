@@ -43,12 +43,11 @@ def test_legged_odometry():
 
     # Check that the robot state is set to the desired values
     updated_state = kindyn_desc.kindyn.get_robot_state()
-    assert updated_state["world_T_base"] == pytest.approx(updated_world_T_base)
-    assert updated_state["s"] == pytest.approx(updated_s)
-    assert updated_state["base_velocity"] == pytest.approx(updated_base_velocity)
-    assert updated_state["s_dot"] == pytest.approx(updated_s_dot)
-    assert updated_state["world_gravity"] == pytest.approx(updated_world_gravity)
-
+    assert updated_state.base_transform == pytest.approx(updated_world_T_base)
+    assert updated_state.joint_positions == pytest.approx(updated_s)
+    assert updated_state.base_velocity == pytest.approx(updated_base_velocity)
+    assert updated_state.joint_velocities == pytest.approx(updated_s_dot)
+    assert updated_state.world_gravity == pytest.approx(updated_world_gravity)
 
     dt = 0.01
     # create configuration parameters handler for legged odometry

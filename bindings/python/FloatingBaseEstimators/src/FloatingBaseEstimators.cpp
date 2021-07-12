@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
+#include <BipedalLocomotion/Math/Constants.h>
 #include <iDynTree/Model/Model.h>
 
 
@@ -26,6 +27,36 @@ void CreateKinDynComputations(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace iDynTree;
+
+    struct KinDynKinematicsRobotState
+    {
+        KinDynKinematicsRobotState( //
+            const size_t dofs = 0,
+            const Eigen::Vector3d gravity
+            = {0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation})
+            : worldGravity(gravity)
+        {
+            this->jointPositions = Eigen::VectorXd::Zero(dofs);
+            this->jointVelocities = Eigen::VectorXd::Zero(dofs);
+        }
+
+        Eigen::VectorXd jointPositions;
+        Eigen::VectorXd jointVelocities;
+
+        Eigen::VectorXd baseVelocity = Eigen::VectorXd::Zero(6);
+        Eigen::Matrix<double, 4, 4> baseTransform = Eigen::MatrixXd::Zero(4,4);
+
+        Eigen::Vector3d worldGravity = {0, 0, -Math::StandardAccelerationOfGravitation};
+    };
+
+    py::class_<KinDynKinematicsRobotState>(module, "KinDynKinematicsRobotState")
+        .def(py::init())
+        .def_readwrite("joint_positions", &KinDynKinematicsRobotState::jointPositions)
+        .def_readwrite("joint_velocities", &KinDynKinematicsRobotState::jointVelocities)
+        .def_readwrite("base_velocity", &KinDynKinematicsRobotState::baseVelocity)
+        .def_readwrite("base_transform", &KinDynKinematicsRobotState::baseTransform)
+        .def_readwrite("world_gravity", &KinDynKinematicsRobotState::worldGravity);
+
     py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module,
                                                                         "KinDynComputations")
         .def("__repr__",
@@ -90,12 +121,12 @@ void CreateKinDynComputations(pybind11::module& module)
                  {
                      throw py::value_error("Failed to get the robot state.");
                  }
-                 py::dict robot_state;
-                 robot_state["world_T_base"] = world_T_base;
-                 robot_state["s"] = s;
-                 robot_state["base_velocity"] = base_velocity;
-                 robot_state["s_dot"] = s_dot;
-                 robot_state["world_gravity"] = world_gravity;
+                 KinDynKinematicsRobotState robot_state;
+                 robot_state.baseTransform = world_T_base;
+                 robot_state.jointPositions = s;
+                 robot_state.baseVelocity = base_velocity;
+                 robot_state.jointVelocities = s_dot;
+                 robot_state.worldGravity = world_gravity;
                  return robot_state;
              })
         .def("set_robot_state",
