@@ -143,8 +143,8 @@ TEST_CASE("SE3 Task")
 
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints - [mask]")
         {
-            const auto mask = std::vector<bool>{true, false, true, false, false, false};
-            const auto DoFs = std::count(mask.begin(), mask.end(), true);
+            const auto mask = std::vector<bool>{true, false, true};
+            const auto DoFs = std::count(mask.begin(), mask.end(), true) + 3;
 
             parameterHandler->setParameter("mask", mask);
 
@@ -181,7 +181,7 @@ TEST_CASE("SE3 Task")
             // extract the
             Eigen::MatrixXd jacobianWithMask(DoFs, model.getNrOfDOFs() + 6);
             std::size_t index = 0;
-            for (std::size_t i = 0; i < 6; i++)
+            for (std::size_t i = 0; i < 3; i++)
             {
                 if (mask[i])
                 {
@@ -189,6 +189,8 @@ TEST_CASE("SE3 Task")
                     index++;
                 }
             }
+
+            jacobianWithMask.bottomRows(3) = jacobian.bottomRows(3);
 
             REQUIRE(A.middleCols(variablesHandler.getVariable(robotVelocity).offset,
                                  variablesHandler.getVariable(robotVelocity).size)
@@ -225,14 +227,7 @@ TEST_CASE("SE3 Task")
                 }
             }
 
-            for(int i = 0; i < 3; i++)
-            {
-                if(mask[i + 3])
-                {
-                    expectedB(index) = SO3Controller.getControl().coeffs()[i];
-                    index++;
-                }
-            }
+            expectedB.bottomRows(3) = SO3Controller.getControl().coeffs();
 
             REQUIRE(b.isApprox(expectedB));
         }
