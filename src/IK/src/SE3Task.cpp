@@ -57,23 +57,32 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // resize the matrices
-    m_A.resize(m_spatialVelocitySize, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_DoFs, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_spatialVelocitySize);
+    m_b.resize(m_DoFs);
+    m_jacobian.resize(m_spatialVelocitySize, m_robotVelocityVariable.size);
 
     return true;
 }
 
 bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr std::string_view errorPrefix = "[SE3Task::initialize] ";
+    constexpr auto errorPrefix = "[SE3Task::initialize] ";
 
     std::string frameName = "Unknown";
-    constexpr std::string_view descriptionPrefix = "SE3Task Optimal Control Element - Frame name: ";
+    constexpr auto descriptionPrefix = "IK-SE3Task - Frame name: ";
+
+    std::string maskDescription = "";
+    auto boolToString = [](bool b) { return b ? " true" : " false"; };
+    for(const auto flag : m_mask)
+    {
+        maskDescription += boolToString(flag);
+    }
+
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
-        log()->error("{}, [{} {}] KinDynComputations object is not valid.",
+        log()->error("{} [{} {}] KinDynComputations object is not valid.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -83,7 +92,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     if (m_kinDyn->getFrameVelocityRepresentation()
         != iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION)
     {
-        log()->error("{}, [{} {}] The task supports only quantities expressed in MIXED "
+        log()->error("{} [{} {}] The task supports only quantities expressed in MIXED "
                      "representation. Please provide a KinDynComputations with Frame velocity "
                      "representation set to MIXED_REPRESENTATION.",
                      errorPrefix,
@@ -95,7 +104,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     auto ptr = paramHandler.lock();
     if (ptr == nullptr)
     {
-        log()->error("{}, [{} {}] The parameter handler is not valid.",
+        log()->error("{} [{} {}] The parameter handler is not valid.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -104,7 +113,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     if (!ptr->getParameter("robot_velocity_variable_name", m_robotVelocityVariable.name))
     {
-        log()->error("{}, [{} {}] Error while retrieving the robot velocity variable.",
+        log()->error("{} [{} {}] Error while retrieving the robot velocity variable.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -115,7 +124,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
                == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("{}, [{} {}] Error while retrieving the frame that should be controlled.",
+        log()->error("{} [{} {}] Error while retrieving the frame that should be controlled.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -127,7 +136,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     double kpAngular;
     if (!ptr->getParameter("kp_linear", kpLinear))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional linear gain.",
+        log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -136,7 +145,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
 
     if (!ptr->getParameter("kp_angular", kpAngular))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
+        log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -146,8 +155,33 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     m_R3Controller.setGains(kpLinear);
     m_SO3Controller.setGains(kpAngular);
 
-    // set the description
-    m_description = std::string(descriptionPrefix) + frameName + ".";
+    std::vector<bool> mask;
+    if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
+    {
+        log()->info("{} [{} {}] Unable to find the mask parameter. The default value is used:{}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    maskDescription);
+    }
+    else
+    {
+        // covert an std::vector in a std::array
+        std::copy(mask.begin(), mask.end(), m_mask.begin());
+        // compute the DoFs associated to the task
+        m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
+
+        m_DoFs = m_linearDoFs + m_linearVelocitySize;
+
+        // Update the mask description
+        maskDescription.clear();
+        for(const auto flag : m_mask)
+        {
+            maskDescription += boolToString(flag);
+        }
+    }
+
+    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription + ".";
 
     m_isInitialized = true;
 
@@ -169,14 +203,47 @@ bool SE3Task::update()
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
-    m_b.head<3>() = m_R3Controller.getControl().coeffs();
+    // the angular part is always enabled
     m_b.tail<3>() = m_SO3Controller.getControl().coeffs();
 
-    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
-                                                this->subA(m_robotVelocityVariable)))
+    // if we want to control all 6 DoF we avoid to lose performances
+    if (m_linearDoFs == m_linearVelocitySize)
     {
-        log()->error("[SE3Task::update] Unable to get the jacobian.");
-        return m_isValid;
+        m_b.head<3>() = m_R3Controller.getControl().coeffs();
+
+        if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
+                                                    this->subA(m_robotVelocityVariable)))
+        {
+            log()->error("[SE3Task::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+    } else
+    {
+        // store the jacobian associated to the given frame
+        if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
+        {
+            log()->error("[SE3Task::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+
+        // take only the required components
+        std::size_t index = 0;
+
+        // linear components
+        for (std::size_t i = 0; i < 3; i++)
+        {
+            if (m_mask[i])
+            {
+                m_b(index) = m_R3Controller.getControl().coeffs()(i);
+                iDynTree::toEigen(this->subA(m_robotVelocityVariable)).row(index)
+                    = m_jacobian.row(i);
+                index++;
+            }
+        }
+
+        // take the all angular part
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).bottomRows<3>()
+            = m_jacobian.bottomRows<3>();
     }
 
     m_isValid = true;
@@ -199,7 +266,7 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& 
 
 std::size_t SE3Task::size() const
 {
-    return m_spatialVelocitySize;
+    return m_DoFs;
 }
 
 SE3Task::Type SE3Task::type() const
