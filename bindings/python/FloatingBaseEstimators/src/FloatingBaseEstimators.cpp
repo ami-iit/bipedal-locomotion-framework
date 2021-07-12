@@ -99,6 +99,15 @@ void CreateKinDynComputations(pybind11::module& module)
                  }
                  return world_T_frame;
              })
+        .def("get_world_base_transform",
+             [](KinDynComputations& impl) {
+                 Eigen::Matrix<double, 4, 4> world_T_base;
+                 if (!impl.getWorldBaseTransform(world_T_base))
+                 {
+                     throw py::value_error("Failed to get the trasform for the base.");
+                 }
+                 return world_T_base;
+             })
         .def(
             "set_joint_pos",
             [](KinDynComputations& impl, Eigen::Ref<const Eigen::VectorXd> s) {
