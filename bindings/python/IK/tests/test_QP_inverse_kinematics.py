@@ -2,15 +2,22 @@ import pytest
 pytestmark = pytest.mark.ik
 
 import bipedal_locomotion_framework.bindings as blf
-import gym_ignition_models as m
 import manifpy as manif
 import numpy as np
+import tempfile
+import urllib.request
 
 def test_com_task():
 
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -35,12 +42,20 @@ def test_com_task():
     assert com_task.set_variables_handler(variables_handler=com_var_handler)
     assert com_task.set_set_point(position=np.array([1.,1.,1.5]), velocity=np.array([0.,0.5,0.5]))
 
+    # Close the model temporary file
+    temp.close()
 
 def test_se3_task():
 
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -71,12 +86,20 @@ def test_se3_task():
     mixed_velocity = manif.SE3Tangent([0.0]*6) # TODO: proper assignment
     assert se3_task.set_set_point(I_H_F=I_H_F, mixed_velocity=mixed_velocity)
 
+    # Close the model temporary file
+    temp.close()
 
 def test_so3_task():
 
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -106,12 +129,20 @@ def test_so3_task():
     angularVelocity = manif.SO3Tangent([0.0]*3) # TODO: proper assignment
     assert so3_task.set_set_point(I_R_F=I_R_F, angular_velocity=angularVelocity)
 
+    # Close the model temporary file
+    temp.close()
 
 def test_joint_tracking_task():
 
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -144,6 +175,9 @@ def test_joint_tracking_task():
     joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
+    # Close the model temporary file
+    temp.close()
+
 def test_integration_based_ik_state():
 
     state = blf.ik.IntegrationBasedIKState()
@@ -158,6 +192,12 @@ def test_integration_based_ik_state():
 
 def test_qp_inverse_kinematics():
 
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
     # Set the parameters
     qp_ik_param_handler = blf.parameters_handler.StdParametersHandler()
     qp_ik_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
@@ -168,7 +208,7 @@ def test_qp_inverse_kinematics():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", m.get_model_file("iCubGazeboV2_5"))
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'r_hip_pitch',
                    'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'torso_pitch', 'torso_roll',
                    'torso_yaw', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', 'l_wrist_prosup',
@@ -291,3 +331,6 @@ def test_qp_inverse_kinematics():
     # Check that with different desiderata the ik solution is different
     assert state.joint_velocity != pytest.approx(updated_state.joint_velocity)
     assert state.base_velocity.coeffs() != pytest.approx(updated_state.base_velocity.coeffs())
+
+    # Close the model temporary file
+    temp.close()
