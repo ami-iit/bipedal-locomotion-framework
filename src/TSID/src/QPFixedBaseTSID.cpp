@@ -23,7 +23,7 @@ struct QPFixedBaseTSID::Impl
 {
     struct TaskWithPriority
     {
-        std::shared_ptr<System::LinearTask> task;
+        std::shared_ptr<QPFixedBaseTSID::Task> task;
         std::size_t priority;
         Eigen::VectorXd weight;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix useful to reduce dynamics allocation
@@ -51,7 +51,7 @@ struct QPFixedBaseTSID::Impl
     bool isFinalized{false};
     bool isKinDynSet{false};
 
-    TSIDState solution;
+    QPFixedBaseTSID::State solution;
 
     System::VariablesHandler::VariableDescription robotAccelerationVariable;
     System::VariablesHandler::VariableDescription jointTorquesVariable;
@@ -215,7 +215,7 @@ QPFixedBaseTSID::QPFixedBaseTSID()
 
 QPFixedBaseTSID::~QPFixedBaseTSID() = default;
 
-bool QPFixedBaseTSID::addTask(std::shared_ptr<System::LinearTask> task,
+bool QPFixedBaseTSID::addTask(std::shared_ptr<QPFixedBaseTSID::Task> task,
                               const std::string& taskName,
                               std::size_t priority,
                               std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
@@ -248,7 +248,7 @@ bool QPFixedBaseTSID::addTask(std::shared_ptr<System::LinearTask> task,
         return false;
     }
 
-    if (priority == 1 && task->type() == System::LinearTask::Type::inequality)
+    if (priority == 1 && task->type() == QPFixedBaseTSID::Task::Type::inequality)
     {
         log()->error("{} - [Task name: '{}'] This implementation of the task space inverse "
                      "dynamics cannot "
@@ -308,7 +308,7 @@ std::vector<std::string> QPFixedBaseTSID::getTaskNames() const
     return tasksName;
 }
 
-std::weak_ptr<System::LinearTask> QPFixedBaseTSID::getTask(const std::string& name) const
+std::weak_ptr<QPFixedBaseTSID::Task> QPFixedBaseTSID::getTask(const std::string& name) const
 {
     constexpr auto logPrefix = "[QPFixedBaseTSID::getTask]";
     auto task = m_pimpl->tasks.find(name);
@@ -318,7 +318,7 @@ std::weak_ptr<System::LinearTask> QPFixedBaseTSID::getTask(const std::string& na
         log()->warn("{} The task named {} does not exist. A nullptr will be returned.",
                     logPrefix,
                     name);
-        return std::shared_ptr<System::LinearTask>(nullptr);
+        return std::shared_ptr<QPFixedBaseTSID::Task>(nullptr);
     }
 
     return task->second.task;
@@ -555,13 +555,13 @@ bool QPFixedBaseTSID::advance()
         m_pimpl->constraintMatrix.middleRows(index, constraint.get().task->size()) = A;
         m_pimpl->upperBound.segment(index, constraint.get().task->size()) = b;
 
-        if (constraint.get().task->type() == System::LinearTask::Type::inequality)
+        if (constraint.get().task->type() == QPFixedBaseTSID::Task::Type::inequality)
         {
             m_pimpl->lowerBound.segment(index, constraint.get().task->size())
                 .setConstant(-OsqpEigen::INFTY);
         } else
         {
-            assert(constraint.get().task->type() == System::LinearTask::Type::equality);
+            assert(constraint.get().task->type() == QPFixedBaseTSID::Task::Type::equality);
 
             m_pimpl->lowerBound.segment(index, constraint.get().task->size()) = b;
         }
@@ -612,7 +612,7 @@ bool QPFixedBaseTSID::advance()
     return true;
 }
 
-const TSIDState& QPFixedBaseTSID::getOutput() const
+const QPFixedBaseTSID::State& QPFixedBaseTSID::getOutput() const
 {
     return m_pimpl->solution;
 }
