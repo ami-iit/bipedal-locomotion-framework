@@ -10,7 +10,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -43,7 +43,7 @@ namespace TSID
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class SE3Task : public System::LinearTask
+class SE3Task : public TSIDLinearTask
 {
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */
