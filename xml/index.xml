@@ -1125,7 +1125,12 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1461b043294cda50d50d0a7e8d9c6d73" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1abfa89194544870f00a4f9fdfa975e4b0" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a59a66819e32371c0114043b890be7e16" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a89e92ff4db7e9c6c83f88346af55243c" kind="variable"><name>m_mask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a9b3de6deee3445fe468622b65783d6d4" kind="variable"><name>m_linearDoFs</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ae0ae72771e7b2973958f6c54a63b4f1d" kind="variable"><name>m_DoFs</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1acf4be40735de5513c86a942e14de4772" kind="variable"><name>m_jacobian</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a17236a753fd06ae3c3565e64276eb159" kind="variable"><name>m_spatialVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a111007e03803ce3c9672b9d7ffdab3a1" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e" kind="function"><name>setVariablesHandler</name></member>
