@@ -156,7 +156,7 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
     m_SO3Controller.setGains(kpAngular);
 
     std::vector<bool> mask;
-    if (!ptr->getParameter("mask", mask) || (mask.size() != m_spatialVelocitySize))
+    if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
     {
         log()->info("{} [{} {}] Unable to find the mask parameter. The default value is used:{}.",
                     errorPrefix,
@@ -169,7 +169,9 @@ bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> pa
         // covert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
         // compute the DoFs associated to the task
-        m_DoFs = std::count(m_mask.begin(), m_mask.end(), true);
+        m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
+
+        m_DoFs = m_linearDoFs + m_linearVelocitySize;
 
         // Update the mask description
         maskDescription.clear();
@@ -201,11 +203,13 @@ bool SE3Task::update()
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
+    // the angular part is always enabled
+    m_b.tail<3>() = m_SO3Controller.getControl().coeffs();
+
     // if we want to control all 6 DoF we avoid to lose performances
-    if (m_DoFs == m_spatialVelocitySize)
+    if (m_linearDoFs == m_linearVelocitySize)
     {
         m_b.head<3>() = m_R3Controller.getControl().coeffs();
-        m_b.tail<3>() = m_SO3Controller.getControl().coeffs();
 
         if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                     this->subA(m_robotVelocityVariable)))
@@ -237,17 +241,9 @@ bool SE3Task::update()
             }
         }
 
-        // angular components
-        for (std::size_t i = 0; i < 3; i++)
-        {
-            if (m_mask[i + 3])
-            {
-                m_b(index) = m_SO3Controller.getControl().coeffs()(i);
-                iDynTree::toEigen(this->subA(m_robotVelocityVariable)).row(index)
-                    = m_jacobian.row(i + 3);
-                index++;
-            }
-        }
+        // take the all angular part
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).bottomRows<3>()
+            = m_jacobian.bottomRows<3>();
     }
 
     m_isValid = true;
