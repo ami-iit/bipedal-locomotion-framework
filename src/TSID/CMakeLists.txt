@@ -8,13 +8,12 @@ if(FRAMEWORK_COMPILE_TSID)
 
   add_bipedal_locomotion_library(
     NAME                   TSID
-    PUBLIC_HEADERS         ${H_PREFIX}/SO3Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h
+    PUBLIC_HEADERS         ${H_PREFIX}/TSIDLinearTask.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h
                            ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/JointDynamicsTask.h
                            ${H_PREFIX}/TaskSpaceInverseDynamics.h
                            ${H_PREFIX}/QPFixedBaseTSID.h
     SOURCES                src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp
                            src/BaseDynamicsTask.cpp src/JointDynamicsTask.cpp
-                           src/TaskSpaceInverseDynamics.cpp
                            src/QPFixedBaseTSID.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::Contacts

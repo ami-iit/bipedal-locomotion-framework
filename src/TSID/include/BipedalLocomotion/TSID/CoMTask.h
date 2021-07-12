@@ -12,7 +12,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -24,7 +24,7 @@ namespace TSID
 {
 
 /**
- * ComTask is a concrete implementation of the System::LinearTask. Please use this element if you
+ * ComTask is a concrete implementation of the TSIDLinearTask. Please use this element if you
  * want to control the position of the CoM. The task assumes perfect control of the robot
  * acceleration \f$\dot{\nu}\f$ that contains the base linear and angular acceleration expressed in
  * mixed representation and the joints acceleration. The task represents the following equation
@@ -38,7 +38,7 @@ namespace TSID
  * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
-class CoMTask : public System::LinearTask
+class CoMTask : public TSIDLinearTask
 {
     LieGroupControllers::ProportionalDerivativeControllerR3d m_R3Controller; /**< P Controller in R3
                                                                               */

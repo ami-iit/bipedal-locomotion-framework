@@ -18,7 +18,6 @@
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
-#include <BipedalLocomotion/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -56,7 +55,7 @@ public:
     /**
      * Destructor.
      */
-    ~QPInverseKinematics();
+    virtual ~QPInverseKinematics();
 
     /**
      * Add a linear task in the inverse kinematics
@@ -71,7 +70,7 @@ public:
      * Task::Type) with priority equal to 1.
      * @return true if the task has been added to the inverse kinematics.
      */
-    bool addTask(std::shared_ptr<System::LinearTask> task,
+    bool addTask(std::shared_ptr<Task> task,
                  const std::string& taskName,
                  std::size_t priority,
                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
@@ -120,7 +119,7 @@ public:
      * Get the outcome of the optimization problem
      * @return the state of the inverse kinematics.
      */
-    const IntegrationBasedIKState& getOutput() const override;
+    const State& getOutput() const override;
 
     /**
      * Get a specific task
@@ -128,7 +127,7 @@ public:
      * @return a weak ptr associated to an existing task in the IK. If the task does not exist a
      * nullptr is returned.
      */
-    std::weak_ptr<System::LinearTask> getTask(const std::string& name) const override;
+    std::weak_ptr<Task> getTask(const std::string& name) const override;
 };
 } // namespace IK
 } // namespace BipedalLocomotion

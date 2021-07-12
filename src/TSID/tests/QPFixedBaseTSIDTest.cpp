@@ -40,7 +40,7 @@ constexpr double dT = 0.001;
 
 struct TSIDAndTasks
 {
-    std::shared_ptr<TaskSpaceInverseDynamics> tsid;
+    std::shared_ptr<QPFixedBaseTSID> tsid;
     std::shared_ptr<SE3Task> se3Task;
     std::shared_ptr<JointTrackingTask> regularizationTask;
 };
@@ -91,8 +91,8 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
 }
 
 TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
-                                   std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                   const VariablesHandler& variables)
+                        std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                        const VariablesHandler& variables)
 {
     // prepare the parameters related to the size of the system
     const Eigen::VectorXd kpRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());

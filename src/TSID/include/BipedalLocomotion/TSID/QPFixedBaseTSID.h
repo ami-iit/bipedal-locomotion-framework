@@ -16,6 +16,8 @@
 #include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
+#include <iDynTree/KinDynComputations.h>
+
 namespace BipedalLocomotion
 {
 
@@ -65,7 +67,7 @@ public:
      * Task::Type) with priority equal to 1.
      * @return true if the task has been added to the TSID.
      */
-    bool addTask(std::shared_ptr<System::LinearTask> task,
+    bool addTask(std::shared_ptr<Task> task,
                  const std::string& taskName,
                  std::size_t priority,
                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
@@ -82,7 +84,7 @@ public:
      * @return a weak ptr associated to an existing task in the TSID. If the task does not exist a
      * nullptr is returned.
      */
-    std::weak_ptr<System::LinearTask> getTask(const std::string& name) const override;
+    std::weak_ptr<Task> getTask(const std::string& name) const override;
 
     /**
      * Initialize the TSID algorithm.
@@ -118,7 +120,7 @@ public:
      * Get the outcome of the optimization problem
      * @return the state of the TSID.
      */
-    const TSIDState& getOutput() const override;
+    const State& getOutput() const override;
 
     /**
      * Return true if the content of get is valid.
@@ -130,7 +132,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 };
 
 } // namespace TSID
