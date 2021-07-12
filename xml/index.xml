@@ -118,6 +118,9 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a8ff2c743ce50610fe653079d3bded38b" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a2fbf31df737af962fed9a3bea4ef2569" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1adda377f657bfa045ae413cc98bc4a7f5" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1afe60f0e276cae1415491d0d0f952f126" kind="variable"><name>m_mask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a7596d779c538d3890551340fd43501cb" kind="variable"><name>m_DoFs</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9f65cbf828750a418faf7be55bccc6fa" kind="variable"><name>m_jacobian</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9b6bac87c5de018c913d5a41047b09e0" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a8945afdb561e7767d53c4cd6eb52cac0" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4b1182dcb7394e66f1bd08b58fdb46d1" kind="function"><name>initialize</name></member>
