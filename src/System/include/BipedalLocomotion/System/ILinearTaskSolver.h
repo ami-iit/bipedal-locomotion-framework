@@ -18,6 +18,7 @@
 #include <iDynTree/Core/MatrixView.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
