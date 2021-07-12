@@ -52,7 +52,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-latest, macOS-latest]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
       fail-fast: false
 
     steps:
@@ -97,7 +97,7 @@ jobs:
         ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
-      if: matrix.os == 'macOS-latest'
+      if: matrix.os == 'macos-latest'
       run: |
 
         brew update
@@ -271,7 +271,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest')
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
       shell: bash
       run: |
 
@@ -419,7 +419,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Install manifpy [Ubintu/macOS]
-      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest'
+      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
       run: |
         git clone https://github.com/artivis/manif.git manifpy
         cd manifpy
@@ -464,7 +464,7 @@ jobs:
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
-      if: matrix.os == 'macOS-latest'
+      if: matrix.os == 'macos-latest'
       shell: bash
       run: |
         mkdir -p build
