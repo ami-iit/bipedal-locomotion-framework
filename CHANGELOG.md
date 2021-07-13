@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
 - Implement `ContactWrenchCone` class in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
 - Implement `skew` function in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
+- Implement `QPTSID` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
@@ -14,6 +15,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to control a subset of coordinates in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/356)
 - Add the possibility to control a subset of coordinates in `IK::CoMTask` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/357)
 - Reduce the duplicate code in IK and TSID (https://github.com/dic-iit/bipedal-locomotion-framework/pull/364)
+- `QPFixedBaseTSID` now inherits from `QPTSID` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
 
 ### Fix
 
