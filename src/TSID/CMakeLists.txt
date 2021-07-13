@@ -11,14 +11,15 @@ if(FRAMEWORK_COMPILE_TSID)
     PUBLIC_HEADERS         ${H_PREFIX}/TSIDLinearTask.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h
                            ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/JointDynamicsTask.h
                            ${H_PREFIX}/TaskSpaceInverseDynamics.h
-                           ${H_PREFIX}/QPFixedBaseTSID.h
+                           ${H_PREFIX}/QPFixedBaseTSID.h ${H_PREFIX}/QPTSID.h
     SOURCES                src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp
                            src/BaseDynamicsTask.cpp src/JointDynamicsTask.cpp
-                           src/QPFixedBaseTSID.cpp
+                           src/QPFixedBaseTSID.cpp src/QPTSID.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::Contacts
                            BipedalLocomotion::ParametersHandler
                            BipedalLocomotion::System
+                           BipedalLocomotion::Math
                            LieGroupControllers::LieGroupControllers
                            MANIF::manif
                            iDynTree::idyntree-high-level
