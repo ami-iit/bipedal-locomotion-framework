@@ -29,7 +29,7 @@ namespace RobotInterface
  */
 struct SensorBridgeOptions
 {
-    bool isKinematicsEnabled{false}; /**< flag to connect kinematics measurement sources */
+    bool isJointSensorsEnabled{false}; /**< flag to connect joint measurement sources */
     bool isIMUEnabled{false}; /**< flag to connect IMU measurement sources */
     bool isLinearAccelerometerEnabled{false}; /**< flag to connect linear accelerometer measurement
                                                  sources */

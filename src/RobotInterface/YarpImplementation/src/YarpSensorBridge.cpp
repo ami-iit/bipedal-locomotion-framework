@@ -44,7 +44,7 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    &YarpSensorBridge::Impl::configureRemoteControlBoardRemapper,
                                    handler,
                                    m_pimpl->metaData,
-                                   m_pimpl->metaData.bridgeOptions.isKinematicsEnabled);
+                                   m_pimpl->metaData.bridgeOptions.isJointSensorsEnabled);
     if (!ret)
     {
         log()->info("{} Skipping the configuration of RemoteControlBoardRemapper. YarpSensorBridge "
