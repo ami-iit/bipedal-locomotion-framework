@@ -63,7 +63,7 @@
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TSID.html">TSID</a>::<wbr/></span>QPFixedBaseTSID <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="QPFixedBaseTSID_8h.html">&lt;BipedalLocomotion/TSID/QPFixedBaseTSID.h&gt;</a></div>
         </h1>
-        <p><a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> is a concrete class and implements a task space inverse dynamics.</p>
+        <p><a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> is specialization of <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> class in the case of fixed base system.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -77,14 +77,14 @@
             </li>
           </ul>
         </div>
-<p>The TSID is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html#a6554cdda330e7cfbddc0aed98e5fa236" class="m-doc">QPFixedBaseTSID::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as a hard task, thus treated as a constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. Note that this class considers just one contact wrench as we assume the external wrench acting on only the base link.</p>
+<p>The TSID is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html#a3f665f8f9728b563bbaef77270773bf6" class="m-doc">QPFixedBaseTSID::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as a hard task, thus treated as a constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. Note that this class considers just one contact wrench as we assume the external wrench acting on only the base link. Here you can find an example of the <a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> class.<br /></p><img class="m-image" src="https://user-images.githubusercontent.com/43743081/112606007-308f7780-8e18-11eb-875f-d8a7c4b960eb.png" alt="Image" /><aside class="m-note m-info"><h4>Note</h4><p>If you want to solve the Inverse Dynamics for a floating base system please use <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a>.</p></aside>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics.html" class="m-doc">TaskSpaceInverseDynamics</a>
+              class <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a>
             </dt>
-            <dd><a href="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics.html" class="m-doc">TaskSpaceInverseDynamics</a> implements the interface for the task space inverse dynamics.</dd>
+            <dd><a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> is a concrete class and implements a task space inverse dynamics.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -104,21 +104,6 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a6554cdda330e7cfbddc0aed98e5fa236" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Add a linear task in the fixed base TSID.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7952098f2454d90169e71e65f7241a5b" class="m-doc">getTaskNames</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Get a vector containing the name of the tasks.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a12250aba55d8e8ebb6dcd600ca1e3bc3" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;Task&gt; <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Get a specific task.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#afd8a4a3f3823189efaee3def7fdfd86f" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Initialize the TSID algorithm.</dd>
@@ -127,18 +112,6 @@
             </dt>
             <dd>Finalize the TSID.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab67015f1d23dd44241d9118a43125d95" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Solve the fixed base TSID.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad4eb3d4d43e3f558851d8e43e52a1bea" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const State&amp; <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Get the outcome of the optimization problem.</dd>
-            <dt id="a819d5bdc96e87fd5fb7cd475d42f16b5">
-              <span class="m-doc-wrap-bumper">auto <a href="#a819d5bdc96e87fd5fb7cd475d42f16b5" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Return true if the content of get is valid.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#aad89c0f72bd2c95558a8c6d8c0cc754e" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool</span>
             </dt>
             <dd>Set the kinDynComputations object.</dd>
@@ -146,82 +119,6 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a6554cdda330e7cfbddc0aed98e5fa236"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6554cdda330e7cfbddc0aed98e5fa236" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
-              const std::string&amp; taskName,
-              std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Add a linear task in the fixed base TSID.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">task</td>
-                  <td>pointer to a given linear task</td>
-                </tr>
-                <tr>
-                  <td>taskName</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>priority</td>
-                  <td>Priority associated to the task. The lower the number the higher the priority.</td>
-                </tr>
-                <tr>
-                  <td>weight</td>
-                  <td>weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true if the task has been added to the TSID.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>currently we support only task with priority 0 or 1. If the priority is set to 0 the task will be considered as a constraint. In this case the weight is not required.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a7952098f2454d90169e71e65f7241a5b"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7952098f2454d90169e71e65f7241a5b" class="m-doc-self">getTaskNames</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Get a vector containing the name of the tasks.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>an std::vector containing all the names associated to the tasks</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a12250aba55d8e8ebb6dcd600ca1e3bc3"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;Task&gt; BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a12250aba55d8e8ebb6dcd600ca1e3bc3" class="m-doc-self">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Get a specific task.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>name associated to the task.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>a weak ptr associated to an existing task in the TSID. If the task does not exist a nullptr is returned.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="afd8a4a3f3823189efaee3def7fdfd86f"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afd8a4a3f3823189efaee3def7fdfd86f" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span></span></span>
@@ -244,7 +141,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the generalized robot acceleration</td><td>Yes</td></tr><tr><td><code>robot_torque_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot torque</td><td>Yes</td></tr><tr><td><code>verbosity</code></td><td><code>bool</code></td><td>Verbosity of the solver. Default value <code>false</code></td><td>No</td></tr></tbody></table><p>Where the generalized robot acceleration is a vector containing the base acceleration (expressed in mixed representation) and the joint accelerations, the generalized robot torques is a vector containing the joint torques and the</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the generalized robot acceleration</td><td>Yes</td></tr><tr><td><code>robot_torque_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot torque</td><td>Yes</td></tr><tr><td><code>verbosity</code></td><td><code>bool</code></td><td>Verbosity of the solver. Default value <code>false</code></td><td>No</td></tr></tbody></table><p>Where the generalized robot acceleration is a vector containing the base acceleration (expressed in mixed representation) and the joint accelerations,</p></aside>
           </div></section>
           <section class="m-doc-details" id="ab30128e846c93bcf6cd4ebdf86e0db85"><div>
             <h3>
@@ -269,34 +166,6 @@
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>You should call this method after you add ALL the tasks.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ab67015f1d23dd44241d9118a43125d95"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab67015f1d23dd44241d9118a43125d95" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Solve the fixed base TSID.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>true in case of success and false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ad4eb3d4d43e3f558851d8e43e52a1bea"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const State&amp; BipedalLocomotion::<wbr />TSID::<wbr />QPFixedBaseTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad4eb3d4d43e3f558851d8e43e52a1bea" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Get the outcome of the optimization problem.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the state of the TSID.</td>
-                </tr>
-              </tfoot>
-            </table>
           </div></section>
           <section class="m-doc-details" id="aad89c0f72bd2c95558a8c6d8c0cc754e"><div>
             <h3>

@@ -106,7 +106,7 @@
         <argsstring>() const =0</argsstring>
         <name>getTaskNames</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1aea4524325aeaa138f0953b5bbf56e5b6">getTaskNames</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a7952098f2454d90169e71e65f7241a5b">getTaskNames</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32">getTaskNames</reimplementedby>
         <briefdescription>
 <para>Get a vector containing the name of the tasks. </para>
         </briefdescription>
@@ -126,6 +126,7 @@
         <name>finalize</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a345b7b00600b13be14c74bdb007c5362">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab30128e846c93bcf6cd4ebdf86e0db85">finalize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e">finalize</reimplementedby>
         <param>
           <type>const <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kindref="compound">System::VariablesHandler</ref> &amp;</type>
           <declname>handler</declname>
@@ -159,7 +160,7 @@
         <argsstring>(const std::string &amp;name) const =0</argsstring>
         <name>getTask</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86">getTask</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a12250aba55d8e8ebb6dcd600ca1e3bc3">getTask</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e">getTask</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -207,10 +208,16 @@
 <para>Please check IntegrationBasedIK for further details. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="10">
+      <node id="11">
         <label>BipedalLocomotion::IK::IntegrationBasedIK</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK"/>
-        <childnode refid="9" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::TSID::QPTSID</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="6">
@@ -220,10 +227,10 @@
           <edgelabel>&lt; TSIDLinearTask, TSIDState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>BipedalLocomotion::IK::QPInverseKinematics</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics"/>
-        <childnode refid="10" relation="public-inheritance">
+        <childnode refid="11" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -248,13 +255,13 @@
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion::TSID::QPFixedBaseTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion::System::ILinearTaskSolver&lt; IKLinearTask, IntegrationBasedIKState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
         <childnode refid="1" relation="template-instance">

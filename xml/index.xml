@@ -978,14 +978,8 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afe34535ba7f72e8f8a8951eb7f57a48a" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a45b6c66204b18531b9a120079fa2dcf5" kind="function"><name>QPFixedBaseTSID</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1aad6d8bb491894542587d0aed95927ea5" kind="function"><name>~QPFixedBaseTSID</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a6554cdda330e7cfbddc0aed98e5fa236" kind="function"><name>addTask</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a7952098f2454d90169e71e65f7241a5b" kind="function"><name>getTaskNames</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a12250aba55d8e8ebb6dcd600ca1e3bc3" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afd8a4a3f3823189efaee3def7fdfd86f" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab30128e846c93bcf6cd4ebdf86e0db85" kind="function"><name>finalize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ab67015f1d23dd44241d9118a43125d95" kind="function"><name>advance</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1ad4eb3d4d43e3f558851d8e43e52a1bea" kind="function"><name>getOutput</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a819d5bdc96e87fd5fb7cd475d42f16b5" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1aad89c0f72bd2c95558a8c6d8c0cc754e" kind="function"><name>setKinDyn</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics" kind="class"><name>BipedalLocomotion::IK::QPInverseKinematics</name>
@@ -1000,6 +994,19 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7e89856750429fa6bc97d34845a1f153" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" kind="function"><name>getTask</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kind="class"><name>BipedalLocomotion::TSID::QPTSID</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adb8db0bf0a0d8ea5903dadadaf5fbdcf" kind="function"><name>QPTSID</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" kind="function"><name>~QPTSID</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" kind="function"><name>getTaskNames</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" kind="function"><name>getTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" kind="function"><name>isOutputValid</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" kind="class"><name>BipedalLocomotion::Planners::QuinticSpline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" kind="variable"><name>m_pimpl</name></member>
@@ -1988,6 +1995,8 @@
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
   </compound>
   <compound refid="QPFixedBaseTSID_8h" kind="file"><name>QPFixedBaseTSID.h</name>
+  </compound>
+  <compound refid="QPTSID_8h" kind="file"><name>QPTSID.h</name>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
   </compound>

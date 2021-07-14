@@ -3,7 +3,7 @@
   <compounddef id="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" prot="public" virt="non-virtual">BipedalLocomotion::System::ILinearTaskSolver&lt; TSIDLinearTask, TSIDState &gt;</basecompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID" prot="public" virt="non-virtual">BipedalLocomotion::TSID::QPFixedBaseTSID</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" prot="public" virt="non-virtual">BipedalLocomotion::TSID::QPTSID</derivedcompoundref>
     <includes local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includes>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_1af67a42286571cd0263af0b22e7b32167" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -18,18 +18,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="57" column="13"/>
+        <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="55" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kindref="compound">TaskSpaceInverseDynamics</ref> implements the interface for the task space inverse dynamics. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please inherit this class if you want to implement your custom Task TSID. The <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDState" kindref="compound">TSIDState</ref> is a struct containing the joint acceleration, joint torques and contact wrenches. The <ref refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kindref="compound">TaskSpaceInverseDynamics</ref> can be used to generate the desired joint torques to be sent to the low-level torque controllers. Here you can find an example of the <ref refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kindref="compound">TaskSpaceInverseDynamics</ref> interface. <linebreak/>
- <image type="html" name="https://user-images.githubusercontent.com/43743081/112606007-308f7780-8e18-11eb-875f-d8a7c4b960eb.png" inline="yes"></image>
- </para>
+<para>Please inherit this class if you want to implement your custom Task TSID. The <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDState" kindref="compound">TSIDState</ref> is a struct containing the joint acceleration, joint torques and contact wrenches. The <ref refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kindref="compound">TaskSpaceInverseDynamics</ref> can be used to generate the desired joint torques to be sent to the low-level torque controllers. </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="8">
+        <label>BipedalLocomotion::TSID::QPTSID</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::ILinearTaskSolver&lt; TSIDLinearTask, TSIDState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
@@ -61,10 +65,10 @@
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion::TSID::QPFixedBaseTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -133,7 +137,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="50" column="1" bodyfile="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" bodystart="51" bodyend="58"/>
+    <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="48" column="1" bodyfile="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" bodystart="49" bodyend="56"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</scope><name>advance</name></member>
