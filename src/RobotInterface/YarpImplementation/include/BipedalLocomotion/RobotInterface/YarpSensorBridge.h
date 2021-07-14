@@ -375,7 +375,7 @@ public:
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
-     * This means that the user must pass a resized argument "motorPWMs" to this methodW
+     * This means that the user must pass a resized argument "motorPWMs" to this method
      * @return true/false in case of success/failure
      */
     bool getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
