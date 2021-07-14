@@ -43,9 +43,7 @@ struct TSIDState
  * dynamics. Please inherit this class if you want to implement your custom Task TSID.
  * The TSIDState is a struct containing the joint acceleration, joint torques
  * and contact wrenches. The TaskSpaceInverseDynamics can be used to generate the desired joint
- * torques to be sent to the low-level torque controllers. Here you can find an example of the
- * TaskSpaceInverseDynamics interface. <br/> <img
- * src="https://user-images.githubusercontent.com/43743081/112606007-308f7780-8e18-11eb-875f-d8a7c4b960eb.png" width="1500">
+ * torques to be sent to the low-level torque controllers.
  */
 class TaskSpaceInverseDynamics : public System::ILinearTaskSolver<TSIDLinearTask, TSIDState>
 {
