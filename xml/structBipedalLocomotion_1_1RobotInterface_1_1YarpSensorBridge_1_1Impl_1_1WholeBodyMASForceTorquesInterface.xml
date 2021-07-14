@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="84" column="47" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="84" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="92" column="47" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="92" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -24,7 +24,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="82" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="83" bodyend="85"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="90" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="91" bodyend="93"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface_1a571aab909fc2b837e6662118bff517ca" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</scope><name>sixAxisFTSensors</name></member>
     </listofallmembers>

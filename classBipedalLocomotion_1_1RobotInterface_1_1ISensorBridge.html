@@ -267,6 +267,72 @@
               OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Get all motors&#x27; current in ampere.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4a44c7b9132b0020e36460ad4d1d1280" class="m-doc">getMotorPWM</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorPWM,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get motor PWM.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7d4e7c18cb7dbae59a6091a69b1af111" class="m-doc">getMotorPWMs</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorPWMs,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all motors&#x27; PWM.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a91fce22c7a03936c2615fadbf1adea3b" class="m-doc">getJointTorque</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; jointTorque,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get joint torques in Nm.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2d0d9691f82815c720357ba1159bd472" class="m-doc">getJointTorques</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; jointTorques,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all joints&#x27; torque in Nm.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#acd6cec3e242e3588315c730d6b26cf71" class="m-doc">getPidPosition</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; pidPosition,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get pid position in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad377ee3aebf6cfc33d01dc03bf0cc952" class="m-doc">getPidPositions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; pidPositions,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all pid positions in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab9840bc0f3578565fe397c5aeb41585c" class="m-doc">getPidPositionError</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; pidPositionError,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get pid position error in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa3b70d52b6fee2af14a77ca85ae0133b" class="m-doc">getPidPositionErrors</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; pidPositionErrors,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all pid position errors in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a72e11e97a72a5a48decedfbd192cfea1" class="m-doc">getMotorPosition</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorPosition,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get motor position in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#abb0cdee4a82755d9e1d577ffeb7c452d" class="m-doc">getMotorPositions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorPositions,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all motors&#x27; positions in rad.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0f50a232e96cc6c59a6f948594ed7160" class="m-doc">getMotorVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorVelocity,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get motor velocity in rad/s.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a20a3b9a547662ead8aa64438648fe170" class="m-doc">getMotorVelocities</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorVelocties,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get all motors&#x27; velocities in rad/s.</dd>
           </dl>
         </section>
         <section>
@@ -1002,6 +1068,378 @@
               </tfoot>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorCurrents&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a4a44c7b9132b0020e36460ad4d1d1280"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4a44c7b9132b0020e36460ad4d1d1280" class="m-doc-self">getMotorPWM</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorPWM,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get motor PWM.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>motorPWM&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>motor PWM</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a7d4e7c18cb7dbae59a6091a69b1af111"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7d4e7c18cb7dbae59a6091a69b1af111" class="m-doc-self">getMotorPWMs</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorPWMs,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all motors&#x27; PWM.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">motorPWMs&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>all motors&#x27; PWM</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPWMs&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a91fce22c7a03936c2615fadbf1adea3b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a91fce22c7a03936c2615fadbf1adea3b" class="m-doc-self">getJointTorque</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; jointTorque,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get joint torques in Nm.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>jointTorque&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>motor torque in Nm</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2d0d9691f82815c720357ba1159bd472"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2d0d9691f82815c720357ba1159bd472" class="m-doc-self">getJointTorques</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; jointTorques,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all joints&#x27; torque in Nm.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointTorques&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>all motors&#x27; torque in Nm</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointTorques&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="acd6cec3e242e3588315c730d6b26cf71"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acd6cec3e242e3588315c730d6b26cf71" class="m-doc-self">getPidPosition</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; pidPosition,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get pid position in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>pidPosition&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>pid position in radians</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad377ee3aebf6cfc33d01dc03bf0cc952"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad377ee3aebf6cfc33d01dc03bf0cc952" class="m-doc-self">getPidPositions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; pidPositions,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all pid positions in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">pidPositions&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>all pid positions in radians</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositions&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ab9840bc0f3578565fe397c5aeb41585c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab9840bc0f3578565fe397c5aeb41585c" class="m-doc-self">getPidPositionError</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; pidPositionError,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get pid position error in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>pidPositionError&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>pid position error in radians</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa3b70d52b6fee2af14a77ca85ae0133b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa3b70d52b6fee2af14a77ca85ae0133b" class="m-doc-self">getPidPositionErrors</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; pidPositionErrors,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all pid position errors in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">pidPositionErrors&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>all pid position errors in radians</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositionErrors&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a72e11e97a72a5a48decedfbd192cfea1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a72e11e97a72a5a48decedfbd192cfea1" class="m-doc-self">getMotorPosition</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorPosition,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get motor position in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>motorPosition&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>motor position in radians</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="abb0cdee4a82755d9e1d577ffeb7c452d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abb0cdee4a82755d9e1d577ffeb7c452d" class="m-doc-self">getMotorPositions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorPositions,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all motors&#x27; positions in rad.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">motorPositions</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPositions&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a0f50a232e96cc6c59a6f948594ed7160"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0f50a232e96cc6c59a6f948594ed7160" class="m-doc-self">getMotorVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorVelocity,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get motor velocity in rad/s.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>motorVelocity&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>motor velocity in radians per second</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a20a3b9a547662ead8aa64438648fe170"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a20a3b9a547662ead8aa64438648fe170" class="m-doc-self">getMotorVelocities</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorVelocties,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>Get all motors&#x27; velocities in rad/s.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">motorVelocties</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorVelocties&quot; to this method</p></aside>
           </div></section>
         </section>
       </div>

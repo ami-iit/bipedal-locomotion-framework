@@ -315,6 +315,10 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1aeba7e5d937af0d787009b6e43ba23079" kind="variable"><name>encoders</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1ad76b6edc91e992333877092f68b68ae8" kind="variable"><name>axis</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a6b43d2a4b9fa1ff85d283356be390f09" kind="variable"><name>currsensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a9b121fc5e9dd4938879f1f35de3604de" kind="variable"><name>torques</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1ac5bdf95dd2782fa9579923b8a12e60bc" kind="variable"><name>motorEncoders</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a038ab72099605364ce5aa474ddaa5770" kind="variable"><name>pids</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a6049afc295d0c40f20eb0de8482e8d4e" kind="variable"><name>amp</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperMeasures</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a37d42bea8fb64e91d9f6b74e359c7845" kind="variable"><name>remappedJointIndices</name></member>
@@ -322,9 +326,21 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a57d09e2e7d857189837d74f337968ce0" kind="variable"><name>jointPositions</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a15b77ef2fd889a44289d8dc09da28452" kind="variable"><name>jointVelocities</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a1ad05a9ce64e0b14c2de886c5f8932a2" kind="variable"><name>motorCurrents</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a831987a6ac94b2bca1dfcfc7ff3ba29b" kind="variable"><name>jointTorques</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a094bd1e5ad658802822fd9d39dd8de9a" kind="variable"><name>motorPositions</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a902211a73e45f0f6d8785ac899dc72cd" kind="variable"><name>motorVelocities</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1ab214a4ac5d67f8fbb98955b87ef087e0" kind="variable"><name>pidPositions</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a40807efec8b95df2511f29b22e737c03" kind="variable"><name>pidPositionErrors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a743b729ea5c6ab636d6d13952775e6c4" kind="variable"><name>motorPWMs</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a14e629a72895b3c861a5541ca77e28e2" kind="variable"><name>jointPositionsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1adc8f7d04813dc4455eef40e44441812a" kind="variable"><name>jointVelocitiesUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1adaa3411d7a6afdfd62af543d169b3ba2" kind="variable"><name>motorCurrentsUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a7ba96b8fc5d9eb9a9b4c3c7f422d01a2" kind="variable"><name>jointTorquesUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1af78144bcf245c4a92b67d1746a66dd58" kind="variable"><name>motorPositionsUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a1ddc7db0514c379d6e4185aca234ef07" kind="variable"><name>motorVelocitiesUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1ab53823f4a8fc0e15311b3456587bf91a" kind="variable"><name>pidPositionsUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1aebc9681cfed20e5513169551ece71ee6" kind="variable"><name>pidPositionErrorsUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1acae6ab3b921b5fc28c4ab0cae98463bc" kind="variable"><name>motorPWMsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1af6a0903af92a02bfd8cce4b700e7b98f" kind="variable"><name>receivedTimeInSeconds</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" kind="class"><name>BipedalLocomotion::Planners::ConvexHullHelper</name>
@@ -584,6 +600,10 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a992caac13c61cf02db7ecea0eea7171c" kind="function"><name>readMASSensor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a849f6076aaf1ed72a02234cc63f35b4f" kind="function"><name>readAllMASSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab21dc032893cf0ad554211a9c1a5d51d" kind="function"><name>readControlBoardInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a559050923864e6c3b958e05c6bbea5f0" kind="function"><name>readAllJointSensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad4b1e5b50d0da2141fe44e93da941e19" kind="function"><name>readAllMotorSensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad72bcad393af9a6a373faecbd37bb548" kind="function"><name>readAllMotorPWMs</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4409c543182d5bb405ef005c6ceeb7a4" kind="function"><name>readAllPIDs</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1acddbd04b6cb2df2b75005e62786baa9a" kind="function"><name>readAllIMUs</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a816e32aeabd4d463336adbcf125254df" kind="function"><name>readAllCartesianWrenches</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5058da8da784edc580c5624b659849ff" kind="function"><name>readAllMASLinearAccelerometers</name></member>
@@ -742,6 +762,18 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1af951b34d0b4ff5dd51a23bf40dad488d" kind="function"><name>populateSensorBridgeMetaDataFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a41fab351db0d88b6a40c08294ab83f50" kind="function"><name>getMotorCurrent</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac7ccad5b61eb4d5d04dbe4ff1392937b" kind="function"><name>getMotorCurrents</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4a44c7b9132b0020e36460ad4d1d1280" kind="function"><name>getMotorPWM</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7d4e7c18cb7dbae59a6091a69b1af111" kind="function"><name>getMotorPWMs</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a91fce22c7a03936c2615fadbf1adea3b" kind="function"><name>getJointTorque</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a2d0d9691f82815c720357ba1159bd472" kind="function"><name>getJointTorques</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acd6cec3e242e3588315c730d6b26cf71" kind="function"><name>getPidPosition</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad377ee3aebf6cfc33d01dc03bf0cc952" kind="function"><name>getPidPositions</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9840bc0f3578565fe397c5aeb41585c" kind="function"><name>getPidPositionError</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aa3b70d52b6fee2af14a77ca85ae0133b" kind="function"><name>getPidPositionErrors</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a72e11e97a72a5a48decedfbd192cfea1" kind="function"><name>getMotorPosition</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abb0cdee4a82755d9e1d577ffeb7c452d" kind="function"><name>getMotorPositions</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0f50a232e96cc6c59a6f948594ed7160" kind="function"><name>getMotorVelocity</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170" kind="function"><name>getMotorVelocities</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::JointDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" kind="variable"><name>m_robotAccelerationVariable</name></member>
@@ -1180,7 +1212,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData_1af28510fbc98c0a4b425c83a6f91c4e13" kind="variable"><name>bridgeOptions</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions" kind="struct"><name>BipedalLocomotion::RobotInterface::SensorBridgeOptions</name>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a93dbb40c69eaad14e54e796abcad6476" kind="variable"><name>isKinematicsEnabled</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a51df58db15e884840dfda3b1364bdd91" kind="variable"><name>isJointSensorsEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a134cabfa0368ee67c66b756f6291decc" kind="variable"><name>isIMUEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ae645e483cc3b133f0f39f99194aa81f3" kind="variable"><name>isLinearAccelerometerEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af22b711670afb72717101620e85f5f63" kind="variable"><name>isGyroscopeEnabled</name></member>
@@ -1189,6 +1221,9 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a8b1d17ce5827f5ec298c3ab402bfe64d" kind="variable"><name>isSixAxisForceTorqueSensorEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a76bc51592890b64494bb4ceb8acd9905" kind="variable"><name>isThreeAxisForceTorqueSensorEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a888e76e7d573ea9a55e06d1c18999780" kind="variable"><name>isCartesianWrenchEnabled</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af7cdf9dd94eb559201ee6a35f2427df8" kind="variable"><name>isPIDsEnabled</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a89a49fe4085abfec7529e5257e7191ef" kind="variable"><name>isMotorSensorsEnabled</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a0f81c5a2b2e5b264377357e1e0a79747" kind="variable"><name>isPWMControlEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a4570c2a27e0c3288f690d35070ace64f" kind="variable"><name>nrJoints</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists" kind="struct"><name>BipedalLocomotion::RobotInterface::SensorLists</name>
@@ -1645,6 +1680,18 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5142cbe32cde1a63595df4da1cb147e1" kind="function"><name>getCartesianWrench</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac346d428d98a915c180eefa88e77c4f5" kind="function"><name>getMotorCurrent</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" kind="function"><name>getMotorCurrents</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078" kind="function"><name>getMotorPWM</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642" kind="function"><name>getMotorPWMs</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae" kind="function"><name>getJointTorque</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aae0867c8a5de903041906c4ad7bedccc" kind="function"><name>getJointTorques</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa1c6c07e3a5385b0b192f0f02f77bebc" kind="function"><name>getPidPosition</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a386d1d0391c48bb6bb74ce778086a214" kind="function"><name>getPidPositions</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad883780f4592b71f4b44230d3d204976" kind="function"><name>getPidPositionError</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aaa6b1a101bc1bfb4e8d50045e90f6454" kind="function"><name>getPidPositionErrors</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a54de0c229c806a3d9f0cb49823dc20fc" kind="function"><name>getMotorPosition</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755" kind="function"><name>getMotorPositions</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae" kind="function"><name>getMotorVelocity</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b" kind="function"><name>getMotorVelocities</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
     <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
