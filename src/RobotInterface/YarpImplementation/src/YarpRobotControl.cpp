@@ -514,7 +514,9 @@ struct YarpRobotControl::Impl
 
             // Yarp wants the quantities in degrees
             double scaling = 180 / M_PI;
-            if (mode == ControlMode::Torque && mode == ControlMode::PWM)
+            // if the control mode is torque or PWM it is not required to change the unit of
+            // measurement
+            if (mode == ControlMode::Torque || mode == ControlMode::PWM)
                 scaling = 1;
 
             for (int i = 0; i < indeces.size(); i++)
