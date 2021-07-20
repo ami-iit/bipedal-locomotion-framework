@@ -131,7 +131,8 @@ TEST_CASE("Joints and Base dynamics tasks")
             REQUIRE(b.isApprox(coneWithNormalForceB));
 
             // disable the task
-            task.disable();
+            const bool isActive = false;
+            task.setContactActive(isActive);
             coneWithNormalForceB.tail(1)(0) = 0;
             REQUIRE(b.isApprox(coneWithNormalForceB));
 
