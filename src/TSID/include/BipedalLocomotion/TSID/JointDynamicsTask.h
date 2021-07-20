@@ -13,7 +13,7 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -36,7 +36,7 @@ namespace TSID
  * 6d-forces. You can find further details in Section 2.3.4 of
  * https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class JointDynamicsTask : public System::LinearTask
+class JointDynamicsTask : public TSIDLinearTask
 {
     System::VariablesHandler::VariableDescription m_robotAccelerationVariable; /**< Variable
                                                                                   describing the

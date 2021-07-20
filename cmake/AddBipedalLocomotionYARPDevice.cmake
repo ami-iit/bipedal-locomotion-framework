@@ -42,27 +42,30 @@ function(add_bipedal_yarp_device)
                               TYPE ${type}
                               INCLUDE ${public_headers})
 
-  yarp_add_plugin(${name} ${sources} ${public_headers})
+  if(NOT SKIP_${name})
 
-  target_link_libraries(${name} PUBLIC ${public_link_libraries})
-  target_compile_features(${name} PUBLIC cxx_std_17)
+    yarp_add_plugin(${name} ${sources} ${public_headers})
 
-  # Specify include directories for both compilation and installation process.
-  # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
-  # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-relocatable-packages
-  target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "<INSTALLINTERFACE:<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
+    target_link_libraries(${name} PUBLIC ${public_link_libraries})
+    target_compile_features(${name} PUBLIC cxx_std_17)
 
-  # Specify installation targets, typology and destination folders.
-  yarp_install(TARGETS ${name}
-               COMPONENT runtime
-               LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
-               ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR}
-               YARP_INI DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
+    # Specify include directories for both compilation and installation process.
+    # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
+    # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-relocatable-packages
+    target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+      "<INSTALLINTERFACE:<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
 
-  add_subdirectory(app)
+    # Specify installation targets, typology and destination folders.
+    yarp_install(TARGETS ${name}
+      COMPONENT runtime
+      LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
+      ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR}
+      YARP_INI DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
+    add_subdirectory(app)
 
-  message(STATUS "Created device ${name}.")
+    message(STATUS "Created device ${name} for export ${PROJECT_NAME}.")
+
+  endif()
 
 endfunction()

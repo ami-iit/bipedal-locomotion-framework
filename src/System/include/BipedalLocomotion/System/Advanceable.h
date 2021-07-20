@@ -30,8 +30,9 @@ template <class _Input, class _Output> class Advanceable;
  * Basic class that represents a discrete system. The interface contains method to set inputs and
  * output.
  */
-template <class _Input, class _Output> struct BipedalLocomotion::System::Advanceable
+template <class _Input, class _Output> class BipedalLocomotion::System::Advanceable
 {
+public:
     using Input = _Input;
     using Output = _Output;
 

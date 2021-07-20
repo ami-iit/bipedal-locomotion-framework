@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhase.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 
 #include <BipedalLocomotion/bindings/Contacts/Contacts.h>
 
@@ -168,6 +169,19 @@ void CreateContactPhaseList(pybind11::module& module)
              py::overload_cast<const ContactListMap&>(&ContactPhaseList::setLists),
              py::arg("contact_lists"))
         .def("lists", &ContactPhaseList::lists);
+}
+
+void CreateContactListJsonParser(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    module.def("contact_list_map_from_json",
+               BipedalLocomotion::Contacts::contactListMapFromJson,
+               py::arg("filename"));
+    module.def("contact_list_map_to_json",
+               BipedalLocomotion::Contacts::contactListMapToJson,
+               py::arg("map"),
+               py::arg("filename"));
 }
 
 } // namespace contatcs

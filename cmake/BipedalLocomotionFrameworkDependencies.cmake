@@ -35,9 +35,9 @@ find_package(cppad QUIET)
 checkandset_dependency(cppad)
 dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
-find_package(manif 0.0.3 QUIET)
+find_package(manif 0.0.4 QUIET)
 checkandset_dependency(manif)
-dependency_classifier(manif MINIMUM_VERSION 0.0.3 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
+dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
 find_package(OsqpEigen 0.6.3 QUIET)
 checkandset_dependency(OsqpEigen)
@@ -69,6 +69,14 @@ find_package(realsense2 QUIET)
 checkandset_dependency(realsense2)
 dependency_classifier(realsense2 IS_USED ${FRAMEWORK_USE_realsense2} PUBLIC)
 
+find_package(nlohmann_json 3.7.3 QUIET)
+checkandset_dependency(nlohmann_json)
+dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
+
+find_package(tomlplusplus 2.4.0 QUIET)
+checkandset_dependency(tomlplusplus)
+dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
+
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
 
@@ -92,6 +100,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
   "FRAMEWORK_COMPILE_YarpUtilities" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_TomlImplementation
+  "Compile All the TOML implementations?" ON
+  "FRAMEWORK_USE_tomlplusplus" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_Math
   "Compile Math library?" ON
   "FRAMEWORK_USE_manif" OFF)
@@ -102,7 +114,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Estimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_Contact
   "Compile Contact libraries?" ON
-  "FRAMEWORK_USE_manif" OFF)
+  "FRAMEWORK_USE_manif;FRAMEWORK_USE_nlohmann_json" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
@@ -183,3 +195,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_RealsenseCapture
 framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
   "Compile realsense-test application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_RealsenseCapture;FRAMEWORK_COMPILE_PerceptionInterface" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
+  "Compile calibration-delta-updater application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)

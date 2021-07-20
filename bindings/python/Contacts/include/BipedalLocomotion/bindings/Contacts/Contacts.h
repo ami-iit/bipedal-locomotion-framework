@@ -21,6 +21,7 @@ void CreateContact(pybind11::module& module);
 void CreateContactList(pybind11::module& module);
 void CreateContactPhase(pybind11::module& module);
 void CreateContactPhaseList(pybind11::module& module);
+void CreateContactListJsonParser(pybind11::module& module);
 
 } // namespace Contacts
 } // namespace bindings

@@ -12,7 +12,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -44,8 +44,10 @@ namespace IK
  * different definitions of exponential maps and logarithm maps. Please consider that here the MIXED
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
+ * @note SE3Task can be used to control also a subset of element of the linear part of the SE3.
+ * Please refer to `mask` parameter in IK::SE3Task::initialize method.
  */
-class SE3Task : public System::LinearTask
+class SE3Task : public IKLinearTask
 {
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */
@@ -58,6 +60,7 @@ class SE3Task : public System::LinearTask
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
 
     static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -65,6 +68,12 @@ class SE3Task : public System::LinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
+    /** Mask used to select the DoFs controlled by the task */
+    std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
+    std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
+    std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
+
+    Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 public:
 
     /**
@@ -77,6 +86,7 @@ public:
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
      * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
      * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
+     * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.

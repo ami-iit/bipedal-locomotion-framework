@@ -25,12 +25,13 @@ void CreateModule(pybind11::module& module)
     CreateContactList(module);
     CreateContactPhase(module);
     CreateContactPhaseList(module);
+    CreateContactListJsonParser(module);
 
     CreateContactDetector(module);
     CreateSchmittTriggerUnit(module);
     CreateSchmittTriggerDetector(module);
-
+    CreateFixedFootDetector(module);
 }
-} // namespace Planners
+} // namespace Contacts
 } // namespace bindings
 } // namespace BipedalLocomotion

@@ -47,17 +47,17 @@ public:
      * @note the following parameters are required by the class
      * |           Parameter Name          |    Type    |                                                                   Description                                                                  | Mandatory |
      * |:---------------------------------:|:----------:|:----------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |          `linear_solver`          |  `string`  | Linear solver used by ipopt, the default value is mumps. Please check https://coin-or.github.io/Ipopt/#PREREQUISITES for the available solvers |     No    |
+     * |          `linear_solver`          |  `string`  | Linear solver used by ipopt, the default value is mumps. Please check [here](https://coin-or.github.io/Ipopt/#PREREQUISITES) for the available solvers |     No    |
      * |      `planner_sampling_time`      |  `double`  |                                                          Sampling time of the planner                                                          |    Yes    |
      * |      `number_of_foot_corners`     |    `int`   |                                      Number of the corner of the polygon used to describe the foot. E.g. 4                                     |    Yes    |
      * |         `foot_corner_<i>`         | `Vector3d` |             A 3d vector describing the position of the corner w.r.t. frame associated to the foot. `i = 0:number_of_foot_corners`.             |    Yes    |
-     * |         `omega_dot_weight`        |  `double`  |                                                   Weight associated to the \f$\dot{omega}\f$                                                   |    Yes    |
+     * |         `omega_dot_weight`        |  `double`  |                                                   Weight associated to the \f$\dot{\omega}\f$                                                   |    Yes    |
      * |       `dcm_tracking_weight`       |  `double`  |                                                      Weight associated to the DCM tracking                                                     |    Yes    |
-     * | `omega_dot_rate_of_change_weight` |  `double`  |                                          Weight associated to the rate of change of \f$\dot{omega}\f$                                          |    Yes    |
+     * | `omega_dot_rate_of_change_weight` |  `double`  |                                          Weight associated to the rate of change of \f$\dot{\omega}\f$                                          |    Yes    |
      * |    `vrp_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the VRP                                               |    Yes    |
      * |    `dcm_rate_of_change_weight`    |  `double`  |                                               Weight associated to the rate of change of the DCM                                               |    Yes    |
      * |    `use_external_dcm_reference`   |   `bool`   |  Set this option to true if you want provide an external DCM reference with TimeVaryingDCMPlanner::setDCMReference(). (Default value False)    |    No     |
-     * |            `gravity`              |  `double`  |  Value of the gravity acceleration. It should be a positive number (Default value BipedalLocomotion::Math::StandardAccelerationOfGravitation)  |    No     |
+     * |            `gravity`              |  `double`  |  Value of the gravity acceleration. It should be a positive number (Default Math::StandardAccelerationOfGravitation )  |    No     |
      * @return true in case of success/false otherwise.
      */
      bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
@@ -86,7 +86,7 @@ public:
      * @note The number of columns should be coherent with the contactPhaseList. In details the
      * number of samples \f$s\f$ is equal to
      * \f[
-     *  s = \ceil*{\frac{t_f - t_i}{dT}}
+     *  s = \left\lceil {\frac{t_f - t_i}{dT}} \right\rceil
      * \f]
      * where \f$dT\f$ is the sampling time of the planner, \f$t_f\f$ and \f$t_i\f$ are the end time
      * of the last contact and the initial time of the first contact.

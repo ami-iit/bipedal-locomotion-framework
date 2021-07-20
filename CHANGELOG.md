@@ -3,6 +3,26 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Implement `CubicSpline` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/344)
+- Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
+- Implement `ContactWrenchCone` class in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
+- Implement `skew` function in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
+- Implement `QPTSID` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
+- Implement motor pwm, motor encoders, wbd joint torque estimates, pid reading in `YarpSensorBridge`(https://github.com/dic-iit/bipedal-locomotion-framework/pull/359).
+- Implement python bindings for QPInverseKinematics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/303)
+
+### Changed
+- Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
+- General improvements of `blf-calibration-delta-updater` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/361)
+- Add the possibility to control a subset of coordinates in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/356)
+- Add the possibility to control a subset of coordinates in `IK::CoMTask` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/357)
+- Reduce the duplicate code in IK and TSID (https://github.com/dic-iit/bipedal-locomotion-framework/pull/364)
+- `QPFixedBaseTSID` now inherits from `QPTSID` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
+
+### Fix
+
+## [0.2.0] - 2021-06-15
+### Added
 - Implement IRobotControl python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/200)
 - Implement ISensorBridge python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/203)
 - Implement `LeggedOdometry` class as a part of `FloatingBaseEstimators` library and handle arbitrary contacts in `FloatingBaseEstimator`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/151)
@@ -31,7 +51,16 @@ All notable changes to this project are documented in this file.
 - Implement `SO3Task` in `TSID` component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/281)
 - Implement clone method in ParametersHandler classes (https://github.com/dic-iit/bipedal-locomotion-framework/pull/288)
 - Implement `VariablesHandler::clear()` and `VariablesHandler::initialize()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
-- Implement python bindings for QPInverseKinematics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/303)
+- Implement the possibility to set the default contact in the `ContactList` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/297)
+- Implement `FixedFootDetector` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/284)
+- Implement QPFixedBaseTSID class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/251)
+- Implement `YarpImplementation::setFromFile()` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/307)
+- Implement `CoMTask` in TSID (https://github.com/dic-iit/bipedal-locomotion-framework/pull/304)
+- Implement `YarpParametersHandler` bindings (https://github.com/dic-iit/bipedal-locomotion-framework/pull/309)
+- Implement `contactListMapFromJson()` and `contactListMapToJson()` methods and python bindings (https://github.com/dic-iit/bipedal-locomotion-framework/issues/316)
+- Implement a matioCpp-based strain2 sensors' FT-IMU logger example device (https://github.com/dic-iit/bipedal-locomotion-framework/pull/326)
+- Implement `TomlImplementation` in `ParametersHandler` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/328)
+- Implement blf_calibration_delta_updater.py application (https://github.com/dic-iit/bipedal-locomotion-framework/pull/332)
 
 ### Changed
 - Move all the Contacts related classes in Contacts component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/204)
@@ -48,6 +77,11 @@ All notable changes to this project are documented in this file.
 - If FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES is OFF, for Python bindings use installation directory provided by sysconfig Python module. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/274)
 - Reduce memory allocation in `YarpSensorBridge` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/278)
 - Use `TextLogging` in `VariablesHandler` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/291)
+- Fix `YarpImplementation::setParameterPrivate()` when a boolean or a vector of boolean is passed (https://github.com/dic-iit/bipedal-locomotion-framework/pull/311)
+- Add `foot_take_off_acceleration` and `foot_take_off_velocity` parameters in the `SwingFootPlanner` class (https://github.com/dic-iit/bipedal-locomotion-framework/issues/323)
+- Change the parameters handler verbosity (https://github.com/dic-iit/bipedal-locomotion-framework/pull/330)
+- Restore backward compatibility of SwingFootPlanner parameters (https://github.com/dic-iit/bipedal-locomotion-framework/pull/334)
+- Bump manif version to 0.0.4  (https://github.com/dic-iit/bipedal-locomotion-framework/pull/339)
 
 ### Fixed
 - Fix missing implementation of `YarpSensorBridge::getFailedSensorReads()`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/202)
@@ -60,6 +94,13 @@ All notable changes to this project are documented in this file.
 - Fix initialization of reference frame for world in `LeggedOdometry` class. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/289)
 - `LeggedOdometry::Impl::updateInternalContactStates()` is now called even if the legged odometry is not initialize. This was required to have a meaningful base estimation the first time `LeggedOdometry::changeFixedFrame()` is called. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/292)
 - Avoid to use the default copy-constructor and copy-assignment operator in `ContactPhaseList` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/295)
+- Fix `toString()` method of `VariablesHandler` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/302)
+- Fix in `YarpUtilities::getVectorFromSearchable` when a vector of boolean is passed as input (https://github.com/dic-iit/bipedal-locomotion-framework/pull/313)
+- Various fixes for the yarp devices (https://github.com/dic-iit/bipedal-locomotion-framework/pull/337)
+
+## [0.1.1] - 2021-05-08
+### Fix
+- Fix the documentation in `TemplateHelpers.h`
 
 ## [0.1.0] - 2021-02-22
 ### Added
@@ -95,5 +136,7 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...master
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...master
+[0.2.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
+[0.1.1]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0

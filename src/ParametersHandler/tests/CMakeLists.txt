@@ -18,3 +18,13 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
     LINKS BipedalLocomotion::ParametersHandlerYarpImplementation)
 
 endif()
+
+
+if(FRAMEWORK_COMPILE_TomlImplementation)
+
+  add_bipedal_test(
+    NAME ParametersHandlerToml
+    SOURCES ParametersHandlerTomlTest.cpp
+    LINKS BipedalLocomotion::ParametersHandlerTomlImplementation)
+
+endif()

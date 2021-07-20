@@ -8,4 +8,7 @@ add_bipedal_test(
  SOURCES SchmittTriggerDetectorUnitTest.cpp
  LINKS BipedalLocomotion::ContactDetectors BipedalLocomotion::ParametersHandler)
 
-
+add_bipedal_test(
+ NAME FixedFootDetector
+ SOURCES FixedFootDetectorUnitTest.cpp
+ LINKS BipedalLocomotion::ContactDetectors BipedalLocomotion::ParametersHandler)

@@ -36,7 +36,7 @@ BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
     FloatingBaseSystemKinematics,
     (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
     (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
-    (Eigen::Matrix<double, 6, 1>, Eigen::VectorXd))
+    (Eigen::Matrix<double, 6, 1>, Eigen::VectorXd));
 
 namespace BipedalLocomotion
 {

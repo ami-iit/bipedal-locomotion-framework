@@ -76,9 +76,16 @@ public:
 
     /**
      * Set the handler from an object.
-     * @param object The object to copy
+     * @param searchable The object to copy
      */
     void set(const yarp::os::Searchable& searchable);
+
+    /**
+     * Set the handler from a file.
+     * @param filename the name of the file that should be loaded.
+     * @return true/false in case of success/failure.
+     */
+    bool setFromFile(const std::string& filename);
 
     /**
      * Get a parameter [int]
@@ -254,6 +261,17 @@ public:
      */
     ~YarpImplementation() = default;
 };
+
+/**
+ * Private implementation of setParameter
+ * @param parameterName name of the parameter
+ * @param parameter parameter
+ * @note The specialization is required because std::vector<bool> is not a container and the
+ * operator[] does not return a bool&
+ */
+template <>
+void YarpImplementation::setParameterPrivate<std::vector<bool>>(const std::string& parameterName,
+                                                                const std::vector<bool>& parameter);
 } // namespace ParametersHandler
 } // namespace BipedalLocomotion
 

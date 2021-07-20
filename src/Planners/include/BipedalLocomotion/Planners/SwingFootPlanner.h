@@ -14,7 +14,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/Planners/Spline.h>
 #include <BipedalLocomotion/Planners/SO3Planner.h>
 #include <BipedalLocomotion/System/Source.h>
 
@@ -51,8 +51,10 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                                                         use) */
 
     SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
-    QuinticSpline m_planarPlanner; /**< Trajectory planner for the x y coordinates of the foot */
-    QuinticSpline m_heightPlanner; /**< Trajectory planner for the z coordinate of the foot */
+    std::unique_ptr<Spline> m_planarPlanner; /**< Trajectory planner for the x y coordinates of the
+                                                foot */
+    std::unique_ptr<Spline> m_heightPlanner; /**< Trajectory planner for the z coordinate of the
+                                                foot */
 
     double m_stepHeight{0.0}; /**< Height of the swing foot. Note that this value could not be the
                                  maximum height of the foot. If m_footApexTime is set to 0.5 the
@@ -70,13 +72,16 @@ public:
      * Initialize the planner.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |        Parameter Name       |   Type   |                                                      Description                                                     | Mandatory |
-     * |:---------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |       `sampling_time`       | `double` |                                        Sampling time of the planner in seconds                                       |    Yes    |
-     * |        `step_height`        | `double` | Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum |    Yes    |
-     * |       `foot_apex_time`      | `double` |   Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down    |    Yes    |
-     * |   `foot_landing_velocity`   | `double` |                                               Landing vertical velocity                                              |    Yes    |
-     * | `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration                                            |    Yes    |
+     * |         Parameter Name       |   Type   |                                                                            Description                                                                         | Mandatory |
+     * |:----------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |        `sampling_time`       | `double` |                                                                 Sampling time of the planner in seconds                                                        |    Yes    |
+     * |         `step_height`        | `double` |                              Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum              |    Yes    |
+     * |        `foot_apex_time`      | `double` |                          Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                       |    Yes    |
+     * |    `foot_landing_velocity`   | `double` |                                                          Landing vertical velocity (default value 0.0)                                                         |    No    |
+     * |  `foot_landing_acceleration` | `double` |                                                       Landing vertical acceleration (default value 0.0)                                                        |    No    |
+     * |   `foot_take_off_velocity`   | `double` |                                                         Take-off vertical velocity (default value 0.0)                                                         |    No    |
+     * | `foot_take_off_acceleration` | `double` |                                                      Take-off vertical acceleration (default value 0.0)                                                        |    No    |
+     * |     `interpolation_method`   | `string` |  Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`)    |    No    |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;

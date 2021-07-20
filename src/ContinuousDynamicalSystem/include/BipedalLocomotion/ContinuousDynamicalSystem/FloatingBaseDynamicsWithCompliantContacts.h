@@ -47,7 +47,7 @@ BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FloatingBaseDynamicsWit
                                                           Eigen::Matrix3d,
                                                           Eigen::VectorXd),
                                                          (Eigen::VectorXd,
-                                                          std::vector<CompliantContactWrench>))
+                                                          std::vector<CompliantContactWrench>));
 
 namespace BipedalLocomotion
 {

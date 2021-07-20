@@ -8,7 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_TSID_JOINT_REGULARIZATION_TASK_H
 #define BIPEDAL_LOCOMOTION_TSID_JOINT_REGULARIZATION_TASK_H
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -30,7 +30,7 @@ namespace TSID
  * The desired joint acceleration is chosen such that the joint will converge to the desired
  * trajectory and it is computed with a standard standard PD controller in \f$\mathbb{R}^n\f$.
  */
-class JointTrackingTask : public System::LinearTask
+class JointTrackingTask : public TSIDLinearTask
 {
     Eigen::VectorXd m_kp; /**< Proportional gain. */
     Eigen::VectorXd m_kd; /**< Derivative gain. */

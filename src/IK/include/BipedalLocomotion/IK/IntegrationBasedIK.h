@@ -8,16 +8,11 @@
 #ifndef BIPEDAL_LOCOMOTION_IK_INTEGRATION_BASE_IK_H
 #define BIPEDAL_LOCOMOTION_IK_INTEGRATION_BASE_IK_H
 
-#include <memory>
-#include <string>
-#include <optional>
-
 #include <Eigen/Dense>
 #include <manif/SE3.h>
 
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/System/Source.h>
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/IK/IKLinearTask.h>
+#include <BipedalLocomotion/System/ILinearTaskSolver.h>
 
 namespace BipedalLocomotion
 {
@@ -26,7 +21,7 @@ namespace IK
 {
 
 /**
- * State of the InverseKinematics
+ * State of the IntegrationBasedIK
  */
 struct IntegrationBasedIKState
 {
@@ -35,7 +30,7 @@ struct IntegrationBasedIKState
 };
 
 /**
- * IntegrationBasedInverseKinematics implements the interface for the integration base inverse
+ * IntegrationBasedIK implements the interface for the integration base inverse
  * kinematics. Please inherits this class if you want to implement your custom Integration base
  * Inverse Kinematics. The IntegrationBasedInverseKinematics can actually be used as Velocity
  * controller or real IK. Indeed it is important to notice that IntegrationBasedIKState is a struct
@@ -60,46 +55,9 @@ struct IntegrationBasedIKState
  * <br/>
  * <img src="https://user-images.githubusercontent.com/16744101/110700993-e50e8400-81f0-11eb-88a1-30d5a024da9a.png" alt="InverseKinematics" width="1500">
  */
-class IntegrationBasedIK : public BipedalLocomotion::System::Source<IntegrationBasedIKState>
+class IntegrationBasedIK : public System::ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>
 {
-
 public:
-    /**
-     * Add a linear task in the inverse kinematics
-     * @param task pointer to a given linear task
-     * @param priority Priority associated to the task. The lower the number the higher the
-     * priority.
-     * @param weight Weight associated to the task. This parameter is optional. The default value is
-     * an object that does not contain any value. So is an invalid weight.
-     * @return true if the task has been added to the inverse kinematics.
-     */
-    virtual bool addTask(std::shared_ptr<System::LinearTask> task,
-                         const std::string& taskName,
-                         std::size_t priority,
-                         std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) = 0;
-
-    /**
-     * Get a vector containing the name of the tasks.
-     * @return an std::vector containing all the names associated to the tasks
-     */
-    virtual std::vector<std::string> getTaskNames() const = 0;
-
-    /**
-     * Finalize the IK.
-     * @param handler parameter handler.
-     * @note You should call this method after you add ALL the tasks.
-     * @return true in case of success, false otherwise.
-     */
-    virtual bool finalize(const System::VariablesHandler& handler) = 0;
-
-    /**
-     * Get a specific task
-     * @param name name associated to the task.
-     * @return a weak ptr associated to an existing task in the IK. If the task does not exist a
-     * nullptr is returned.
-     */
-    virtual std::weak_ptr<System::LinearTask> getTask(const std::string& name) const = 0;
-
     /**
      * Destructor.
      */

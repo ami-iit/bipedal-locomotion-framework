@@ -14,10 +14,11 @@
 //iDynTree
 #include <manif/manif.h>
 
-//std
+// std
+#include <functional>
 #include <set>
 #include <string>
-#include <functional>
+#include <unordered_map>
 
 namespace BipedalLocomotion
 {
@@ -45,6 +46,7 @@ class ContactList
                                                      contacts. **/
     std::string m_defaultName{"ContactList"}; /** Default name for the contact list. **/
     BipedalLocomotion::Contacts::ContactType m_defaultContactType{BipedalLocomotion::Contacts::ContactType::FULL}; /** Default contact type. **/
+    int m_defaultIndex{-1}; /**< Default Frame index of the contact */
 
 public:
     using const_iterator
@@ -69,6 +71,18 @@ public:
      * @param The default contact type.
      */
     void setDefaultContactType(const BipedalLocomotion::Contacts::ContactType& type);
+
+    /**
+     * @brief Set the default frame index of the contact
+     * @param defaultIndex the default index.
+     */
+    void setDefaultIndex(int defaultIndex);
+
+    /**
+     * @brief Get the default frame index of the contact
+     * @return the default index.
+     */
+    int defaultIndex() const;
 
     /**
      * @brief Get the default contact type.
@@ -215,9 +229,13 @@ public:
 
 };
 
-} //namespace Contacts
-} //namespace BipedalLocomotion
+/**
+ * @brief Utility alias to a map of ContacLists.
+ * @note The key of the map is a user define label representing the contact name.
+ */
+using ContactListMap = std::unordered_map<std::string, ContactList>;
 
-
+} // namespace Contacts
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H

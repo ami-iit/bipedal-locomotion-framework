@@ -32,7 +32,7 @@ void CreateISensorBridge(pybind11::module& module)
 
     py::class_<SensorBridgeOptions>(module, "SensorBridgeOptions")
         .def(py::init())
-        .def_readwrite("is_kinematics_enabled", &SensorBridgeOptions::isKinematicsEnabled)
+        .def_readwrite("is_kinematics_enabled", &SensorBridgeOptions::isJointSensorsEnabled)
         .def_readwrite("is_imu_enabled", &SensorBridgeOptions::isIMUEnabled)
         .def_readwrite("is_linear_accelerometer_enabled",
                        &SensorBridgeOptions::isLinearAccelerometerEnabled)

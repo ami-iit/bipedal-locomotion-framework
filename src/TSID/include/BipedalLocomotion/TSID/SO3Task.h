@@ -10,7 +10,7 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -22,7 +22,7 @@ namespace TSID
 {
 
 /**
- * SO3Task is a concrete implementation of the System::LinearTask. Please use this element if you
+ * SO3Task is a concrete implementation of the TSIDLinearTask. Please use this element if you
  * want to control the orientation of a given frame rigidly attached to the robot.
  * The task assumes perfect control of the robot acceleration \f$\dot{\nu}\f$ that contains the base
  * linear and angular acceleration expressed in mixed representation and the joints acceleration.
@@ -37,7 +37,7 @@ namespace TSID
  * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
-class SO3Task : public System::LinearTask
+class SO3Task : public TSIDLinearTask
 {
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */

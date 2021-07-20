@@ -17,11 +17,12 @@ env:
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
-  manif_TAG: c8b4f16ea4d64e8d145aaf50bdbe31c756edb5b2
+  manif_TAG: 0.0.4
   matioCpp_TAG: v0.1.0
   LieGroupControllers_TAG: v0.0.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.6.3
+  tomlplusplus_TAG: v2.4.0
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
@@ -51,7 +52,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-latest, macOS-latest]
+        os: [ubuntu-20.04, windows-latest, macos-latest]
       fail-fast: false
 
     steps:
@@ -92,22 +93,15 @@ jobs:
         ./bootstrap-vcpkg.bat
         ./vcpkg.exe install catch2:x64-windows
 
-        # Install pybind11
-        ./vcpkg.exe install pybind11:x64-windows
+        # Install pybind11, nlohmann_json and tomlplusplus
+        ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
-      if: matrix.os == 'macOS-latest'
+      if: matrix.os == 'macos-latest'
       run: |
 
-        # https://github.com/actions/virtual-environments/issues/2322
-        rm -f /usr/local/bin/2to3
-
-        # https://github.com/actions/virtual-environments/issues/2391
-        brew unlink gcc@8
-        brew unlink gcc@9
-
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog opencv pcl librealsense
+        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog opencv pcl librealsense nlohmann-json
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
@@ -117,10 +111,10 @@ jobs:
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-        sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo focal main" -u
+        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo focal main" -u
         # please see https://github.com/IntelRealSense/realsense-ros/blob/a161efb84c9cf8077fbd37d6a78ef1fad0b677d0/.travis.yml#L17-L19
         sudo apt-get update -qq
         sudo apt-get install librealsense2-dev --allow-unauthenticated -y
@@ -131,7 +125,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -277,9 +271,19 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest')
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
       shell: bash
       run: |
+
+        # Tomlplusplus
+        cd ${GITHUB_WORKSPACE}
+        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
+        cd tomlplusplus
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
         # YCM
         cd ${GITHUB_WORKSPACE}
         git clone -b ${YCM_TAG} https://github.com/robotology/ycm
@@ -415,7 +419,7 @@ jobs:
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Install manifpy [Ubintu/macOS]
-      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macOS-latest'
+      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
       run: |
         git clone https://github.com/artivis/manif.git manifpy
         cd manifpy
@@ -460,7 +464,7 @@ jobs:
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
-      if: matrix.os == 'macOS-latest'
+      if: matrix.os == 'macos-latest'
       shell: bash
       run: |
         mkdir -p build

@@ -48,7 +48,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |          [AutoDiff](./src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |         [`manif`](https://github.com/artivis/manif)          |
+|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [nlohmann json](https://github.com/nlohmann/json/) |
 |    [CommonConversions](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
 |    [ManifConversions](./src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |        [Estimators](./src/Estimators)        |                 Library containing observers                 |                              -                               |
@@ -56,7 +56,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |  [GenericContainer](./src/GenericContainer)  |      Data structure similar to ``span`` but resizable.       |                              -                               |
 |               [IK](./src/IK)                 |                      Inverse kinematics                      | [`manif`](https://github.com/artivis/manif) [`osqp-eigen`](https://github.com/robotology/osqp-eigen) |
 |              [Math](./src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
-| [ParametersHandler](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
+| [ParametersHandler](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`tomlplusplus`](https://github.com/marzer/tomlplusplus/) (only if you want the `toml` implementation) |
 |          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |

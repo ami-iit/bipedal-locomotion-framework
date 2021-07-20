@@ -114,7 +114,7 @@ bool StdImplementation::setGroup(const std::string& name, IParametersHandler::sh
     auto downcastedPtr = std::dynamic_pointer_cast<StdImplementation>(newGroup);
     if (downcastedPtr == nullptr)
     {
-        BipedalLocomotion::log()->error("[StdImplementation::setGroup] Unable to downcast the "
+        BipedalLocomotion::log()->debug("[StdImplementation::setGroup] Unable to downcast the "
                                         "pointer to StdImplementation.");
         return false;
     }

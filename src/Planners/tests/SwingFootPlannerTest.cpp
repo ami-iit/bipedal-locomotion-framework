@@ -54,6 +54,9 @@ TEST_CASE("Swing foot planner")
     handler->setParameter("foot_apex_time", 0.5);
     handler->setParameter("foot_landing_velocity", 0.0);
     handler->setParameter("foot_landing_acceleration", 0.0);
+    handler->setParameter("foot_take_off_velocity", 0.0);
+    handler->setParameter("foot_take_off_acceleration", 0.0);
+
 
     // initialize the planner
     SwingFootPlanner planner;
