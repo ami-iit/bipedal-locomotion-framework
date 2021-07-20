@@ -68,9 +68,9 @@ bool FeasibleContactWrenchTask::setVariablesHandler(const System::VariablesHandl
     // the vector b will contains the cone vector plus the constraint related to the contact normal
     // force
     // 0 <= fz <= max_normal_force
-    // [0 0 -1 0 0 0 ] * [fx fy fz toux tauy tauz]' <= 0
-    // [0 0 1 0 0 0 ] * [fx fy fz toux tauy tauz]' <= max_normal_force
-    // if the task is enabled max_normal_force is equal to the max double. If the task is disable
+    // [0 0 -1 0 0 0 ] * [fx fy fz taux tauy tauz]' <= 0
+    // [0 0 1 0 0 0 ] * [fx fy fz taux tauy tauz]' <= max_normal_force
+    // if the task is enabled max_normal_force is equal to the max double. If the task is disabled
     // max_normal_force is equal to 0
     m_b.head(rowsOfConeMatrix) = m_cone.getB();
     m_b.tail<2>()(0) = 0;
