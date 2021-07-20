@@ -187,16 +187,17 @@ bool FeasibleContactWrenchTask::update()
     return m_isValid;
 }
 
-void FeasibleContactWrenchTask::enable()
+void FeasibleContactWrenchTask::setContactActive(bool isActive)
 {
-    // the last element of the vector b can be used to disable / enable the task
-    m_b.tail<1>()(0) = std::numeric_limits<double>::max();
-}
-
-void FeasibleContactWrenchTask::disable()
-{
-    // the last element of the vector b can be used to disable / enable the task
-    m_b.tail<1>()(0) = 0;
+    if (isActive)
+    {
+        // the last element of the vector b can be used to disable / enable the task
+        m_b.tail<1>()(0) = std::numeric_limits<double>::max();
+    } else
+    {
+        // the last element of the vector b can be used to disable / enable the task
+        m_b.tail<1>()(0) = 0;
+    }
 }
 
 std::size_t FeasibleContactWrenchTask::size() const

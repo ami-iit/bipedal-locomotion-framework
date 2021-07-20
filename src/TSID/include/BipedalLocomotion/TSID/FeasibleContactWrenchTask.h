@@ -30,9 +30,6 @@ namespace TSID
  * BipedalLocomotion::Math::ContactWrenchCone. Differently from the
  * BipedalLocomotion::Math::ContactWrenchCone class, FeasibleContactWrenchTask requires also the
  * positivstellensatz of the normal force written in local coordinate.
- * @note FeasibleContactWrenchTask::disable will force the wrench associated to the task to be equal
- * to a null wrench. FeasibleContactWrenchTask::enable will allow the wrench to be different from
- * zero.
  */
 class FeasibleContactWrenchTask : public TSIDLinearTask
 {
@@ -98,14 +95,10 @@ public:
     bool update() override;
 
     /**
-     * Enable the task. I.e. a contact wrench different from zero is allowed.
+     * Set if the contact is active or not.
+     * @param isActive true if the contact is active, false otherwise.
      */
-    void enable();
-
-    /**
-     * Disable the task. I.e. the contact wrench is forced to be equal to zero.
-     */
-    void disable();
+    void setContactActive(bool isActive);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
