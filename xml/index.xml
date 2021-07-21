@@ -276,6 +276,11 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1abce8353dd8af6d6ee499e837492517a5" kind="variable"><name>frameIndex</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1aec2d67df8dc5baaf7ef497c14d8c7e20" kind="variable"><name>variable</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::TSID::FeasibleContactWrenchTask::ContactWrench</name>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1_1ContactWrench_1a4f82a9d6917ecee91a3a7f2ddce7085e" kind="variable"><name>frameIndex</name></member>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1_1ContactWrench_1a0767f2a5e12e8f221769bac522dde485" kind="variable"><name>variable</name></member>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1_1ContactWrench_1aa8f7f3f456652c011dc0ae7236ccd494" kind="variable"><name>frame_R_inertial</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::TSID::JointDynamicsTask::ContactWrench</name>
     <member refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench_1ab85cd79c8811fb2caad6edc7dd0738c1" kind="variable"><name>frameIndex</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench_1a3ec5a942414989c77b28593d1ea68b4e" kind="variable"><name>variable</name></member>
@@ -284,7 +289,7 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aceb03e22fad8ed6e8f134ddfede7b949" kind="variable"><name>m_A</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aab1bd189f7ae2acf23cab416501bd7c9" kind="variable"><name>m_b</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aed8a479d53922fb1ca5e55a2015333f5" kind="variable"><name>m_isIntialized</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a5e5c8399793a7df1cdad07fbdc933ffc" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aea31e8d551e986f222d441775c5a1300" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a18e6c6135c856327c71129547f66f4e4" kind="function"><name>getA</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a2abd98cdbd311e660046b4d1ae7c71d0" kind="function"><name>getB</name></member>
   </compound>
@@ -400,6 +405,22 @@
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a3832fd0df9212568ff2344a7399b96c3" kind="variable"><name>lastUpdateTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a542b6128b92bc937f22d97dd2d562e42" kind="function"><name>getContactDetails</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2f06ceb232d603e3ecfacbe5937721c5" kind="function"><name>setContactStateStamped</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask" kind="class"><name>BipedalLocomotion::TSID::FeasibleContactWrenchTask</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a55394eaec7cc24a61b993730f148449d" kind="variable"><name>m_contactWrench</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a51331644e405fc919b9d1005826765e0" kind="variable"><name>m_cone</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a25b0345dfa99491352eb5c8f51af3100" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0e8aac3be25c201b35ce23f9d90f819c" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a270c728f8db20d478c4dc5c7e06b7ae5" kind="variable"><name>m_AinBodyCoordinate</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a545f125ac72cc9703cd557ed45583fdb" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad1eaf2e8d63cb8ebcd97e32b3ef001e4" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a4579d2f58ef9835249221046347bc2a0" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a14b903533e5ed685afe108ea8eeca187" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a35037493a05206a6594fc203e2f7f169" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad4b34adf4fdd9e957f052c42d8ecb440" kind="function"><name>setContactActive</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a54644189c069a7ae4445f515770ea1d6" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1af0a43ea40ca6a2458c43a91121a22182" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0b332b35b7d5cb8b1666727470ad2970" kind="function"><name>isValid</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a2fe8484fe797a5dd81c666e097418a79" kind="variable"><name>m_kinDyn</name></member>
@@ -864,7 +885,7 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1a0dcbb65ac148e5e7f90d548d2c2de5f7" kind="variable"><name>m_A</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aaa98632aa52d0ea97982e47ebc2c5647" kind="variable"><name>m_b</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1acb4b8a3f581448db1535827dc076ceeb" kind="variable"><name>m_isIntialized</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1afc5102418355f280fc31f9fe4dcd3cea" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aefd4549ed1631d88f9e984a8edd0d89a" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aad236d7d978b89152312d7d572bf069c" kind="function"><name>getA</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1af5d5c9a1b2cf4fd7ca3ea5e93abb28b7" kind="function"><name>getB</name></member>
   </compound>
@@ -2034,6 +2055,8 @@
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
+  </compound>
+  <compound refid="FeasibleContactWrenchTask_8h" kind="file"><name>FeasibleContactWrenchTask.h</name>
   </compound>
   <compound refid="JointDynamicsTask_8h" kind="file"><name>JointDynamicsTask.h</name>
   </compound>

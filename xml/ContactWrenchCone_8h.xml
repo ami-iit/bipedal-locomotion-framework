@@ -5,6 +5,7 @@
     <includes local="no">memory</includes>
     <includes local="no">Eigen/Dense</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includedby refid="FeasibleContactWrenchTask_8h" local="no">BipedalLocomotion/TSID/FeasibleContactWrenchTask.h</includedby>
     <incdepgraph>
       <node id="4">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -39,6 +40,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/TSID/FeasibleContactWrenchTask.h</label>
+        <link refid="FeasibleContactWrenchTask_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Math/ContactWrenchCone.h</label>
+        <link refid="ContactWrenchCone_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone" prot="public">BipedalLocomotion::Math::ContactWrenchCone</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>

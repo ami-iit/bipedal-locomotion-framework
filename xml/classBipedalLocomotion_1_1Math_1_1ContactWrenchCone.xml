@@ -47,13 +47,13 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a5e5c8399793a7df1cdad07fbdc933ffc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aea31e8d551e986f222d441775c5a1300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Math::ContactWrenchCone::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler)</argsstring>
         <name>initialize</name>
         <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>
@@ -161,7 +161,7 @@
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a18e6c6135c856327c71129547f66f4e4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a2abd98cdbd311e660046b4d1ae7c71d0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>getB</name></member>
-      <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1a5e5c8399793a7df1cdad07fbdc933ffc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aea31e8d551e986f222d441775c5a1300" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aceb03e22fad8ed6e8f134ddfede7b949" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aab1bd189f7ae2acf23cab416501bd7c9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>m_b</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone_1aed8a479d53922fb1ca5e55a2015333f5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::ContactWrenchCone</scope><name>m_isIntialized</name></member>

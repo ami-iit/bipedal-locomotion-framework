@@ -4,6 +4,7 @@
     <compoundname>BipedalLocomotion/TSID</compoundname>
     <innerfile refid="BaseDynamicsTask_8h">BaseDynamicsTask.h</innerfile>
     <innerfile refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h">CoMTask.h</innerfile>
+    <innerfile refid="FeasibleContactWrenchTask_8h">FeasibleContactWrenchTask.h</innerfile>
     <innerfile refid="JointDynamicsTask_8h">JointDynamicsTask.h</innerfile>
     <innerfile refid="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h">JointTrackingTask.h</innerfile>
     <innerfile refid="QPFixedBaseTSID_8h">QPFixedBaseTSID.h</innerfile>
