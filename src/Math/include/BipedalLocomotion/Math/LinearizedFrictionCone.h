@@ -49,7 +49,7 @@ public:
      * | `static_friction_coefficient`   | `double`  |        Static friction coefficient.     |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Get the matrix A.
