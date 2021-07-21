@@ -9,8 +9,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/IK/JointTrackingTask.h>
-#include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/IK/JointTrackingTask.h>
 
 namespace BipedalLocomotion
@@ -24,9 +24,8 @@ void CreateJointTrackingTask(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::IK;
-    using namespace BipedalLocomotion::System;
 
-    py::class_<JointTrackingTask, std::shared_ptr<JointTrackingTask>, LinearTask>( //
+    py::class_<JointTrackingTask, std::shared_ptr<JointTrackingTask>, IKLinearTask>( //
         module,
         "JointTrackingTask")
 

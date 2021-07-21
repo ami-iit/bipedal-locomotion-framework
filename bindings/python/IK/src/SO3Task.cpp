@@ -9,8 +9,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/IK/SO3Task.h>
-#include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/IK/SO3Task.h>
 
 namespace BipedalLocomotion
@@ -24,9 +24,8 @@ void CreateSO3Task(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::IK;
-    using namespace BipedalLocomotion::System;
 
-    py::class_<SO3Task, std::shared_ptr<SO3Task>, LinearTask>(module, "SO3Task")
+    py::class_<SO3Task, std::shared_ptr<SO3Task>, IKLinearTask>(module, "SO3Task")
         .def(py::init())
         .def(
             "initialize",

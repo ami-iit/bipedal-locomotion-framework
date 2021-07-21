@@ -8,6 +8,7 @@
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/bindings/IK/CoMTask.h>
+#include <BipedalLocomotion/bindings/IK/IKLinearTask.h>
 #include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/bindings/IK/JointTrackingTask.h>
 #include <BipedalLocomotion/bindings/IK/Module.h>
@@ -25,6 +26,7 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "IK module.";
 
+    CreateIKLinearTask(module);
     CreateCoMTask(module);
     CreateSE3Task(module);
     CreateSO3Task(module);

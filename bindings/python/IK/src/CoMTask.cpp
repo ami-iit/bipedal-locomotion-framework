@@ -10,7 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/IK/CoMTask.h>
-#include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/bindings/IK/IKLinearTask.h>
 #include <BipedalLocomotion/bindings/IK/CoMTask.h>
 
 namespace BipedalLocomotion
@@ -24,9 +24,8 @@ void CreateCoMTask(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::IK;
-    using namespace BipedalLocomotion::System;
 
-    py::class_<CoMTask, std::shared_ptr<CoMTask>, LinearTask>(module, "CoMTask")
+    py::class_<CoMTask, std::shared_ptr<CoMTask>, IKLinearTask>(module, "CoMTask")
         .def(py::init())
         .def(
             "initialize",
