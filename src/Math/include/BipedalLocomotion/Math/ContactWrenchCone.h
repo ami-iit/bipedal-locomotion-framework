@@ -78,7 +78,7 @@ public:
      * |        `foot_limits_y`        | `vector<double>` | y coordinate of the foot limits w.r.t the frame attached to the surface |    Yes    |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Get the matrix A.
