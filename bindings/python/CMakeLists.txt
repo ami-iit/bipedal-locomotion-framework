@@ -14,6 +14,7 @@ add_subdirectory(TSID)
 add_subdirectory(TextLogging)
 add_subdirectory(Conversions)
 add_subdirectory(YarpUtilities)
+add_subdirectory(ContinuousDynamicalSystem)
 
 include(ConfigureFileWithCMakeIf)
 
@@ -92,4 +93,3 @@ install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/all.py"
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/utils.py"
   DESTINATION ${PYTHON_INSTDIR})
-
