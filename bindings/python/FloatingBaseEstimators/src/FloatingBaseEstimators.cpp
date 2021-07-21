@@ -9,10 +9,12 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
+#include <BipedalLocomotion/Math/Constants.h>
+#include <iDynTree/Model/Model.h>
 
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
 namespace BipedalLocomotion
 {
@@ -25,8 +27,116 @@ void CreateKinDynComputations(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace iDynTree;
+
+    struct KinDynKinematicsRobotState
+    {
+        KinDynKinematicsRobotState( //
+            const size_t dofs = 0,
+            const Eigen::Vector3d gravity
+            = {0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation})
+            : worldGravity(gravity)
+        {
+            this->jointPositions = Eigen::VectorXd::Zero(dofs);
+            this->jointVelocities = Eigen::VectorXd::Zero(dofs);
+        }
+
+        Eigen::VectorXd jointPositions;
+        Eigen::VectorXd jointVelocities;
+
+        Eigen::VectorXd baseVelocity = Eigen::VectorXd::Zero(6);
+        Eigen::Matrix<double, 4, 4> baseTransform = Eigen::MatrixXd::Zero(4,4);
+
+        Eigen::Vector3d worldGravity = {0, 0, -Math::StandardAccelerationOfGravitation};
+    };
+
+    py::class_<KinDynKinematicsRobotState>(module, "KinDynKinematicsRobotState")
+        .def(py::init())
+        .def_readwrite("joint_positions", &KinDynKinematicsRobotState::jointPositions)
+        .def_readwrite("joint_velocities", &KinDynKinematicsRobotState::jointVelocities)
+        .def_readwrite("base_velocity", &KinDynKinematicsRobotState::baseVelocity)
+        .def_readwrite("base_transform", &KinDynKinematicsRobotState::baseTransform)
+        .def_readwrite("world_gravity", &KinDynKinematicsRobotState::worldGravity);
+
     py::class_<KinDynComputations, std::shared_ptr<KinDynComputations>>(module,
-                                                                        "KinDynComputations");
+                                                                        "KinDynComputations")
+        .def("__repr__",
+             [](const KinDynComputations& impl) { return impl.model().toString(); })
+        .def("get_nr_of_dofs",
+             [](const KinDynComputations& impl) { return impl.getNrOfDegreesOfFreedom(); })
+        .def("get_joint_pos",
+             [](const KinDynComputations& impl) {
+                 Eigen::VectorXd s(impl.getNrOfDegreesOfFreedom());
+                 if (!impl.getJointPos(s))
+                 {
+                     throw py::value_error("Failed to get the joint position.");
+                 }
+                 return s;
+             })
+        .def("get_center_of_mass_position",
+             [](KinDynComputations& impl) {
+                 Eigen::VectorXd pos(3);
+                 if (!impl.getCenterOfMassPosition(pos))
+                 {
+                     throw py::value_error("Failed to get the center of mass position.");
+                 }
+                 return pos;
+             })
+        .def("get_center_of_mass_velocity",
+             [](KinDynComputations& impl) {
+                 Eigen::VectorXd vel(3);
+                 if (!impl.getCenterOfMassVelocity(vel))
+                 {
+                     throw py::value_error("Failed to get the center of mass velocity.");
+                 }
+                 return vel;
+             })
+        .def("get_world_transform",
+             [](KinDynComputations& impl, std::string name) {
+                 Eigen::Matrix<double, 4, 4> world_T_frame;
+                 if (!impl.getWorldTransform(name, world_T_frame))
+                 {
+                     throw py::value_error("Failed to get the trasform for the specified frame.");
+                 }
+                 return world_T_frame;
+             })
+        .def("get_world_base_transform",
+             [](KinDynComputations& impl) {
+                 Eigen::Matrix<double, 4, 4> world_T_base;
+                 if (!impl.getWorldBaseTransform(world_T_base))
+                 {
+                     throw py::value_error("Failed to get the trasform for the base.");
+                 }
+                 return world_T_base;
+             })
+        .def(
+            "set_joint_pos",
+            [](KinDynComputations& impl, Eigen::Ref<const Eigen::VectorXd> s) {
+                return impl.setJointPos(iDynTree::make_span(s.data(), s.size()));
+            },
+            py::arg("s"))
+        .def(
+            "set_floating_base",
+            [](KinDynComputations& impl, const std::string & s) {
+                return impl.setFloatingBase(s);
+            })
+        .def("get_robot_state",
+             [](KinDynComputations& impl) {
+                 KinDynKinematicsRobotState robot_state(impl.getNrOfDegreesOfFreedom());
+                 if (!impl.getRobotState(robot_state.baseTransform, robot_state.jointPositions, robot_state.baseVelocity, robot_state.jointVelocities, robot_state.worldGravity))
+                 {
+                     throw py::value_error("Failed to get the robot state.");
+                 }
+                 return robot_state;
+             })
+        .def("set_robot_state",
+             [](KinDynComputations& impl,
+                Eigen::Ref<const Eigen::Matrix<double, 4, 4>> world_T_base,
+                Eigen::Ref<const Eigen::VectorXd> s,
+                Eigen::Ref<const Eigen::VectorXd> base_velocity,
+                Eigen::Ref<const Eigen::VectorXd> s_dot,
+                Eigen::Ref<const Eigen::VectorXd> world_gravity) {
+                 return impl.setRobotState(world_T_base, s, base_velocity, s_dot, world_gravity);
+             });
 }
 
 void CreateKinDynComputationsDescriptor(pybind11::module& module)
@@ -126,8 +236,9 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
 
     py::class_<Source<Output>>(module, "FloatingBaseEstimatorOutputSource");
 
-    py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator(module,
-                                                                            "FloatingBaseEstimator");
+    py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator( //
+        module,
+        "FloatingBaseEstimator");
 
     floatingBaseEstimator.def(py::init())
         .def("set_imu_measurement",

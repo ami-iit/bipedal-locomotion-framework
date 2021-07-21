@@ -9,6 +9,7 @@ add_subdirectory(Planners)
 add_subdirectory(RobotInterface)
 add_subdirectory(Math)
 add_subdirectory(FloatingBaseEstimators)
+add_subdirectory(IK)
 
 include(ConfigureFileWithCMakeIf)
 

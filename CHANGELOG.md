@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 - Implement `QPTSID` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
 - Implement motor pwm, motor encoders, wbd joint torque estimates, pid reading in `YarpSensorBridge`(https://github.com/dic-iit/bipedal-locomotion-framework/pull/359).
 - Implement FeasibleContactWrenchTask for TSID component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/369).
+- Implement python bindings for QPInverseKinematics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/303)
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)

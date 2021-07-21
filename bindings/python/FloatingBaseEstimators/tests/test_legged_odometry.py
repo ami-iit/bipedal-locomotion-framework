@@ -11,18 +11,43 @@ def test_legged_odometry():
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
     kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
-    kindyn_handler.set_parameter_vector_string("joints_list", ["neck_pitch", "neck_roll", "neck_yaw",
-                                                               "torso_pitch", "torso_roll", "torso_yaw",
-                                                               "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw",
-                                                               "l_elbow",
-                                                               "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw",
-                                                               "r_elbow",
-                                                               "l_hip_pitch", "l_hip_roll", "l_hip_yaw",
-                                                               "l_knee", "l_ankle_pitch", "l_ankle_roll",
-                                                               "r_hip_pitch", "r_hip_roll", "r_hip_yaw",
-                                                               "r_knee", "r_ankle_pitch", "r_ankle_roll"])
+    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
+                   "torso_pitch", "torso_roll", "torso_yaw",
+                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
+                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
+                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
+                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
+    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
     kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
     assert kindyn_desc.is_valid()
+
+    # Check the number of degrees of freedom of the model
+    assert kindyn_desc.kindyn.get_nr_of_dofs() == len(joints_list)
+
+    # Set the joint positions to random values
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    assert kindyn_desc.kindyn.set_joint_pos(joint_values)
+
+    # Check that the joint positions are all set to the desired values
+    updated_joint_pos = kindyn_desc.kindyn.get_joint_pos()
+    assert updated_joint_pos == pytest.approx(joint_values)
+
+    # Set the robot state
+    updated_world_T_base = np.array([[1., 0., 0., 0.],[0., 0., -1., 0.],[0., 1., 0., 0.],[0., 0., 0., 1.]])
+    updated_s = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    updated_base_velocity = [np.random.uniform(-0.5,0.5) for _ in range(6)]
+    updated_s_dot = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    updated_world_gravity = [np.random.uniform(-0.5,0.5) for _ in range(3)]
+    assert kindyn_desc.kindyn.set_robot_state(updated_world_T_base,updated_s,updated_base_velocity,
+                                              updated_s_dot,updated_world_gravity)
+
+    # Check that the robot state is set to the desired values
+    updated_state = kindyn_desc.kindyn.get_robot_state()
+    assert updated_state.base_transform == pytest.approx(updated_world_T_base)
+    assert updated_state.joint_positions == pytest.approx(updated_s)
+    assert updated_state.base_velocity == pytest.approx(updated_base_velocity)
+    assert updated_state.joint_velocities == pytest.approx(updated_s_dot)
+    assert updated_state.world_gravity == pytest.approx(updated_world_gravity)
 
     dt = 0.01
     # create configuration parameters handler for legged odometry
