@@ -86,6 +86,7 @@ jobs:
         rm vcpkg-robotology.zip
 
         # Install Catch2
+        cd C:/robotology/vcpkg
         ./vcpkg.exe install catch2:x64-windows
 
         # Install pybind11 and tomlplusplus
