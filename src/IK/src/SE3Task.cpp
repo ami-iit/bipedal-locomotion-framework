@@ -195,6 +195,13 @@ bool SE3Task::update()
 
     m_isValid = false;
 
+    auto getControllerState = [&](const auto& controller) {
+        if (m_controllerMode == Mode::Enable)
+            return controller.getControl().coeffs();
+        else
+            return controller.getFeedForward().coeffs();
+    };
+
     // set the state
     m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
     m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
@@ -204,12 +211,12 @@ bool SE3Task::update()
     m_R3Controller.computeControlLaw();
 
     // the angular part is always enabled
-    m_b.tail<3>() = m_SO3Controller.getControl().coeffs();
+    m_b.tail<3>() = getControllerState(m_SO3Controller);
 
     // if we want to control all 6 DoF we avoid to lose performances
     if (m_linearDoFs == m_linearVelocitySize)
     {
-        m_b.head<3>() = m_R3Controller.getControl().coeffs();
+        m_b.head<3>() = getControllerState(m_R3Controller);
 
         if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                     this->subA(m_robotVelocityVariable)))
@@ -234,7 +241,7 @@ bool SE3Task::update()
         {
             if (m_mask[i])
             {
-                m_b(index) = m_R3Controller.getControl().coeffs()(i);
+                m_b(index) = getControllerState(m_R3Controller)(i);
                 iDynTree::toEigen(this->subA(m_robotVelocityVariable)).row(index)
                     = m_jacobian.row(i);
                 index++;
@@ -277,4 +284,14 @@ SE3Task::Type SE3Task::type() const
 bool SE3Task::isValid() const
 {
     return m_isValid;
+}
+
+void SE3Task::setTaskControllerMode(Mode mode)
+{
+    m_controllerMode = mode;
+}
+
+SE3Task::Mode SE3Task::getTaskControllerMode() const
+{
+    return m_controllerMode;
 }
