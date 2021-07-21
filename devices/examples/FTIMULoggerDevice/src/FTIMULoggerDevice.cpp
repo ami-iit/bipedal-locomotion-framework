@@ -150,6 +150,15 @@ bool FTIMULoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
     m_jointState["joint_positions"] = Eigen::MatrixXd();
     m_jointState["joint_velocities"] = Eigen::MatrixXd();
+    m_jointState["joint_torques"] = Eigen::MatrixXd();
+
+    m_motorState["motor_positions"] = Eigen::MatrixXd();
+    m_motorState["motor_velocities"] = Eigen::MatrixXd();
+    m_motorState["motor_currents"] = Eigen::MatrixXd();
+
+    m_motorPWMs["PWM"] = Eigen::MatrixXd();
+
+    m_PIDs["PID"] = Eigen::MatrixXd();
 
     start();
     return true;
@@ -249,6 +258,7 @@ void FTIMULoggerDevice::run()
     // joint state
     m_jointState.at("joint_positions").conservativeResize(m_dofs, bufferSize + 1);
     m_jointState.at("joint_velocities").conservativeResize(m_dofs, bufferSize + 1);
+    m_jointState.at("joint_torques").conservativeResize(m_dofs, bufferSize + 1);
     if (!m_robotSensorBridge->getJointPositions(m_jointState.at("joint_positions").col(bufferSize),
                                                 m_timeNow))
 
@@ -260,6 +270,46 @@ void FTIMULoggerDevice::run()
                                                  m_timeNow))
     {
         yError() << "[FTIMULoggerDevice][run] Unable to get the joint velocities";
+    }
+
+    if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize), m_timeNow))
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the joint torques";
+    }
+
+    // Motor state
+    m_motorState.at("motor_positions").conservativeResize(m_dofs, bufferSize + 1);
+    m_motorState.at("motor_velocities").conservativeResize(m_dofs, bufferSize + 1);
+    m_motorState.at("motor_currents").conservativeResize(m_dofs, bufferSize + 1);
+    if (!m_robotSensorBridge->getMotorPositions(m_motorState.at("motor_positions").col(bufferSize),
+                                                m_timeNow))
+
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the motor positions";
+    }
+
+    if (!m_robotSensorBridge->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
+                                                 m_timeNow))
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the motor velocities";
+    }
+
+    if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize), m_timeNow))
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the motor currents";
+    }
+
+    // Motor PWM
+    m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
+    if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the motor PWMs";
+    }
+
+    m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
+    if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
+    {
+        yError() << "[FTIMULoggerDevice][run] Unable to get the PIDs references";
     }
 
     m_time.conservativeResize(bufferSize + 1);
@@ -296,6 +346,9 @@ bool FTIMULoggerDevice::logData()
     const matioCpp::Struct outAcc = this->createStruct("Accelerometer", m_accelerometers);
     const matioCpp::Struct outOrient = this->createStruct("Orientation", m_orientations);
     matioCpp::Struct outJointState = this->createStruct("Joint_state", m_jointState);
+    matioCpp::Struct outMotorState = this->createStruct("Motor_state", m_motorState);
+    const matioCpp::Struct outPWM = this->createStruct("Motor_PWM", m_motorPWMs);
+    const matioCpp::Struct outPID = this->createStruct("PID", m_PIDs);
     outJointState.setField(tomatioCpp(m_jointNames, "joints"));
 
     bool write_ok{true};
@@ -304,6 +357,9 @@ bool FTIMULoggerDevice::logData()
     write_ok = write_ok && file.write(outAcc);
     write_ok = write_ok && file.write(outOrient);
     write_ok = write_ok && file.write(outJointState);
+    write_ok = write_ok && file.write(outMotorState);
+    write_ok = write_ok && file.write(outPWM);
+    write_ok = write_ok && file.write(outPID);
     write_ok = write_ok && file.write(outTime);
 
     if (!write_ok)

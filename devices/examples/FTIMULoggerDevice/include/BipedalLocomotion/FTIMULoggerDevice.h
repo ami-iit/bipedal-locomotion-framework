@@ -53,6 +53,9 @@ private:
     std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
     std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
     std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_PIDs;
     Eigen::VectorXd m_time;
     double m_timeNow;
 
