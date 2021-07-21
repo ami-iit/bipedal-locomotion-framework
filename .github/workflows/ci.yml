@@ -9,8 +9,7 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.6.2
-  vcpkg_TAG: 45fc55825db2a5bcaffccff1e6afadc519d164ea
+  vcpkg_robotology_TAG: v0.6.5
   YCM_TAG: v0.12.1
   YARP_TAG: v3.4.2
   iDynTree_TAG: v3.0.0
@@ -83,18 +82,14 @@ jobs:
         # that has been used to create the pre-compiled archive
         cd C:/
         wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology-with-gazebo.zip
-        unzip vcpkg-robotology-with-gazebo.zip -d C:/
-        rm vcpkg-robotology-with-gazebo.zip
+        unzip vcpkg-robotology.zip -d C:/
+        rm vcpkg-robotology.zip
 
         # Install Catch2
-        cd C:/robotology/vcpkg
-        git fetch
-        git checkout $env:vcpkg_TAG
-        ./bootstrap-vcpkg.bat
         ./vcpkg.exe install catch2:x64-windows
 
-        # Install pybind11, nlohmann_json and tomlplusplus
-        ./vcpkg.exe install pybind11:x64-windows nlohmann-json:x64-windows tomlplusplus:x64-windows
+        # Install pybind11 and tomlplusplus
+        ./vcpkg.exe install pybind11:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
@@ -125,7 +120,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/install/deps
         # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-${{ env.vcpkg_TAG }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
