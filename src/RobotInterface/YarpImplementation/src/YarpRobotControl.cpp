@@ -11,6 +11,7 @@
 
 #include <yarp/dev/IAxisInfo.h>
 #include <yarp/dev/IControlMode.h>
+#include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IEncodersTimed.h>
 #include <yarp/dev/IPWMControl.h>
 #include <yarp/dev/IPositionControl.h>
@@ -51,6 +52,7 @@ struct YarpRobotControl::Impl
     yarp::dev::IVelocityControl* velocityInterface{nullptr}; /**< Velocity control interface. */
     yarp::dev::ITorqueControl* torqueInterface{nullptr}; /**< Torque control interface. */
     yarp::dev::IPWMControl* pwmInterface{nullptr}; /**< PWM control interface. */
+    yarp::dev::ICurrentControl* currentInterface{nullptr}; /**< Current control interface. */
     yarp::dev::IControlMode* controlModeInterface{nullptr}; /**< Control mode interface. */
     yarp::dev::IAxisInfo* axisInfoInterface{nullptr}; /**< Axis info interface. */
 
@@ -105,6 +107,9 @@ struct YarpRobotControl::Impl
         case VOCAB_CM_PWM:
             return IRobotControl::ControlMode::PWM;
 
+        case VOCAB_CM_CURRENT:
+            return IRobotControl::ControlMode::Current;
+
         case VOCAB_CM_IDLE:
             return IRobotControl::ControlMode::Idle;
 
@@ -132,6 +137,9 @@ struct YarpRobotControl::Impl
 
         case IRobotControl::ControlMode::PWM:
             return VOCAB_CM_PWM;
+
+        case IRobotControl::ControlMode::Current:
+            return VOCAB_CM_CURRENT;
 
         case IRobotControl::ControlMode::Idle:
             return VOCAB_CM_IDLE;
@@ -189,6 +197,7 @@ struct YarpRobotControl::Impl
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Velocity].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Torque].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PWM].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Current].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Idle].clear();
 
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
@@ -298,6 +307,12 @@ struct YarpRobotControl::Impl
             return false;
         }
 
+        if (!robotDevice->view(currentInterface) || currentInterface == nullptr)
+        {
+            log()->error("{} Cannot load the ICurrentControl interface.", errorPrefix);
+            return false;
+        }
+
         if (!robotDevice->view(controlModeInterface) || controlModeInterface == nullptr)
         {
             log()->error("{} Cannot load the IControlMode interface.", errorPrefix);
@@ -346,6 +361,7 @@ struct YarpRobotControl::Impl
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Velocity].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Torque].clear();
         this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PWM].clear();
+        this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Current].clear();
 
         // store the joint associated to a specific control mode
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
@@ -421,6 +437,11 @@ struct YarpRobotControl::Impl
         case IRobotControl::ControlMode::Torque:
             return [&](const int nJoints, const int* joints, const double* refs) -> bool {
                 return this->torqueInterface->setRefTorques(nJoints, joints, refs);
+            };
+
+        case IRobotControl::ControlMode::Current:
+            return [&](const int nJoints, const int* joints, const double* refs) -> bool {
+                return this->currentInterface->setRefCurrents(nJoints, joints, refs);
             };
 
         case IRobotControl::ControlMode::PWM:
@@ -516,7 +537,8 @@ struct YarpRobotControl::Impl
             double scaling = 180 / M_PI;
             // if the control mode is torque or PWM it is not required to change the unit of
             // measurement
-            if (mode == ControlMode::Torque || mode == ControlMode::PWM)
+            if (mode == ControlMode::Torque || mode == ControlMode::PWM
+                || mode == ControlMode::Current)
                 scaling = 1;
 
             for (int i = 0; i < indeces.size(); i++)
