@@ -35,6 +35,7 @@ public:
         Velocity,
         Torque,
         PWM,
+        Current,
         Idle,
         Unknown
     };
