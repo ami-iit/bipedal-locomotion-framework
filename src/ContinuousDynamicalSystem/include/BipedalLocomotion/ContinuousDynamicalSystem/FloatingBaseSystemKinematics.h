@@ -14,6 +14,8 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
+#include <manif/SO3.h>
+
 #include <Eigen/Dense>
 
 namespace BipedalLocomotion
@@ -30,12 +32,12 @@ class FloatingBaseSystemKinematics;
 // BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
 //     FloatingBaseSystemKinematics,
 //     (base position, base orientation, joint positions),
-//     (base linear velocity, rate of change of base rotation matrix, joint velocities),
+//     (base linear velocity, base angular velocity, joint velocities),
 //     (base twist expressed in mixed representation, joint velocities))
 BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
     FloatingBaseSystemKinematics,
-    (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
-    (Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd),
+    (Eigen::Vector3d, manif::SO3d, Eigen::VectorXd),
+    (Eigen::Vector3d, manif::SO3d::Tangent, Eigen::VectorXd),
     (Eigen::Matrix<double, 6, 1>, Eigen::VectorXd));
 
 namespace BipedalLocomotion
@@ -48,12 +50,12 @@ namespace ContinuousDynamicalSystem
  * The FloatingBaseSystemKinematics inherits from a generic DynamicalSystem where:
  * - DynamicalSystem::State is described by an std::tuple containing:
  *   - Eigen::Vector3d: position of the base w.r.t. the inertial frame
- *   - Eigen::Matrix3d: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
+ *   - manif::SO3d: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
  * whose coordinates are expressed in the base frame in the inertial frame;
  *   - Eigen::VectorXd: the joint positions [in rad].
  * - DynamicalSystem::StateDerivative is described by an std::tuple containing:
  *   - Eigen::Vector3d: base linear velocity w.r.t. the inertial frame;
- *   - Eigen::Matrix3d: rate of change of the rotation matrix \f${} ^ I \dot{R} _ {b}\f$.
+ *   - manif::SO3d::Tangent: base angular velocity w.r.t. the inertial frame; (Left trivialized)
  * whose coordinates are expressed in the base frame in the inertial frame;
  *   - Eigen::VectorXd: the joint velocities [in rad/s].
  * - DynamicalSystem::Input is described by an std::tuple containing:
@@ -62,21 +64,15 @@ namespace ContinuousDynamicalSystem
  */
 class FloatingBaseSystemKinematics : public DynamicalSystem<FloatingBaseSystemKinematics>
 {
-    double m_rho{0.01}; /**< Regularization term used for the Baumgarte stabilization over the SO(3)
-                           group */
-
     State m_state;
     Input m_controlInput;
 
 public:
     /**
-     * Initialize the FloatingBaseSystemKinematics system.
+     * Initialize the Dynamical system.
      * @param handler pointer to the parameter handler.
-     * @note The following parameters are used
-     * | Parameter Name |   Type   |                                   Description                                     | Mandatory |
-     * |:--------------:|:--------:|:---------------------------------------------------------------------------------:|:---------:|
-     * |      `rho`     | `double` | Baumgarte stabilization parameter over the SO(3) group. The default value is 0.01 |    No     |
      * @return true in case of success/false otherwise.
+     * @note This function does nothing but it is required for CRTP.
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
 
