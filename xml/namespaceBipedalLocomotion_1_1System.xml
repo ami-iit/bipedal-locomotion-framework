@@ -10,6 +10,7 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public">BipedalLocomotion::System::IClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockFactory" prot="public">BipedalLocomotion::System::ClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" prot="public">BipedalLocomotion::System::ILinearTaskSolver</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" prot="public">BipedalLocomotion::System::ITaskControllerManager</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public">BipedalLocomotion::System::LinearTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1SharedResource" prot="public">BipedalLocomotion::System::SharedResource</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Sink" prot="public">BipedalLocomotion::System::Sink</innerclass>

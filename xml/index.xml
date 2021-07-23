@@ -798,6 +798,13 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0f50a232e96cc6c59a6f948594ed7160" kind="function"><name>getMotorVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170" kind="function"><name>getMotorVelocities</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" kind="struct"><name>BipedalLocomotion::System::ITaskControllerManager</name>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kind="enum"><name>Mode</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050a2faec1f9f8cc7f8f40d521c4dd574f49" kind="enumvalue"><name>Enable</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050abcfaccebf745acfd5e75351095a5394a" kind="enumvalue"><name>Disable</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1aa60f879578f705c8e78c181970604988" kind="function"><name>setTaskControllerMode</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a43194fa6a058fa977c54f7aedf375c6b" kind="function"><name>getTaskControllerMode</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::JointDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" kind="variable"><name>m_robotAccelerationVariable</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a86fea8b2a41fdc10df38c2e8b94af96e" kind="variable"><name>m_jointsTorqueVariable</name></member>
@@ -1201,6 +1208,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a9b3de6deee3445fe468622b65783d6d4" kind="variable"><name>m_linearDoFs</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ae0ae72771e7b2973958f6c54a63b4f1d" kind="variable"><name>m_DoFs</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1acf4be40735de5513c86a942e14de4772" kind="variable"><name>m_jacobian</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab743b65174384a085b03e164f82eba67" kind="variable"><name>m_controllerMode</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a17236a753fd06ae3c3565e64276eb159" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a111007e03803ce3c9672b9d7ffdab3a1" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" kind="function"><name>initialize</name></member>
@@ -1211,6 +1219,8 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5ab6187fe137756b042ce2691aa9713a" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a01137d0e28475d81d7d77f3ce24a2d8b" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5bc134954b2c2e49da6eb7b322cf72f3" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e" kind="function"><name>setTaskControllerMode</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1aa09a525f047070f5397096b17cdb550d" kind="function"><name>getTaskControllerMode</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kind="class"><name>BipedalLocomotion::TSID::SE3Task</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ab435fe53b85f926787981babee4a2d28" kind="variable"><name>m_SO3Controller</name></member>
@@ -2030,6 +2040,8 @@
   <compound refid="IClock_8h" kind="file"><name>IClock.h</name>
   </compound>
   <compound refid="ILinearTaskSolver_8h" kind="file"><name>ILinearTaskSolver.h</name>
+  </compound>
+  <compound refid="ITaskControllerManager_8h" kind="file"><name>ITaskControllerManager.h</name>
   </compound>
   <compound refid="LinearTask_8h" kind="file"><name>LinearTask.h</name>
   </compound>
