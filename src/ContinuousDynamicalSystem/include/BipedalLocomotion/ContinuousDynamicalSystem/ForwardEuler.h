@@ -35,6 +35,13 @@ namespace ContinuousDynamicalSystem
  * @tparam _DynamicalSystem a class derived from DynamicalSystem
  * @warning We assume that the operator + is defined for the objects contained in the
  * DynamicalSystem::State and DynamicalSystem::StateDerivative.
+ * @warning The ForwardEuler integrator is compatible with Lie groups defined by the `manif` library.
+ * Since the _box-plus_ operator is not commutative for a Lie group, here we consider only manifold
+ * left plus
+ * \f[
+ * X + \psi = X \circ  \exp(\psi)
+ * \f]
+ * where \f$X\f$ belongs to a Lie group and $\f\psi\f$ belongs to the tangent space.
  */
 template <class _DynamicalSystem>
 class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
@@ -61,7 +68,8 @@ class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
     {
         static_assert(sizeof...(Tp) == sizeof...(Td));
 
-        std::get<I>(x) += std::get<I>(dx) * dT;
+        // the order matters since we assume that all the velocities are left trivialized.
+        std::get<I>(x) = (std::get<I>(dx) * dT) + std::get<I>(x);
         addArea<I + 1>(dx, dT, x);
     }
 
@@ -91,7 +99,7 @@ bool ForwardEuler<_DynamicalSystem>::oneStepIntegration(double t0, double dT)
         return false;
     }
 
-    // x = x0 + dT * dx
+    // x = dT * dx + x0
     this->m_computationalBufferState = this->m_dynamicalSystem->getState();
     this->addArea(this->m_computationalBufferStateDerivative, dT, this->m_computationalBufferState);
 

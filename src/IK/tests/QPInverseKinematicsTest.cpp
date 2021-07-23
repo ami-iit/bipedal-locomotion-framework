@@ -196,7 +196,7 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 
     out.dynamics = std::make_shared<FloatingBaseSystemKinematics>();
     out.dynamics->setState({basePose.topRightCorner<3, 1>(),
-                            basePose.topLeftCorner<3, 3>(),
+                            toManifRot(basePose.topLeftCorner<3, 3>()),
                             jointPositions});
 
     out.integrator = std::make_shared<ForwardEuler<FloatingBaseSystemKinematics>>();
@@ -266,7 +266,7 @@ TEST_CASE("QP-IK")
                     = system.integrator->getSolution();
 
                 // update the KinDynComputations object
-                baseTransform.topLeftCorner<3, 3>() = baseRotation;
+                baseTransform.topLeftCorner<3, 3>() = baseRotation.rotation();
                 baseTransform.topRightCorner<3, 1>() = basePosition;
                 REQUIRE(kinDyn->setRobotState(baseTransform,
                                               jointPosition,

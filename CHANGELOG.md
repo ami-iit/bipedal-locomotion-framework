@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - `QPFixedBaseTSID` now inherits from `QPTSID` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/366)
 - Enable the Current control in `RobotInterface` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/375)
 - Add the possibility to disable and enable the PD controllers in `IK::SE3Task` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/373).
+- Add the possibility to use manif objects in the ForwardEuler integrator (https://github.com/dic-iit/bipedal-locomotion-framework/pull/379).
 
 ### Fix
 - Fixed the crashing of `YarpSensorBridge` while trying to access unconfigured control board sensors data by adding some checks (https://github.com/dic-iit/bipedal-locomotion-framework/pull/378)

@@ -16,20 +16,15 @@ bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<IParametersHandler> 
     constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initialize]";
 
     auto ptr = handler.lock();
-    if (ptr == nullptr)
+    if (ptr != nullptr)
     {
-        log()->error("{} The parameter handler is expired. Please call the function passing a "
-                     "pointer pointing an already allocated memory.",
-                     logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("rho", m_rho))
-    {
-        log()->info("{} The Baumgarte stabilization parameter not found. The default one will be "
-                    "used {}.",
-                    logPrefix,
-                    m_rho);
+        double baumgarte = 0;
+        if (ptr->getParameter("rho", baumgarte))
+        {
+            log()->info("{} The rho parameter of the Baumgarte stabilization is no more required. "
+                        "The integration is computed on the manifold directly",
+                        logPrefix);
+        }
     }
 
     return true;
@@ -40,12 +35,12 @@ bool FloatingBaseSystemKinematics::dynamics(const double& time,
 {
     // get the state
     const Eigen::Vector3d& basePosition = std::get<0>(m_state);
-    const Eigen::Matrix3d& baseRotation = std::get<1>(m_state);
+    const manif::SO3d& baseRotation = std::get<1>(m_state);
     const Eigen::VectorXd& jointPositions = std::get<2>(m_state);
 
     // get the state derivative
     Eigen::Vector3d& baseLinearVelocity = std::get<0>(stateDerivative);
-    Eigen::Matrix3d& baseRotationRate = std::get<1>(stateDerivative);
+    manif::SO3d::Tangent& baseAngularVelocity = std::get<1>(stateDerivative);
     Eigen::VectorXd& jointVelocityOutput = std::get<2>(stateDerivative);
 
     const Eigen::Matrix<double, 6, 1>& baseTwist = std::get<0>(m_controlInput);
@@ -54,8 +49,7 @@ bool FloatingBaseSystemKinematics::dynamics(const double& time,
     // check the size of the vectors
     if (jointVelocity.size() != jointPositions.size())
     {
-        std::cerr << "[FloatingBaseSystemKinematics::dynamics] Wrong size of the vectors."
-                  << std::endl;
+        log()->error("[FloatingBaseSystemKinematics::dynamics] Wrong size of the vectors.");
         return false;
     }
 
@@ -63,8 +57,7 @@ bool FloatingBaseSystemKinematics::dynamics(const double& time,
     baseLinearVelocity = baseTwist.head<3>();
 
     // here we assume that the velocity is expressed using the mixed representation
-    baseRotationRate = -baseRotation.colwise().cross(baseTwist.tail<3>())
-                       + m_rho / 2.0 * (baseRotation.transpose().inverse() - baseRotation);
+    baseAngularVelocity = baseTwist.tail<3>();
 
     jointVelocityOutput = jointVelocity;
 
