@@ -53,9 +53,9 @@ find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
 dependency_classifier(matioCpp IS_USED ${FRAMEWORK_USE_matioCpp} PUBLIC)
 
-find_package(LieGroupControllers QUIET)
+find_package(LieGroupControllers 0.1.1 QUIET)
 checkandset_dependency(LieGroupControllers)
-dependency_classifier(LieGroupControllers IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
+dependency_classifier(LieGroupControllers MINIMUM_VERSION 0.1.1 IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
 
 find_package(OpenCV QUIET)
 checkandset_dependency(OpenCV)

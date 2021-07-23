@@ -13,6 +13,7 @@
 #include <manif/manif.h>
 
 #include <BipedalLocomotion/IK/IKLinearTask.h>
+#include <BipedalLocomotion/System/ITaskControllerManager.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -47,7 +48,7 @@ namespace IK
  * @note SE3Task can be used to control also a subset of element of the linear part of the SE3.
  * Please refer to `mask` parameter in IK::SE3Task::initialize method.
  */
-class SE3Task : public IKLinearTask
+class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */
@@ -74,8 +75,11 @@ class SE3Task : public IKLinearTask
     std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
-public:
 
+    /** State of the proportional controller implemented in the task */
+    System::ITaskControllerManager::Mode m_controllerMode{Mode::Enable};
+
+public:
     /**
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
@@ -145,6 +149,19 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Set the task controller mode. Please use this method to disable/enable the Proportional
+     * controller implemented in this task.
+     * @param state state of the controller
+     */
+    void setTaskControllerMode(Mode mode) override;
+
+    /**
+     * Get the task controller mode.
+     * @return the state of the controller
+     */
+    Mode getTaskControllerMode() const override;
 };
 
 } // namespace IK
