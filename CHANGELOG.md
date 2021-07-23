@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - Enable the Current control in `RobotInterface` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/375)
 
 ### Fix
+- Fixed the crashing of `YarpSensorBridge` while trying to access unconfigured control board sensors data by adding some checks (https://github.com/dic-iit/bipedal-locomotion-framework/pull/378)
 
 ## [0.2.0] - 2021-06-15
 ### Added
