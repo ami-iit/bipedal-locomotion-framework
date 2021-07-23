@@ -76,8 +76,9 @@ class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskCont
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 
-    System::ITaskControllerManager::Mode m_controllerMode; /**< State of the proportional controller
-                                                              implemented in the task */
+    /** State of the proportional controller implemented in the task */
+    System::ITaskControllerManager::Mode m_controllerMode{Mode::Enable};
+
 public:
     /**
      * Initialize the task.
