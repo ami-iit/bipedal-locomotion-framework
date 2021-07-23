@@ -519,7 +519,6 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" kind="function"><name>setupFixedVectorParamPrivate</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</name>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aed991c6193152bf1f8408b9b955fe5fd" kind="variable"><name>m_rho</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa40da49ea837569d7d19423b8674fbbc" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8efc2ecfd6577b8f024a97bba794a819" kind="variable"><name>m_controlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a6a7efa3015fe8cf007ede3ec653bff9b" kind="function"><name>initialize</name></member>
@@ -529,11 +528,6 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa38952215adbef47f3c318dc6f03de42" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</name>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" kind="typedef"><name>State</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" kind="typedef"><name>StateDerivative</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1abfc3632b0828ed814cd2b66cdcc69b8a" kind="variable"><name>m_computationalBufferStateDerivative</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" kind="variable"><name>m_computationalBufferState</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" kind="function"><name>addArea</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge" kind="class"><name>BipedalLocomotion::RobotInterface::ICameraBridge</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
@@ -1888,7 +1882,7 @@
     <member refid="FloatingBaseDynamicsWithCompliantContacts_8h_1a323b0e91d1928b89317a3bafe45fe8ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="FloatingBaseSystemKinematics_8h" kind="file"><name>FloatingBaseSystemKinematics.h</name>
-    <member refid="FloatingBaseSystemKinematics_8h_1abaeffed98389131b9d561682850b569a" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
+    <member refid="FloatingBaseSystemKinematics_8h_1aad1c4b5fb5912142d95052d983879e7f" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="ForwardEuler_8h" kind="file"><name>ForwardEuler.h</name>
   </compound>

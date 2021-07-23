@@ -23,13 +23,6 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</label>
-        <link refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits"/>
-        <childnode refid="1" relation="template-instance">
-          <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
-        </childnode>
-      </node>
     </inheritancegraph>
     <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="82" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="82" bodyend="-1"/>
     <listofallmembers>
