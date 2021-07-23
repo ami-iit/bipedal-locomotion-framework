@@ -782,6 +782,42 @@ struct YarpSensorBridge::Impl
         return true;
     }
 
+    template <typename ControlBoardInterface>
+    bool checkControlBoardSensor(const std::string logPrefix,
+                                 ControlBoardInterface* interface,
+                                 const bool& streamConfig,
+                                 Eigen::Ref<const Eigen::VectorXd> measureBuffer)
+    {
+        if (!checkValid(logPrefix))
+        {
+            return false;
+        }
+
+        if (!streamConfig)
+        {
+            log()->error("{} Configuration flag set to {}."
+                         "Please set this flag to true before calling this method.",
+                         logPrefix, streamConfig);
+            return false;
+        }
+
+        if (interface == nullptr)
+        {
+            log()->error("{} Failed to attach to relevant drivers."
+                         "Unable to retrieve measurements.",
+                         logPrefix);
+        }
+
+        if (measureBuffer.size() == 0)
+        {
+            log()->error("{} Measurement buffers seem empty."
+                         "Unable to retrieve measurements.",
+                         logPrefix, streamConfig);
+        }
+
+        return true;
+    }
+
     /**
      *  Attach generic IMU sensor types and MAS inertials
      */
