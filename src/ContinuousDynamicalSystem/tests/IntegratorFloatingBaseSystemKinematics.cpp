@@ -12,6 +12,8 @@
 
 #include <Eigen/Dense>
 
+#include <manif/SO3.h>
+
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
@@ -31,7 +33,7 @@ TEST_CASE("Integrator - Linear system")
     Eigen::VectorXd jointVelocity(20);
     jointVelocity.setRandom();
 
-    Eigen::Matrix3d rotation0;
+    manif::SO3d rotation0;
     rotation0.setIdentity();
 
     Eigen::Vector3d position0;
@@ -44,18 +46,19 @@ TEST_CASE("Integrator - Linear system")
         Eigen::Vector3d pos = position0 + t * twist.head<3>();
         Eigen::Matrix3d rot
             = Eigen::AngleAxisd(twist.tail<3>().norm() * t, twist.tail<3>().normalized())
-              * rotation0;
+            * rotation0.rotation();
 
         Eigen::VectorXd jointPos = jointPosition0 + t * jointVelocity;
         return std::make_tuple(pos, rot, jointPos);
     };
 
-    system->setControlInput({twist, jointVelocity});
     system->setState({position0, rotation0, jointPosition0});
 
     ForwardEuler<FloatingBaseSystemKinematics> integrator;
     integrator.setIntegrationStep(dT);
     integrator.setDynamicalSystem(system);
+
+    system->setControlInput({twist, jointVelocity});
 
     for (int i = 0; i < simulationTime / dT; i++)
     {
@@ -64,7 +67,7 @@ TEST_CASE("Integrator - Linear system")
         const auto& [basePositionExact, baseRotationExact, jointPositionExact]
             = closeFormSolution(dT * i);
 
-        REQUIRE(baseRotation.isApprox(baseRotationExact, tolerance));
+        REQUIRE(baseRotation.rotation().isApprox(baseRotationExact, tolerance));
         REQUIRE(basePosition.isApprox(basePositionExact, tolerance));
         REQUIRE(jointPosition.isApprox(jointPositionExact, tolerance));
 
