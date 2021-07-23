@@ -230,6 +230,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a30d2088aa0e66fb413c561f8c08feb98" class="m-doc-self">checkValid</a>(</span><span class="m-doc-wrap">const std::string_view methodName) -&gt; bool</span>
             </dt>
             <dd>Check if the bridge is successfully initialized and attached to required device drivers.</dd>
+            <dt id="aabf6c61436ed4f912c606f3818766cee">
+              <div class="m-doc-template">template&lt;typename ControlBoardInterface&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#aabf6c61436ed4f912c606f3818766cee" class="m-doc-self">checkControlBoardSensor</a>(</span><span class="m-doc-wrap">const std::string logPrefix,
+              ControlBoardInterface* interface,
+              const bool&amp; streamConfig,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; measureBuffer) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="a2e4b18fccd7384fac60a967ffb74bf4b">
               <span class="m-doc-wrap-bumper">auto <a href="#a2e4b18fccd7384fac60a967ffb74bf4b" class="m-doc-self">attachAllInertials</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
             </dt>
