@@ -90,10 +90,10 @@ jobs:
 
         # Install Catch2
         cd C:/robotology/vcpkg
-        ./vcpkg.exe install catch2:x64-windows
+        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
 
         # Install pybind11 and tomlplusplus
-        ./vcpkg.exe install pybind11:x64-windows tomlplusplus:x64-windows
+        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install pybind11:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
