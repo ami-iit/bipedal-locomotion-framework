@@ -84,6 +84,9 @@ jobs:
         wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
         unzip vcpkg-robotology.zip -d C:/
         rm vcpkg-robotology.zip
+        # Also re-bootstrap to avoid problems
+        cd C:/robotology/vcpkg
+        ./bootstrap-vcpkg.bat
 
         # Install Catch2
         cd C:/robotology/vcpkg
