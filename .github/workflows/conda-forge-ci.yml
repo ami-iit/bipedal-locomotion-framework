@@ -8,9 +8,6 @@ on:
   # Execute a "nightly" build at 2 AM UTC
   - cron:  '0 2 * * *'
 
-env:
-  tomlplusplus_TAG: v2.4.0
-
 jobs:
   build:
     name: '[${{ matrix.os }}@${{ matrix.build_type }}@conda]'
@@ -38,7 +35,7 @@ jobs:
         # Compilation related dependencies
         mamba install cmake compilers make ninja pkg-config
         # Actual dependencies
-        mamba install idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl
+        mamba install idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl tomlplusplus
 
     - name: Linux-only Dependencies [Linux]
       if: contains(matrix.os, 'ubuntu')
@@ -53,34 +50,6 @@ jobs:
       run: |
         # Compilation related dependencies
         mamba install vs2019_win-64
-
-    - name: Dependencies [tomlplusplus - Linux&macOS]
-      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
-      run: |
-        # tomlplusplus
-        cd ${GITHUB_WORKSPACE}
-        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
-        cd tomlplusplus
-        mkdir -p build
-        cd build
-        cmake -GNinja -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
-
-    - name: Dependencies [tomlplusplus - windows]
-      if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
-      run: |
-        # tomlplusplus
-        cd ${GITHUB_WORKSPACE}
-        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
-        cd tomlplusplus
-        mkdir -p build
-        cd build
-        cmake -G"Visual Studio 16 2019" \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX}/Library ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Configure [Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
