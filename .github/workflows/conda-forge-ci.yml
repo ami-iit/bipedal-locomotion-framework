@@ -9,7 +9,6 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  manif_TAG: 0.0.4
   tomlplusplus_TAG: v2.4.0
 
 jobs:
@@ -37,7 +36,14 @@ jobs:
         # Compilation related dependencies
         mamba install cmake compilers make ninja pkg-config
         # Actual dependencies
-        mamba install -c robotology idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif
+        mamba install -c robotology idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif manifpy pybind11 numpy pytest scipy
+
+    - name: Windows-only Dependencies [Windows]
+      if: contains(matrix.os, 'windows')
+      shell: bash -l {0}
+      run: |
+        # Compilation related dependencies
+        mamba install vs2019_win-64
 
     - name: Dependencies [tomlplusplus - Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
@@ -74,25 +80,40 @@ jobs:
         mkdir -p build
         cd build
         cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
-    - name: Configure [Windows]
-      if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
-      run: |
-        mkdir -p build
-        cd build
-        cmake -G"Visual Studio 16 2019" -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
-
-    - name: Build
+    - name: Build [Linux&macOS]
+      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
         cd build
         cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Test
+    - name: Test [Linux&macOS]
+      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
+      run: |
+        cd build
+        ctest --output-on-failure -C ${{ matrix.build_type }}
+
+    - name: Configure [Windows]
+      if: contains(matrix.os, 'windows')
+      shell: cmd /C call {0}
+      run: |
+        mkdir -p build
+        cd build
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+
+    - name: Build [Windows]
+      if: contains(matrix.os, 'windows')
+      shell: cmd /C call {0}
+      run: |
+        cd build
+        cmake --build . --config ${{ matrix.build_type }}
+
+    - name: Test [Windows]
+      if: contains(matrix.os, 'windows')
+      shell: cmd /C call {0}
       run: |
         cd build
         ctest --output-on-failure -C ${{ matrix.build_type }}
