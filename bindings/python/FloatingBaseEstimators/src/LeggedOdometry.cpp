@@ -58,13 +58,13 @@ void CreateLeggedOdometry(pybind11::module& module)
              py::arg("encoder_speeds"))
         .def("advance", &LeggedOdometry::advance)
         .def("reset_estimator",
-             py::overload_cast<const InternalState&>(&LeggedOdometry::resetEstimator),
+             py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
         .def("reset_estimator",
              py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(
-                 &LeggedOdometry::resetEstimator),
-             py::arg("new_imu_orientation"),
-             py::arg("new_imu_position"))
+                 &FloatingBaseEstimator::resetEstimator),
+             py::arg("new_base_orientation"),
+             py::arg("new_base_position"))
         .def("reset_estimator", py::overload_cast<>(&LeggedOdometry::resetEstimator))
         .def("reset_estimator",
              py::overload_cast<const std::string&, const Eigen::Quaterniond&, const Eigen::Vector3d&>(
