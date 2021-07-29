@@ -174,7 +174,7 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>The constructor set the gravity acceleration vector to <formula id="38">$\begin{bmatrix} 0 &amp; 0 &amp; -9.81\end{bmatrix}^\top$</formula>. Please call <ref refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a907af2763f3cdae59df7b1f13950cd80" kindref="member">setGravityVector()</ref> if you want define your custom gravity vector. </para>
+<para><simplesect kind="note"><para>The constructor set the gravity acceleration vector to <formula id="46">$\begin{bmatrix} 0 &amp; 0 &amp; -9.81\end{bmatrix}^\top$</formula>. Please call <ref refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a907af2763f3cdae59df7b1f13950cd80" kindref="member">setGravityVector()</ref> if you want define your custom gravity vector. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -196,7 +196,7 @@
 <para>Initialize the Dynamical system. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>Please call this function only if you want to set an arbitrary value for the parameter used in the Baumgarte stabilization <formula id="39">$\rho$</formula> (The default value is 0.01 ). In this case the handler should contain a key called rho. </para>
+<para><simplesect kind="note"><para>Please call this function only if you want to set an arbitrary value for the parameter used in the Baumgarte stabilization <formula id="47">$\rho$</formula> (The default value is 0.01 ). In this case the handler should contain a key called rho. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -283,7 +283,7 @@
 <listitem><para>Eigen::Vector6d: the base velocity expressed in mixed representation;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s];</para>
 </listitem><listitem><para>Eigen::Vector3d: position of the base w.r.t. the inertial frame</para>
-</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="36">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="44">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint positions [in rad].</para>
 </listitem></itemizedlist>
 </para>
@@ -291,7 +291,7 @@
 <listitem><para>Eigen::Vector6d: the base acceleration expressed in mixed representation;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint accelerations [in rad/s^2];</para>
 </listitem><listitem><para>Eigen::Vector3d: base velocity w.r.t. the inertial frame;</para>
-</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="37">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="45">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s].</para>
 </listitem></itemizedlist>
 </para>
