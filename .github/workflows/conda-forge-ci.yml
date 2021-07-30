@@ -27,16 +27,25 @@ jobs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         mamba-version: "*"
-        channels: conda-forge,defaults
+        channels: conda-forge,robotology
         channel-priority: true
 
     - name: Dependencies
       shell: bash -l {0}
       run: |
+        # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
+        conda config --remove channels defaults
         # Compilation related dependencies
         mamba install cmake compilers make ninja pkg-config
         # Actual dependencies
-        mamba install -c robotology idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif manifpy pybind11 numpy pytest scipy
+        mamba install idyntree yarp libmatio matio-cpp lie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog catch2 nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl
+
+    - name: Linux-only Dependencies [Linux]
+      if: contains(matrix.os, 'ubuntu')
+      shell: bash -l {0}
+      run: |
+        # See https://github.com/robotology/robotology-superbuild/issues/477
+        mamba install expat-cos6-x86_64 libselinux-cos6-x86_64 libxau-cos6-x86_64 libxcb-cos6-x86_64 libxdamage-cos6-x86_64 libxext-cos6-x86_64 libxfixes-cos6-x86_64 libxxf86vm-cos6-x86_64 mesalib mesa-libgl-cos6-x86_64 mesa-libgl-devel-cos6-x86_64
 
     - name: Windows-only Dependencies [Windows]
       if: contains(matrix.os, 'windows')
