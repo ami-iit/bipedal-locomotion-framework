@@ -47,4 +47,25 @@ TextLogging::Logger* const log()
     return logger.get();
 }
 
+void TextLogging::setVerbosity(const Verbosity verbosity)
+{
+    const std::unordered_map<TextLogging::Verbosity, spdlog::level::level_enum> map{
+        {TextLogging::Verbosity::Trace, spdlog::level::level_enum::trace},
+        {TextLogging::Verbosity::Debug, spdlog::level::level_enum::debug},
+        {TextLogging::Verbosity::Info, spdlog::level::level_enum::info},
+        {TextLogging::Verbosity::Warn, spdlog::level::level_enum::warn},
+        {TextLogging::Verbosity::Err, spdlog::level::level_enum::err},
+        {TextLogging::Verbosity::Critical, spdlog::level::level_enum::critical},
+        {TextLogging::Verbosity::Off, spdlog::level::level_enum::off},
+    };
+
+    if (map.find(verbosity) == map.end())
+    {
+        log()->error("Failed to change verbosity to level {}", verbosity);
+        return;
+    }
+
+    log()->set_level(map.at(verbosity));
+}
+
 } // namespace BipedalLocomotion

@@ -20,6 +20,24 @@ namespace TextLogging
 
 using Logger = spdlog::logger;
 
+enum class Verbosity
+{
+    Trace,
+    Debug,
+    Info,
+    Warn,
+    Err,
+    Critical,
+    Off,
+};
+
+/**
+ * Set the logger verbosity.
+ *
+ * @param verbosity The desired verbosity level.
+ */
+void setVerbosity(const TextLogging::Verbosity verbosity);
+
 } // namespace TextLogging
 
 /**
