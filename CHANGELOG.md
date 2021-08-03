@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Implement FeasibleContactWrenchTask for TSID component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/369).
 - Implement python bindings for QPInverseKinematics class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/303)
 - Implement `ControlTask` in for System component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/373).
+- Allow changing the log verbosity (https://github.com/dic-iit/bipedal-locomotion-framework/pull/385)
 
 ### Changed
 - Add common Python files to gitignore (https://github.com/dic-iit/bipedal-locomotion-framework/pull/338)
