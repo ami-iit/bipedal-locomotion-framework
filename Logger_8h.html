@@ -69,6 +69,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
@@ -85,6 +86,21 @@
             <dd><span></span></dd>
           </dl>
         </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="ab8803ec281bc4ee984bcc613becb7d64">
+              <span class="m-doc-wrap-bumper">enum class <a href="#ab8803ec281bc4ee984bcc613becb7d64" class="m-doc-self">Verbosity</a> { </span><span class="m-doc-wrap"><a href="#ab8803ec281bc4ee984bcc613becb7d64add4ec0ac4e58f7c32a01244ae91150b1" class="m-doc">Trace</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64aa603905470e2a5b8c13e96b579ef0dba" class="m-doc">Debug</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64a4059b0251f66a18cb56f544728796875" class="m-doc">Info</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64a56525ae64d370c0b448ac0d60710ef17" class="m-doc">Warn</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64ab47f6a6092c5d7e4bffec12dff309c3b" class="m-doc">Err</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64a278d01e5af56273bae1bb99a98b370cd" class="m-doc">Critical</a>,
+              <a href="#ab8803ec281bc4ee984bcc613becb7d64ad15305d7a4e34e02489c74a5ef542f36" class="m-doc">Off</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
@@ -98,10 +114,34 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a406bf88f75c83c5558bf8f078a42acba" class="m-doc">setVerbosity</a>(</span><span class="m-doc-wrap">const TextLogging::Verbosity verbosity)</span>
+            </dt>
+            <dd>Set the logger verbosity.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="namespaceBipedalLocomotion.html#a7340b06607c930de22a649e862b5244d" class="m-doc">log</a>(</span><span class="m-doc-wrap">) -&gt; TextLogging::Logger*const</span>
             </dt>
             <dd>Get an the instance of the log.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a406bf88f75c83c5558bf8f078a42acba"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a406bf88f75c83c5558bf8f078a42acba" class="m-doc-self">setVerbosity</a>(</span><span class="m-doc-wrap">const TextLogging::Verbosity verbosity)</span></span>
+            </h3>
+            <p>Set the logger verbosity.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">verbosity</td>
+                  <td>The desired verbosity level.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>
