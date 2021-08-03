@@ -10,6 +10,7 @@ add_subdirectory(RobotInterface)
 add_subdirectory(Math)
 add_subdirectory(FloatingBaseEstimators)
 add_subdirectory(IK)
+add_subdirectory(TextLogging)
 
 include(ConfigureFileWithCMakeIf)
 

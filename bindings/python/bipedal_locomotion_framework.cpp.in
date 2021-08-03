@@ -5,10 +5,12 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+// clang-format off
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
+#include <BipedalLocomotion/bindings/TextLogging/Module.h>
 
 @cmakeif FRAMEWORK_COMPILE_YarpImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
@@ -50,6 +52,9 @@ PYBIND11_MODULE(bindings, m)
     @endcmakeif FRAMEWORK_USE_manif
 
     m.doc() = "BipedalLocomotionFramework bindings";
+
+    py::module textLoggingModule = m.def_submodule("logging");
+    bindings::TextLogging::CreateModule(textLoggingModule);
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
