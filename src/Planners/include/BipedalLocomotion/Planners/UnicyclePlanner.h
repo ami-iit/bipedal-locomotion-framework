@@ -57,13 +57,13 @@ struct BipedalLocomotion::Planners::UnicycleKnot
                && this->time == rhs.time;
     }
 
-    double x;
-    double y;
+    double x; ///< The knot x coordinates.
+    double y; ///< The knot y coordinates.
 
-    double dx = 0.0;
-    double dy = 0.0;
+    double dx = 0.0; ///< The knot x velocity.
+    double dy = 0.0; ///< The knot y velocity.
 
-    double time = 0.0;
+    double time = 0.0; ///< The knot activation time.
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerInput
@@ -77,10 +77,10 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
     {
     }
 
-    double t0;
-    double tf;
+    double t0; ///< The beginning of the planner horizon.
+    double tf; ///< The end of the planner horizon.
 
-    std::vector<UnicycleKnot> knots;
+    std::vector<UnicycleKnot> knots; ///< A list of knots.
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerOutput
@@ -92,8 +92,8 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     {
     }
 
-    Contacts::ContactList left;
-    Contacts::ContactList right;
+    Contacts::ContactList left; ///< The list of left foot contacts;
+    Contacts::ContactList right; ///< The list of right foot contacts;
 };
 
 class BipedalLocomotion::Planners::UnicyclePlanner final
@@ -104,7 +104,43 @@ public:
 
     virtual ~UnicyclePlanner();
 
+    // clang-format off
+
+    /**
+     * Initialize the planner.
+     *
+     * @note The following parameters are required by the class:
+     *
+     * |          Name          |      Type      |      Default      | Mandatory |                    Description                     |
+     * | :--------------------: | :------------: | :---------------: | :-------: | :------------------------------------------------: |
+     * |    `sampling_time`     |     double     |         -         |    Yes    |          The sampling time of the planner          |
+     * |     `unicycleGain`     |     double     |       10.0        |    No     |      The main gain of the unicycle controller      |
+     * | `slowWhenTurningGain`  |     double     |        0.0        |    No     |     The turnin gain of the unicycle controller     |
+     * |  `referencePosition`   | list of double |   (0.10, 0.00)    |    No     | The reference position of the unicycle controller  |
+     * |      `timeWeight`      |     double     |        1.0        |    No     |         The time weight of the OC problem          |
+     * |    `positionWeight`    |     double     |        1.0        |    No     |       The position weight of the OC problem        |
+     * |   `minStepDuration`    |     double     |         -         |    Yes    |           The minimum duration of a step           |
+     * |   `maxStepDuration`    |     double     |         -         |    Yes    |           The maximum duration of a step           |
+     * |   `nominalDuration`    |     double     |         -         |    Yes    |           The nominal duration of a step           |
+     * |    `minStepLength`     |     double     |         -         |    Yes    |            The minimum length of a step            |
+     * |    `maxStepLength`     |     double     |         -         |    Yes    |            The maximum length of a step            |
+     * |       `minWidth`       |     double     |         -         |    Yes    |             The minimum feet distance              |
+     * |     `nominalWidth`     |     double     |         -         |    Yes    |             The nominal feet distance              |
+     * |  `minAngleVariation`   |     double     |         -         |    Yes    |           The minimum unicycle rotation            |
+     * |  `maxAngleVariation`   |     double     |         -         |    Yes    |           The maximum unicycle rotation            |
+     * | `switchOverSwingRatio` |     double     |         -         |    Yes    | The ratio between single and double support phases |
+     * |  `lastStepSwitchTime`  |     double     | `nominalDuration` |    No     |        The switching time of the last step         |
+     * |      `swingLeft`       |      bool      |       false       |    No     |     Perform the first step with the left foot      |
+     * |     `terminalStep`     |      bool      |       true        |    No     |   Add a terminal step at the end of the horizon    |
+     * | `startAlwaysSameFoot`  |      bool      |       false       |    No     |       Restart with the default foot if still       |
+     * |    `left_foot_name`    |     string     |       left        |    No     |               Name of the left foot                |
+     * |   `right_foot_name`    |     string     |       right       |    No     |               Name of the right foot               |
+     *
+     * @param handler Pointer to the parameter handler.
+     * @return True in case of success, false otherwise.
+     */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+    // clang-format on
 
     const UnicyclePlannerOutput& getOutput() const override;
 
