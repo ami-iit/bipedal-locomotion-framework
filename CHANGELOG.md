@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 - Add a synchronization mechanism for the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/403)
 - Add the possibility to use spdlog with YARP (https://github.com/ami-iit/bipedal-locomotion-framework/pull/408)
+- Add new Advanceable exposing `UnicyclePlanner` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/320)
 
 ### Changed
 - Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
