@@ -34,10 +34,34 @@ if (FRAMEWORK_COMPILE_Planners)
     Qhull::qhullcpp
     Qhull::qhullstatic_r
     casadi
+    iDynTree::idyntree-core
     BipedalLocomotion::Math
     BipedalLocomotion::TextLogging
     INSTALLATION_FOLDER Planners)
 
   add_subdirectory(tests)
+
+endif()
+
+if (FRAMEWORK_COMPILE_Unicycle)
+
+  set(H_PREFIX include/BipedalLocomotion/Planners)
+
+  add_bipedal_locomotion_library(
+    NAME Unicycle
+    PUBLIC_HEADERS
+    ${H_PREFIX}/UnicyclePlanner.h
+    SOURCES
+    src/UnicyclePlanner.cpp
+    PUBLIC_LINK_LIBRARIES
+    BipedalLocomotion::ParametersHandler
+    BipedalLocomotion::System
+    BipedalLocomotion::Contacts
+    Eigen3::Eigen
+    PRIVATE_LINK_LIBRARIES
+    BipedalLocomotion::TextLogging
+    iDynTree::idyntree-core
+    UnicyclePlanner
+    INSTALLATION_FOLDER Planners)
 
 endif()
