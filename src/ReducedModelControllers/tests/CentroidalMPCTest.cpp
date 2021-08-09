@@ -71,96 +71,154 @@ TEST_CASE("CentroidalMPC")
     std::vector<double> time;
 
 
-    constexpr double scaling = 0.5;
-    // t  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
-    // L |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|
-    // R |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
-    // left foot
-    // first footstep
-    Eigen::Vector3d leftPos;
-    leftPos <<  -0.0852893,    0.0828008, -0.000110952;
-    manif::SE3d leftTransform(leftPos, manif::SO3d::Identity());
+    constexpr double scaling = 1;
+    constexpr double scalingPos = 4.0;
+    constexpr double scalingPosY = 12;
+
+    // // t  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 20  21  22  23  24  25  26  27
+    // // L |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|++++++++++|---|+++|
+    // // R |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++|
+
+    Eigen::Vector3d leftPosition;
+    leftPosition << 0, 0.08, 0;
+    manif::SE3d leftTransform(leftPosition, manif::SO3d::Identity());
     contactListMap["left_foot"].addContact(leftTransform, 0.0, 1.0 * scaling);
-    contactListMap["left_foot"].addContact(leftTransform, 2.0* scaling, 5.0* scaling);
-    contactListMap["left_foot"].addContact(leftTransform, 6.0* scaling, 9.0* scaling);
-    contactListMap["left_foot"].addContact(leftTransform, 10.0* scaling, 13.0* scaling);
-    contactListMap["left_foot"].addContact(leftTransform, 14.0* scaling, 17.0* scaling);
+
+    leftPosition(0) += 0.05 * scalingPos;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 2.0 * scaling, 5.0 * scaling);
+
+    leftPosition(0) += 0.1 * scalingPos;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 6.0 * scaling, 9.0 * scaling);
+
+    leftPosition(0) += 0.05 * scalingPos;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 10.0 * scaling, 13.0 * scaling);
+
+    leftPosition(0) += 0.15 * scalingPos;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 14.0 * scaling, 17.0 * scaling);
+
+    leftPosition(1) -= 0.01 * scalingPosY;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 18.0 * scaling, 21.0 * scaling);
+
+    leftPosition(1) -= 0.01 * scalingPosY;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 22.0 * scaling, 25.0 * scaling);
+
+    leftPosition(1) -= 0.01 * scalingPosY;
+    leftTransform.translation(leftPosition);
+    contactListMap["left_foot"].addContact(leftTransform, 26.0 * scaling, 29.0 * scaling);
+
+    // // t  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 20  21
+    // 22  23  24  25  26  27
+    // // L
+    // |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|++++++++++|---|+++|
+    // // R
+    // |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++|
 
     // right foot
     // first footstep
-    Eigen::Vector3d rightPos;
-    rightPos << -0.0850079,    -0.073266, -0.000111252;
-    manif::SE3d rightTransform(rightPos, manif::SO3d::Identity());
-    contactListMap["right_foot"].addContact(rightTransform, 0.0, 3.0* scaling);
-    contactListMap["right_foot"].addContact(rightTransform, 4.0* scaling, 7.0* scaling);
-    contactListMap["right_foot"].addContact(rightTransform, 8.0* scaling, 11.0* scaling);
-    contactListMap["right_foot"].addContact(rightTransform, 12.0* scaling, 15.0* scaling);
-    contactListMap["right_foot"].addContact(rightTransform, 16.0* scaling, 17.0* scaling);
+    Eigen::Vector3d rightPosition;
+    rightPosition << 0, -0.08, 0;
+    manif::SE3d rightTransform(rightPosition, manif::SO3d::Identity());
 
+    contactListMap["right_foot"].addContact(rightTransform, 0.0, 3.0 * scaling);
+
+    rightPosition(0) += 0.1 * scalingPos;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 4.0 * scaling, 7.0 * scaling);
+
+    rightPosition(0) += 0.1 * scalingPos;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 8.0 * scaling, 11.0 * scaling);
+
+    rightPosition(0) += 0.1 * scalingPos;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 12.0 * scaling, 15.0 * scaling);
+
+    rightPosition(0) += 0.05 * scalingPos;
+    rightPosition(1) -= 0.01 * scalingPosY;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 16.0 * scaling, 19.0 * scaling);
+
+    rightPosition(1) -= 0.01 * scalingPosY;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 20.0 * scaling, 23.0 * scaling);
+
+    rightPosition(1) -= 0.01 * scalingPosY;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 24.0 * scaling, 27.0 * scaling);
+
+    rightPosition(1) -= 0.01 * scalingPosY;
+    rightTransform.translation(rightPosition);
+    contactListMap["right_foot"].addContact(rightTransform, 28.0 * scaling, 29.0 * scaling);
+
+    // contactListMap = BipedalLocomotion::Contacts::contactListMapFromJson("footsteps.json");
     phaseList.setLists(contactListMap);
 
-    Eigen::Vector3d comtemp;
-    comtemp << -0.0557448, 0.00497309,  0.528696;
+    std::vector<Eigen::VectorXd> comKnots;
+    std::vector<double> timeKnots;
 
-    // knots.push_back(comtemp);
-    // time.push_back(0);
+    timeKnots.push_back(phaseList.cbegin()->beginTime);
+    Eigen::Vector3d com0;
+    com0 << 0, 0, 0.53;
+    comKnots.push_back(com0);
+    for (auto it = phaseList.begin(); it != phaseList.end(); std::advance(it, 1))
+    {
+        if (it->activeContacts.size() == 2 && it != phaseList.begin()
+            && it != phaseList.lastPhase())
+        {
+            timeKnots.emplace_back((it->endTime + it->beginTime) / 2);
 
-    // comtemp(1) = rightPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(1.5);
+            auto contactIt = it->activeContacts.cbegin();
+            const Eigen::Vector3d p1 = contactIt->second->pose.translation();
+            std::advance(contactIt, 1);
+            const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-    // comtemp(1) = leftPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(3.5);
+            Eigen::Vector3d desiredCoMPosition = (p1 + p2) / 2.0;
+            desiredCoMPosition(2) += com0(2);
 
-    // comtemp(1) = rightPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(5.5);
+            comKnots.emplace_back(desiredCoMPosition);
+        }
 
-    // comtemp(1) = leftPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(7.5);
+        else if (it->activeContacts.size() == 2 && it == phaseList.lastPhase())
+        {
+            timeKnots.push_back(it->endTime);
+            auto contactIt = it->activeContacts.cbegin();
+            const Eigen::Vector3d p1 = contactIt->second->pose.translation();
+            std::advance(contactIt, 1);
+            const Eigen::Vector3d p2 = contactIt->second->pose.translation();
 
-    // comtemp(1) = rightPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(9.5);
+            Eigen::Vector3d desiredCoMPosition = (p1 + p2) / 2.0;
+            desiredCoMPosition(2) += com0(2);
 
-    // comtemp(1) = leftPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(11.5);
+            comKnots.emplace_back(desiredCoMPosition);
+        }
+    }
 
+    comSpline.setInitialConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+    comSpline.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+    comSpline.setKnots(comKnots, timeKnots);
 
-    // comtemp(1) = rightPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(13.5);
-
-    // comtemp(1) = leftPos(1);
-    // knots.push_back(comtemp);
-    // time.push_back(15.5);
+    Eigen::Vector3d velocity, acceleration;
+    Eigen::MatrixXd comTraj(3, 1500);
 
 
-    // comtemp(1) = 0;
-    // knots.push_back(comtemp);
-    // time.push_back(17);
+    int tempInt = 1000;
+    for (int i = 0; i < tempInt / scaling; i++)
+    {
+        // TODO remove me
+        comSpline.evaluatePoint(i * 0.1, comTraj.col(i), velocity, acceleration);
+    }
 
-    // comSpline.setKnots(knots, time);
-    // comSpline.setInitialConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
-    // comSpline.setFinalConditions(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+    // i = 3
+    // * *
+    // 1 2 3 4 5
+    comTraj.rightCols(comTraj.cols() - tempInt).colwise() = comTraj.col(tempInt-1);
 
-    Eigen::MatrixXd comTraj(3, 1000);
-    comTraj.colwise() = comtemp;
-
-    // Eigen::Vector3d dummy;
-    // for(int i = 0; i < 170; i++)
-    // {
-    //     comSpline.evaluatePoint(i * dT, comTraj.col(i), dummy, dummy);
-    // }
-
-    // std::cerr << comTraj.leftCols(10) << std::endl;
-
-    // comTraj.rightCols(1000 - 170).colwise() = comTraj.col(170);
-
-    // std::cerr << comTraj.leftCols(10) << std::endl;
 
     // initialize the dynamical system
     auto system = std::make_shared<CentroidalDynamics>();
@@ -190,11 +248,26 @@ TEST_CASE("CentroidalMPC")
             index++;
         }
 
+        if (i == 0)
+        {
+            for (const auto& [key, contact] : mpc.getOutput().contacts)
+            {
+                for (int j = 0; j < contact.corners.size(); j++)
+                {
+                    myFile << key << "_" << j << "_x"
+                           << " " << key << "_" << j << "_y"
+                           << " " << key << "_" << j << "_z ";
+                }
+            }
+            myFile << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z";
+            myFile << std::endl;
+        }
+
         for (const auto& [key, contact] : mpc.getOutput().contacts)
         {
             for(const auto& corner : contact.corners)
             {
-                myFile << corner.force.transpose() << "    ";
+                myFile << corner.force.transpose() << " ";
             }
         }
         myFile << com.transpose() << " " << comTraj.col(index).transpose() << " " << angularMomentum.transpose();
@@ -207,8 +280,8 @@ TEST_CASE("CentroidalMPC")
         REQUIRE(integrator.integrate(0, 0.01));
 
         controllerIndex++;
-        if(controllerIndex == 20)
-            controllerIndex =0;
+        if(controllerIndex == 10)
+            controllerIndex = 0;
     }
 
     myFile.close();
