@@ -28,26 +28,27 @@ TEST_CASE("CentroidalMPC")
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("controller_sampling_time", dT);
-    handler->setParameter("controller_horizon", 20);
+    handler->setParameter("controller_horizon", 15);
     handler->setParameter("number_of_maximum_contacts", 2);
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
+    handler->setParameter("linear_solver", "ma97");
 
     auto contact0Handler = std::make_shared<StdImplementation>();
     contact0Handler->setParameter("number_of_corners", 4);
     contact0Handler->setParameter("contact_name", "left_foot");
     contact0Handler->setParameter("corner_0", std::vector<double>{0.1, 0.05, 0});
     contact0Handler->setParameter("corner_1", std::vector<double>{0.1, -0.05, 0});
-    contact0Handler->setParameter("corner_2", std::vector<double>{-0.06, -0.05, 0});
-    contact0Handler->setParameter("corner_3", std::vector<double>{-0.06, 0.05, 0});
+    contact0Handler->setParameter("corner_2", std::vector<double>{-0.1, -0.05, 0});
+    contact0Handler->setParameter("corner_3", std::vector<double>{-0.1, 0.05, 0});
 
     auto contact1Handler = std::make_shared<StdImplementation>();
     contact1Handler->setParameter("number_of_corners", 4);
     contact1Handler->setParameter("contact_name", "right_foot");
     contact1Handler->setParameter("corner_0", std::vector<double>{0.1, 0.05, 0});
     contact1Handler->setParameter("corner_1", std::vector<double>{0.1, -0.05, 0});
-    contact1Handler->setParameter("corner_2", std::vector<double>{-0.06, -0.05, 0});
-    contact1Handler->setParameter("corner_3", std::vector<double>{-0.06, 0.05, 0});
+    contact1Handler->setParameter("corner_2", std::vector<double>{-0.1, -0.05, 0});
+    contact1Handler->setParameter("corner_3", std::vector<double>{-0.1, 0.05, 0});
 
     handler->setGroup("CONTACT_0", contact0Handler);
     handler->setGroup("CONTACT_1", contact1Handler);
