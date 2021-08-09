@@ -252,6 +252,7 @@ TEST_CASE("CentroidalMPC")
         {
             for (const auto& [key, contact] : mpc.getOutput().contacts)
             {
+                myFile << key << "_pos_x " << key << "_pos_y " << key << "_pos_z ";
                 for (int j = 0; j < contact.corners.size(); j++)
                 {
                     myFile << key << "_" << j << "_x"
@@ -265,6 +266,7 @@ TEST_CASE("CentroidalMPC")
 
         for (const auto& [key, contact] : mpc.getOutput().contacts)
         {
+            myFile << contact.pose.translation().transpose() << " ";
             for(const auto& corner : contact.corners)
             {
                 myFile << corner.force.transpose() << " ";
