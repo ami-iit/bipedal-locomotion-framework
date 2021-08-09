@@ -64,6 +64,7 @@ struct CentroidalMPC::Impl
     {
         casadi::MX position;
         casadi::MX orientation;
+        casadi::MX isEnable;
         std::vector<CasadiCorner> corners;
 
         CasadiContact() = default;
@@ -79,6 +80,7 @@ struct CentroidalMPC::Impl
 
             this->orientation = casadi::MX::sym("orientation", 3, 3);
             this->position = casadi::MX::sym("position", 3, 1);
+            this->isEnable = casadi::MX::sym("is_enable", 1);
 
             return *this;
         }
@@ -96,7 +98,6 @@ struct CentroidalMPC::Impl
         casadi::MX upperLimitPosition;
         casadi::MX lowerLimitPosition;
         casadi::MX limitVelocity;
-        casadi::MX maximumNormalForce;
     };
 
     struct OptimizationSettings
@@ -150,7 +151,7 @@ struct CentroidalMPC::Impl
         casadi::DM upperLimitPosition;
         casadi::DM lowerLimitPosition;
         casadi::DM limitVelocity;
-        casadi::DM maximumNormalForce;
+        casadi::DM isEnable;
     };
     struct ControllerInputs
     {
@@ -328,34 +329,29 @@ struct CentroidalMPC::Impl
         {
             input.push_back(contact.position);
             input.push_back(casadi::MX::reshape(contact.orientation, 9, 1));
+            input.push_back(contact.isEnable);
             for(const auto& corner : contact.corners)
             {
 
-                ddcom += 1/mass * casadi::MX::mtimes(contact.orientation, corner.force);
-
+                ddcom += contact.isEnable/mass * corner.force;
                 angularMomentumDerivative
-                    += casadi::MX::cross(casadi::MX::mtimes(contact.orientation, corner.position)
-                                             + contact.position - com,
-                                         casadi::MX::mtimes(contact.orientation, corner.force));
+                    += contact.isEnable
+                       * casadi::MX::cross(casadi::MX::mtimes(contact.orientation, corner.position)
+                                               + contact.position - com,
+                                           corner.force);
 
                 input.push_back(corner.force);
             }
         }
 
-        casadi::MX rhs = casadi::MX::vertcat(
-            {com + dcom * this->optiSettings.samplingTime,
-             dcom + ddcom * this->optiSettings.samplingTime,
-             angularMomentum + angularMomentumDerivative * this->optiSettings.samplingTime});
+        std::vector<casadi::MX> rhs{com + dcom * this->optiSettings.samplingTime,
+                                    dcom + ddcom * this->optiSettings.samplingTime,
+                                    angularMomentum
+                                        + angularMomentumDerivative
+                                              * this->optiSettings.samplingTime};
 
-        return casadi::Function("centroidal_dynamics",
-                                input,
-                                {com + dcom * this->optiSettings.samplingTime,
-                                 dcom + ddcom * this->optiSettings.samplingTime,
-                                 angularMomentum
-                                     + angularMomentumDerivative
-                                           * this->optiSettings.samplingTime});
+        return casadi::Function("centroidal_dynamics", input, rhs);
     }
-
 
     casadi::Function contactPositionError()
     {
@@ -402,7 +398,7 @@ struct CentroidalMPC::Impl
                 = casadi::DM::zeros(vector3Size, this->optiSettings.horizon);
 
             // Maximum admissible contact force. It is expressed in the contact body frame
-            this->controllerInputs.contacts[key].maximumNormalForce
+            this->controllerInputs.contacts[key].isEnable
                 = casadi::DM::zeros(1, this->optiSettings.horizon);
 
             // The nominal contact position is a parameter that regularize the solution
@@ -450,7 +446,7 @@ struct CentroidalMPC::Impl
                 = this->opti.parameter(vector3Size, this->optiSettings.horizon);
 
             // Maximum admissible contact force. It is expressed in the contact body frame
-            this->optiVariables.contacts[key].maximumNormalForce
+            this->optiVariables.contacts[key].isEnable
                 = this->opti.parameter(1, this->optiSettings.horizon);
 
             // The nominal contact position is a parameter that regularize the solution
@@ -546,6 +542,7 @@ struct CentroidalMPC::Impl
         {
             controlInput.push_back(contact.position);
             controlInput.push_back(contact.orientation);
+            controlInput.push_back(contact.isEnable);
 
             for(const auto& corner : contact.corners)
             {
@@ -591,7 +588,7 @@ struct CentroidalMPC::Impl
                     sizeof(double) * frictionCone.getA().rows() * frictionCone.getA().cols());
 
         const casadi::DM zero = casadi::DM::zeros(frictionCone.getA().rows(), 1);
-        casadi::MX constraintFrictionCone;
+        casadi::MX rotatedForce;
 
         for(const auto& [key, contact] : this->optiVariables.contacts)
         {
@@ -610,15 +607,18 @@ struct CentroidalMPC::Impl
             // contact.maximumNormalForce for each corner. At this stage is too premature.
             for (const auto& corner : contact.corners)
             {
-                constraintFrictionCone = casadi::MX::mtimes(frictionConeMatrix, corner.force);
                 for (int i = 0; i < corner.force.columns(); i++)
                 {
-                    this->opti.subject_to(constraintFrictionCone(Sl(), i) <= zero);
-                }
+                    rotatedForce
+                        = casadi::MX::mtimes(casadi::MX::reshape(contact.orientation(Sl(), i), 3, 3)
+                                                 .T(),
+                                             corner.force(Sl(), i));
+                    this->opti.subject_to(casadi::MX::mtimes(frictionConeMatrix, rotatedForce)
+                                          <= zero);
 
-                // limit on the normal force
-                this->opti.subject_to(casadi::DM::zeros(1, corner.force.columns())
-                                      <= corner.force(2, Sl()) <= contact.maximumNormalForce);
+                    // limit on the normal force
+                    this->opti.subject_to(0 <= rotatedForce(2));
+                }
             }
         }
 
@@ -676,13 +676,13 @@ struct CentroidalMPC::Impl
         {
             input.push_back(contact.nominalPosition);
             input.push_back(contact.orientation);
-            input.push_back(contact.maximumNormalForce);
+            input.push_back(contact.isEnable);
             input.push_back(contact.upperLimitPosition);
             input.push_back(contact.lowerLimitPosition);
             input.push_back(contact.limitVelocity);
 
             output.push_back(contact.position);
-
+            output.push_back(contact.isEnable);
             for (const auto& corner : contact.corners)
             {
                 output.push_back(corner.force);
@@ -792,7 +792,7 @@ bool CentroidalMPC::advance()
     {
         vectorizedInputs.push_back(contact.nominalPosition);
         vectorizedInputs.push_back(contact.orientation);
-        vectorizedInputs.push_back(contact.maximumNormalForce);
+        vectorizedInputs.push_back(contact.isEnable);
         vectorizedInputs.push_back(contact.upperLimitPosition);
         vectorizedInputs.push_back(contact.lowerLimitPosition);
         vectorizedInputs.push_back(contact.limitVelocity);
@@ -834,9 +834,18 @@ bool CentroidalMPC::advance()
         // the first output is the position of the contact
         contact.pose.translation(toEigen(*it).leftCols<1>());
         std::advance(it, 1);
+        double isEnable = toEigen(*it).leftCols<1>()(0);
+        std::advance(it, 1);
         for(auto& corner : contact.corners)
         {
-            corner.force = toEigen(*it).leftCols<1>();
+            // isEnable == 1 means that the contact is active
+            if (isEnable > 0.5)
+            {
+                corner.force = toEigen(*it).leftCols<1>();
+            } else
+            {
+                corner.force.setZero();
+            }
             std::advance(it, 1);
         }
     }
@@ -918,12 +927,16 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         return false;
     }
 
+    // The orientation is stored as a vectorized version of the rotation matrix
+    const Eigen::Matrix3d temp = Eigen::Matrix3d::Identity();
+
     // clear previous data
     for (const auto& [key, contact] : m_pimpl->state.contacts)
     {
 
-        // The orientation is stored as a vectorized version of the rotation matrix
-        toEigen(m_pimpl->controllerInputs.contacts[key].orientation).setZero();
+        // initialize all the orientation to the identity
+        toEigen(m_pimpl->controllerInputs.contacts[key].orientation).colwise()
+            = Eigen::Map<const Eigen::VectorXd>(temp.data(), temp.cols() * temp.rows());
 
         // M_Pimpl is the admissible velocity of the contact (It will be different to zero only
         // when a new contact is created)
@@ -936,7 +949,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         toEigen(m_pimpl->controllerInputs.contacts[key].lowerLimitPosition).setZero();
 
         // Maximum admissible contact force. It is expressed in the contact body frame
-        toEigen(m_pimpl->controllerInputs.contacts[key].maximumNormalForce).setZero();
+        toEigen(m_pimpl->controllerInputs.contacts[key].isEnable).setZero();
 
         // The nominal contact position is a parameter that regularize the solution
         toEigen(m_pimpl->controllerInputs.contacts[key].nominalPosition).setZero();
@@ -1001,8 +1014,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
             toEigen(inputContact->second.orientation).middleCols(index, numberOfSamples).colwise()
                 = Eigen::Map<const Eigen::VectorXd>(orientation.data(), orientation.size());
 
-            constexpr double maxForce = 1e5;
-            toEigen(inputContact->second.maximumNormalForce)
+            constexpr double maxForce = 1;
+            toEigen(inputContact->second.isEnable)
                 .middleCols(index, numberOfSamples)
                 .setConstant(maxForce);
         }
@@ -1017,7 +1030,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
 
         log()->info("{} maximumnormalforce  {}",
                     key,
-                    toEigen(contact.maximumNormalForce));
+                    toEigen(contact.isEnable));
     }
     // TODO Implement this part only if you want to add the push recovery
     for (auto& [key, contact] : m_pimpl->controllerInputs.contacts)

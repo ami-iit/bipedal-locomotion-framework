@@ -28,16 +28,14 @@ bool CentroidalDynamics::initialize(std::weak_ptr<IParametersHandler> handler)
 
     if (!ptr->getParameter("gravity", m_gravity))
     {
-        log()->info("{} The gravity vector  not found. The default one will be "
-                    "used {}.",
+        log()->info("{} The gravity vector  not found. The default one will be used {}.",
                     logPrefix,
                     m_gravity.transpose());
     }
 
     if (!ptr->getParameter("mass", m_mass))
     {
-        log()->info("{} The mass is not found. The default one will be "
-                    "used {}.",
+        log()->info("{} The mass is not found. The default one will be used {}.",
                     logPrefix,
                     m_mass);
     }
@@ -60,9 +58,9 @@ bool CentroidalDynamics::dynamics(const double& time, StateDerivative& stateDeri
     {
         for (const auto& corner : contact.corners)
         {
-            comAcceleration.noalias() += 1 / m_mass * contact.pose.asSO3().act(corner.force);
+            comAcceleration.noalias() += 1 / m_mass * corner.force;
             angularMomentumRate.noalias() += (contact.pose.act(corner.position) - comPosition)
-                                                 .cross(contact.pose.asSO3().act(corner.force));
+                                                 .cross(corner.force);
         }
     }
 
