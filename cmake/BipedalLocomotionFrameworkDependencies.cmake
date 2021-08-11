@@ -160,6 +160,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_IK
   "Compile IK library?" ON
   "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_OsqpEigen" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_SimplifiedModelControllers
+  "Compile SimplifiedModelControllers library?" ON
+  "FRAMEWORK_USE_manif" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "Compile joint-position-tracking application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
