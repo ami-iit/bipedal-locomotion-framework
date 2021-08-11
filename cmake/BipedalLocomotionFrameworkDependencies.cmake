@@ -73,7 +73,7 @@ find_package(nlohmann_json 3.7.3 QUIET)
 checkandset_dependency(nlohmann_json)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
-find_package(tomlplusplus 2.4.0 QUIET)
+find_package(tomlplusplus 2.4.0 REQUIRED)
 checkandset_dependency(tomlplusplus)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
