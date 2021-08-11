@@ -37,10 +37,12 @@ bool CoMZMPController::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
+    m_isInitalized = true;
+
     return true;
 }
 
-const Eigen::Vector2d& CoMZMPController::getOutput() const
+const CoMZMPController::Output& CoMZMPController::getOutput() const
 {
     return m_controllerOutput;
 }
@@ -52,6 +54,13 @@ bool CoMZMPController::isOutputValid() const
 
 bool CoMZMPController::advance()
 {
+    if (!m_isInitalized)
+    {
+        log()->error("[CoMZMPController::advance] The controller is not initialized. Please call "
+                     "the 'initialize()' method");
+        return false;
+    }
+
     if (m_isOutputValid)
         return true;
 
@@ -67,6 +76,14 @@ bool CoMZMPController::advance()
         m_ZMPGain.asDiagonal() * m_I_R_B.inverse().act(m_ZMPPosition - m_desiredZMPPosition));
 
     m_isOutputValid = true;
+
+    return true;
+}
+
+bool CoMZMPController::setInput(const Input& input)
+{
+    this->setFeedback(input.CoMPosition, input.ZMPPosition, input.angle);
+    this->setSetPoint(input.desiredCoMVelocity, input.desiredCoMPosition, input.desiredZMPPosition);
 
     return true;
 }
@@ -98,9 +115,5 @@ void CoMZMPController::setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition
                                    Eigen::Ref<const Eigen::Vector2d> ZMPPosition,
                                    const double angle)
 {
-    m_CoMPosition = CoMPosition;
-    m_ZMPPosition = ZMPPosition;
-    m_I_R_B = manif::SO2d(angle);
-
-    m_isOutputValid = false;
+    this->setFeedback(CoMPosition, ZMPPosition, manif::SO2d(angle));
 }
