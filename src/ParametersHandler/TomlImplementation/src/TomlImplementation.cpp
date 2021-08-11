@@ -12,6 +12,20 @@
 
 using namespace BipedalLocomotion::ParametersHandler;
 
+template <>
+void TomlImplementation::setParameterPrivate<std::vector<bool>>(const std::string& parameterName,
+                                                                const std::vector<bool>& parameter)
+{
+    // vector<bool> is (usually) specialized explicitly to store each bool in a single bit,
+    // The range loop using reference leads to a compilation error.
+    // https://stackoverflow.com/questions/34079390/range-for-loops-and-stdvectorbool
+    m_container.insert_or_assign(parameterName, toml::array());
+    for (bool element : parameter)
+    {
+        m_container[parameterName].as_array()->push_back(element);
+    }
+}
+
 bool TomlImplementation::getParameter(const std::string& parameterName, int& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
@@ -93,6 +107,7 @@ void TomlImplementation::setParameter(const std::string& parameterName,
 {
     return setParameterPrivate(parameterName, parameter);
 }
+
 void TomlImplementation::setParameter(
     const std::string& parameterName,
     const GenericContainer::Vector<const std::string>::Ref parameter)
