@@ -21,7 +21,7 @@ env:
   LieGroupControllers_TAG: v0.1.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.6.3
-  tomlplusplus_TAG: v2.4.0
+  tomlplusplus_TAG: 4f21332bdd7555bbf9add1aafe82909a2f8aa52b~
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
@@ -278,8 +278,9 @@ jobs:
 
         # Tomlplusplus
         cd ${GITHUB_WORKSPACE}
-        git clone -b ${tomlplusplus_TAG} https://github.com/marzer/tomlplusplus
+        git clone https://github.com/marzer/tomlplusplus
         cd tomlplusplus
+        git checkout ${tomlplusplus_TAG}
         mkdir -p build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..

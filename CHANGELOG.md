@@ -29,6 +29,7 @@ All notable changes to this project are documented in this file.
 ### Fix
 - Fixed the crashing of `YarpSensorBridge` while trying to access unconfigured control board sensors data by adding some checks (https://github.com/dic-iit/bipedal-locomotion-framework/pull/378)
 - Fixed the compilation of Python bindings (enabled by the `FRAMEWORK_COMPILE_PYTHON_BINDINGS` CMake option) when compiling with Visual Studio (https://github.com/dic-iit/bipedal-locomotion-framework/pull/380).
+- Fixed the `TOML` and `YARP` implementation of the parameters handler when a `std::vector<bool>` is passed to the `setParameter()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/390).
 
 ## [0.2.0] - 2021-06-15
 ### Added
