@@ -112,11 +112,13 @@ jobs:
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
                              libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
-        sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo focal main" -u
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
+        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
         # please see https://github.com/IntelRealSense/realsense-ros/blob/a161efb84c9cf8077fbd37d6a78ef1fad0b677d0/.travis.yml#L17-L19
         sudo apt-get update -qq
-        sudo apt-get install librealsense2-dev --allow-unauthenticated -y
+        # please see https://github.com/IntelRealSense/librealsense/issues/9607#issuecomment-896789179
+        mkdir -p /usr/share/librealsense2/presets
+        sudo apt-get install librealsense2-dev
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
