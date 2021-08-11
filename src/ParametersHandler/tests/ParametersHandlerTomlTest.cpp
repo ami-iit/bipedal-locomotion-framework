@@ -82,6 +82,15 @@ TEST_CASE("Get parameters")
         REQUIRE(element == fibonacciNumbers);
     }
 
+    SECTION("Set bool Vector")
+    {
+        std::vector<bool> element;
+        const std::vector<bool> newFlags{false, true, false, true, true, true, false};
+        parameterHandler->setParameter("new_flags", newFlags);
+        REQUIRE(parameterHandler->getParameter("new_flags", element));
+        REQUIRE(element == newFlags);
+    }
+
     SECTION("Get bool Vector")
     {
         std::vector<bool> element;
