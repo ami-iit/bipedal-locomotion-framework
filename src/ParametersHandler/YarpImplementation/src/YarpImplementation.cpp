@@ -26,7 +26,7 @@ void YarpImplementation::setParameterPrivate<std::vector<bool>>(const std::strin
     yarp::os::Value yarpNewList;
     auto newList = yarpNewList.asList();
 
-    for (const auto& element : parameter)
+    for (bool element : parameter)
     {
         // if the parameter is a boolean we cannot use the usual way to add the new parameter
         // Please check https://github.com/robotology/yarp/issues/2584#issuecomment-847778679
