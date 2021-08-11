@@ -11,5 +11,6 @@ if(FRAMEWORK_COMPILE_SimplifiedModelControllers)
     PUBLIC_HEADERS         ${H_PREFIX}/CoMZMPController.h
     SOURCES                src/CoMZMPController.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::ParametersHandler MANIF::manif BipedalLocomotion::System
-    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging)
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging
+    SUBDIRECTORIES         tests)
 endif()
