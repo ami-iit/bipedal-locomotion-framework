@@ -151,7 +151,7 @@ public:
      bool m_isInitalized{false};
 };
 
-} // namespace Contacts
+} // namespace SimplifiedModelControllers
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_SIMPLIFIED_MODEL_CONTROLLERS_COM_ZMP_CONTROLLER_H
