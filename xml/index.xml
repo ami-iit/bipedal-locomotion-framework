@@ -29,6 +29,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0e209f5ebd347e033ccf5e911e80cfc3" kind="function"><name>getInfo</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0c2e43ebeda227492e97634fa0cb9867" kind="function"><name>run</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" kind="function"><name>stop</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" kind="function"><name>isRunning</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector" kind="class"><name>BipedalLocomotion::Perception::ArucoDetector</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a1c02a982577ef5797a1cbf1d8dbf5b99" kind="variable"><name>m_pimpl</name></member>
