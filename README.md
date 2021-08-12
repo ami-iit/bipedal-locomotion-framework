@@ -33,7 +33,7 @@ The **bipedal-locomotion-framework** project is a _suite_ of libraries for achie
 - [:computer: Some utitilites](#computer-some-utilities)
 - [:snake: Python](#snake-python)
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
-- [:gear: Contributing​](#gear-contributing)
+- [:gear: Contributing](#gear-contributing)
 
 # :page_facing_up: Mandatory dependencies
 The **bipedal-locomotion-framework** project is versatile and can be used to compile only some components.
@@ -46,9 +46,10 @@ The **bipedal-locomotion-framework** project consists of several components. The
 
 |                  Component                   |                         Description                          |                   Additional Dependencies                    |
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                    Framework                 |    Interface library that gathers all the exported components, includable with the file `BipedalLocomotion/Framework.h`     |  -   |
 |          [AutoDiff](./src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [nlohmann json](https://github.com/nlohmann/json/) |
+|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [`nlohmann json`](https://github.com/nlohmann/json/) |
 |    [CommonConversions](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
 |    [ManifConversions](./src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |        [Estimators](./src/Estimators)        |                 Library containing observers                 |                              -                               |
@@ -65,7 +66,9 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
 |    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
 |    [PerceptionFeatures](./src/Perception)     |   Library containing perception algorithms useful for locomotion   | [`OpenCV`](https://github.com/opencv/opencv) |
+|    [SimplifiedModelControllers](./src/SimplifiedModelControllers)     |   Library containing the controllers based on simplified models   | [`manif`](https://github.com/artivis/manif) |
 
+:warning: Including `BipedalLocomotion/Framework.h` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.
 
 # :hammer: Build the suite
 The **bipedal-locomotion-framework**  can be built on Windows, macOS, and Linux. The easiest way to compile the library is to use the [`robotology-superbuild`](https://github.com/robotology/robotology-superbuild). If you enable the profiles  `ROBOTOLOGY_ENABLE_DYNAMICS` and `ROBOTOLOGY_ENABLE_DYNAMICS_FULL_DEPS` in the `robotology-superbuild` you will automatically clone and build **bipedal-locomotion-framework** and all the dependencies.

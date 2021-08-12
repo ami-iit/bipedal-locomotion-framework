@@ -3,6 +3,13 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fix
+
+## [0.3.0] - 2021-08-12
+### Added
 - Implement `CubicSpline` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/344)
 - Implement `PWM` control in RobotControl class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/346)
 - Implement `ContactWrenchCone` class in Math component (https://github.com/dic-iit/bipedal-locomotion-framework/pull/352)
@@ -146,7 +153,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...master
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.3.0...master
+[0.3.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
