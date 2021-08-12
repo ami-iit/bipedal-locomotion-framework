@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Contacts::SchmittTriggerParams</compoundname>
+    <includes local="no">BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ab2d483cffbb26efcb7ef462a351e8981" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::SchmittTriggerParams::onThreshold</definition>
+        <argsstring></argsstring>
+        <name>onThreshold</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>high value threshold to initiate an ON state switch after switchOnAfter time-units </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" line="134" column="12" bodyfile="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aa731ffad66d108e7eccf5dcd365cb529" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::SchmittTriggerParams::offThreshold</definition>
+        <argsstring></argsstring>
+        <name>offThreshold</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>low value threshold to initiate an OFF state switch after switchOffAfter time-units </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" line="135" column="12" bodyfile="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aec16c5c85177725cd7484776d3627f5b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::SchmittTriggerParams::switchOnAfter</definition>
+        <argsstring></argsstring>
+        <name>switchOnAfter</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>time units to wait for before switching to ON state from OFF state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ensure it&apos;s greater than sampling time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" line="136" column="12" bodyfile="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ad0238e97815914b24427c5af00bcd0a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::SchmittTriggerParams::switchOffAfter</definition>
+        <argsstring></argsstring>
+        <name>switchOffAfter</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>time units to wait for before switching to OFF state from ON state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ensure it&apos;s greater than sampling time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" line="137" column="12" bodyfile="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Struct holding switching parameters for the Schmitt Trigger. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" line="132" column="1" bodyfile="BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h" bodystart="133" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aa731ffad66d108e7eccf5dcd365cb529" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerParams</scope><name>offThreshold</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ab2d483cffbb26efcb7ef462a351e8981" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerParams</scope><name>onThreshold</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ad0238e97815914b24427c5af00bcd0a7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerParams</scope><name>switchOffAfter</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aec16c5c85177725cd7484776d3627f5b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerParams</scope><name>switchOnAfter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
