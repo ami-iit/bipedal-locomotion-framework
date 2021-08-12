@@ -48,7 +48,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |          [AutoDiff](./src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [nlohmann json](https://github.com/nlohmann/json/) |
+|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [`nlohmann json`](https://github.com/nlohmann/json/) |
 |    [CommonConversions](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
 |    [ManifConversions](./src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |        [Estimators](./src/Estimators)        |                 Library containing observers                 |                              -                               |
@@ -65,6 +65,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 | [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
 |    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
 |    [PerceptionFeatures](./src/Perception)     |   Library containing perception algorithms useful for locomotion   | [`OpenCV`](https://github.com/opencv/opencv) |
+|    [SimplifiedModelControllers](./src/SimplifiedModelControllers)     |   Library containing the controllers based on simplified models   | [`manif`](https://github.com/artivis/manif) |
 
 
 # :hammer: Build the suite
