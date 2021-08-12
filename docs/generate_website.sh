@@ -2,8 +2,8 @@
 
 mcss_script=$1
 
-versions=(v0.1.1 v0.2.0)
-main_pages=(README.md docs/pages/main-page.dox)
+versions=(v0.1.1 v0.2.0 v0.3.0)
+main_pages=(README.md docs/pages/main-page.dox docs/pages/main-page.dox)
 
 for version in ${versions[@]}
 do
