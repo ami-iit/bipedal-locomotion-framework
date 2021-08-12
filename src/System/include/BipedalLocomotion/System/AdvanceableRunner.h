@@ -120,6 +120,12 @@ public:
      * @return true in case of success, false otherwise
      */
     void stop();
+
+    /**
+     * Check if the AdvanceableRunner is running
+     * @return true if the thread is running, false otherwise.
+     */
+    bool isRunning() const;
 };
 
 template <class _Advanceable>
@@ -329,6 +335,12 @@ template <class _Advanceable> void AdvanceableRunner<_Advanceable>::stop()
 {
     // m_isRunning is an atomic<bool> the mutex is not required here
     m_isRunning = false;
+}
+
+template <class _Advanceable> bool AdvanceableRunner<_Advanceable>::isRunning() const
+{
+    // m_isRunning is an atomic<bool> the mutex is not required here
+    return m_isRunning;
 }
 
 template <class _Advanceable>
