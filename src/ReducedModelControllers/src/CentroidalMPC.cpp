@@ -25,6 +25,32 @@ Eigen::Map<const Eigen::MatrixXd> toEigen(const casadi::DM& input)
     return Eigen::Map<const Eigen::MatrixXd>(input.ptr(), input.rows(), input.columns());
 }
 
+std::vector<std::string> extractVariablesName(const std::vector<casadi::MX>& variables)
+{
+    std::vector<std::string> variablesName;
+    variablesName.reserve(variables.size());
+    for (const auto& variable : variables)
+    {
+        variablesName.push_back(variable.name());
+    }
+
+    return variablesName;
+}
+
+template<class T>
+auto extractFutureValuesFromState(T& variable)
+{
+    using Sl = casadi::Slice;
+    return variable(Sl(), Sl(1, variable.columns()));
+}
+
+template<class T>
+auto extractFutureValuesFromState(const T& variable)
+{
+    using Sl = casadi::Slice;
+    return variable(Sl(), Sl(1, variable.columns()));
+}
+
 struct CentroidalMPC::Impl
 {
     casadi::Opti opti; /**< CasADi opti stack */
@@ -63,6 +89,7 @@ struct CentroidalMPC::Impl
     struct CasadiContact
     {
         casadi::MX position;
+        casadi::MX linearVelocity;
         casadi::MX orientation;
         casadi::MX isEnable;
         std::vector<CasadiCorner> corners;
@@ -78,9 +105,10 @@ struct CentroidalMPC::Impl
                 this->corners[i] = other.corners[i];
             }
 
-            this->orientation = casadi::MX::sym("orientation", 3, 3);
-            this->position = casadi::MX::sym("position", 3, 1);
-            this->isEnable = casadi::MX::sym("is_enable", 1);
+            this->orientation = casadi::MX::sym("orientation", 3 * 3);
+            this->position = casadi::MX::sym("position", 3);
+            this->linearVelocity = casadi::MX::sym("linear_velocity", 3);
+            this->isEnable = casadi::MX::sym("is_enable");
 
             return *this;
         }
@@ -94,10 +122,10 @@ struct CentroidalMPC::Impl
 
     struct CasadiContactWithConstraints : CasadiContact
     {
+        casadi::MX currentPosition;
         casadi::MX nominalPosition;
         casadi::MX upperLimitPosition;
         casadi::MX lowerLimitPosition;
-        casadi::MX limitVelocity;
     };
 
     struct OptimizationSettings
@@ -146,11 +174,11 @@ struct CentroidalMPC::Impl
 
     struct ContactsInputs
     {
+        casadi::DM currentPosition;
         casadi::DM orientation;
         casadi::DM nominalPosition;
         casadi::DM upperLimitPosition;
         casadi::DM lowerLimitPosition;
-        casadi::DM limitVelocity;
         casadi::DM isEnable;
     };
     struct ControllerInputs
@@ -310,8 +338,9 @@ struct CentroidalMPC::Impl
 
         casadi::MX com = casadi::MX::sym("com", 3);
         casadi::MX dcom = casadi::MX::sym("dcom", 3);
-        casadi::MX ddcom = casadi::MX::sym("ddcom", 3);
         casadi::MX angularMomentum = casadi::MX::sym("angular_momentum", 3);
+
+        casadi::MX ddcom = casadi::MX::sym("ddcom", 3);
         casadi::MX angularMomentumDerivative = casadi::MX::sym("angular_momentum_derivative", 3);
 
         casadi::DM gravity = casadi::DM::zeros(3);
@@ -328,15 +357,21 @@ struct CentroidalMPC::Impl
         for(const auto& [key, contact] : casadiContacts)
         {
             input.push_back(contact.position);
-            input.push_back(casadi::MX::reshape(contact.orientation, 9, 1));
+            input.push_back(contact.orientation);
             input.push_back(contact.isEnable);
+            input.push_back(contact.linearVelocity);
+
             for(const auto& corner : contact.corners)
             {
 
                 ddcom += contact.isEnable/mass * corner.force;
                 angularMomentumDerivative
                     += contact.isEnable
-                       * casadi::MX::cross(casadi::MX::mtimes(contact.orientation, corner.position)
+                       * casadi::MX::cross(casadi::MX::mtimes(casadi::MX::reshape(contact
+                                                                                      .orientation,
+                                                                                  3,
+                                                                                  3),
+                                                              corner.position)
                                                + contact.position - com,
                                            corner.force);
 
@@ -344,13 +379,26 @@ struct CentroidalMPC::Impl
             }
         }
 
+        std::vector<std::string> outputName{"com", "dcom", "angular_momentum"};
         std::vector<casadi::MX> rhs{com + dcom * this->optiSettings.samplingTime,
                                     dcom + ddcom * this->optiSettings.samplingTime,
                                     angularMomentum
                                         + angularMomentumDerivative
                                               * this->optiSettings.samplingTime};
 
-        return casadi::Function("centroidal_dynamics", input, rhs);
+        for (const auto& [key, contact] : casadiContacts)
+        {
+            rhs.push_back(contact.position
+                          + (1 - contact.isEnable) * contact.linearVelocity
+                                * this->optiSettings.samplingTime);
+            outputName.push_back(key);
+        }
+
+        return casadi::Function("centroidal_dynamics",
+                                input,
+                                rhs,
+                                extractVariablesName(input),
+                                outputName);
     }
 
     casadi::Function contactPositionError()
@@ -360,34 +408,38 @@ struct CentroidalMPC::Impl
         casadi::MX contactOrientation = casadi::MX::sym("contact_orientation", 3 * 3);
 
         // the orientation is stored as a vectorized version of the matrix. We need to reshape it
-        casadi::MX rhs = casadi::MX::mtimes(casadi::MX::reshape(contactOrientation, 3, 3),
+        casadi::MX rhs = casadi::MX::mtimes(casadi::MX::reshape(contactOrientation, 3, 3).T(),
                                             contactPosition - nominalContactPosition);
 
         return casadi::Function("contact_position_error",
                                 {contactPosition, nominalContactPosition, contactOrientation},
-                                {rhs});
+                                {rhs},
+                                extractVariablesName({contactPosition, //
+                                                      nominalContactPosition,
+                                                      contactOrientation}),
+                                {"error"});
     }
 
     void resizeControllerInputs()
     {
         constexpr int vector3Size = 3;
+        const int stateHorizon = this->optiSettings.horizon + 1;
 
         // prepare the controller inputs struct
         this->controllerInputs.comCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.dcomCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.angularMomentumCurrent = casadi::DM::zeros(vector3Size);
-        this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, this->optiSettings.horizon);
+        this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, stateHorizon);
 
         for (const auto& [key, contact] : this->state.contacts)
         {
+            // The current position of the contact
+            this->controllerInputs.contacts[key].currentPosition
+                = casadi::DM::zeros(vector3Size);
+
             // The orientation is stored as a vectorized version of the rotation matrix
             this->controllerInputs.contacts[key].orientation
                 = casadi::DM::zeros(9, this->optiSettings.horizon);
-
-            // This is the admissible velocity of the contact (It will be different to zero only
-            // when a new contact is created)
-            this->controllerInputs.contacts[key].limitVelocity
-                = casadi::DM::zeros(vector3Size, this->optiSettings.horizon - 1);
 
             // Upper limit of the position of the contact. It is expressed in the contact body frame
             this->controllerInputs.contacts[key].upperLimitPosition
@@ -403,72 +455,71 @@ struct CentroidalMPC::Impl
 
             // The nominal contact position is a parameter that regularize the solution
             this->controllerInputs.contacts[key].nominalPosition
-                = casadi::DM::zeros(vector3Size, this->optiSettings.horizon);
+                = casadi::DM::zeros(vector3Size, stateHorizon);
         }
     }
 
     void populateOptiVariables()
     {
         constexpr int vector3Size = 3;
+        const int stateHorizon = this->optiSettings.horizon + 1;
 
         // create the variables for the state
-        this->optiVariables.com = this->opti.variable(vector3Size, this->optiSettings.horizon + 1);
-        this->optiVariables.dcom = this->opti.variable(vector3Size, this->optiSettings.horizon + 1);
-        this->optiVariables.angularMomentum
-            = this->opti.variable(vector3Size, this->optiSettings.horizon + 1);
+        this->optiVariables.com = this->opti.variable(vector3Size, stateHorizon);
+        this->optiVariables.dcom = this->opti.variable(vector3Size, stateHorizon);
+        this->optiVariables.angularMomentum = this->opti.variable(vector3Size, stateHorizon);
 
         // the casadi contacts depends on the maximum number of contacts
         for (const auto& [key, contact] : this->state.contacts)
         {
+            auto [contactIt, outcome]
+                = this->optiVariables.contacts.insert_or_assign(key, CasadiContactWithConstraints());
+
+
+            auto& c = contactIt->second;
+
             // each contact has a different number of corners
-            this->optiVariables.contacts[key].corners.resize(contact.corners.size());
+            c.corners.resize(contact.corners.size());
 
             // the position of the contact is an optimization variable
-            this->optiVariables.contacts[key].position
-                = this->opti.variable(vector3Size, this->optiSettings.horizon);
+            c.position = this->opti.variable(vector3Size, stateHorizon);
+
+            // the linear velocity of the contact is an optimization variable
+            c.linearVelocity = this->opti.variable(vector3Size, this->optiSettings.horizon);
 
             // the orientation is a parameter. The orientation is stored as a vectorized version of
             // the rotation matrix
-            this->optiVariables.contacts[key].orientation
-                = this->opti.parameter(9, this->optiSettings.horizon);
-
-            // This is the admissible velocity of the contact (It will be different to zero only
-            // when a new contact is created)
-            this->optiVariables.contacts[key].limitVelocity
-                = this->opti.parameter(vector3Size, this->optiSettings.horizon - 1);
+            c.orientation = this->opti.parameter(9, this->optiSettings.horizon);
 
             // Upper limit of the position of the contact. It is expressed in the contact body frame
-            this->optiVariables.contacts[key].upperLimitPosition
-                = this->opti.parameter(vector3Size, this->optiSettings.horizon);
+            c.upperLimitPosition = this->opti.parameter(vector3Size, this->optiSettings.horizon);
 
             // Lower limit of the position of the contact. It is expressed in the contact body frame
-            this->optiVariables.contacts[key].lowerLimitPosition
-                = this->opti.parameter(vector3Size, this->optiSettings.horizon);
+            c.lowerLimitPosition = this->opti.parameter(vector3Size, this->optiSettings.horizon);
 
             // Maximum admissible contact force. It is expressed in the contact body frame
-            this->optiVariables.contacts[key].isEnable
-                = this->opti.parameter(1, this->optiSettings.horizon);
+            c.isEnable = this->opti.parameter(1, this->optiSettings.horizon);
 
             // The nominal contact position is a parameter that regularize the solution
-            this->optiVariables.contacts[key].nominalPosition
-                = this->opti.parameter(vector3Size, this->optiSettings.horizon);
+            c.nominalPosition = this->opti.parameter(vector3Size, stateHorizon);
+
+            c.currentPosition = this->opti.parameter(vector3Size);
 
             for (int j = 0; j < contact.corners.size(); j++)
             {
-                this->optiVariables.contacts[key].corners[j].force
-                    = this->opti.variable(vector3Size, this->optiSettings.horizon);
+                c.corners[j].force = this->opti.variable(vector3Size, this->optiSettings.horizon);
 
-                this->optiVariables.contacts[key].corners[j].position = casadi::DM(
-                    std::vector<double>(this->state.contacts[key].corners[j].position.data(),
-                                        this->state.contacts[key].corners[j].position.data()
-                                            + this->state.contacts[key].corners[j].position.size()));
+                c.corners[j].position
+                    = casadi::DM(std::vector<double>(contact.corners[j].position.data(),
+                                                     contact.corners[j].position.data()
+                                                         + contact.corners[j].position.size()));
             }
         }
 
         this->optiVariables.comCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.dcomCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.angularMomentumCurrent = this->opti.parameter(vector3Size);
-        this->optiVariables.comReference = this->opti.parameter(vector3Size, this->optiSettings.horizon);
+        this->optiVariables.comReference = this->opti.parameter(vector3Size, stateHorizon);
     }
 
     /**
@@ -476,34 +527,7 @@ struct CentroidalMPC::Impl
      */
     void setupOptiOptions()
     {
-        // casadi::Dict casadiOptions;
-        // casadi::Dict ipoptOptions;
-
-        // if (this->optiSettings.solverVerbosity != 0)
-        // {
-        //     casadi_int ipoptVerbosity = static_cast<long long>(optiSettings.solverVerbosity - 1);
-        //     // ipoptOptions["print_level"] = ipoptVerbosity;
-        //     casadiOptions["print_time"] = false;
-        // } else
-        // {
-        //     // ipoptOptions["print_level"] = 0;
-        //     casadiOptions["print_time"] = false;
-        // }
-        // casadiOptions["qpsol"] = "osqp";
-        // // casadiOptions["print_iteration"] = false;
-        // // casadiOptions["print_header"] = false;
-        // casadiOptions["convexify_strategy"] = "regularize";
-
-        // // ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
-        // casadiOptions["expand"] = true;
-        // // casadiOptions["warm"] = true;
-        // ipoptOptions["verbose"] = false; //
-
-        // casadiOptions["qpsol_options"] = ipoptOptions;
-
-        // this->opti.solver("sqpmethod", casadiOptions);
-
-                        casadi::Dict casadiOptions;
+        casadi::Dict casadiOptions;
         casadi::Dict ipoptOptions;
 
         if (this->optiSettings.solverVerbosity != 0)
@@ -514,19 +538,11 @@ struct CentroidalMPC::Impl
         } else
         {
             ipoptOptions["print_level"] = 0;
-            casadiOptions["print_time"] = true;
+            casadiOptions["print_time"] = false;
         }
-        // casadiOptions["qpsol"] = "qrqp";
-        // casadiOptions["print_iteration"] = false;
-        // casadiOptions["print_header"] = false;
-        // casadiOptions["convexify_strategy"] = "regularize";
 
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
         casadiOptions["expand"] = true;
-        // casadiOptions["warm"] = true;
-        // ipoptOptions["verbose"] = false; //
-
-        // casadiOptions["qpsol_options"] = ipoptOptions;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
     }
@@ -537,43 +553,56 @@ struct CentroidalMPC::Impl
 
         this->populateOptiVariables();
 
-        std::vector<casadi::MX> controlInput;
-        for(const auto& [key, contact] : this->optiVariables.contacts)
-        {
-            controlInput.push_back(contact.position);
-            controlInput.push_back(contact.orientation);
-            controlInput.push_back(contact.isEnable);
-
-            for(const auto& corner : contact.corners)
-            {
-                controlInput.push_back(corner.force);
-            }
-        }
-
         //
         auto& com = this->optiVariables.com;
         auto& dcom = this->optiVariables.dcom;
         auto& angularMomentum = this->optiVariables.angularMomentum;
+
+        // prepare the input of the ode
+        std::vector<casadi::MX> odeInput;
+        odeInput.push_back(com(Sl(), Sl(0, -1)));
+        odeInput.push_back(dcom(Sl(), Sl(0, -1)));
+        odeInput.push_back(angularMomentum(Sl(), Sl(0, -1)));
+        for (const auto& [key, contact] : this->optiVariables.contacts)
+        {
+            odeInput.push_back(contact.position(Sl(), Sl(0, -1)));
+            odeInput.push_back(contact.orientation);
+            odeInput.push_back(contact.isEnable);
+            odeInput.push_back(contact.linearVelocity);
+
+            for(const auto& corner : contact.corners)
+            {
+                odeInput.push_back(corner.force);
+            }
+        }
 
         // set the initial values
         this->opti.subject_to(this->optiVariables.comCurrent == com(Sl(), 0));
         this->opti.subject_to(this->optiVariables.dcomCurrent == dcom(Sl(), 0));
         this->opti.subject_to(this->optiVariables.angularMomentumCurrent
                               == angularMomentum(Sl(), 0));
+        for (const auto& [key, contact] : this->optiVariables.contacts)
+        {
+            this->opti.subject_to(this->optiVariables.contacts.at(key).currentPosition
+                                  == contact.position(Sl(), 0));
+        }
 
-        // system dynamics
-        std::vector<casadi::MX> tmp;
-        tmp.push_back(com(Sl(), Sl(0, -1)));
-        tmp.push_back(dcom(Sl(), Sl(0, -1)));
-        tmp.push_back(angularMomentum(Sl(), Sl(0, -1)));
-        tmp.insert(tmp.end(), controlInput.begin(), controlInput.end());
-
+        // set the dynamics
+        // map computes the multiple shooting method
         auto dynamics = this->ode().map(this->optiSettings.horizon);
+        auto fullTrajectory = dynamics(odeInput);
+        this->opti.subject_to(extractFutureValuesFromState(com) == fullTrajectory[0]);
+        this->opti.subject_to(extractFutureValuesFromState(dcom) == fullTrajectory[1]);
+        this->opti.subject_to(extractFutureValuesFromState(angularMomentum) == fullTrajectory[2]);
 
-        auto fullTrajectory = dynamics(tmp);
-        this->opti.subject_to(com(Sl(), Sl(1, com.columns())) == fullTrajectory[0]);
-        this->opti.subject_to(dcom(Sl(), Sl(1, com.columns())) == fullTrajectory[1]);
-        this->opti.subject_to(angularMomentum(Sl(), Sl(1, angularMomentum.columns())) == fullTrajectory[2]);
+        // footstep dynamics
+        std::size_t contactIndex = 0;
+        for (const auto& [key, contact] : this->optiVariables.contacts)
+        {
+            this->opti.subject_to(extractFutureValuesFromState(contact.position)
+                                  == fullTrajectory[3 + contactIndex]);
+            contactIndex++;
+        }
 
         // add constraints for the contacts
         auto contactPositionErrorMap = this->contactPositionError().map(this->optiSettings.horizon);
@@ -582,58 +611,57 @@ struct CentroidalMPC::Impl
         // please check https://github.com/casadi/casadi/issues/2563 and
         // https://groups.google.com/forum/#!topic/casadi-users/npPcKItdLN8
         // Assumption: the matrices as stored as column-major
-        casadi::DM frictionConeMatrix = casadi::DM::zeros(frictionCone.getA().rows(), frictionCone.getA().cols());
+        casadi::DM frictionConeMatrix = casadi::DM::zeros(frictionCone.getA().rows(), //
+                                                          frictionCone.getA().cols());
+
         std::memcpy(frictionConeMatrix.ptr(),
                     frictionCone.getA().data(),
                     sizeof(double) * frictionCone.getA().rows() * frictionCone.getA().cols());
 
         const casadi::DM zero = casadi::DM::zeros(frictionCone.getA().rows(), 1);
-        casadi::MX rotatedForce;
+        casadi::MX rotatedFrictionCone;
 
         for(const auto& [key, contact] : this->optiVariables.contacts)
         {
-
-            auto error = contactPositionErrorMap({contact.position,
-                                                  contact.nominalPosition,
+            auto error = contactPositionErrorMap({extractFutureValuesFromState(contact.position),
+                                                  extractFutureValuesFromState(contact.nominalPosition),
                                                   contact.orientation});
 
-            this->opti.subject_to(contact.lowerLimitPosition <= error[0] <= contact.upperLimitPosition);
+            this->opti.subject_to(contact.lowerLimitPosition <= error[0]
+                                  <= contact.upperLimitPosition);
 
-            this->opti.subject_to(-contact.limitVelocity
-                                  <= casadi::MX::diff(contact.position.T()).T()
-                                  <= contact.limitVelocity);
-
-            // TODO please if you want to add heel to toe motion you should define a
-            // contact.maximumNormalForce for each corner. At this stage is too premature.
-            for (const auto& corner : contact.corners)
+            for (int i = 0; i < this->optiSettings.horizon; i++)
             {
-                for (int i = 0; i < corner.force.columns(); i++)
+                rotatedFrictionCone
+                    = casadi::MX::mtimes(frictionConeMatrix, //
+                                         casadi::MX::reshape(contact.orientation(Sl(), i), 3, 3)
+                                             .T());
+
+                // TODO please if you want to add heel to toe motion you should define a
+                // contact.maximumNormalForce for each corner. At this stage is too premature.
+                for (const auto& corner : contact.corners)
                 {
-                    rotatedForce
-                        = casadi::MX::mtimes(casadi::MX::reshape(contact.orientation(Sl(), i), 3, 3)
-                                                 .T(),
-                                             corner.force(Sl(), i));
-                    this->opti.subject_to(casadi::MX::mtimes(frictionConeMatrix, rotatedForce)
+                    this->opti.subject_to(casadi::MX::mtimes(rotatedFrictionCone, //
+                                                             corner.force(Sl(), i))
                                           <= zero);
 
                     // limit on the normal force
-                    this->opti.subject_to(0 <= rotatedForce(2));
+                    this->opti.subject_to(
+                        0 <= casadi::MX::mtimes(casadi::MX::reshape(contact.orientation(Sl(), i),
+                                                                    3,
+                                                                    3),
+                                                corner.force(Sl(), i)(2)));
                 }
             }
         }
 
         // create the cost function
-        casadi::MX cost = this->weights.angularMomentum
-                              * casadi::MX::sumsqr(this->optiVariables.angularMomentum)
-                          + this->weights.com(0)
-                                * casadi::MX::sumsqr(com(0, Sl(1, com.columns()))
-                                                     - this->optiVariables.comReference(0, Sl()))
-                          + this->weights.com(1)
-                                * casadi::MX::sumsqr(com(1, Sl(1, com.columns()))
-                                                     - this->optiVariables.comReference(1, Sl()))
-                          + this->weights.com(2)
-                                * casadi::MX::sumsqr(com(2, Sl(1, com.columns()))
-                                                     - this->optiVariables.comReference(2, Sl()));
+        auto& comReference = this->optiVariables.comReference;
+        casadi::MX cost
+            = this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum)
+              + this->weights.com(0) * casadi::MX::sumsqr(com(0, Sl()) - comReference(0, Sl()))
+              + this->weights.com(1) * casadi::MX::sumsqr(com(1, Sl()) - comReference(1, Sl()))
+              + this->weights.com(2) * casadi::MX::sumsqr(com(2, Sl()) - comReference(2, Sl()));
 
         casadi::MX averageForce;
         for (const auto& [key, contact] : this->optiVariables.contacts)
@@ -653,9 +681,12 @@ struct CentroidalMPC::Impl
 
                 cost += 10 * casadi::MX::sumsqr(corner.force - averageForce);
 
-                cost += this->weights.forceRateOfChange(0) * casadi::MX::sumsqr(forceRateOfChange(0, Sl()));
-                cost += this->weights.forceRateOfChange(1) * casadi::MX::sumsqr(forceRateOfChange(1, Sl()));
-                cost += this->weights.forceRateOfChange(2) * casadi::MX::sumsqr(forceRateOfChange(2, Sl()));
+                cost += this->weights.forceRateOfChange(0)
+                        * casadi::MX::sumsqr(forceRateOfChange(0, Sl()));
+                cost += this->weights.forceRateOfChange(1)
+                        * casadi::MX::sumsqr(forceRateOfChange(1, Sl()));
+                cost += this->weights.forceRateOfChange(2)
+                        * casadi::MX::sumsqr(forceRateOfChange(2, Sl()));
             }
         }
 
@@ -666,29 +697,67 @@ struct CentroidalMPC::Impl
         // prepare the casadi function
         std::vector<casadi::MX> input;
         std::vector<casadi::MX> output;
+        std::vector<std::string> inputName;
+        std::vector<std::string> outputName;
 
         input.push_back(this->optiVariables.comCurrent);
         input.push_back(this->optiVariables.dcomCurrent);
         input.push_back(this->optiVariables.angularMomentumCurrent);
         input.push_back(this->optiVariables.comReference);
 
+        inputName.push_back("com_current");
+        inputName.push_back("dcom_current");
+        inputName.push_back("angular_momentum_current");
+        inputName.push_back("com_reference");
+
         for (const auto& [key, contact] : this->optiVariables.contacts)
         {
+            input.push_back(contact.currentPosition);
             input.push_back(contact.nominalPosition);
             input.push_back(contact.orientation);
             input.push_back(contact.isEnable);
             input.push_back(contact.upperLimitPosition);
             input.push_back(contact.lowerLimitPosition);
-            input.push_back(contact.limitVelocity);
 
-            output.push_back(contact.position);
+            inputName.push_back("contact_" + key + "_current_position");
+            inputName.push_back("contact_" + key + "_nominal_position");
+            inputName.push_back("contact_" + key + "_orientation");
+            inputName.push_back("contact_" + key + "_is_enable");
+            inputName.push_back("contact_" + key + "_upper_limit_position");
+            inputName.push_back("contact_" + key + "_lower_limit_position");
+
             output.push_back(contact.isEnable);
+            output.push_back(contact.position);
+
+
+            outputName.push_back("contact_" + key + "_position");
+            outputName.push_back("contact_" + key + "_is_enable");
+            std::size_t cornerIndex = 0;
             for (const auto& corner : contact.corners)
             {
                 output.push_back(corner.force);
+                outputName.push_back("contact_" + key + "_corner_" + std::to_string(cornerIndex)
+                                     + "_force");
+                cornerIndex ++;
             }
         }
-        return this->opti.to_function("controller", input, output);
+
+        // controller:(com_current[3], dcom_current[3], angular_momentum_current[3],
+        // com_reference[3x16], contact_left_foot_current_position[3],
+        // contact_left_foot_nominal_position[3x16], contact_left_foot_orientation[9x15],
+        // contact_left_foot_is_enable[1x15], contact_left_foot_upper_limit_position[3x15],
+        // contact_left_foot_lower_limit_position[3x15], contact_right_foot_current_position[3],
+        // contact_right_foot_nominal_position[3x16], contact_right_foot_orientation[9x15],
+        // contact_right_foot_is_enable[1x15], contact_right_foot_upper_limit_position[3x15],
+        // contact_right_foot_lower_limit_position[3x15]) -------------------->
+        // (contact_left_foot_position[3x16],
+        // contact_left_foot_is_enable[1x15], contact_left_foot_corner_0_force[3x15],
+        // contact_left_foot_corner_1_force[3x15], contact_left_foot_corner_2_force[3x15],
+        // contact_left_foot_corner_3_force[3x15], contact_right_foot_position[3x16],
+        // contact_right_foot_is_enable[1x15], contact_right_foot_corner_0_force[3x15],
+        // contact_right_foot_corner_1_force[3x15], contact_right_foot_corner_2_force[3x15],
+        // contact_right_foot_corner_3_force[3x15])
+        return this->opti.to_function("controller", input, output, inputName, outputName);
     }
 };
 
@@ -747,40 +816,22 @@ bool CentroidalMPC::advance()
         return false;
     }
 
-    // controller:(i0[3],i1[3],i2[3],i3[3x10],i4[3x10],i5[9x10],i6[1x10],i7[3x10],i8[3x10],i9[3x9],i10[3x10],i11[9x10],i12[1x10],i13[3x10],i14[3x10],i15[3x9])->(o0[3x10],o1[3x10],o2[3x10],o3[3x10],o4[3x10],o5[3x10],o6[3x10],o7[3x10],o8[3x10],o9[3x10])
+    // controller:(com_current[3], dcom_current[3], angular_momentum_current[3], com_reference[3x16],
+    //            contact_left_foot_current_position[3],  contact_left_foot_nominal_position[3x16], contact_left_foot_orientation[9x15],
+    //            contact_left_foot_is_enable[1x15], contact_left_foot_upper_limit_position[3x15], contact_left_foot_lower_limit_position[3x15],
+    //            contact_right_foot_current_position[3], contact_right_foot_nominal_position[3x16], contact_right_foot_orientation[9x15],
+    //            contact_right_foot_is_enable[1x15], contact_right_foot_upper_limit_position[3x15],  contact_right_foot_lower_limit_position[3x15])
+    //             -------------------->
+    //            (contact_left_foot_position[3x16], contact_left_foot_is_enable[1x15], contact_left_foot_corner_0_force[3x15],
+    //                                                                                  contact_left_foot_corner_1_force[3x15],
+    //                                                                                  contact_left_foot_corner_2_force[3x15],
+    //                                                                                  contact_left_foot_corner_3_force[3x15],
+    //             contact_right_foot_position[3x16], contact_right_foot_is_enable[1x15], contact_right_foot_corner_0_force[3x15],
+    //                                                                                    contact_right_foot_corner_1_force[3x15],
+    //                                                                                    contact_right_foot_corner_2_force[3x15],
+    //                                                                                    contact_right_foot_corner_3_force[3x15])
 
     const auto& inputs = m_pimpl->controllerInputs;
-    // m_pimpl->opti.set_value(m_pimpl->optiVariables.comCurrent, inputs.comCurrent);
-    // m_pimpl->opti.set_value(m_pimpl->optiVariables.dcomCurrent, inputs.dcomCurrent);
-    // m_pimpl->opti.set_value(m_pimpl->optiVariables.angularMomentumCurrent,
-    //                         inputs.angularMomentumCurrent);
-
-    // m_pimpl->opti.set_value(m_pimpl->optiVariables.comReference, inputs.comReference);
-
-    // for (const auto& [key, contact] : inputs.contacts)
-    // {
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].nominalPosition,
-    //                             contact.nominalPosition);
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].orientation,
-    //                             contact.orientation);
-
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].maximumNormalForce,
-    //                             contact.maximumNormalForce);
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].upperLimitPosition,
-    //                             contact.upperLimitPosition);
-
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].lowerLimitPosition,
-    //                             contact.lowerLimitPosition);
-
-    //     m_pimpl->opti.set_value(m_pimpl->optiVariables.contacts[key].limitVelocity,
-    //                             contact.limitVelocity);
-    // }
-
-    //
-    // m_pimpl->opti.set_initial(m_pimpl->optiVariables.com(Sl(),
-    //                                                      Sl(1,
-    //                                                         m_pimpl->optiVariables.com.columns())),
-    //                           inputs.comReference);
 
     std::vector<casadi::DM> vectorizedInputs;
     vectorizedInputs.push_back(inputs.comCurrent);
@@ -790,39 +841,13 @@ bool CentroidalMPC::advance()
 
     for (const auto & [key, contact] : inputs.contacts)
     {
+        vectorizedInputs.push_back(contact.currentPosition);
         vectorizedInputs.push_back(contact.nominalPosition);
         vectorizedInputs.push_back(contact.orientation);
         vectorizedInputs.push_back(contact.isEnable);
         vectorizedInputs.push_back(contact.upperLimitPosition);
         vectorizedInputs.push_back(contact.lowerLimitPosition);
-        vectorizedInputs.push_back(contact.limitVelocity);
     }
-
-    // try
-    // {
-    //     m_pimpl->optiSolution.solution = std::make_unique<casadi::OptiSol>(m_pimpl->opti.solve());
-    // } catch (const std::exception& e)
-    // {
-    //     log()->error("{} Unable to solve the optimization problem. The following exception has "
-    //                  "been thrown by the solver: {}.",
-    //                  errorPrefix,
-    //                  e.what());
-
-    //     return false;
-    // }
-
-    // // get the solution
-    // for (auto& [key, contact] : m_pimpl->state.contacts)
-    // {
-    //     contact.pose.translation(toEigen(
-    //         m_pimpl->optiSolution.solution->value(m_pimpl->optiVariables.contacts[key].position)));
-
-    //     for (int i = 0; i < contact.corners.size(); i++)
-    //     {
-    //         contact.corners[i].force = toEigen(m_pimpl->optiSolution.solution->value(
-    //             m_pimpl->optiVariables.contacts[key].corners[i].force));
-    //     }
-    // }
 
     // compute the output
     auto controllerOutput = m_pimpl->controller(vectorizedInputs);
@@ -831,10 +856,12 @@ bool CentroidalMPC::advance()
     auto it = controllerOutput.begin();
     for (auto & [key, contact] : m_pimpl->state.contacts)
     {
-        // the first output is the position of the contact
-        contact.pose.translation(toEigen(*it).leftCols<1>());
-        std::advance(it, 1);
+        bool isNextPlannedContactAvaiable = false;
+
+        // the first output tell us if a contact is enabled
         double isEnable = toEigen(*it).leftCols<1>()(0);
+        std::advance(it, 1);
+        contact.pose.translation(toEigen(*it).leftCols<1>());
         std::advance(it, 1);
         for(auto& corner : contact.corners)
         {
@@ -860,6 +887,8 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
     constexpr auto errorPrefix = "[CentroidalMPC::setReferenceTrajectory]";
     assert(m_pimpl);
 
+    const int stateHorizon = m_pimpl->optiSettings.horizon + 1;
+
     if (!m_pimpl->isInitialized)
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
@@ -873,7 +902,7 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
         return false;
     }
 
-    if (com.cols() < m_pimpl->optiSettings.horizon)
+    if (com.cols() < stateHorizon)
     {
         log()->error("{} The CoM matrix should have at least {} columns. The number of columns is "
                      "equal to the horizon you set in the  initialization phase.",
@@ -882,7 +911,7 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
         return false;
     }
 
-    toEigen(m_pimpl->controllerInputs.comReference) = com.leftCols(m_pimpl->optiSettings.horizon);
+    toEigen(m_pimpl->controllerInputs.comReference) = com.leftCols(stateHorizon);
 
     return true;
 }
@@ -901,7 +930,7 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
         return false;
     }
 
-    auto & inputs = m_pimpl->controllerInputs;
+    auto& inputs = m_pimpl->controllerInputs;
     toEigen(inputs.comCurrent) = com;
     toEigen(inputs.dcomCurrent) = dcom;
     toEigen(inputs.angularMomentumCurrent) = angularMomentum;
@@ -928,31 +957,32 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
     }
 
     // The orientation is stored as a vectorized version of the rotation matrix
-    const Eigen::Matrix3d temp = Eigen::Matrix3d::Identity();
+    const Eigen::Matrix3d identity = Eigen::Matrix3d::Identity();
+
+    auto& inputs = m_pimpl->controllerInputs;
 
     // clear previous data
     for (const auto& [key, contact] : m_pimpl->state.contacts)
     {
+        // initialize the current contact pose to zero. If the contact is active the current
+        // position will be set later on
+        toEigen(inputs.contacts[key].currentPosition).setZero();
 
         // initialize all the orientation to the identity
-        toEigen(m_pimpl->controllerInputs.contacts[key].orientation).colwise()
-            = Eigen::Map<const Eigen::VectorXd>(temp.data(), temp.cols() * temp.rows());
-
-        // M_Pimpl is the admissible velocity of the contact (It will be different to zero only
-        // when a new contact is created)
-        toEigen(m_pimpl->controllerInputs.contacts[key].limitVelocity).setZero();
+        toEigen(inputs.contacts[key].orientation).colwise()
+            = Eigen::Map<const Eigen::VectorXd>(identity.data(), identity.cols() * identity.rows());
 
         // Upper limit of the position of the contact. It is expressed in the contact body frame
-        toEigen(m_pimpl->controllerInputs.contacts[key].upperLimitPosition).setZero();
+        toEigen(inputs.contacts[key].upperLimitPosition).setZero();
 
         // Lower limit of the position of the contact. It is expressed in the contact body frame
-        toEigen(m_pimpl->controllerInputs.contacts[key].lowerLimitPosition).setZero();
+        toEigen(inputs.contacts[key].lowerLimitPosition).setZero();
 
         // Maximum admissible contact force. It is expressed in the contact body frame
-        toEigen(m_pimpl->controllerInputs.contacts[key].isEnable).setZero();
+        toEigen(inputs.contacts[key].isEnable).setZero();
 
         // The nominal contact position is a parameter that regularize the solution
-        toEigen(m_pimpl->controllerInputs.contacts[key].nominalPosition).setZero();
+        toEigen(inputs.contacts[key].nominalPosition).setZero();
     }
 
     const double absoluteTimeHorizon = m_pimpl->currentTime + m_pimpl->optiSettings.timeHorizon;
@@ -997,15 +1027,15 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
 
         for (const auto& [key, contact] : it->activeContacts)
         {
-            auto inputContact = m_pimpl->controllerInputs.contacts.find(key);
-            if (inputContact == m_pimpl->controllerInputs.contacts.end())
+            auto inputContact = inputs.contacts.find(key);
+            if (inputContact == inputs.contacts.end())
             {
                 log()->error("{} Unable to find the input contact named {}.", errorPrefix, key);
                 return false;
             }
 
             toEigen(inputContact->second.nominalPosition)
-                .middleCols(index, numberOfSamples)
+                .middleCols(index, numberOfSamples + 1)
                 .colwise()
                 = contact->pose.translation();
 
@@ -1025,21 +1055,26 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
 
     assert(index == m_pimpl->optiSettings.horizon);
 
-    for (const auto& [key, contact] : m_pimpl->controllerInputs.contacts)
+    // set the current contact position to for the active contact only
+    for (auto& [key, contact] : inputs.contacts)
     {
-
-        log()->info("{} maximumnormalforce  {}",
-                    key,
-                    toEigen(contact.isEnable));
+        toEigen(contact.currentPosition) = toEigen(contact.nominalPosition).leftCols<1>();
     }
-    // TODO Implement this part only if you want to add the push recovery
-    for (auto& [key, contact] : m_pimpl->controllerInputs.contacts)
+
+    for (const auto& [key, contact] : inputs.contacts)
     {
-        constexpr double maxVelocity = 1e5;
+        log()->info("{} current Pose {}:", key, toEigen(contact.currentPosition).transpose());
+        log()->info("{} nominal Pose {}:", key, toEigen(contact.nominalPosition));
+        log()->info("{} maximumnormalforce  {}", key, toEigen(contact.isEnable));
+    }
+
+    // TODO Implement this part only if you want to add the push recovery
+    for (auto& [key, contact] : inputs.contacts)
+    {
         toEigen(contact.upperLimitPosition).setZero();
         toEigen(contact.lowerLimitPosition).setZero();
-        toEigen(contact.limitVelocity).setConstant(maxVelocity);
     }
+
 
     return true;
 }
