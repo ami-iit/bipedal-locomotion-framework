@@ -21,6 +21,12 @@ namespace Contacts
 /**
  * @brief Struct defining a contact phase.
  * Each phase is characterized by a set of contacts which remain active for the entirety of the phase.
+ * @note Mathematically speaking the interval of the phase is defined as following
+ * \f[
+ * I = [t_b \; t_e)
+ * \f]
+ * where \f$t_b\f$ is the ContactPhase::beginTime and \f$t_e\f$ is the ContactPhase::endTime.
+ * The end time is not included in the phase.
  */
 struct ContactPhase
 {

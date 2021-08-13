@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [Unreleased]
 ### Added
 - Implement `AdvanceableRunner::isRunning()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/395)
+- Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 
 ### Changed
 

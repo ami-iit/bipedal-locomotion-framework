@@ -100,6 +100,25 @@ TEST_CASE("ContactPhaseList")
 
     REQUIRE(phaseList.setLists({contactListAdditional, contactListLeft, contactListRight}));
 
+    SECTION("Present phase")
+    {
+        auto it = phaseList.begin();
+        std::advance(it, 1);
+        bool same = phaseList.getPresentPhase(it->beginTime) == it;
+        REQUIRE(same);
+
+        std::advance(it, 1);
+        same = phaseList.getPresentPhase((it->beginTime + it->endTime) / 2.0) == it;
+        REQUIRE(same);
+
+        std::advance(it, 1);
+
+        // the interval of a phase is defined as t = [t_begin, t_end) (i.e. t_end is not included)
+        same = phaseList.getPresentPhase(it->endTime) == std::next(it, 1);
+        REQUIRE(same);
+    }
+
+
     SECTION("Check phases")
     {
         REQUIRE(phaseList.size() == 8);
