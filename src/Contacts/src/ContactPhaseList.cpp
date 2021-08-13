@@ -140,6 +140,25 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList>& contac
     return true;
 }
 
+ContactPhaseList::const_iterator ContactPhaseList::getPresentPhase(double time) const
+{
+    // With the reverse iterator we find the last phase such that the begin time is smaller that
+    // time
+    auto presentReverse = std::find_if(rbegin(), rend(), [time](const ContactPhase& a) -> bool {
+        return a.beginTime <= time;
+    });
+
+    if (presentReverse == rend())
+    {
+        // No phase has begin time lower than the specified time.
+        return end();
+    }
+
+    // This is to convert a reverse iterator to a forward iterator. The -- is because base() returns
+    // a forward iterator to the next element.
+    return --(presentReverse.base());
+}
+
 const BipedalLocomotion::Contacts::ContactListMap&
 BipedalLocomotion::Contacts::ContactPhaseList::lists() const
 {

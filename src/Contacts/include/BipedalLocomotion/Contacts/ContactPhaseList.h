@@ -106,6 +106,17 @@ public:
     bool setLists(const std::initializer_list<ContactList>& contactLists);
 
     /**
+     * @brief Get the phase given the time.
+     *
+     * It returns the contact pgase with the highest begin time lower than time.
+     * If no contacts phase have an begin time lower than time, it returns an iterator to the end.
+     * @param time The present time.
+     * @return an iterator to the last phase having an activation time lower than time.
+     * If no phase satisfy this condition, it returns a pointer to the end.
+     */
+    const_iterator getPresentPhase(double time) const;
+
+    /**
      * @brief A reference to the lists stored in this class.
      * @warning All the iterators stored inside the contact phases refer to the lists viewable via this method.
      * @return A const reference to the input lists.
