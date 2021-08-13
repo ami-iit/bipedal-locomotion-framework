@@ -212,21 +212,22 @@ TEST_CASE("CentroidalMPC")
     for (int i = 0; i < tempInt / scaling; i++)
     {
         // TODO remove me
-        comSpline.evaluatePoint(i * 0.1, comTraj.col(i), velocity, acceleration);
+        comSpline.evaluatePoint(i * dT, comTraj.col(i), velocity, acceleration);
     }
 
     // i = 3
     // * *
     // 1 2 3 4 5
-    comTraj.rightCols(comTraj.cols() - tempInt).colwise() = comTraj.col(tempInt-1);
-
+    comTraj.rightCols(comTraj.cols() - tempInt).colwise() = comTraj.col(tempInt - 1);
 
     // initialize the dynamical system
     auto system = std::make_shared<CentroidalDynamics>();
     system->setState({comTraj.col(0), Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero()});
 
+
+    double integratorStepTime = 0.01;
     ForwardEuler<CentroidalDynamics> integrator;
-    integrator.setIntegrationStep(dT/10.0);
+    integrator.setIntegrationStep(integratorStepTime);
     REQUIRE(integrator.setDynamicalSystem(system));
 
     std::ofstream myFile;
@@ -235,7 +236,10 @@ TEST_CASE("CentroidalMPC")
     // TODO reset contatcs
     int controllerIndex = 0;
     int index = 0;
-    for(int i = 0; i < 1000; i++)
+
+    double elapsedTime = 0;
+
+    for (int i = 0; i < 1000; i++)
     {
         const auto& [com, dcom, angularMomentum] = system->getState();
 
@@ -245,7 +249,10 @@ TEST_CASE("CentroidalMPC")
             // REQUIRE(mpc.setReferenceTrajectory(comTraj.rightCols(comTraj.cols() - index)));
             REQUIRE(mpc.setReferenceTrajectory(comTraj));
             REQUIRE(mpc.setContactPhaseList(phaseList));
+            std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
             REQUIRE(mpc.advance());
+            std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+            elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
             index++;
         }
 
@@ -261,29 +268,28 @@ TEST_CASE("CentroidalMPC")
                            << " " << key << "_" << j << "_z ";
                 }
             }
-            myFile << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z";
-            myFile << std::endl;
+            myFile << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z "
+                      "elapsed_time"
+                   << std::endl;
         }
 
         for (const auto& [key, contact] : mpc.getOutput().contacts)
         {
             myFile << contact.pose.translation().transpose() << " ";
-            for(const auto& corner : contact.corners)
+            for (const auto& corner : contact.corners)
             {
                 myFile << corner.force.transpose() << " ";
             }
         }
-        myFile << com.transpose() << " " << comTraj.col(index).transpose() << " " << angularMomentum.transpose();
-
-        myFile << std::endl;
+        myFile << com.transpose() << " " << comTraj.col(index).transpose() << " "
+               << angularMomentum.transpose() << " " << elapsedTime << std::endl;
 
         system->setControlInput({mpc.getOutput().contacts});
-
 
         REQUIRE(integrator.integrate(0, 0.01));
 
         controllerIndex++;
-        if(controllerIndex == 10)
+        if(controllerIndex == int(dT/integratorStepTime))
             controllerIndex = 0;
     }
 
