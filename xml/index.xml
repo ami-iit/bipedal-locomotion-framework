@@ -284,6 +284,7 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ab304c552436d9dcd7a4fdd54276e6248" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a33083dbf15170a9c48e3a97459caa978" kind="function"><name>setLists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6176b67dc70fec29ab5cc742d1a060cb" kind="function"><name>setLists</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a321a56e42cf64ccab4c192998dfcc5c3" kind="function"><name>getPresentPhase</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" kind="function"><name>lists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" kind="function"><name>begin</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" kind="function"><name>cbegin</name></member>

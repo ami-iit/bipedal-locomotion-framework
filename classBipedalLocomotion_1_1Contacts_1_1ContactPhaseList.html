@@ -133,6 +133,10 @@
             </dt>
             <dd>Set the input lists.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a321a56e42cf64ccab4c192998dfcc5c3" class="m-doc">getPresentPhase</a>(</span><span class="m-doc-wrap">double time) const -&gt; <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>Get the phase given the time.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a234bc1c2bb84a74dbf2dcffd91b4071b" class="m-doc">lists</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="ContactList_8h.html#a6d1a0a8ca118c9933d2c4f7a8c799b0e" class="m-doc">ContactListMap</a>&amp;</span>
             </dt>
             <dd>A reference to the lists stored in this class.</dd>
@@ -308,6 +312,30 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a321a56e42cf64ccab4c192998dfcc5c3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a> BipedalLocomotion::<wbr />Contacts::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a321a56e42cf64ccab4c192998dfcc5c3" class="m-doc-self">getPresentPhase</a>(</span><span class="m-doc-wrap">double time) const</span></span>
+            </h3>
+            <p>Get the phase given the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>The present time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>an iterator to the last phase having an activation time lower than time. If no phase satisfies this condition, it returns a pointer to the end.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>It returns the contact phase with the highest begin time lower than time. If no contacts phase has a begin time lower than time, it returns an iterator to the end.</p>
           </div></section>
           <section class="m-doc-details" id="a234bc1c2bb84a74dbf2dcffd91b4071b"><div>
             <h3>
