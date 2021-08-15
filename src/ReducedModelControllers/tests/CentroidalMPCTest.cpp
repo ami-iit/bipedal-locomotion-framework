@@ -22,6 +22,20 @@ using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
 #include <fstream>
 
+void updateContactPhaseList(
+    const std::map<std::string, BipedalLocomotion::Contacts::PlannedContact>& nextPlannedContacts,
+    BipedalLocomotion::Contacts::ContactPhaseList& phaseList)
+{
+    auto newList = phaseList.lists();
+    for (const auto& [key, contact] : nextPlannedContacts)
+    {
+        auto it = newList.at(key).getPresentContact(contact.activationTime);
+        newList.at(key).editContact(it, contact);
+    }
+
+    phaseList.setLists(newList);
+}
+
 TEST_CASE("CentroidalMPC")
 {
     constexpr double dT = 0.1;
@@ -54,8 +68,8 @@ TEST_CASE("CentroidalMPC")
     handler->setGroup("CONTACT_1", contact1Handler);
 
     handler->setParameter("com_weight", std::vector<double>{1, 1, 1000});
-    handler->setParameter("contact_position_weight", 1.0);
-    handler->setParameter("force_rate_of_change_weight", std::vector<double>{1, 1, 1});
+    handler->setParameter("contact_position_weight", 1e3);
+    handler->setParameter("force_rate_of_change_weight", std::vector<double>{10, 10, 10});
     handler->setParameter("angular_momentum_weight", 1e5);
 
     CentroidalMPC mpc;
@@ -238,6 +252,8 @@ TEST_CASE("CentroidalMPC")
     int index = 0;
 
     double elapsedTime = 0;
+    double currentTime = 0;
+    auto phaseIt = phaseList.getPresentPhase(currentTime);
 
     for (int i = 0; i < 1000; i++)
     {
@@ -245,6 +261,28 @@ TEST_CASE("CentroidalMPC")
 
         if(controllerIndex == 0)
         {
+            // update the phaseList this happens only when a new contact should be established
+            auto newPhaseIt = phaseList.getPresentPhase(currentTime);
+            if(newPhaseIt != phaseIt)
+            {
+                std::cout << "neww phase" << std::endl;
+
+                // check if new contact is established
+                if (phaseIt->activeContacts.size() == 1 && newPhaseIt->activeContacts.size() == 2)
+                {
+                    updateContactPhaseList(mpc.getOutput().nextPlannedContact, phaseList);
+
+                    // the iterators have been modified we have to compute the new one
+                    phaseIt = phaseList.getPresentPhase(currentTime);
+                }
+                else
+                {
+                    // the iterators did not change no need to get the present phase again
+                    phaseIt = newPhaseIt;
+                }
+
+            }
+
             REQUIRE(mpc.setState(com, dcom, angularMomentum));
             // REQUIRE(mpc.setReferenceTrajectory(comTraj.rightCols(comTraj.cols() - index)));
             REQUIRE(mpc.setReferenceTrajectory(comTraj));
@@ -254,6 +292,7 @@ TEST_CASE("CentroidalMPC")
             std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
             elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
             index++;
+            currentTime += dT;
         }
 
         if (i == 0)
@@ -267,6 +306,8 @@ TEST_CASE("CentroidalMPC")
                            << " " << key << "_" << j << "_y"
                            << " " << key << "_" << j << "_z ";
                 }
+
+                myFile << key << "_next_pos_x " << key << "_next_pos_y " << key << "_next_pos_z ";
             }
             myFile << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z "
                       "elapsed_time"
@@ -280,11 +321,28 @@ TEST_CASE("CentroidalMPC")
             {
                 myFile << corner.force.transpose() << " ";
             }
+
+            auto nextPlannedContact = mpc.getOutput().nextPlannedContact.find(key);
+            if (nextPlannedContact == mpc.getOutput().nextPlannedContact.end())
+            {
+                myFile << 0.0 << " " << 0.0 << " " << 0.0 << " ";
+            }
+            else
+            {
+                myFile << nextPlannedContact->second.pose.translation().transpose() << " ";
+            }
         }
         myFile << com.transpose() << " " << comTraj.col(index).transpose() << " "
                << angularMomentum.transpose() << " " << elapsedTime << std::endl;
 
-        system->setControlInput({mpc.getOutput().contacts});
+
+        Eigen::Vector3d externalInput = Eigen::Vector3d::Zero();
+        if (i > 150 && i < 170)
+        {
+            externalInput(1) = 1;
+        }
+
+        system->setControlInput({mpc.getOutput().contacts, externalInput});
 
         REQUIRE(integrator.integrate(0, 0.01));
 
