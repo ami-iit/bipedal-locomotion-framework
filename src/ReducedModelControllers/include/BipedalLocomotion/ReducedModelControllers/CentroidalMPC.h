@@ -25,6 +25,7 @@ namespace ReducedModelControllers
 struct CentroidalMPCState
 {
     std::map<std::string, Contacts::ContactWithCorners> contacts;
+    std::map<std::string, Contacts::PlannedContact> nextPlannedContact;
 };
 
 /**

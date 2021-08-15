@@ -59,7 +59,7 @@ struct CentroidalMPC::Impl
     double currentTime{0};
 
     CentroidalMPCState state;
-
+    Contacts::ContactPhaseList contactPhaseList;
     Math::LinearizedFrictionCone frictionCone;
 
     struct CasadiCorner
@@ -142,18 +142,6 @@ struct CentroidalMPC::Impl
 
     OptimizationSettings optiSettings; /**< Settings */
 
-    struct OptimizationSolution
-    {
-        std::unique_ptr<casadi::OptiSol> solution; /**< Pointer to the solution of the optimization
-                                                      problem */
-        casadi::DM dcm; /**< Optimal DCM trajectory */
-        casadi::DM omega; /**< Optimal omega trajectory */
-        casadi::DM vrp; /**< Optimal VRP trajectory */
-        casadi::DM omegaDot; /**< Optimal omega rate of change trajectory */
-    };
-    OptimizationSolution optiSolution; /**< Solution of the optimization problem */
-
-
     /**
      * OptimizationVariables contains the optimization variables expressed as CasADi elements.
      */
@@ -218,7 +206,6 @@ struct CentroidalMPC::Impl
         {
             if (!ptr->getParameter("corner_" + std::to_string(j), contact.corners[j].position))
             {
-
                 // prepare the error
                 std::string cornesNames;
                 for (std::size_t k = 0; k < numberOfCorners; k++)
@@ -285,6 +272,8 @@ struct CentroidalMPC::Impl
                 return false;
             }
 
+            // set the contact name
+            this->state.contacts[contactName].name = contactName;
             if (!this->loadContactCorners(contactHandler, this->state.contacts[contactName]))
             {
                 log()->error("{} Unable to load the contact corners for the contact {}.",
@@ -669,10 +658,17 @@ struct CentroidalMPC::Impl
             cost += this->weights.contactPosition
                     * casadi::MX::sumsqr(contact.nominalPosition - contact.position);
 
-            averageForce = contact.corners[0].force / contact.corners.size();
+            averageForce = casadi::MX::vertcat(
+                {contact.isEnable * contact.corners[0].force(0, Sl()) / contact.corners.size(),
+                 contact.isEnable * contact.corners[0].force(1, Sl()) / contact.corners.size(),
+                 contact.isEnable * contact.corners[0].force(2, Sl()) / contact.corners.size()});
             for (int i = 1; i < contact.corners.size(); i++)
             {
-                averageForce += contact.corners[i].force / contact.corners.size();
+                averageForce += casadi::MX::vertcat(
+                    {contact.isEnable * contact.corners[i].force(0, Sl()) / contact.corners.size(),
+                     contact.isEnable * contact.corners[i].force(1, Sl()) / contact.corners.size(),
+                     contact.isEnable * contact.corners[i].force(2, Sl())
+                         / contact.corners.size()});
             }
 
             for (const auto& corner : contact.corners)
@@ -728,10 +724,13 @@ struct CentroidalMPC::Impl
 
             output.push_back(contact.isEnable);
             output.push_back(contact.position);
+            output.push_back(contact.orientation);
 
 
-            outputName.push_back("contact_" + key + "_position");
             outputName.push_back("contact_" + key + "_is_enable");
+            outputName.push_back("contact_" + key + "_position");
+            outputName.push_back("contact_" + key + "_orientation");
+
             std::size_t cornerIndex = 0;
             for (const auto& corner : contact.corners)
             {
@@ -854,16 +853,61 @@ bool CentroidalMPC::advance()
 
     // get the solution
     auto it = controllerOutput.begin();
+    m_pimpl->state.nextPlannedContact.clear();
     for (auto & [key, contact] : m_pimpl->state.contacts)
     {
         bool isNextPlannedContactAvaiable = false;
 
         // the first output tell us if a contact is enabled
-        double isEnable = toEigen(*it).leftCols<1>()(0);
+        int index = toEigen(*it).size();
+        const int size = toEigen(*it).size();
+        for (int i = size - 1; i >= 0; i--)
+        {
+            if (toEigen(*it)(i) < 0.5)
+            {
+                index = i + 1;
+                break;
+            }
+        }
+
+        double isEnable = toEigen(*it)(0);
         std::advance(it, 1);
         contact.pose.translation(toEigen(*it).leftCols<1>());
+
+        if (index < size)
+        {
+            m_pimpl->state.nextPlannedContact[key].name = key;
+            m_pimpl->state.nextPlannedContact[key].pose.translation(toEigen(*it).col(index));
+        }
+
         std::advance(it, 1);
-        for(auto& corner : contact.corners)
+        contact.pose.quat(Eigen::Quaterniond(
+            Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
+
+        if (index < size)
+        {
+            m_pimpl->state.nextPlannedContact[key].pose.quat(Eigen::Quaterniond(
+                Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
+
+            const double nextPlannedContactTime
+                = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
+            auto nextPlannedContact = m_pimpl->contactPhaseList.lists().at(key).getPresentContact(
+                nextPlannedContactTime);
+            if (nextPlannedContact == m_pimpl->contactPhaseList.lists().at(key).end())
+            {
+                log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
+                return false;
+            }
+
+            m_pimpl->state.nextPlannedContact[key].activationTime = nextPlannedContact->activationTime;
+            m_pimpl->state.nextPlannedContact[key].deactivationTime = nextPlannedContact->deactivationTime;
+            m_pimpl->state.nextPlannedContact[key].index = nextPlannedContact->index;
+            m_pimpl->state.nextPlannedContact[key].type = nextPlannedContact->type;
+        }
+
+        std::advance(it, 1);
+
+        for (auto& corner : contact.corners)
         {
             // isEnable == 1 means that the contact is active
             if (isEnable > 0.5)
@@ -956,6 +1000,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         return false;
     }
 
+    m_pimpl->contactPhaseList = contactPhaseList;
+
     // The orientation is stored as a vectorized version of the rotation matrix
     const Eigen::Matrix3d identity = Eigen::Matrix3d::Identity();
 
@@ -988,12 +1034,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
     const double absoluteTimeHorizon = m_pimpl->currentTime + m_pimpl->optiSettings.timeHorizon;
 
     // find the contactPhase associated to the current time
-    auto initialPhase
-        = std::find_if(contactPhaseList.begin(), contactPhaseList.end(), [=](const auto& phase) {
-              return phase.beginTime <= m_pimpl->currentTime
-                     && phase.endTime > m_pimpl->currentTime;
-          });
-
+    auto initialPhase = contactPhaseList.getPresentPhase(m_pimpl->currentTime);
     if (initialPhase == contactPhaseList.end())
     {
         log()->error("{} Unable to find the contact phase related to the current time.",
@@ -1002,11 +1043,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
     }
 
     // find the contactPhase associated to the end time
-    auto finalPhase
-        = std::find_if(contactPhaseList.begin(), contactPhaseList.end(), [=](const auto& phase) {
-              return phase.beginTime <= absoluteTimeHorizon && phase.endTime > absoluteTimeHorizon;
-          });
-
+    auto finalPhase = contactPhaseList.getPresentPhase(absoluteTimeHorizon);
     // if the list is not found the latest contact phase is considered
     if (finalPhase == contactPhaseList.end())
     {
@@ -1069,10 +1106,13 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
     }
 
     // TODO Implement this part only if you want to add the push recovery
+    Eigen::Vector3d upperLimit, lowerLimit;
+    upperLimit << 0.05, 0.05, 0;
+    lowerLimit = -upperLimit;
     for (auto& [key, contact] : inputs.contacts)
     {
-        toEigen(contact.upperLimitPosition).setZero();
-        toEigen(contact.lowerLimitPosition).setZero();
+        toEigen(contact.upperLimitPosition).colwise() = upperLimit;
+        toEigen(contact.lowerLimitPosition).colwise() = lowerLimit;
     }
 
 
