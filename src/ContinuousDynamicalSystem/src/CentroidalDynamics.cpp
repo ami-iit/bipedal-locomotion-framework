@@ -53,6 +53,8 @@ bool CentroidalDynamics::dynamics(const double& time, StateDerivative& stateDeri
     angularMomentumRate.setZero();
 
     const auto& contacts = std::get<0>(m_controlInput);
+    const auto& externalDisturbance = std::get<1>(m_controlInput);
+    comAcceleration += externalDisturbance;
 
     for (const auto& [key, contact] : contacts)
     {

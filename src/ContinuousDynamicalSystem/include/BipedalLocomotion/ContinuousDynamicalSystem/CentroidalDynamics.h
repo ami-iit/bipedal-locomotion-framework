@@ -39,7 +39,7 @@ BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
     CentroidalDynamics,
     (Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d),
     (Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d),
-    (std::map<std::string, BipedalLocomotion::Contacts::ContactWithCorners>))
+    (std::map<std::string, BipedalLocomotion::Contacts::ContactWithCorners>, Eigen::Vector3d))
 
 namespace BipedalLocomotion
 {
