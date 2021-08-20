@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
+- Promoted `ArucoDetector` from `System::Source` to `System::Advanceable` (https://github.com/dic-iit/bipedal-locomotion-framework/pull/400).
 
 ### Fix
 
