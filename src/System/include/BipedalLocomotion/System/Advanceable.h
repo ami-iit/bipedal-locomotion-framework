@@ -40,6 +40,11 @@ public:
     using Input = typename BipedalLocomotion::System::InputPort<_Input>::Input;
     using Output = typename BipedalLocomotion::System::OutputPort<_Output>::Output;
 
+    Advanceable() = default;
+    Advanceable(const Advanceable&) = delete;
+    Advanceable(Advanceable&&) = delete;
+    Advanceable& operator=(const Advanceable&) = delete;
+    Advanceable& operator=(Advanceable&&) = delete;
     virtual ~Advanceable() = default;
 
     /**

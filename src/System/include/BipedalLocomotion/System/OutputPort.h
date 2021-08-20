@@ -25,6 +25,11 @@ template <class _Output> class BipedalLocomotion::System::OutputPort
 public:
     using Output = _Output;
 
+    OutputPort() = default;
+    OutputPort(const OutputPort&) = delete;
+    OutputPort(OutputPort&&) = delete;
+    OutputPort& operator=(const OutputPort&) = delete;
+    OutputPort& operator=(OutputPort&&) = delete;
     virtual ~OutputPort() = default;
 
     /**

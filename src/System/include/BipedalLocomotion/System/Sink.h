@@ -33,6 +33,11 @@ public:
         return true;
     }
 
+    Sink() = default;
+    Sink(const Sink&) = delete;
+    Sink(Sink&&) = delete;
+    Sink& operator=(const Sink&) = delete;
+    Sink& operator=(Sink&&) = delete;
     virtual ~Sink() = default;
 };
 
