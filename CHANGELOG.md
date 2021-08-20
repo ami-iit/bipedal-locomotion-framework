@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 
 ### Changed
+- Expose reference of resource and mutex in SharedResource (https://github.com/dic-iit/bipedal-locomotion-framework/pull/398).
 
 ### Fix
 
