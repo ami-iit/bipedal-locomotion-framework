@@ -17,7 +17,7 @@ if(FRAMEWORK_COMPILE_Perception)
   add_bipedal_locomotion_library(
     NAME                   PerceptionFeatures
     SOURCES                src/ArucoDetector.cpp
-    PUBLIC_HEADERS         ${H_PREFIX}/ArucoDetector.h ${H_PREFIX}/PointCloudProcessor.h
+    PUBLIC_HEADERS         ${H_PREFIX}/ArucoDetector.h ${H_PREFIX}/PointCloudProcessor.h ${H_PREFIX}/DataTypes.h
     SUBDIRECTORIES         tests/Perception/Features
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::GenericContainer BipedalLocomotion::CommonConversions BipedalLocomotion::System ${OpenCV_LIBS} Eigen3::Eigen BipedalLocomotion::TextLogging
     INSTALLATION_FOLDER    Perception/Features)

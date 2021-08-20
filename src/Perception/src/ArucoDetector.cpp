@@ -172,6 +172,23 @@ bool ArucoDetector::setImage(const cv::Mat& inputImg, double timeNow)
     return true;
 }
 
+bool ArucoDetector::setInput(const TimeStampedImg& input)
+{
+    constexpr auto printPrefix = "[ArucoDetector::setInput]";
+    if (!m_pimpl->initialized)
+    {
+        log()->error("{} Unable to set image. Please initialize the ArucoDetector before setting "
+                     "the image.",
+                     printPrefix);
+        return false;
+    }
+
+    input.img.copyTo(m_pimpl->currentImg);
+    m_pimpl->currentTime = input.ts;
+
+    return true;
+}
+
 bool ArucoDetector::advance()
 {
     constexpr auto printPrefix = "[ArucoDetector::advance]";

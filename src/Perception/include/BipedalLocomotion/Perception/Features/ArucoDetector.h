@@ -9,7 +9,8 @@
 #define BIPEDAL_LOCOMOTION_PERECEPTION_FEATURES_ARUCO_H
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/System/Source.h>
+#include <BipedalLocomotion/Perception/Features/DataTypes.h>
+#include <BipedalLocomotion/System/Advanceable.h>
 
 #include <Eigen/Dense>
 #include <opencv2/core.hpp>
@@ -59,7 +60,7 @@ struct ArucoDetectorOutput
     double timeNow{-1.0};
 };
 
-class ArucoDetector : public System::Source<ArucoDetectorOutput>
+class ArucoDetector : public System::Advanceable<TimeStampedImg, ArucoDetectorOutput>
 {
 public:
     ArucoDetector();
@@ -93,6 +94,13 @@ public:
      * @return True in case of success, false otherwise
      */
     bool setImage(const cv::Mat& inputImg, double timeNow);
+
+    /**
+     * Set input for which markers need to be detected
+     * @param[in] input TimeStampedImage struct
+     * @return True in case of success, false otherwise
+     */
+    bool setInput(const TimeStampedImg& input);
 
     /**
      * Compute one step of the detector
