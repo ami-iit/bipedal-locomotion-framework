@@ -58,6 +58,7 @@ struct ArucoDetectorOutput
 {
     std::unordered_map<int, ArucoMarkerData> markers;
     double timeNow{-1.0};
+    cv::Mat imgWithMarkers;
 };
 
 class ArucoDetector : public System::Advanceable<TimeStampedImg, ArucoDetectorOutput>

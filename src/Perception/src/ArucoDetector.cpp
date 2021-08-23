@@ -235,6 +235,8 @@ bool ArucoDetector::advance()
                                        m_pimpl->poseEig};
             m_pimpl->out.markers[m_pimpl->currentDetectedMarkerIds[idx]] = markerData;
         }
+
+        this->getImageWithDetectedMarkers(m_pimpl->out.imgWithMarkers, /**drawFrames =*/ true);
         m_pimpl->out.timeNow = m_pimpl->currentTime;
     }
 
