@@ -365,6 +365,7 @@ const Planners::UnicyclePlannerOutput& Planners::UnicyclePlanner::getOutput() co
     if (!this->isOutputValid())
     {
         log()->warn("{} Returning an empty output.", logPrefix);
+        m_pImpl->outputRef = {};
         return m_pImpl->outputRef;
     }
 
