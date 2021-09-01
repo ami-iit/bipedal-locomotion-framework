@@ -199,11 +199,15 @@ jobs:
           match=$(check-regexp ${rel_regexp} ${last_tag} | grep matches | cut -d ' ' -f 5)
           test $match -eq 1 && true
 
-      - uses: pypa/gh-action-pypi-publish@master
-        if: |
-          github.repository == 'dic-iit/bipedal-locomotion-framework' &&
-          ((github.event_name == 'release' && github.event.action == 'published') ||
-           (github.event_name == 'push' && github.ref == 'refs/heads/main'))
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
+# TODO:
+# Uploading to PyPI is currently disabled while waiting to find a workaround to build compliant wheels
+# https://github.com/dic-iit/bipedal-locomotion-framework/pull/296#issuecomment-870492568
+#
+#      - uses: pypa/gh-action-pypi-publish@master
+#        if: |
+#          github.repository == 'dic-iit/bipedal-locomotion-framework' &&
+#          ((github.event_name == 'release' && github.event.action == 'published') ||
+#           (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+#        with:
+#          user: __token__
+#          password: ${{ secrets.PYPI_TOKEN }}
