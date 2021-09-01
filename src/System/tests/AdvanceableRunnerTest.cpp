@@ -10,6 +10,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/System/AdvanceableRunner.h>
+#include <BipedalLocomotion/System/Barrier.h>
 #include <BipedalLocomotion/System/SharedResource.h>
 #include <BipedalLocomotion/System/Source.h>
 
@@ -73,38 +74,82 @@ TEST_CASE("Test Block")
     REQUIRE(runner1.setOutputResource(output1));
     REQUIRE(runner1.setAdvanceable(std::move(block1)));
 
-    // run the block
-    auto thread0 = runner0.run();
-    auto thread1 = runner1.run();
-
-    while (!output0->get() || !output1->get())
+    SECTION("Without synchronization")
     {
-        BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+        // run the block
+        auto thread0 = runner0.run();
+        auto thread1 = runner1.run();
+
+        while (!output0->get() || !output1->get())
+        {
+            BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+        }
+
+        // close the runner
+        runner0.stop();
+        runner1.stop();
+
+        // print some information
+        BipedalLocomotion::log()->info("Runner0 : Number of deadline miss {}",
+                                       runner0.getInfo().deadlineMiss);
+        BipedalLocomotion::log()->info("Runner1 : Number of deadline miss {}",
+                                       runner1.getInfo().deadlineMiss);
+
+        REQUIRE(output0->get());
+        REQUIRE(output1->get());
+
+        // join the treads
+        if (thread0.joinable())
+        {
+            thread0.join();
+            thread0 = std::thread();
+        }
+
+        if (thread1.joinable())
+        {
+            thread1.join();
+            thread1 = std::thread();
+        }
     }
 
-    // close the runner
-    runner0.stop();
-    runner1.stop();
-
-    // print some information
-    BipedalLocomotion::log()->info("Runner0 : Number of deadline miss {}",
-                                   runner0.getInfo().deadlineMiss);
-    BipedalLocomotion::log()->info("Runner1 : Number of deadline miss {}",
-                                   runner1.getInfo().deadlineMiss);
-
-    REQUIRE(output0->get());
-    REQUIRE(output1->get());
-
-    // join the treads
-    if(thread0.joinable())
+    SECTION("With synchronization")
     {
-        thread0.join();
-        thread0 = std::thread();
-    }
+        constexpr std::size_t numberOfRunners = 2;
+        Barrier barrier(numberOfRunners);
 
-    if(thread1.joinable())
-    {
-        thread1.join();
-        thread1 = std::thread();
+        // run the block
+        auto thread0 = runner0.run(barrier);
+        auto thread1 = runner1.run(barrier);
+
+        while (!output0->get() || !output1->get())
+        {
+            BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+        }
+
+        // close the runner
+        runner0.stop();
+        runner1.stop();
+
+        // print some information
+        BipedalLocomotion::log()->info("Runner0 : Number of deadline miss {}",
+                                       runner0.getInfo().deadlineMiss);
+        BipedalLocomotion::log()->info("Runner1 : Number of deadline miss {}",
+                                       runner1.getInfo().deadlineMiss);
+
+        REQUIRE(output0->get());
+        REQUIRE(output1->get());
+
+        // join the treads
+        if (thread0.joinable())
+        {
+            thread0.join();
+            thread0 = std::thread();
+        }
+
+        if (thread1.joinable())
+        {
+            thread1.join();
+            thread1 = std::thread();
+        }
     }
 }
