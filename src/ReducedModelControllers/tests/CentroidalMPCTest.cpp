@@ -55,6 +55,8 @@ TEST_CASE("CentroidalMPC")
     contact0Handler->setParameter("corner_1", std::vector<double>{0.1, -0.05, 0});
     contact0Handler->setParameter("corner_2", std::vector<double>{-0.1, -0.05, 0});
     contact0Handler->setParameter("corner_3", std::vector<double>{-0.1, 0.05, 0});
+    contact0Handler->setParameter("bounding_box_lower_limit", std::vector<double>{0, 0, 0});
+    contact0Handler->setParameter("bounding_box_upper_limit", std::vector<double>{0, 0, 0});
 
     auto contact1Handler = std::make_shared<StdImplementation>();
     contact1Handler->setParameter("number_of_corners", 4);
@@ -63,6 +65,9 @@ TEST_CASE("CentroidalMPC")
     contact1Handler->setParameter("corner_1", std::vector<double>{0.1, -0.05, 0});
     contact1Handler->setParameter("corner_2", std::vector<double>{-0.1, -0.05, 0});
     contact1Handler->setParameter("corner_3", std::vector<double>{-0.1, 0.05, 0});
+    contact1Handler->setParameter("bounding_box_lower_limit", std::vector<double>{0, 0, 0});
+    contact1Handler->setParameter("bounding_box_upper_limit", std::vector<double>{0, 0, 0});
+
 
     handler->setGroup("CONTACT_0", contact0Handler);
     handler->setGroup("CONTACT_1", contact1Handler);
