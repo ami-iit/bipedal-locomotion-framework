@@ -11,12 +11,14 @@
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/Barrier.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/SharedResource.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <atomic>
 #include <memory>
+#include <optional>
 #include <thread>
 #include <type_traits>
 
@@ -110,10 +112,12 @@ public:
     /**
      * Run the advanceable runner. The function create a periodic thread running with a period of
      * m_dT seconds.
+     * @param barrier is an optional parameter that can be used to synchronize the startup of all
+     * the AdvanceableRunner spawned by the process.
      * @return a thread of containing the running process. If the runner was not correctly
      * initialized the thread is invalid.
      */
-    std::thread run();
+    std::thread run(std::optional<std::reference_wrapper<Barrier>> barrier = {});
 
     /**
      * Stop the thread
@@ -221,7 +225,9 @@ bool AdvanceableRunner<_Advanceable>::setOutputResource(
     return true;
 }
 
-template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
+template <class _Advanceable>
+std::thread
+AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrier>> barrier)
 {
     constexpr auto logPrefix = "[AdvanceableRunner::run]";
 
@@ -327,6 +333,13 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
         }
         return this->m_advanceable->close();
     };
+
+    // if the barrier is passed the run method, synchronization is performed
+    if (barrier.has_value())
+    {
+        log()->debug("{} This thread is waiting for the other threads.", logPrefix);
+        barrier.value().get().wait();
+    }
 
     return std::thread(function);
 }
