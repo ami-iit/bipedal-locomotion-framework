@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 - Implement `AdvanceableRunner::isRunning()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/395)
 - Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 - Add a synchronization mechanism for the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/403)
+- Add the possibility to use spdlog with YARP (https://github.com/ami-iit/bipedal-locomotion-framework/pull/408)
 
 ### Changed
 
