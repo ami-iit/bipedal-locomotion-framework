@@ -19,7 +19,22 @@ namespace TextLogging
 {
 
 using Logger = spdlog::logger;
+} // namespace TextLogging
+} // namespace BipedalLocomotion
 
+namespace BipedalLocomotion
+{
+/**
+ * Get an the instance of the log
+ */
+TextLogging::Logger* const log();
+
+} // namespace BipedalLocomotion
+
+namespace BipedalLocomotion
+{
+namespace TextLogging
+{
 enum class Verbosity
 {
     Trace,
@@ -38,13 +53,25 @@ enum class Verbosity
  */
 void setVerbosity(const TextLogging::Verbosity verbosity);
 
-} // namespace TextLogging
-
 /**
- * Get an the instance of the log
+ * LoggerFactory is an interface that implements the factory paradigm. Please inherit from
+ * LoggerFactory class if you want to build your custom Logger.
  */
-TextLogging::Logger* const log();
+class LoggerFactory
+{
+public:
+    /**
+     * Destructor
+     */
+    virtual ~LoggerFactory() = default;
 
+    /**
+     * Create a Logger
+     */
+    virtual Logger* const createLogger() = 0;
+};
+
+} // namespace TextLogging
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
