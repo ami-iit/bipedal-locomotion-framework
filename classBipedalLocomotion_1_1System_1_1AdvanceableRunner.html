@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
-                <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
                 <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
+                <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
+                <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
               </ol>
             </li>
             <li>
@@ -116,7 +116,7 @@
             </dt>
             <dd>Get some info of the runner,.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0c2e43ebeda227492e97634fa0cb9867" class="m-doc">run</a>(</span><span class="m-doc-wrap">) -&gt; std::thread</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aff152663082cfa9ee3bf24fdeb6ae7ea" class="m-doc">run</a>(</span><span class="m-doc-wrap">std::optional&lt;std::reference_wrapper&lt;<a href="classBipedalLocomotion_1_1System_1_1Barrier.html" class="m-doc">Barrier</a>&gt;&gt; barrier = {}) -&gt; std::thread</span>
             </dt>
             <dd>Run the advanceable runner.</dd>
             <dt>
@@ -253,18 +253,27 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a0c2e43ebeda227492e97634fa0cb9867"><div>
+          <section class="m-doc-details" id="aff152663082cfa9ee3bf24fdeb6ae7ea"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Advanceable&gt;
               </div>
-              <span class="m-doc-wrap-bumper">std::thread BipedalLocomotion::<wbr />System::<wbr />AdvanceableRunner&lt;_Advanceable&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0c2e43ebeda227492e97634fa0cb9867" class="m-doc-self">run</a>(</span><span class="m-doc-wrap">)</span></span>
+              <span class="m-doc-wrap-bumper">std::thread BipedalLocomotion::<wbr />System::<wbr />AdvanceableRunner&lt;_Advanceable&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aff152663082cfa9ee3bf24fdeb6ae7ea" class="m-doc-self">run</a>(</span><span class="m-doc-wrap">std::optional&lt;std::reference_wrapper&lt;<a href="classBipedalLocomotion_1_1System_1_1Barrier.html" class="m-doc">Barrier</a>&gt;&gt; barrier = {})</span></span>
             </h3>
             <p>Run the advanceable runner.</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">barrier</td>
+                  <td>is an optional parameter that can be used to synchronize the startup of all the <a href="classBipedalLocomotion_1_1System_1_1AdvanceableRunner.html" class="m-doc">AdvanceableRunner</a> spawned by the process.</td>
+                </tr>
+              </tbody>
               <tfoot>
                 <tr>
-                  <th style="width: 1%">Returns</th>
+                  <th>Returns</th>
                   <td>a thread of containing the running process. If the runner was not correctly initialized the thread is invalid.</td>
                 </tr>
               </tfoot>
