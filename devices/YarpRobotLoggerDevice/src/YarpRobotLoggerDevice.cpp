@@ -7,7 +7,7 @@
 #include <tuple>
 
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
-#include <BipedalLocomotion/FTIMULoggerDevice.h>
+#include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
@@ -19,19 +19,19 @@ using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion;
 
-FTIMULoggerDevice::FTIMULoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock)
+YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock)
     : yarp::os::PeriodicThread(period, useSystemClock)
 {
 }
 
-FTIMULoggerDevice::FTIMULoggerDevice()
+YarpRobotLoggerDevice::YarpRobotLoggerDevice()
     : yarp::os::PeriodicThread(0.01, yarp::os::ShouldUseSystemClock::No)
 {
 }
 
-FTIMULoggerDevice::~FTIMULoggerDevice() = default;
+YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
-bool FTIMULoggerDevice::open(yarp::os::Searchable& config)
+bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
     double devicePeriod{0.01};
     if (YarpUtilities::getElementFromSearchable(config, "sampling_period_in_s", devicePeriod))
@@ -47,12 +47,12 @@ bool FTIMULoggerDevice::open(yarp::os::Searchable& config)
     return true;
 }
 
-bool FTIMULoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
+bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
 {
     auto bridgeConfig = config.findGroup("RobotSensorBridge");
     if (bridgeConfig.isNull())
     {
-        yError() << "[FTIMULoggerDevice][setupRobotSensorBridge] Missing required group "
+        yError() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] Missing required group "
                     "\"RobotSensorBridge\"";
         return false;
     }
@@ -63,7 +63,7 @@ bool FTIMULoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
     m_robotSensorBridge = std::make_unique<YarpSensorBridge>();
     if (!m_robotSensorBridge->initialize(originalHandler))
     {
-        yError() << "[FTIMULoggerDevice][setupRobotSensorBridge] Could not configure "
+        yError() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] Could not configure "
                     "RobotSensorBridge";
         return false;
     }
@@ -71,49 +71,49 @@ bool FTIMULoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
     return true;
 }
 
-bool FTIMULoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
+bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     if (!m_robotSensorBridge->setDriversList(poly))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not attach drivers list to sensor "
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not attach drivers list to sensor "
                     "bridge.";
         return false;
     }
 
     if (!m_robotSensorBridge->getJointsList(m_jointNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the joints list.";
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the joints list.";
         return false;
     }
 
     if (!m_robotSensorBridge->getSixAxisForceTorqueSensorsList(m_FTNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the six axis force torque "
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the six axis force torque "
                     "sensors list.";
         return false;
     }
 
     if (!m_robotSensorBridge->getGyroscopesList(m_gyroNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the gyroscope list.";
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the gyroscope list.";
         return false;
     }
 
     if (!m_robotSensorBridge->getLinearAccelerometersList(m_accelerometerNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the accelerometers list.";
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the accelerometers list.";
         return false;
     }
 
     if (!m_robotSensorBridge->getOrientationSensorsList(m_orientationNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the orientation sensor list.";
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the orientation sensor list.";
         return false;
     }
 
     if (!m_robotSensorBridge->getIMUsList(m_IMUNames))
     {
-        yError() << "[FTIMULoggerDevice][attachAll] Could not get the IMUs list.";
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the IMUs list.";
         return false;
     }
 
@@ -164,7 +164,7 @@ bool FTIMULoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     return true;
 }
 
-void FTIMULoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
+void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                                   Eigen::Ref<accelerometer_t> accelerometer,
                                   Eigen::Ref<gyro_t> gyro,
                                   Eigen::Ref<orientation_t> orientation)
@@ -180,12 +180,12 @@ void FTIMULoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     gyro = signal.segment<3>(6);
 }
 
-void FTIMULoggerDevice::run()
+void YarpRobotLoggerDevice::run()
 {
     // get the data
     if (!m_robotSensorBridge->advance())
     {
-        yError() << "[FTIMULoggerDevice][run] could not advance sensor bridge.";
+        yError() << "[YarpRobotLoggerDevice][run] could not advance sensor bridge.";
     }
 
     const auto bufferSize = m_time.rows();
@@ -198,7 +198,7 @@ void FTIMULoggerDevice::run()
                                                                    m_fts.at(key).col(bufferSize),
                                                                    m_timeNow))
         {
-            yError() << "[FTIMULoggerDevice][run] Unable to get the ft named: " << key;
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the ft named: " << key;
         }
     }
 
@@ -210,7 +210,7 @@ void FTIMULoggerDevice::run()
                                                                       bufferSize),
                                                                   m_timeNow))
         {
-            yError() << "[FTIMULoggerDevice][run] Unable to get the orientation named: " << key;
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the orientation named: " << key;
         }
     }
 
@@ -222,7 +222,7 @@ void FTIMULoggerDevice::run()
                                                                         bufferSize),
                                                                     m_timeNow))
         {
-            yError() << "[FTIMULoggerDevice][run] Unable to get the accelerometer named: " << key;
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the accelerometer named: " << key;
         }
     }
 
@@ -231,7 +231,7 @@ void FTIMULoggerDevice::run()
         m_gyros.at(key).conservativeResize(3, bufferSize + 1);
         if (!m_robotSensorBridge->getGyroscopeMeasure(key, m_gyros.at(key).col(bufferSize), m_timeNow))
         {
-            yError() << "[FTIMULoggerDevice][run] Unable to get the gyroscope named: " << key;
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the gyroscope named: " << key;
         }
     }
 
@@ -240,7 +240,7 @@ void FTIMULoggerDevice::run()
     {
         if (!m_robotSensorBridge->getIMUMeasurement(IMU, m_analogSensorBuffer, m_timeNow))
         {
-            yError() << "[FTIMULoggerDevice][run] Unable to get the imu named : " << IMU;
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the imu named : " << IMU;
         }
 
         // resize the vectors
@@ -263,18 +263,18 @@ void FTIMULoggerDevice::run()
                                                 m_timeNow))
 
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the joint positions";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint positions";
     }
 
     if (!m_robotSensorBridge->getJointVelocities(m_jointState.at("joint_velocities").col(bufferSize),
                                                  m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the joint velocities";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint velocities";
     }
 
     if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize), m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the joint torques";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint torques";
     }
 
     // Motor state
@@ -285,31 +285,31 @@ void FTIMULoggerDevice::run()
                                                 m_timeNow))
 
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the motor positions";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor positions";
     }
 
     if (!m_robotSensorBridge->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
                                                  m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the motor velocities";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor velocities";
     }
 
     if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize), m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the motor currents";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor currents";
     }
 
     // Motor PWM
     m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
     if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the motor PWMs";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor PWMs";
     }
 
     m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
     if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
     {
-        yError() << "[FTIMULoggerDevice][run] Unable to get the PIDs references";
+        yError() << "[YarpRobotLoggerDevice][run] Unable to get the PIDs references";
     }
 
     m_time.conservativeResize(bufferSize + 1);
@@ -317,7 +317,7 @@ void FTIMULoggerDevice::run()
 }
 
 matioCpp::Struct
-FTIMULoggerDevice::createStruct(const std::string& structName,
+YarpRobotLoggerDevice::createStruct(const std::string& structName,
                                 const std::unordered_map<std::string, Eigen::MatrixXd>& signal)
 {
     std::vector<matioCpp::Variable> vector;
@@ -329,7 +329,7 @@ FTIMULoggerDevice::createStruct(const std::string& structName,
     return matioCpp::Struct(structName, vector);
 }
 
-bool FTIMULoggerDevice::logData()
+bool YarpRobotLoggerDevice::logData()
 {
     // set the file name
     std::time_t t = std::time(nullptr);
@@ -364,14 +364,14 @@ bool FTIMULoggerDevice::logData()
 
     if (!write_ok)
     {
-        yError() << "[FTIMULoggerDevice][logData] Could not write to file.";
+        yError() << "[YarpRobotLoggerDevice][logData] Could not write to file.";
         return false;
     }
 
     return true;
 }
 
-bool FTIMULoggerDevice::detachAll()
+bool YarpRobotLoggerDevice::detachAll()
 {
     std::lock_guard<std::mutex> guard(m_deviceMutex);
     if (isRunning())
@@ -382,12 +382,12 @@ bool FTIMULoggerDevice::detachAll()
     return true;
 }
 
-bool FTIMULoggerDevice::close()
+bool YarpRobotLoggerDevice::close()
 {
     std::lock_guard<std::mutex> guard(m_deviceMutex);
     if (!logData())
     {
-        yError() << "[FTIMULoggerDevice][close] Failed to log data.";
+        yError() << "[YarpRobotLoggerDevice][close] Failed to log data.";
     }
 
     return true;

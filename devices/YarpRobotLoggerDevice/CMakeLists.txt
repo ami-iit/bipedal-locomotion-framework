@@ -5,11 +5,11 @@
 if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_YarpUtilities)
 # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
 add_bipedal_yarp_device(
-  NAME FTIMULoggerDevice
-  TYPE BipedalLocomotion::FTIMULoggerDevice
-  SOURCES src/FTIMULoggerDevice.cpp
-  PUBLIC_HEADERS include/BipedalLocomotion/FTIMULoggerDevice.h
+  NAME YarpRobotLoggerDevice
+  TYPE BipedalLocomotion::YarpRobotLoggerDevice
+  SOURCES src/YarpRobotLoggerDevice.cpp
+  PUBLIC_HEADERS include/BipedalLocomotion/YarpRobotLoggerDevice.h
   PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES} BipedalLocomotion::YarpUtilities  BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation BipedalLocomotion::matioCppConversions Eigen3::Eigen
-  CONFIGURE_PACKAGE_NAME ft_imu_logger_test_device)
+  CONFIGURE_PACKAGE_NAME yarp_robot_logger_test_device)
 endif()
 

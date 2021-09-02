@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 - Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
 - Set the required `spdlog` version in the cmake file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/415)
+- Add features to FTIMULoggerDevice and rename it in YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/405)
 
 ### Fix
 - Fix missing components dependencies in the `CMake` machinery (https://github.com/ami-iit/bipedal-locomotion-framework/pull/414)
