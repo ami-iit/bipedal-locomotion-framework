@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Add a synchronization mechanism for the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/403)
 
 ### Changed
+- Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
 
 ### Fix
 
