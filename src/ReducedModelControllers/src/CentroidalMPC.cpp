@@ -5,6 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <string>
+#include <unordered_map>
+
 #include <casadi/casadi.hpp>
 
 #include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
@@ -189,6 +192,14 @@ struct CentroidalMPC::Impl
     };
     Weights weights; /**< Settings */
 
+    struct ContactBoundingBox
+    {
+        Eigen::Vector3d upperLimit;
+        Eigen::Vector3d lowerLimit;
+    };
+
+    std::unordered_map<std::string, ContactBoundingBox> contactBoundingBoxes;
+
     bool loadContactCorners(std::shared_ptr<const ParametersHandler::IParametersHandler> ptr,
                             ContactWithCorners& contact)
     {
@@ -274,6 +285,28 @@ struct CentroidalMPC::Impl
 
             // set the contact name
             this->state.contacts[contactName].name = contactName;
+
+            if (!contactHandler->getParameter("bounding_box_upper_limit",
+                                              this->contactBoundingBoxes[contactName].upperLimit))
+            {
+                log()->error("{} Unable to load the bounding box upper limit of the contact number "
+                             "{}.",
+                             errorPrefix,
+                             i);
+                return false;
+            }
+
+            if (!contactHandler->getParameter("bounding_box_lower_limit",
+                                              this->contactBoundingBoxes[contactName].lowerLimit))
+            {
+                log()->error("{} Unable to load the bounding box lower limit of the contact number "
+                             "{}.",
+                             errorPrefix,
+                             i);
+                return false;
+            }
+
+
             if (!this->loadContactCorners(contactHandler, this->state.contacts[contactName]))
             {
                 log()->error("{} Unable to load the contact corners for the contact {}.",
@@ -1105,16 +1138,13 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         log()->info("{} maximumnormalforce  {}", key, toEigen(contact.isEnable));
     }
 
-    // TODO Implement this part only if you want to add the push recovery
-    Eigen::Vector3d upperLimit, lowerLimit;
-    upperLimit << 0.05, 0.05, 0;
-    lowerLimit = -upperLimit;
+    // TODO this part can be improved. For instance you do not need to fill the vectors every time.
     for (auto& [key, contact] : inputs.contacts)
     {
-        toEigen(contact.upperLimitPosition).colwise() = upperLimit;
-        toEigen(contact.lowerLimitPosition).colwise() = lowerLimit;
+        const auto& boundingBox = m_pimpl->contactBoundingBoxes.at(key);
+        toEigen(contact.upperLimitPosition).colwise() = boundingBox.upperLimit;
+        toEigen(contact.lowerLimitPosition).colwise() = boundingBox.lowerLimit;
     }
-
 
     return true;
 }
