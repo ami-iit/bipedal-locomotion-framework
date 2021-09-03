@@ -81,7 +81,7 @@ public:
      * Utility function to load vector parameters
      */
     template<typename Scalar>
-    bool setupParamV(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool setupParamV(BipedalLocomotion::ParametersHandler::IParametersHandler::const_weak_ptr handler,
                      const std::string& param, std::vector<Scalar>& vec, const std::string& prefix)
     {
         auto handle = handler.lock();
