@@ -179,7 +179,7 @@ bool TomlImplementation::setFromFile(const std::string& filename)
     return true;
 }
 
-TomlImplementation::weak_ptr TomlImplementation::getGroup(const std::string& name) const
+TomlImplementation::weak_ptr TomlImplementation::getGroup(const std::string& name)
 {
     if (m_lists.find(name) != m_lists.end())
     {
@@ -187,6 +187,11 @@ TomlImplementation::weak_ptr TomlImplementation::getGroup(const std::string& nam
     }
 
     return std::make_shared<TomlImplementation>();
+}
+
+TomlImplementation::const_weak_ptr TomlImplementation::getGroup(const std::string& name) const
+{
+    return (const_cast<TomlImplementation*>(this))->getGroup(name);
 }
 
 bool TomlImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)

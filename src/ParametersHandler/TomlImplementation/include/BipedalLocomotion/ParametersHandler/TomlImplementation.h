@@ -220,7 +220,15 @@ public:
      * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
      * be locked
      */
-    weak_ptr getGroup(const std::string& name) const final;
+    const_weak_ptr getGroup(const std::string& name) const final;
+
+    /**
+     * Get a Group from the handler.
+     * @param name name of the group
+     * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
+     * be locked
+     */
+    weak_ptr getGroup(const std::string& name) final;
 
     /**
      * Set a new group on the handler.

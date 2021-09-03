@@ -66,13 +66,12 @@ TEST_CASE("Get parameters")
         StdImplementation::shared_ptr newGroup = std::make_shared<StdImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
         StdImplementation::shared_ptr groupHandler
-            = parameterHandler->getGroup("CARTOONS").lock();
+            = parameterHandler->getGroup("CARTOONS").lock()->clone();
         REQUIRE(groupHandler);
         groupHandler->setParameter("Donald's nephews",
                                    std::vector<std::string>{"Huey", "Dewey", "Louie"});
         std::vector<std::string> element;
-        REQUIRE(groupHandler->getParameter("Donald's nephews",
-                                           element));
+        REQUIRE(groupHandler->getParameter("Donald's nephews", element));
         REQUIRE(element == std::vector<std::string>{"Huey", "Dewey", "Louie"});
     }
 
@@ -81,7 +80,7 @@ TEST_CASE("Get parameters")
         StdImplementation::shared_ptr newGroup = std::make_shared<StdImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", newGroup));
         StdImplementation::shared_ptr groupHandler
-            = parameterHandler->getGroup("CARTOONS").lock();
+            = parameterHandler->getGroup("CARTOONS").lock()->clone();
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
