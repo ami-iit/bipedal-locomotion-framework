@@ -5,5 +5,8 @@
 add_bipedal_locomotion_library(
   NAME                   TextLogging
   PUBLIC_HEADERS         include/BipedalLocomotion/TextLogging/Logger.h
-  SOURCES                src/Logger.cpp
-  PUBLIC_LINK_LIBRARIES  spdlog::spdlog)
+                         include/BipedalLocomotion/TextLogging/LoggerBuilder.h
+                         include/BipedalLocomotion/TextLogging/DefaultLogger.h
+  SOURCES                src/Logger.cpp src/LoggerBuilder.cpp src/DefaultLogger.cpp
+  PUBLIC_LINK_LIBRARIES  spdlog::spdlog
+  SUBDIRECTORIES         YarpImplementation)
