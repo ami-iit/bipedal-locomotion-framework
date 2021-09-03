@@ -51,7 +51,7 @@ public:
      * @param handler pointer to a parameter handler interface
      * @return True/False in case of success/failure.
      */
-    virtual bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    virtual bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Check if the motion set through the position control mode ended.

@@ -9,7 +9,7 @@
 
 using namespace BipedalLocomotion::RobotInterface;
 
-bool IRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool IRobotControl::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     return true;
 }

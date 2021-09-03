@@ -5,11 +5,10 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-
 // Catch2
-#include <catch2/catch.hpp>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <catch2/catch.hpp>
 
 #include "DummySensorBridge.h"
 #include <iostream>
@@ -21,16 +20,18 @@ using namespace BipedalLocomotion;
 bool populateConfig(std::weak_ptr<IParametersHandler> handler)
 {
     auto handle = handler.lock();
-    if (handle == nullptr) {return false;}
+    if (handle == nullptr)
+    {
+        return false;
+    }
 
     auto optionsGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("Options", optionsGroup);
     optionsGroup->setParameter("streamLinearAccelerometerMeasurements", true);
+    handle->setGroup("Options", optionsGroup);
 
     auto sourcesGroup = std::make_shared<StdImplementation>();
+    sourcesGroup->setParameter("LinearAccelerometers", std::vector<std::string>{"dummy"});
     handle->setGroup("Sources", sourcesGroup);
-    IParametersHandler::shared_ptr sourcesHandler = sourcesGroup;
-    sourcesHandler->setParameter("LinearAccelerometers", std::vector<std::string>{"dummy"} );
 
     return true;
 }
