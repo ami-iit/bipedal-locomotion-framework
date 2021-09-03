@@ -52,6 +52,7 @@ TEST_CASE("Test Block")
 
     param->setParameter("sampling_time", 0.001);
     param->setParameter("enable_telemetry", true);
+    param->setParameter("name", "Runner");
 
     std::unique_ptr<DummyBlock> block0 = std::make_unique<DummyBlock>();
     std::unique_ptr<DummyBlock> block1 = std::make_unique<DummyBlock>();
