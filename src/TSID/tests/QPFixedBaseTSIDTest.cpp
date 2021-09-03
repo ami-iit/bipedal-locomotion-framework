@@ -99,8 +99,11 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     const Eigen::VectorXd kdRegularization = 2 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd weightRegularization = 1 * Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
 
-    handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kp", kpRegularization);
-    handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kd", kdRegularization);
+    auto regularizationTaskGroup = handler->getGroup("REGULARIZATION_TASK").lock()->clone();
+
+    regularizationTaskGroup->setParameter("kp", kpRegularization);
+    regularizationTaskGroup->setParameter("kd", kdRegularization);
+    REQUIRE(handler->setGroup("REGULARIZATION_TASK", regularizationTaskGroup));
 
     TSIDAndTasks out;
 
@@ -250,9 +253,10 @@ TEST_CASE("QP-TSID")
 
             // Set the frame name
             const std::string controlledFrame = model.getFrameName(numberOfJoints);
-            parameterHandler->getGroup("EE_SE3_TASK")
-                .lock()
-                ->setParameter("frame_name", controlledFrame);
+            auto eeSE3TaskGroup = parameterHandler->getGroup("EE_SE3_TASK").lock()->clone();
+            eeSE3TaskGroup->setParameter("frame_name", controlledFrame);
+            REQUIRE(parameterHandler->setGroup("EE_SE3_TASK", eeSE3TaskGroup));
+
 
             // create the TSID
             auto tsidAndTasks = createTSID(parameterHandler, kinDyn, variablesHandler);
