@@ -126,7 +126,7 @@ class BipedalLocomotion::MasImuTest : public yarp::os::RFModule, public MasImuTe
 
     public:
 
-        bool setup(BipedalLocomotion::ParametersHandler::YarpImplementation::shared_ptr group,
+        bool setup(BipedalLocomotion::ParametersHandler::YarpImplementation::const_shared_ptr group,
                    std::shared_ptr<CommonData> commonDataPtr);
 
         bool firstRun();

@@ -556,11 +556,11 @@ double MasImuTest::MasImuData::maxVariation()
     return maxVariation;
 }
 
-bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::shared_ptr group,
+bool MasImuTest::MasImuData::setup(ParametersHandler::YarpImplementation::const_shared_ptr group,
                                    std::shared_ptr<CommonData> commonDataPtr)
 {
     m_commonDataPtr = commonDataPtr;
-    m_group = group;
+    m_group = group->clone();
 
     bool ok = group->getParameter("pretty_name", m_testName);
     if (!ok)

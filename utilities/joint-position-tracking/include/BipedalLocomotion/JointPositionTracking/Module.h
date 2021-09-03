@@ -51,13 +51,13 @@ class Module : public yarp::os::RFModule
     bool generateNewTrajectory();
 
     bool createPolydriver(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+        std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     bool initializeRobotControl(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+        std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     bool instantiateSensorBridge(
-        std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+        std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     std::vector<double> m_logJointPos;
     std::vector<double> m_logDesiredJointPos;
