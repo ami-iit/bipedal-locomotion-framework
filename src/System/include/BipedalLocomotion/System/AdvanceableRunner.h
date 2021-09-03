@@ -160,7 +160,7 @@ bool AdvanceableRunner<_Advanceable>::initialize(
 
     if (!ptr->getParameter("name", m_info.name))
     {
-        log()->error("{} Unable to get the sampling time.", errorPrefix);
+        log()->error("{} Unable to get the name of the runner.", errorPrefix);
         return false;
     }
 
