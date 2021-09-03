@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/TextLogging/ directory | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::TextLogging::YarpLoggerFactory class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,30 +61,64 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_06d013c9f740af559ba8ebc1d644f7f7.html">BipedalLocomotion</a>/</span>TextLogging<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TextLogging.html">TextLogging</a>::<wbr/></span>YarpLoggerFactory <span class="m-thin">class</span> <span class="m-label m-flat m-warning">final</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="YarpLogger_8h.html">&lt;BipedalLocomotion/TextLogging/YarpLogger.h&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>YarpLoggetFactory implements the factory you should use to enable the sink using yaro.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+<p>The YARP logger can be easily used as follows</p><pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;BipedalLocomotion/TextLogging/Logger.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;BipedalLocomotion/TextLogging/YarpLogger.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;BipedalLocomotion/TextLogging/LoggerBuilder.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// Change the logger</span>
+<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">LoggerBuilder</span><span class="o">::</span><span class="n">setFactory</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">YarpLoggerFactory</span><span class="o">&gt;</span><span class="p">()));</span>
+
+<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">log</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;My info&quot;</span><span class="p">);</span></pre>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="DefaultLogger_8h.html" class="m-doc">DefaultLogger.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="Logger_8h.html" class="m-doc">Logger.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="LoggerBuilder_8h.html" class="m-doc">LoggerBuilder.h</a></dt>
-            <dd></dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory.html" class="m-doc">LoggerFactory</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory.html" class="m-doc">LoggerFactory</a> is an interface that implements the factory paradigm.</dd>
           </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aba1299855fe13af7a310e008f88c4a4d" class="m-doc">createLogger</a>(</span><span class="m-doc-wrap">) -&gt; TextLogging::Logger*const <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Create the YARPLogger as a singleton.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aba1299855fe13af7a310e008f88c4a4d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">TextLogging::Logger*const BipedalLocomotion::<wbr />TextLogging::<wbr />YarpLoggerFactory::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aba1299855fe13af7a310e008f88c4a4d" class="m-doc-self">createLogger</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Create the YARPLogger as a singleton.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the pointer to TextLogging::Logger that streams the output using YARP</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>

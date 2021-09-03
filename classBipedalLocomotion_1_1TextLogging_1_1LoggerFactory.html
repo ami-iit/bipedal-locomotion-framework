@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/TextLogging/ directory | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::TextLogging::LoggerFactory class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,29 +61,53 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_06d013c9f740af559ba8ebc1d644f7f7.html">BipedalLocomotion</a>/</span>TextLogging<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TextLogging.html">TextLogging</a>::<wbr/></span>LoggerFactory <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Logger_8h.html">&lt;BipedalLocomotion/TextLogging/Logger.h&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p><a href="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory.html" class="m-doc">LoggerFactory</a> is an interface that implements the factory paradigm.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+<p>Please inherit from <a href="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory.html" class="m-doc">LoggerFactory</a> class if you want to build your custom Logger.</p>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="DefaultLogger_8h.html" class="m-doc">DefaultLogger.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="Logger_8h.html" class="m-doc">Logger.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="LoggerBuilder_8h.html" class="m-doc">LoggerBuilder.h</a></dt>
-            <dd></dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory.html" class="m-doc">DefaultLoggerFactory</a> <span class="m-label m-flat m-warning">final</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory.html" class="m-doc">YarpLoggerFactory</a> <span class="m-label m-flat m-warning">final</span>
+            </dt>
+            <dd>YarpLoggetFactory implements the factory you should use to enable the sink using yaro.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="ac43836e327df2a153d5cddee9a0ed278">
+              <span class="m-doc-wrap-bumper"><a href="#ac43836e327df2a153d5cddee9a0ed278" class="m-doc-self">~LoggerFactory</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Destructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a8ba0ec17ebd6f59358bc04409fed2299">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8ba0ec17ebd6f59358bc04409fed2299" class="m-doc-self">createLogger</a>(</span><span class="m-doc-wrap">) -&gt; Logger*const <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Create a Logger.</dd>
           </dl>
         </section>
       </div>

@@ -4,6 +4,9 @@
     <compoundname>Logger.h</compoundname>
     <includes local="no">spdlog/fmt/ostr.h</includes>
     <includes local="no">spdlog/spdlog.h</includes>
+    <includedby refid="DefaultLogger_8h" local="no">BipedalLocomotion/TextLogging/DefaultLogger.h</includedby>
+    <includedby refid="LoggerBuilder_8h" local="no">BipedalLocomotion/TextLogging/LoggerBuilder.h</includedby>
+    <includedby refid="YarpLogger_8h" local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includedby>
     <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
     <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <includedby refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includedby>
@@ -26,24 +29,34 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="6">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="6">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="4" relation="include">
+      <node id="2">
+        <label>BipedalLocomotion/TextLogging/DefaultLogger.h</label>
+        <link refid="DefaultLogger_8h"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="9">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
+        <link refid="Integrator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
       <node id="4">
+        <label>BipedalLocomotion/TextLogging/YarpLogger.h</label>
+        <link refid="YarpLogger_8h"/>
+      </node>
+      <node id="7">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -55,14 +68,25 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="3">
+        <label>BipedalLocomotion/TextLogging/LoggerBuilder.h</label>
+        <link refid="LoggerBuilder_8h"/>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
       </node>
     </invincdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public">BipedalLocomotion::TextLogging::LoggerFactory</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging">BipedalLocomotion::TextLogging</innernamespace>
       <sectiondef kind="enum">
@@ -124,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="23" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="24" bodyend="32"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="38" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="39" bodyend="47"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -143,6 +167,20 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TextLogging::Logger *const</type>
+        <definition>TextLogging::Logger* const BipedalLocomotion::log</definition>
+        <argsstring>()</argsstring>
+        <name>log</name>
+        <briefdescription>
+<para>Get an the instance of the log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="30" column="27" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="30" declcolumn="27"/>
+      </memberdef>
       <memberdef kind="function" id="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void BipedalLocomotion::TextLogging::setVerbosity</definition>
@@ -169,21 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="39" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="39" declcolumn="6"/>
-      </memberdef>
-      <memberdef kind="function" id="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>TextLogging::Logger *const</type>
-        <definition>TextLogging::Logger* const BipedalLocomotion::log</definition>
-        <argsstring>()</argsstring>
-        <name>log</name>
-        <briefdescription>
-<para>Get an the instance of the log. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="46" column="27" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="46" declcolumn="27"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="54" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="54" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
