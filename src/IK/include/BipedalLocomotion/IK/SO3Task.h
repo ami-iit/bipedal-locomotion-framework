@@ -76,7 +76,7 @@ public:
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
 
     /**
      * Set the kinDynComputations object.

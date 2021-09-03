@@ -65,7 +65,7 @@ bool CoMTask::setVariablesHandler(const System::VariablesHandler& variablesHandl
     return true;
 }
 
-bool CoMTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[CoMTask::initialize]";
 

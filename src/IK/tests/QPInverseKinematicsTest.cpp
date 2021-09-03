@@ -96,7 +96,10 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     // prepare the parameters related to the size of the system
     const Eigen::VectorXd kpRegularization = Eigen::VectorXd::Ones(kinDyn->model().getNrOfDOFs());
     const Eigen::VectorXd weightRegularization = kpRegularization;
-    handler->getGroup("REGULARIZATION_TASK").lock()->setParameter("kp", kpRegularization);
+
+    auto regularizationTaskGroup = handler->getGroup("REGULARIZATION_TASK").lock()->clone();
+    regularizationTaskGroup->setParameter("kp", kpRegularization);
+    REQUIRE(handler->setGroup("REGULARIZATION_TASK", regularizationTaskGroup));
 
     InverseKinematicsAndTasks out;
 
@@ -235,9 +238,9 @@ TEST_CASE("QP-IK")
 
             // Set the frame name
             const std::string controlledFrame = model.getFrameName(numberOfJoints);
-            parameterHandler->getGroup("SE3_TASK")
-                .lock()
-                ->setParameter("frame_name", controlledFrame);
+            auto SE3TaskGroup = parameterHandler->getGroup("SE3_TASK").lock()->clone();
+            SE3TaskGroup->setParameter("frame_name", controlledFrame);
+            REQUIRE(parameterHandler->setGroup("SE3_TASK", SE3TaskGroup));
 
             // create the IK
             auto ikAndTasks = createIK(parameterHandler, kinDyn, variablesHandler);
