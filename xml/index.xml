@@ -672,6 +672,7 @@
   <compound refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info" kind="struct"><name>BipedalLocomotion::System::AdvanceableRunner::Info</name>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a93014ed6d870ae71421d3f0f41414107" kind="variable"><name>deadlineMiss</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a0898353dc375b8db868b4fd8fb4b8e10" kind="variable"><name>dT</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a4827c731c7b02fbc85845286ef79841f" kind="variable"><name>name</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" kind="class"><name>BipedalLocomotion::IK::IntegrationBasedIK</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" kind="function"><name>~IntegrationBasedIK</name></member>
