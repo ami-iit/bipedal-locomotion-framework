@@ -157,7 +157,7 @@ public:
     *       it must be done in customInitialization() by the child class implementing the algorithm
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                     std::shared_ptr<iDynTree::KinDynComputations> kindyn);
 
 
@@ -166,7 +166,7 @@ public:
     * @param[in] handler configure the generic parameters for the estimator
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * Set the polled IMU measurement
@@ -281,7 +281,7 @@ protected:
     * @param[in] handler configure the custom parameters for the estimator
     * @return bool
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) { return true; };
+    virtual bool customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) { return true; };
 
     /**
     * Propagate the states through the prediction model, if there exists any (eg. a strap-down IMU model)
@@ -335,7 +335,7 @@ protected:
     * @param[in] handler parameter handler
     * @return True in case of success, false otherwise.
     */
-    bool setupOptions(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool setupOptions(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * Setup measurement noise standard deviations The parameters in the SensorsStdDev group are,
@@ -354,7 +354,7 @@ protected:
     * @param[in] handler parameter handler
     * @return True in case of success, false otherwise.
     */
-    bool setupSensorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool setupSensorDevs(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * Setup initial states. The parameters in the InitialStates group are,
@@ -372,7 +372,7 @@ protected:
     * @param[in] handler parameter handler
     * @return True in case of success, false otherwise.
     */
-    bool setupInitialStates(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool setupInitialStates(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * Setup initial state standard deviations. The parameters in the PriorsStdDev group are,
@@ -390,7 +390,7 @@ protected:
     * @param[in] handler parameter handler
     * @return True in case of success, false otherwise.
     */
-    bool setupPriorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool setupPriorDevs(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     ModelComputations m_modelComp; /**< Model computations object */
     FloatingBaseEstimators::Options m_options; /**< Struct holding estimator options */
@@ -425,7 +425,7 @@ private:
     * @param[in] handler parameter handler
     * @return True in case of success, false otherwise.
     */
-    bool setupModelParams(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool setupModelParams(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
 
     /**
@@ -437,7 +437,7 @@ private:
      * @return True in case of success, false otherwise.
      */
     bool setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
-                                      std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                      std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                       std::vector<double>& vec);
 };
 

@@ -162,7 +162,7 @@ LeggedOdometry::LeggedOdometry() : m_pimpl(std::make_unique<Impl>())
 
 LeggedOdometry::~LeggedOdometry() = default;
 
-bool LeggedOdometry::customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool LeggedOdometry::customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     const std::string_view printPrefix = "[LeggedOdometry::customInitialization] ";
     auto handle = handler.lock();

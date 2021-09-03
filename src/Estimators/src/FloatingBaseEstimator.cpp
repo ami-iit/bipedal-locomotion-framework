@@ -19,7 +19,7 @@ FloatingBaseEstimator::FloatingBaseEstimator()
     m_state.imuOrientation.setIdentity();
 }
 
-bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+bool FloatingBaseEstimator::initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                        std::shared_ptr<iDynTree::KinDynComputations> kindyn)
 {
     if (!m_modelComp.setKinDynObject(kindyn))
@@ -37,7 +37,7 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
     return true;
 }
 
-bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -415,7 +415,7 @@ const FloatingBaseEstimators::Output& FloatingBaseEstimator::getOutput() const
 }
 
 
-bool FloatingBaseEstimator::setupModelParams(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::setupModelParams(BipedalLocomotion::ParametersHandler::IParametersHandler::const_weak_ptr handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -470,7 +470,7 @@ bool FloatingBaseEstimator::setupModelParams(std::weak_ptr<BipedalLocomotion::Pa
     return true;
 }
 
-bool FloatingBaseEstimator::setupOptions(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::setupOptions(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -549,7 +549,7 @@ bool FloatingBaseEstimator::setupOptions(std::weak_ptr<BipedalLocomotion::Parame
     return true;
 }
 
-bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -633,7 +633,7 @@ bool FloatingBaseEstimator::setupSensorDevs(std::weak_ptr<BipedalLocomotion::Par
     return true;
 }
 
-bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -708,7 +708,7 @@ bool FloatingBaseEstimator::setupInitialStates(std::weak_ptr<BipedalLocomotion::
     return true;
 }
 
-bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
@@ -772,7 +772,7 @@ bool FloatingBaseEstimator::setupPriorDevs(std::weak_ptr<BipedalLocomotion::Para
 
 
 bool FloatingBaseEstimator::setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
-                                                         std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                                                         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                          std::vector<double>& vec)
 {
     auto handle = handler.lock();
