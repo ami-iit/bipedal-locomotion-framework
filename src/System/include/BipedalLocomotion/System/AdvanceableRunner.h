@@ -64,6 +64,7 @@ private:
     {
         unsigned int deadlineMiss{0}; /**< Number of deadline miss */
         double dT{-1.0}; /**< Period of the runner */
+        std::string name{}; /**< Name associated to the runner */
     };
     std::mutex m_infoMutex; /**< Mutex used to protect the information struct */
     Info m_info; /**< Information struct */
@@ -157,6 +158,12 @@ bool AdvanceableRunner<_Advanceable>::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("name", m_info.name))
+    {
+        log()->error("{} Unable to get the name of the runner.", errorPrefix);
+        return false;
+    }
+
     if (m_info.dT <= 0)
     {
         log()->error("{} The sampling time must be a strictly positive number.", errorPrefix);
@@ -233,33 +240,39 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
 
     if (!m_isInitialized)
     {
-        log()->warn("{} The AdvanceableRunner class is not initialized. An invalid thread will be "
-                    "returned",
-                    logPrefix);
+        log()->warn("{} - {} The AdvanceableRunner class is not initialized. An invalid thread "
+                    "will be returned",
+                    logPrefix,
+                    m_info.name);
+
         assert(false && "[AdvanceableRunner::run] The thread is already running.");
         return std::thread();
     }
 
     if (m_input == nullptr || m_output == nullptr)
     {
-        log()->warn("{} The shared resources are not valid. An invalid thread will be returned.",
-                    logPrefix);
+        log()->warn("{} - {} The shared resources are not valid. An invalid thread will be "
+                    "returned.",
+                    logPrefix,
+                    m_info.name);
         assert(false && "[AdvanceableRunner::run] The shared resources are not valid.");
         return std::thread();
     }
 
     if (m_advanceable == nullptr)
     {
-        log()->warn("{} The advanceable is not valid. An invalid thread will be returned.",
-                    logPrefix);
+        log()->warn("{} - {} The advanceable is not valid. An invalid thread will be returned.",
+                    logPrefix,
+                    m_info.name);
         assert(false && "[AdvanceableRunner::run] The advanceable is not valid.");
         return std::thread();
     }
 
     if (m_isRunning)
     {
-        log()->warn("{} The thread is already running. An invalid thread will be returned.",
-                    logPrefix);
+        log()->warn("{} - {} The thread is already running. An invalid thread will be returned.",
+                    logPrefix,
+                    m_info.name);
         assert(false && "[AdvanceableRunner::run] The thread is already running.");
         return std::thread();
     }
@@ -290,7 +303,9 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
             if (!this->m_advanceable->setInput(this->m_input->get()))
             {
                 m_isRunning = false;
-                log()->error("{} Unable to set the input to the advanceable.", logPrefix);
+                log()->error("{} - {} Unable to set the input to the advanceable.",
+                             logPrefix,
+                             m_info.name);
                 break;
             }
 
@@ -298,7 +313,7 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
             if (!this->m_advanceable->advance())
             {
                 m_isRunning = false;
-                log()->error("{} Unable to advance the advanceable.", logPrefix);
+                log()->error("{} - {} Unable to advance the advanceable.", logPrefix, m_info.name);
                 break;
             }
             assert(this->m_advanceable->isOutputValid());
@@ -319,7 +334,7 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
             BipedalLocomotion::clock().sleepUntil(wakeUpTime);
         }
 
-        log()->info("{} Closing the AdvanceableRunner.", logPrefix);
+        log()->info("{} - {}: Closing the AdvanceableRunner.", logPrefix, m_info.name);
         if(m_isTelemetryEnabled)
         {
             unsigned int deadlineMiss = 0;
@@ -329,7 +344,11 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
                 std::lock_guard<std::mutex> guard(m_infoMutex);
                 deadlineMiss = m_info.deadlineMiss;
             }
-            log()->info("{} Number of deadline miss {}.", logPrefix, deadlineMiss);
+
+            log()->info("{} - {}: Number of deadline miss {}.",
+                        logPrefix,
+                        m_info.name,
+                        deadlineMiss);
         }
         return this->m_advanceable->close();
     };
@@ -337,7 +356,9 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
     // if the barrier is passed the run method, synchronization is performed
     if (barrier.has_value())
     {
-        log()->debug("{} This thread is waiting for the other threads.", logPrefix);
+        log()->debug("{} - {} This thread is waiting for the other threads.",
+                     logPrefix,
+                     m_info.name);
         barrier.value().get().wait();
     }
 
