@@ -9,7 +9,8 @@ requires = [
     "idyntree>=3.1.0",
     "casadi",
     "ycm_cmake_modules",
-    "yarp_middleware",
+    # "yarp_middleware>=3.5.1",
+    "yarp_middleware @ git+https://github.com/robotology/yarp@yarp-3.5#egg=yarp_middleware&subdirectory=scripts/pip",
     "manifpy @ git+https://github.com/artivis/manif",
 ]
 
