@@ -37,6 +37,7 @@ setuptools.setup(
             cmake_configure_options=[
                 f"-DPython3_EXECUTABLE:PATH={sys.executable}",
                 "-DFRAMEWORK_PACKAGE_FOR_PYPI:BOOL=ON",
+                "-DBUILD_SHARED_LIBS:BOOL=OFF",
                 # *_USE_*
                 "-DFRAMEWORK_USE_Catch2:BOOL=OFF",
                 "-DFRAMEWORK_USE_LieGroupControllers:BOOL=OFF",
