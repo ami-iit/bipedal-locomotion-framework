@@ -64,6 +64,7 @@ setuptools.setup(
                 "-DFRAMEWORK_COMPILE_System:BOOL=ON",
                 "-DFRAMEWORK_COMPILE_YarpImplementation:BOOL=ON",
                 "-DFRAMEWORK_COMPILE_YarpUtilities:BOOL=ON",
+                "-DFRAMEWORK_COMPILE_JointPositionTrackingApplication:BOOL=OFF",
             ]
             + CIBW_CMAKE_OPTIONS,
         )
