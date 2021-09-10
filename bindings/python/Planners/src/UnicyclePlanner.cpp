@@ -37,12 +37,20 @@ void CreateUnicyclePlanner(pybind11::module& module)
         .def("__eq__", &UnicycleKnot::operator==, py::is_operator());
 
     py::class_<UnicyclePlannerInput>(module, "UnicyclePlannerInput")
-        .def(py::init<const std::vector<UnicycleKnot>&, const double, const double>(),
+        .def(py::init<const std::vector<UnicycleKnot>&,
+                      const double,
+                      const std::optional<Contacts::PlannedContact>&,
+                      const std::optional<Contacts::PlannedContact>&,
+                      const double>(),
              py::arg("knots") = std::vector<UnicycleKnot>{},
              py::arg("tf") = 0.0,
+             py::arg("initial_left_contact") = std::nullopt,
+             py::arg("initial_right_contact") = std::nullopt,
              py::arg("t0") = 0.0)
         .def_readwrite("t0", &UnicyclePlannerInput::t0)
         .def_readwrite("tf", &UnicyclePlannerInput::tf)
+        .def_readwrite("initial_left_contact", &UnicyclePlannerInput::initialLeftContact)
+        .def_readwrite("initial_right_contact", &UnicyclePlannerInput::initialRightContact)
         .def_readwrite("knots", &UnicyclePlannerInput::knots);
 
     py::class_<UnicyclePlannerOutput>(module, "UnicyclePlannerOutput")

@@ -16,6 +16,7 @@
 #include <Eigen/Dense>
 
 #include <memory>
+#include <optional>
 
 namespace BipedalLocomotion::Planners
 {
@@ -70,15 +71,22 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
 {
     UnicyclePlannerInput(const std::vector<UnicycleKnot>& _knots,
                          const double _tf = 0.0,
+                         const std::optional<Contacts::PlannedContact>& _initialLeftContact = {},
+                         const std::optional<Contacts::PlannedContact>& _initialRightContact = {},
                          const double _t0 = 0.0)
         : t0(_t0)
         , tf(_tf)
+        , initialLeftContact(_initialLeftContact)
+        , initialRightContact(_initialRightContact)
         , knots(_knots)
     {
     }
 
     double t0; ///< The beginning of the planner horizon.
     double tf; ///< The end of the planner horizon.
+
+    std::optional<Contacts::PlannedContact> initialLeftContact; ///< Left contact initialization
+    std::optional<Contacts::PlannedContact> initialRightContact; ///< Right contact initialization
 
     std::vector<UnicycleKnot> knots; ///< A list of knots.
 };
@@ -129,7 +137,6 @@ public:
      * |  `minAngleVariation`   |     double     |         -         |    Yes    |           The minimum unicycle rotation            |
      * |  `maxAngleVariation`   |     double     |         -         |    Yes    |           The maximum unicycle rotation            |
      * | `switchOverSwingRatio` |     double     |         -         |    Yes    | The ratio between single and double support phases |
-     * |  `lastStepSwitchTime`  |     double     | `nominalDuration` |    No     |        The switching time of the last step         |
      * |      `swingLeft`       |      bool      |       false       |    No     |     Perform the first step with the left foot      |
      * |     `terminalStep`     |      bool      |       true        |    No     |   Add a terminal step at the end of the horizon    |
      * | `startAlwaysSameFoot`  |      bool      |       false       |    No     |       Restart with the default foot if still       |

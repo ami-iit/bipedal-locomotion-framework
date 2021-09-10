@@ -11,11 +11,12 @@
 #include <FootPrint.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
+#include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorFixSize.h>
+#include <manif/SE3.h>
 
 #include <cassert>
 #include <limits>
-#include <optional>
 
 using namespace BipedalLocomotion;
 
@@ -82,7 +83,6 @@ public:
     struct
     {
         double stancePhaseRatio;
-        double lastStepSwitchTime;
         bool startWithLeft = false;
         bool terminalStep = true;
         bool resetStartingFootIfStill = false;
@@ -93,6 +93,12 @@ public:
         std::string left = "left";
         std::string right = "right";
     } names;
+
+    struct
+    {
+        std::optional<Contacts::PlannedContact> left;
+        std::optional<Contacts::PlannedContact> right;
+    } initialContacts;
 
     UnicyclePlannerOutput outputRef;
     std::optional<UnicyclePlannerOutput> output = std::nullopt;
@@ -304,14 +310,6 @@ bool Planners::UnicyclePlanner::initialize(
         return false;
     }
 
-    if (!ptr->getParameter("lastStepSwitchTime", m_pImpl->gait.lastStepSwitchTime))
-    {
-        m_pImpl->gait.lastStepSwitchTime = m_pImpl->duration.nominal;
-        log()->info("{} Using default lastStepSwitchTime={}.",
-                    logPrefix,
-                    m_pImpl->gait.lastStepSwitchTime);
-    }
-
     if (!ptr->getParameter("swingLeft", m_pImpl->gait.startWithLeft))
     {
         log()->info("{} Using default swingLeft={}.", logPrefix, m_pImpl->gait.startWithLeft);
@@ -451,6 +449,9 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
     m_pImpl->horizon.t0 = input.t0;
     m_pImpl->horizon.tf = input.tf;
 
+    m_pImpl->initialContacts.left = input.initialLeftContact;
+    m_pImpl->initialContacts.right = input.initialRightContact;
+
     return true;
 }
 
@@ -464,7 +465,19 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    m_pImpl->output = std::nullopt;
+    // Lambda to clean up resources when returning false
+    auto cleanup = [&]() {
+        m_pImpl->left = nullptr;
+        m_pImpl->right = nullptr;
+        m_pImpl->output = std::nullopt;
+    };
+
+    // Cleanup first
+    cleanup();
+
+    // ==================================
+    // Plan contacts with UnicyclePlanner
+    // ==================================
 
     // Initialize the left FootPrint
     m_pImpl->left = std::make_shared<FootPrint>();
@@ -474,31 +487,96 @@ bool Planners::UnicyclePlanner::advance()
     m_pImpl->right = std::make_shared<FootPrint>();
     m_pImpl->right->setFootName(m_pImpl->names.right);
 
-    // Compute the FootPrints
+    // Convert manif to iDynTree
+    auto toiDynTree = [](const manif::SE3d::Translation& translation) -> iDynTree::Vector2 {
+        iDynTree::Vector2 position;
+        position[0] = translation[0];
+        position[1] = translation[1];
+        return position;
+    };
+
+    // The initTime of the UnicyclePlanner cannot be smaller than
+    // the impact time of the last step.
+    // If an initial step configuration is passed, the initial time must be updated.
+    double initTime = m_pImpl->horizon.t0;
+
+    // Process the initial left contact configuration
+    if (m_pImpl->initialContacts.left)
+    {
+        const auto& contact = m_pImpl->initialContacts.left;
+
+        // Here we decompose the quaternion to YXZ intrinsic Euler angles (default in Eigen).
+        // The most reliable decomposition is ZXY extrinsic, that is equivalent since the two
+        // commute when the order is reversed. This decomposition, having Z as first rotation,
+        // should get the correct yaw in most cases.
+        const auto& euler
+            = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
+
+        // Create the inital step
+        m_pImpl->left->addStep(toiDynTree(contact->pose.translation()),
+                               euler[2],
+                               contact->activationTime);
+
+        const double impactTime = contact->activationTime;
+        initTime = impactTime > initTime ? impactTime : initTime;
+    }
+
+    // Process the initial left contact configuration
+    if (m_pImpl->initialContacts.right)
+    {
+        const auto& contact = m_pImpl->initialContacts.right;
+
+        // Here we decompose the quaternion to YXZ intrinsic Euler angles (default in Eigen).
+        // The most reliable decomposition is ZXY extrinsic, that is equivalent since the two
+        // commute when the order is reversed. This decomposition, having Z as first rotation,
+        // should get the correct yaw in most cases.
+        const auto& euler
+            = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
+
+        // Create the inital step
+        m_pImpl->right->addStep(toiDynTree(contact->pose.translation()),
+                                euler[2],
+                                contact->activationTime);
+
+        const double impactTime = contact->activationTime;
+        initTime = impactTime > initTime ? impactTime : initTime;
+    }
+
     if (!m_pImpl->planner->computeNewSteps(m_pImpl->left,
                                            m_pImpl->right,
-                                           m_pImpl->horizon.t0,
+                                           initTime,
                                            m_pImpl->horizon.tf))
     {
-        m_pImpl->left = nullptr;
-        m_pImpl->right = nullptr;
+        cleanup();
         log()->error("{} Failed to compute new steps.", logPrefix);
         return false;
     }
 
+    // ===========================================
+    // Compute step timings with UnicycleGenerator
+    // ===========================================
+
     // Create and configure the generator
     auto generator = UnicycleGenerator();
     generator.setSwitchOverSwingRatio(m_pImpl->gait.stancePhaseRatio);
-    double lastStepSwitchTime = 0.8;
-    generator.setTerminalHalfSwitchTime(lastStepSwitchTime);
     generator.setPauseConditions(m_pImpl->duration.max, m_pImpl->duration.nominal);
+
+    // The last step will have an infinite deactivation time, the following option
+    // is necessary for the generator but it does not affect the advanceable output
+    generator.setTerminalHalfSwitchTime(1.0);
+
+    // Due to how the generator works, the start time must be bigger than last impact time
+    const double startLeft = m_pImpl->left->getSteps().front().impactTime;
+    const double startRight = m_pImpl->right->getSteps().front().impactTime;
+    const double startTime = std::max(startLeft, startRight);
 
     // Compute the contact states using the generator
     if (!generator.generateFromFootPrints(m_pImpl->left,
                                           m_pImpl->right,
-                                          m_pImpl->horizon.t0,
+                                          startTime,
                                           m_pImpl->dt.planner))
     {
+        cleanup();
         log()->error("{} Failed to generate from footprints.", logPrefix);
         return false;
     }
@@ -508,64 +586,84 @@ bool Planners::UnicyclePlanner::advance()
     std::vector<bool> rightStandingPeriod;
     generator.getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
 
-    // Lambda to convert the vector with contact states to a vector of PlannedContact.
-    // It just processes timings, we fill the transform later.
-    auto processStandingPeriod
-        = [](const std::vector<bool>& isFootInContactVector,
-             const double dt,
-             const std::string& contactName) -> std::vector<Contacts::PlannedContact> {
+    // Bind dt to catch it in the next lambda
+    const auto& dt = m_pImpl->dt.planner;
+
+    // Lambda to convert Step to Contact, filling only the timings.
+    // Transforms will be included in a later stage.
+    auto convertStepsToContacts
+        = [dt](const std::vector<bool>& isFootInContactVector,
+               const StepList& steps) -> std::vector<Contacts::PlannedContact> {
         std::vector<Contacts::PlannedContact> contacts;
 
-        // Loop over all the horizon
-        for (size_t i = 1; i < isFootInContactVector.size(); ++i)
+        for (const auto& step : steps)
         {
-            const bool thisState = isFootInContactVector[i];
-            const bool lastState = isFootInContactVector[i - 1];
-            const bool aboutToLand = lastState == 0 && thisState == 1;
-
-            // Create a new contact
-            if (i == 1 || aboutToLand)
-            {
-                auto contact = Contacts::PlannedContact();
-                contact.name = contactName;
-                contact.activationTime = dt * i;
-                contact.deactivationTime = contact.activationTime;
-                contacts.push_back(contact);
-            }
-
-            // Adjust the first contact activation
-            if (i == 1)
-                contacts.back().activationTime -= dt;
-
-            // Upate the contact duration
-            if (thisState)
-                contacts.back().deactivationTime += dt;
+            auto contact = Contacts::PlannedContact();
+            contact.name = step.footName;
+            contact.activationTime = step.impactTime;
+            contact.deactivationTime = contact.activationTime;
+            contacts.push_back(contact);
         }
+
+        size_t contactIdx = 0;
+        double activeTime = 0.0;
+
+        for (size_t idx = 1; idx < isFootInContactVector.size(); ++idx)
+        {
+            // Get the active contact
+            auto& contact = contacts[contactIdx];
+
+            const bool thisState = isFootInContactVector[idx];
+            const bool lastState = isFootInContactVector[idx - 1];
+
+            // Increase the active time
+            activeTime += dt;
+
+            // During impact, reset the active time counter
+            if (lastState == 0 && thisState == 1)
+                activeTime = 0.0;
+
+            // During lift, store the time in the active contact and get the new contact
+            if (lastState == 1 && thisState == 0)
+            {
+                contact.deactivationTime = contact.activationTime + activeTime;
+                contactIdx++;
+            }
+        }
+
+        // The deactivation time of the last contact has not yet been processed
+        contacts.back().deactivationTime = std::numeric_limits<float>().max();
 
         return contacts;
     };
 
-    // Get the feet contacts with only timings
+    // Convert Step objects to PlannedContact objects
     std::vector<Contacts::PlannedContact> leftContacts
-        = processStandingPeriod(leftStandingPeriod, m_pImpl->dt.planner, m_pImpl->names.left);
+        = convertStepsToContacts(leftStandingPeriod, m_pImpl->left->getSteps());
     std::vector<Contacts::PlannedContact> rightContacts
-        = processStandingPeriod(rightStandingPeriod, m_pImpl->dt.planner, m_pImpl->names.right);
+        = convertStepsToContacts(rightStandingPeriod, m_pImpl->right->getSteps());
 
     if (m_pImpl->left->getSteps().size() != leftContacts.size())
     {
+        cleanup();
         log()->error("{} Wrong number of converted steps for left foot.", logPrefix);
         return false;
     }
 
     if (m_pImpl->right->getSteps().size() != rightContacts.size())
     {
-        log()->error("{} Wrong number of converted steps for left foot.", logPrefix);
+        cleanup();
+        log()->error("{} Wrong number of converted steps for right foot.", logPrefix);
         return false;
     }
 
+    // =======================================
+    // Convert Step transforms to Contact pose
+    // =======================================
+
     // Lambda to fill the transforms of the PlannedContact objects
     auto fillContactTransform = [](std::vector<Contacts::PlannedContact>& contacts,
-                                   decltype(::FootPrint().getSteps())& steps) {
+                                   decltype(::FootPrint().getSteps())& steps) -> void {
         assert(contacts.size() == steps.size());
         for (size_t i = 0; i < contacts.size(); ++i)
         {
@@ -577,6 +675,10 @@ bool Planners::UnicyclePlanner::advance()
     // Fill the transforms
     fillContactTransform(leftContacts, m_pImpl->left->getSteps());
     fillContactTransform(rightContacts, m_pImpl->right->getSteps());
+
+    // ================================
+    // Create the output data structure
+    // ================================
 
     // Lambda to convert vector of PlannedContact to ConctactList
     auto convertToContactList
