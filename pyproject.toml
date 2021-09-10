@@ -1,0 +1,20 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "wheel",
+    "setuptools>=45",
+    "setuptools_scm[toml]>=6.0",
+    "cmake-build-extension",
+    "pybind11",
+    "idyntree>=3.1.0",
+    "casadi",
+    "ycm_cmake_modules",
+    "yarp_middleware",
+    "manifpy @ git+https://github.com/artivis/manif",
+]
+
+[tool.setuptools_scm]
+local_scheme = "dirty-tag"
+
+[tool.cibuildwheel]
+build-frontend = "build"
