@@ -60,21 +60,21 @@ jobs:
           #    probably due to non-relocatable resources.
           # 2) The target of the vendored osqp is malformed, as a workaround we install osqp with
           #    conda and instruct blf to find it from there.
-          sudo apt-get install -y coinor-libipopt-dev libmumps-dev libmumps-seq-dev
-          sudo ln -s /usr/lib/x86_64-linux-gnu/libdmumps_seq.so /usr/lib/
+          #sudo apt-get install -y coinor-libipopt-dev libmumps-dev libmumps-seq-dev
+          #sudo ln -s /usr/lib/x86_64-linux-gnu/libdmumps_seq.so /usr/lib/
           # yarp
           mamba install -y ace swig
           # idyntree
           mamba install -y assimp libxml2
           # blf
-          mamba install -y compilers spdlog eigen libosqp osqp-eigen qhull nlohmann_json
+          mamba install -y compilers spdlog eigen casadi libosqp osqp-eigen qhull nlohmann_json
 
       - name: Build the wheel from the sdist
         shell: bash -l {0}
-        run: |
-          python -m build \
-            -C--global-option=build_ext \
-            -C--global-option="-Dosqp_DIR=$CONDA_PREFIX/lib/cmake/osqp"
+        run: python -m build
+        #  python -m build \
+        #    -C--global-option=build_ext \
+        #    -C--global-option="-Dosqp_DIR=$CONDA_PREFIX/lib/cmake/osqp"
 
       - name: Install the wheel
         shell: bash -l {0}

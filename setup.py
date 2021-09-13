@@ -31,7 +31,7 @@ setuptools.setup(
                 "ycm_cmake_modules",
                 "yarp",
                 "manifpy",
-                "casadi",
+                # "casadi",
             ],
             disable_editable=True,
             cmake_configure_options=[
