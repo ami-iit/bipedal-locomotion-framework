@@ -107,7 +107,7 @@
 <para>Computes the linear system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It returns <formula id="24">$\dot{x} = Ax + Bu$</formula> <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It returns <formula id="48">$\dot{x} = Ax + Bu$</formula> <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -150,7 +150,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> describes a MIMO linear time invariant system of the form <formula id="24">$\dot{x} = Ax + Bu$</formula> where <emphasis>x</emphasis> is the state and <emphasis>u</emphasis> the control input. </para>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> describes a MIMO linear time invariant system of the form <formula id="48">$\dot{x} = Ax + Bu$</formula> where <emphasis>x</emphasis> is the state and <emphasis>u</emphasis> the control input. </para>
     </briefdescription>
     <detaileddescription>
 <para>The state, its derivative and the control input are described by vectors The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where:<itemizedlist>
