@@ -12,8 +12,6 @@ if "CIBUILDWHEEL" in os.environ and os.environ["CIBUILDWHEEL"] == "1":
     CIBW_CMAKE_OPTIONS = [
         # Prevent CMake to use lib64 on Debian Stretch
         "-DCMAKE_INSTALL_LIBDIR=lib",
-        # Prevent CMake finding the osqp shipped with the CasADI wheel
-        "-Dosqp_DIR=/usr/local/lib/cmake/osqp",
     ]
 else:
     CIBW_CMAKE_OPTIONS = []
