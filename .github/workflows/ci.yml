@@ -92,8 +92,8 @@ jobs:
         cd C:/robotology/vcpkg
         ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
 
-        # Install pybind11 and tomlplusplus
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install pybind11:x64-windows tomlplusplus:x64-windows
+        # Install tomlplusplus
+        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
