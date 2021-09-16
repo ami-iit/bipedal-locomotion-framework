@@ -92,8 +92,8 @@ jobs:
         cd C:/robotology/vcpkg
         ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
 
-        # Install pybind11 and tomlplusplus
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install pybind11:x64-windows tomlplusplus:x64-windows
+        # Install tomlplusplus
+        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
@@ -484,7 +484,7 @@ jobs:
       shell: bash
       run: |
         cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers; do
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json; do
             echo "Testing ${missing_dep} as missing dependency."
             # Deselect missing dependency and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .

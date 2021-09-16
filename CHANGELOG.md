@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
 
 ### Fix
+- Fix missing components dependencies in the `CMake` machinery (https://github.com/ami-iit/bipedal-locomotion-framework/pull/414)
 
 ## [0.3.0] - 2021-08-12
 ### Added

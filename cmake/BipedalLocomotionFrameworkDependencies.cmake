@@ -118,7 +118,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Contact
 
 framework_dependent_option(FRAMEWORK_COMPILE_Planners
   "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Math" OFF)
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
   "Compile ContactModels library?" ON
@@ -142,7 +142,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_RobotInterface
 
 framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
   "Compile FloatingBaseEstimators libraries?" ON
-  "FRAMEWORK_USE_manif" OFF)
+  "FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
@@ -154,7 +154,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
 
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON
-  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif" OFF)
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_IK
   "Compile IK library?" ON
@@ -166,7 +166,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_SimplifiedModelControllers
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
   "Compile joint-position-tracking application?" ON
-  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface" OFF)
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
   "Do you want to generate and compile the Python bindings?" ON
@@ -182,7 +182,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointTrajectoryPlayer
   "Compile joint-trajectory-player application?" ON
-  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_matioCppConversions;FRAMEWORK_USE_matioCpp;FRAMEWORK_USE_YARP" OFF)
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_matioCppConversions;FRAMEWORK_USE_matioCpp;FRAMEWORK_USE_YARP;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Perception
   "Compile Perception libraries?" ON
