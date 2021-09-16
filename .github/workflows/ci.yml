@@ -86,6 +86,7 @@ jobs:
         rm vcpkg-robotology.zip
         # Also re-bootstrap to avoid problems
         cd C:/robotology/vcpkg
+        git checkout 5d734efcef674dbf9b7b204484fc8f006101dcb5
         ./bootstrap-vcpkg.bat
 
         # Install Catch2
