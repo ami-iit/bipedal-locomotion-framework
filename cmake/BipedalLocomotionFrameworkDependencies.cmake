@@ -14,8 +14,8 @@ dependency_classifier(iDynTree MINIMUM_VERSION 3.0.0 IS_USED TRUE PUBLIC)
 find_package(Eigen3 3.2.92 REQUIRED)
 dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 IS_USED TRUE PUBLIC)
 
-find_package(spdlog REQUIRED)
-dependency_classifier(spdlog PUBLIC IS_USED TRUE PUBLIC)
+find_package(spdlog 1.5.0 REQUIRED)
+dependency_classifier(spdlog MINIMUM_VERSION 1.5.0 IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
