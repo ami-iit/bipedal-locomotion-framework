@@ -28,7 +28,7 @@ double Module::getPeriod()
     return m_dT;
 }
 
-bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool Module::createPolydriver(std::shared_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     auto ptr = handler->getGroup("ROBOT_INTERFACE").lock();
     if (ptr == nullptr)
@@ -36,8 +36,9 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
         std::cerr << "[Module::createPolydriver] Robot interface options is empty." << std::endl;
         return false;
     }
-    ptr->setParameter("local_prefix", this->getName());
-    m_controlBoard = RobotInterface::constructRemoteControlBoardRemapper(ptr);
+    auto tmp = ptr->clone();
+    tmp->setParameter("local_prefix", this->getName());
+    m_controlBoard = RobotInterface::constructRemoteControlBoardRemapper(tmp);
     if (!m_controlBoard.isValid())
     {
         std::cerr << "[Module::createPolydriver] the robot polydriver has not been constructed."
@@ -48,7 +49,7 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
     return true;
 }
 
-bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool Module::initializeRobotControl(std::shared_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     if (!m_robotControl.initialize(handler->getGroup("ROBOT_CONTROL")))
     {
@@ -68,7 +69,7 @@ bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParamete
     return true;
 }
 
-bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
+bool Module::instantiateSensorBridge(std::shared_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     if (!m_sensorBridge.initialize(handler->getGroup("SENSOR_BRIDGE")))
     {

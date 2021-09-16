@@ -109,7 +109,7 @@ TEST_CASE("Get parameters")
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         setGroup->setParameter("Donald's nephews", donaldsNephews);
         REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
-        IParametersHandler::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        IParametersHandler::const_shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
         std::vector<std::string> element;
@@ -124,12 +124,13 @@ TEST_CASE("Get parameters")
 
     SECTION("is Empty")
     {
-        IParametersHandler::shared_ptr groupHandler = parameterHandler->getGroup("CARTOONS").lock();
-        REQUIRE_FALSE(groupHandler);
+        REQUIRE_FALSE(parameterHandler->getGroup("CARTOONS").lock());
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
 
-        groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
+        IParametersHandler::shared_ptr groupHandler
+            = parameterHandler->getGroup("CARTOONS").lock()->clone(); // now the pointer should be
+                                                                      // lockable
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
@@ -254,7 +255,7 @@ TEST_CASE("Get parameters")
             REQUIRE(element == fibonacciNumbers);
         }
 
-        IParametersHandler::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
+        IParametersHandler::const_shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
         {
@@ -281,13 +282,14 @@ TEST_CASE("Get parameters")
     {
         IParametersHandler::shared_ptr setGroup = std::make_shared<YarpImplementation>();
         REQUIRE(parameterHandler->setGroup("CARTOONS", setGroup));
-        auto groupHandler = parameterHandler->getGroup("CARTOONS").lock(); //now the pointer should be lockable
+        auto groupHandler = parameterHandler->getGroup("CARTOONS").lock()->clone(); //now the pointer should be lockable
         REQUIRE(groupHandler);
         REQUIRE(groupHandler->isEmpty());
 
         groupHandler->setParameter("Donald's nephews", donaldsNephews);
 
         auto newHandler = parameterHandler->clone();
+        REQUIRE(newHandler->setGroup("CARTOONS", groupHandler));
 
         SECTION("Get integer")
         {

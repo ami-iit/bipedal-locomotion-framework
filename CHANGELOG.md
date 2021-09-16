@@ -7,9 +7,12 @@ All notable changes to this project are documented in this file.
 - Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 - Add a synchronization mechanism for the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/403)
 - Add the possibility to use spdlog with YARP (https://github.com/ami-iit/bipedal-locomotion-framework/pull/408)
+- Implement a `const` version function the `IParameterHandler::getGroup()` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/410)
 
 ### Changed
 - Add `name` parameter to the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/406)
+- `weak_ptr IParameterHandler::getGroup()` is no more a `const` function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/410)
+- The `initialize` functions of the `IK` and `TSID` components now want a pointer to a `const` `IParameterHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/410)
 
 ### Fix
 - Fix missing components dependencies in the `CMake` machinery (https://github.com/ami-iit/bipedal-locomotion-framework/pull/414)

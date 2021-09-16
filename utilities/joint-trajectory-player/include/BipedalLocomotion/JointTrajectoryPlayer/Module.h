@@ -62,11 +62,11 @@ class Module : public yarp::os::RFModule
     };
     State m_state{State::idle}; /** State machine */
 
-    bool createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+    bool createPolydriver(std::shared_ptr<const ParametersHandler::IParametersHandler> handler);
 
-    bool initializeRobotControl(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initializeRobotControl(std::shared_ptr<const ParametersHandler::IParametersHandler> handler);
 
-    bool instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler);
+    bool instantiateSensorBridge(std::shared_ptr<const ParametersHandler::IParametersHandler> handler);
 
     bool readStateFromFile(const std::string& filename, const std::size_t numFields);
 

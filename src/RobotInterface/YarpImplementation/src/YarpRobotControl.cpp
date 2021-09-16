@@ -569,7 +569,7 @@ bool YarpRobotControl::setDriver(std::shared_ptr<yarp::dev::PolyDriver> robotDev
     return m_pimpl->setDriver(robotDevice);
 }
 
-bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+bool YarpRobotControl::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto errorPrefix = "[YarpRobotControl::initialize]";
 

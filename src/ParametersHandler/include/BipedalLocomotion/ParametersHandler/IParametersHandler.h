@@ -32,6 +32,13 @@ public:
 
     using weak_ptr = std::weak_ptr<IParametersHandler>;
 
+    using const_unique_ptr = std::unique_ptr<const IParametersHandler>;
+
+    using const_shared_ptr = std::shared_ptr<const IParametersHandler>;
+
+    using const_weak_ptr = std::weak_ptr<const IParametersHandler>;
+
+
     /**
      * Get a parameter [int]
      * @param parameterName name of the parameter
@@ -181,7 +188,17 @@ public:
      * @warning Please implement the specific version of this method in the Derived class. Please
      * check YarpImplementation::getGroup
      */
-    virtual weak_ptr getGroup(const std::string& name) const = 0;
+    virtual const_weak_ptr getGroup(const std::string& name) const = 0;
+
+    /**
+     * Get a Group from the handler.
+     * @param name name of the group
+     * @return A pointer to IParametersHandler, if the group is not found the weak pointer cannot
+     * be locked
+     * @warning Please implement the specific version of this method in the Derived class. Please
+     * check YarpImplementation::getGroup
+     */
+    virtual weak_ptr getGroup(const std::string& name) = 0;
 
     /**
      * Set a new group on the handler.
@@ -191,7 +208,7 @@ public:
      * check YarpImplementation::setGroup
      * @return true/false in case of success/failure
      */
-    virtual bool setGroup(const std::string& name, shared_ptr newGroup) = 0;
+    virtual bool setGroup(const std::string& name, const_shared_ptr newGroup) = 0;
 
     /**
      * Return a standard text representation of the content of the object.

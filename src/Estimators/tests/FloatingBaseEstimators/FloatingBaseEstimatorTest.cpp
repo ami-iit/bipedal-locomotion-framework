@@ -29,11 +29,11 @@ bool populateConfig(std::weak_ptr<IParametersHandler> handler)
     handle->setParameter("sampling_period_in_s", 0.01);
 
     auto modelInfoGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("ModelInfo", modelInfoGroup);
     modelInfoGroup->setParameter("base_link", "root_link");
     modelInfoGroup->setParameter("base_link_imu", "root_link_imu_acc");
     modelInfoGroup->setParameter("left_foot_contact_frame", "l_sole");
     modelInfoGroup->setParameter("right_foot_contact_frame", "r_sole");
+    handle->setGroup("ModelInfo", modelInfoGroup);
 
     return true;
 }

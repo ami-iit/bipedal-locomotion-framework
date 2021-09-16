@@ -65,7 +65,7 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     return true;
 }
 
-bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[SE3Task::initialize] ";
 

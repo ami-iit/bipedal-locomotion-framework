@@ -83,7 +83,7 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
     return true;
 }
 
-bool BaseDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool BaseDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[BaseDynamicsTask::initialize]";
 

@@ -54,7 +54,7 @@ public:
      * | `position_direct_max_admissible_error` | `double` |                 Max admissible error for position direct control joint [rad]                 |    Yes    |
      * @return True/False in case of success/failure.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the driver required to control the robot.

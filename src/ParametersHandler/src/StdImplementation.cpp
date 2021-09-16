@@ -109,9 +109,9 @@ void StdImplementation::setParameter(const std::string& parameterName,
     return setParameterPrivate(parameterName, parameter);
 }
 
-bool StdImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
+bool StdImplementation::setGroup(const std::string& name, IParametersHandler::const_shared_ptr newGroup)
 {
-    auto downcastedPtr = std::dynamic_pointer_cast<StdImplementation>(newGroup);
+    auto downcastedPtr = std::dynamic_pointer_cast<StdImplementation>(newGroup->clone());
     if (downcastedPtr == nullptr)
     {
         BipedalLocomotion::log()->debug("[StdImplementation::setGroup] Unable to downcast the "
@@ -124,7 +124,12 @@ bool StdImplementation::setGroup(const std::string& name, IParametersHandler::sh
     return true;
 }
 
-IParametersHandler::weak_ptr StdImplementation::getGroup(const std::string& name) const
+IParametersHandler::const_weak_ptr StdImplementation::getGroup(const std::string& name) const
+{
+    return (const_cast<StdImplementation*>(this))->getGroup(name);
+}
+
+IParametersHandler::weak_ptr StdImplementation::getGroup(const std::string& name)
 {
     auto group = m_map.find(name);
     if (group == m_map.end())

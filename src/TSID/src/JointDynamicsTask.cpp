@@ -101,7 +101,7 @@ bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
-bool JointDynamicsTask::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool JointDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointDynamicsTask::initialize]";
 

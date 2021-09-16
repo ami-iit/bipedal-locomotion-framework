@@ -192,7 +192,12 @@ bool YarpImplementation::setFromFile(const std::string& filename)
     return true;
 }
 
-YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& name) const
+YarpImplementation::const_weak_ptr YarpImplementation::getGroup(const std::string& name) const
+{
+    return (const_cast<YarpImplementation*>(this))->getGroup(name);
+}
+
+YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& name)
 {
     if (m_lists.find(name) != m_lists.end())
     {
@@ -202,10 +207,11 @@ YarpImplementation::weak_ptr YarpImplementation::getGroup(const std::string& nam
     return std::make_shared<YarpImplementation>();
 }
 
-bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::shared_ptr newGroup)
+
+bool YarpImplementation::setGroup(const std::string& name, IParametersHandler::const_shared_ptr newGroup)
 {
-    auto downcastedPtr = std::dynamic_pointer_cast<YarpImplementation>(newGroup); // to access
-                                                                                  // m_container
+    // to access m_container
+    auto downcastedPtr = std::dynamic_pointer_cast<YarpImplementation>(newGroup->clone());
     if (downcastedPtr == nullptr)
     {
         log()->debug("[YarpImplementation::setGroup] Unable to downcast the pointer to "

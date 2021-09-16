@@ -34,68 +34,66 @@ double deg2rad(const double& ang)
 bool populateConfig(std::weak_ptr<IParametersHandler> handler, int nr_joints)
 {
     auto handle = handler.lock();
-    if (handle == nullptr) {return false;}
+    if (handle == nullptr)
+    {
+        return false;
+    }
     handle->setParameter("sampling_period_in_s", 0.01);
 
     auto modelInfoGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("ModelInfo", modelInfoGroup);
     modelInfoGroup->setParameter("base_link", "root_link");
     modelInfoGroup->setParameter("base_link_imu", "root_link_imu_acc");
     modelInfoGroup->setParameter("left_foot_contact_frame", "l_sole");
     modelInfoGroup->setParameter("right_foot_contact_frame", "r_sole");
+    handle->setGroup("ModelInfo", modelInfoGroup);
 
     auto optionsGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("Options", optionsGroup);
     optionsGroup->setParameter("enable_imu_bias_estimation", false);
     optionsGroup->setParameter("enable_ekf_update", true);
+    handle->setGroup("Options", optionsGroup);
 
     auto sensorsdevGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("SensorsStdDev", sensorsdevGroup);
-    IParametersHandler::shared_ptr sensdev_handler = sensorsdevGroup;
-    sensdev_handler->setParameter("accelerometer_measurement_noise_std_dev", std::vector<double>{0.0382, 0.01548, 0.0042});
-    sensdev_handler->setParameter("gyroscope_measurement_noise_std_dev", std::vector<double>{0.0111, 0.0024, 0.0043});
-    sensdev_handler->setParameter("contact_foot_linear_velocity_noise_std_dev", std::vector<double>{9e-3, 9.5e-3, 7e-3});
-    sensdev_handler->setParameter("contact_foot_angular_velocity_noise_std_dev", std::vector<double>{0.007, 0.0075, 0.004});
-    sensdev_handler->setParameter("swing_foot_linear_velocity_noise_std_dev", std::vector<double>{0.05, 0.05, 0.05});
-    sensdev_handler->setParameter("swing_foot_angular_velocity_noise_std_dev", std::vector<double>{0.015, 0.015, 0.015});
-    sensdev_handler->setParameter("forward_kinematic_measurement_noise_std_dev", std::vector<double>{1e-3, 1e-3, 1e-3, 1e-6, 1e-6, 1e-6});
+    sensorsdevGroup->setParameter("accelerometer_measurement_noise_std_dev", std::vector<double>{0.0382, 0.01548, 0.0042});
+    sensorsdevGroup->setParameter("gyroscope_measurement_noise_std_dev", std::vector<double>{0.0111, 0.0024, 0.0043});
+    sensorsdevGroup->setParameter("contact_foot_linear_velocity_noise_std_dev", std::vector<double>{9e-3, 9.5e-3, 7e-3});
+    sensorsdevGroup->setParameter("contact_foot_angular_velocity_noise_std_dev", std::vector<double>{0.007, 0.0075, 0.004});
+    sensorsdevGroup->setParameter("swing_foot_linear_velocity_noise_std_dev", std::vector<double>{0.05, 0.05, 0.05});
+    sensorsdevGroup->setParameter("swing_foot_angular_velocity_noise_std_dev", std::vector<double>{0.015, 0.015, 0.015});
+    sensorsdevGroup->setParameter("forward_kinematic_measurement_noise_std_dev", std::vector<double>{1e-3, 1e-3, 1e-3, 1e-6, 1e-6, 1e-6});
     std::vector<double> encoder_noise(nr_joints);
     for (auto& v : encoder_noise)
     {
         v = 1e-6;
     }
-    sensdev_handler->setParameter("encoders_measurement_noise_std_dev", encoder_noise);
+    sensorsdevGroup->setParameter("encoders_measurement_noise_std_dev", encoder_noise);
+    REQUIRE(handle->setGroup("SensorsStdDev", sensorsdevGroup));
 
     auto initStateGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("InitialStates", initStateGroup);
-    IParametersHandler::shared_ptr initstate_handler = initStateGroup;
-    initstate_handler->setParameter("imu_orientation_quaternion_wxyz", std::vector<double>{0.3218, -0.6304, -0.6292, 0.3212});
-    initstate_handler->setParameter("l_contact_frame_orientation_quaternion_wxyz", std::vector<double>{1.0000, -0.0059, -0.0001, -0.0015});
-    initstate_handler->setParameter("r_contact_frame_orientation_quaternion_wxyz", std::vector<double>{1.0000, 0.0059, -0.0002, -0.0004});
-
-    initstate_handler->setParameter("imu_position_xyz", std::vector<double>{0.0296,-0.1439, 0.4915});
-    initstate_handler->setParameter("imu_linear_velocity_xyz", std::vector<double>{0, 0, 0});
-    initstate_handler->setParameter("l_contact_frame_position_xyz", std::vector<double>{0.0791, -0.0817, 0.0109});
-    initstate_handler->setParameter("r_contact_frame_position_xyz", std::vector<double>{0.0788, -0.2282, 0.0109});
+    initStateGroup->setParameter("imu_orientation_quaternion_wxyz", std::vector<double>{0.3218, -0.6304, -0.6292, 0.3212});
+    initStateGroup->setParameter("l_contact_frame_orientation_quaternion_wxyz", std::vector<double>{1.0000, -0.0059, -0.0001, -0.0015});
+    initStateGroup->setParameter("r_contact_frame_orientation_quaternion_wxyz", std::vector<double>{1.0000, 0.0059, -0.0002, -0.0004});
+    initStateGroup->setParameter("imu_position_xyz", std::vector<double>{0.0296,-0.1439, 0.4915});
+    initStateGroup->setParameter("imu_linear_velocity_xyz", std::vector<double>{0, 0, 0});
+    initStateGroup->setParameter("l_contact_frame_position_xyz", std::vector<double>{0.0791, -0.0817, 0.0109});
+    initStateGroup->setParameter("r_contact_frame_position_xyz", std::vector<double>{0.0788, -0.2282, 0.0109});
+    REQUIRE(handle->setGroup("InitialStates", initStateGroup));
 
     auto priordevGroup = std::make_shared<StdImplementation>();
-    handle->setGroup("PriorsStdDev", priordevGroup);
-    IParametersHandler::shared_ptr prior_handler = priordevGroup;
-    prior_handler->setParameter("imu_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(1)});
-    prior_handler->setParameter("imu_position", std::vector<double>{1e-3, 1e-3, 1e-3});
-    prior_handler->setParameter("imu_linear_velocity", std::vector<double>{0.075, 0.05, 0.05});
-    prior_handler->setParameter("l_contact_frame_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(10)});
-    prior_handler->setParameter("l_contact_frame_position", std::vector<double>{1e-3, 1e-3, 1e-3});
-    prior_handler->setParameter("r_contact_frame_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(10)});
-    prior_handler->setParameter("r_contact_frame_position", std::vector<double>{1e-3, 1e-3, 1e-3});
-
+    priordevGroup->setParameter("imu_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(1)});
+    priordevGroup->setParameter("imu_position", std::vector<double>{1e-3, 1e-3, 1e-3});
+    priordevGroup->setParameter("imu_linear_velocity", std::vector<double>{0.075, 0.05, 0.05});
+    priordevGroup->setParameter("l_contact_frame_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(10)});
+    priordevGroup->setParameter("l_contact_frame_position", std::vector<double>{1e-3, 1e-3, 1e-3});
+    priordevGroup->setParameter("r_contact_frame_orientation", std::vector<double>{deg2rad(10), deg2rad(10), deg2rad(10)});
+    priordevGroup->setParameter("r_contact_frame_position", std::vector<double>{1e-3, 1e-3, 1e-3});
+    REQUIRE(handle->setGroup("PriorsStdDev", priordevGroup));
     return true;
 }
 
 TEST_CASE("Invariant EKF Base Estimator")
 {
     std::shared_ptr<StdImplementation> originalHandler = std::make_shared<StdImplementation>();
-    IParametersHandler::shared_ptr parameterHandler = originalHandler;
+    IParametersHandler::shared_ptr parameterHandler = originalHandler->clone();
 
     std::vector<std::string> joints_list = {"neck_pitch", "neck_roll", "neck_yaw",
         "torso_pitch", "torso_roll", "torso_yaw",

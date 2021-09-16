@@ -65,7 +65,7 @@ bool SE3Task::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     return true;
 }
 
-bool SE3Task::initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler)
+bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr std::string_view errorPrefix = "[SE3Task::initialize] ";
 
