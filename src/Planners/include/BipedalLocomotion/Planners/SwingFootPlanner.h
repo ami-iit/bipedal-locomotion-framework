@@ -92,6 +92,8 @@ public:
      */
     void setContactList(const Contacts::ContactList& contactList);
 
+    void setContactListWithotResettingTheInternalTime(const Contacts::ContactList& contactList);
+
     /**
      * @brief Get the object.
      * @return a const reference of the requested object.

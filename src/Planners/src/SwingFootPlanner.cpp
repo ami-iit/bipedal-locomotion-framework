@@ -123,6 +123,19 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParame
     return true;
 }
 
+void SwingFootPlanner::setContactListWithotResettingTheInternalTime(const ContactList& contactList)
+{
+    m_contactList = contactList;
+
+    // set the first contact
+    m_currentContactPtr = m_contactList.getPresentContact(m_currentTrajectoryTime);
+    m_state.transform = m_currentContactPtr->pose;
+    // m_state.mixedVelocity.setZero();
+    // m_state.mixedAcceleration.setZero();
+    // m_state.isInContact = true;
+}
+
+
 void SwingFootPlanner::setContactList(const ContactList& contactList)
 {
     // reset the time
