@@ -161,7 +161,7 @@ bool FixedFootDetector::updateContactStates()
     return this->updateFixedFoot();
 }
 
-bool FixedFootDetector::setContactPhaseList(const Contacts::ContactPhaseList& phaseList)
+void FixedFootDetector::setContactPhaseListPrivate(const Contacts::ContactPhaseList& phaseList)
 {
     m_contactPhaselist = phaseList;
 
@@ -198,6 +198,21 @@ bool FixedFootDetector::setContactPhaseList(const Contacts::ContactPhaseList& ph
         m_contactStates[contact].name = contact;
         m_contactStates[contact].index = phaseList.lists().find(contact)->second.cbegin()->index;
     }
+}
+
+bool FixedFootDetector::setContactPhaseListWithoutResetInternalTime(
+    const Contacts::ContactPhaseList& phaseList)
+{
+    this->setContactPhaseListPrivate(phaseList);
+
+    // update the fixed foot
+    return this->updateFixedFoot();
+}
+
+bool FixedFootDetector::setContactPhaseList(const Contacts::ContactPhaseList& phaseList)
+{
+
+    this->setContactPhaseListPrivate(phaseList);
 
     // set the initial time
     m_currentTime = phaseList.firstPhase()->beginTime;

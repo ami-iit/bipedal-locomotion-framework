@@ -92,6 +92,13 @@ class FixedFootDetector : public ContactDetector
      */
     bool updateFixedFoot();
 
+    /**
+     * Set the internal buffer related to the ContactPhaseList
+     * @param phaseList a contact phase list
+     * @note this method sets only the internal buffer used by the detector
+     */
+    void setContactPhaseListPrivate(const ContactPhaseList& phaseList);
+
 public:
 
     /**
@@ -99,6 +106,16 @@ public:
      * @param phaseList a contact phase list
      */
     bool setContactPhaseList(const ContactPhaseList& phaseList);
+
+    /**
+     * Set the contact phase list
+     * @param phaseList a contact phase list
+     * @warning this method does not update the m_currentTime variable. It should be used only if
+     * the setContactPhaseList method has been called at least once. Here we may have some
+     * discontinuity in the estimated contact. Please use it only if you are confident on what you
+     * are doing.
+     */
+    bool setContactPhaseListWithoutResetInternalTime(const ContactPhaseList& phaseList);
 
     /**
      * Get the fixed foot
