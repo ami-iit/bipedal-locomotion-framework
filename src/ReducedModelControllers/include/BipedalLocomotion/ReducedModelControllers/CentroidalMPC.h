@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <optional>
 
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
@@ -26,6 +27,8 @@ struct CentroidalMPCState
 {
     std::map<std::string, Contacts::ContactWithCorners> contacts;
     std::map<std::string, Contacts::PlannedContact> nextPlannedContact;
+    double computationalTime{0};
+    Eigen::Vector3d externalWrench;
 };
 
 /**
@@ -75,8 +78,8 @@ public:
 
     bool setState(Eigen::Ref<const Eigen::Vector3d> com,
                   Eigen::Ref<const Eigen::Vector3d> dcom,
-                  Eigen::Ref<const Eigen::Vector3d> angularMomentum);
-
+                  Eigen::Ref<const Eigen::Vector3d> angularMomentum,
+                  std::optional<Eigen::Ref<const Eigen::Vector3d>> externalWrench = {});
     bool setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com);
 
     /**

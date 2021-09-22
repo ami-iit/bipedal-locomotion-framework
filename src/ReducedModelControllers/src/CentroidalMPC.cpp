@@ -4,7 +4,6 @@
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
-
 #include <string>
 #include <unordered_map>
 
@@ -159,6 +158,7 @@ struct CentroidalMPC::Impl
         casadi::MX comCurrent;
         casadi::MX dcomCurrent;
         casadi::MX angularMomentumCurrent;
+        casadi::MX externalWrench;
     };
     OptimizationVariables optiVariables; /**< Optimization variables */
 
@@ -180,6 +180,7 @@ struct CentroidalMPC::Impl
         casadi::DM comCurrent;
         casadi::DM dcomCurrent;
         casadi::DM angularMomentumCurrent;
+        casadi::DM externalWrench;
     };
     ControllerInputs controllerInputs;
 
@@ -362,16 +363,19 @@ struct CentroidalMPC::Impl
         casadi::MX dcom = casadi::MX::sym("dcom", 3);
         casadi::MX angularMomentum = casadi::MX::sym("angular_momentum", 3);
 
+        casadi::MX externalForce = casadi::MX::sym("external_force", 3);
+
         casadi::MX ddcom = casadi::MX::sym("ddcom", 3);
         casadi::MX angularMomentumDerivative = casadi::MX::sym("angular_momentum_derivative", 3);
 
         casadi::DM gravity = casadi::DM::zeros(3);
         gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
-        ddcom = gravity;
+        ddcom = gravity + externalForce / mass;
         angularMomentumDerivative = casadi::DM::zeros(3);
 
         std::vector<casadi::MX> input;
+        input.push_back(externalForce);
         input.push_back(com);
         input.push_back(dcom);
         input.push_back(angularMomentum);
@@ -452,6 +456,8 @@ struct CentroidalMPC::Impl
         this->controllerInputs.dcomCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.angularMomentumCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, stateHorizon);
+        this->controllerInputs.externalWrench = casadi::DM::zeros(vector3Size, //
+                                                                  this->optiSettings.horizon);
 
         for (const auto& [key, contact] : this->state.contacts)
         {
@@ -542,6 +548,8 @@ struct CentroidalMPC::Impl
         this->optiVariables.dcomCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.angularMomentumCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.comReference = this->opti.parameter(vector3Size, stateHorizon);
+        this->optiVariables.externalWrench = this->opti.parameter(vector3Size, //
+                                                                  this->optiSettings.horizon);
     }
 
     /**
@@ -579,9 +587,11 @@ struct CentroidalMPC::Impl
         auto& com = this->optiVariables.com;
         auto& dcom = this->optiVariables.dcom;
         auto& angularMomentum = this->optiVariables.angularMomentum;
+        auto& externalWrench = this->optiVariables.externalWrench;
 
         // prepare the input of the ode
         std::vector<casadi::MX> odeInput;
+        odeInput.push_back(externalWrench);
         odeInput.push_back(com(Sl(), Sl(0, -1)));
         odeInput.push_back(dcom(Sl(), Sl(0, -1)));
         odeInput.push_back(angularMomentum(Sl(), Sl(0, -1)));
@@ -679,11 +689,25 @@ struct CentroidalMPC::Impl
 
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
+
+        casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
+        double min = this->weights.com(2)/2;
+        for (int i = 0; i < com.columns(); i++)
+        {
+          weightCoMZ(Sl(), i) = (this->weights.com(2) - min) * std::exp(-i) + min;
+        }
+
+        std::cerr << "------------------_>>> "  << weightCoMZ << std::endl;
+
+        // (max - mix) * expo + min
+
         casadi::MX cost
-            = this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum)
+            = this->weights.angularMomentum * 10 * casadi::MX::sumsqr(angularMomentum(0, Sl()))
+              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(1, Sl()))
+              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(2, Sl()))
               + this->weights.com(0) * casadi::MX::sumsqr(com(0, Sl()) - comReference(0, Sl()))
               + this->weights.com(1) * casadi::MX::sumsqr(com(1, Sl()) - comReference(1, Sl()))
-              + this->weights.com(2) * casadi::MX::sumsqr(com(2, Sl()) - comReference(2, Sl()));
+              + casadi::MX::sumsqr(weightCoMZ * (com(2, Sl()) - comReference(2, Sl())));
 
         casadi::MX averageForce;
         for (const auto& [key, contact] : this->optiVariables.contacts)
@@ -729,11 +753,13 @@ struct CentroidalMPC::Impl
         std::vector<std::string> inputName;
         std::vector<std::string> outputName;
 
+        input.push_back(this->optiVariables.externalWrench);
         input.push_back(this->optiVariables.comCurrent);
         input.push_back(this->optiVariables.dcomCurrent);
         input.push_back(this->optiVariables.angularMomentumCurrent);
         input.push_back(this->optiVariables.comReference);
 
+        inputName.push_back("external_wrench");
         inputName.push_back("com_current");
         inputName.push_back("dcom_current");
         inputName.push_back("angular_momentum_current");
@@ -866,6 +892,7 @@ bool CentroidalMPC::advance()
     const auto& inputs = m_pimpl->controllerInputs;
 
     std::vector<casadi::DM> vectorizedInputs;
+    vectorizedInputs.push_back(inputs.externalWrench);
     vectorizedInputs.push_back(inputs.comCurrent);
     vectorizedInputs.push_back(inputs.dcomCurrent);
     vectorizedInputs.push_back(inputs.angularMomentumCurrent);
@@ -889,17 +916,25 @@ bool CentroidalMPC::advance()
     m_pimpl->state.nextPlannedContact.clear();
     for (auto & [key, contact] : m_pimpl->state.contacts)
     {
-        bool isNextPlannedContactAvaiable = false;
-
         // the first output tell us if a contact is enabled
+
+
+      log()->info("actovation sequence {}", toEigen(*it));
+
         int index = toEigen(*it).size();
         const int size = toEigen(*it).size();
-        for (int i = size - 1; i >= 0; i--)
+        for (int i = 0; i < size; i++)
         {
-            if (toEigen(*it)(i) < 0.5)
+            if (toEigen(*it)(i) > 0.5)
             {
-                index = i + 1;
-                break;
+                if (i == 0)
+                {
+                    break;
+                } else if (toEigen(*it)(i - 1) < 0.5)
+                {
+                    index = i;
+                    break;
+                }
             }
         }
 
@@ -922,8 +957,9 @@ bool CentroidalMPC::advance()
             m_pimpl->state.nextPlannedContact[key].pose.quat(Eigen::Quaterniond(
                 Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
 
+            // this is wrong but if I dont put index + 1 I get strange values when index = 1
             const double nextPlannedContactTime
-                = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
+                = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * (index + 1);
             auto nextPlannedContact = m_pimpl->contactPhaseList.lists().at(key).getPresentContact(
                 nextPlannedContactTime);
             if (nextPlannedContact == m_pimpl->contactPhaseList.lists().at(key).end())
@@ -931,6 +967,13 @@ bool CentroidalMPC::advance()
                 log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
                 return false;
             }
+
+            log()->warn("[CentroidalMPC] key {} next planned contact pose {} activation time {} deactivation time {} next planned contact time {} index {}",
+                        key,
+                        m_pimpl->state.nextPlannedContact[key].pose.translation().transpose(),
+                        nextPlannedContact->activationTime,
+                        nextPlannedContact->deactivationTime,
+                        nextPlannedContactTime, index);
 
             m_pimpl->state.nextPlannedContact[key].activationTime = nextPlannedContact->activationTime;
             m_pimpl->state.nextPlannedContact[key].deactivationTime = nextPlannedContact->deactivationTime;
@@ -995,7 +1038,8 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
 
 bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
                              Eigen::Ref<const Eigen::Vector3d> dcom,
-                             Eigen::Ref<const Eigen::Vector3d> angularMomentum)
+                             Eigen::Ref<const Eigen::Vector3d> angularMomentum,
+                             std::optional<Eigen::Ref<const Eigen::Vector3d>> externalWrench)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setState]";
     assert(m_pimpl);
@@ -1011,6 +1055,17 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
     toEigen(inputs.comCurrent) = com;
     toEigen(inputs.dcomCurrent) = dcom;
     toEigen(inputs.angularMomentumCurrent) = angularMomentum;
+
+    toEigen(inputs.externalWrench).setZero();
+    m_pimpl->state.externalWrench = Eigen::Vector3d::Zero();
+
+    if (externalWrench)
+    {
+        toEigen(inputs.externalWrench).leftCols<1>() = externalWrench.value();
+        m_pimpl->state.externalWrench = externalWrench.value();
+    }
+
+    std::cerr << "external wrench" << std::endl << inputs.externalWrench << std::endl;
 
     return true;
 }
@@ -1131,12 +1186,12 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList &contac
         toEigen(contact.currentPosition) = toEigen(contact.nominalPosition).leftCols<1>();
     }
 
-    for (const auto& [key, contact] : inputs.contacts)
-    {
-        log()->info("{} current Pose {}:", key, toEigen(contact.currentPosition).transpose());
-        log()->info("{} nominal Pose {}:", key, toEigen(contact.nominalPosition));
-        log()->info("{} maximumnormalforce  {}", key, toEigen(contact.isEnable));
-    }
+    // for (const auto& [key, contact] : inputs.contacts)
+    // {
+    //     log()->info("{} current Pose {}:", key, toEigen(contact.currentPosition).transpose());
+    //     log()->info("{} nominal Pose {}:", key, toEigen(contact.nominalPosition));
+    //     log()->info("{} maximumnormalforce  {}", key, toEigen(contact.isEnable));
+    // }
 
     // TODO this part can be improved. For instance you do not need to fill the vectors every time.
     for (auto& [key, contact] : inputs.contacts)
