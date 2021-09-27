@@ -15,6 +15,7 @@ All notable changes to this project are documented in this file.
 
 ### Fix
 - Fix missing components dependencies in the `CMake` machinery (https://github.com/ami-iit/bipedal-locomotion-framework/pull/414)
+- Fixed missing include in `FloatingBaseEstimatorIO.h` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/417)
 
 ## [0.3.0] - 2021-08-12
 ### Added
