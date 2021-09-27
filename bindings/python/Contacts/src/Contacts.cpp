@@ -9,11 +9,13 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <iomanip>
+
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 #include <BipedalLocomotion/Contacts/ContactPhase.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/Contacts/ContactListJsonParser.h>
 
 #include <BipedalLocomotion/bindings/Contacts/Contacts.h>
 
@@ -26,8 +28,6 @@ namespace Contacts
 
 std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
 {
-    std::string description;
-
     const Eigen::IOFormat FormatEigenVector //
         (Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", ", ", "", "", "[", "]");
 
@@ -38,12 +38,13 @@ std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
     pose << "SE3 (position = " << position.format(FormatEigenVector)
          << ", quaternion = " << quaternion.format(FormatEigenVector) << ")";
 
-    description = "Contact (name = " + contact.name + ", pose = " + pose.str()
-                  + ", activation_time = " + std::to_string(contact.activationTime)
-                  + ", deactivation_time = " + std::to_string(contact.deactivationTime)
-                  + ", type = " + std::to_string(static_cast<int>(contact.type)) + ")";
+    std::stringstream description;
+    description << "Contact (name = " << contact.name << ", pose = " << pose.str()
+                << std::setprecision(7) << ", activation_time = " << contact.activationTime
+                << ", deactivation_time = " << contact.deactivationTime
+                << ", type = " << static_cast<int>(contact.type) << ")";
 
-    return description;
+    return description.str();
 }
 
 void CreateContact(pybind11::module& module)
@@ -132,7 +133,18 @@ void CreateContactList(pybind11::module& module)
                  return "ContactList(" + std::to_string(list.size()) + ")";
              })
         .def("__reverse__",
-             [](const ContactList& l) { return py::make_iterator(l.crbegin(), l.crend()); });
+             [](const ContactList& l) { return py::make_iterator(l.crbegin(), l.crend()); })
+        .def(
+            "__eq__",
+            [](const ContactList& lhs, const ContactList& rhs) -> bool {
+                for (std::size_t i = 0; i < lhs.size(); ++i)
+                {
+                    if (!(lhs[i] == rhs[i]))
+                        return false;
+                }
+                return lhs.size() == rhs.size();
+            },
+            py::is_operator());
 }
 
 void CreateContactPhase(pybind11::module& module)
@@ -184,6 +196,6 @@ void CreateContactListJsonParser(pybind11::module& module)
                py::arg("filename"));
 }
 
-} // namespace contatcs
+} // namespace Contacts
 } // namespace bindings
 } // namespace BipedalLocomotion

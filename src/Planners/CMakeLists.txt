@@ -7,13 +7,61 @@ if (FRAMEWORK_COMPILE_Planners)
   set(H_PREFIX include/BipedalLocomotion/Planners)
 
   add_bipedal_locomotion_library(
-    NAME                   Planners
-    PUBLIC_HEADERS         ${H_PREFIX}/ConvexHullHelper.h ${H_PREFIX}/DCMPlanner.h ${H_PREFIX}/TimeVaryingDCMPlanner.h ${H_PREFIX}/Spline.h ${H_PREFIX}/QuinticSpline.h ${H_PREFIX}/SO3Planner.h ${H_PREFIX}/SO3Planner.tpp ${H_PREFIX}/SwingFootPlanner.h ${H_PREFIX}/CubicSpline.h
-    SOURCES                src/ConvexHullHelper.cpp  src/DCMPlanner.cpp src/TimeVaryingDCMPlanner.cpp src/QuinticSpline.cpp src/SwingFootPlanner.cpp src/CubicSpline.cpp
-    PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts
-    PRIVATE_LINK_LIBRARIES Qhull::qhullcpp Qhull::qhullstatic_r casadi BipedalLocomotion::Math BipedalLocomotion::TextLogging
-    INSTALLATION_FOLDER    Planners)
+    NAME Planners
+    PUBLIC_HEADERS
+    ${H_PREFIX}/ConvexHullHelper.h
+    ${H_PREFIX}/DCMPlanner.h
+    ${H_PREFIX}/TimeVaryingDCMPlanner.h
+    ${H_PREFIX}/Spline.h
+    ${H_PREFIX}/QuinticSpline.h
+    ${H_PREFIX}/SO3Planner.h
+    ${H_PREFIX}/SO3Planner.tpp
+    ${H_PREFIX}/SwingFootPlanner.h
+    ${H_PREFIX}/CubicSpline.h
+    SOURCES
+    src/ConvexHullHelper.cpp
+    src/DCMPlanner.cpp
+    src/TimeVaryingDCMPlanner.cpp
+    src/QuinticSpline.cpp
+    src/SwingFootPlanner.cpp
+    src/CubicSpline.cpp
+    PUBLIC_LINK_LIBRARIES
+    Eigen3::Eigen
+    BipedalLocomotion::ParametersHandler
+    BipedalLocomotion::System
+    BipedalLocomotion::Contacts
+    PRIVATE_LINK_LIBRARIES
+    Qhull::qhullcpp
+    Qhull::qhullstatic_r
+    casadi
+    iDynTree::idyntree-core
+    BipedalLocomotion::Math
+    BipedalLocomotion::TextLogging
+    INSTALLATION_FOLDER Planners)
 
   add_subdirectory(tests)
+
+endif()
+
+if (FRAMEWORK_COMPILE_Unicycle)
+
+  set(H_PREFIX include/BipedalLocomotion/Planners)
+
+  add_bipedal_locomotion_library(
+    NAME Unicycle
+    PUBLIC_HEADERS
+    ${H_PREFIX}/UnicyclePlanner.h
+    SOURCES
+    src/UnicyclePlanner.cpp
+    PUBLIC_LINK_LIBRARIES
+    BipedalLocomotion::ParametersHandler
+    BipedalLocomotion::System
+    BipedalLocomotion::Contacts
+    Eigen3::Eigen
+    PRIVATE_LINK_LIBRARIES
+    BipedalLocomotion::TextLogging
+    iDynTree::idyntree-core
+    UnicyclePlanner
+    INSTALLATION_FOLDER Planners)
 
 endif()

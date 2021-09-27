@@ -83,6 +83,9 @@ checkandset_dependency(Catch2)
 find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
 
+find_package(UnicyclePlanner QUIET)
+checkandset_dependency(UnicyclePlanner)
+
 ##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_COMPILE_tests
   "Compile tests?" ON
@@ -127,6 +130,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
   "" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_Unicycle
+    "Compile the Unicycle Planner library?" ON
+    "FRAMEWORK_USE_UnicyclePlanner;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
   "Compile System ContinuousDynamicalSystem?" ON

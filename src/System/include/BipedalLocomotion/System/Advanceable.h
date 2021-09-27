@@ -36,6 +36,8 @@ public:
     using Input = _Input;
     using Output = _Output;
 
+    virtual ~Advanceable() = default;
+
     /**
      * @brief Initialize the advanceable
      * @note the default implementation does nothing.
