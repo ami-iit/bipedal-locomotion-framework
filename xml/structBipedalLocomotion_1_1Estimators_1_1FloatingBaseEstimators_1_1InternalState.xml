@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="31" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="31" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="32" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="32" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a71bf6dd99feb6db05d8e9641d10d8115" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="32" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="32" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="33" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="33" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a49d1b256ed49ae8fd00d15692e81b5ce" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="33" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="33" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="34" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="34" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a503110d7e136f60ce880ddee659ca279" prot="public" static="no" mutable="no">
         <type>Eigen::Quaterniond</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="34" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="34" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="35" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a3ce38af38899c598b355333e00e3d16e" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="35" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="35" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="36" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a629f539d423ba990cf9ff7f3bfd118a6" prot="public" static="no" mutable="no">
         <type>Eigen::Quaterniond</type>
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="36" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="36" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="37" column="24" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1aac867471867c107d011296307c9c373d" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="37" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="37" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="38" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a374f88b8d8e8338616615cdda8e26ca9" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="38" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="38" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="39" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1abd8c355ef36342c63dd29e9f22f7cf71" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="39" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="39" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="40" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1ae7ccefe8c8253bb9a21eec89829208db" prot="public" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -142,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="41" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="42" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1ad36d4a8abbe86b1ded02e68459cc1dd6" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">BipedalLocomotion::Contacts::EstimatedContact</ref> &gt;</type>
@@ -156,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="42" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="43" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1af568bd7c57037e24f0598e39de74892b" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">BipedalLocomotion::Contacts::EstimatedLandmark</ref> &gt;</type>
@@ -170,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="43" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="44" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -233,7 +233,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="29" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="30" bodyend="44"/>
+    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="30" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="31" bodyend="45"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1a374f88b8d8e8338616615cdda8e26ca9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimators::InternalState</scope><name>accelerometerBias</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1abd8c355ef36342c63dd29e9f22f7cf71" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimators::InternalState</scope><name>gyroscopeBias</name></member>
