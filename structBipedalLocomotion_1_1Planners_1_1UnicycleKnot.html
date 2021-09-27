@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/Planners/ directory | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Planners::UnicycleKnot struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,7 +61,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_ca39150e121c2f7552b8919c494e6981.html">BipedalLocomotion</a>/</span>Planners<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicycleKnot <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicyclePlanner_8h.html">&lt;BipedalLocomotion/Planners/UnicyclePlanner.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -70,32 +71,64 @@
             <li>
               Reference
               <ul>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="ConvexHullHelper_8h.html" class="m-doc">ConvexHullHelper.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="CubicSpline_8h.html" class="m-doc">CubicSpline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="DCMPlanner_8h.html" class="m-doc">DCMPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="QuinticSpline_8h.html" class="m-doc">QuinticSpline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="SO3Planner_8h.html" class="m-doc">SO3Planner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="Spline_8h.html" class="m-doc">Spline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="SwingFootPlanner_8h.html" class="m-doc">SwingFootPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="TimeVaryingDCMPlanner_8h.html" class="m-doc">TimeVaryingDCMPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="UnicyclePlanner_8h.html" class="m-doc">UnicyclePlanner.h</a></dt>
-            <dd></dd>
+            <dt id="a5f2127c0da7dd9be6335b06e7c9aa52e">
+              <span class="m-doc-wrap-bumper"><a href="#a5f2127c0da7dd9be6335b06e7c9aa52e" class="m-doc-self">UnicycleKnot</a>(</span><span class="m-doc-wrap">const double _x = 0.0,
+              const double _y = 0.0,
+              const double _dx = 0.0,
+              const double _dy = 0.0,
+              const double _t = 0.0)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aae7ad740e7ed503ad8a22cb8702c474a">
+              <span class="m-doc-wrap-bumper"><a href="#aae7ad740e7ed503ad8a22cb8702c474a" class="m-doc-self">UnicycleKnot</a>(</span><span class="m-doc-wrap">const Eigen::Vector2d&amp; _position = {0, 0},
+              const Eigen::Vector2d&amp; _velocity = {0, 0},
+              const double _time = 0.0)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="aae606a38c060a968ede0af46cb23f7f9">
+              <span class="m-doc-wrap-bumper">auto <a href="#aae606a38c060a968ede0af46cb23f7f9" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot.html" class="m-doc">UnicycleKnot</a>&amp; rhs) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a275b85ab5e2576f922b4656b1041aafa">
+              double <a href="#a275b85ab5e2576f922b4656b1041aafa" class="m-doc-self">x</a>
+            </dt>
+            <dd>The knot x coordinates.</dd>
+            <dt id="a388af8a26e65a3fec300cbc6dfdd2fc4">
+              double <a href="#a388af8a26e65a3fec300cbc6dfdd2fc4" class="m-doc-self">y</a>
+            </dt>
+            <dd>The knot y coordinates.</dd>
+            <dt id="a1d0e78332b19a454b418c55ac3a7166b">
+              double <a href="#a1d0e78332b19a454b418c55ac3a7166b" class="m-doc-self">dx</a>
+            </dt>
+            <dd>The knot x velocity.</dd>
+            <dt id="ac961f7f19babdf6cc1ca6a5ccb6bf46c">
+              double <a href="#ac961f7f19babdf6cc1ca6a5ccb6bf46c" class="m-doc-self">dy</a>
+            </dt>
+            <dd>The knot y velocity.</dd>
+            <dt id="a058b47a1a72e2b4976e4b57a030cc816">
+              double <a href="#a058b47a1a72e2b4976e4b57a030cc816" class="m-doc-self">time</a>
+            </dt>
+            <dd>The knot activation time.</dd>
           </dl>
         </section>
       </div>

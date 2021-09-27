@@ -318,6 +318,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Source</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Source</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>~Advanceable</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

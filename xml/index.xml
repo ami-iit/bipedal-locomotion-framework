@@ -3,6 +3,7 @@
   <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class"><name>BipedalLocomotion::System::Advanceable</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" kind="typedef"><name>Output</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" kind="function"><name>~Advanceable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" kind="function"><name>setInput</name></member>
@@ -1564,6 +1565,39 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1a4ceb073d81987f718c5f29784e199bbd" kind="variable"><name>jointTorques</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1aff5d8065eea618abc03017e1b629cdb5" kind="variable"><name>contactWrenches</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a1d0e78332b19a454b418c55ac3a7166b" kind="variable"><name>dx</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1ac961f7f19babdf6cc1ca6a5ccb6bf46c" kind="variable"><name>dy</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a058b47a1a72e2b4976e4b57a030cc816" kind="variable"><name>time</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a5f2127c0da7dd9be6335b06e7c9aa52e" kind="function"><name>UnicycleKnot</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae7ad740e7ed503ad8a22cb8702c474a" kind="function"><name>UnicycleKnot</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae606a38c060a968ede0af46cb23f7f9" kind="function"><name>operator==</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner" kind="class"><name>BipedalLocomotion::Planners::UnicyclePlanner</name>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a2c3b23ca0652a619ec21a2f5e9b96cb6" kind="variable"><name>m_pImpl</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ac706d460e5f941553ce81dcce3710c3f" kind="function"><name>UnicyclePlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1aa90a125b2219a7848a633d837e8ba230" kind="function"><name>~UnicyclePlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a51e36afda11214c32d11ffe3b11705f7" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0" kind="function"><name>advance</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerInput</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ac102e3005b29fe9be5db56f9fcf05ec4" kind="variable"><name>t0</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a99312056248188fb21ebfbd0f76d9dc4" kind="variable"><name>tf</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ab8c5a61e1c78fead71010c62b7924e0d" kind="variable"><name>initialLeftContact</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a57f640f74b13c6bda4126839174294ea" kind="variable"><name>initialRightContact</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1afc24d357f9138b19fa71ddb533071445" kind="variable"><name>knots</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1aa1486d28efdff3a3da058bf507e400a6" kind="function"><name>UnicyclePlannerInput</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerOutput</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a191cd4f5c7022996f9893d0935e20a27" kind="variable"><name>left</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1aedf88ce4115faea15dd8cdff4fde689d" kind="variable"><name>right</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a53d6fe7056b832d8f5b73a2ecf9fc2f9" kind="function"><name>UnicyclePlannerOutput</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kind="struct"><name>BipedalLocomotion::System::VariablesHandler::VariableDescription</name>
     <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a66b30b52ac1228e2909ff2509c7cfb5a" kind="variable"><name>offset</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9059e70b0951f8e1270c6b4f94e7eced" kind="variable"><name>size</name></member>
@@ -2083,6 +2117,8 @@
   <compound refid="SwingFootPlanner_8h" kind="file"><name>SwingFootPlanner.h</name>
   </compound>
   <compound refid="TimeVaryingDCMPlanner_8h" kind="file"><name>TimeVaryingDCMPlanner.h</name>
+  </compound>
+  <compound refid="UnicyclePlanner_8h" kind="file"><name>UnicyclePlanner.h</name>
   </compound>
   <compound refid="ICameraBridge_8h" kind="file"><name>ICameraBridge.h</name>
   </compound>

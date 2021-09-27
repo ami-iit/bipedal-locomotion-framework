@@ -441,6 +441,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1afe4ed11bbdbaabd4acbeceeb9d2aa6ad" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>TimeVaryingDCMPlanner</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner_1a4be34427ec06b98edcdd7ab62ab2728e" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~DCMPlanner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ab8ab59949f0b38a5de1f7e31196a2d79" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~TimeVaryingDCMPlanner</name></member>
     </listofallmembers>

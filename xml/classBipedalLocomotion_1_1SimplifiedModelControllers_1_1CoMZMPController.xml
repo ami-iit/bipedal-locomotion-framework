@@ -532,6 +532,7 @@
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;::"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a94ccaaa7d0d8c5c1bec44c14be1ec8de" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>~Advanceable</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

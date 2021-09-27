@@ -2172,6 +2172,7 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a1e8c492c2741354f96f509e9e22de032" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Vector6d</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a57a14eeec8ad23a41886c52b11de434b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>weak_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0f0d17374245fa901c0d74b8f7f404f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>YarpSensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aecfb22aae3634befc8dc3b3592325484" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~ISensorBridge</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad140d8706d86b037715d283cae1eca0f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~YarpSensorBridge</name></member>
     </listofallmembers>

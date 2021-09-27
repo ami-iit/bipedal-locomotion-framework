@@ -408,6 +408,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1ac29279c5794195e4fb8e709c57a884fa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setRegressor</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a82b462c0e3cbbb9d3d45865238a7613a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setRegressorFunction</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a3b7f002a1677d08f574495ce9274ceed" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>~Advanceable</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

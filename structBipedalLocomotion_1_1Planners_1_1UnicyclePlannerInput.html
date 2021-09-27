@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/Planners/ directory | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Planners::UnicyclePlannerInput struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,7 +61,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_ca39150e121c2f7552b8919c494e6981.html">BipedalLocomotion</a>/</span>Planners<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicyclePlannerInput <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicyclePlanner_8h.html">&lt;BipedalLocomotion/Planners/UnicyclePlanner.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -70,32 +71,48 @@
             <li>
               Reference
               <ul>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="ConvexHullHelper_8h.html" class="m-doc">ConvexHullHelper.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="CubicSpline_8h.html" class="m-doc">CubicSpline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="DCMPlanner_8h.html" class="m-doc">DCMPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="QuinticSpline_8h.html" class="m-doc">QuinticSpline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="SO3Planner_8h.html" class="m-doc">SO3Planner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="Spline_8h.html" class="m-doc">Spline.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="SwingFootPlanner_8h.html" class="m-doc">SwingFootPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="TimeVaryingDCMPlanner_8h.html" class="m-doc">TimeVaryingDCMPlanner.h</a></dt>
-            <dd></dd>
-            <dt>file <a href="UnicyclePlanner_8h.html" class="m-doc">UnicyclePlanner.h</a></dt>
-            <dd></dd>
+            <dt id="aa1486d28efdff3a3da058bf507e400a6">
+              <span class="m-doc-wrap-bumper"><a href="#aa1486d28efdff3a3da058bf507e400a6" class="m-doc-self">UnicyclePlannerInput</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot.html" class="m-doc">UnicycleKnot</a>&gt;&amp; _knots,
+              const double _tf = 0.0,
+              const std::optional&lt;<a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">Contacts::<wbr />PlannedContact</a>&gt;&amp; _initialLeftContact = {},
+              const std::optional&lt;<a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">Contacts::<wbr />PlannedContact</a>&gt;&amp; _initialRightContact = {},
+              const double _t0 = 0.0)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="ac102e3005b29fe9be5db56f9fcf05ec4">
+              double <a href="#ac102e3005b29fe9be5db56f9fcf05ec4" class="m-doc-self">t0</a>
+            </dt>
+            <dd>The beginning of the planner horizon.</dd>
+            <dt id="a99312056248188fb21ebfbd0f76d9dc4">
+              double <a href="#a99312056248188fb21ebfbd0f76d9dc4" class="m-doc-self">tf</a>
+            </dt>
+            <dd>The end of the planner horizon.</dd>
+            <dt id="ab8c5a61e1c78fead71010c62b7924e0d">
+              std::optional&lt;<a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">Contacts::<wbr />PlannedContact</a>&gt; <a href="#ab8c5a61e1c78fead71010c62b7924e0d" class="m-doc-self">initialLeftContact</a>
+            </dt>
+            <dd>Left contact initialization.</dd>
+            <dt id="a57f640f74b13c6bda4126839174294ea">
+              std::optional&lt;<a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">Contacts::<wbr />PlannedContact</a>&gt; <a href="#a57f640f74b13c6bda4126839174294ea" class="m-doc-self">initialRightContact</a>
+            </dt>
+            <dd>Right contact initialization.</dd>
+            <dt id="afc24d357f9138b19fa71ddb533071445">
+              std::vector&lt;<a href="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot.html" class="m-doc">UnicycleKnot</a>&gt; <a href="#afc24d357f9138b19fa71ddb533071445" class="m-doc-self">knots</a>
+            </dt>
+            <dd>A list of knots.</dd>
           </dl>
         </section>
       </div>
