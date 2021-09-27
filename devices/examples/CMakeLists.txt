@@ -3,5 +3,4 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 add_subdirectory(ROSPublisherTestDevice)
-add_subdirectory(FTIMULoggerDevice)
 

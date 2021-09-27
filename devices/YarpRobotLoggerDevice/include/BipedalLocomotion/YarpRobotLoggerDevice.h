@@ -3,8 +3,8 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_FT_IMU_LOGGER_DEVICE_H
-#define BIPEDAL_LOCOMOTION_FRAMEWORK_FT_IMU_LOGGER_DEVICE_H
+#ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
+#define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
 #include <matioCpp/matioCpp.h>
 
@@ -21,16 +21,16 @@
 namespace BipedalLocomotion
 {
 
-class FTIMULoggerDevice : public yarp::dev::DeviceDriver,
+class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
                           public yarp::dev::IMultipleWrapper,
                           public yarp::os::PeriodicThread
 {
 public:
-    FTIMULoggerDevice(double period,
+    YarpRobotLoggerDevice(double period,
                       yarp::os::ShouldUseSystemClock useSystemClock
                       = yarp::os::ShouldUseSystemClock::No);
-    FTIMULoggerDevice();
-    ~FTIMULoggerDevice();
+    YarpRobotLoggerDevice();
+    ~YarpRobotLoggerDevice();
 
     virtual bool open(yarp::os::Searchable& config) final;
     virtual bool close() final;
@@ -53,6 +53,9 @@ private:
     std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
     std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
     std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_PIDs;
     Eigen::VectorXd m_time;
     double m_timeNow;
 
@@ -79,4 +82,4 @@ private:
 
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_FRAMEWORK_FT_IMU_LOGGER_DEVICE_H
+#endif // BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
