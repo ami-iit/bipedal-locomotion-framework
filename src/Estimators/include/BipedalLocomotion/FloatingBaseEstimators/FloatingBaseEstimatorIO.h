@@ -63,10 +63,15 @@ struct Output
 */
 struct Measurements
 {
+    using ContactWrench_t = Eigen::Matrix<double, 6, 1>;
+
+    double ts; /**< receive timestamp */
     Eigen::Vector3d acc, gyro; /**< accelerometer and gyroscope measurements expressed in IMU frame */
     Eigen::VectorXd encoders, encodersSpeed; /**< Joint position and joint velocity measurements */
     bool lfInContact{false}; /**< left foot contact state */
     bool rfInContact{false}; /**< right foot contact state */
+    std::string lfContactFrameName{"l_sole"}, rfContactFrameName{"r_sole"}; /**< Required for InvEKF */
+    std::unordered_map<std::string, ContactWrench_t> contactWrenches; /**< contact wrenches identified by contact frame names */
 
     /** stamped relative poses,
     *
