@@ -10,6 +10,6 @@ add_bipedal_yarp_device(
   TYPE BipedalLocomotion::FloatingBaseEstimatorDevice
   SOURCES src/FloatingBaseEstimatorDevice.cpp
   PUBLIC_HEADERS include/BipedalLocomotion/FloatingBaseEstimatorDevice.h
-  PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::YarpUtilities BipedalLocomotion::RobotInterfaceYarpImplementation BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::FloatingBaseEstimators
+  PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::YarpUtilities BipedalLocomotion::RobotInterfaceYarpImplementation BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::Math BipedalLocomotion::TextLogging BipedalLocomotion::ContactDetectors BipedalLocomotion::Contacts
   CONFIGURE_PACKAGE_NAME floating_base_estimator_device)
 endif()

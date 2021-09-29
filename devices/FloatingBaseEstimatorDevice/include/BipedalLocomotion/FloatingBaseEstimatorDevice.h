@@ -10,9 +10,12 @@
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
-#include <iDynTree/Estimation/ContactStateMachine.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/KinematicInertialFilterWrapper.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h>
+#include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
+
 #include <iDynTree/ModelIO/ModelLoader.h>
 
 #include <yarp/os/PeriodicThread.h>
@@ -26,12 +29,26 @@
 
 namespace BipedalLocomotion
 {
-    class FloatingBaseEstimatorDevice;
-}
 
-class BipedalLocomotion::FloatingBaseEstimatorDevice : public yarp::dev::DeviceDriver,
-                                                       public yarp::dev::IMultipleWrapper,
-                                                       public yarp::os::PeriodicThread
+using LOSchmittWrapper = Estimators::KinematicInertialFilterWrapper<Estimators::LeggedOdometry,
+                                                                    Contacts::SchmittTriggerDetector>;
+using InvEKFSchmittWrapper = Estimators::KinematicInertialFilterWrapper<Estimators::InvariantEKFBaseEstimator,
+                                                                        Contacts::SchmittTriggerDetector>;
+
+enum class BaseEstimatorType
+{
+    LeggedOdom,
+    InvEKF
+};
+
+enum class ContactDetectorType
+{
+    SchmittTrigger
+};
+
+class FloatingBaseEstimatorDevice : public yarp::dev::DeviceDriver,
+                                    public yarp::dev::IMultipleWrapper,
+                                    public yarp::os::PeriodicThread
 {
 public:
     FloatingBaseEstimatorDevice(double period,
@@ -49,14 +66,14 @@ public:
 private:
     bool setupRobotModel(yarp::os::Searchable& config);
     bool setupRobotSensorBridge(yarp::os::Searchable& config);
-    bool setupFeetContactStateMachines(yarp::os::Searchable& config);
-    bool parseFootSchmittParams(yarp::os::Searchable& config, iDynTree::SchmittParams& params);
     bool setupBaseEstimator(yarp::os::Searchable& config);
     bool loadTransformBroadcaster();
+
     bool updateMeasurements();
     bool updateInertialBuffers();
-    bool updateContactStates();
+    bool updateContactWrenches();
     bool updateKinematics();
+    bool updateEstimator();
 
     void publish();
     void publishBaseLinkState(const BipedalLocomotion::Estimators::FloatingBaseEstimators::Output& out);
@@ -69,31 +86,51 @@ private:
                              const std::string& address);
     void closeBufferedSigPort(yarp::os::BufferedPort<yarp::sig::Vector>& port);
 
-    struct
+    struct Communication
     {
         yarp::os::BufferedPort<yarp::sig::Vector> floatingBaseStatePort;
         yarp::os::BufferedPort<yarp::sig::Vector> internalStateAndStdDevPort;
         yarp::os::BufferedPort<yarp::sig::Vector> contactStatePort;
-    } m_comms;
+    };
 
-    iDynTree::Model m_model;
+    Communication m_comms;
+
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
-    std::unique_ptr<BipedalLocomotion::Estimators::FloatingBaseEstimator> m_estimator;
-    std::unique_ptr<iDynTree::ContactStateMachine> m_lFootCSM, m_rFootCSM;
-    bool m_currentlFootState{false}, m_currentrFootState{false};
-    double m_currentlContactNormal{0.0}, m_currentrContactNormal{0.0};
+
+    // Base Estimators and Contact Detectors
+    std::unordered_map<std::string, BaseEstimatorType> m_supportedEstimatorLookup{
+        {"LeggedOdometry", BaseEstimatorType::LeggedOdom},
+        {"InvEKF", BaseEstimatorType::InvEKF}};
+    BaseEstimatorType m_estimatorType{BaseEstimatorType::LeggedOdom};
+    std::unordered_map<std::string, ContactDetectorType> m_supportedContactDetectorLookup{
+        {"SchmittTrigger", ContactDetectorType::SchmittTrigger}};
+    ContactDetectorType m_contactDetectorType{ContactDetectorType::SchmittTrigger};
+    std::unique_ptr<InvEKFSchmittWrapper> m_invEKFSchmitt{nullptr};
+    std::unique_ptr<LOSchmittWrapper> m_leggedOdomSchmitt{nullptr};
+
+    Estimators::ProprioceptiveInput m_input;
+    Estimators::KinematicInertialFilterOutput m_output;
+
+    // meta data
+    bool m_currentlFootState{false}, m_currentrFootState{false}; // for publishing
+    double m_currentlContactNormal{0.0}, m_currentrContactNormal{0.0}; // for publishing
     std::mutex m_deviceMutex;
     std::string m_portPrefix{"/base-estimator"};
     std::string m_robot{"icubSim"};
-    std::string m_estimatorType{"InvEKF"};
-    std::string m_baseLinkImuName{"root_link_imu_acc"};
-    std::string m_leftFootWrenchName{"left_foot_cartesian_wrench"};
-    std::string m_rightFootWrenchName{"right_foot_cartesian_wrench"};
 
+    std::vector<std::string> m_supportedRobotModels{"iCubGenova04", "iCubGenova09"};
+    std::string m_robotModel{"iCubGenova09"};  // iCubGenova04
+
+    // Top Level Parameters - iCubGenova09 // iCubGenova04
+    std::string m_baseLinkImuName{"chest_imu_acc_1x1"}; // root_link_imu_acc
+    std::vector<std::string> m_leftFootWrenchNames{"left_foot_front_cartesian_wrench", "left_foot_rear_cartesian_wrench"}; // left_foot_cartesian_wrench
+    std::vector<std::string> m_rightFootWrenchNames{"right_foot_front_cartesian_wrench", "right_foot_rear_cartesian_wrench"}; // right_foot_cartesian_wrench
+
+    const std::string m_printPrefix{"[BipedalLocomotion::FloatingBaseEstimatorDevice]"};
     yarp::dev::PolyDriver m_transformBroadcaster;
     yarp::dev::IFrameTransform* m_transformInterface{nullptr};
-    bool m_publishROSTF{false};
+    bool m_publishToTFServer{false};
 
     Eigen::Vector3d m_basePos;
     Eigen::Vector3d m_baseRPY; // rpy euler angles in xyz convention
@@ -101,6 +138,6 @@ private:
     Eigen::Vector3d m_baseAngularVel;
 };
 
-
+} // namespace BipedalLocomotion
 
 #endif //BIPEDAL_LOCOMOTION_FRAMEWORK_BASE_ESTIMATOR_DEVICE_H

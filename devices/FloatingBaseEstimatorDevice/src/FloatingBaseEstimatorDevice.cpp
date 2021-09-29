@@ -8,7 +8,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimatorDevice.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
-#include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
+#include <BipedalLocomotion/Math/Wrench.h>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/yarp/YARPConversions.h>
 #include <yarp/os/LogStream.h>
@@ -17,6 +17,35 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion::ParametersHandler;
+
+template<typename BaseEstimator, typename ContactDetector>
+bool updateKIFWrapper(KinematicInertialFilterWrapper<BaseEstimator, ContactDetector>* kifWrapper,
+                      const ProprioceptiveInput& in,
+                      KinematicInertialFilterOutput& out)
+{
+    bool ok{true};
+    ok = ok && kifWrapper->setInput(in);
+    ok = ok && kifWrapper->advance();
+    out = kifWrapper->getOutput();
+    return ok;
+}
+
+template<typename BaseEstimator, typename ContactDetector>
+bool initializeKIFWrapper(KinematicInertialFilterWrapper<BaseEstimator, ContactDetector>* kifWrapper,
+                          IParametersHandler::shared_ptr parameterHandler,
+                          std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                          const std::string& type)
+{
+    const std::string printPrefix{"[BipedalLocomotion::FloatingBaseEstimatorDevice]"};
+    if (!kifWrapper->initialize(parameterHandler, kinDyn))
+    {
+        yError() <<  printPrefix << "[setupBaseEstimator] Could not configure "
+                                <<  type << " wrapper.";
+        return false;
+    }
+
+    return true;
+}
 
 FloatingBaseEstimatorDevice::FloatingBaseEstimatorDevice(double period,
                                                          yarp::os::ShouldUseSystemClock useSystemClock)
@@ -36,12 +65,75 @@ FloatingBaseEstimatorDevice::~FloatingBaseEstimatorDevice()
 bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
 {
     YarpUtilities::getElementFromSearchable(config, "robot", m_robot);
+    if (!YarpUtilities::getElementFromSearchable(config, "robot_model", m_robotModel))
+    {
+        yError() << m_printPrefix << "[open] Missing required parameter \"robot_model\"";
+        return false;
+    }
+    if (std::find(m_supportedRobotModels.begin(), m_supportedRobotModels.end(),
+        m_robotModel) == m_supportedRobotModels.end())
+    {
+        yError() << m_printPrefix << "[open] Specified \"robot_model\" parameter not in the list of supported models."
+                 << " Currently supported robot models: iCubGenova04 and iCubGenova09.";
+        return false;
+    }
+
     YarpUtilities::getElementFromSearchable(config, "port_prefix", m_portPrefix);
     YarpUtilities::getElementFromSearchable(config, "base_link_imu", m_baseLinkImuName);
-    YarpUtilities::getElementFromSearchable(config, "left_foot_wrench", m_leftFootWrenchName);
-    YarpUtilities::getElementFromSearchable(config, "right_foot_wrench", m_rightFootWrenchName);
-    double devicePeriod{0.01};
 
+    YarpUtilities::getVectorFromSearchable(config, "left_foot_wrenches", m_leftFootWrenchNames);
+    YarpUtilities::getVectorFromSearchable(config, "right_foot_wrenches", m_rightFootWrenchNames);
+
+    if (m_robotModel == "iCubGenova04")
+    {
+        // if robot model is iCubGenova04, expect only one wrench per foot
+        if (m_leftFootWrenchNames.size() != 1 || m_rightFootWrenchNames.size() != 1)
+        {
+            yError() << m_printPrefix << "[open] Expecting only one wrench per foot.";
+            return false;
+        }
+    }
+    else if (m_robotModel == "iCubGenova09")
+    {
+        // if robot model is iCubGenova09, expect front and rear foot cartesian wrenches
+        if (m_leftFootWrenchNames.size() != 2 || m_rightFootWrenchNames.size() != 2)
+        {
+            yError() << m_printPrefix << "[open] Expecting two wrenches per foot.";
+            return false;
+        }
+    }
+
+    std::string estimatorType;
+    if (!YarpUtilities::getElementFromSearchable(config, "estimator_type", estimatorType))
+    {
+        yError() << m_printPrefix << "[open] Missing required parameter \"estimator_type\"";
+        return false;
+    }
+
+    if (m_supportedEstimatorLookup.find(estimatorType) == m_supportedEstimatorLookup.end())
+    {
+        yError() << m_printPrefix << "[open] Specified \"estimator_type\" parameter not in the list of supported estimators."
+                 << " Currently supported Base Estimators: LeggedOdometry and InvEKF.";
+        return false;
+    }
+    m_estimatorType = m_supportedEstimatorLookup.at(estimatorType);
+
+    std::string contactDetectorType;
+    if (!YarpUtilities::getElementFromSearchable(config, "contact_detector_type", contactDetectorType))
+    {
+        yError() << m_printPrefix << "[open] Missing required parameter \"contact_detector_type\"";
+        return false;
+    }
+
+    if (m_supportedContactDetectorLookup.find(contactDetectorType) == m_supportedContactDetectorLookup.end())
+    {
+        yError() << m_printPrefix << "[open] Specified \"contact_detector_type\" parameter not in the list of supported estimators."
+                 << " Currently supported Contact Detectors: SchmittTrigger.";
+        return false;
+    }
+    m_contactDetectorType = m_supportedContactDetectorLookup.at(contactDetectorType);
+
+    double devicePeriod{0.01};
     if (YarpUtilities::getElementFromSearchable(config, "sampling_period_in_s", devicePeriod))
     {
         setPeriod(devicePeriod);
@@ -57,22 +149,17 @@ bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    if (!setupFeetContactStateMachines(config))
-    {
-        return false;
-    }
-
     if (!setupBaseEstimator(config))
     {
         return false;
     }
 
-    if (!YarpUtilities::getElementFromSearchable(config, "publish_rostf", m_publishROSTF))
+    if (!YarpUtilities::getElementFromSearchable(config, "publish_to_tf_server", m_publishToTFServer))
      {
-         m_publishROSTF = false;
+         m_publishToTFServer = false;
      }
 
-     if (m_publishROSTF)
+     if (m_publishToTFServer)
      {
          if (!loadTransformBroadcaster())
          {
@@ -85,34 +172,53 @@ bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
 
 bool FloatingBaseEstimatorDevice::setupRobotModel(yarp::os::Searchable& config)
 {
-
     std::string modelFileName;
     std::vector<std::string> jointsList;
     if (!YarpUtilities::getElementFromSearchable(config, "model_file", modelFileName))
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Missing required parameter \"model_file\"";
+        yError() << m_printPrefix << "[setupRobotModel] Missing required parameter \"model_file\"";
         return false;
     }
 
     if (!YarpUtilities::getVectorFromSearchable(config, "joint_list", jointsList))
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Missing required parameter \"joint_list\"";
+        yError() << m_printPrefix << "[setupRobotModel] Missing required parameter \"joint_list\"";
         return false;
     }
 
     yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
     std::string modelFilePath{rf.findFileByName(modelFileName)};
-    yInfo() << "[FloatingBaseEstimatorDevice][setupRobotModel] Loading model from " << modelFilePath;
+    yInfo() << m_printPrefix << "[setupRobotModel] Loading model from " << modelFilePath;
 
     iDynTree::ModelLoader modelLoader;
     if (!modelLoader.loadReducedModelFromFile(modelFilePath, jointsList))
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Could not load robot model";
+        yError() << m_printPrefix << "[setupRobotModel] Could not load robot model";
         return false;
     }
 
-    m_model = modelLoader.model();
-    return true;
+    auto model = modelLoader.model();
+    m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    m_kinDyn->loadRobotModel(model);
+
+    if (m_kinDyn->isValid())
+    {
+        m_input.encoders.resize(m_kinDyn->model().getNrOfDOFs());
+        m_input.encoders.setZero();
+        m_input.encodersSpeed = m_input.encoders;
+    }
+
+    YarpUtilities::getElementFromSearchable(config, "left_foot_contact_frame", m_input.lfContactFrameName);
+    YarpUtilities::getElementFromSearchable(config, "right_foot_contact_frame", m_input.rfContactFrameName);
+    if (!m_kinDyn->model().isFrameNameUsed(m_input.lfContactFrameName) ||
+        !m_kinDyn->model().isFrameNameUsed(m_input.rfContactFrameName))
+    {
+        yError() << m_printPrefix << "[setupRobotModel] Specified contact frame names: "
+                 << m_input.lfContactFrameName  << ", "<< m_input.rfContactFrameName << "do not exist in model.";
+        return false;
+    }
+
+    return m_kinDyn->isValid();
 }
 
 bool FloatingBaseEstimatorDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
@@ -120,7 +226,7 @@ bool FloatingBaseEstimatorDevice::setupRobotSensorBridge(yarp::os::Searchable& c
     auto bridgeConfig = config.findGroup("RobotSensorBridge");
     if (bridgeConfig.isNull())
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotSensorBridge] Missing required group \"RobotSensorBridge\"";
+        yError() << m_printPrefix << "[setupRobotSensorBridge] Missing required group \"RobotSensorBridge\"";
         return false;
     }
 
@@ -130,88 +236,49 @@ bool FloatingBaseEstimatorDevice::setupRobotSensorBridge(yarp::os::Searchable& c
     m_robotSensorBridge = std::make_unique<YarpSensorBridge>();
     if (!m_robotSensorBridge->initialize(bridgeHandler))
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotSensorBridge] Could not configure RobotSensorBridge";
+        yError() << m_printPrefix << "[setupRobotSensorBridge] Could not configure RobotSensorBridge";
         return false;
     }
-
-    return true;
-}
-
-bool FloatingBaseEstimatorDevice::setupFeetContactStateMachines(yarp::os::Searchable& config)
-{
-    auto csmConfig = config.findGroup("ContactSchmittTrigger");
-    if (csmConfig.isNull())
-    {
-        yError() << "[FloatingBaseEstimatorDevice][setupFeetContactStateMachines] Missing required group \"ContactSchmittTrigger\"";
-        return false;
-    }
-
-    iDynTree::SchmittParams lParams, rParams;
-    auto lCSMConfig = csmConfig.findGroup("left_foot");
-    if (lCSMConfig.isNull())
-    {
-        yError() << "[FloatingBaseEstimatorDevice][setupFeetContactStateMachines] Could not load left foot contact Schmitt trigger configuration group.";
-        return false;
-    }
-    if (!parseFootSchmittParams(lCSMConfig, lParams))
-    {
-        yError() << "[FloatingBaseEstimatorDevice][setupFeetContactStateMachines] Could not load left foot contact Schmitt trigger parameters";
-        return false;
-    }
-
-    auto rCSMConfig = csmConfig.findGroup("right_foot");
-    if (rCSMConfig.isNull())
-    {
-        yError() << "[FloatingBaseEstimatorDevice][setupFeetContactStateMachines] Could not load right foot contact Schmitt trigger configuration group.";
-        return false;
-    }
-    if (!parseFootSchmittParams(rCSMConfig, rParams))
-    {
-        yError() << "[FloatingBaseEstimatorDevice][setupFeetContactStateMachines] Could not load right foot contact Schmitt trigger parameters";
-        return false;
-    }
-
-    m_lFootCSM = std::make_unique<iDynTree::ContactStateMachine>(lParams);
-    m_rFootCSM = std::make_unique<iDynTree::ContactStateMachine>(rParams);
-
-    return true;
-}
-
-bool FloatingBaseEstimatorDevice::parseFootSchmittParams(yarp::os::Searchable& config,
-                                                         iDynTree::SchmittParams& params)
-{
-    if (!YarpUtilities::getElementFromSearchable(config, "schmitt_stable_contact_make_time", params.stableTimeContactMake)) { return false; }
-    if (!YarpUtilities::getElementFromSearchable(config, "schmitt_stable_contact_break_time", params.stableTimeContactBreak)) { return false; }
-    if (!YarpUtilities::getElementFromSearchable(config, "schmitt_contact_make_force_threshold", params.contactMakeForceThreshold)) { return false; }
-    if (!YarpUtilities::getElementFromSearchable(config, "schmitt_contact_break_force_threshold", params.contactBreakForceThreshold)) { return false; }
 
     return true;
 }
 
 bool FloatingBaseEstimatorDevice::setupBaseEstimator(yarp::os::Searchable& config)
 {
-    if (!YarpUtilities::getElementFromSearchable(config, "estimator_type", m_estimatorType))
+    if (m_estimatorType == BaseEstimatorType::InvEKF &&
+        m_contactDetectorType == ContactDetectorType::SchmittTrigger)
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Missing required parameter \"estimator_type\"";
-        return false;
+        m_invEKFSchmitt = std::make_unique<InvEKFSchmittWrapper>();
     }
 
-    if (m_estimatorType == "InvEKF")
+    if (m_estimatorType == BaseEstimatorType::LeggedOdom &&
+        m_contactDetectorType == ContactDetectorType::SchmittTrigger)
     {
-        m_estimator = std::make_unique<InvariantEKFBaseEstimator>();
+        m_leggedOdomSchmitt = std::make_unique<LOSchmittWrapper>();
     }
 
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     originalHandler->set(config);
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 
-    m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
-    m_kinDyn->loadRobotModel(m_model);
-    if (!m_estimator->initialize(parameterHandler, m_kinDyn))
+    if (m_leggedOdomSchmitt)
     {
-        yError() << "[FloatingBaseEstimatorDevice][setupRobotModel] Could not configure estimator";
-        return false;
+        if (!initializeKIFWrapper(m_leggedOdomSchmitt.get(), parameterHandler,
+            m_kinDyn, "LeggedOdometry + SchmittTrigger"))
+        {
+            return false;
+        }
     }
+
+    if (m_invEKFSchmitt)
+    {
+        if (!initializeKIFWrapper(m_invEKFSchmitt.get(), parameterHandler,
+            m_kinDyn, "InvEKF + SchmittTrigger"))
+        {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -219,17 +286,17 @@ bool FloatingBaseEstimatorDevice::attachAll(const yarp::dev::PolyDriverList & po
 {
     if (!m_robotSensorBridge->setDriversList(poly))
     {
-        yError() << "[FloatingBaseEstimatorDevice][attachAll] Failed to attach to devices through RobotSensorBridge.";
+        yError() << m_printPrefix << "[attachAll] Failed to attach to devices through RobotSensorBridge.";
         return false;
     }
 
     if (!openCommunications())
     {
-        yError() << "[FloatingBaseEstimatorDevice][attachAll] Could not open ports for publishing outputs.";
+        yError() << m_printPrefix << "[attachAll] Could not open ports for publishing outputs.";
         return false;
     }
 
-    start();
+    this->start();
     return true;
 }
 
@@ -253,7 +320,7 @@ bool FloatingBaseEstimatorDevice::openBufferedSigPort(yarp::os::BufferedPort<yar
     ok = port.open(portPrefix + address);
     if (!ok)
     {
-        yError() << "[FloatingBaseEstimatorDevice][openBufferedSigPort] error opening port " << portPrefix + address;
+        yError() << m_printPrefix << "[openBufferedSigPort] error opening port " << portPrefix + address;
         return false;
     }
     return true;
@@ -261,24 +328,17 @@ bool FloatingBaseEstimatorDevice::openBufferedSigPort(yarp::os::BufferedPort<yar
 
 void FloatingBaseEstimatorDevice::run()
 {
-    // advance sensor bridge
-    if (!m_robotSensorBridge->advance())
-    {
-        yWarning() << "Advance Sensor bridge failed.";
-        return;
-    }
-
     // update estimator measurements
     if (!updateMeasurements())
     {
-        yWarning() << "Measurement updates failed.";
+        yWarning() << m_printPrefix << "[run] Measurement updates failed.";
         return;
     }
 
     // advance estimator
-    if (!m_estimator->advance())
+    if (!updateEstimator())
     {
-        yWarning()  << "Advance estimator failed.";
+        yWarning() << m_printPrefix << "[run] Estimator updates failed.";
         return;
     }
 
@@ -289,7 +349,15 @@ bool FloatingBaseEstimatorDevice::updateMeasurements()
 {
     bool ok{true};
 
-    ok = ok && updateContactStates();
+    // advance sensor bridge
+    if (!m_robotSensorBridge->advance())
+    {
+        yWarning() << m_printPrefix << "[updateMeasurements] advance Sensor bridge failed.";
+        return false;
+    }
+
+    m_input.ts = yarp::os::Time::now();
+    ok = ok && updateContactWrenches();
     ok = ok && updateInertialBuffers();
     ok = ok && updateKinematics();
 
@@ -306,31 +374,40 @@ bool FloatingBaseEstimatorDevice::updateInertialBuffers()
 
     const int accOffset{3};
     const int gyroOffset{6};
-    if (!m_estimator->setIMUMeasurement(imuMeasure.segment<3>(accOffset), imuMeasure.segment<3>(gyroOffset)))
-    {
-        return false;
-    }
+    m_input.acc = imuMeasure.segment<3>(accOffset);
+    m_input.gyro = imuMeasure.segment<3>(gyroOffset);
 
     return true;
 }
 
-bool FloatingBaseEstimatorDevice::updateContactStates()
+bool FloatingBaseEstimatorDevice::updateContactWrenches()
 {
-    Eigen::Matrix<double, 6, 1> lfWrench, rfWrench;
-    double lfTimeStamp, rfTimeStamp;
     bool ok{true};
-    ok = ok && m_robotSensorBridge->getCartesianWrench(m_leftFootWrenchName, lfWrench, lfTimeStamp);
-    if (ok)
-    {
-        m_currentlContactNormal = lfWrench(2);
-        m_lFootCSM->contactMeasurementUpdate(lfTimeStamp, lfWrench(2)); // fz
-    }
+    Eigen::Matrix<double, 6, 1> lfWrench, rfWrench;
+    lfWrench.setZero();
+    rfWrench.setZero();
 
-    ok = ok && m_robotSensorBridge->getCartesianWrench(m_rightFootWrenchName, rfWrench, rfTimeStamp);
-    if (ok)
+    if (m_robotModel == "iCubGenova09")
     {
-        m_currentrContactNormal = rfWrench(2);
-        m_rFootCSM->contactMeasurementUpdate(rfTimeStamp, rfWrench(2)); // fz
+        // in case of iCubGenova09, sum the front and rear contact wrenches
+        for (auto& wrenchName : m_leftFootWrenchNames)
+        {
+            Eigen::Matrix<double, 6, 1> tempWrench;
+            ok = ok && m_robotSensorBridge->getCartesianWrench(wrenchName, tempWrench);
+            lfWrench += tempWrench;
+        }
+
+        for (auto& wrenchName : m_rightFootWrenchNames)
+        {
+            Eigen::Matrix<double, 6, 1> tempWrench;
+            ok = ok && m_robotSensorBridge->getCartesianWrench(wrenchName, rfWrench);
+            rfWrench += tempWrench;
+        }
+    }
+    else if (m_robotModel == "iCubGenova04")
+    {
+        ok = ok && m_robotSensorBridge->getCartesianWrench(m_leftFootWrenchNames[0], lfWrench);
+        ok = ok && m_robotSensorBridge->getCartesianWrench(m_rightFootWrenchNames[0], rfWrench);
     }
 
     if (!ok)
@@ -338,45 +415,53 @@ bool FloatingBaseEstimatorDevice::updateContactStates()
         return false;
     }
 
-    m_currentlFootState = m_lFootCSM->contactState();
-    m_currentrFootState = m_rFootCSM->contactState();
-    if (!m_estimator->setContacts(m_currentlFootState, m_currentrFootState))
-    {
-        return false;
-    }
+    m_input.contactWrenches.clear();
+    m_input.contactWrenches[m_input.lfContactFrameName] = lfWrench;
+    m_input.contactWrenches[m_input.rfContactFrameName] = rfWrench;
 
     return true;
 }
 
 bool FloatingBaseEstimatorDevice::updateKinematics()
 {
-    Eigen::VectorXd encoders(m_model.getNrOfDOFs()), encoderSpeeds(m_model.getNrOfDOFs());
-    double timeStamp;
-    if (!m_robotSensorBridge->getJointPositions(encoders))
+    if (!m_robotSensorBridge->getJointPositions(m_input.encoders))
     {
         return false;
     }
 
-    if (!m_robotSensorBridge->getJointVelocities(encoderSpeeds))
+    if (!m_robotSensorBridge->getJointVelocities(m_input.encodersSpeed))
     {
         return false;
     }
 
-    if (!m_estimator->setKinematics(encoders, encoderSpeeds))
-    {
-        return false;
-    }
     return true;
+}
+
+bool FloatingBaseEstimatorDevice::updateEstimator()
+{
+    bool ok{true};
+    if (m_leggedOdomSchmitt)
+    {
+        ok = updateKIFWrapper(m_leggedOdomSchmitt.get(), m_input, m_output);
+    }
+
+    if (m_invEKFSchmitt)
+    {
+        ok = updateKIFWrapper(m_invEKFSchmitt.get(), m_input, m_output);
+    }
+
+    return ok;
 }
 
 void FloatingBaseEstimatorDevice::publish()
 {
-    if (m_estimator->isOutputValid())
-    {
-        auto estimatorOut = m_estimator->getOutput();
-        publishBaseLinkState(estimatorOut);
-        publishInternalStateAndStdDev(estimatorOut);
-    }
+    publishBaseLinkState(m_output.estimatorOut);
+    publishInternalStateAndStdDev(m_output.estimatorOut);
+
+    m_currentlFootState = m_output.contactDetectorOut.at(m_input.lfContactFrameName).isActive;
+    m_currentrFootState = m_output.contactDetectorOut.at(m_input.rfContactFrameName).isActive;
+    m_currentlContactNormal = m_input.contactWrenches.at(m_input.lfContactFrameName)(2);
+    m_currentrContactNormal = m_input.contactWrenches.at(m_input.rfContactFrameName)(2);
     publishFootContactStatesAndNormalForces();
 }
 
@@ -408,7 +493,7 @@ void FloatingBaseEstimatorDevice::publishBaseLinkState(const FloatingBaseEstimat
     basePoseYARP.resize(dim, dim);
     memcpy(basePoseYARP.data(),estimatorOut.basePose.transform().data(),dim*dim*sizeof(double));
 
-    if (m_publishROSTF && m_transformInterface != nullptr)
+    if (m_publishToTFServer && m_transformInterface != nullptr)
     {
         if (!m_transformInterface->setTransform("/world", "/base_link", basePoseYARP))
         {
@@ -467,11 +552,12 @@ void FloatingBaseEstimatorDevice::publishFootContactStatesAndNormalForces()
 bool FloatingBaseEstimatorDevice::detachAll()
 {
     std::lock_guard<std::mutex> guard(m_deviceMutex);
-    if (isRunning())
+    if (this->isRunning())
     {
-        stop();
+        this->stop();
     }
 
+    yInfo() << m_printPrefix << " Device stopped.";
     return true;
 }
 
@@ -482,7 +568,7 @@ void FloatingBaseEstimatorDevice::closeBufferedSigPort(yarp::os::BufferedPort<ya
         port.close();
     }
 
-    if (m_publishROSTF)
+    if (m_publishToTFServer)
     {
         m_transformInterface = nullptr;
     }
@@ -498,6 +584,7 @@ void FloatingBaseEstimatorDevice::closeCommunications()
 bool FloatingBaseEstimatorDevice::close()
 {
     std::lock_guard<std::mutex> guard(m_deviceMutex);
+    yInfo() << m_printPrefix << " Closing BipedalLocomotion::FloatingBaseEstimatorDevice.";
     closeCommunications();
     return true;
 }
