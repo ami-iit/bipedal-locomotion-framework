@@ -25,6 +25,68 @@ namespace BipedalLocomotion
 namespace System
 {
 
+template <class _Advanceable> class AdvanceableRunner;
+
+/**
+ * AdvanceableAccessor is an helper class that can be used to access the advanceable
+ * inside an AdvanceableRunner during multi-threaded operations.
+ * However, this class must be used cautiously in order
+ * to have a thread-safe operation in a multi-threaded scenario. This class should
+ * never be used in the usual way of creating an instance of the class and then
+ * using the instance to access the methods of the advanceable. This usual usage
+ * will result in unexpected results during multi-threaded operations.
+ * The correct way of usage instead follows a single line creating and destruction of
+ * the instance of the class.
+ * A correct usage is as follows,
+ * \code{.cpp}
+ * advanceableRunner.getAdvanceableAccessor()->someAdvanceableMethod();
+ * \endcode
+ * A wrong and unsafe usage is as follows,
+ * \code{.cpp}
+ * auto wrong = advanceableRunner.getAdvanceableAccessor();
+ * wrong->someAdvanceableMethod();
+ * \endcode
+ */
+template <class _Advanceable> class AdvanceableAccessor
+{
+    using Advanceable = _Advanceable;
+    Advanceable* m_ptr; /**< Pointer to advanceable*/
+    std::unique_lock<std::mutex> m_lock; /**< Mutex to protect advanceable*/
+
+     /**
+      * Constructor
+      */
+     AdvanceableAccessor(Advanceable* ptr, std::mutex& mutex)
+    : m_ptr(ptr)
+    , m_lock(mutex, std::adopt_lock)
+    { }
+       
+    AdvanceableAccessor(AdvanceableAccessor&&) = default;
+    AdvanceableAccessor(const AdvanceableAccessor&) = delete;
+    AdvanceableAccessor& operator=(const AdvanceableAccessor&) = delete;
+    AdvanceableAccessor& operator=(const AdvanceableAccessor&&) = delete;    
+
+
+friend class AdvanceableRunner<Advanceable>;
+
+public:
+    /**
+     * Accessor
+     */
+    Advanceable* operator->()
+    {
+        return m_ptr;
+    }
+    
+    ~AdvanceableAccessor()
+    {
+        if (m_lock.owns_lock())
+	{
+	    m_lock.unlock();
+	}
+    }
+};
+
 /**
  * AdvanceableRunner is an helper class that can be used to run a advanceable at a given period.
  * Different AdvanceableRunners can communicate trough the SharedResource class. The
@@ -51,9 +113,10 @@ private:
     std::chrono::duration<double> m_dT{std::chrono::duration_values<double>::zero()}; /**< Period of
                                                                                          the runner
                                                                                        */
-    std::atomic<bool> m_isRunning{false}; /**> If True the runner is running */
+    std::atomic<bool> m_isRunning{false}; /**< If True the runner is running */
 
     std::unique_ptr<_Advanceable> m_advanceable; /**< Advanceable contained in the runner */
+    std::mutex m_advanceableMutex; /**< Mutex used to protect the Advanceable */
     typename SharedResource<Input>::Ptr m_input; /**< Input shared resource */
     typename SharedResource<Output>::Ptr m_output; /**< Output shared resource */
 
@@ -93,6 +156,13 @@ public:
      * @return true in case of success, false otherwise
      */
     bool setInputResource(std::shared_ptr<SharedResource<Input>> resource);
+
+    /**
+     * Get an accessor class for the advanceable inside the runner
+     * that exposes the public members of the advanceable using -> symbol
+     * @return AdvanceableAccessor instance
+     */
+    AdvanceableAccessor<_Advanceable> getMutexLockedAdvanceableAccessor();
 
     /**
      * Set the output resource
@@ -234,7 +304,8 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
         return std::thread();
     }
 
-    if (m_input == nullptr || m_output == nullptr)
+    if ((m_input == nullptr && !std::is_same_v<Input, std::monostate>) ||
+        (m_output == nullptr  && !std::is_same_v<Output, std::monostate>))
     {
         log()->warn("{} The shared resources are not valid. An invalid thread will be returned.",
                     logPrefix);
@@ -281,24 +352,38 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
             // advance the wake-up time
             wakeUpTime += m_dT;
 
-            if (!this->m_advanceable->setInput(this->m_input->get()))
+            // lock mutex
+            this->m_advanceableMutex.lock();
+
+            //if (!std::is_same_v<Input, std::monostate>)
             {
-                m_isRunning = false;
-                log()->error("{} Unable to set the input to the advanceable.", logPrefix);
-                break;
+                if (!this->m_advanceable->setInput(this->m_input->get()))
+                {
+                    //m_isRunning = false;
+                    //log()->error("{} Unable to set the input to the advanceable.", logPrefix);
+                    this->m_advanceableMutex.unlock();
+                    continue;
+                }
             }
 
             // advance the advanceable
             if (!this->m_advanceable->advance())
             {
-                m_isRunning = false;
+                //m_isRunning = false;
                 log()->error("{} Unable to advance the advanceable.", logPrefix);
-                break;
+                this->m_advanceableMutex.unlock();
+                continue;
             }
             assert(this->m_advanceable->isOutputValid());
 
             // set the output
-            this->m_output->set(this->m_advanceable->getOutput());
+            if (!std::is_same_v<Output, std::monostate>)
+            {
+                this->m_output->set(this->m_advanceable->getOutput());
+            }
+
+            // unlock mutex
+            this->m_advanceableMutex.unlock();
 
             // release the CPU
             BipedalLocomotion::clock().yield();
@@ -330,6 +415,13 @@ template <class _Advanceable> std::thread AdvanceableRunner<_Advanceable>::run()
 
     return std::thread(function);
 }
+
+template <class _Advanceable>
+AdvanceableAccessor<_Advanceable> AdvanceableRunner<_Advanceable>::getMutexLockedAdvanceableAccessor()
+{
+    return AdvanceableAccessor<_Advanceable>(m_advanceable.get(), m_advanceableMutex);
+}
+
 
 template <class _Advanceable> void AdvanceableRunner<_Advanceable>::stop()
 {

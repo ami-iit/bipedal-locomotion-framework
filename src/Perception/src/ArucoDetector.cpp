@@ -18,6 +18,7 @@ using namespace BipedalLocomotion::Conversions;
 #include <opencv2/aruco.hpp>
 #include <opencv2/calib3d.hpp>
 #include <opencv2/core/eigen.hpp>
+#include <opencv2/opencv.hpp>
 
 class ArucoDetector::Impl
 {
@@ -187,7 +188,7 @@ bool ArucoDetector::advance()
         log()->error("{} Unable to run advance(). Please set an image first.", printPrefix);
         return false;
     }
-
+    
     m_pimpl->resetBuffers();
     std::vector<std::vector<cv::Point2f>> detectedmarkerCorners;
     cv::aruco::detectMarkers(m_pimpl->currentImg,
@@ -218,6 +219,9 @@ bool ArucoDetector::advance()
                                        m_pimpl->poseEig};
             m_pimpl->out.markers[m_pimpl->currentDetectedMarkerIds[idx]] = markerData;
         }
+        
+        getImageWithDetectedMarkers(m_pimpl->out.imgWithMarkers, /** drawFrames = */true);
+        
         m_pimpl->out.timeNow = m_pimpl->currentTime;
     }
 

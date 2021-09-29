@@ -43,6 +43,11 @@ public:
     {
         return true;
     }
+
+    void printSomething(const int& id)
+    {
+        BipedalLocomotion::log()->info("DummyBlock {}: status: {}.", id, m_output);
+    }
 };
 
 TEST_CASE("Test Block")
@@ -76,10 +81,13 @@ TEST_CASE("Test Block")
     // run the block
     auto thread0 = runner0.run();
     auto thread1 = runner1.run();
-
+    
     while (!output0->get() || !output1->get())
     {
-        BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+        auto wrong0 = runner0.getMutexLockedAdvanceableAccessor();
+        wrong0->printSomething(0);        
+	runner1.getMutexLockedAdvanceableAccessor()->printSomething(1);        
+        BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.001));
     }
 
     // close the runner

@@ -11,6 +11,7 @@
 #include <Eigen/Dense>
 #include <manif/manif.h>
 
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <manif/manif.h>
 #include <map>
