@@ -122,7 +122,21 @@ struct ContactWrench : public ContactBase
 
 using EstimatedLandmark = EstimatedContact;
 
-} // namespace Contacts
-} // namespace BipedalLocomotion
+/**
+ * @brief Definition of a corner
+ */
+struct Corner
+{
+    Eigen::Vector3d position;
+    Eigen::Vector3d force;
+};
+
+struct ContactWithCorners : ContactBase
+{
+    std::vector<Corner> corners;
+};
+
+}
+}
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
