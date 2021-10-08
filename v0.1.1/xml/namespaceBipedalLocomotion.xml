@@ -19,6 +19,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/GenericContainer/TemplateHelpers.h" line="17" column="1"/>
+    <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="18" column="1"/>
   </compounddef>
 </doxygen>
