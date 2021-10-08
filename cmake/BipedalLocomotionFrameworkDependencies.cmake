@@ -23,6 +23,10 @@ find_package(YARP QUIET)
 checkandset_dependency(YARP)
 dependency_classifier(YARP IS_USED ${FRAMEWORK_USE_YARP} PUBLIC)
 
+find_package(roscpp QUIET)
+checkandset_dependency(roscpp)
+dependency_classifier(roscpp IS_USED ${FRAMEWORK_USE_roscpp} PUBLIC)
+
 find_package(Qhull 8.0.0 QUIET)
 checkandset_dependency(Qhull 8.0.0)
 dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull} PUBLIC)
@@ -106,6 +110,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
 framework_dependent_option(FRAMEWORK_COMPILE_TomlImplementation
   "Compile All the TOML implementations?" ON
   "FRAMEWORK_USE_tomlplusplus" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_RosImplementation
+  "Compile All the ROS implementations?" ON
+  "FRAMEWORK_USE_roscpp" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Math
   "Compile Math library?" ON

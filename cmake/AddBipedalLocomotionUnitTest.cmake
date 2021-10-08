@@ -27,6 +27,14 @@ if (FRAMEWORK_COMPILE_tests)
     target_link_libraries(CatchTestMain PUBLIC Catch2::Catch2)
 endif()
 
+if (FRAMEWORK_COMPILE_Rostests)
+    configure_file(cmake/Catch2RosMain.cpp.in ${CMAKE_BINARY_DIR}/Testing/Catch2RosMain.cpp)
+    configure_file(cmake/RosTest.sh.in ${CMAKE_BINARY_DIR}/Testing/RosTest.sh)
+    add_library(RosCatchTestMain ${CMAKE_BINARY_DIR}/Testing/Catch2RosMain.cpp)
+    target_link_libraries(RosCatchTestMain PUBLIC Catch2::Catch2 ${roscpp_LIBRARIES})
+    include_directories(${roscpp_INCLUDE_DIRS})
+  endif()
+
 
 function(add_bipedal_test)
 

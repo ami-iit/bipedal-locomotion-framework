@@ -86,7 +86,7 @@ function(add_bipedal_locomotion_library)
     # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
     #creating-relocatable-packages
     target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${additional_include_directories}>"
-      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>;${additional_include_directories}")
+      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR};${additional_include_directories}>")
 
     # Specify installation targets, typology and destination folders.
     install(TARGETS    ${name}
