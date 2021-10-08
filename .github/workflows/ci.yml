@@ -21,7 +21,7 @@ env:
   LieGroupControllers_TAG: v0.1.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.6.3
-  tomlplusplus_TAG: 4f21332bdd7555bbf9add1aafe82909a2f8aa52b~
+  tomlplusplus_TAG: v2.5.0
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
