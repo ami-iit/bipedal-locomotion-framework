@@ -28,3 +28,13 @@ if(FRAMEWORK_COMPILE_TomlImplementation)
     LINKS BipedalLocomotion::ParametersHandlerTomlImplementation)
 
 endif()
+
+
+if(FRAMEWORK_COMPILE_RosImplementation)
+
+  add_bipedal_rostest(
+    NAME ParametersHandlerRos
+    SOURCES ParametersHandlerRosTest.cpp
+    LINKS BipedalLocomotion::ParametersHandlerRosImplementation)
+
+endif()
