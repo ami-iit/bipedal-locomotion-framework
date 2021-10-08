@@ -12,6 +12,7 @@ function(add_bipedal_locomotion_library)
     PRIVATE_HEADERS
     PUBLIC_LINK_LIBRARIES
     PRIVATE_LINK_LIBRARIES
+    ADDITIONAL_INCLUDE_DIRECTORIES
     SUBDIRECTORIES)
 
   set(prefix "bipedal_component")
@@ -31,6 +32,7 @@ function(add_bipedal_locomotion_library)
   set(private_headers ${${prefix}_PRIVATE_HEADERS})
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
   set(private_link_libraries ${${prefix}_PRIVATE_LINK_LIBRARIES})
+  set(additional_include_directories ${${prefix}_ADDITIONAL_INCLUDE_DIRECTORIES})
   set(subdirectories ${${prefix}_SUBDIRECTORIES})
 
   if(NOT installation_folder)
@@ -50,8 +52,8 @@ function(add_bipedal_locomotion_library)
     # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
     # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
     # creating-relocatable-packages
-    target_include_directories(${name} INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
+    target_include_directories(${name} INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${additional_include_directories}>"
+      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>;${additional_include_directories}")
 
     # Specify installation targets, typology and destination folders.
     install(TARGETS        ${name}
@@ -83,8 +85,8 @@ function(add_bipedal_locomotion_library)
     # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
     # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
     #creating-relocatable-packages
-    target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
+    target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${additional_include_directories}>"
+      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>;${additional_include_directories}")
 
     # Specify installation targets, typology and destination folders.
     install(TARGETS    ${name}
