@@ -95,6 +95,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_tests
   "Compile tests?" ON
   "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_Rostests
+  "Compile tests?" ON
+  "FRAMEWORK_USE_Catch2;BUILD_TESTING;FRAMEWORK_USE_roscpp" OFF)
+
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
   "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)

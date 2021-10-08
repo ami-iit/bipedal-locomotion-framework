@@ -1,0 +1,44 @@
+/**
+ * @file Catch2RosMain.cpp(.in)
+ * @authors Giulio Romualdi
+ * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ */
+
+#define CATCH_CONFIG_RUNNER
+
+#include <string>
+#include <chrono>
+#include <thread>
+
+#include <ros/init.h>
+#include <ros/master.h>
+#include <ros/node_handle.h>
+#include <ros/this_node.h>
+
+#include <catch2/catch.hpp>
+
+int main(int argc, char** argv)
+{
+    ros::init(argc, argv, "catch2_test");
+
+    while (!ros::master::check())
+    {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(50ms);
+    }
+
+    ros::NodeHandle nh("~");
+
+    Catch::Session session;
+
+    std::string nodeName = ros::this_node::getName();
+    std::replace(nodeName.begin(), nodeName.end(), '/', '_');
+
+    const int returnCode = session.applyCommandLine(argc, argv);
+    if (returnCode != 0) // Indicates a command line error
+        return returnCode;
+
+    session.configData().name = session.configData().processName + nodeName;
+    return session.run();
+}

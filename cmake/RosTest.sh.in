@@ -1,0 +1,31 @@
+#!/bin/bash
+
+##
+# @file Catch2RosMain.cpp(.in)
+# @authors Giulio Romualdi
+# @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+# distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+##
+
+test=$1
+
+# check if roscore is running
+rostopic list
+is_roscore_running=$?
+
+# if roscore is not running start it
+if [  $is_roscore_running -eq "1"  ]; then
+    roscore &
+fi
+
+# run and get the output of the test
+$test
+outcome=$?
+
+# kill roscore if it has been started above it
+if [  $is_roscore_running -eq "1"  ]; then
+    killall -SIGINT roscore
+    killall -SIGINT rosmaster
+fi
+
+exit $outcome

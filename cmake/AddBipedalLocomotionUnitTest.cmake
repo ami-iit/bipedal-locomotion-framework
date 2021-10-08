@@ -32,9 +32,9 @@ if (FRAMEWORK_COMPILE_Rostests)
     configure_file(cmake/RosTest.sh.in ${CMAKE_BINARY_DIR}/Testing/RosTest.sh)
     add_library(RosCatchTestMain ${CMAKE_BINARY_DIR}/Testing/Catch2RosMain.cpp)
     target_link_libraries(RosCatchTestMain PUBLIC Catch2::Catch2 ${roscpp_LIBRARIES})
-    include_directories(${roscpp_INCLUDE_DIRS})
-  endif()
-
+    target_include_directories(RosCatchTestMain PUBLIC "$<BUILD_INTERFACE:${roscpp_INCLUDE_DIRS}>"
+      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${roscpp_INCLUDE_DIRS}>")
+endif()
 
 function(add_bipedal_test)
 
@@ -68,6 +68,50 @@ function(add_bipedal_test)
 
       if(FRAMEWORK_RUN_Valgrind_tests)
         add_test(NAME memcheck_${targetname} COMMAND ${MEMCHECK_COMMAND_COMPLETE} $<TARGET_FILE:${targetname}>)
+      endif()
+
+    endif()
+
+endfunction()
+
+
+function(add_bipedal_rostest)
+
+    if(FRAMEWORK_COMPILE_Rostests)
+
+      set(options )
+      set(oneValueArgs NAME)
+      set(multiValueArgs SOURCES LINKS)
+
+      set(prefix "bipedal")
+
+      cmake_parse_arguments(${prefix}
+          "${options}"
+          "${oneValueArgs}"
+          "${multiValueArgs}"
+          ${ARGN})
+
+      set(name ${${prefix}_NAME})
+      set(unit_test_files ${${prefix}_SOURCES})
+
+      set(targetname ${name}UnitTests)
+      add_executable(${targetname}
+          "${unit_test_files}")
+
+      target_link_libraries(${targetname} PRIVATE RosCatchTestMain ${${prefix}_LINKS})
+      target_compile_definitions(${targetname} PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
+      target_compile_features(${targetname} PUBLIC cxx_std_17)
+      target_compile_definitions(${targetname} PRIVATE -D_USE_MATH_DEFINES)
+
+      find_program (BASH_PROGRAM bash)
+      if (BASH_PROGRAM)
+          add_test(NAME ${targetname}
+                   COMMAND ${BASH_PROGRAM} ${CMAKE_BINARY_DIR}/Testing/RosTest.sh ${CMAKE_BINARY_DIR}/bin/${targetname})
+
+          if(FRAMEWORK_RUN_Valgrind_tests)
+              add_test(NAME memcheck_${targetname}
+                       COMMAND ${BASH_PROGRAM} ${CMAKE_BINARY_DIR}/Testing/RosTest.sh "${MEMORYCHECK_COMMAND} ${MEMORYCHECK_COMMAND_OPTIONS} ${CMAKE_BINARY_DIR}/bin/${targetname}")
+          endif()
       endif()
 
     endif()
