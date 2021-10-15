@@ -28,102 +28,102 @@
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Autodiff">AutoDiff</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Autodiff">AutoDiff</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Bridge between CppAD and Eigen   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://coin-or.github.io/CppAD/doc/cppad.htm"><computeroutput>CppAD</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ContactModels">ContactModels</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/ContactModels">ContactModels</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Models to describe the contact between robot and enviroment   </para>
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Contacts">Contacts</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Contacts">Contacts</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Syntactic description of a contact   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/nlohmann/json/"><computeroutput>nlohmann json</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Conversions">CommonConversions</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions">CommonConversions</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Common conversion utilities used in the framework   </para>
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Conversions">ManifConversions</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions">ManifConversions</ulink>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>manif</computeroutput> library related conversion utilities used in the framework   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Estimators">Estimators</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Estimators">Estimators</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing observers   </para>
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Estimators">FloatingBaseEstimator</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Estimators">FloatingBaseEstimator</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing floating base estimators   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/GenericContainer">GenericContainer</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/GenericContainer">GenericContainer</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Data structure similar to <computeroutput>span</computeroutput> but resizable.   </para>
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/IK">IK</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/IK">IK</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Inverse kinematics   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/robotology/osqp-eigen"><computeroutput>osqp-eigen</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Math">Math</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Math">Math</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing mathematical algorithms   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/ParametersHandler">ParametersHandler</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/ParametersHandler">ParametersHandler</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library for retrieving parameters from configuration files   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation) <ulink url="https://github.com/marzer/tomlplusplus/"><computeroutput>tomlplusplus</computeroutput></ulink> (only if you want the <computeroutput>toml</computeroutput> implementation)    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Planners">Planners</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Planners">Planners</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing planner useful for locomotion   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://web.casadi.org/"><computeroutput>CasADi</computeroutput></ulink> <ulink url="http://www.qhull.org/"><computeroutput>qhull</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface">RobotInterface</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface">RobotInterface</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Generic interface classes to adapt to various IO data formats   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation)    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/System">System</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/System">System</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Description of discrete and continuous dynamical systems   </para>
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/TSID">TSID</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/TSID">TSID</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Task space inverse dynamics   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/dic-iit/lie-group-controllers"><computeroutput>lie-group-controllers</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/YarpUtilities">YarpUtilities</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/YarpUtilities">YarpUtilities</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Utilities library for retrieving data and from YARP structures   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface">PerceptionInterface</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface">PerceptionInterface</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Generic interface classes to adapt to perception data formats like images and point clouds   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink> <ulink url="https://github.com/PointCloudLibrary/pcl"><computeroutput>PCL</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Perception">PerceptionCapture</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Perception">PerceptionCapture</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing driver classes for perception devices   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink> <ulink url="https://github.com/PointCloudLibrary/pcl"><computeroutput>PCL</computeroutput></ulink> <ulink url="https://github.com/IntelRealSense/librealsense"><computeroutput>realsense2</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/Perception">PerceptionFeatures</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Perception">PerceptionFeatures</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing perception algorithms useful for locomotion   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink>    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src/SimplifiedModelControllers">SimplifiedModelControllers</ulink>   </para>
+<entry thead="no" align='center'><para><ulink url="https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/SimplifiedModelControllers">SimplifiedModelControllers</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing the controllers based on simplified models   </para>
 </entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>   </para>
 </entry></row>
@@ -132,6 +132,13 @@
 <para><simplesect kind="warning"><para>⚠️ Including <computeroutput>BipedalLocomotion/Framework.h</computeroutput> may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the <ulink url="https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md">IWYU</ulink> paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.</para>
 </simplesect>
 </para>
+</sect1>
+<sect1 id="index_1install-with-conda">
+<title>📦 Install with conda (recommended)</title>
+<para>You can easily the library with <ulink url="https://anaconda.org/robotology/bipedal-locomotion-framework"><computeroutput>conda</computeroutput></ulink> using the following command</para>
+<para><programlisting filename=".sh"><codeline><highlight class="normal">conda<sp/>install<sp/>-c<sp/>robotology<sp/>bipedal-locomotion-framework</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>conda</computeroutput> will automatically install all the required dipendencies.</para>
 </sect1>
 <sect1 id="index_1build-the-suite">
 <title>🛠️ Build the suite</title>
