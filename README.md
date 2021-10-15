@@ -31,6 +31,8 @@ The **bipedal-locomotion-framework** project is a _suite_ of libraries for achie
 - [:hammer: Build the suite](#hammer-build-the-suite)
 - [:orange_book: Exported components](#orange_book-exported-components)
 - [:computer: Some utitilites](#computer-some-utilities)
+- [:hammer: Build the suite](#hammer-build-the-suite)
+- [:package: Install with conda (recommended)](#package-install-with-conda-(recommended))
 - [:snake: Python](#snake-python)
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
 - [:gear: Contributing](#gear-contributing)
@@ -69,6 +71,16 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |    [SimplifiedModelControllers](./src/SimplifiedModelControllers)     |   Library containing the controllers based on simplified models   | [`manif`](https://github.com/artivis/manif) |
 
 :warning: Including `BipedalLocomotion/Framework.h` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.
+
+# :package: Install with conda (recommended)
+You can easily the library with [`conda`](https://anaconda.org/robotology/bipedal-locomotion-framework) using the following command
+
+```sh
+conda install -c robotology bipedal-locomotion-framework
+```
+
+`conda` will automatically install all the required dipendencies.
+
 
 # :hammer: Build the suite
 The **bipedal-locomotion-framework**  can be built on Windows, macOS, and Linux. The easiest way to compile the library is to use the [`robotology-superbuild`](https://github.com/robotology/robotology-superbuild). If you enable the profiles  `ROBOTOLOGY_ENABLE_DYNAMICS` and `ROBOTOLOGY_ENABLE_DYNAMICS_FULL_DEPS` in the `robotology-superbuild` you will automatically clone and build **bipedal-locomotion-framework** and all the dependencies.

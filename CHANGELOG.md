@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fix
+
+## [0.4.0] - 2021-10-15
+### Added
 - Implement `AdvanceableRunner::isRunning()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/395)
 - Implement `ContactPhaseList::getPresentPhase()` method (https://github.com/dic-iit/bipedal-locomotion-framework/pull/396)
 - Add a synchronization mechanism for the `AdvanceableRunner` class (https://github.com/dic-iit/bipedal-locomotion-framework/pull/403)
@@ -163,7 +168,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.3.0...master
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.4.0...master
+[0.4.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
