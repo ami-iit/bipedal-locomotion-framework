@@ -235,7 +235,7 @@ def test_qp_inverse_kinematics():
     assert com_task.set_set_point(position=np.array([0.,0.,0.53]), velocity=np.array([0.,0.,0.]))
 
     # Add CoM task as hard constraint
-    assert qp_ik.add_task(task=com_task, taskName="Com_task", priority=0)
+    assert qp_ik.add_task(task=com_task, task_name="Com_task", priority=0)
 
     # Configure SE3 task (right foot)
     se3_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -254,7 +254,7 @@ def test_qp_inverse_kinematics():
     assert se3_task.set_set_point(I_H_F=I_H_F, mixed_velocity=mixed_velocity)
 
     # Add SE3 task as hard constraint
-    assert qp_ik.add_task(task=se3_task, taskName="se3_task", priority=0)
+    assert qp_ik.add_task(task=se3_task, task_name="se3_task", priority=0)
 
     # Configure joint tracking task (regularization)
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -277,7 +277,7 @@ def test_qp_inverse_kinematics():
     assert joint_tracking_task.set_set_point(joint_position=np.add(joint_values,joint_values_delta))
 
     # Add joint tracking task as soft constraint
-    assert qp_ik.add_task(task=joint_tracking_task, taskName="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    assert qp_ik.add_task(task=joint_tracking_task, task_name="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
 
     # Check that all the tasks have been added
     task_names = qp_ik.get_task_names()

@@ -5,7 +5,6 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -27,24 +26,7 @@ void CreateQPInverseKinematics(pybind11::module& module)
     using namespace BipedalLocomotion::IK;
 
     py::class_<QPInverseKinematics, IntegrationBasedIK>(module, "QPInverseKinematics")
-        .def(py::init())
-        .def(
-            "initialize",
-            [](QPInverseKinematics& impl,
-               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
-        .def("add_task",
-             &QPInverseKinematics::addTask,
-             py::arg("task"),
-             py::arg("taskName"),
-             py::arg("priority"),
-             py::arg("weight") = Eigen::VectorXd())
-        .def("get_task_names", &QPInverseKinematics::getTaskNames)
-        .def("finalize", &QPInverseKinematics::finalize, py::arg("handler"))
-        .def("advance", &QPInverseKinematics::advance)
-        .def("get_output", &QPInverseKinematics::getOutput)
-        .def("is_output_valid", &QPInverseKinematics::isOutputValid);
+        .def(py::init());
 }
 
 } // namespace IK
