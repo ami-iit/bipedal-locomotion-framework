@@ -63,7 +63,7 @@ public:
      * |             `kd`                   | `vector` |      Derivative Gain of the controller. if not specified \f$k_d = 2 \sqrt{k_p}\f$      |    No     |
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> paramHandler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
 
     /**
      * Set the kinDynComputations object.
