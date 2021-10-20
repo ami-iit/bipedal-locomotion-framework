@@ -6,14 +6,16 @@ import manifpy as manif
 import numpy as np
 import tempfile
 import urllib.request
+import os
 
 def get_kindyn():
 
     # retrieve the model
     model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
     model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
+    temp = tempfile.NamedTemporaryFile('wb', delete=False)
     temp.write(model.read())
+    temp.close()
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
@@ -27,6 +29,8 @@ def get_kindyn():
     kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
     kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
     assert kindyn_desc.is_valid()
+
+    os.unlink(temp.name)
 
     return joints_list, kindyn_desc
 
