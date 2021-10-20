@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Implement Python bindings for the TSID component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/428)
+
 ### Changed
 ### Fix
 
