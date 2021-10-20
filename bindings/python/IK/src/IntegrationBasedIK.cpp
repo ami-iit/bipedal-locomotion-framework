@@ -10,6 +10,7 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
+#include <BipedalLocomotion/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
 
@@ -33,7 +34,33 @@ void CreateIntegrationBasedIK(pybind11::module& module)
 
     py::class_<Source<IntegrationBasedIKState>>(module, "IntegrationBasedIKStateSource");
 
-    py::class_<IntegrationBasedIK, Source<IntegrationBasedIKState>>(module, "IntegrationBasedIK");
+    py::class_<ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>,
+               Source<IntegrationBasedIKState>>(module, "ILinearTaskSolverIK")
+        .def("add_task",
+             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::addTask,
+             py::arg("task"),
+             py::arg("task_name"),
+             py::arg("priority"),
+             py::arg("weight") = Eigen::VectorXd())
+        .def("get_task_names",
+             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::getTaskNames)
+        .def("finalize",
+             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::finalize,
+             py::arg("handler"))
+        .def("advance", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::advance)
+        .def("get_output", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::getOutput)
+        .def("is_output_valid",
+             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::isOutputValid)
+        .def(
+            "initialize",
+            [](ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>& impl,
+               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"));
+
+    py::class_<IntegrationBasedIK, //
+               ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>>(module,
+                                                                         "IntegrationBasedIK");
 }
 
 } // namespace IK

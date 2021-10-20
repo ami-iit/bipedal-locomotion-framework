@@ -28,18 +28,8 @@ void CreateJointTrackingTask(pybind11::module& module)
     py::class_<JointTrackingTask, std::shared_ptr<JointTrackingTask>, IKLinearTask>( //
         module,
         "JointTrackingTask")
-
         .def(py::init())
-        .def(
-            "initialize",
-            [](JointTrackingTask& impl,
-               std::shared_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   paramHandler) -> bool { return impl.initialize(paramHandler); },
-            py::arg("param_handler"))
         .def("set_kin_dyn", &JointTrackingTask::setKinDyn, py::arg("kin_dyn"))
-        .def("set_variables_handler",
-             &JointTrackingTask::setVariablesHandler,
-             py::arg("variables_handler"))
         .def("set_set_point",
              py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(&JointTrackingTask::setSetPoint),
              py::arg("joint_position"))

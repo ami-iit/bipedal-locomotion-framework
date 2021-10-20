@@ -25,11 +25,8 @@ using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::TSID;
 using namespace BipedalLocomotion::Math;
 
-TEST_CASE("Joints and Base dynamics tasks")
+TEST_CASE("Fesasible contact wrench Test")
 {
-    const std::string robotAcceleration = "robotAcceleration";
-    const std::string jointsTorque = "jointsTorque";
-
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = std::make_shared<StdImplementation>();
 

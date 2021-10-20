@@ -69,6 +69,14 @@ public:
     virtual bool setVariablesHandler(const System::VariablesHandler& variablesHandler);
 
     /**
+     * Initialize the task.
+     * @param paramHandler pointer to the parameters handler.
+     * @return True in case of success, false otherwise.
+     */
+    virtual bool
+    initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
      * Update the content of the task.
      * @return True in case of success, false otherwise.
      */
