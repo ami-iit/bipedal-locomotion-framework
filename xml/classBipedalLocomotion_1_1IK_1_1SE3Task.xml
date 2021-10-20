@@ -214,13 +214,14 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SE3Task::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; paramHandler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
         <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b">initialize</reimplements>
         <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
         </param>
         <briefdescription>
@@ -518,7 +519,7 @@
 </simplesect>
 <simplesect kind="note"><para>The <ref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kindref="compound">SE3Task</ref> is technically not a <formula id="6">$SE(3)$</formula> space defined task, instead is a <formula id="7">$SO(3) \times \mathbb{R}^3$</formula> task. Theoretically, there are differences between the two due to the different definitions of exponential maps and logarithm maps. Please consider that here the MIXED representation is used to define the 6d-velocity. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
 </simplesect>
-<simplesect kind="note"><para><ref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kindref="compound">SE3Task</ref> can be used to control also a subset of element of the linear part of the SE3. Please refer to <computeroutput>mask</computeroutput> parameter in <ref refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" kindref="member">IK::SE3Task::initialize</ref> method. </para>
+<simplesect kind="note"><para><ref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kindref="compound">SE3Task</ref> can be used to control also a subset of element of the linear part of the SE3. Please refer to <computeroutput>mask</computeroutput> parameter in <ref refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332" kindref="member">IK::SE3Task::initialize</ref> method. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -587,7 +588,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>getDescription</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1aa09a525f047070f5397096b17cdb550d" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>getTaskControllerMode</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5bc134954b2c2e49da6eb7b322cf72f3" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>m_b</name></member>

@@ -72,7 +72,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a0028d16af292421d866596701b9ee4d7" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a3fe969b8d2443f5f710edc3030cc4b03" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a0ab92d165ee188225344602442610af5" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ad603b6ecbe0c934131fb1c630a901e9a" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1abfd55d941ba14d73676b3109b092e98c" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ab327b31ccf438dff17dddcdc95580b7e" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1aa98dd96a1d97a79509a240bb1a00f2e1" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1af2061e278b2fe3e124d7b38f4fe82b73" kind="function"><name>update</name></member>
@@ -134,7 +134,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9f65cbf828750a418faf7be55bccc6fa" kind="variable"><name>m_jacobian</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9b6bac87c5de018c913d5a41047b09e0" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a8945afdb561e7767d53c4cd6eb52cac0" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4b1182dcb7394e66f1bd08b58fdb46d1" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a844e3b75ead48402cd2f3de84b9dfcf6" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a891dc057a2e01ebae6ad6423941b727e" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4c561605260cbec8a8b485f32977acc7" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9832f6dbb6371acca37faedfbafd720a" kind="function"><name>update</name></member>
@@ -151,7 +151,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a23ffff245ee7de0d7f2406159abd5b61" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aede268494a33319a87ef83fe5e554575" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a7590ca0048132445108daa3d67a0e659" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a85131d8255f77cbdd2258f8bcea4191f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1ab2f946ab57ef2f71953512251a307559" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a2662893646184c5116ca58361769bd45" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9dad79e04ccbb53e994f48261cdfedd2" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a51f32365f6d523620a057332f59cd9ac" kind="function"><name>update</name></member>
@@ -457,7 +457,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0e8aac3be25c201b35ce23f9d90f819c" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a270c728f8db20d478c4dc5c7e06b7ae5" kind="variable"><name>m_AinBodyCoordinate</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a545f125ac72cc9703cd557ed45583fdb" kind="variable"><name>m_kinDyn</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad1eaf2e8d63cb8ebcd97e32b3ef001e4" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a096d9a596274a152bbfdd253bc3079ee" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a4579d2f58ef9835249221046347bc2a0" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a14b903533e5ed685afe108ea8eeca187" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a35037493a05206a6594fc203e2f7f169" kind="function"><name>update</name></member>
@@ -855,7 +855,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a662516fbaffdda4c15d7037bceb83743" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a8352a5dba2c980bd1c185f489200e1a9" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa1784ffba9852adecfec6feb3041dc25" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a7c5d635682737c7d772e947d0ca4cd5b" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa5b22c96299d065460b875567f9c00c1" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a23cf7b6737fffe5af57cc5cdfc404992" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9ec4e8b05e99be884070f03d6cda6fcb" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9df9b3511e48b0f3c0107d022f89f516" kind="function"><name>update</name></member>
@@ -873,7 +873,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1aac20c440dcf7e56b2ed0e8d6f67f34c8" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a7e329f62a51ea05f09359d6ea6fc43d2" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a0d1fa97842040afc6ca64ef4feebfd63" kind="variable"><name>m_kinDyn</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1ad21f0af5e110ae1f161b96bd6525662f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a2efd9d5826a308b97292365094847122" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a69bfce9f74098bec01ad4d164ec3b46e" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1af494bf7f30549f2255ea9a288b8b9c3c" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a31be6e087b7f52e424e011204ea80f92" kind="function"><name>update</name></member>
@@ -896,7 +896,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aa2563ae93a0ea6da74e8b25e2d2e72b5" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a69ea5a8fe0f1ef2b2edc80814dab7e51" kind="variable"><name>m_robotAccelerationVariableName</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a62b2d0fdf8049220f8c25b7576d717c4" kind="variable"><name>m_kinDyn</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a8d026a1d033d5f5fc4782978451ff322" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ae0293ff1f064e3cbb84c78ae08588f70" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a625db1a9ca94c799d4b072fc2547da40" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ab7e33485266f942af7edd3e24fa0bc08" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a06157a0b7b15abff79d447cc9038573d" kind="function"><name>update</name></member>
@@ -947,6 +947,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" kind="function"><name>subA</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad6a0743b7902e539d634358b269741b4" kind="function"><name>subA</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a898c2f93e48aeeb41e29d17c17b95437" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" kind="function"><name>getA</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" kind="function"><name>getB</name></member>
@@ -1259,7 +1260,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab743b65174384a085b03e164f82eba67" kind="variable"><name>m_controllerMode</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a17236a753fd06ae3c3565e64276eb159" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a111007e03803ce3c9672b9d7ffdab3a1" kind="variable"><name>m_linearVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a1a4e99fc87edec6bfe2410554de44c53" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a12b1efcb5a2001dd18d8c3676c242dd6" kind="function"><name>update</name></member>
@@ -1279,7 +1280,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9e5cc88c71d9d71be66905a80559ddb9" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ade509401a17b44eca8f8c14a9388a747" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9f9f102be69d1f42dee154efda1b51a1" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a3779ed2c2fc26c9b7dcbaee2d5be5f64" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a27db393d05e72c4a7386a1ca4955e5f1" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a41f2fc817641302f84354938a12b69cd" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ae8d7bb9e44fe6a1dc30d4f721f7d398b" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d" kind="function"><name>update</name></member>
@@ -1378,7 +1379,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ac1200bfcd431814ccfcd7eaba7a30846" kind="variable"><name>m_jacobian</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1af09e162ff981331e70bd4f32f7d94df6" kind="variable"><name>m_angularVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a711c13be4925514ddd0a2828a04f76a4" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa1210c26aff02807e2bce7ee71382442" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa2de5b6178b6738b6effd7cc0adc7c8e" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a4fe68df9a3cd0a8f290b8c7080cbcbe6" kind="function"><name>update</name></member>
@@ -1397,7 +1398,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1af00d3b01eb1cf55e33004ab9dbc4bef0" kind="variable"><name>m_jacobian</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1acbc1f6e7e0ca02580424cffcb5b4e06a" kind="variable"><name>m_angularVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a72c456b80feecbe6368b386fc561fb4d" kind="variable"><name>m_spatialVelocitySize</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1aca709ca3f84f50c8e58dca61dfcf6586" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a562a6c8534d91c24166ce5077415e619" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a8524387ecc72645235f5dfb5f8d70059" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a054c0ac60226444020aee0eabf50d458" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a27b500bc5211c31f4d881629b29ec273" kind="function"><name>update</name></member>

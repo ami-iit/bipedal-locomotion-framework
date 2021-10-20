@@ -153,13 +153,14 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a7c5d635682737c7d772e947d0ca4cd5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa5b22c96299d065460b875567f9c00c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::JointDynamicsTask::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; paramHandler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
         <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b">initialize</reimplements>
         <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
         </param>
         <briefdescription>
@@ -424,7 +425,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>getDescription</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a7c5d635682737c7d772e947d0ca4cd5b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa5b22c96299d065460b875567f9c00c1" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac45bb45963eaa7df6a3d8603ec6975f3" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>m_b</name></member>

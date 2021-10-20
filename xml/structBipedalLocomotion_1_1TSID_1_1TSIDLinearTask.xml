@@ -98,6 +98,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>getDescription</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>m_b</name></member>

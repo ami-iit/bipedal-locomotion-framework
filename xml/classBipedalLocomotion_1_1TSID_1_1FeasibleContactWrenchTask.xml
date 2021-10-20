@@ -92,11 +92,12 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad1eaf2e8d63cb8ebcd97e32b3ef001e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a096d9a596274a152bbfdd253bc3079ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::FeasibleContactWrenchTask::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
         <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
@@ -389,7 +390,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>getDescription</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad1eaf2e8d63cb8ebcd97e32b3ef001e4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a096d9a596274a152bbfdd253bc3079ee" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0b332b35b7d5cb8b1666727470ad2970" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a270c728f8db20d478c4dc5c7e06b7ae5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>m_AinBodyCoordinate</name></member>

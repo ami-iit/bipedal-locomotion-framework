@@ -138,13 +138,14 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa1210c26aff02807e2bce7ee71382442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa2de5b6178b6738b6effd7cc0adc7c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SO3Task::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; paramHandler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
         <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b">initialize</reimplements>
         <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
         </param>
         <briefdescription>
@@ -433,7 +434,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>getDescription</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa1210c26aff02807e2bce7ee71382442" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa2de5b6178b6738b6effd7cc0adc7c8e" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a762d09e4dd536e2e54b27b87352b23c2" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1af09e162ff981331e70bd4f32f7d94df6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_angularVelocitySize</name></member>
