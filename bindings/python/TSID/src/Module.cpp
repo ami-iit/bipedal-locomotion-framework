@@ -35,6 +35,7 @@ void CreateModule(pybind11::module& module)
     CreateSO3Task(module);
     CreateJointTrackingTask(module);
     CreateBaseDynamicsTask(module);
+    CreateJointDynamicsTask(module);
     CreateFeasibleContactWrenchTask(module);
     CreateTaskSpaceInverseDynamics(module);
     CreateQPTSID(module);
