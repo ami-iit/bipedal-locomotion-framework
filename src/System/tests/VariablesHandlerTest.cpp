@@ -23,6 +23,7 @@ TEST_CASE("Test Variable Handler")
     {
         constexpr std::size_t variable1Size = 42;
         constexpr std::size_t variable2Size = 35;
+        constexpr std::size_t variable3Size = 3;
 
         REQUIRE(handler.addVariable("variable_1", variable1Size));
         REQUIRE(handler.addVariable("variable_2", variable2Size));
@@ -34,8 +35,15 @@ TEST_CASE("Test Variable Handler")
         REQUIRE(handler.getVariable("variable_2").size == variable2Size);
 
         REQUIRE(handler.getNumberOfVariables() == variable1Size + variable2Size);
-
         REQUIRE_FALSE(handler.getVariable("variable_3").isValid());
+
+        auto variable2 = handler.getVariable("variable_2");
+        REQUIRE(variable2.getElementIndex(10) == 10 + variable1Size);
+        REQUIRE(variable2.getElementIndex("variable_2_10") == 10 + variable1Size);
+
+        REQUIRE(handler.addVariable("variable_3", variable3Size, {"foo", "bar", "ok"}));
+        auto variable3 = handler.getVariable("variable_3");
+        REQUIRE(variable3.getElementIndex("bar") == variable1Size + variable2Size + 1);
     }
 
     SECTION("Add variables - ParametersHandler")
