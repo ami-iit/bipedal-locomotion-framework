@@ -35,7 +35,22 @@ void CreateVariablesHandler(pybind11::module& module)
         .def_static("invalid_variable", &VariablesHandler::VariableDescription::InvalidVariable);
 
     variablesHandler.def(py::init())
-        .def("add_variable", &VariablesHandler::addVariable, py::arg("name"), py::arg("size"))
+        .def("add_variable",
+             py::overload_cast<const std::string&, const std::size_t&>(
+                 &VariablesHandler::addVariable),
+             py::arg("name"),
+             py::arg("size"))
+        .def("add_variable",
+             py::overload_cast<const std::string&, const std::vector<std::string>&>(
+                 &VariablesHandler::addVariable),
+             py::arg("name"),
+             py::arg("elements_name"))
+        .def("add_variable",
+             py::overload_cast<const std::string&, const std::size_t&, const std::vector<std::string>& >(
+                 &VariablesHandler::addVariable),
+             py::arg("name"),
+             py::arg("size"),
+             py::arg("elements_name"))
         .def("get_variable",
              py::overload_cast<const std::string&>(&VariablesHandler::getVariable, py::const_),
              py::arg("name"))
