@@ -7,20 +7,51 @@
 
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <cstddef>
 
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ParametersHandler;
 
 bool VariablesHandler::VariableDescription::isValid() const
 {
-    return (offset >= 0) && (size >= 0);
+    return (offset >= 0) && (size >= 0) && (elementsName.size() >= 0) && (elementsNameMap.size() >= 0);
 }
 
 VariablesHandler::VariableDescription VariablesHandler::VariableDescription::InvalidVariable()
 {
     VariablesHandler::VariableDescription tmp;
-    tmp.offset = tmp.size = -1;
+    tmp.offset = tmp.size = InvalidIndex;
     return tmp;
+}
+
+std::ptrdiff_t VariablesHandler::VariableDescription::getElementIndex(const std::string& name) const
+{
+    // find the element index associated to the given name
+    auto element = elementsNameMap.find(name);
+
+    if (element == elementsNameMap.end())
+    {
+        log()->error("[VariableDescription::getElementIndex] Unable to find the element named: {}. "
+                     "an InvalidIndex will be returned.",
+                     name);
+        return InvalidIndex;
+    }
+
+    return element->second + offset;
+}
+
+std::ptrdiff_t
+VariablesHandler::VariableDescription::getElementIndex(std::ptrdiff_t localIndex) const
+{
+    if (localIndex >= size)
+    {
+        log()->error("[VariableDescription::getElementIndex] The localIndex is greather than the "
+                     "size of the variable. InvalidIndex will be returned.");
+
+        return InvalidIndex;
+    }
+
+    return localIndex + offset;
 }
 
 bool VariablesHandler::initialize(std::weak_ptr<const IParametersHandler> handler) noexcept
@@ -72,15 +103,35 @@ bool VariablesHandler::initialize(std::weak_ptr<const IParametersHandler> handle
         return false;
     }
 
+    std::vector<std::string> elementsNameVector;
     for (int i = 0; i < names.size(); i++)
     {
-        if (!this->addVariable(names[i], sizes[i]))
+        // check if the elements name vector has been provided
+        if (ptr->getParameter(names[i] + "_elements_name", elementsNameVector))
         {
-            log()->error("{} Unable to add the variable named {} having a size equal to {}.",
-                         logPrefix,
-                         names[i],
-                         sizes[i]);
-            return false;
+
+            if (!this->addVariable(names[i], sizes[i], elementsNameVector))
+            {
+                log()->error("{} Unable to add the variable named {} having a size equal to {}.",
+                             logPrefix,
+                             names[i],
+                             sizes[i]);
+                return false;
+            }
+        } else
+        {
+            log()->info("{} The parameter {}_elements_name is not found. The default one is used",
+                        logPrefix,
+                        names[i]);
+
+            if (!this->addVariable(names[i], sizes[i]))
+            {
+                log()->error("{} Unable to add the variable named {} having a size equal to {}.",
+                             logPrefix,
+                             names[i],
+                             sizes[i]);
+                return false;
+            }
         }
     }
 
@@ -89,6 +140,27 @@ bool VariablesHandler::initialize(std::weak_ptr<const IParametersHandler> handle
 
 bool VariablesHandler::addVariable(const std::string& name, const std::size_t& size) noexcept
 {
+    std::vector<std::string> elementsName(size);
+    for (int i = 0; i < size; i++)
+    {
+        elementsName[i] = name + "_" + std::to_string(i);
+    }
+
+    return this->addVariable(name, elementsName.size(), elementsName);
+
+    return true;
+}
+
+bool VariablesHandler::addVariable(const std::string& name,
+                                   const std::vector<std::string>& elementsName) noexcept
+{
+    return this->addVariable(name, elementsName.size(), elementsName);
+}
+
+bool VariablesHandler::addVariable(const std::string& name,
+                                   const std::size_t& size,
+                                   const std::vector<std::string>& elementsName) noexcept
+{
     // if the variable already exist cannot be added again.
     if (m_variables.find(name) != m_variables.end())
     {
@@ -96,10 +168,33 @@ bool VariablesHandler::addVariable(const std::string& name, const std::size_t& s
         return false;
     }
 
+    if (elementsName.size() != size)
+    {
+        log()->error("[VariableHandler::addVariable] The size of the vector of the element is "
+                     "different from the expected one. Expected: {}, Retrieved {}.",
+                     size,
+                     elementsName.size());
+        return false;
+    }
+
     VariablesHandler::VariableDescription description;
     description.size = size;
     description.offset = m_numberOfVariables;
     description.name = name;
+    description.elementsName = elementsName;
+    for (int i = 0; i < elementsName.size(); i++)
+    {
+        const auto& elementName = elementsName[i];
+        auto outcome = description.elementsNameMap.insert({elementName, i});
+        if (!outcome.second)
+        {
+            log()->error("[VariableHandler::addVariable] Unable to add the element {} in the "
+                         "variable {}. The element already exists.",
+                         elementName,
+                         name);
+            return false;
+        }
+    }
 
     m_variables.emplace(name, description);
     m_numberOfVariables += size;
@@ -138,7 +233,11 @@ std::string VariablesHandler::toString() const noexcept
     for (const auto& [key, variable] : m_variables)
     {
         out += key + " size: " + std::to_string(variable.size)
-              + ", offset: " + std::to_string(variable.offset) + ". ";
+               + ", offset: " + std::to_string(variable.offset) + " elements name:";
+        for (const auto& name : variable.elementsName)
+        {
+            out += " " + name;
+        }
     }
 
     return out;
