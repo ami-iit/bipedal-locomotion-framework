@@ -35,7 +35,7 @@
         <location file="BipedalLocomotion/IK/SE3Task.h" line="54" column="52" bodyfile="BipedalLocomotion/IK/SE3Task.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a49c8ce47f3986702316fa8f9e4edeff6" prot="private" static="no" mutable="no">
-        <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
         <definition>System::VariablesHandler::VariableDescription BipedalLocomotion::IK::SE3Task::m_robotVelocityVariable</definition>
         <argsstring></argsstring>
         <name>m_robotVelocityVariable</name>

@@ -86,7 +86,7 @@
         <argsstring>(const System::VariablesHandler::VariableDescription &amp;description)</argsstring>
         <name>subA</name>
         <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
           <declname>description</declname>
         </param>
         <briefdescription>
@@ -104,7 +104,7 @@
         <argsstring>(const System::VariablesHandler::VariableDescription &amp;description) const</argsstring>
         <name>subA</name>
         <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref> &amp;</type>
           <declname>description</declname>
         </param>
         <briefdescription>

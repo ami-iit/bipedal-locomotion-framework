@@ -20,7 +20,7 @@
         <location file="BipedalLocomotion/IK/SO3Task.h" line="44" column="53" bodyfile="BipedalLocomotion/IK/SO3Task.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1afa816d936f7ccdaca62824b0aac8dde0" prot="private" static="no" mutable="no">
-        <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
         <definition>System::VariablesHandler::VariableDescription BipedalLocomotion::IK::SO3Task::m_robotVelocityVariable</definition>
         <argsstring></argsstring>
         <name>m_robotVelocityVariable</name>

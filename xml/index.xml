@@ -1599,12 +1599,18 @@
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1aedf88ce4115faea15dd8cdff4fde689d" kind="variable"><name>right</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a53d6fe7056b832d8f5b73a2ecf9fc2f9" kind="function"><name>UnicyclePlannerOutput</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kind="struct"><name>BipedalLocomotion::System::VariablesHandler::VariableDescription</name>
-    <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a66b30b52ac1228e2909ff2509c7cfb5a" kind="variable"><name>offset</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9059e70b0951f8e1270c6b4f94e7eced" kind="variable"><name>size</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a2ac2e4964bef403b8e6cd6fe411f6d8a" kind="variable"><name>name</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a36653a0a835b8bbfebc04a5d38662870" kind="function"><name>isValid</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9e53678f0d1b10a3471aaae7c3da7930" kind="function"><name>InvalidVariable</name></member>
+  <compound refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kind="class"><name>BipedalLocomotion::System::VariablesHandler::VariableDescription</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1ac7555f0113d453a1b42ced876f0b4ab6" kind="variable"><name>InvalidIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a66b30b52ac1228e2909ff2509c7cfb5a" kind="variable"><name>offset</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9059e70b0951f8e1270c6b4f94e7eced" kind="variable"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a2ac2e4964bef403b8e6cd6fe411f6d8a" kind="variable"><name>name</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1ae2334fb7ab1a46222245b8c900c961e2" kind="variable"><name>m_elementsNameMap</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a85f74d40ae24b8f18298703ab9e8c41e" kind="variable"><name>m_elementsName</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1af965dc1cec4888a45cda733def0b6080" kind="friend"><name>VariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a36653a0a835b8bbfebc04a5d38662870" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1aadd4c179ff9f1a544390163055c177e8" kind="function"><name>getElementIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a4c8104de0e8b8e74032bb7dd2e5f1971" kind="function"><name>getElementIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9e53678f0d1b10a3471aaae7c3da7930" kind="function"><name>InvalidVariable</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kind="class"><name>BipedalLocomotion::System::VariablesHandler</name>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1aa6d354a3afe3e993680ecf2c791ff41b" kind="variable"><name>m_variables</name></member>
@@ -1612,6 +1618,8 @@
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1ad09bf88adebd030951619cee62bea749" kind="variable"><name>m_invalidVariable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a0e44cf73ad0607f1aea89ff028d0c8c4" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a877a88ced767cecb576549022e69eba5" kind="function"><name>addVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a54fcd9a65ebb02296f4f323de0695192" kind="function"><name>addVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1adf8d3e8c52216ccb01953c5d71fc95fb" kind="function"><name>addVariable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a88b67d2eb2b8d730c9d64a2825b1a72b" kind="function"><name>getVariable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a068903e29c12046b10eef247a6b6f74d" kind="function"><name>getVariable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1abd2b00cba19ce9978cc4d0e247e061b0" kind="function"><name>getNumberOfVariables</name></member>

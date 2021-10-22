@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::VariablesHandler::VariableDescription struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::System::VariablesHandler::VariableDescription class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,7 +62,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html">VariablesHandler</a>::<wbr/></span>VariableDescription <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html">VariablesHandler</a>::<wbr/></span>VariableDescription <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="VariablesHandler_8h.html">&lt;BipedalLocomotion/System/VariablesHandler.h&gt;</a></div>
         </h1>
         <p><span></span></p>
@@ -72,6 +72,7 @@
             <li>
               Reference
               <ul>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
@@ -79,11 +80,20 @@
             </li>
           </ul>
         </div>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="ac7555f0113d453a1b42ced876f0b4ab6">
+              static std::ptrdiff_t <a href="#ac7555f0113d453a1b42ced876f0b4ab6" class="m-doc-self">InvalidIndex</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
             <dt id="a9e53678f0d1b10a3471aaae7c3da7930">
-              <span class="m-doc-wrap-bumper">static auto <a href="#a9e53678f0d1b10a3471aaae7c3da7930" class="m-doc-self">InvalidVariable</a>(</span><span class="m-doc-wrap">) -&gt; <a href="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a></span>
+              <span class="m-doc-wrap-bumper">static auto <a href="#a9e53678f0d1b10a3471aaae7c3da7930" class="m-doc-self">InvalidVariable</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription.html" class="m-doc">VariableDescription</a></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -93,6 +103,14 @@
           <dl class="m-doc">
             <dt id="a36653a0a835b8bbfebc04a5d38662870">
               <span class="m-doc-wrap-bumper">auto <a href="#a36653a0a835b8bbfebc04a5d38662870" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aadd4c179ff9f1a544390163055c177e8">
+              <span class="m-doc-wrap-bumper">auto <a href="#aadd4c179ff9f1a544390163055c177e8" class="m-doc-self">getElementIndex</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::ptrdiff_t</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4c8104de0e8b8e74032bb7dd2e5f1971">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4c8104de0e8b8e74032bb7dd2e5f1971" class="m-doc-self">getElementIndex</a>(</span><span class="m-doc-wrap">std::ptrdiff_t localIndex) const -&gt; std::ptrdiff_t</span>
             </dt>
             <dd><span></span></dd>
           </dl>

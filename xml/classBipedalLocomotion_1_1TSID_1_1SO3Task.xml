@@ -20,7 +20,7 @@
         <location file="BipedalLocomotion/TSID/SO3Task.h" line="42" column="63" bodyfile="BipedalLocomotion/TSID/SO3Task.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a2dc271ea6396f7d3fc2c15a051950fb3" prot="private" static="no" mutable="no">
-        <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
         <definition>System::VariablesHandler::VariableDescription BipedalLocomotion::TSID::SO3Task::m_robotAccelerationVariable</definition>
         <argsstring></argsstring>
         <name>m_robotAccelerationVariable</name>

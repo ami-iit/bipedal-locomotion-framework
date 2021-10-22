@@ -7,7 +7,7 @@
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1_1ContactWrench" prot="private">BipedalLocomotion::TSID::JointDynamicsTask::ContactWrench</innerclass>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" prot="private" static="no" mutable="no">
-        <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
         <definition>System::VariablesHandler::VariableDescription BipedalLocomotion::TSID::JointDynamicsTask::m_robotAccelerationVariable</definition>
         <argsstring></argsstring>
         <name>m_robotAccelerationVariable</name>
@@ -21,7 +21,7 @@
         <location file="BipedalLocomotion/TSID/JointDynamicsTask.h" line="41" column="51" bodyfile="BipedalLocomotion/TSID/JointDynamicsTask.h" bodystart="41" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a86fea8b2a41fdc10df38c2e8b94af96e" prot="private" static="no" mutable="no">
-        <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
         <definition>System::VariablesHandler::VariableDescription BipedalLocomotion::TSID::JointDynamicsTask::m_jointsTorqueVariable</definition>
         <argsstring></argsstring>
         <name>m_jointsTorqueVariable</name>
