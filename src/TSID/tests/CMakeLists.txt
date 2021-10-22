@@ -32,7 +32,12 @@ add_bipedal_test(
   SOURCES FeasibleContactWrenchTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
 
- add_bipedal_test(
+add_bipedal_test(
+  NAME VariableRegularizationTaskTSID
+  SOURCES VariableRegularizationTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
+
+add_bipedal_test(
   NAME QPFixedBaseTSID
   SOURCES QPFixedBaseTSIDTest.cpp
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions BipedalLocomotion::ContinuousDynamicalSystem)
