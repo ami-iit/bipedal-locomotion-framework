@@ -121,9 +121,9 @@ bool VariablesHandler::initialize(std::weak_ptr<const IParametersHandler> handle
             }
         } else
         {
-            log()->info("{} The parameter {}_elements_name is not found. The default one is used",
-                        logPrefix,
-                        names[i]);
+            log()->debug("{} The parameter {}_elements_name is not found. The default one is used",
+                         logPrefix,
+                         names[i]);
 
             if (!this->addVariable(names[i], sizes[i]))
             {
