@@ -14,7 +14,8 @@ using namespace BipedalLocomotion::ParametersHandler;
 
 bool VariablesHandler::VariableDescription::isValid() const
 {
-    return (offset >= 0) && (size >= 0) && (elementsName.size() >= 0) && (elementsNameMap.size() >= 0);
+    return (offset >= 0) && (size >= 0) && (m_elementsName.size() >= 0)
+           && (m_elementsNameMap.size() >= 0);
 }
 
 VariablesHandler::VariableDescription VariablesHandler::VariableDescription::InvalidVariable()
@@ -27,9 +28,9 @@ VariablesHandler::VariableDescription VariablesHandler::VariableDescription::Inv
 std::ptrdiff_t VariablesHandler::VariableDescription::getElementIndex(const std::string& name) const
 {
     // find the element index associated to the given name
-    auto element = elementsNameMap.find(name);
+    auto element = m_elementsNameMap.find(name);
 
-    if (element == elementsNameMap.end())
+    if (element == m_elementsNameMap.end())
     {
         log()->error("[VariableDescription::getElementIndex] Unable to find the element named: {}. "
                      "an InvalidIndex will be returned.",
@@ -181,11 +182,11 @@ bool VariablesHandler::addVariable(const std::string& name,
     description.size = size;
     description.offset = m_numberOfVariables;
     description.name = name;
-    description.elementsName = elementsName;
+    description.m_elementsName = elementsName;
     for (int i = 0; i < elementsName.size(); i++)
     {
         const auto& elementName = elementsName[i];
-        auto outcome = description.elementsNameMap.insert({elementName, i});
+        auto outcome = description.m_elementsNameMap.insert({elementName, i});
         if (!outcome.second)
         {
             log()->error("[VariableHandler::addVariable] Unable to add the element {} in the "
@@ -234,7 +235,7 @@ std::string VariablesHandler::toString() const noexcept
     {
         out += key + " size: " + std::to_string(variable.size)
                + ", offset: " + std::to_string(variable.offset) + " elements name:";
-        for (const auto& name : variable.elementsName)
+        for (const auto& name : variable.m_elementsName)
         {
             out += " " + name;
         }

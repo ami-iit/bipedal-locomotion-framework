@@ -45,8 +45,8 @@ public:
         static VariableDescription InvalidVariable();
 
     private:
-        std::unordered_map<std::string, std::ptrdiff_t> elementsNameMap;
-        std::vector<std::string> elementsName;
+        std::unordered_map<std::string, std::ptrdiff_t> m_elementsNameMap;
+        std::vector<std::string> m_elementsName;
 
         friend class VariablesHandler;
     };
