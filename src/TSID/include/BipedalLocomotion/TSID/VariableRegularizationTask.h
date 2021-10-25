@@ -16,7 +16,7 @@ namespace TSID
 {
 
 /**
- * VariablesRegularizationTask is a concrete implementation of the Task. Please use this element if you
+ * VariableRegularizationTask is a concrete implementation of the Task. Please use this element if you
  * want to control the regularize a desired variable to a given value.
  * The task represents the following equation
  * \f[
@@ -75,7 +75,7 @@ class VariableRegularizationTask : public TSIDLinearTask
     std::size_t size() const override;
 
     /**
-     * The VariablesRegularizationTask is an equality task.
+     * The VariableRegularizationTask is an equality task.
      * @return the type of the task.
      */
     Type type() const override;
