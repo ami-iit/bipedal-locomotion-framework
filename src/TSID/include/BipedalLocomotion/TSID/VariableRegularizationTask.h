@@ -16,9 +16,8 @@ namespace TSID
 {
 
 /**
- * VariableRegularizationTask is a concrete implementation of the Task. Please use this element if you
- * want to control the regularize a desired variable to a given value.
- * The task represents the following equation
+ * VariableRegularizationTask is a concrete implementation of the Task. Please use this element if
+ * you want to regularize a variable to a given value. The task represents the following equation
  * \f[
  * x = x_{des}
  * \f]
@@ -54,11 +53,7 @@ public:
      * Set the set of variables required by the task. The variables are stored in the
      * System::VariablesHandler.
      * @param variablesHandler reference to a variables handler.
-     * @note The handler must contain a variable named as the parameter
-     * `robot_acceleration_variable_name` stored in the parameter handler. The variable represents
-     * the generalized acceleration of the robot. Where the generalized robot acceleration is a
-     * vector containing the base spatial-acceleration (expressed in mixed representation) and the
-     * variables acceleration.
+     * @note The variablesHandler must contain a variable named as the parameter `variable_name`.
      * @return True in case of success, false otherwise.
      */
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
