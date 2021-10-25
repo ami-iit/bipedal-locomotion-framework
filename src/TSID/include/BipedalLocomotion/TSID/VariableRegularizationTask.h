@@ -33,8 +33,9 @@ class VariableRegularizationTask : public TSIDLinearTask
                                                      the task */
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
+    std::size_t m_variableSize{0}; /**< Size of the regularized variable. */
 
- public:
+public:
     /**
      * Initialize the planner.
      * @param paramHandler pointer to the parameters handler.
@@ -43,6 +44,7 @@ class VariableRegularizationTask : public TSIDLinearTask
      * |  Parameter Name  |   Type   |                                   Description                                          | Mandatory |
      * |:----------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * | `variable_name`  | `string` |               Name of the variable that you want to regularize                         |    Yes    |
+     * | `variable_size`  |   `int`  | Number of the elements that will be regularized. |    Yes     |
      * | `elements_name`  | `vector` | Name of the elements to consider. If not specified all the elements are regularize to the desired vector |    No     |
      * @return True in case of success, false otherwise.
      */

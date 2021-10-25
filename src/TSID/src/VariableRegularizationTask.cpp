@@ -36,26 +36,53 @@ bool VariableRegularizationTask::setVariablesHandler(const VariablesHandler& var
         return false;
     }
 
+    if (m_variableSize > variable.size)
+    {
+        log()->error("{} The expect size is greater than the one stored in the variable named {}. "
+                     "This task is used to regularize a subset of elements of a variable.",
+                     errorPrefix,
+                     m_variableName);
+        return false;
+    }
+
     // resize the matrices
-    m_A.resize(m_controlledElements.size(), variablesHandler.getNumberOfVariables());
+    m_A.resize(m_variableSize, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_controlledElements.size());
+    m_b.resize(m_variableSize);
 
     // A is constant
-    for (int i = 0; i < m_controlledElements.size(); i++)
+    if (m_controlledElements.size() != 0)
     {
-        const auto& element = m_controlledElements[i];
-        auto index = variable.getElementIndex(m_controlledElements[i]);
-        if (index < 0)
+        for (int i = 0; i < m_controlledElements.size(); i++)
         {
-            log()->error("{} Unable to find the element named {} in the variable {}",
+            const auto& element = m_controlledElements[i];
+            auto index = variable.getElementIndex(m_controlledElements[i]);
+            if (index < 0)
+            {
+                log()->error("{} Unable to find the element named {} in the variable {}",
+                             errorPrefix,
+                             element,
+                             m_variableName);
+                return false;
+            }
+
+            m_A(i, index) = 1;
+        }
+    } else
+    {
+        if (m_variableSize != variable.size)
+        {
+            log()->error("{} The size of the variable named {} is different from expected. "
+                         "Expected: {}, Passed: {}.",
+                         errorPrefix,
                          m_variableName,
-                         element,
-                         errorPrefix);
+                         m_variableSize,
+                         variable.size);
             return false;
         }
-
-        m_A(i, index) = 1;
+        // if the size of the m_controlledElements vector is zero, this means that the entire
+        // variable is regularized
+        iDynTree::toEigen(this->subA(variable)).setIdentity();
     }
 
     return true;
@@ -78,17 +105,38 @@ bool VariableRegularizationTask::initialize(std::weak_ptr<const IParametersHandl
         return false;
     }
 
+    int variableSize{-1};
+    if (!ptr->getParameter("variable_size", variableSize) || variableSize < 0)
+    {
+        log()->error("{} Error while retrieving the size of the variable.", errorPrefix);
+        return false;
+    }
+    m_variableSize = variableSize;
+
     // set the description
-    m_description = "Variable Regularization Task [variable: " + m_variableName;
+    m_description = "Variable Regularization Task [variable: " + m_variableName + ", elements: ";
 
     if (!ptr->getParameter("elements_name", m_controlledElements))
     {
-        log()->error("{} Error while retrieving the elements variable names.", errorPrefix);
-        return false;
-    }
-    for (const auto& element : m_controlledElements)
+        m_description += "All";
+        log()->info("{} The elements_name is not set. All the {} elements will be regularized.",
+                    errorPrefix,
+                    m_variableSize);
+    } else
     {
-        m_description += " " + element;
+        if (m_variableSize != m_controlledElements.size())
+        {
+            log()->info("{} The size of the elements_name vector is different from the one "
+                        "expected. Expected: {}, Retrieved: {}",
+                        errorPrefix,
+                        m_variableSize,
+                        m_controlledElements.size());
+            return false;
+        }
+        for (const auto& element : m_controlledElements)
+        {
+            m_description += " " + element;
+        }
     }
     m_description += "]";
 
@@ -98,14 +146,14 @@ bool VariableRegularizationTask::initialize(std::weak_ptr<const IParametersHandl
 
 bool VariableRegularizationTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> setPoint)
 {
-    if (setPoint.size() != m_controlledElements.size())
+    m_isValid = false;
+    if (setPoint.size() != m_variableSize)
     {
-        m_isValid = false;
 
         log()->error("[VariableRegularizationTask::setSetPoint] the size of the set point vector "
                      "is different from the size of the controlled elements. Expected: {}. Passed: "
                      "{}",
-                     m_controlledElements.size(),
+                     m_variableSize,
                      setPoint.size());
         return false;
     }
@@ -125,7 +173,7 @@ std::size_t VariableRegularizationTask::size() const
         log()->warn(errorMessage);
         return 0;
     }
-    return m_controlledElements.size();
+    return m_variableSize;
 }
 
 VariableRegularizationTask::Type VariableRegularizationTask::type() const

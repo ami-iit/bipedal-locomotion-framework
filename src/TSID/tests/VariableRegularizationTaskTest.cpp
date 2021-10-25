@@ -21,51 +21,98 @@ using namespace BipedalLocomotion::TSID;
 
 TEST_CASE("Variable Regularization task")
 {
-    const std::string variableName = "variable_1";
+    const std::string variable1Name = "variable_1";
+    const std::string variable2Name = "variable_2";
+    constexpr int variable2Size = 20;
     const auto elementNames = std::vector<std::string>{"foo", "baz"};
 
-    auto parameterHandler = std::make_shared<StdImplementation>();
-    parameterHandler->setParameter("variable_name", variableName);
-    parameterHandler->setParameter("elements_name", elementNames);
+    auto parameterHandler1 = std::make_shared<StdImplementation>();
+    parameterHandler1->setParameter("variable_name", variable1Name);
+    parameterHandler1->setParameter("variable_size", (int)elementNames.size());
+    parameterHandler1->setParameter("elements_name", elementNames);
+
+    auto parameterHandler2 = std::make_shared<StdImplementation>();
+    parameterHandler2->setParameter("variable_name", variable2Name);
+    parameterHandler2->setParameter("variable_size", variable2Size);
 
     VariablesHandler variablesHandler;
     REQUIRE(variablesHandler.addVariable("dummy1", 10));
-    REQUIRE(variablesHandler.addVariable(variableName, {"foo", "bar", "baz"}));
+    REQUIRE(variablesHandler.addVariable(variable1Name, {"foo", "bar", "baz"}));
     REQUIRE(variablesHandler.addVariable("dummy2", 15));
+    REQUIRE(variablesHandler.addVariable(variable2Name, variable2Size));
 
-    VariableRegularizationTask task;
-    REQUIRE_FALSE(task.isValid());
-    REQUIRE(task.initialize(parameterHandler));
-    REQUIRE(task.setVariablesHandler(variablesHandler));
-    REQUIRE_FALSE(task.isValid());
+    SECTION("Element subgroup")
+    {
 
-    Eigen::VectorXd regularize(elementNames.size());
-    regularize.setRandom();
+        VariableRegularizationTask task;
+        REQUIRE_FALSE(task.isValid());
+        REQUIRE(task.initialize(parameterHandler1));
+        REQUIRE(task.setVariablesHandler(variablesHandler));
+        REQUIRE_FALSE(task.isValid());
 
-    REQUIRE(task.setSetPoint(regularize));
+        Eigen::VectorXd regularize(elementNames.size());
+        regularize.setRandom();
+        REQUIRE(task.setSetPoint(regularize));
 
-    // get A and b
-    Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
-    Eigen::Ref<const Eigen::VectorXd> b = task.getB();
+        Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
 
-    // check the matrix A
-    REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
-                         variablesHandler.getVariable("dummy1").size)
-                .isZero());
+        // check the matrix A
+        REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
+                             variablesHandler.getVariable("dummy1").size)
+                    .isZero());
 
-    REQUIRE(A.middleCols(variablesHandler.getVariable("dummy2").offset,
-                         variablesHandler.getVariable("dummy2").size)
-                .isZero());
+        REQUIRE(A.middleCols(variablesHandler.getVariable("dummy2").offset,
+                             variablesHandler.getVariable("dummy2").size)
+                    .isZero());
 
-    Eigen::MatrixXd temp = A.middleCols(variablesHandler.getVariable(variableName).offset,
-                                        variablesHandler.getVariable(variableName).size);
+        REQUIRE(A.middleCols(variablesHandler.getVariable(variable2Name).offset,
+                             variablesHandler.getVariable(variable2Name).size)
+                    .isZero());
 
-    Eigen::MatrixXd expectedSubA(2,3);
-    expectedSubA << 1, 0, 0,
-                    0, 0, 1;
+        Eigen::MatrixXd expectedSubA(2, 3);
+        expectedSubA << 1, 0, 0,
+                        0, 0, 1;
 
-    REQUIRE(temp.isApprox(expectedSubA));
+        REQUIRE(A.middleCols(variablesHandler.getVariable(variable1Name).offset,
+                             variablesHandler.getVariable(variable1Name).size)
+                    .isApprox(expectedSubA));
 
-    // check the vector b
-    REQUIRE(b.isApprox(regularize));
+        // check the vector b
+        REQUIRE(task.getB().isApprox(regularize));
+    }
+
+    SECTION("Entire variable")
+    {
+        VariableRegularizationTask task;
+        REQUIRE_FALSE(task.isValid());
+        REQUIRE(task.initialize(parameterHandler2));
+        REQUIRE(task.setVariablesHandler(variablesHandler));
+        REQUIRE_FALSE(task.isValid());
+
+        Eigen::VectorXd regularize(variable2Size);
+        regularize.setRandom();
+        REQUIRE(task.setSetPoint(regularize));
+
+        Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
+
+        // check the matrix A
+        REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
+                             variablesHandler.getVariable("dummy1").size)
+                    .isZero());
+
+        REQUIRE(A.middleCols(variablesHandler.getVariable("dummy2").offset,
+                             variablesHandler.getVariable("dummy2").size)
+                    .isZero());
+
+        REQUIRE(A.middleCols(variablesHandler.getVariable(variable1Name).offset,
+                             variablesHandler.getVariable(variable1Name).size)
+                    .isZero());
+
+        REQUIRE(A.middleCols(variablesHandler.getVariable(variable2Name).offset,
+                             variablesHandler.getVariable(variable2Name).size)
+                    .isIdentity());
+
+        // check the vector b
+        REQUIRE(task.getB().isApprox(regularize));
+    }
 }
