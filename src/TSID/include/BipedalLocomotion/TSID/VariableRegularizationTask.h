@@ -25,8 +25,6 @@ namespace TSID
  */
 class VariableRegularizationTask : public TSIDLinearTask
 {
-    /** Mask used to select the DoFs controlled by the task */
-    std::vector<bool> m_mask;
     std::string m_variableName; /**< Name of the variable considered that will be regularized */
     std::vector<std::string> m_controlledElements; /**< Name of the variable elements considered in
                                                      the task */
