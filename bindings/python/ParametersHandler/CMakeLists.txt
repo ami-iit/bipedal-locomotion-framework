@@ -36,6 +36,9 @@ if(FRAMEWORK_COMPILE_TomlImplementation)
     SOURCES src/TomlParametersHandler.cpp src/TomlModule.cpp
     HEADERS ${H_PREFIX}/TomlParametersHandler.h ${H_PREFIX}/TomlModule.h
     LINK_LIBRARIES BipedalLocomotion::ParametersHandlerTomlImplementation
+    TESTS tests/test_parameters_handler_toml.py
     )
+
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/config.toml ${PROJECT_BINARY_DIR}/config.toml COPYONLY)
 
 endif()
