@@ -119,18 +119,18 @@ bool VariableRegularizationTask::initialize(std::weak_ptr<const IParametersHandl
     if (!ptr->getParameter("elements_name", m_controlledElements))
     {
         m_description += "All";
-        log()->info("{} The elements_name is not set. All the {} elements will be regularized.",
-                    errorPrefix,
-                    m_variableSize);
+        log()->debug("{} The elements_name is not set. All the {} elements will be regularized.",
+                     errorPrefix,
+                     m_variableSize);
     } else
     {
         if (m_variableSize != m_controlledElements.size())
         {
-            log()->info("{} The size of the elements_name vector is different from the one "
-                        "expected. Expected: {}, Retrieved: {}",
-                        errorPrefix,
-                        m_variableSize,
-                        m_controlledElements.size());
+            log()->error("{} The size of the elements_name vector is different from the one "
+                         "expected. Expected: {}, Retrieved: {}",
+                         errorPrefix,
+                         m_variableSize,
+                         m_controlledElements.size());
             return false;
         }
         for (const auto& element : m_controlledElements)
