@@ -10,6 +10,7 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::JointTrackingTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SO3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::VariableRegularizationTask</derivedcompoundref>
     <includes local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includes>
     <briefdescription>
 <para><ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref> specializes a LinearTask in the case of Task based Inverse Dynamics. </para>
@@ -56,6 +57,12 @@
       <node id="9">
         <label>BipedalLocomotion::TSID::SO3Task</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion::TSID::VariableRegularizationTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

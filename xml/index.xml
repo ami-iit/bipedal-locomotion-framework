@@ -1612,6 +1612,19 @@
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a4c8104de0e8b8e74032bb7dd2e5f1971" kind="function"><name>getElementIndex</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9e53678f0d1b10a3471aaae7c3da7930" kind="function"><name>InvalidVariable</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" kind="class"><name>BipedalLocomotion::TSID::VariableRegularizationTask</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a16ff6448c616b96a9f906245cc0eb631" kind="variable"><name>m_variableName</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a1e08a12a6a73a79a81c2c33018c3f502" kind="variable"><name>m_controlledElements</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1ad49883be96ed012e29068aa0f228d8d5" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1ad22db6b86f7b0af9ec6551edb375e76a" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a21181352b0d84aeae073a5e46a2b1d96" kind="variable"><name>m_variableSize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a44319f32909224d367d61f5fc99eaaae" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1afeb8d2acf6e16f6f7b034b26803ca0e7" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1ae25a5ca3e9125dffcfdae6f76a17445a" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a4d9fa58ed90d17f878a63cfc6cac73d0" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a3ad566a5bda20a0dc7ea45e983f78ead" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a1d41a572a9794d3a252bdb52d6039d27" kind="function"><name>isValid</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" kind="class"><name>BipedalLocomotion::System::VariablesHandler</name>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1aa6d354a3afe3e993680ecf2c791ff41b" kind="variable"><name>m_variables</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1a5223ec79462f0387cddcb9add6e52b7b" kind="variable"><name>m_numberOfVariables</name></member>
@@ -2234,6 +2247,8 @@
   <compound refid="TaskSpaceInverseDynamics_8h" kind="file"><name>TaskSpaceInverseDynamics.h</name>
   </compound>
   <compound refid="TSIDLinearTask_8h" kind="file"><name>TSIDLinearTask.h</name>
+  </compound>
+  <compound refid="VariableRegularizationTask_8h" kind="file"><name>VariableRegularizationTask.h</name>
   </compound>
   <compound refid="Helper_8h" kind="file"><name>Helper.h</name>
     <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a574238d46c75541efac18d9a98976b23" kind="function"><name>convertValue</name></member>
