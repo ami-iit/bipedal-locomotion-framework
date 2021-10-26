@@ -27,3 +27,18 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
 
 
 endif()
+
+
+if(FRAMEWORK_COMPILE_TomlImplementation)
+
+  add_bipedal_locomotion_python_module(
+    NAME  ParametersHandlerTomlImplementationBindings
+    SOURCES src/TomlParametersHandler.cpp src/TomlModule.cpp
+    HEADERS ${H_PREFIX}/TomlParametersHandler.h ${H_PREFIX}/TomlModule.h
+    LINK_LIBRARIES BipedalLocomotion::ParametersHandlerTomlImplementation
+    TESTS tests/test_parameters_handler_toml.py
+    )
+
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/config.toml ${PROJECT_BINARY_DIR}/config.toml COPYONLY)
+
+endif()
