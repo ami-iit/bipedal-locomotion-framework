@@ -216,3 +216,36 @@ def test_dynamics():
     assert joint_dynamics_task.set_kin_dyn(kindyn_desc.kindyn)
     assert joint_dynamics_task.initialize(param_handler=param_handler)
     assert joint_dynamics_task.set_variables_handler(variables_handler=var_handler)
+
+def test_variable_regularization_task():
+
+    # get  kindyn
+    joints_list, kindyn_desc = get_kindyn()
+
+    # Set the parameters
+    param_handler_1 = blf.parameters_handler.StdParametersHandler()
+    param_handler_1.set_parameter_string(name="variable_name", value="variable_1")
+    param_handler_1.set_parameter_int(name="variable_size", value=15)
+
+    # Set the parameters
+    param_handler_2 = blf.parameters_handler.StdParametersHandler()
+    param_handler_2.set_parameter_string(name="variable_name", value="variable_2")
+    param_handler_2.set_parameter_int(name="variable_size", value=3)
+    param_handler_2.set_parameter_vector_string(name="elements_name",
+                                                value = ["huey", "dewey", "louie"])
+
+
+    var_handler = blf.system.VariablesHandler()
+    var_handler.add_variable("variable_1", 15)
+    var_handler.add_variable("variable_2", ["donald", "huey", "dewey", "louie", "daisy"])
+
+    # Initialize the task
+    regularizer_1 = blf.tsid.VariableRegularizationTask()
+    assert regularizer_1.initialize(param_handler=param_handler_1)
+    assert regularizer_1.set_variables_handler(variables_handler=var_handler)
+    assert regularizer_1.set_variables_handler(variables_handler=var_handler)
+
+    # Initialize the task
+    regularizer_2 = blf.tsid.VariableRegularizationTask()
+    assert regularizer_2.initialize(param_handler=param_handler_2)
+    assert regularizer_2.set_variables_handler(variables_handler=var_handler)

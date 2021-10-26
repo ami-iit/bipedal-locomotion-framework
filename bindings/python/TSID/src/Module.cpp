@@ -5,6 +5,7 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include "BipedalLocomotion/bindings/System/VariablesHandler.h"
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/bindings/TSID/BaseDynamicsTask.h>
@@ -18,6 +19,7 @@
 #include <BipedalLocomotion/bindings/TSID/SO3Task.h>
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/TaskSpaceInverseDynamics.h>
+#include <BipedalLocomotion/bindings/TSID/VariableRegularizationTask.h>
 
 namespace BipedalLocomotion
 {
@@ -38,6 +40,7 @@ void CreateModule(pybind11::module& module)
     CreateJointDynamicsTask(module);
     CreateFeasibleContactWrenchTask(module);
     CreateTaskSpaceInverseDynamics(module);
+    CreateVariableRegularizationTask(module);
     CreateQPTSID(module);
     CreateQPFixedBaseTSID(module);
 }

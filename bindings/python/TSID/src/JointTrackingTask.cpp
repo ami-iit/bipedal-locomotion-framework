@@ -30,9 +30,6 @@ void CreateJointTrackingTask(pybind11::module& module)
         "JointTrackingTask")
         .def(py::init())
         .def("set_kin_dyn", &JointTrackingTask::setKinDyn, py::arg("kin_dyn"))
-        .def("set_variables_handler",
-             &JointTrackingTask::setVariablesHandler,
-             py::arg("variables_handler"))
         .def("set_set_point",
              py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(&JointTrackingTask::setSetPoint),
              py::arg("joint_position"))
