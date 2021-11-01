@@ -4,6 +4,13 @@
 
 if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
+    # define new line accordingly to the operating system
+    if (WIN32)
+       set(NEW_LINE "\n\r")
+    else()
+       set(NEW_LINE "\n")
+    endif()
+
     option(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES
         "Do you want BLF to detect and use the active site-package directory? (it could be a system dir)"
         FALSE)
@@ -28,7 +35,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
     # Create the __init__.py file
     file(GENERATE
          OUTPUT "${BLF_PYTHON_PACKAGE}/__init__.py"
-         CONTENT "from . import bindings")
+         CONTENT "from .bindings import *${NEW_LINE}from . import utils${NEW_LINE}")
 
      # Install the __init__.py file
     install(FILES "${BLF_PYTHON_PACKAGE}/__init__.py"
