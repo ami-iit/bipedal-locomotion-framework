@@ -46,6 +46,13 @@ set_target_properties(pybind11_blf PROPERTIES
 if(FRAMEWORK_TEST_PYTHON_BINDINGS)
     add_subdirectory(tests)
 
+    # copy the utils.py file for the tests
+    add_custom_command(TARGET pybind11_blf POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+      ${CMAKE_CURRENT_SOURCE_DIR}/utils.py
+      ${BLF_PYTHON_PACKAGE}/utils.py)
+
+
     # For testing on Windows we copy the blf .dll in the same
     # directory of the bindings
     if(WIN32)
@@ -61,7 +68,8 @@ endif()
 # bipedal_locomotion
 # |-- __init__.py (generated from main bindings CMake file)
 # `-- bindings.<cpython_extension>
-#
+# `-- utils.py
+
 install(TARGETS pybind11_blf DESTINATION ${PYTHON_INSTDIR})
 
 # Install the __init__.py file
