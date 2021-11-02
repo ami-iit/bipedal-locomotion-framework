@@ -8,8 +8,8 @@ if(FRAMEWORK_COMPILE_TSID)
 
   add_bipedal_locomotion_python_module(
     NAME TSIDBindings
-    SOURCES src/BaseDynamicsTask.cpp src/CoMTask.cpp src/FeasibleContactWrenchTask.cpp src/JointDynamicsTask.cpp src/JointTrackingTask.cpp src/Module.cpp src/QPTSID.cpp src/SE3Task.cpp src/SO3Task.cpp src/TaskSpaceInverseDynamics.cpp src/TSIDLinearTask.cpp src/VariableRegularizationTask.cpp
-    HEADERS ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/FeasibleContactWrenchTask.h ${H_PREFIX}/JointDynamicsTask.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/Module.h ${H_PREFIX}/QPTSID.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/TaskSpaceInverseDynamics.h ${H_PREFIX}/TSIDLinearTask.h ${H_PREFIX}/VariableRegularizationTask.h
+    SOURCES src/BaseDynamicsTask.cpp src/CoMTask.cpp src/FeasibleContactWrenchTask.cpp src/JointDynamicsTask.cpp src/JointTrackingTask.cpp src/Module.cpp src/QPTSID.cpp src/SE3Task.cpp src/SO3Task.cpp src/TaskSpaceInverseDynamics.cpp src/TSIDLinearTask.cpp src/VariableRegularizationTask.cpp src/AngularMomentumTask.cpp
+    HEADERS ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/FeasibleContactWrenchTask.h ${H_PREFIX}/JointDynamicsTask.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/Module.h ${H_PREFIX}/QPTSID.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/TaskSpaceInverseDynamics.h ${H_PREFIX}/TSIDLinearTask.h ${H_PREFIX}/VariableRegularizationTask.h ${H_PREFIX}/AngularMomentumTask.h
     LINK_LIBRARIES BipedalLocomotion::TSID
     TESTS tests/test_TSID.py
     )

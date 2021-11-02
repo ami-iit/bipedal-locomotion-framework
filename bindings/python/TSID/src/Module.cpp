@@ -5,9 +5,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "BipedalLocomotion/bindings/System/VariablesHandler.h"
 #include <pybind11/pybind11.h>
 
+#include <BipedalLocomotion/bindings/TSID/AngularMomentumTask.h>
 #include <BipedalLocomotion/bindings/TSID/BaseDynamicsTask.h>
 #include <BipedalLocomotion/bindings/TSID/CoMTask.h>
 #include <BipedalLocomotion/bindings/TSID/FeasibleContactWrenchTask.h>
@@ -41,6 +41,7 @@ void CreateModule(pybind11::module& module)
     CreateFeasibleContactWrenchTask(module);
     CreateTaskSpaceInverseDynamics(module);
     CreateVariableRegularizationTask(module);
+    CreateAngularMomentumTask(module);
     CreateQPTSID(module);
     CreateQPFixedBaseTSID(module);
 }
