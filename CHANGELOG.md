@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to set the name of each element of a variable stored in the variables handler (https://github.com/ami-iit/bipedal-locomotion-framework/pull/429)
 - Develop the python bindings for toml implementation of the parameters handler (https://github.com/ami-iit/bipedal-locomotion-framework/pull/432)
 - Implement the VariableRegularizationTask in TSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/431)
+- Implement `create_tsid` utility function for the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/433)
 
 ### Changed
 ### Fix
