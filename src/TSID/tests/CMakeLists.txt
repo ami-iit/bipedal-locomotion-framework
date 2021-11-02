@@ -38,6 +38,12 @@ add_bipedal_test(
   LINKS BipedalLocomotion::TSID)
 
 add_bipedal_test(
+  NAME AngularMomentumTaskTSID
+  SOURCES AngularMomentumTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
+
+
+add_bipedal_test(
   NAME QPFixedBaseTSID
   SOURCES QPFixedBaseTSIDTest.cpp
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions BipedalLocomotion::ContinuousDynamicalSystem)
