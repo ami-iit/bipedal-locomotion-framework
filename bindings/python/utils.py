@@ -73,7 +73,7 @@ def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescripto
     variables_handler = blf.system.VariablesHandler()
 
     # initialize the variable handler
-    variables_handler.initialize(param_handler.get_group("VARIABLES"))
+    assert variables_handler.initialize(param_handler.get_group("VARIABLES"))
 
     # initialize the solver
     assert solver.initialize(param_handler.get_group("TSID"))
@@ -88,7 +88,11 @@ def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescripto
 
         # instantiate and initialize the the task
         tasks[name] = getattr(blf.tsid, task_group.get_parameter_string("type"))()
-        assert tasks[name].set_kin_dyn(kindyn.kindyn)
+
+        # a task may not have set_kin_dyn method
+        if hasattr(tasks[name], "set_kin_dyn") and callable(getattr(tasks[name], "set_kin_dyn")):
+            assert tasks[name].set_kin_dyn(kindyn.kindyn)
+
         assert tasks[name].initialize(task_group)
 
         # add the task to the optimization problem
