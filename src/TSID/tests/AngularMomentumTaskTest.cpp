@@ -35,7 +35,7 @@ TEST_CASE("Angular momentum task")
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
         iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 40; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
