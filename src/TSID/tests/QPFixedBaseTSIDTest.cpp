@@ -36,7 +36,7 @@ using namespace BipedalLocomotion::TSID;
 constexpr auto robotAcceleration = "robotAccelration";
 constexpr auto jointTorques = "jointTorques";
 constexpr int maxNumOfContacts = 0;
-constexpr double dT = 0.001;
+constexpr double dT = 0.01;
 
 struct TSIDAndTasks
 {
@@ -151,9 +151,7 @@ DesiredSetPoints getDesiredReference(std::shared_ptr<iDynTree::KinDynComputation
         joint = 0;
     }
 
-    gravity(0) = 0;
-    gravity(1) = 0;
-    gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;;
+    iDynTree::toEigen(gravity) << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
     REQUIRE(kinDyn->setRobotState(worldBasePos, jointsPos, baseVel, jointsVel, gravity));
 
@@ -216,10 +214,10 @@ TEST_CASE("QP-TSID")
 {
     auto parameterHandler = createParameterHandler();
 
-    constexpr double tolerance = 5e-2;
+    constexpr double tolerance = 1e-1;
 
     // propagate the inverse dynamics for
-    constexpr std::size_t iterations = 500;
+    constexpr std::size_t iterations = 200;
     Eigen::Vector3d gravity;
     gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
@@ -231,7 +229,6 @@ TEST_CASE("QP-TSID")
 
             REQUIRE(kinDyn->setFrameVelocityRepresentation(
             iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
-
 
             // create the model
             const iDynTree::Model model = iDynTree::getRandomChain(numberOfJoints);
@@ -263,19 +260,13 @@ TEST_CASE("QP-TSID")
             REQUIRE(tsidAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
 
-            Eigen::Matrix4d baseTransform;
-            baseTransform.setIdentity();
-            Eigen::Matrix<double, 6, 1> baseVelocity;
-            baseVelocity.setZero();
-
-            Eigen::VectorXd jointTorque(model.getNrOfDOFs());
-            jointTorque.setZero();
+            Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
+            Eigen::Matrix<double, 6, 1> baseVelocity = Eigen::Matrix<double, 6, 1>::Zero();
 
             for (std::size_t iteration = 0; iteration < iterations; iteration++)
             {
                 // get the solution of the integrator
-                const auto& [jointVelocity, jointPosition]
-                    = system.integrator->getSolution();
+                const auto& [jointVelocity, jointPosition] = system.integrator->getSolution();
 
                 // update the KinDynComputations object
                 REQUIRE(kinDyn->setRobotState(baseTransform,
@@ -287,11 +278,8 @@ TEST_CASE("QP-TSID")
                 // solve the TSID
                 REQUIRE(tsidAndTasks.tsid->advance());
 
-                // get the output of the TSID
-                jointTorque = tsidAndTasks.tsid->getOutput().jointTorques;
-
                 // propagate the dynamical system
-                system.dynamics->setControlInput({jointTorque});
+                system.dynamics->setControlInput({tsidAndTasks.tsid->getOutput().jointTorques});
                 system.integrator->integrate(0, dT);
             }
 
