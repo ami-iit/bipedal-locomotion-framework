@@ -26,7 +26,9 @@ void CreateQPTSID(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
 
-    py::class_<QPTSID, TaskSpaceInverseDynamics>(module, "QPTSID").def(py::init());
+    py::class_<QPTSID, TaskSpaceInverseDynamics>(module, "QPTSID")
+        .def(py::init())
+        .def("__repr__", &QPTSID::toString);
 }
 
 void CreateQPFixedBaseTSID(pybind11::module& module)

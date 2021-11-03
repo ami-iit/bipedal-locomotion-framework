@@ -125,6 +125,11 @@ public:
      * Return true if the content of get is valid.
      */
     bool isOutputValid() const override;
+
+    /**
+     * Return the description of the TSID problem.
+     */
+    std::string toString() const;
 };
 
 } // namespace TSID
