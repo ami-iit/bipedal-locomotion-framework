@@ -1138,6 +1138,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1afa20fe8f8e9bdfb8fc8cbdfc7bfd0b27" kind="function"><name>toString</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" kind="class"><name>BipedalLocomotion::Planners::QuinticSpline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" kind="variable"><name>m_pimpl</name></member>

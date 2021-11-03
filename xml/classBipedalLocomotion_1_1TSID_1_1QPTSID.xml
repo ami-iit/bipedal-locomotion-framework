@@ -309,6 +309,20 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/QPTSID.h" line="127" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1afa20fe8f8e9bdfb8fc8cbdfc7bfd0b27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::TSID::QPTSID::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Return the description of the TSID problem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="132" column="17"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> is a concrete class and implements a task space inverse dynamics. </para>
@@ -433,7 +447,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/QPTSID.h" line="37" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="38" bodyend="128"/>
+    <location file="BipedalLocomotion/TSID/QPTSID.h" line="37" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="38" bodyend="133"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::TSID::TaskSpaceInverseDynamics::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
@@ -452,6 +466,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Task</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1afa20fe8f8e9bdfb8fc8cbdfc7bfd0b27" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>toString</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~ILinearTaskSolver</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~QPTSID</name></member>
