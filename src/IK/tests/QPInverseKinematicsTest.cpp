@@ -211,7 +211,7 @@ TEST_CASE("QP-IK")
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
-    constexpr double tolerance = 5e-2;
+    constexpr double tolerance = 1e-1;
 
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
@@ -249,15 +249,12 @@ TEST_CASE("QP-IK")
             REQUIRE(ikAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
             // propagate the inverse kinematics for
-            constexpr std::size_t iterations = 80;
+            constexpr std::size_t iterations = 30;
             Eigen::Vector3d gravity;
             gravity << 0, 0, -9.81;
-            Eigen::Matrix4d baseTransform;
-            baseTransform.setZero();
-            Eigen::Matrix<double, 6, 1> baseVelocity;
-            baseVelocity.setZero();
-            Eigen::VectorXd jointVelocity(model.getNrOfDOFs());
-            jointVelocity.setZero();
+            Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
+            Eigen::Matrix<double, 6, 1> baseVelocity = Eigen::Matrix<double, 6, 1>::Zero();
+            Eigen::VectorXd jointVelocity = Eigen::VectorXd::Zero(model.getNrOfDOFs());
 
             for (std::size_t iteration = 0; iteration < iterations; iteration++)
             {

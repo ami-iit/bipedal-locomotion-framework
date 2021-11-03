@@ -39,7 +39,7 @@ TEST_CASE("SE3 Task")
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 40; numberOfJoints += 15)
     {
         // create the model
         const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
