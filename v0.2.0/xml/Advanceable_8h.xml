@@ -41,42 +41,42 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="19">
+      <node id="21">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="QuinticSpline_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion/Estimators/RecursiveLeastSquare.h</label>
         <link refid="RecursiveLeastSquare_8h"/>
       </node>
-      <node id="10">
+      <node id="17">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridge.h</label>
         <link refid="YarpSensorBridge_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="18">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
-      <node id="21">
+      <node id="23">
         <label>BipedalLocomotion/Planners/SO3Planner.h</label>
         <link refid="SO3Planner_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="13">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
       </node>
-      <node id="14">
+      <node id="12">
         <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
         <link refid="ContactDetector_8h"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -91,10 +91,10 @@
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="17">
+      <node id="19">
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
         <link refid="DCMPlanner_8h"/>
-        <childnode refid="18" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -109,7 +109,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
         <link refid="LeggedOdometry_8h"/>
       </node>
@@ -120,13 +120,13 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -134,50 +134,50 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="23">
+      <node id="16">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
         <link refid="FloatingBaseEstimator_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
-      <node id="16">
+      <node id="14">
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
-      <node id="18">
+      <node id="20">
         <label>BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</label>
         <link refid="TimeVaryingDCMPlanner_8h"/>
       </node>
-      <node id="20">
+      <node id="22">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="22">
+      <node id="15">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="6">
         <label>BipedalLocomotion/Perception/Features/ArucoDetector.h</label>
         <link refid="ArucoDetector_8h"/>
       </node>
-      <node id="12">
+      <node id="11">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
         <link refid="IntegrationBasedIK_8h"/>
         <childnode refid="2" relation="include">

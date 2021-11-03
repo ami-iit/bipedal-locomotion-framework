@@ -32,6 +32,22 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" kind="function"><name>stop</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" kind="function"><name>isRunning</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask" kind="class"><name>BipedalLocomotion::TSID::AngularMomentumTask</name>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1afa24177ee38525dbe17c96a816d8a4ea" kind="variable"><name>m_contactWrenches</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1aaf32037587c71a7b39581d4775e547f4" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a10108f5939ddea2e5fa531c4b82743b5" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac7860f6d5fb61e79b4c74d06d9ee154a" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eb60bd141ba8bc69833e54886399554" kind="variable"><name>m_R3Controller</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a275ea055f9fe7782ff4c6859cc742362" kind="variable"><name>m_angularMomentumSize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1adfa5278dee7999c81aa68860e169f57d" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a25c3ee24eb86183acc3e18c2ad7da094" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a478a45a91d950bb0531e7abaef523465" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4d85e404b2290c7c4a590db7faba5e6b" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac79b986221c2b3c91c51ff6ca9150839" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4984a250856cf3eb2ca7f2e768682efb" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ad629d399cdc84de02002c19c9d753882" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a6d0bf29627dc8622721706e3f4e5e79e" kind="function"><name>isValid</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector" kind="class"><name>BipedalLocomotion::Perception::ArucoDetector</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a1c02a982577ef5797a1cbf1d8dbf5b99" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a704549a7f794294d0d9bfb1c1e6509d1" kind="function"><name>ArucoDetector</name></member>
@@ -312,6 +328,10 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::Contacts::ContactWrench</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench_1aaf6c4dda35af85171a3a757c4dc7117e" kind="variable"><name>wrench</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::TSID::AngularMomentumTask::ContactWrench</name>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1_1ContactWrench_1af26ab162821427ecd659ba9a4b255e31" kind="variable"><name>frameIndex</name></member>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1_1ContactWrench_1a6455a2f2847e950053bd5f61532bc412" kind="variable"><name>variable</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::TSID::BaseDynamicsTask::ContactWrench</name>
     <member refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1abce8353dd8af6d6ee499e837492517a5" kind="variable"><name>frameIndex</name></member>
@@ -2233,6 +2253,8 @@
   </compound>
   <compound refid="YarpLogger_8h" kind="file"><name>YarpLogger.h</name>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+  </compound>
+  <compound refid="AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
   </compound>
   <compound refid="BaseDynamicsTask_8h" kind="file"><name>BaseDynamicsTask.h</name>
   </compound>

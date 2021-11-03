@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="dir_14e94b1d2b214f46e7485b8938bfc05d" kind="dir">
     <compoundname>BipedalLocomotion/TSID</compoundname>
+    <innerfile refid="AngularMomentumTask_8h">AngularMomentumTask.h</innerfile>
     <innerfile refid="BaseDynamicsTask_8h">BaseDynamicsTask.h</innerfile>
     <innerfile refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h">CoMTask.h</innerfile>
     <innerfile refid="FeasibleContactWrenchTask_8h">FeasibleContactWrenchTask.h</innerfile>

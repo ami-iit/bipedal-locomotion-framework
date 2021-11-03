@@ -4,12 +4,12 @@
     <compoundname>Logger.h</compoundname>
     <includes local="no">spdlog/fmt/ostr.h</includes>
     <includes local="no">spdlog/spdlog.h</includes>
-    <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
-    <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <includedby refid="PointCloudProcessor_8h" local="no">BipedalLocomotion/Perception/Features/PointCloudProcessor.h</includedby>
+    <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <includedby refid="YarpLogger_8h" local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includedby>
     <includedby refid="DefaultLogger_8h" local="no">BipedalLocomotion/TextLogging/DefaultLogger.h</includedby>
     <includedby refid="LoggerBuilder_8h" local="no">BipedalLocomotion/TextLogging/LoggerBuilder.h</includedby>
+    <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
     <includedby refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includedby>
     <includedby refid="Integrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includedby>
     <incdepgraph>
@@ -29,14 +29,14 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/TextLogging/DefaultLogger.h</label>
         <link refid="DefaultLogger_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -45,11 +45,11 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="6">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
-      <node id="4">
+      <node id="3">
         <label>BipedalLocomotion/TextLogging/YarpLogger.h</label>
         <link refid="YarpLogger_8h"/>
       </node>
@@ -77,7 +77,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
         <label>BipedalLocomotion/TextLogging/LoggerBuilder.h</label>
         <link refid="LoggerBuilder_8h"/>
       </node>
