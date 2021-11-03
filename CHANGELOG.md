@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - Implement the VariableRegularizationTask in TSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/431)
 - Implement `create_tsid` utility function for the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/433)
 - Implement the `AngularMomentumTask` in the `TSID` component and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/436)
+- Implement `QPTSID::toString` method and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/440)
 
 ### Changed
 ### Fix
