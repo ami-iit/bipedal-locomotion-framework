@@ -1727,9 +1727,6 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1Math_1_1Wrench" kind="class"><name>BipedalLocomotion::Math::Wrench</name>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1ac876eec5b76a1463e6dc81c864eb771a" kind="typedef"><name>Base</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1af0fee805537501aa890a711ec48c8527" kind="function"><name>Wrench</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1a40f5fc7a69c3f0b010dddbb6619a6e50" kind="function"><name>Wrench</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1afa4c9e39deaf76db982a3fc826d43781" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1ac113d1152f72599eebd8b0d9fd17904f" kind="function"><name>force</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1aabde2aff016f3ae78350c5a29f7302bf" kind="function"><name>torque</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1a2bb453c44dfac424f6809bf649d76998" kind="function"><name>force</name></member>
