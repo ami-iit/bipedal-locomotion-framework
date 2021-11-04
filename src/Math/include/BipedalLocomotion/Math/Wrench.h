@@ -26,22 +26,10 @@ template <class Scalar> class Wrench : public Eigen::Matrix<Scalar, 6, 1>
 public:
     using Base = Eigen::Matrix<Scalar, 6, 1>;
 
-    Wrench()
-        : Eigen::Matrix<Scalar, 6, 1>()
-    {
-    }
-
-    template <typename OtherDerived>
-    Wrench(const Eigen::MatrixBase<OtherDerived>& other)
-        : Eigen::Matrix<Scalar, 6, 1>(other)
-    {
-    }
-
-    template <typename OtherDerived> Wrench& operator=(const Eigen::MatrixBase<OtherDerived>& other)
-    {
-        this->Base::operator=(other);
-        return *this;
-    }
+    /**
+     * Inherit Eigen constructors
+     */
+    using Base::Base;
 
     /**
      * Get the linear force of the wrench
