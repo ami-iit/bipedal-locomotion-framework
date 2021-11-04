@@ -77,6 +77,10 @@ void CreateContact(pybind11::module& module)
         .def_readwrite("last_update_time", &EstimatedContact::lastUpdateTime)
         .def("get_contact_details", &EstimatedContact::getContactDetails)
         .def("set_contact_state_stamped", &EstimatedContact::setContactStateStamped);
+
+    py::class_<ContactWrench, ContactBase>(module, "ContactWrench")
+        .def(py::init())
+        .def_readwrite("wrench", &ContactWrench::wrench);
 }
 
 void CreateContactList(pybind11::module& module)
