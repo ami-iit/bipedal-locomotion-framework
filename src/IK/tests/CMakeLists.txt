@@ -23,6 +23,12 @@ add_bipedal_test(
   LINKS BipedalLocomotion::IK)
 
 add_bipedal_test(
+  NAME AngularMomentumTaskIK
+  SOURCES AngularMomentumTaskTest.cpp
+  LINKS BipedalLocomotion::IK)
+
+add_bipedal_test(
   NAME QPInverseKinematics
   SOURCES QPInverseKinematicsTest.cpp
-  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions BipedalLocomotion::ContinuousDynamicalSystem)
+  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
+        BipedalLocomotion::ContinuousDynamicalSystem)
