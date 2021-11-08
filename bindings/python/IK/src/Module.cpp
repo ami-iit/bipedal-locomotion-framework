@@ -7,6 +7,7 @@
 
 #include <pybind11/pybind11.h>
 
+#include <BipedalLocomotion/bindings/IK/AngularMomentumTask.h>
 #include <BipedalLocomotion/bindings/IK/CoMTask.h>
 #include <BipedalLocomotion/bindings/IK/IKLinearTask.h>
 #include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
@@ -31,6 +32,7 @@ void CreateModule(pybind11::module& module)
     CreateSE3Task(module);
     CreateSO3Task(module);
     CreateJointTrackingTask(module);
+    CreateAngularMomentumTask(module);
     CreateIntegrationBasedIK(module);
     CreateQPInverseKinematics(module);
 }

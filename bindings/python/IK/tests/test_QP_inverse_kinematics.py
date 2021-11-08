@@ -166,6 +166,40 @@ def test_joint_tracking_task():
     joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
+def test_angular_momentum_task():
+
+    # retrieve the model
+    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
+    model = urllib.request.urlopen(model_url)
+    temp = tempfile.NamedTemporaryFile()
+    temp.write(model.read())
+
+    # create KinDynComputationsDescriptor
+    kindyn_handler = blf.parameters_handler.StdParametersHandler()
+    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
+                   "torso_pitch", "torso_roll", "torso_yaw",
+                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
+                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
+                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
+                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
+    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
+    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
+    assert kindyn_desc.is_valid()
+
+    # Set the parameters
+    angular_momentum_param_handler = blf.parameters_handler.StdParametersHandler()
+    angular_momentum_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+
+    # Initialize the task
+    angular_momentum_task = blf.ik.AngularMomentumTask()
+    assert angular_momentum_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert angular_momentum_task.initialize(param_handler=angular_momentum_param_handler)
+    angular_momentum_var_handler = blf.system.VariablesHandler()
+    assert angular_momentum_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
+    assert angular_momentum_task.set_variables_handler(variables_handler=angular_momentum_var_handler)
+    assert angular_momentum_task.set_set_point([0., 0., 0.])
+
 def test_integration_based_ik_state():
 
     state = blf.ik.IntegrationBasedIKState()
