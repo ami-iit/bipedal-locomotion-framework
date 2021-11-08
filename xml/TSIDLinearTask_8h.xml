@@ -3,7 +3,7 @@
   <compounddef id="TSIDLinearTask_8h" kind="file" language="C++">
     <compoundname>TSIDLinearTask.h</compoundname>
     <includes refid="LinearTask_8h" local="no">BipedalLocomotion/System/LinearTask.h</includes>
-    <includedby refid="AngularMomentumTask_8h" local="no">BipedalLocomotion/TSID/AngularMomentumTask.h</includedby>
+    <includedby refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h" local="no">BipedalLocomotion/TSID/AngularMomentumTask.h</includedby>
     <includedby refid="BaseDynamicsTask_8h" local="no">BipedalLocomotion/TSID/BaseDynamicsTask.h</includedby>
     <includedby refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" local="no">BipedalLocomotion/TSID/CoMTask.h</includedby>
     <includedby refid="FeasibleContactWrenchTask_8h" local="no">BipedalLocomotion/TSID/FeasibleContactWrenchTask.h</includedby>
@@ -141,7 +141,7 @@
       </node>
       <node id="2">
         <label>BipedalLocomotion/TSID/AngularMomentumTask.h</label>
-        <link refid="AngularMomentumTask_8h"/>
+        <link refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h"/>
       </node>
       <node id="11">
         <label>BipedalLocomotion/TSID/VariableRegularizationTask.h</label>
