@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file.
 - Implement the `AngularMomentumTask` in the `TSID` component and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/436)
 - Implement `QPTSID::toString` method and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/440)
 - Implement `ContactWrench` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
+- Implement AngularMomentum task in the IK component and the associated bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/443)
 
 ### Changed
 - Inherits all the `Eigen::Matrix` constructors in the `Wrenchd` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
