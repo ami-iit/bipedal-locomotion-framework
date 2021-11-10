@@ -128,8 +128,8 @@ public:
     bool setRobotModel(const iDynTree::Model& model);
 
     /**
-     * Set the mass matrix regularization term. i.e. $\f\bar{M} = M + M _ {reg}\f$. Where  $\fM\f$
-     * is the mass matrix and  $\fM_{reg}\f$ is the matrix regularization term.
+     * Set the mass matrix regularization term. i.e. \f$\bar{M} = M + M _ {reg}\f$. Where  \f$M\f$
+     * is the mass matrix and  \f$M_{reg}\f$ is the matrix regularization term.
      * @param matrix the regularization term for the mass matrix.
      * @notice Calling this function is not mandatory. Call it only if you want to add a
      * regularization term.
