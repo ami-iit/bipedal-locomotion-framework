@@ -194,7 +194,7 @@ $SO(3)$
             </dt>
             <dd>Update the content of the element.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab038c666ebdecb383dc2e4b6060ed39b" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_H_F,
+              <span class="m-doc-wrap-bumper">auto <a href="#a7cd4b01846c423d72cdabdecc6e34bf9" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
               const manif::SO3d::Tangent&amp; angularVelocity) -&gt; bool</span>
             </dt>
             <dd>Set the desired reference trajectory.</dd>
@@ -299,9 +299,9 @@ $SO(3)$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ab038c666ebdecb383dc2e4b6060ed39b"><div>
+          <section class="m-doc-details" id="a7cd4b01846c423d72cdabdecc6e34bf9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SO3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab038c666ebdecb383dc2e4b6060ed39b" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_H_F,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SO3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7cd4b01846c423d72cdabdecc6e34bf9" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
               const manif::SO3d::Tangent&amp; angularVelocity)</span></span>
             </h3>
             <p>Set the desired reference trajectory.</p>
@@ -311,8 +311,8 @@ $SO(3)$
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">I_H_F</td>
-                  <td></td>
+                  <td style="width: 1%">I_R_F</td>
+                  <td>Rotation between the link and the inertial frame.</td>
                 </tr>
                 <tr>
                   <td>angularVelocity</td>

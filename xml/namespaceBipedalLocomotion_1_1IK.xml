@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1IK" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::IK</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public">BipedalLocomotion::IK::AngularMomentumTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public">BipedalLocomotion::IK::CoMTask</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" prot="public">BipedalLocomotion::IK::IKLinearTask</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState" prot="public">BipedalLocomotion::IK::IntegrationBasedIKState</innerclass>

@@ -75,7 +75,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="20">
+      <node id="21">
         <label>BipedalLocomotion/TSID/SO3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h"/>
       </node>
@@ -106,9 +106,11 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -145,7 +147,7 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="20">
         <label>BipedalLocomotion/TSID/SE3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h"/>
       </node>
@@ -183,6 +185,10 @@
         <label>BipedalLocomotion/IK/AngularMomentumTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h"/>
       </node>
+      <node id="19">
+        <label>BipedalLocomotion/TSID/JointDynamicsTask.h</label>
+        <link refid="JointDynamicsTask_8h"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion/IK/IKLinearTask.h</label>
         <link refid="IKLinearTask_8h"/>
@@ -199,7 +205,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>BipedalLocomotion/TSID/VariableRegularizationTask.h</label>
         <link refid="VariableRegularizationTask_8h"/>
       </node>

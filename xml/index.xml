@@ -32,6 +32,25 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" kind="function"><name>stop</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" kind="function"><name>isRunning</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" kind="class"><name>BipedalLocomotion::IK::AngularMomentumTask</name>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2ce4d8535c571c6874b3d37497e2848b" kind="variable"><name>m_robotVelocityVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aad2b89ff3fb2078cfa78b20440d48996" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0e2873044e9bf67462aff4aafe691125" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ad0b8d4f0a403d2eecdcae48d7e723a0d" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a6451d98ed40aefbde444043128631217" kind="variable"><name>m_centroidalMomentumMatrix</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a7fbfa4b51522e80fc070081975eb92ff" kind="variable"><name>m_angularMomentumTaskSize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a07b0580e9032bfcd45d92c14be36db3a" kind="variable"><name>m_mask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2b6f7b2b28942fce6ec572d2b6ff2a33" kind="variable"><name>m_angularVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a78886d9ffcb02bc7ac0ee5921dfd3d14" kind="variable"><name>m_spatialVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0d554820cfaf291fa05a18309d7e9219" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1acd7beb7a44d070ac21fac5fc17e8aa8b" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2a854f6c6ba7a7795a272cc77b6c21fa" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a7b318269698acb82846c5d913530f11e" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a1c076d716aafc77e1a4eadf69406177c" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1affc1f83bf94e354fbc926195935d1b9d" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1af196740947b398a49294690227b2054b" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aa265b0bcd4834336c574d5472880b35e" kind="function"><name>isValid</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask" kind="class"><name>BipedalLocomotion::TSID::AngularMomentumTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1afa24177ee38525dbe17c96a816d8a4ea" kind="variable"><name>m_contactWrenches</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1aaf32037587c71a7b39581d4775e547f4" kind="variable"><name>m_isInitialized</name></member>
@@ -499,6 +518,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a5e7c20e9277cb4142fe8472528d9325e" kind="variable"><name>m_controlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a47f417380ed5ffa6ad8ce68bdb78b106" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a1c9d50c33a6e1476ac05a40b9fe8a025" kind="function"><name>setRobotModel</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1ab7c97c7e5aaf7bb504db08932a6f32b8" kind="function"><name>setMassMatrixRegularization</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a9ee5f109eba56b40efef1975da341ccc" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a14ec9a9d11edde6ef2eb4b979820975a" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1af5182cd7a52710b2780aa6f12b3ec545" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1aa9057a03d97318828a07971b083917cb" kind="function"><name>setControlInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" kind="class"><name>BipedalLocomotion::Contacts::FixedFootDetector</name>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a268884e697deca78b8d25350152f9a1e" kind="variable"><name>m_contactPhaselist</name></member>
@@ -533,6 +557,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1aca3ac725797470470c1e91217a5cde9d" kind="variable"><name>m_controlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a3de877c5b63858b8aeafaa538509cca1" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a6900ac52fdcf446ff813a6e0f8879d49" kind="function"><name>setRobotModel</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1af58b1f2a90f15d7d7ba19c00e6e6430c" kind="function"><name>setMassMatrixRegularization</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a092bf95a160b24b995ca299101cb87e2" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a064aab26bdad75880e872cf67f656cc1" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a92f1e01702673cb8244a2a50b979d257" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a4ed1098708551f632bf7e6677f10c091" kind="function"><name>setControlInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator" kind="class"><name>BipedalLocomotion::Estimators::FloatingBaseEstimator</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac94d11332538be5c0ae96761645b74f1" kind="enum"><name>State</name></member>
@@ -592,6 +621,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa38952215adbef47f3c318dc6f03de42" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" kind="typedef"><name>State</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1abfc3632b0828ed814cd2b66cdcc69b8a" kind="variable"><name>m_computationalBufferStateDerivative</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" kind="variable"><name>m_computationalBufferState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" kind="function"><name>addArea</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge" kind="class"><name>BipedalLocomotion::RobotInterface::ICameraBridge</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
@@ -1404,7 +1438,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a4fe68df9a3cd0a8f290b8c7080cbcbe6" kind="function"><name>update</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ab038c666ebdecb383dc2e4b6060ed39b" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a7cd4b01846c423d72cdabdecc6e34bf9" kind="function"><name>setSetPoint</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ae144756720b28fa084e87ad0f70c14df" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a35c09013202f649f35a153142dbdbe8d" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a762d09e4dd536e2e54b27b87352b23c2" kind="function"><name>isValid</name></member>

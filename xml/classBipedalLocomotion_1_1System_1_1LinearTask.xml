@@ -123,6 +123,7 @@
         <definition>virtual bool BipedalLocomotion::System::LinearTask::setVariablesHandler</definition>
         <argsstring>(const System::VariablesHandler &amp;variablesHandler)</argsstring>
         <name>setVariablesHandler</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2a854f6c6ba7a7795a272cc77b6c21fa">setVariablesHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4c561605260cbec8a8b485f32977acc7">setVariablesHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1af494bf7f30549f2255ea9a288b8b9c3c">setVariablesHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e">setVariablesHandler</reimplementedby>
@@ -166,6 +167,7 @@
         <definition>virtual bool BipedalLocomotion::System::LinearTask::initialize</definition>
         <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler)</argsstring>
         <name>initialize</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0d554820cfaf291fa05a18309d7e9219">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a844e3b75ead48402cd2f3de84b9dfcf6">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a2efd9d5826a308b97292365094847122">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332">initialize</reimplementedby>
@@ -209,6 +211,7 @@
         <definition>virtual bool BipedalLocomotion::System::LinearTask::update</definition>
         <argsstring>()</argsstring>
         <name>update</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a7b318269698acb82846c5d913530f11e">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9832f6dbb6371acca37faedfbafd720a">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a31be6e087b7f52e424e011204ea80f92">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a12b1efcb5a2001dd18d8c3676c242dd6">update</reimplementedby>
@@ -289,6 +292,7 @@
         <definition>virtual std::size_t BipedalLocomotion::System::LinearTask::size</definition>
         <argsstring>() const =0</argsstring>
         <name>size</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1affc1f83bf94e354fbc926195935d1b9d">size</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1ab6ca18e2a25621c49c3c48503a123b24">size</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1aead6b6b76aa609c95975958b484291e5">size</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5ab6187fe137756b042ce2691aa9713a">size</reimplementedby>
@@ -319,6 +323,7 @@
         <definition>virtual Type BipedalLocomotion::System::LinearTask::type</definition>
         <argsstring>() const =0</argsstring>
         <name>type</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1af196740947b398a49294690227b2054b">type</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a3042433b1418622521962e99e3027357">type</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1afc98f7b74a0f89d3a19fc352035c0fba">type</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a01137d0e28475d81d7d77f3ce24a2d8b">type</reimplementedby>
@@ -349,6 +354,7 @@
         <definition>virtual bool BipedalLocomotion::System::LinearTask::isValid</definition>
         <argsstring>() const =0</argsstring>
         <name>isValid</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aa265b0bcd4834336c574d5472880b35e">isValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4ccdae3479d871d3f7f9c7ab07312fd1">isValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a0afb416680e3da4cee2c11ea51dd97aa">isValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5bc134954b2c2e49da6eb7b322cf72f3">isValid</reimplementedby>
@@ -379,81 +385,87 @@
 <para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> describes a Linear Task element. </para>
     </briefdescription>
     <detaileddescription>
-<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="23">$A$</formula> and a vector <formula id="24">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="25">$ A $</formula> and <formula id="26">$ b $</formula> represents: <formula id="27">$ Ax = b$</formula> In case of inequality constraint <formula id="25">$ A $</formula> and <formula id="26">$ b $</formula> represents: <formula id="28">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
+<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="26">$A$</formula> and a vector <formula id="27">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="28">$ A $</formula> and <formula id="29">$ b $</formula> represents: <formula id="30">$ Ax = b$</formula> In case of inequality constraint <formula id="28">$ A $</formula> and <formula id="29">$ b $</formula> represents: <formula id="31">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
 </simplesect>
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="13">
+      <node id="14">
         <label>BipedalLocomotion::TSID::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>BipedalLocomotion::TSID::CoMTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1CoMTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="3">
+        <label>BipedalLocomotion::IK::AngularMomentumTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
         <label>BipedalLocomotion::IK::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>BipedalLocomotion::TSID::TSIDLinearTask</label>
         <link refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion::TSID::AngularMomentumTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion::IK::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion::TSID::JointDynamicsTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion::IK::SO3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion::TSID::BaseDynamicsTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>BipedalLocomotion::TSID::FeasibleContactWrenchTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask"/>
-        <childnode refid="7" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>BipedalLocomotion::TSID::SO3Task</label>
-        <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="16">
+        <label>BipedalLocomotion::TSID::SO3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
         <label>BipedalLocomotion::TSID::VariableRegularizationTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -462,13 +474,13 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>BipedalLocomotion::TSID::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
-        <childnode refid="7" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion::IK::CoMTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1CoMTask"/>
         <childnode refid="2" relation="public-inheritance">

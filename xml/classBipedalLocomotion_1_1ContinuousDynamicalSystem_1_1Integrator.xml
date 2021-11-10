@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</compoundname>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</derivedcompoundref>
     <includes local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includes>
     <templateparamlist>
@@ -175,6 +176,21 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="template-instance">
+          <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="public-inheritance">

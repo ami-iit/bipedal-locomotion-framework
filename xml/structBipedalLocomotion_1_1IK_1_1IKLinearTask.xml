@@ -3,6 +3,7 @@
   <compounddef id="structBipedalLocomotion_1_1IK_1_1IKLinearTask" kind="struct" language="C++" prot="public">
     <compoundname>BipedalLocomotion::IK::IKLinearTask</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public" virt="non-virtual">BipedalLocomotion::System::LinearTask</basecompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::AngularMomentumTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::CoMTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::JointTrackingTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
@@ -14,19 +15,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="5">
+      <node id="3">
+        <label>BipedalLocomotion::IK::AngularMomentumTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
         <label>BipedalLocomotion::IK::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion::IK::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion::IK::SO3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
         <childnode refid="1" relation="public-inheritance">
@@ -38,7 +45,7 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion::IK::CoMTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1CoMTask"/>
         <childnode refid="1" relation="public-inheritance">

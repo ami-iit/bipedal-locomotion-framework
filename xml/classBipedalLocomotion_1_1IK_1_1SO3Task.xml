@@ -277,14 +277,14 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </inbodydescription>
         <location file="BipedalLocomotion/IK/SO3Task.h" line="107" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1ab038c666ebdecb383dc2e4b6060ed39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a7cd4b01846c423d72cdabdecc6e34bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SO3Task::setSetPoint</definition>
-        <argsstring>(const manif::SO3d &amp;I_H_F, const manif::SO3d::Tangent &amp;angularVelocity)</argsstring>
+        <argsstring>(const manif::SO3d &amp;I_R_F, const manif::SO3d::Tangent &amp;angularVelocity)</argsstring>
         <name>setSetPoint</name>
         <param>
           <type>const manif::SO3d &amp;</type>
-          <declname>I_H_F</declname>
+          <declname>I_R_F</declname>
         </param>
         <param>
           <type>const manif::SO3d::Tangent &amp;</type>
@@ -378,7 +378,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
 <para><ref refid="classBipedalLocomotion_1_1IK_1_1SO3Task" kindref="compound">SO3Task</ref> is a concrete implementation of the IK::Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot velocity <formula id="15">$\dot{\nu}$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="16">\[ J_\omega \nu = \omega ^ * \]</formula> where <formula id="17">$J_\omega$</formula> is the angular part of the robot Jacobian and <formula id="18">$\omega ^ *$</formula> is the desired velocity. The desired velocity is chosen such that the orientation of the frame will asymptotically converge to the desired trajectory. <formula id="18">$\omega ^ *$</formula> is computed with a Proportional controller in <formula id="5">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/dic-iit/lie-group-controllers">https://github.com/dic-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot velocity <formula id="18">$\dot{\nu}$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="19">\[ J_\omega \nu = \omega ^ * \]</formula> where <formula id="20">$J_\omega$</formula> is the angular part of the robot Jacobian and <formula id="21">$\omega ^ *$</formula> is the desired velocity. The desired velocity is chosen such that the orientation of the frame will asymptotically converge to the desired trajectory. <formula id="21">$\omega ^ *$</formula> is computed with a Proportional controller in <formula id="8">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/dic-iit/lie-group-controllers">https://github.com/dic-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -449,7 +449,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a64a67a82f38f7239cf6282c9aec93ce9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_SO3Controller</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a711c13be4925514ddd0a2828a04f76a4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_spatialVelocitySize</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setKinDyn</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ab038c666ebdecb383dc2e4b6060ed39b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a7cd4b01846c423d72cdabdecc6e34bf9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ae144756720b28fa084e87ad0f70c14df" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>subA</name></member>

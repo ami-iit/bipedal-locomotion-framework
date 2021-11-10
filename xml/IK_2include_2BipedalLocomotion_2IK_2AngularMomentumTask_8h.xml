@@ -87,6 +87,7 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public">BipedalLocomotion::IK::AngularMomentumTask</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
     <briefdescription>
