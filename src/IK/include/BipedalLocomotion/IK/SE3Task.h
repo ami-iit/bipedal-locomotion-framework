@@ -50,6 +50,10 @@ namespace IK
  */
 class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
+public:
+    using Mode = System::ITaskControllerManager::Mode;
+
+private:
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */
 
@@ -77,7 +81,7 @@ class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskCont
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 
     /** State of the proportional controller implemented in the task */
-    System::ITaskControllerManager::Mode m_controllerMode{Mode::Enable};
+    Mode m_controllerMode{Mode::Enable};
 
 public:
     /**
