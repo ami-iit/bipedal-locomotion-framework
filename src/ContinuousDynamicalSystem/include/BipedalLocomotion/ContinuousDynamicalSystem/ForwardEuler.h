@@ -41,7 +41,7 @@ namespace ContinuousDynamicalSystem
  * \f[
  * X + \psi = X \circ  \exp(\psi)
  * \f]
- * where \f$X\f$ belongs to a Lie group and $\f\psi\f$ belongs to the tangent space.
+ * where \f$X\f$ belongs to a Lie group and \f$\psi\f$ belongs to the tangent space.
  */
 template <class _DynamicalSystem>
 class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
