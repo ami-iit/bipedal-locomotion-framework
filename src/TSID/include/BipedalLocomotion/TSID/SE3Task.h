@@ -10,6 +10,7 @@
 
 #include <manif/manif.h>
 
+#include <BipedalLocomotion/System/ITaskControllerManager.h>
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -43,8 +44,12 @@ namespace TSID
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class SE3Task : public TSIDLinearTask
+class SE3Task : public TSIDLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
+public:
+    using Mode = System::ITaskControllerManager::Mode;
+
+private:
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */
     LieGroupControllers::ProportionalDerivativeControllerR3d m_R3Controller; /**< PD Controller in
@@ -64,6 +69,9 @@ class SE3Task : public TSIDLinearTask
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
+
+    /** State of the proportional derivative controller implemented in the task */
+    Mode m_controllerMode{Mode::Enable};
 
 public:
     /**
@@ -136,6 +144,19 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Set the task controller mode. Please use this method to disable/enable the Proportional
+     * Derivative controller implemented in this task.
+     * @param state state of the controller
+     */
+    void setTaskControllerMode(Mode mode) override;
+
+    /**
+     * Get the task controller mode.
+     * @return the state of the controller
+     */
+    Mode getTaskControllerMode() const override;
 };
 
 } // namespace TSID

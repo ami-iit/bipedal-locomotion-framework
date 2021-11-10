@@ -13,6 +13,8 @@ All notable changes to this project are documented in this file.
 - Implement `ContactWrench` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
 - Implement AngularMomentum task in the IK component and the associated bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/443)
 - Implement `create_ik` utility function for the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/444)
+- Add the possibility to set the task controller mode for the SE3Task in the TSID component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/445)
+- Expose the `ITaskControlMode` class in the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/445)
 
 ### Changed
 - Inherits all the `Eigen::Matrix` constructors in the `Wrenchd` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)

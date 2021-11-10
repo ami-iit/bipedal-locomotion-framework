@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/System/Module.h>
 #include <BipedalLocomotion/bindings/System/VariablesHandler.h>
+#include <BipedalLocomotion/bindings/System/ITaskControllerManager.h>
 
 namespace BipedalLocomotion
 {
@@ -23,6 +24,7 @@ void CreateModule(pybind11::module& module)
 
     CreateVariablesHandler(module);
     CreateLinearTask(module);
+    CreateITaskControllerManager(module);
 }
 } // namespace System
 } // namespace bindings
