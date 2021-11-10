@@ -112,7 +112,7 @@ public:
      * @param angularVelocity angular velocity written in mixed inertial frame.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SO3d& I_H_F, const manif::SO3d::Tangent& angularVelocity);
+    bool setSetPoint(const manif::SO3d& I_R_F, const manif::SO3d::Tangent& angularVelocity);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

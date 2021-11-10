@@ -29,7 +29,7 @@ namespace IK
  * A_{cmm_\omega} \nu = {}^{G[A]} h_\omega ^*
  * \f]
  * where \f$A_{cmm_\omega}\f$ is the angular part of the robot centroidal momentum matrix
- * \f${}^G[A} h_\omega ^*$ is the desired centroidal angular momentum.
+ * \f${}^{G[A]} h_\omega ^*\f$ is the desired centroidal angular momentum.
  * @note AngularMomentumTask can be used to control also a subset of element of the AngularMomentum.
  * Please refer to `mask` parameter in IK::AngularMomentumTask::initialize method.
  */
