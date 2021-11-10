@@ -165,6 +165,13 @@ bool SE3Task::update()
         return m_isValid;
     }
 
+    auto getControllerOutupt = [&](const auto& controller) {
+        if (m_controllerMode == Mode::Enable)
+            return controller.getControl().coeffs();
+        else
+            return controller.getFeedForward().coeffs();
+    };
+
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
 
     m_SO3Controller.setState(
@@ -176,11 +183,13 @@ bool SE3Task::update()
         {iDynTree::toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
          iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3())});
 
+    // update the controller ouptut
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
-    m_b.head<3>() += m_R3Controller.getControl().coeffs();
-    m_b.tail<3>() += m_SO3Controller.getControl().coeffs();
+    // get the output
+    m_b.head<3>() += getControllerOutupt(m_R3Controller);
+    m_b.tail<3>() += getControllerOutupt(m_SO3Controller);
 
     if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                 this->subA(m_robotAccelerationVariable)))
@@ -220,4 +229,14 @@ SE3Task::Type SE3Task::type() const
 bool SE3Task::isValid() const
 {
     return m_isValid;
+}
+
+void SE3Task::setTaskControllerMode(Mode mode)
+{
+    m_controllerMode = mode;
+}
+
+SE3Task::Mode SE3Task::getTaskControllerMode() const
+{
+    return m_controllerMode;
 }
