@@ -73,6 +73,7 @@
               Reference
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
@@ -234,6 +235,19 @@ $SO(3) \times \mathbb{R}^3$
               struct <a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a>
             </dt>
             <dd><a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a> specializes a LinearTask in the case of Task based Inverse Dynamics.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">BipedalLocomotion::System::ITaskControllerManager</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">ITaskControllerManager</a> is an interface that can help you to handle tasks containing controllers.</dd>
+          </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="aa76ca34caa8a027489898626d36a67af">
+              using <a href="#aa76ca34caa8a027489898626d36a67af" class="m-doc-self">Mode</a> = <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">System::<wbr />ITaskControllerManager::<wbr />Mode</a>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -273,6 +287,14 @@ $SO(3) \times \mathbb{R}^3$
               <span class="m-doc-wrap-bumper">auto <a href="#ac6d22ed01a62f5b8809939d5d272c4a7" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#ad510fff46eb9cbbc65775b1a9490e297" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a8c65780b85d3927038c3320d3cfca730" class="m-doc">getB()</a></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#af1d30051cc772c8ac734d11e8cfc882c" class="m-doc">setTaskControllerMode</a>(</span><span class="m-doc-wrap"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> mode) <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Set the task controller mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a95920083d0e9566673a2dbe0fbd60243" class="m-doc">getTaskControllerMode</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Get the task controller mode.</dd>
           </dl>
         </section>
         <section>
@@ -434,6 +456,27 @@ $SO(3) \times \mathbb{R}^3$
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>True if the objects are valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af1d30051cc772c8ac734d11e8cfc882c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />TSID::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af1d30051cc772c8ac734d11e8cfc882c" class="m-doc-self">setTaskControllerMode</a>(</span><span class="m-doc-wrap"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> mode) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Set the task controller mode.</p>
+<p>Please use this method to disable/enable the Proportional Derivative controller implemented in this task.</p>
+          </div></section>
+          <section class="m-doc-details" id="a95920083d0e9566673a2dbe0fbd60243"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> BipedalLocomotion::<wbr />TSID::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a95920083d0e9566673a2dbe0fbd60243" class="m-doc-self">getTaskControllerMode</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Get the task controller mode.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the state of the controller</td>
                 </tr>
               </tfoot>
             </table>

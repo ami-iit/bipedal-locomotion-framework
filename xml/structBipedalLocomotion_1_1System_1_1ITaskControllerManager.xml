@@ -3,6 +3,7 @@
   <compounddef id="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" kind="struct" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::ITaskControllerManager</compoundname>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
     <includes local="no">BipedalLocomotion/System/ITaskControllerManager.h</includes>
       <sectiondef kind="public-type">
       <memberdef kind="enum" id="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" prot="public" static="no" strong="yes">
@@ -39,6 +40,7 @@
         <argsstring>(Mode mode)=0</argsstring>
         <name>setTaskControllerMode</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e">setTaskControllerMode</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c">setTaskControllerMode</reimplementedby>
         <param>
           <type><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kindref="member">Mode</ref></type>
           <declname>mode</declname>
@@ -68,6 +70,7 @@
         <argsstring>() const =0</argsstring>
         <name>getTaskControllerMode</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1aa09a525f047070f5397096b17cdb550d">getTaskControllerMode</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243">getTaskControllerMode</reimplementedby>
         <briefdescription>
 <para>Get the task control mode. </para>
         </briefdescription>
@@ -97,6 +100,12 @@
       <node id="1">
         <label>BipedalLocomotion::System::ITaskControllerManager</label>
         <link refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::TSID::SE3Task</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <location file="BipedalLocomotion/System/ITaskControllerManager.h" line="20" column="1" bodyfile="BipedalLocomotion/System/ITaskControllerManager.h" bodystart="21" bodyend="42"/>
