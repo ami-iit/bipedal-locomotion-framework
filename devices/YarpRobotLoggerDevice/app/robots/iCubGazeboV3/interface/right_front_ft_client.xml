@@ -2,7 +2,7 @@
 This software may be modified and distributed under the terms of the
 GNU Lesser General Public License v2.1 or any later version. -->
 <?xml version="1.0" encoding="UTF-8" ?>
-<device xmlns:xi="http://www.w3.org/2001/XInclude" name="root_link_imu_acc" type="genericSensorClient">
-    <param name="remote">/icub/xsens_inertial</param>
-    <param name="local">/yarp_robot_logger/xsens_inertial</param>
+<device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_front_ft_client" type="analogsensorclient">
+    <param name="remote">/icubSim/right_foot_front/analog:o</param>
+    <param name="local">/yarp_robot_logger/right_front_ft</param>
 </device>
