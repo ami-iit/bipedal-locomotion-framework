@@ -125,7 +125,7 @@ jobs:
     - name: Install Python2 [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
-        sudo apt-get install python2
+        sudo apt-get install python2 python-is-python2
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
