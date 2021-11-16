@@ -120,6 +120,12 @@ jobs:
         # please see https://github.com/IntelRealSense/librealsense/issues/9607#issuecomment-896789179
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
+    
+    # For regression test for https://github.com/ami-iit/bipedal-locomotion-framework/issues/451
+    - name: Install Python2 [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get install python2
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
