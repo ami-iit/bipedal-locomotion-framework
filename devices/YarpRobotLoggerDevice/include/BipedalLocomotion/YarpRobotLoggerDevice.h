@@ -67,6 +67,10 @@ private:
     std::vector<std::string> m_jointNames;
     analog_sensor_t m_analogSensorBuffer;
     unsigned int m_dofs;
+    bool m_streamMotorStates{false};
+    bool m_streamJointStates{false};
+    bool m_streamMotorPWM{false};
+    bool m_streamPIDs{false};
 
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
