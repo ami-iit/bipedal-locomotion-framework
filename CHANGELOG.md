@@ -15,6 +15,7 @@ All notable changes to this project are documented in this file.
 - Implement `create_ik` utility function for the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/444)
 - Add the possibility to set the task controller mode for the SE3Task in the TSID component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/445)
 - Expose the `ITaskControlMode` class in the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/445)
+- Add the possibility to enable/disable the joints and motors state logging in the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/453)
 
 ### Changed
 - Inherits all the `Eigen::Matrix` constructors in the `Wrenchd` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
