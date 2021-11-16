@@ -21,7 +21,7 @@ jobs:
           sudo make install
 
       - name: Fetch Python deps
-        run: python3 -m pip install jinja2 Pygments docutils
+        run: python3 -m pip install jinja2 Pygments docutils toml
 
       - name: Fetch m.css
         run: |
@@ -35,7 +35,7 @@ jobs:
         run: |
           cd docs
           git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
-          ./generate_website.sh ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
+          python3 ./generate_website.py --mcss_path ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
