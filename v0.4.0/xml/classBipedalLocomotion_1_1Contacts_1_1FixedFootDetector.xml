@@ -384,6 +384,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a2d43086e84e475eaec9adeb9575dea84" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ce837a6dcc21ac37faba2a162f6f677" prot="private" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>updateContactStates</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>updateFixedFoot</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~ContactDetector</name></member>
     </listofallmembers>
   </compounddef>

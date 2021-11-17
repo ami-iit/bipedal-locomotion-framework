@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::System::FloatingBaseDynamicalSystem</compoundname>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" prot="public" virt="non-virtual">BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</basecompoundref>
+    <includes local="no">BipedalLocomotion/System/FloatingBaseSystemDynamics.h</includes>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1ab0b5623ba4fa30999ef51c1c96dacb66" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>constexpr size_t</type>
+        <definition>constexpr size_t BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_baseDoFs</definition>
+        <argsstring></argsstring>
+        <name>m_baseDoFs</name>
+        <initializer>= 6</initializer>
+        <briefdescription>
+<para>Number of degree of freedom associated to the floating base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="60" column="29" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1aacbe7a1b7f6cf9178bcc45e2dcdb8b2e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+        <definition>std::shared_ptr&lt;iDynTree::KinDynComputations&gt; BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_kinDyn</definition>
+        <argsstring></argsstring>
+        <name>m_kinDyn</name>
+        <briefdescription>
+<para>Pointer to an existing instance of kinDynComputations object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="63" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a88cbffe30b6c5a8fdb2339c48fd1c461" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_actuatedDoFs</definition>
+        <argsstring></argsstring>
+        <name>m_actuatedDoFs</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of actuated degree of freedom. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="65" column="17" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a35b1d1a5e483ba89475865fe2779bf48" prot="private" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_gravity</definition>
+        <argsstring></argsstring>
+        <name>m_gravity</name>
+        <briefdescription>
+<para>Gravity vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="67" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3b44b6e3057a2e17f2234c51337f2eb4" prot="private" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_massMatrix</definition>
+        <argsstring></argsstring>
+        <name>m_massMatrix</name>
+        <briefdescription>
+<para>Floating-base mass matrix <linebreak/>
+ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="69" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3fdaead7de7d10eac61666bf4594b364" prot="private" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_jacobianMatrix</definition>
+        <argsstring></argsstring>
+        <name>m_jacobianMatrix</name>
+        <briefdescription>
+<para>Jacobian Matrix <linebreak/>
+ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="71" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a79e5d7a380937c3ffe8ed9822a589141" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_generalizedRobotAcceleration</definition>
+        <argsstring></argsstring>
+        <name>m_generalizedRobotAcceleration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="75" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a58f2e22b322aa93d0b90c83a7e75c7cb" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_knownCoefficent</definition>
+        <argsstring></argsstring>
+        <name>m_knownCoefficent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="76" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a87ea24d62b8bfac230de16168ce4ab12" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_useMassMatrixRegularizationTerm</definition>
+        <argsstring></argsstring>
+        <name>m_useMassMatrixRegularizationTerm</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="78" column="10" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3ddc78f38d908ab336087eb347bccb92" prot="private" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_massMatrixReglarizationTerm</definition>
+        <argsstring></argsstring>
+        <name>m_massMatrixReglarizationTerm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="79" column="21" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1ab7a85e499d277bd42822d9ed448184b0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::System::FloatingBaseDynamicalSystem::m_rho</definition>
+        <argsstring></argsstring>
+        <name>m_rho</name>
+        <initializer>{0.01}</initializer>
+        <briefdescription>
+<para>Regularization term used for the Baumgarte stabilization over the SO(3) group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="81" column="12" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a94cd18e8a65afeb12eb51226bf918a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::FloatingBaseDynamicalSystem::FloatingBaseDynamicalSystem</definition>
+        <argsstring>()</argsstring>
+        <name>FloatingBaseDynamicalSystem</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The constructor set the gravity acceleration vector to <formula id="4">$\begin{bmatrix} 0 &amp; 0 &amp; -9.81\end{bmatrix}^\top$</formula>. Please call <ref refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a907af2763f3cdae59df7b1f13950cd80" kindref="member">setGravityVector()</ref> if you want define your custom gravity vector. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1addba3557a85ca48702bf2f87132e34e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::FloatingBaseDynamicalSystem::initalize</definition>
+        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; handler) override</argsstring>
+        <name>initalize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a14d1090e991a0e47d6b07ebcf4f4b9ed">initalize</reimplements>
+        <param>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the Dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Please call this function only if you want to set an arbitrary value for the parameter used in the Baumgarte stabilization <formula id="5">$\rho$</formula> (The default value is 0.01 ). In this case the handler should contain a key called rho. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to the parameter handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success/false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="102" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a907af2763f3cdae59df7b1f13950cd80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::System::FloatingBaseDynamicalSystem::setGravityVector</definition>
+        <argsstring>(const Eigen::Ref&lt; const Eigen::Vector3d &gt; &amp;gravity)</argsstring>
+        <name>setGravityVector</name>
+        <param>
+          <type>const Eigen::Ref&lt; const Eigen::Vector3d &gt; &amp;</type>
+          <declname>gravity</declname>
+        </param>
+        <briefdescription>
+<para>Set the vector of gravity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gravity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a 3D vector describing the gravity acceleration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="108" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1af4866b02b6d2f42a91f2434b34b9f249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::FloatingBaseDynamicalSystem::setKinDyn</definition>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <name>setKinDyn</name>
+        <param>
+          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+          <declname>kinDyn</declname>
+        </param>
+        <briefdescription>
+<para>Set a kinDynComputations object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kinDyn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a pointer to the kinDynComputations object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="115" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem" kindref="compound">FloatingBaseDynamicalSystem</ref> describes a floating base dynamical system. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem" kindref="compound">FloatingBaseDynamicalSystem</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where:<itemizedlist>
+<listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" kindref="member">DynamicalSystem::StateType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::Vector6d: the base velocity expressed in mixed representation;</para>
+</listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s];</para>
+</listitem><listitem><para>Eigen::Vector3d: position of the base w.r.t. the inertial frame</para>
+</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="2">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::VectorXd: the joint positions [in rad].</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" kindref="member">DynamicalSystem::StateDerivativeType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::Vector6d: the base acceleration expressed in mixed representation;</para>
+</listitem><listitem><para>Eigen::VectorXd: the joint accelerations [in rad/s^2];</para>
+</listitem><listitem><para>Eigen::Vector3d: base velocity w.r.t. the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="3">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s].</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" kindref="member">DynamicalSystem::InputType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::VectorXd: the joint torques [in Nm];</para>
+</listitem><listitem><para>std::vector&lt;ContactWrench&gt;: List of contact wrenches. </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::FloatingBaseDynamicalSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::FloatingBaseDynamicalSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" line="47" column="1" bodyfile="BipedalLocomotion/System/FloatingBaseSystemDynamics.h" bodystart="59" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a45ed4feaae08b70c3b339e96dc430b4b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>dynamics</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a94cd18e8a65afeb12eb51226bf918a81" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>FloatingBaseDynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a6160d2d44798a3eec39cfce1b655ded6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>getState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1addba3557a85ca48702bf2f87132e34e5" prot="public" virt="virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>initalize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>InputType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a88cbffe30b6c5a8fdb2339c48fd1c461" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_actuatedDoFs</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1ab0b5623ba4fa30999ef51c1c96dacb66" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_baseDoFs</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1ace598fd4976439d0de2267f20f3402c8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_controlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a79e5d7a380937c3ffe8ed9822a589141" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_generalizedRobotAcceleration</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a35b1d1a5e483ba89475865fe2779bf48" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_gravity</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3fdaead7de7d10eac61666bf4594b364" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_jacobianMatrix</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1aacbe7a1b7f6cf9178bcc45e2dcdb8b2e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_kinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a58f2e22b322aa93d0b90c83a7e75c7cb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_knownCoefficent</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3b44b6e3057a2e17f2234c51337f2eb4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_massMatrix</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a3ddc78f38d908ab336087eb347bccb92" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_massMatrixReglarizationTerm</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1ab7a85e499d277bd42822d9ed448184b0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_rho</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a735e7ce5ce74a90e5584c887b6530ddd" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_state</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a87ea24d62b8bfac230de16168ce4ab12" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>m_useMassMatrixRegularizationTerm</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a34a150c0cc250490604aac970811483f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>setControlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1a907af2763f3cdae59df7b1f13950cd80" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>setGravityVector</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1af4866b02b6d2f42a91f2434b34b9f249" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a526bdef9b5aa4f5117d782e005c967b7" prot="public" virt="virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>setState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>StateDerivativeType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>StateType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a78d7fbb00a96d481d9a926b33f288d3b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::FloatingBaseDynamicalSystem</scope><name>~DynamicalSystem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

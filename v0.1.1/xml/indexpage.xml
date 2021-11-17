@@ -33,27 +33,22 @@ The libraries implemented in this repository are still experimental and we canno
 </listitem><listitem><para><ulink url="#computer-some-utilities">:computer: Some utitilites</ulink></para>
 </listitem><listitem><para><ulink url="#snake-python">:snake: Python</ulink></para>
 </listitem><listitem><para><ulink url="#running-how-to-use-the-libraries">:running: How to use the libraries</ulink></para>
-</listitem><listitem><para><ulink url="#gear-contributing">:gear: Contributing</ulink></para>
+</listitem><listitem><para><ulink url="#gear-contributing">:gear: Contributing​</ulink></para>
 </listitem></itemizedlist>
 </para>
 </sect1>
 <sect1 id="index_1autotoc_md3">
 <title>:page_facing_up: Mandatory dependencies</title>
 <para>The <bold>bipedal-locomotion-framework</bold> project is versatile and can be used to compile only some components.</para>
-<para>The minimum required dependencies are <computeroutput>Eigen3</computeroutput>, <computeroutput>iDynTree</computeroutput> and <computeroutput>spdlog</computeroutput>. If you want to build the tests please remember to install <computeroutput>Catch2</computeroutput>. If you are interested in the python bindings generation please install <computeroutput>python3</computeroutput> and <computeroutput>pybind11</computeroutput> in your system.</para>
+<para>The minimum required dependencies are <computeroutput>Eigen3</computeroutput> and <computeroutput>iDynTree</computeroutput>. If you want to build the tests please remember to install <computeroutput>Catch2</computeroutput>. If you are interested in the python bindings generation please install <computeroutput>python3</computeroutput> and <computeroutput>pybind11</computeroutput> in your system.</para>
 </sect1>
 <sect1 id="index_1autotoc_md4">
 <title>:orange_book: Exported components</title>
 <para>The <bold>bipedal-locomotion-framework</bold> project consists of several components. The components are stored in the <ulink url="./src"><computeroutput>src</computeroutput></ulink> folder and their compilation depends on the installed dependencies.</para>
-<para><table rows="22" cols="3"><row>
+<para><table rows="16" cols="3"><row>
 <entry thead="yes" align='center'><para>Component   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
 </entry><entry thead="yes" align='center'><para>Additional Dependencies    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para>Framework   </para>
-</entry><entry thead="no" align='center'><para>Interface library that gathers all the exported components, includable with the file <computeroutput>BipedalLocomotion/Framework.h</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/Autodiff">AutoDiff</ulink>   </para>
@@ -68,7 +63,7 @@ The libraries implemented in this repository are still experimental and we canno
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/Contacts">Contacts</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Syntactic description of a contact   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/nlohmann/json/"><computeroutput>nlohmann json</computeroutput></ulink>    </para>
+</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/Conversions">CommonConversions</ulink>   </para>
@@ -96,19 +91,14 @@ The libraries implemented in this repository are still experimental and we canno
 </entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><ulink url="./src/IK">IK</ulink>   </para>
-</entry><entry thead="no" align='center'><para>Inverse kinematics   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink> <ulink url="https://github.com/robotology/osqp-eigen"><computeroutput>osqp-eigen</computeroutput></ulink>    </para>
-</entry></row>
-<row>
 <entry thead="no" align='center'><para><ulink url="./src/Math">Math</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library containing mathematical algorithms   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>    </para>
+</entry><entry thead="no" align='center'><para>-    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/ParametersHandler">ParametersHandler</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Library for retrieving parameters from configuration files   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation) <ulink url="https://github.com/marzer/tomlplusplus/"><computeroutput>tomlplusplus</computeroutput></ulink> (only if you want the <computeroutput>toml</computeroutput> implementation)    </para>
+</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink> (only if you want the <computeroutput>YARP</computeroutput> implementation)    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/Planners">Planners</ulink>   </para>
@@ -133,31 +123,10 @@ The libraries implemented in this repository are still experimental and we canno
 <row>
 <entry thead="no" align='center'><para><ulink url="./src/YarpUtilities">YarpUtilities</ulink>   </para>
 </entry><entry thead="no" align='center'><para>Utilities library for retrieving data and from YARP structures   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink>    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><ulink url="./src/RobotInterface">PerceptionInterface</ulink>   </para>
-</entry><entry thead="no" align='center'><para>Generic interface classes to adapt to perception data formats like images and point clouds   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink> <ulink url="https://github.com/PointCloudLibrary/pcl"><computeroutput>PCL</computeroutput></ulink>    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><ulink url="./src/Perception">PerceptionCapture</ulink>   </para>
-</entry><entry thead="no" align='center'><para>Library containing driver classes for perception devices   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink> <ulink url="https://github.com/PointCloudLibrary/pcl"><computeroutput>PCL</computeroutput></ulink> <ulink url="https://github.com/IntelRealSense/librealsense"><computeroutput>realsense2</computeroutput></ulink>    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><ulink url="./src/Perception">PerceptionFeatures</ulink>   </para>
-</entry><entry thead="no" align='center'><para>Library containing perception algorithms useful for locomotion   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/opencv/opencv"><computeroutput>OpenCV</computeroutput></ulink>    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><ulink url="./src/SimplifiedModelControllers">SimplifiedModelControllers</ulink>   </para>
-</entry><entry thead="no" align='center'><para>Library containing the controllers based on simplified models   </para>
-</entry><entry thead="no" align='center'><para><ulink url="https://github.com/artivis/manif"><computeroutput>manif</computeroutput></ulink>   </para>
+</entry><entry thead="no" align='center'><para><ulink url="https://www.yarp.it/git-master/"><computeroutput>YARP</computeroutput></ulink>   </para>
 </entry></row>
 </table>
 </para>
-<para>:warning: Including <computeroutput>BipedalLocomotion/Framework.h</computeroutput> may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the <ulink url="https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md">IWYU</ulink> paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.</para>
 </sect1>
 <sect1 id="index_1autotoc_md5">
 <title>:hammer: Build the suite</title>

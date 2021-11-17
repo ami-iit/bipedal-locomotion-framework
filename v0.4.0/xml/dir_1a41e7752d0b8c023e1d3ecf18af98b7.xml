@@ -4,6 +4,7 @@
     <compoundname>BipedalLocomotion/System</compoundname>
     <innerfile refid="Advanceable_8h">Advanceable.h</innerfile>
     <innerfile refid="AdvanceableRunner_8h">AdvanceableRunner.h</innerfile>
+    <innerfile refid="Barrier_8h">Barrier.h</innerfile>
     <innerfile refid="Clock_8h">Clock.h</innerfile>
     <innerfile refid="IClock_8h">IClock.h</innerfile>
     <innerfile refid="ILinearTaskSolver_8h">ILinearTaskSolver.h</innerfile>

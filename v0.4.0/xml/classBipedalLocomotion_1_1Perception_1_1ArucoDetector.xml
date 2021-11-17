@@ -367,6 +367,7 @@
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a58e5dd0676db6b7be6a5ec05e9753c3c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>setImage</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a83c274ce991b2923e5c98f81bab80d16" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::ArucoDetector</scope><name>~ArucoDetector</name></member>
     </listofallmembers>
   </compounddef>

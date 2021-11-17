@@ -3,7 +3,7 @@
   <compounddef id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::RobotInterface::YarpSensorBridge</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" prot="public" virt="non-virtual">BipedalLocomotion::RobotInterface::ISensorBridge</basecompoundref>
-    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SensorBridgeMetaData &gt;</basecompoundref>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; SensorBridgeMetaData &gt;</basecompoundref>
     <includes local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includes>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</innerclass>
       <sectiondef kind="private-attrib">
@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="502" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="501" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="365" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="364" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="91" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="86" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad140d8706d86b037715d283cae1eca0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -48,16 +48,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="96" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="91" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae6e281311cece893870a6f9fe74bd4a0" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler) final</argsstring>
+        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler) final</argsstring>
         <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77">initialize</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a750adc5db6aafaee6d663d9007d8befc">initialize</reimplements>
         <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="102" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="97" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e67bd6969608baa82270d73aa218ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -107,34 +107,34 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="109" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="104" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::advance</definition>
         <argsstring>() final</argsstring>
         <name>advance</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2">advance</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a766b2a1d75a733ec09016adf1cb75e10">advance</reimplements>
         <briefdescription>
 <para>Advance the internal state. </para>
         </briefdescription>
         <detaileddescription>
-<para>This may change the value retrievable from get(). <simplesect kind="return"><para>True if the advance is successful. </para>
+<para>This may change the value retrievable from <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a256e49e7bd413b0cd6bcc9abe18d6fd9" kindref="member">get()</ref>. <simplesect kind="return"><para>True if the advance is successful. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="115" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="110" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a31ae8f3c258b66624929cf5ddaa50fcd" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::isOutputValid</definition>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::isValid</definition>
         <argsstring>() const final</argsstring>
-        <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <name>isValid</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ae05561bcb6de140d2269b7ca490d711d">isValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with get() </para>
+<para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a256e49e7bd413b0cd6bcc9abe18d6fd9" kindref="member">get()</ref> </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
@@ -143,12 +143,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="121" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="116" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a195c7b9fad31f33435704a5b721430ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a224b8dd4accc99745d365c0c46cef771" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::getFailedSensorReads</definition>
-        <argsstring>() const</argsstring>
+        <argsstring>()</argsstring>
         <name>getFailedSensorReads</name>
         <briefdescription>
 <para>list of sensors that was failed to be read in the current <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" kindref="member">advance()</ref> step </para>
@@ -160,14 +160,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="127" column="17"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="122" column="17"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92beedaec20313db5623cca3f9b630fd" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a256e49e7bd413b0cd6bcc9abe18d6fd9" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
-        <definition>const SensorBridgeMetaData&amp; BipedalLocomotion::RobotInterface::YarpSensorBridge::getOutput</definition>
+        <definition>const SensorBridgeMetaData&amp; BipedalLocomotion::RobotInterface::YarpSensorBridge::get</definition>
         <argsstring>() const final</argsstring>
-        <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <name>get</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ab0ecf6787eae22b06d9f9bfd8ed68184">get</reimplements>
         <briefdescription>
 <para>Get the object. </para>
         </briefdescription>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="133" column="32"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="128" column="32"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5ed3adf70e3be0f4020e7c2ecdaf8b9b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -209,7 +209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="140" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="135" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1562faa1a69c475f95b88ad943966a90" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="147" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="142" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06b6b193c3407b0d489a5bba5c1b4f1d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -271,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="154" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="149" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1e476a8729c50254046bb6b9f34130a3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -302,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="161" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="156" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0306dedea0c8239fb132df564f350e25" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -333,7 +333,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="168" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="163" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae1d4e48477fbf613d261ad3d473b6e71" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -364,7 +364,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="175" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="170" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a942974549cb60ba7deea1242073c33bd" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -395,7 +395,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="182" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="177" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="189" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="184" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab2b8a502338624b417a7efcd5aa2e477" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -457,14 +457,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="196" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="191" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a499e07ea5081b2fa8f72e1af488ed8f0" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1d53a02c9c8afec70096bf46e1053ba1" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointPosition</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;jointPosition, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;jointName, double &amp;jointPosition, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getJointPosition</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aebb94b2e2b4cc3045c04f69f62b2c1d1">getJointPosition</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a77ba190b348a0c8fc2a26cfb462d07b1">getJointPosition</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>jointName</declname>
@@ -474,9 +474,9 @@
           <declname>jointPosition</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get joint position in radians. </para>
@@ -513,22 +513,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="205" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="200" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acfb5db4bb7dc7193e3d8ba91f866310e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a140451252e1a0cfa91be5d92f3ba92d5" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointPositions</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointPositions, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointPositions, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getJointPositions</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a736887f71519e65809df5963dabf0e41">getJointPositions</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a32dde6b1562b494e6cd18baa4b5d3def">getJointPositions</reimplements>
         <param>
           <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
           <declname>jointPositions</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get all joints&apos; positions in radians. </para>
@@ -547,11 +547,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointPositions&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointPositions&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -559,14 +559,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="218" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="215" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a56f4f7f4171c04a641d678c936984647" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a709d0f08124a84c9c70591635ef2d2b8" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointVelocity</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;jointVelocity, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;jointName, double &amp;jointVelocity, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getJointVelocity</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a038b99ea62dbe5cd5ebfe347d4c0e0de">getJointVelocity</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a22b6ea285836cc3b39d17d44b58539b8">getJointVelocity</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>jointName</declname>
@@ -576,9 +576,9 @@
           <declname>jointVelocity</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get joint velocity in rad/s. </para>
@@ -615,22 +615,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="228" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="225" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0418048570f711df729598ba129712f4" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aab7116eb242a800f69263e2114b43b96" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointVelocities</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointVelocties, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointVelocties, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getJointVelocities</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9b237bf8588f2463336a32ee01018ee">getJointVelocities</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad8bff6b0079f5dad0134e6b45d4f87b5">getJointVelocities</reimplements>
         <param>
           <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
           <declname>jointVelocties</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get all joints&apos; velocities in rad/s. </para>
@@ -649,11 +649,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointVelocties&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointVelocties&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -661,14 +661,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="241" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="240" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad93d84935e2a8b8de199f1af6f37ea94" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a413dc527f4fb080f1fd44444223eff5a" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getIMUMeasurement</definition>
-        <argsstring>(const std::string &amp;imuName, Eigen::Ref&lt; Vector12d &gt; imuMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;imuName, Eigen::Ref&lt; Vector12d &gt; imuMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getIMUMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab61b60f1c9ad604667f848d8a7e56c6a">getIMUMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a690843875b0cf87cc7be008dd52671fa">getIMUMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>imuName</declname>
@@ -678,9 +678,9 @@
           <declname>imuMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get IMU measurement The serialization of measurments is as follows, (rpy acc omega mag) </para>
@@ -723,14 +723,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="257" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="256" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a84b7ab5b488bbc0845784d62231f301e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a833ff76a32cf861a57f03a0fc2d0d652" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getLinearAccelerometerMeasurement</definition>
-        <argsstring>(const std::string &amp;accName, Eigen::Ref&lt; Eigen::Vector3d &gt; accMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;accName, Eigen::Ref&lt; Eigen::Vector3d &gt; accMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getLinearAccelerometerMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0949583d77937eec7992e3e219870e84">getLinearAccelerometerMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aa71f7aaf492063bb3bf4cfd76ee2bd4b">getLinearAccelerometerMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>accName</declname>
@@ -740,9 +740,9 @@
           <declname>accMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get linear accelerometer measurement in m/s^2. </para>
@@ -779,14 +779,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="268" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="267" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7491b08358c13cbfe0e7db5d6cc1c5b3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aec16a946ed89a488751225a47a15b705" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getGyroscopeMeasure</definition>
-        <argsstring>(const std::string &amp;gyroName, Eigen::Ref&lt; Eigen::Vector3d &gt; gyroMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;gyroName, Eigen::Ref&lt; Eigen::Vector3d &gt; gyroMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getGyroscopeMeasure</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a26cbfe0877a9f218f76d300f08f2fb24">getGyroscopeMeasure</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1afdd9810e5acdd3ed07418cf10b7f2ac2">getGyroscopeMeasure</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>gyroName</declname>
@@ -796,9 +796,9 @@
           <declname>gyroMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get gyroscope measurement in rad/s. </para>
@@ -835,14 +835,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="279" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="278" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac0a30d06912f7ddcd013f08788293d94" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a49060b0107d8f56ddc7021f425ec782e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getOrientationSensorMeasurement</definition>
-        <argsstring>(const std::string &amp;rpyName, Eigen::Ref&lt; Eigen::Vector3d &gt; rpyMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;rpyName, Eigen::Ref&lt; Eigen::Vector3d &gt; rpyMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getOrientationSensorMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1add94673affb8521510ac266ebf0c5185">getOrientationSensorMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a72535ac0dd4c6d17420f1c82afdd9d51">getOrientationSensorMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>rpyName</declname>
@@ -852,9 +852,9 @@
           <declname>rpyMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get orientation sensor measurement in radians as roll pitch yaw Euler angles. </para>
@@ -891,14 +891,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="290" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="289" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a20fe4d0e6d278b88a31fa3085cb63e8b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae0a6b5e9fd18c20c7873306168f57fb1" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMagnetometerMeasurement</definition>
-        <argsstring>(const std::string &amp;magName, Eigen::Ref&lt; Eigen::Vector3d &gt; magMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;magName, Eigen::Ref&lt; Eigen::Vector3d &gt; magMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getMagnetometerMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a617ef927276eea5244014372eb883f2c">getMagnetometerMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abf8ea785d1e73c28e46574e425863480">getMagnetometerMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>magName</declname>
@@ -908,9 +908,9 @@
           <declname>magMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get magentometer measurement in tesla. </para>
@@ -947,14 +947,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="301" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="300" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a66749025c13868754865046ac3da07cb" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aef2c6c08a995009014018760806cf724" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getSixAxisForceTorqueMeasurement</definition>
-        <argsstring>(const std::string &amp;ftName, Eigen::Ref&lt; Vector6d &gt; ftMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;ftName, Eigen::Ref&lt; Vector6d &gt; ftMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getSixAxisForceTorqueMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a6a068e43f6eb1f149b7ef7bcac774a72">getSixAxisForceTorqueMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1add9e1ecce9c2d0b700e0a99326c2062a">getSixAxisForceTorqueMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>ftName</declname>
@@ -964,9 +964,9 @@
           <declname>ftMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get six axis force torque measurement. </para>
@@ -1003,14 +1003,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="312" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="311" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06e36c7b2258609c441afaf786a8992c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1adde61a113b0ca324c922d179322327e6" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getThreeAxisForceTorqueMeasurement</definition>
-        <argsstring>(const std::string &amp;ftName, Eigen::Ref&lt; Eigen::Vector3d &gt; ftMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;ftName, Eigen::Ref&lt; Eigen::Vector3d &gt; ftMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getThreeAxisForceTorqueMeasurement</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1afb90f14995a7b0c8c102f8b43985d6b4">getThreeAxisForceTorqueMeasurement</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a417c300f7a1408be135c2f0d5c7619f8">getThreeAxisForceTorqueMeasurement</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>ftName</declname>
@@ -1020,9 +1020,9 @@
           <declname>ftMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get three axis force-torque measurement containing normal force (N) and tangential moments (Nm) </para>
@@ -1059,14 +1059,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="323" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="322" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5142cbe32cde1a63595df4da1cb147e1" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a3498db54ed2ef0e11d02089eeecfee11" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getCartesianWrench</definition>
-        <argsstring>(const std::string &amp;cartesianWrenchName, Eigen::Ref&lt; Vector6d &gt; cartesianWrenchMeasurement, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;cartesianWrenchName, Eigen::Ref&lt; Vector6d &gt; cartesianWrenchMeasurement, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getCartesianWrench</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ae541773a584a70f1ad586a22da91703c">getCartesianWrench</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acc368336f8bb62b701e5b4e72ee09dc3">getCartesianWrench</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>cartesianWrenchName</declname>
@@ -1076,9 +1076,9 @@
           <declname>cartesianWrenchMeasurement</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get 6D end effector wrenches in N and Nm for forces and torques respectively. </para>
@@ -1115,14 +1115,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="334" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="333" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac346d428d98a915c180eefa88e77c4f5" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a988cf7f5150aea1b32d34ed2d0104f96" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorCurrent</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorCurrent, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(const std::string &amp;jointName, double &amp;motorCurrent, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getMotorCurrent</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a41fab351db0d88b6a40c08294ab83f50">getMotorCurrent</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a57ecc773337627947f47c727ca8e5a78">getMotorCurrent</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>jointName</declname>
@@ -1132,9 +1132,9 @@
           <declname>motorCurrent</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get motor current in ampere. </para>
@@ -1171,22 +1171,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="345" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="344" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a89aaa0ab9906b25fcae8da738caedf14" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorCurrents</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorCurrents, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorCurrents, double *receiveTimeInSeconds=nullptr) final</argsstring>
         <name>getMotorCurrents</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac7ccad5b61eb4d5d04dbe4ff1392937b">getMotorCurrents</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a3104b846b17c7f6e14e7608014723638">getMotorCurrents</reimplements>
         <param>
           <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
           <declname>motorCurrents</declname>
         </param>
         <param>
-          <type>OptionalDoubleRef</type>
+          <type>double *</type>
           <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Get all motors&apos; currents in ampere. </para>
@@ -1205,11 +1205,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorCurrents&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorCurrents&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -1217,619 +1217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="358" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorPWM</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorPWM, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorPWM</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4a44c7b9132b0020e36460ad4d1d1280">getMotorPWM</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorPWM</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor PWM. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPWM</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor PWM </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="368" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorPWMs</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorPWMs, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorPWMs</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7d4e7c18cb7dbae59a6091a69b1af111">getMotorPWMs</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorPWMs</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; PWMs. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPWMs</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; PWM in ampere </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPWMs&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="381" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointTorque</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;jointTorque, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getJointTorque</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a91fce22c7a03936c2615fadbf1adea3b">getJointTorque</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>jointTorque</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor torque in Nm. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">jointTorque</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor torque in Nm </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="391" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aae0867c8a5de903041906c4ad7bedccc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getJointTorques</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointTorques, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getJointTorques</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a2d0d9691f82815c720357ba1159bd472">getJointTorques</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>jointTorques</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; torques in Nm. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">jointTorques</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; torque in Nm </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was receivedW </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointTorques&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="404" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa1c6c07e3a5385b0b192f0f02f77bebc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getPidPosition</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;pidPosition, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getPidPosition</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acd6cec3e242e3588315c730d6b26cf71">getPidPosition</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>pidPosition</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get pid position in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>pid position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="414" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a386d1d0391c48bb6bb74ce778086a214" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getPidPositions</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; pidPositions, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getPidPositions</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad377ee3aebf6cfc33d01dc03bf0cc952">getPidPositions</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>pidPositions</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all pid positions in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositions</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all pid positions in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositions&quot; to this methodW </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="427" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad883780f4592b71f4b44230d3d204976" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getPidPositionError</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;pidPositionError, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getPidPositionError</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9840bc0f3578565fe397c5aeb41585c">getPidPositionError</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>pidPositionError</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get pid position error in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositionError</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>pid position error in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="437" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aaa6b1a101bc1bfb4e8d50045e90f6454" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getPidPositionErrors</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; pidPositionErrors, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getPidPositionErrors</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aa3b70d52b6fee2af14a77ca85ae0133b">getPidPositionErrors</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>pidPositionErrors</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all pid position errors in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositionErrors</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all pid position errors in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositionErrors&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="450" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a54de0c229c806a3d9f0cb49823dc20fc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorPosition</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorPosition, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorPosition</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a72e11e97a72a5a48decedfbd192cfea1">getMotorPosition</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorPosition</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor position in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="460" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorPositions</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorPositions, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorPositions</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abb0cdee4a82755d9e1d577ffeb7c452d">getMotorPositions</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorPositions</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; positions in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">parameter</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPositions&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="473" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorVelocity</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorVelocity, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorVelocity</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0f50a232e96cc6c59a6f948594ed7160">getMotorVelocity</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorVelocity</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor velocity in rad/s. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorVelocity</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor velocity in radians per second </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="483" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getMotorVelocities</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorVelocties, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
-        <name>getMotorVelocities</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170">getMotorVelocities</reimplements>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorVelocties</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; velocities in rad/s. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">parameter</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; velocities in radians per second </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorVelocties&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="496" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="359" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1856,7 +1244,7 @@
 </listitem><listitem><para>The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set</para>
 </listitem></itemizedlist>
 </para>
-<para>The parameters for writing the configuration file for this class is given as, <table rows="29" cols="4"><row>
+<para>The parameters for writing the configuration file for this class is given as, <table rows="26" cols="4"><row>
 <entry thead="yes" align='center'><para>Group   </para>
 </entry><entry thead="yes" align='center'><para>Parameter   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
@@ -1872,7 +1260,7 @@
 <entry thead="no" align='center'><para></para>
 </entry><entry thead="no" align='center'><para>stream_joint_states   </para>
 </entry><entry thead="no" align='center'><para>boolean   </para>
-</entry><entry thead="no" align='center'><para>Flag to activate the attachment to remapped control boards for joint states reading    </para>
+</entry><entry thead="no" align='center'><para>Flag to activate the attachment to IMU sensor devices    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para></para>
@@ -1897,24 +1285,6 @@
 </entry><entry thead="no" align='center'><para>stream_cameras   </para>
 </entry><entry thead="no" align='center'><para>boolean   </para>
 </entry><entry thead="no" align='center'><para>Flag to activate the attachment to Cameras devices    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>stream_pids   </para>
-</entry><entry thead="no" align='center'><para>boolean   </para>
-</entry><entry thead="no" align='center'><para>Flag to activate the attachment to remapped control boards for pids reading    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>stream_motor_states   </para>
-</entry><entry thead="no" align='center'><para>boolean   </para>
-</entry><entry thead="no" align='center'><para>Flag to activate the attachment to remapped control boards for motor states reading    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>stream_motor_PWM   </para>
-</entry><entry thead="no" align='center'><para>boolean   </para>
-</entry><entry thead="no" align='center'><para>Flag to activate the attachment to remapped control boards for PWM reading    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para>RemoteControlBoardRemapper   </para>
@@ -2042,35 +1412,20 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>BipedalLocomotion::System::Source&lt; SensorBridgeMetaData &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
-        <childnode refid="5" relation="template-instance">
-          <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
-        </childnode>
-      </node>
       <node id="2">
         <label>BipedalLocomotion::RobotInterface::ISensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge"/>
       </node>
-      <node id="6">
-        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+      <node id="4">
+        <label>BipedalLocomotion::System::Advanceable&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Advanceable&lt; SensorBridgeMetaData &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="4" relation="template-instance">
-          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+          <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -2082,94 +1437,59 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
-        <label>BipedalLocomotion::System::Source&lt; SensorBridgeMetaData &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
-        <childnode refid="5" relation="template-instance">
-          <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
-        </childnode>
-      </node>
       <node id="2">
         <label>BipedalLocomotion::RobotInterface::ISensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge"/>
       </node>
-      <node id="6">
-        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+      <node id="4">
+        <label>BipedalLocomotion::System::Advanceable&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Advanceable&lt; SensorBridgeMetaData &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="4" relation="template-instance">
-          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+          <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="84" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="86" bodyend="503"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="79" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="81" bodyend="366"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5142cbe32cde1a63595df4da1cb147e1" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrench</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a256e49e7bd413b0cd6bcc9abe18d6fd9" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>get</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a3498db54ed2ef0e11d02089eeecfee11" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrench</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab2b8a502338624b417a7efcd5aa2e477" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrenchesList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a195c7b9fad31f33435704a5b721430ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getFailedSensorReads</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7491b08358c13cbfe0e7db5d6cc1c5b3" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getGyroscopeMeasure</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a224b8dd4accc99745d365c0c46cef771" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getFailedSensorReads</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aec16a946ed89a488751225a47a15b705" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getGyroscopeMeasure</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1e476a8729c50254046bb6b9f34130a3" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getGyroscopesList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad93d84935e2a8b8de199f1af6f37ea94" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getIMUMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a413dc527f4fb080f1fd44444223eff5a" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getIMUMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1562faa1a69c475f95b88ad943966a90" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getIMUsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a499e07ea5081b2fa8f72e1af488ed8f0" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acfb5db4bb7dc7193e3d8ba91f866310e" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointPositions</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1d53a02c9c8afec70096bf46e1053ba1" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointPosition</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a140451252e1a0cfa91be5d92f3ba92d5" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointPositions</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5ed3adf70e3be0f4020e7c2ecdaf8b9b" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointTorque</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aae0867c8a5de903041906c4ad7bedccc" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointTorques</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0418048570f711df729598ba129712f4" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointVelocities</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a56f4f7f4171c04a641d678c936984647" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointVelocity</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a84b7ab5b488bbc0845784d62231f301e" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getLinearAccelerometerMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aab7116eb242a800f69263e2114b43b96" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointVelocities</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a709d0f08124a84c9c70591635ef2d2b8" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getJointVelocity</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a833ff76a32cf861a57f03a0fc2d0d652" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getLinearAccelerometerMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06b6b193c3407b0d489a5bba5c1b4f1d" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getLinearAccelerometersList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a20fe4d0e6d278b88a31fa3085cb63e8b" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMagnetometerMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae0a6b5e9fd18c20c7873306168f57fb1" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMagnetometerMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae1d4e48477fbf613d261ad3d473b6e71" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMagnetometersList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac346d428d98a915c180eefa88e77c4f5" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorCurrent</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorCurrents</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a54de0c229c806a3d9f0cb49823dc20fc" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorPositions</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorPWM</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorPWMs</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorVelocities</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorVelocity</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac0a30d06912f7ddcd013f08788293d94" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getOrientationSensorMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a988cf7f5150aea1b32d34ed2d0104f96" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorCurrent</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a89aaa0ab9906b25fcae8da738caedf14" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getMotorCurrents</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a49060b0107d8f56ddc7021f425ec782e" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getOrientationSensorMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0306dedea0c8239fb132df564f350e25" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getOrientationSensorsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92beedaec20313db5623cca3f9b630fd" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getOutput</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa1c6c07e3a5385b0b192f0f02f77bebc" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getPidPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad883780f4592b71f4b44230d3d204976" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getPidPositionError</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aaa6b1a101bc1bfb4e8d50045e90f6454" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getPidPositionErrors</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a386d1d0391c48bb6bb74ce778086a214" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getPidPositions</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a66749025c13868754865046ac3da07cb" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aef2c6c08a995009014018760806cf724" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a942974549cb60ba7deea1242073c33bd" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueSensorsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06e36c7b2258609c441afaf786a8992c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1adde61a113b0ca324c922d179322327e6" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueSensorsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Input</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>isOutputValid</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae6e281311cece893870a6f9fe74bd4a0" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a31ae8f3c258b66624929cf5ddaa50fcd" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aacdd7b5dabf1273290cf286dab96f26a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>m_pimpl</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac399abaa3e071481a313cac6df96efd9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>OptionalDoubleRef</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1af951b34d0b4ff5dd51a23bf40dad488d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeMetaDataFromConfig</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a75a4cacac8252789fa054a20a548ba75" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeOptionsFromConfig</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad81d1c091fa178daf1489060c3b4756c" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorListsFromConfig</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7599fcdfdfcdc73241baae7377e91e5d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeMetaDataFromConfig</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abdd1f46b5e861a8447224664eb1dce40" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeOptionsFromConfig</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a8536d55a2f75a99202834d47f3fd0d42" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorListsFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e67bd6969608baa82270d73aa218ea3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setDriversList</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a07594468078e3f666d7a44a6fb33e1c4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>shared_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a3b4b4107634a981037efa760f91937aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>unique_ptr</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7435078b3d7458dfff6c9e4eb43a98b3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Vector12d</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a1e8c492c2741354f96f509e9e22de032" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Vector6d</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a57a14eeec8ad23a41886c52b11de434b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>weak_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0f0d17374245fa901c0d74b8f7f404f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>YarpSensorBridge</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aecfb22aae3634befc8dc3b3592325484" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~ISensorBridge</name></member>

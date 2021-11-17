@@ -3,14 +3,12 @@
   <compounddef id="namespaceBipedalLocomotion_1_1Planners" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Planners</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" prot="public">BipedalLocomotion::Planners::ConvexHullHelper</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline" prot="public">BipedalLocomotion::Planners::CubicSpline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState" prot="public">BipedalLocomotion::Planners::DCMPlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner" prot="public">BipedalLocomotion::Planners::DCMPlanner</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1QuinticSplineState" prot="public">BipedalLocomotion::Planners::QuinticSplineState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" prot="public">BipedalLocomotion::Planners::QuinticSpline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState" prot="public">BipedalLocomotion::Planners::SO3PlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" prot="public">BipedalLocomotion::Planners::SO3Planner</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SplineState" prot="public">BipedalLocomotion::Planners::SplineState</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1Spline" prot="public">BipedalLocomotion::Planners::Spline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" prot="public">BipedalLocomotion::Planners::SwingFootPlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" prot="public">BipedalLocomotion::Planners::SwingFootPlanner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner" prot="public">BipedalLocomotion::Planners::TimeVaryingDCMPlanner</innerclass>

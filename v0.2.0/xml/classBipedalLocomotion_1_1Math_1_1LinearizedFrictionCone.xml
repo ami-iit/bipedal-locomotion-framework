@@ -47,13 +47,13 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aefd4549ed1631d88f9e984a8edd0d89a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1afc5102418355f280fc31f9fe4dcd3cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Math::LinearizedFrictionCone::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
         <name>initialize</name>
         <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>
@@ -134,13 +134,13 @@
 <para><ref refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" kindref="compound">LinearizedFrictionCone</ref> computes the polyhedral approximation of the friction cone. </para>
     </briefdescription>
     <detaileddescription>
-<para>A point contact remains fixed with respect the environment if the contact force lies in a cone described by <formula id="54">\[ f ^c \cdot n &gt; 0 \quad | f ^t | \le \mu f^c \cdot n \]</formula> where <formula id="55">$ f^c $</formula> is the contact force, <formula id="56">$ n $</formula> is the vector normal to the contact surface. <formula id="57">$ f^t $</formula> is the tangential force to the contact surface and <formula id="58">$ \mu $</formula> is the friction parameter. The <ref refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" kindref="compound">LinearizedFrictionCone</ref> aims to compute the polyhedral approximation of <formula id="59">$ | f ^t | \le \mu f^c \cdot n $</formula> by spitting the base of the cone into slices. </para>
+<para>A point contact remains fixed with respect the environment if the contact force lies in a cone described by <formula id="48">\[ f ^c \cdot n &gt; 0 \quad | f ^t | \le \mu f^c \cdot n \]</formula> where <formula id="49">$ f^c $</formula> is the contact force, <formula id="50">$ n $</formula> is the vector normal to the contact surface. <formula id="51">$ f^t $</formula> is the tangential force to the contact surface and <formula id="52">$ \mu $</formula> is the friction parameter. The <ref refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" kindref="compound">LinearizedFrictionCone</ref> aims to compute the polyhedral approximation of <formula id="53">$ | f ^t | \le \mu f^c \cdot n $</formula> by spitting the base of the cone into slices. </para>
     </detaileddescription>
     <location file="BipedalLocomotion/Math/LinearizedFrictionCone.h" line="33" column="1" bodyfile="BipedalLocomotion/Math/LinearizedFrictionCone.h" bodystart="34" bodyend="65"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aad236d7d978b89152312d7d572bf069c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1af5d5c9a1b2cf4fd7ca3ea5e93abb28b7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>getB</name></member>
-      <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aefd4549ed1631d88f9e984a8edd0d89a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1afc5102418355f280fc31f9fe4dcd3cea" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1a0dcbb65ac148e5e7f90d548d2c2de5f7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aaa98632aa52d0ea97982e47ebc2c5647" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>m_b</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1acb4b8a3f581448db1535827dc076ceeb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::LinearizedFrictionCone</scope><name>m_isIntialized</name></member>

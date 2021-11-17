@@ -6,22 +6,17 @@
     <includes local="no">iostream</includes>
     <includes local="no">unordered_map</includes>
     <incdepgraph>
-      <node id="14">
-        <label>variant</label>
-      </node>
-      <node id="3">
+      <node id="8">
         <label>BipedalLocomotion/Contacts/Contact.h</label>
-        <link refid="Contact_8h"/>
-        <childnode refid="4" relation="include">
+        <link refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h"/>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
       </node>
       <node id="4">
-        <label>BipedalLocomotion/Math/Wrench.h</label>
-        <link refid="Wrench_8h"/>
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -29,83 +24,59 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="9">
+        <label>manif/SE3.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/System/Advanceable.h</label>
+        <link refid="Advanceable_8h"/>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
       <node id="2">
         <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
         <link refid="ContactDetector_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
-        <link refid="IParametersHandler_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>manif/SE3.h</label>
-      </node>
-      <node id="8">
-        <label>string</label>
-      </node>
-      <node id="13">
-        <label>BipedalLocomotion/System/Advanceable.h</label>
-        <link refid="Advanceable_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>BipedalLocomotion/System/Source.h</label>
-        <link refid="Source_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>Eigen/Dense</label>
+      <node id="10">
+        <label>iostream</label>
       </node>
       <node id="11">
-        <label>vector</label>
+        <label>unordered_map</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="16">
-        <label>iostream</label>
-      </node>
-      <node id="15">
-        <label>unordered_map</label>
-      </node>
-      <node id="7">
-        <label>manif/SO3.h</label>
-      </node>
-      <node id="10">
+      <node id="5">
         <label>memory</label>
       </node>
     </incdepgraph>
-    <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" prot="public">BipedalLocomotion::Contacts::SchmittTriggerDetector</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams" prot="public">BipedalLocomotion::Contacts::SchmittTriggerParams</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Contacts::SchmittTriggerInput</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit" prot="public">BipedalLocomotion::Contacts::SchmittTriggerUnit</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1SchmittTriggerDetector" prot="public">BipedalLocomotion::Estimators::SchmittTriggerDetector</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1SchmittTriggerParams" prot="public">BipedalLocomotion::Estimators::SchmittTriggerParams</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Estimators::SchmittTriggerInput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1SchmittTriggerUnit" prot="public">BipedalLocomotion::Estimators::SchmittTriggerUnit</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
-    <innernamespace refid="namespaceBipedalLocomotion_1_1Contacts">BipedalLocomotion::Contacts</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

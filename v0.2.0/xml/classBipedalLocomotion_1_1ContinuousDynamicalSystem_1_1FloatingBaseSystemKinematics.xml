@@ -5,6 +5,21 @@
     <basecompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseSystemKinematics &gt;</basecompoundref>
     <includes local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</includes>
       <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aed991c6193152bf1f8408b9b955fe5fd" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics::m_rho</definition>
+        <argsstring></argsstring>
+        <name>m_rho</name>
+        <initializer>{0.01}</initializer>
+        <briefdescription>
+<para>Regularization term used for the Baumgarte stabilization over the SO(3) group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="65" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa40da49ea837569d7d19423b8674fbbc" prot="private" static="no" mutable="no">
         <type><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">State</ref></type>
         <definition>State BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics::m_state</definition>
@@ -16,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="67" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="68" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8efc2ecfd6577b8f024a97bba794a819" prot="private" static="no" mutable="no">
         <type><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a4c2a4bbac36e26c14571f79bfd6e4fa7" kindref="member">Input</ref></type>
@@ -29,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="68" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="68" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="69" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -43,7 +58,7 @@
           <declname>handler</declname>
         </param>
         <briefdescription>
-<para>Initialize the Dynamical system. </para>
+<para>Initialize the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kindref="compound">FloatingBaseSystemKinematics</ref> system. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -55,15 +70,28 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>true in case of success/false otherwise. </para>
+<simplesect kind="note"><para>The following parameters are used <table rows="2" cols="4"><row>
+<entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>rho</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Baumgarte stabilization parameter over the SO(3) group. The default value is 0.01   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
+</entry></row>
+</table>
+</para>
 </simplesect>
-<simplesect kind="note"><para>This function does nothing but it is required for CRTP. </para>
+<simplesect kind="return"><para>true in case of success/false otherwise. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="77" column="10"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="81" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8ead6c79af9d3473733179976ee59304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -93,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="84" column="10"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="88" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1ab94a2ca52a4c1ef7b69a94131b3a3629" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">State</ref> &amp;</type>
@@ -110,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="90" column="17"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="94" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a813ab32725b95f0e7680eb004bd6b554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -140,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="97" column="10"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="101" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa38952215adbef47f3c318dc6f03de42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -159,7 +187,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="82">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="73">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -184,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="107" column="10"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="111" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -194,13 +222,13 @@
 <para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kindref="compound">FloatingBaseSystemKinematics</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where:<itemizedlist>
 <listitem><para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> is described by an std::tuple containing:<itemizedlist>
 <listitem><para>Eigen::Vector3d: position of the base w.r.t. the inertial frame</para>
-</listitem><listitem><para>manif::SO3d: rotation matrix <formula id="83">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="74">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint positions [in rad].</para>
 </listitem></itemizedlist>
 </para>
 </listitem><listitem><para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" kindref="member">DynamicalSystem::StateDerivative</ref> is described by an std::tuple containing:<itemizedlist>
 <listitem><para>Eigen::Vector3d: base linear velocity w.r.t. the inertial frame;</para>
-</listitem><listitem><para>manif::SO3d::Tangent: base angular velocity w.r.t. the inertial frame; (Left trivialized) whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="75">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s].</para>
 </listitem></itemizedlist>
 </para>
@@ -250,13 +278,14 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="65" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="66" bodyend="108"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="63" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" bodystart="64" bodyend="112"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa38952215adbef47f3c318dc6f03de42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>dynamics</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1ab94a2ca52a4c1ef7b69a94131b3a3629" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>getState</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a6a7efa3015fe8cf007ede3ec653bff9b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a4c2a4bbac36e26c14571f79bfd6e4fa7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8efc2ecfd6577b8f024a97bba794a819" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>m_controlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aed991c6193152bf1f8408b9b955fe5fd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>m_rho</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa40da49ea837569d7d19423b8674fbbc" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a813ab32725b95f0e7680eb004bd6b554" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>setControlInput</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8ead6c79af9d3473733179976ee59304" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</scope><name>setState</name></member>

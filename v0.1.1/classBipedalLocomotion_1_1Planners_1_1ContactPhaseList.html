@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BipedalLocomotion::Planners::ContactPhaseList class | bipedal locomotion framework v0.1.1</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <span id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">
+        <a href="../index.html">bipedal locomotion framework</a> <span class="m-breadcrumb">|</span> <a href="index.html" class="m-thin">v0.1.1</a>
+      </span>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="pages.html">Pages</a></li>
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li>
+              <a href="pages.html">Versions</a>
+              <ol>
+                <li><a href="../index.html">Master</a></li>
+                <li><a href="../v0.3.0/index.html">v0.3.0</a></li>
+                <li><a href="../v0.2.0/index.html">v0.2.0</a></li>
+                <li><a href="../v0.4.0/index.html">v0.4.0</a></li>
+                <li><a href="../v0.1.1/index.html">v0.1.1</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="pages.html">Contacts</a>
+              <ol>
+                <li><a href="https://github.com/ami-iit/bipedal-locomotion-framework">GitHub</a></li>
+                <li><a href="https://www.iit.it/web/ami/">Lab website</a></li>
+              </ol>
+            </li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>ContactPhaseList <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ContactPhaseList_8h.html">&lt;BipedalLocomotion/Planners/ContactPhaseList.h&gt;</a></div>
+        </h1>
+        <p>The <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a> class computes the contact phases according to a bunch of input contact lists.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<aside class="m-note m-danger"><h4>Warning</h4><p>All the iterators stored inside the contact phases refer to the lists stored within this class, not the original input lists.</p></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="aca4babbe826391b889d0e90aadf643bb">
+              using <a href="#aca4babbe826391b889d0e90aadf643bb" class="m-doc-self">const_iterator</a> = std::vector&lt;<a href="structBipedalLocomotion_1_1Planners_1_1ContactPhase.html" class="m-doc">ContactPhase</a>&gt;::<a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a>
+            </dt>
+            <dd>Internal method to compute the phases.</dd>
+            <dt id="a743d76420f0e8316a7a3df18019b1bb6">
+              using <a href="#a743d76420f0e8316a7a3df18019b1bb6" class="m-doc-self">const_reverse_iterator</a> = std::vector&lt;<a href="structBipedalLocomotion_1_1Planners_1_1ContactPhase.html" class="m-doc">ContactPhase</a>&gt;::const_reverse_iterator
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a69651648bce4197c56174698ede459cd" class="m-doc">setLists</a>(</span><span class="m-doc-wrap">const ContactListMap&amp; contactLists)</span>
+            </dt>
+            <dd>Set the input lists.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7f12d7f313dddb633fdfd1201c80c004" class="m-doc">setLists</a>(</span><span class="m-doc-wrap">const std::initializer_list&lt;<a href="classBipedalLocomotion_1_1Planners_1_1ContactList.html" class="m-doc">ContactList</a>&gt;&amp; contactLists) -&gt; bool</span>
+            </dt>
+            <dd>Set the input lists.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af752e13ba2fa9a04e7c1145d7f5dd3bb" class="m-doc">lists</a>(</span><span class="m-doc-wrap">) const -&gt; const ContactListMap&amp;</span>
+            </dt>
+            <dd>A reference to the lists stored in this class.</dd>
+            <dt id="a742f22f1087bde42bb63680cc508cda2">
+              <span class="m-doc-wrap-bumper">auto <a href="#a742f22f1087bde42bb63680cc508cda2" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>Const iterator to the begin of the phases.</dd>
+            <dt id="aa4e7f67c8431bb1ac9bd43ea4bcc5a50">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa4e7f67c8431bb1ac9bd43ea4bcc5a50" class="m-doc-self">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>Const iterator to the begin of the phases.</dd>
+            <dt id="aea435e1d08464b6b6c4590a7ac1b5918">
+              <span class="m-doc-wrap-bumper">auto <a href="#aea435e1d08464b6b6c4590a7ac1b5918" class="m-doc-self">rbegin</a>(</span><span class="m-doc-wrap">) const -&gt; const_reverse_iterator</span>
+            </dt>
+            <dd>Const reverse iterator to the the phases (basically starting from the last phase, going backward).</dd>
+            <dt id="aefb7d6225e3c7f58868adc7fb0eb6414">
+              <span class="m-doc-wrap-bumper">auto <a href="#aefb7d6225e3c7f58868adc7fb0eb6414" class="m-doc-self">crbegin</a>(</span><span class="m-doc-wrap">) const -&gt; const_reverse_iterator</span>
+            </dt>
+            <dd>Const reverse iterator to the the phases (basically starting from the last phase, going backward).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2bfc2fbb9384161efbde0dbf80f29d99" class="m-doc">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>Return a const iterator to the end of the list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#affb0f13ffb749f467b6e8714a6201b96" class="m-doc">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>Return a const iterator to the end of the list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#adb54b995501c4f8b9a24ea367f492020" class="m-doc">rend</a>(</span><span class="m-doc-wrap">) const -&gt; const_reverse_iterator</span>
+            </dt>
+            <dd>Return a const reverse iterator to the end of the list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ade2f03812cd365bf133eca174e145266" class="m-doc">crend</a>(</span><span class="m-doc-wrap">) const -&gt; const_reverse_iterator</span>
+            </dt>
+            <dd>Return a const reverse iterator to the end of the list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aaa58b9401f31213fb5f92a9e52fb20f9" class="m-doc">operator[]</a>(</span><span class="m-doc-wrap">size_t index) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1ContactPhase.html" class="m-doc">ContactPhase</a>&amp;</span>
+            </dt>
+            <dd>Access phases by index.</dd>
+            <dt id="a781388163dc79910bb572b059184fe63">
+              <span class="m-doc-wrap-bumper">auto <a href="#a781388163dc79910bb572b059184fe63" class="m-doc-self">firstPhase</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>A const iterator to the first phase.</dd>
+            <dt id="ac8f0cff674212f045f6d0dab1b1e3e3e">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac8f0cff674212f045f6d0dab1b1e3e3e" class="m-doc-self">lastPhase</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a></span>
+            </dt>
+            <dd>A const iterator to the last phase.</dd>
+            <dt id="a4df3e379047b6ce50722c234905f9d33">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4df3e379047b6ce50722c234905f9d33" class="m-doc-self">size</a>(</span><span class="m-doc-wrap">) const -&gt; size_t</span>
+            </dt>
+            <dd>Get the number of phases.</dd>
+            <dt id="af6b05a3946300df1c126aaa9c68e777d">
+              <span class="m-doc-wrap-bumper">void <a href="#af6b05a3946300df1c126aaa9c68e777d" class="m-doc-self">clear</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Clear the phases and the stored lists.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a69651648bce4197c56174698ede459cd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a69651648bce4197c56174698ede459cd" class="m-doc-self">setLists</a>(</span><span class="m-doc-wrap">const ContactListMap&amp; contactLists)</span></span>
+            </h3>
+            <p>Set the input lists.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">contactLists</td>
+                  <td>The set of lists to be used for computing the phases.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a7f12d7f313dddb633fdfd1201c80c004"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7f12d7f313dddb633fdfd1201c80c004" class="m-doc-self">setLists</a>(</span><span class="m-doc-wrap">const std::initializer_list&lt;<a href="classBipedalLocomotion_1_1Planners_1_1ContactList.html" class="m-doc">ContactList</a>&gt;&amp; contactLists)</span></span>
+            </h3>
+            <p>Set the input lists.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>False if some lists have the same defaultName.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af752e13ba2fa9a04e7c1145d7f5dd3bb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const ContactListMap&amp; BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af752e13ba2fa9a04e7c1145d7f5dd3bb" class="m-doc-self">lists</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>A reference to the lists stored in this class.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A const reference to the input lists.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>All the iterators stored inside the contact phases refer to the lists viewable via this method.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2bfc2fbb9384161efbde0dbf80f29d99"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a> BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2bfc2fbb9384161efbde0dbf80f29d99" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Return a const iterator to the end of the list.</p>
+<p>This is only a placeholder, it does not reference any phase.</p>
+          </div></section>
+          <section class="m-doc-details" id="affb0f13ffb749f467b6e8714a6201b96"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1Planners_1_1ContactPhaseList.html#aca4babbe826391b889d0e90aadf643bb" class="m-doc">const_<wbr />iterator</a> BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#affb0f13ffb749f467b6e8714a6201b96" class="m-doc-self">cend</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Return a const iterator to the end of the list.</p>
+<p>This is only a placeholder, it does not reference any phase.</p>
+          </div></section>
+          <section class="m-doc-details" id="adb54b995501c4f8b9a24ea367f492020"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const_reverse_iterator BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adb54b995501c4f8b9a24ea367f492020" class="m-doc-self">rend</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Return a const reverse iterator to the end of the list.</p>
+<p>This is only a placeholder, it does not reference any phase.</p>
+          </div></section>
+          <section class="m-doc-details" id="ade2f03812cd365bf133eca174e145266"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const_reverse_iterator BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ade2f03812cd365bf133eca174e145266" class="m-doc-self">crend</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Return a const reverse iterator to the end of the list.</p>
+<p>This is only a placeholder, it does not reference any phase.</p>
+          </div></section>
+          <section class="m-doc-details" id="aaa58b9401f31213fb5f92a9e52fb20f9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Planners_1_1ContactPhase.html" class="m-doc">ContactPhase</a>&amp; BipedalLocomotion::<wbr />Planners::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaa58b9401f31213fb5f92a9e52fb20f9" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">size_t index) const</span></span>
+            </h3>
+            <p>Access phases by index.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">index</td>
+                  <td>of the phase to be accessed.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A const reference to the desired phase.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script src="searchdata-v1.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>bipedal-locomotion-framework documentation. Licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">GNU Lesser General Public License v3.0</a>. Project maintained by the <a href="https://www.iit.it/web/ami/">Artificial and Mechanical Intelligence Lab</a>. Contact the team via <a href="https://github.com/ami-iit/bipedal-locomotion-framework/issues/new">GitHub</a>.<br />Generated by <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

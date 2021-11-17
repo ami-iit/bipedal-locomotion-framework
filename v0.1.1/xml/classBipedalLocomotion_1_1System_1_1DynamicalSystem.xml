@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>BipedalLocomotion::System::DynamicalSystem</compoundname>
+    <includes local="no">BipedalLocomotion/System/DynamicalSystem.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename State</type>
+      </param>
+      <param>
+        <type>typename StateDerivative</type>
+      </param>
+      <param>
+        <type>typename Input</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" prot="public" static="no">
+        <type>State</type>
+        <definition>using BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::StateType =  State</definition>
+        <argsstring></argsstring>
+        <name>StateType</name>
+        <briefdescription>
+<para>State space type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="48" column="5" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" prot="public" static="no">
+        <type>StateDerivative</type>
+        <definition>using BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::StateDerivativeType =  StateDerivative</definition>
+        <argsstring></argsstring>
+        <name>StateDerivativeType</name>
+        <briefdescription>
+<para>State space derivative type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="49" column="5" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" prot="public" static="no">
+        <type>Input</type>
+        <definition>using BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::InputType =  Input</definition>
+        <argsstring></argsstring>
+        <name>InputType</name>
+        <briefdescription>
+<para>Input type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="50" column="5" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1ace598fd4976439d0de2267f20f3402c8" prot="protected" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" kindref="member">InputType</ref></type>
+        <definition>InputType BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::m_controlInput</definition>
+        <argsstring></argsstring>
+        <name>m_controlInput</name>
+        <briefdescription>
+<para>Value of the control input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="53" column="15" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a735e7ce5ce74a90e5584c887b6530ddd" prot="protected" static="no" mutable="no">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" kindref="member">StateType</ref></type>
+        <definition>StateType BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::m_state</definition>
+        <argsstring></argsstring>
+        <name>m_state</name>
+        <briefdescription>
+<para>Value of the current state of the system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="54" column="15" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a14d1090e991a0e47d6b07ebcf4f4b9ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::initalize</definition>
+        <argsstring>(std::weak_ptr&lt; ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>initalize</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem_1addba3557a85ca48702bf2f87132e34e5">initalize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics_1a3b9b513156c3b1286a3a17da61f1042e">initalize</reimplementedby>
+        <param>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the Dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to the parameter handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success/false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="63" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a526bdef9b5aa4f5117d782e005c967b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::setState</definition>
+        <argsstring>(const StateType &amp;state)</argsstring>
+        <name>setState</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" kindref="member">StateType</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Set the state of the dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>In principle, there is no need to override this method. This value is stored in an internal buffer. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tuple containing a const reference to the state elements. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="72" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a6160d2d44798a3eec39cfce1b655ded6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" kindref="member">StateType</ref> &amp;</type>
+        <definition>const StateType&amp; BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <briefdescription>
+<para>Get the state to the dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the current state of the dynamical system </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="78" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a34a150c0cc250490604aac970811483f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::setControlInput</definition>
+        <argsstring>(const InputType &amp;controlInput)</argsstring>
+        <name>setControlInput</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" kindref="member">InputType</ref> &amp;</type>
+          <declname>controlInput</declname>
+        </param>
+        <briefdescription>
+<para>Set the control input to the dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>In principle, there is no need to override this method. This value is stored in an internal buffer. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>controlInput</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of the control input used to compute the system dynamics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="87" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a45ed4feaae08b70c3b339e96dc430b4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::dynamics</definition>
+        <argsstring>(const double &amp;time, StateDerivativeType &amp;stateDerivative)=0</argsstring>
+        <name>dynamics</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics_1a8e67241e11e1118692322dec3d4cddf4">dynamics</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6d77563ffad010c6649df8320148ab92">dynamics</reimplementedby>
+        <param>
+          <type>const double &amp;</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" kindref="member">StateDerivativeType</ref> &amp;</type>
+          <declname>stateDerivative</declname>
+        </param>
+        <briefdescription>
+<para>Computes the system dynamics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It return <formula id="1">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the time at witch the dynamics is computed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateDynamics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tuple containing a reference to the element of the state derivative </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="warning"><para>Please implement the function in your custom dynamical system. </para>
+</simplesect>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="98" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a78d7fbb00a96d481d9a926b33f288d3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;::~DynamicalSystem</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DynamicalSystem</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/DynamicalSystem.h" line="103" column="5"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> defines a continuous time dynamical system, i.e. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><formula id="0">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>State</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type used for describing the state (i.e. it has to be a std::tuple vectors/matrices or in general classes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>StateDerivative</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type used for describing the state derivative (i.e. it has to be a std::tuple of vectors/matrices or in general classes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type used for describing the input (i.e. it has to be a std::tuple of vectors/matrices or in general classes). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd, Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd, std::vector&lt; ContactWrench &gt; &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::LinearTimeInvariantSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::FloatingBaseDynamicalSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1FloatingBaseDynamicalSystem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Vector3d, Eigen::Matrix3d, Eigen::VectorXd &gt;, std::tuple&lt; Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::System::FloatingBaseSystemKinematics</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="BipedalLocomotion/System/DynamicalSystem.h" line="33" column="1" bodyfile="BipedalLocomotion/System/DynamicalSystem.h" bodystart="34" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a45ed4feaae08b70c3b339e96dc430b4b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>dynamics</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a6160d2d44798a3eec39cfce1b655ded6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>getState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a14d1090e991a0e47d6b07ebcf4f4b9ed" prot="public" virt="virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>initalize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>InputType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1ace598fd4976439d0de2267f20f3402c8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>m_controlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a735e7ce5ce74a90e5584c887b6530ddd" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>m_state</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a34a150c0cc250490604aac970811483f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>setControlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a526bdef9b5aa4f5117d782e005c967b7" prot="public" virt="virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>setState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>StateDerivativeType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>StateType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a78d7fbb00a96d481d9a926b33f288d3b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::DynamicalSystem</scope><name>~DynamicalSystem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

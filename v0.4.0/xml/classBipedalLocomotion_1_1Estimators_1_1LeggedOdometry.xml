@@ -736,6 +736,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac256d05311483c6bd380fc1a29cc7163" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>updateBaseStateFromIMUState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a1a123da1d1e7a8bf3401dbcaa44fa93b" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>updateKinematics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1acca7d1580a8085caedfdecbe08e89d9f" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>updateLandmarkRelativePoses</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~FloatingBaseEstimator</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1aa55f03f2372f5cfb7bc9da1b8ebbb5be" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~LeggedOdometry</name></member>
     </listofallmembers>

@@ -9,6 +9,7 @@
     <includedby refid="Sink_8h" local="no">BipedalLocomotion/System/Sink.h</includedby>
     <includedby refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includedby>
     <includedby refid="CoMZMPController_8h" local="no">BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h</includedby>
+    <includedby refid="UnicyclePlanner_8h" local="yes">BipedalLocomotion/Planners/UnicyclePlanner.h</includedby>
     <incdepgraph>
       <node id="2">
         <label>variant</label>
@@ -131,6 +132,8 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
       </node>
       <node id="28">
         <label>BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h</label>
@@ -197,6 +200,10 @@
       <node id="24">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
+      </node>
+      <node id="29">
+        <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
+        <link refid="UnicyclePlanner_8h"/>
       </node>
       <node id="16">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>

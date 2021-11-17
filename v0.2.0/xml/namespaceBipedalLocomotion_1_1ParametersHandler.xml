@@ -51,50 +51,6 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="273" column="1" declfile="BipedalLocomotion/ParametersHandler/YarpImplementation.h" declline="273" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <templateparamlist>
-        </templateparamlist>
-        <type>void</type>
-        <definition>void BipedalLocomotion::ParametersHandler::TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</definition>
-        <argsstring>(const std::string &amp;parameterName, const std::vector&lt; bool &gt; &amp;parameter)</argsstring>
-        <name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>parameterName</declname>
-        </param>
-        <param>
-          <type>const std::vector&lt; bool &gt; &amp;</type>
-          <declname>parameter</declname>
-        </param>
-        <briefdescription>
-<para>Private implementation of setParameter. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>parameterName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the parameter </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>parameter</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>parameter </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="note"><para>The specialization is required because std::vector&lt;bool&gt; is not a container and the operator[] does not return a bool&amp; </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="270" column="1" declfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" declline="270" declcolumn="1"/>
-      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>

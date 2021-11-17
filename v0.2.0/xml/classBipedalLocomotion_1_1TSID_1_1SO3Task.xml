@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1TSID_1_1SO3Task" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::TSID::SO3Task</compoundname>
-    <basecompoundref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::TSIDLinearTask</basecompoundref>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public" virt="non-virtual">BipedalLocomotion::System::LinearTask</basecompoundref>
     <includes local="no">BipedalLocomotion/TSID/SO3Task.h</includes>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SO3Task_1add9230aa4314eeadae242a9b4f26baf4" prot="private" static="no" mutable="no">
@@ -393,7 +393,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" kindref="compound">SO3Task</ref> is a concrete implementation of the <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref>. </para>
+<para><ref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" kindref="compound">SO3Task</ref> is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">System::LinearTask</ref>. </para>
     </briefdescription>
     <detaileddescription>
 <para>Please use this element if you want to control the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="15">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="37">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="2">$J$</formula> is the robot jacobian and <formula id="38">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame orientation will asymptotically converge to the desired trajectory. The angular acceleration is computed by a PD controller in <formula id="5">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/dic-iit/lie-group-controllers">https://github.com/dic-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
@@ -401,32 +401,20 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="2">
-        <label>BipedalLocomotion::TSID::TSIDLinearTask</label>
-        <link refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-      </node>
       <node id="1">
         <label>BipedalLocomotion::TSID::SO3Task</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1SO3Task"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion::System::LinearTask</label>
         <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="5">
+      <node id="4">
         <label>std::basic_string&lt; Char &gt;</label>
-      </node>
-      <node id="2">
-        <label>BipedalLocomotion::TSID::TSIDLinearTask</label>
-        <link refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
       </node>
       <node id="1">
         <label>BipedalLocomotion::TSID::SO3Task</label>
@@ -434,16 +422,16 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion::System::LinearTask</label>
         <link refid="classBipedalLocomotion_1_1System_1_1LinearTask"/>
-        <childnode refid="4" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>m_description</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="3">
         <label>std::string</label>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

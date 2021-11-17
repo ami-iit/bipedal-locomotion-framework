@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::System::LinearTimeInvariantSystem</compoundname>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" prot="public" virt="non-virtual">BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</basecompoundref>
+    <includes local="no">BipedalLocomotion/System/LinearTimeInvariantSystem.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a8ad5d218190dddad5edf8d4033a2ef99" prot="private" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::LinearTimeInvariantSystem::m_A</definition>
+        <argsstring></argsstring>
+        <name>m_A</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="39" column="21" bodyfile="BipedalLocomotion/System/LinearTimeInvariantSystem.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1af928a2abed0599804da27a1932773dae" prot="private" static="no" mutable="no">
+        <type>Eigen::MatrixXd</type>
+        <definition>Eigen::MatrixXd BipedalLocomotion::System::LinearTimeInvariantSystem::m_B</definition>
+        <argsstring></argsstring>
+        <name>m_B</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="40" column="21" bodyfile="BipedalLocomotion/System/LinearTimeInvariantSystem.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a3f1938bf80e9b75d1461e90b7d014048" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::LinearTimeInvariantSystem::m_isInitialized</definition>
+        <argsstring></argsstring>
+        <name>m_isInitialized</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="42" column="10" bodyfile="BipedalLocomotion/System/LinearTimeInvariantSystem.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6668449c30dd767df9c54e8f25049f8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::LinearTimeInvariantSystem::setSystemMatrices</definition>
+        <argsstring>(const Eigen::Ref&lt; const Eigen::MatrixXd &gt; &amp;A, const Eigen::Ref&lt; const Eigen::MatrixXd &gt; &amp;B)</argsstring>
+        <name>setSystemMatrices</name>
+        <param>
+          <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Set the system matrices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the A matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the B matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="51" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6d77563ffad010c6649df8320148ab92" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::LinearTimeInvariantSystem::dynamics</definition>
+        <argsstring>(const double &amp;time, StateDerivativeType &amp;stateDerivative) final</argsstring>
+        <name>dynamics</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a45ed4feaae08b70c3b339e96dc430b4b">dynamics</reimplements>
+        <param>
+          <type>const double &amp;</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" kindref="member">StateDerivativeType</ref> &amp;</type>
+          <declname>stateDerivative</declname>
+        </param>
+        <briefdescription>
+<para>Computes the linear system dynamics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It returns <formula id="6">$\dot{x} = Ax + Bu$</formula> <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the time at witch the dynamics is computed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateDynamics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tuple containing a reference to the element of the state derivative </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="62" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a850db8298b3214235384ec0219c13c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::LinearTimeInvariantSystem::~LinearTimeInvariantSystem</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LinearTimeInvariantSystem</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="68" column="5"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> describes a MIMO linear time invariant system of the form <formula id="6">$\dot{x} = Ax + Bu$</formula> where <emphasis>x</emphasis> is the state and <emphasis>u</emphasis> the control input. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The state, its derivative and the control input are described by vectors The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where:<itemizedlist>
+<listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" kindref="member">DynamicalSystem::StateType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::VectorXd: a generic state.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" kindref="member">DynamicalSystem::StateDerivativeType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::VectorXd: a generic state derivative.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" kindref="member">DynamicalSystem::InputType</ref> is described by an std::tuple containing:<itemizedlist>
+<listitem><para>Eigen::VectorXd: a generic control input. </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BipedalLocomotion::System::LinearTimeInvariantSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::System::LinearTimeInvariantSystem</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt;, std::tuple&lt; Eigen::VectorXd &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::DynamicalSystem&lt; State, StateDerivative, Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem"/>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/System/LinearTimeInvariantSystem.h" line="35" column="1" bodyfile="BipedalLocomotion/System/LinearTimeInvariantSystem.h" bodystart="38" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6d77563ffad010c6649df8320148ab92" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>dynamics</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a6160d2d44798a3eec39cfce1b655ded6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>getState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a14d1090e991a0e47d6b07ebcf4f4b9ed" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>initalize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a5f3d71fe4625e3f1b04900ea2e5207e7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>InputType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a8ad5d218190dddad5edf8d4033a2ef99" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>m_A</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1af928a2abed0599804da27a1932773dae" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>m_B</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1ace598fd4976439d0de2267f20f3402c8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>m_controlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a3f1938bf80e9b75d1461e90b7d014048" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a735e7ce5ce74a90e5584c887b6530ddd" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>m_state</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a34a150c0cc250490604aac970811483f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>setControlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a526bdef9b5aa4f5117d782e005c967b7" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>setState</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a6668449c30dd767df9c54e8f25049f8e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>setSystemMatrices</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1abb224eea8e2657778281b828ca49963d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>StateDerivativeType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a3bdeb525e98cbaf9e591a1f1ef70f5b5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>StateType</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem_1a78d7fbb00a96d481d9a926b33f288d3b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>~DynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTimeInvariantSystem_1a850db8298b3214235384ec0219c13c83" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTimeInvariantSystem</scope><name>~LinearTimeInvariantSystem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

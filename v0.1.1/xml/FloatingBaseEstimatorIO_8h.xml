@@ -3,21 +3,10 @@
   <compounddef id="FloatingBaseEstimatorIO_8h" kind="file" language="C++">
     <compoundname>FloatingBaseEstimatorIO.h</compoundname>
     <includes local="no">Eigen/Dense</includes>
-    <includes local="no">manif/manif.h</includes>
-    <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
-    <includes local="no">map</includes>
+    <includes local="no">iDynTree/Core/Transform.h</includes>
+    <includes local="no">iDynTree/Core/Twist.h</includes>
     <includedby refid="FloatingBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includedby>
     <incdepgraph>
-      <node id="4">
-        <label>BipedalLocomotion/Contacts/Contact.h</label>
-        <link refid="Contact_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
       <node id="1">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
         <link refid="FloatingBaseEstimatorIO_8h"/>
@@ -27,36 +16,15 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>manif/manif.h</label>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion/Math/Wrench.h</label>
-        <link refid="Wrench_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>manif/SE3.h</label>
-      </node>
-      <node id="8">
-        <label>string</label>
-      </node>
-      <node id="9">
-        <label>map</label>
       </node>
       <node id="2">
         <label>Eigen/Dense</label>
       </node>
-      <node id="7">
-        <label>manif/SO3.h</label>
+      <node id="4">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="3">
+        <label>iDynTree/Core/Transform.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
@@ -66,10 +34,6 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
-        <link refid="LeggedOdometry_8h"/>
-      </node>
       <node id="3">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
@@ -78,8 +42,6 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
         <link refid="FloatingBaseEstimator_8h"/>
         <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

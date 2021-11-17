@@ -290,6 +290,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="106" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a321a56e42cf64ccab4c192998dfcc5c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator BipedalLocomotion::Contacts::ContactPhaseList::getPresentPhase</definition>
+        <argsstring>(double time) const</argsstring>
+        <name>getPresentPhase</name>
+        <param>
+          <type>double</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Get the phase given the time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It returns the contact phase with the highest begin time lower than time. If no contacts phase has a begin time lower than time, it returns an iterator to the end. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The present time. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>an iterator to the last phase having an activation time lower than time. If no phase satisfies this condition, it returns a pointer to the end. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="117" column="20"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="ContactList_8h_1a6d1a0a8ca118c9933d2c4f7a8c799b0e" kindref="member">ContactListMap</ref> &amp;</type>
         <definition>const ContactListMap&amp; BipedalLocomotion::Contacts::ContactPhaseList::lists</definition>
@@ -307,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="113" column="26"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="124" column="26"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -321,7 +351,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="118" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="129" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -335,7 +365,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="123" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="134" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ae861ead814c9cc43dc808fe6a9affda0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -349,7 +379,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="128" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="139" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a36e5ba075591e514d9fb22f78c263749" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -363,7 +393,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="133" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="144" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a04f61a33b31cf66aa43ba97b2c0d1d35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -378,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="140" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="151" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abccd9b8f43fb1d171cd43430865c5f54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -393,7 +423,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="147" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="158" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a5a12596f3c413271a369de0f23408766" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -408,7 +438,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="154" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="165" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a34c2f4b8c6103bc20205243f2ffa2bc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const_reverse_iterator</type>
@@ -423,7 +453,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="161" column="28"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="172" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1444cad654a7aeaf0236e7d59a99dc29" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase" kindref="compound">ContactPhase</ref> &amp;</type>
@@ -453,7 +483,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="168" column="24"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="179" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a354a7747b22eef33e6cd940735ee0174" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -467,7 +497,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="173" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="184" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a8856d230ef79dfb2f20d7e21c93f304d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a1c8c80ad2e16c659a230db8fe3d33b29" kindref="member">const_iterator</ref></type>
@@ -481,7 +511,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="178" column="20"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="189" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a05b8bd34c07272097f0899354bd9e804" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -495,7 +525,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="183" column="12"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="194" column="12"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ada9e66b073d78df17b0225a65ff499dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -509,7 +539,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="188" column="10"/>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="199" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -520,7 +550,7 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="27" column="1" bodyfile="BipedalLocomotion/Contacts/ContactPhaseList.h" bodystart="28" bodyend="189"/>
+    <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="27" column="1" bodyfile="BipedalLocomotion/Contacts/ContactPhaseList.h" bodystart="28" bodyend="200"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>begin</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>cbegin</name></member>
@@ -536,6 +566,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a34c2f4b8c6103bc20205243f2ffa2bc2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>crend</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a04f61a33b31cf66aa43ba97b2c0d1d35" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>end</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a354a7747b22eef33e6cd940735ee0174" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>firstPhase</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a321a56e42cf64ccab4c192998dfcc5c3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>getPresentPhase</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a8856d230ef79dfb2f20d7e21c93f304d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>lastPhase</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>lists</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ad6ba5cecf5cae6f1835283dd017f5e7c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>m_contactLists</name></member>

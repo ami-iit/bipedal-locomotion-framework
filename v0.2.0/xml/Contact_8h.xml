@@ -93,15 +93,9 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="15">
+      <node id="14">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
-      </node>
-      <node id="14">
-        <label>BipedalLocomotion/TSID/QPTSID.h</label>
-        <link refid="QPTSID_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>

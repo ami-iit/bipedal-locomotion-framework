@@ -53,7 +53,8 @@
         <argsstring>()</argsstring>
         <name>~RosPublisher</name>
         <briefdescription>
-<para>Destructor. </para>
+<para>Destructor <linebreak/>
+ </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -88,7 +89,8 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>this method needs to be called after construction and before publishing </para>
+<simplesect kind="note"><para>this method needs to be called after construction and before publishing <linebreak/>
+ </para>
 </simplesect>
 </para>
 </listitem></itemizedlist>
@@ -408,7 +410,8 @@
 <parametername direction="in">topicName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>topic name </para>
+<para>topic name <linebreak/>
+ </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -448,7 +451,8 @@
 <parametername direction="in">topicName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>topic name </para>
+<para>topic name <linebreak/>
+ </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>

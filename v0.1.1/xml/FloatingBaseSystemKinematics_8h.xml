@@ -4,26 +4,13 @@
     <compoundname>FloatingBaseSystemKinematics.h</compoundname>
     <includes local="no">memory</includes>
     <includes local="no">vector</includes>
-    <includes refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includes>
+    <includes refid="DynamicalSystem_8h" local="no">BipedalLocomotion/System/DynamicalSystem.h</includes>
+    <includes refid="ContactWrench_8h" local="no">BipedalLocomotion/System/ContactWrench.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
-    <includes local="no">manif/SO3.h</includes>
     <includes local="no">Eigen/Dense</includes>
     <incdepgraph>
-      <node id="7">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
-        <link refid="IParametersHandler_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>string</label>
-      </node>
       <node id="4">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
+        <label>BipedalLocomotion/System/DynamicalSystem.h</label>
         <link refid="DynamicalSystem_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -31,20 +18,27 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>Eigen/Dense</label>
+      <node id="6">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
-      <node id="5">
-        <label>tuple</label>
+      <node id="16">
+        <label>iDynTree/Core/MatrixFixSize.h</label>
       </node>
-      <node id="3">
-        <label>vector</label>
+      <node id="7">
+        <label>string</label>
       </node>
       <node id="1">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</label>
+        <label>BipedalLocomotion/System/FloatingBaseSystemKinematics.h</label>
         <link refid="FloatingBaseSystemKinematics_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -52,65 +46,101 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>iDynTree/Core/MatrixDynSize.h</label>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/System/DynamicalSystem.tpp</label>
+      </node>
+      <node id="19">
+        <label>iDynTree/Core/VectorFixSize.h</label>
+      </node>
+      <node id="13">
+        <label>any</label>
+      </node>
+      <node id="20">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
+        <link refid="ContactModel_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+      <node id="11">
+        <label>iDynTree/Model/Indices.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+      <node id="18">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="17">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="10">
+        <label>iDynTree/Core/Wrench.h</label>
       </node>
       <node id="9">
-        <label>manif/SO3.h</label>
-      </node>
-      <node id="6">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</label>
-        <link refid="traits_8h"/>
-        <childnode refid="5" relation="include">
+        <label>BipedalLocomotion/System/ContactWrench.h</label>
+        <link refid="ContactWrench_8h"/>
+        <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
       </node>
       <node id="2">
         <label>memory</label>
       </node>
     </incdepgraph>
-    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::System::FloatingBaseSystemKinematics</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
-    <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>
-      <sectiondef kind="func">
-      <memberdef kind="function" id="FloatingBaseSystemKinematics_8h_1aad1c4b5fb5912142d95052d983879e7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</definition>
-        <argsstring>(FloatingBaseSystemKinematics,(Eigen::Vector3d, manif::SO3d, Eigen::VectorXd),(Eigen::Vector3d, manif::SO3d::Tangent, Eigen::VectorXd),(Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd))</argsstring>
-        <name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name>
-        <param>
-          <type>FloatingBaseSystemKinematics</type>
-        </param>
-        <param>
-          <type>(Eigen::Vector3d, manif::SO3d, Eigen::VectorXd)</type>
-        </param>
-        <param>
-          <type>(Eigen::Vector3d, manif::SO3d::Tangent, Eigen::VectorXd)</type>
-        </param>
-        <param>
-          <type>(Eigen::Matrix&lt; double, 6, 1 &gt;, Eigen::VectorXd)</type>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" line="37" column="1" declfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h" declline="37" declcolumn="1"/>
-      </memberdef>
-      </sectiondef>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><simplesect kind="authors"><para>Giulio Romualdi </para>
 </simplesect>
-<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+<simplesect kind="copyright"><para>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h"/>
+    <location file="BipedalLocomotion/System/FloatingBaseSystemKinematics.h"/>
   </compounddef>
 </doxygen>

@@ -21,7 +21,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="46" column="5" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="46" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="48" column="5" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aaa44595f1b0aeb91c084b9d9c9e732e2" prot="public" static="no">
         <type>typename _Advanceable::Output</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="47" column="5" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="49" column="5" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="50" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="50" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="52" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a7092cb2b64b25c5f58700d109d480831" prot="private" static="no" mutable="no">
         <type>std::chrono::duration&lt; double &gt;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="51" column="27" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="51" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="53" column="27" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3c04c2ef54987b3a9ca47eaa30ce0205" prot="private" static="no" mutable="no">
         <type>std::atomic&lt; bool &gt;</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="54" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="56" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64c5013701d957c58f9db8f0244d30f2" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; _Advanceable &gt;</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="56" column="21" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="58" column="21" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ad76aa77723280099e887de1569bb9a70" prot="private" static="no" mutable="no">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1SharedResource" kindref="compound">SharedResource</ref>&lt; Input &gt;::Ptr</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="57" column="35" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="57" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="59" column="35" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64ab2872819c0cbb9bbad389780eb8e1" prot="private" static="no" mutable="no">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1SharedResource" kindref="compound">SharedResource</ref>&lt; Output &gt;::Ptr</type>
@@ -124,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="58" column="35" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="58" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="60" column="35" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2bd11ddd94e1f70a1184cc845fda93a6" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="60" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="60" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="62" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a29f9ec0419a2e41694d00aaf7410a493" prot="private" static="no" mutable="no">
         <type>std::mutex</type>
@@ -153,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="66" column="16" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="66" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="69" column="16" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a6331d923d5411c659f3db0d5f68b1021" prot="private" static="no" mutable="no">
         <type>Info</type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="67" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="70" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -201,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="81" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="126" bodyend="168"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="84" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="137" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2b043ef9689e24f903c8e0610eb300b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -231,7 +231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="88" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="171" bodyend="183"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="91" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="188" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3d739a55360825588ef53480b166dd51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -261,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="95" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="186" bodyend="199"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="98" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="203" bodyend="216"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1afc486d5f4d2c2ff5c4aae4c5037394ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -291,7 +291,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="102" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="202" bodyend="216"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="105" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="219" bodyend="233"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0e209f5ebd347e033ccf5e911e80cfc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Info</type>
@@ -308,24 +308,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="108" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="335" bodyend="339"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="111" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="381" bodyend="385"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0c2e43ebeda227492e97634fa0cb9867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::thread</type>
         <definition>std::thread BipedalLocomotion::System::AdvanceableRunner&lt; _Advanceable &gt;::run</definition>
-        <argsstring>()</argsstring>
+        <argsstring>(std::optional&lt; std::reference_wrapper&lt; Barrier &gt;&gt; barrier={})</argsstring>
         <name>run</name>
+        <param>
+          <type>std::optional&lt; std::reference_wrapper&lt; <ref refid="classBipedalLocomotion_1_1System_1_1Barrier" kindref="compound">Barrier</ref> &gt;&gt;</type>
+          <declname>barrier</declname>
+          <defval>{}</defval>
+        </param>
         <briefdescription>
 <para>Run the advanceable runner. </para>
         </briefdescription>
         <detaileddescription>
-<para>The function create a periodic thread running with a period of m_dT seconds. <simplesect kind="return"><para>a thread of containing the running process. If the runner was not correctly initialized the thread is invalid. </para>
+<para>The function create a periodic thread running with a period of m_dT seconds. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>barrier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is an optional parameter that can be used to synchronize the startup of all the <ref refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" kindref="compound">AdvanceableRunner</ref> spawned by the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a thread of containing the running process. If the runner was not correctly initialized the thread is invalid. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="116" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="218" bodyend="326"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="121" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="237" bodyend="366"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -342,7 +356,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="122" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="328" bodyend="332"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="127" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="368" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::System::AdvanceableRunner&lt; _Advanceable &gt;::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <briefdescription>
+<para>Check if the <ref refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" kindref="compound">AdvanceableRunner</ref> is running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the thread is running, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="133" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="374" bodyend="378"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -353,11 +384,12 @@
  <image type="html" name="https://user-images.githubusercontent.com/16744101/112768882-7c137280-901e-11eb-8c24-05b7cc3fa5e5.png" alt="AdvanceableRunner" inline="yes"></image>
  Here we want to run two advanceables in parallel with a different sampling time. The <ref refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" kindref="compound">AdvanceableRunner</ref> is a class that helps you in creating a periodic thread. The <ref refid="classBipedalLocomotion_1_1System_1_1SharedResource" kindref="compound">SharedResource</ref> is the way that can be used to communicate between two advanceables running in separate threads (i.e. the wired between two AdvanceableRunners) </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="40" column="12" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="41" bodyend="123"/>
+    <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="42" column="12" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="43" bodyend="134"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0e209f5ebd347e033ccf5e911e80cfc3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>getInfo</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aad337626fe1769b56e334e2cb27ea300" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ab8c0fcc548344a3a24e1b02cfa9001f1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>isRunning</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64c5013701d957c58f9db8f0244d30f2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a7092cb2b64b25c5f58700d109d480831" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_dT</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a6331d923d5411c659f3db0d5f68b1021" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_info</name></member>
@@ -368,7 +400,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2bd11ddd94e1f70a1184cc845fda93a6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_isTelemetryEnabled</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64ab2872819c0cbb9bbad389780eb8e1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aaa44595f1b0aeb91c084b9d9c9e732e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0c2e43ebeda227492e97634fa0cb9867" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>run</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>run</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2b043ef9689e24f903c8e0610eb300b2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setAdvanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3d739a55360825588ef53480b166dd51" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setInputResource</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1afc486d5f4d2c2ff5c4aae4c5037394ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setOutputResource</name></member>

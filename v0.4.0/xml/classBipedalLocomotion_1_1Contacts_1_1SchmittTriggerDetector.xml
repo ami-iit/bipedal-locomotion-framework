@@ -599,6 +599,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a2648af69b21c9f2d39d1a8a2170cb492" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>setTimedTriggerInputs</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a2d43086e84e475eaec9adeb9575dea84" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1dd183cbfb911095b53efbccdc4cd38f" prot="protected" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>updateContactStates</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~ContactDetector</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a36c544fc955734a77ddf3c3e3bd65c77" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~SchmittTriggerDetector</name></member>
     </listofallmembers>

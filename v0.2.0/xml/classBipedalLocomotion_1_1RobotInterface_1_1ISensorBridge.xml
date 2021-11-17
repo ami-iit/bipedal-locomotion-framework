@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="90" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="90" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="78" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a07594468078e3f666d7a44a6fb33e1c4" prot="public" static="no">
         <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" kindref="compound">ISensorBridge</ref> &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="92" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="92" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="80" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a57a14eeec8ad23a41886c52b11de434b" prot="public" static="no">
         <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" kindref="compound">ISensorBridge</ref> &gt;</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="94" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="94" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="82" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac399abaa3e071481a313cac6df96efd9" prot="public" static="no">
         <type>std::optional&lt; std::reference_wrapper&lt; double &gt; &gt;</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="96" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="96" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="84" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7435078b3d7458dfff6c9e4eb43a98b3" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, 12, 1 &gt;</type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="98" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="98" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="86" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a1e8c492c2741354f96f509e9e22de032" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, 6, 1 &gt;</type>
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="99" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="99" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="87" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="106" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="106" bodyend="109"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="94" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="94" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab1338623e0712857aff3d21c4506a638" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="116" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="116" bodyend="119"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="101" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="101" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acb729f74e9e13d5f1528442e9e9a212d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -176,7 +176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="126" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="126" bodyend="129"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="108" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="108" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a5bc92c7da3b7100b3c0ae1ef94e9197f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -207,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="136" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="136" bodyend="139"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="115" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="115" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7918e657f4caec38785a1ce614529a6c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -238,7 +238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="146" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="146" bodyend="149"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="122" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="122" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abd12ba8d7810a7a50f7d79b00a3d83d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -269,7 +269,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="156" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="156" bodyend="159"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="129" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="129" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4d95d80173b7dce89c6bf2ff7904e2ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -300,7 +300,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="168" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="168" bodyend="171"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="136" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="136" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a48dd5094ae2efd7c119e59f2649ed972" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -331,7 +331,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="180" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="180" bodyend="183"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="143" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="143" bodyend="143"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a404aab5ea59c6395cfa00c7be3deef5a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -362,7 +362,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="190" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="190" bodyend="193"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="150" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="150" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aebb94b2e2b4cc3045c04f69f62b2c1d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -418,7 +418,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="202" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="202" bodyend="207"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="159" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="159" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a736887f71519e65809df5963dabf0e41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -452,11 +452,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointPositions&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointPositions&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -464,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="218" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="218" bodyend="222"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="174" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="174" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a038b99ea62dbe5cd5ebfe347d4c0e0de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -520,7 +520,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="231" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="231" bodyend="236"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="184" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="184" bodyend="186"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9b237bf8588f2463336a32ee01018ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -554,11 +554,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointVelocties&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointVelocties&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -566,7 +566,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="247" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="247" bodyend="251"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="199" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="199" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab61b60f1c9ad604667f848d8a7e56c6a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -628,7 +628,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="266" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="266" bodyend="271"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="215" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="215" bodyend="217"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0949583d77937eec7992e3e219870e84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -684,7 +684,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="280" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="280" bodyend="285"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="226" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="226" bodyend="228"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a26cbfe0877a9f218f76d300f08f2fb24" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -740,7 +740,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="294" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="294" bodyend="299"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="237" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="237" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1add94673affb8521510ac266ebf0c5185" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -796,7 +796,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="308" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="308" bodyend="313"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="248" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="248" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a617ef927276eea5244014372eb883f2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -852,7 +852,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="322" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="322" bodyend="327"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="259" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="259" bodyend="261"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a6a068e43f6eb1f149b7ef7bcac774a72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -908,7 +908,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="336" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="336" bodyend="341"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="270" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="270" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1afb90f14995a7b0c8c102f8b43985d6b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -964,7 +964,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="351" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="351" bodyend="356"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="281" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="281" bodyend="283"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ae541773a584a70f1ad586a22da91703c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -1020,7 +1020,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="365" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="365" bodyend="370"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="292" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="292" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aecfb22aae3634befc8dc3b3592325484" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -1034,7 +1034,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="375" column="13"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="299" column="13"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -1055,7 +1055,7 @@
 <para>Helper method to maintain <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions" kindref="compound">SensorBridgeOptions</ref> struct by populating it from the configuration parameters. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot; </para>
+<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot;</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1078,7 +1078,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="388" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="388" bodyend="393"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="310" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="310" bodyend="311"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad81d1c091fa178daf1489060c3b4756c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -1101,7 +1101,7 @@
 <para>Helper method to maintain <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists" kindref="compound">SensorLists</ref> struct by populating it from the configuration parameters. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot; </para>
+<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot;</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1132,7 +1132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="406" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="406" bodyend="411"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="322" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="322" bodyend="324"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1af951b34d0b4ff5dd51a23bf40dad488d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -1151,7 +1151,7 @@
 <para>Helper method to maintain <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> struct by populating it from the configuration parameters. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot; </para>
+<para><simplesect kind="note"><para>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot;</para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1182,7 +1182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="423" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="423" bodyend="428"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="335" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="335" bodyend="336"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a41fab351db0d88b6a40c08294ab83f50" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -1238,7 +1238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="437" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="437" bodyend="442"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="345" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="345" bodyend="350"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac7ccad5b61eb4d5d04dbe4ff1392937b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -1272,11 +1272,11 @@
 <parametername direction="out">receiveTimeInSeconds</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>time at which the measurement was received </para>
+<para>time at which the measurement was received</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorCurrents&quot; to this method </para>
+<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorCurrents&quot; to this method</para>
 </simplesect>
 <simplesect kind="return"><para>true/false in case of success/failure </para>
 </simplesect>
@@ -1284,619 +1284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="453" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="453" bodyend="457"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4a44c7b9132b0020e36460ad4d1d1280" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorPWM</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorPWM, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorPWM</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078">getMotorPWM</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorPWM</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor PWM. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPWM</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor PWM </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="466" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="466" bodyend="471"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7d4e7c18cb7dbae59a6091a69b1af111" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorPWMs</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorPWMs, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorPWMs</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642">getMotorPWMs</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorPWMs</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; PWM. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPWMs</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; PWM </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPWMs&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="483" column="5" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="483" bodyend="486"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a91fce22c7a03936c2615fadbf1adea3b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getJointTorque</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;jointTorque, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getJointTorque</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae">getJointTorque</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>jointTorque</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get joint torques in Nm. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">jointTorque</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor torque in Nm </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="495" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="495" bodyend="500"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a2d0d9691f82815c720357ba1159bd472" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getJointTorques</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; jointTorques, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getJointTorques</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aae0867c8a5de903041906c4ad7bedccc">getJointTorques</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>jointTorques</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all joints&apos; torque in Nm. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">jointTorques</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; torque in Nm </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;jointTorques&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="511" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="511" bodyend="515"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acd6cec3e242e3588315c730d6b26cf71" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getPidPosition</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;pidPosition, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getPidPosition</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa1c6c07e3a5385b0b192f0f02f77bebc">getPidPosition</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>pidPosition</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get pid position in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>pid position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="524" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="524" bodyend="529"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad377ee3aebf6cfc33d01dc03bf0cc952" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getPidPositions</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; pidPositions, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getPidPositions</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a386d1d0391c48bb6bb74ce778086a214">getPidPositions</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>pidPositions</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all pid positions in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositions</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all pid positions in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositions&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="540" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="540" bodyend="544"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9840bc0f3578565fe397c5aeb41585c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getPidPositionError</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;pidPositionError, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getPidPositionError</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad883780f4592b71f4b44230d3d204976">getPidPositionError</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>pidPositionError</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get pid position error in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositionError</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>pid position error in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="553" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="553" bodyend="558"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aa3b70d52b6fee2af14a77ca85ae0133b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getPidPositionErrors</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; pidPositionErrors, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getPidPositionErrors</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aaa6b1a101bc1bfb4e8d50045e90f6454">getPidPositionErrors</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>pidPositionErrors</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all pid position errors in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">pidPositionErrors</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all pid position errors in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;pidPositionErrors&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="569" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="569" bodyend="573"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a72e11e97a72a5a48decedfbd192cfea1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorPosition</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorPosition, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorPosition</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a54de0c229c806a3d9f0cb49823dc20fc">getMotorPosition</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorPosition</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor position in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorPosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="582" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="582" bodyend="587"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abb0cdee4a82755d9e1d577ffeb7c452d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorPositions</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorPositions, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorPositions</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755">getMotorPositions</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorPositions</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; positions in rad. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">parameter</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; position in radians </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorPositions&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="598" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="598" bodyend="602"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0f50a232e96cc6c59a6f948594ed7160" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorVelocity</definition>
-        <argsstring>(const std::string &amp;jointName, double &amp;motorVelocity, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorVelocity</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae">getMotorVelocity</reimplementedby>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>jointName</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>motorVelocity</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get motor velocity in rad/s. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">jointName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>name of the joint </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">motorVelocity</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>motor velocity in radians per second </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="611" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="611" bodyend="616"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::RobotInterface::ISensorBridge::getMotorVelocities</definition>
-        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorVelocties, OptionalDoubleRef receiveTimeInSeconds={})</argsstring>
-        <name>getMotorVelocities</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b">getMotorVelocities</reimplementedby>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>motorVelocties</declname>
-        </param>
-        <param>
-          <type>OptionalDoubleRef</type>
-          <declname>receiveTimeInSeconds</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Get all motors&apos; velocities in rad/s. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="out">parameter</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>all motors&apos; velocities in radians per second </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">receiveTimeInSeconds</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time at which the measurement was received </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="warning"><para>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorVelocties&quot; to this method </para>
-</simplesect>
-<simplesect kind="return"><para>true/false in case of success/failure </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="627" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="627" bodyend="631"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="363" column="18" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="363" bodyend="367"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1916,7 +1304,7 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="87" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="88" bodyend="632"/>
+    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="75" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="76" bodyend="368"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ae541773a584a70f1ad586a22da91703c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getCartesianWrench</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a404aab5ea59c6395cfa00c7be3deef5a" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getCartesianWrenchesList</name></member>
@@ -1927,8 +1315,6 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aebb94b2e2b4cc3045c04f69f62b2c1d1" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointPosition</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a736887f71519e65809df5963dabf0e41" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointPositions</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac702a40c1c06091450376ac6e45a7206" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a91fce22c7a03936c2615fadbf1adea3b" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointTorque</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a2d0d9691f82815c720357ba1159bd472" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointTorques</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9b237bf8588f2463336a32ee01018ee" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointVelocities</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a038b99ea62dbe5cd5ebfe347d4c0e0de" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getJointVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0949583d77937eec7992e3e219870e84" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getLinearAccelerometerMeasurement</name></member>
@@ -1937,18 +1323,8 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abd12ba8d7810a7a50f7d79b00a3d83d3" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMagnetometersList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a41fab351db0d88b6a40c08294ab83f50" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorCurrent</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac7ccad5b61eb4d5d04dbe4ff1392937b" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorCurrents</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a72e11e97a72a5a48decedfbd192cfea1" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1abb0cdee4a82755d9e1d577ffeb7c452d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorPositions</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4a44c7b9132b0020e36460ad4d1d1280" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorPWM</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7d4e7c18cb7dbae59a6091a69b1af111" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorPWMs</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorVelocities</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a0f50a232e96cc6c59a6f948594ed7160" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getMotorVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1add94673affb8521510ac266ebf0c5185" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getOrientationSensorMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7918e657f4caec38785a1ce614529a6c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getOrientationSensorsList</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1acd6cec3e242e3588315c730d6b26cf71" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getPidPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ab9840bc0f3578565fe397c5aeb41585c" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getPidPositionError</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aa3b70d52b6fee2af14a77ca85ae0133b" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getPidPositionErrors</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad377ee3aebf6cfc33d01dc03bf0cc952" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getPidPositions</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a6a068e43f6eb1f149b7ef7bcac774a72" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getSixAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a4d95d80173b7dce89c6bf2ff7904e2ce" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getSixAxisForceTorqueSensorsList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1afb90f14995a7b0c8c102f8b43985d6b4" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ISensorBridge</scope><name>getThreeAxisForceTorqueMeasurement</name></member>

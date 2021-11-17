@@ -46,13 +46,13 @@
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>
       <sectiondef kind="func">
-      <memberdef kind="function" id="YarpHelper_8h_1a2c07f5099140671abde506a8a316e130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="YarpHelper_8h_1a4d8ce7de2788fe1398fb5988c3d77744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PolyDriverDescriptor</type>
         <definition>PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBoardRemapper</definition>
-        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
         <name>constructRemoteControlBoardRemapper</name>
         <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>
@@ -109,13 +109,13 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="64" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="64" declcolumn="22"/>
       </memberdef>
-      <memberdef kind="function" id="YarpHelper_8h_1a63b15535972c13dedb0459a66321432b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="YarpHelper_8h_1a9c135e684813536bf24d091cd60456a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PolyDriverDescriptor</type>
         <definition>PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorClient</definition>
-        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
         <name>constructGenericSensorClient</name>
         <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>

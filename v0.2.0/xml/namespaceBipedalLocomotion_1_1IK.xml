@@ -3,7 +3,6 @@
   <compounddef id="namespaceBipedalLocomotion_1_1IK" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::IK</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public">BipedalLocomotion::IK::CoMTask</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" prot="public">BipedalLocomotion::IK::IKLinearTask</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState" prot="public">BipedalLocomotion::IK::IntegrationBasedIKState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" prot="public">BipedalLocomotion::IK::IntegrationBasedIK</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public">BipedalLocomotion::IK::JointTrackingTask</innerclass>

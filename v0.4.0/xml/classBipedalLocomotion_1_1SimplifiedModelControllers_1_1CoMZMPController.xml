@@ -445,7 +445,7 @@
 <parametername>angle</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the yaw angle (in radians) represents the <formula id="52">${}^I R_B$</formula> rotation matrix. The rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the inertial frame (I). The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>
+<para>the yaw angle (in radians) represents the <formula id="55">${}^I R_B$</formula> rotation matrix. The rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the inertial frame (I). The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -460,7 +460,7 @@
 <para><ref refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController" kindref="compound">CoMZMPController</ref> implements the following control law. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="47">\[ \dot{x} = \dot{x}^* - K _ {zmp} (r^*_{zmp} - r_{zmp}) + K _ {com} (x^* - x) \]</formula> where <formula id="45">$x$</formula> is the CoM position and <formula id="48">$r_{zmp}$</formula> the ZMP position. The gains <formula id="49">$K_{zmp}$</formula> and <formula id="50">$K_{com}$</formula> depends on the orientation of a frame rigidly attached to the CoM (B) w.r.t. the inertial frame (I). The rotation matrix <formula id="51">${}^I R _ B$</formula> depends only on the yaw angle. <image type="html" name="https://user-images.githubusercontent.com/16744101/128683430-f63c3c34-404a-42d9-b864-2437445abe38.png" alt="CoMZMPController" inline="yes"></image>
+<para><formula id="50">\[ \dot{x} = \dot{x}^* - K _ {zmp} (r^*_{zmp} - r_{zmp}) + K _ {com} (x^* - x) \]</formula> where <formula id="48">$x$</formula> is the CoM position and <formula id="51">$r_{zmp}$</formula> the ZMP position. The gains <formula id="52">$K_{zmp}$</formula> and <formula id="53">$K_{com}$</formula> depends on the orientation of a frame rigidly attached to the CoM (B) w.r.t. the inertial frame (I). The rotation matrix <formula id="54">${}^I R _ B$</formula> depends only on the yaw angle. <image type="html" name="https://user-images.githubusercontent.com/16744101/128683430-f63c3c34-404a-42d9-b864-2437445abe38.png" alt="CoMZMPController" inline="yes"></image>
  <simplesect kind="note"><para>Since the controller is based on the assumption of the Linear Inverted Pendulum Model (LIPM), the CoM height velocity is always equal to zero. </para>
 </simplesect>
 <simplesect kind="note"><para>The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>
@@ -532,6 +532,7 @@
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;::"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a94ccaaa7d0d8c5c1bec44c14be1ec8de" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>~Advanceable</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>
