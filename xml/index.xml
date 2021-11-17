@@ -725,6 +725,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a294cd716ab56034d55a4909f05657191" kind="function"><name>readAllMASOrientationSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2b3c9d5dff3e0dc13ca55bb3d1ecb8c2" kind="function"><name>readAllMASMagnetometers</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a056ed2622f5d5cf4d3529c05bd114318" kind="function"><name>readAllMASSixAxisForceTorqueSensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a359a8fb3a0eb18d896aa6ffc1deceefc" kind="function"><name>readAllAnalogSixAxisForceTorqueSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad9596982c7236d76378db18a1f78c85e" kind="function"><name>readAllSensors</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info" kind="struct"><name>BipedalLocomotion::System::AdvanceableRunner::Info</name>
