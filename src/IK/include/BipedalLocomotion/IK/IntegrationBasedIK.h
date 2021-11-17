@@ -46,14 +46,14 @@ struct IntegrationBasedIKState
  * Here you can find an example of the IntegrationBasedInverseKinematics interface used as
  * a velocity controller.
  * <br/>
- * <img src="https://user-images.githubusercontent.com/16744101/110701009-ec359200-81f0-11eb-9552-d47632f5b268.png" alt="VelocityControl" width="1500">
+ * <img src="https://user-images.githubusercontent.com/16744101/142285123-5dbe7b46-e4e7-42b9-a601-709f7fc15469.png" alt="VelocityControl" width="1500">
  * @subsection ik Inverse Kinematics
  * If you want to use IntegrationBasedInverseKinematics as IK you need to integrate the output
  * velocity. System::FloatingBaseSystemKinematics and System::Integrator classes can be used
  * to integrate the output of the IK taking into account the geometrical structure of the
- * configuration space (\f$ R^3 \times SO(3) \times R^n\f$)
+ * configuration space (\f$ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n\f$)
  * <br/>
- * <img src="https://user-images.githubusercontent.com/16744101/110700993-e50e8400-81f0-11eb-88a1-30d5a024da9a.png" alt="InverseKinematics" width="1500">
+ * <img src="https://user-images.githubusercontent.com/16744101/142285232-3f02f41e-b1b8-4f73-8105-dfc15be406ca.png" alt="InverseKinematics" width="1500">
  */
 class IntegrationBasedIK : public System::ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>
 {
