@@ -46,5 +46,7 @@ if __name__ == "__main__":
                                      input_files_path="./",
                                      output_files_path="./")
 
-        subprocess.Popen(["python3", args.mcss_path, "conf-" + key + ".py"],
-                         stdout=subprocess.PIPE)
+        try:
+            subprocess.check_call(["python3", args.mcss_path, "conf-" + key + ".py"])
+        except subprocess.CalledProcessError as error:
+            print(error)
