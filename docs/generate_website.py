@@ -11,6 +11,33 @@ import argparse
 
 from generate_documentation_files import generate_documentation_files
 
+def generate_documentation(tag, options):
+    print("###### Generating documentation for", tag, " ######")
+
+    root_folder = "../"
+    if tag != 'master':
+        os.chdir('bipedal-locomotion-framework')
+        subprocess.Popen(["git", "checkout", tag], stdout=subprocess.PIPE)
+        os.chdir('..')
+        root_folder = "bipedal-locomotion-framework/"
+
+    additional_pages = []
+    if 'additional_pages' in options.keys():
+        additional_pages = [root_folder + page for page in options['additional_pages']]
+
+    generate_documentation_files(tag=tag,
+                                 src_folder=root_folder + options['src_folder'],
+                                 main_page=root_folder + options['main_page'],
+                                 additional_pages=additional_pages,
+                                 input_files_path="./",
+                                 output_files_path="./")
+
+    try:
+        subprocess.check_call(["python3", args.mcss_path, "conf-" + tag + ".py"])
+    except subprocess.CalledProcessError as error:
+        raise ValueError(error)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='generate_website.py is a python script useful to generate the '
                                                  'documentation of the bipedal-locomotion-framework repo.')
@@ -21,30 +48,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     parameters = toml.load("config.toml")
+
+    # create the site directory structure
+    os.makedirs('./site', exist_ok=True)
     for key, value in parameters.items():
-
-        directory = './site/' + key
-        if not os.path.exists(directory) and key != 'master':
-            os.makedirs(directory)
-
-        os.chdir('bipedal-locomotion-framework')
-        subprocess.Popen(["git", "checkout", key], stdout=subprocess.PIPE)
-        os.chdir('..')
-
-        root_folder = "../"
         if key != 'master':
-            root_folder = "bipedal-locomotion-framework/"
+            directory = './site/' + key
+            os.makedirs(directory, exist_ok=True)
 
-        additional_pages = []
-        if 'additional_pages' in value.keys():
-            additional_pages = [root_folder + page for page in value['additional_pages']]
+    # build the documentation
+    for key, value in parameters.items():
+        generate_documentation(key, value)
 
-        generate_documentation_files(tag=key,
-                                     src_folder=root_folder + value['src_folder'],
-                                     main_page=root_folder + value['main_page'],
-                                     additional_pages=additional_pages,
-                                     input_files_path="./",
-                                     output_files_path="./")
-
-        subprocess.Popen(["python3", args.mcss_path, "conf-" + key + ".py"],
-                         stdout=subprocess.PIPE)
