@@ -68,6 +68,31 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
         return false;
     }
 
+    // Get additional flags required by the device
+    if (!originalHandler->getParameter("stream_joint_states", m_streamJointStates))
+    {
+        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_joint_states' "
+                   "parameter is not found. The joint states is not logged.";
+    }
+
+    if (!originalHandler->getParameter("stream_motor_states", m_streamMotorStates))
+    {
+        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_motor_states' "
+                   "parameter is not found. The motor states is not logged.";
+    }
+
+    if (!originalHandler->getParameter("stream_motor_PWM", m_streamMotorPWM))
+    {
+        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_motor_PWM' "
+                   "parameter is not found. The Motor PWM is not logged.";
+    }
+
+    if (!originalHandler->getParameter("stream_pids", m_streamPIDs))
+    {
+        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_pids' parameter is "
+                   "not found. The Motor pid values are not logged.";
+    }
+
     return true;
 }
 
@@ -256,60 +281,76 @@ void YarpRobotLoggerDevice::run()
     }
 
     // joint state
-    m_jointState.at("joint_positions").conservativeResize(m_dofs, bufferSize + 1);
-    m_jointState.at("joint_velocities").conservativeResize(m_dofs, bufferSize + 1);
-    m_jointState.at("joint_torques").conservativeResize(m_dofs, bufferSize + 1);
-    if (!m_robotSensorBridge->getJointPositions(m_jointState.at("joint_positions").col(bufferSize),
-                                                m_timeNow))
-
+    if (m_streamJointStates)
     {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint positions";
-    }
+        m_jointState.at("joint_positions").conservativeResize(m_dofs, bufferSize + 1);
+        m_jointState.at("joint_velocities").conservativeResize(m_dofs, bufferSize + 1);
+        m_jointState.at("joint_torques").conservativeResize(m_dofs, bufferSize + 1);
+        if (!m_robotSensorBridge
+                 ->getJointPositions(m_jointState.at("joint_positions").col(bufferSize), m_timeNow))
 
-    if (!m_robotSensorBridge->getJointVelocities(m_jointState.at("joint_velocities").col(bufferSize),
-                                                 m_timeNow))
-    {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint velocities";
-    }
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint positions";
+        }
 
-    if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize), m_timeNow))
-    {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint torques";
+        if (!m_robotSensorBridge
+                 ->getJointVelocities(m_jointState.at("joint_velocities").col(bufferSize),
+                                      m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint velocities";
+        }
+
+        if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize),
+                                                  m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint torques";
+        }
     }
 
     // Motor state
-    m_motorState.at("motor_positions").conservativeResize(m_dofs, bufferSize + 1);
-    m_motorState.at("motor_velocities").conservativeResize(m_dofs, bufferSize + 1);
-    m_motorState.at("motor_currents").conservativeResize(m_dofs, bufferSize + 1);
-    if (!m_robotSensorBridge->getMotorPositions(m_motorState.at("motor_positions").col(bufferSize),
-                                                m_timeNow))
-
+    if (m_streamMotorStates)
     {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor positions";
-    }
+        m_motorState.at("motor_positions").conservativeResize(m_dofs, bufferSize + 1);
+        m_motorState.at("motor_velocities").conservativeResize(m_dofs, bufferSize + 1);
+        m_motorState.at("motor_currents").conservativeResize(m_dofs, bufferSize + 1);
+        if (!m_robotSensorBridge
+                 ->getMotorPositions(m_motorState.at("motor_positions").col(bufferSize), m_timeNow))
 
-    if (!m_robotSensorBridge->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
-                                                 m_timeNow))
-    {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor velocities";
-    }
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor positions";
+        }
 
-    if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize), m_timeNow))
-    {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor currents";
+        if (!m_robotSensorBridge
+                 ->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
+                                      m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor velocities";
+        }
+
+        if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize),
+                                                   m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor currents";
+        }
     }
 
     // Motor PWM
-    m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
-    if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
+    if (m_streamMotorPWM)
     {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor PWMs";
+        m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
+        if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor PWMs";
+        }
     }
 
-    m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
-    if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
+    if (m_streamPIDs)
     {
-        yError() << "[YarpRobotLoggerDevice][run] Unable to get the PIDs references";
+        m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
+        if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the PIDs references";
+        }
     }
 
     m_time.conservativeResize(bufferSize + 1);
