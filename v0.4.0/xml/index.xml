@@ -3,7 +3,6 @@
   <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class"><name>BipedalLocomotion::System::Advanceable</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" kind="typedef"><name>Output</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" kind="function"><name>~Advanceable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" kind="function"><name>setInput</name></member>
@@ -28,9 +27,8 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3d739a55360825588ef53480b166dd51" kind="function"><name>setInputResource</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1afc486d5f4d2c2ff5c4aae4c5037394ce" kind="function"><name>setOutputResource</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0e209f5ebd347e033ccf5e911e80cfc3" kind="function"><name>getInfo</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" kind="function"><name>run</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0c2e43ebeda227492e97634fa0cb9867" kind="function"><name>run</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" kind="function"><name>stop</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" kind="function"><name>isRunning</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector" kind="class"><name>BipedalLocomotion::Perception::ArucoDetector</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a1c02a982577ef5797a1cbf1d8dbf5b99" kind="variable"><name>m_pimpl</name></member>
@@ -52,15 +50,6 @@
     <member refid="structBipedalLocomotion_1_1Perception_1_1ArucoMarkerData_1af709b08897689e51dbc6624e2516805f" kind="variable"><name>id</name></member>
     <member refid="structBipedalLocomotion_1_1Perception_1_1ArucoMarkerData_1aa8e492cff93843f8a4f4ac5eade9cc0b" kind="variable"><name>corners</name></member>
     <member refid="structBipedalLocomotion_1_1Perception_1_1ArucoMarkerData_1ab10fa76889f51336d900d2243ce252d7" kind="variable"><name>pose</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1System_1_1Barrier" kind="class"><name>BipedalLocomotion::System::Barrier</name>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a24e54a62b6aca02eb2b3b1f3d9fede5e" kind="variable"><name>m_mutex</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1aee81539fa5cfcd960f0cb746e899b4f8" kind="variable"><name>m_cond</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1ae9484d04a650b0ccedc6507de2a11a45" kind="variable"><name>m_initialCount</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a3d7e608a2a3ae7c2d5ab50e7c12670a9" kind="variable"><name>m_count</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a18ebd1a0f593077041e4fff3e2bc2ccb" kind="variable"><name>m_generation</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" kind="function"><name>Barrier</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1aeb138b695cc2fb8199da7d766d123902" kind="function"><name>wait</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::BaseDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1acbf2724d4eecefc32532cc916f1d131d" kind="variable"><name>m_robotAccelerationVariable</name></member>
@@ -294,7 +283,6 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ab304c552436d9dcd7a4fdd54276e6248" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a33083dbf15170a9c48e3a97459caa978" kind="function"><name>setLists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6176b67dc70fec29ab5cc742d1a060cb" kind="function"><name>setLists</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a321a56e42cf64ccab4c192998dfcc5c3" kind="function"><name>getPresentPhase</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" kind="function"><name>lists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" kind="function"><name>begin</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" kind="function"><name>cbegin</name></member>
@@ -427,9 +415,6 @@
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1a6acad03dd6836d5ac0b9f62abb15ae66" kind="variable"><name>vrpPosition</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1ab4aea942aca0c513e611adb4d73b6f00" kind="variable"><name>omega</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1ae5e574675177054804adc189c3dfc8aa" kind="variable"><name>omegaDot</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::DefaultLoggerFactory</name>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1aa7b2c4de2fe26374e0f88461b11e006b" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kind="typedef"><name>State</name></member>
@@ -676,7 +661,6 @@
   <compound refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info" kind="struct"><name>BipedalLocomotion::System::AdvanceableRunner::Info</name>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a93014ed6d870ae71421d3f0f41414107" kind="variable"><name>deadlineMiss</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a0898353dc375b8db868b4fd8fb4b8e10" kind="variable"><name>dT</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a4827c731c7b02fbc85845286ef79841f" kind="variable"><name>name</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" kind="class"><name>BipedalLocomotion::IK::IntegrationBasedIK</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" kind="function"><name>~IntegrationBasedIK</name></member>
@@ -967,15 +951,6 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a5edc5d29741f54e3e466d47e93798201" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1acc615712887f6f1eb060de6f95c994ab" kind="function"><name>setControlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a947e70ca578b2b9220de02012f03c440" kind="function"><name>dynamics</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder" kind="class"><name>BipedalLocomotion::TextLogging::LoggerBuilder</name>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a1d6ee23c6232b5712fc20fd7d1c65f46" kind="variable"><name>m_factory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a85a6d1708d66ce941073b49fb2399f47" kind="function"><name>setFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a51300df159e3dad575d854ecd19b077c" kind="friend"><name>BipedalLocomotion::log</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::LoggerFactory</name>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1ac43836e327df2a153d5cddee9a0ed278" kind="function"><name>~LoggerFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1a8ba0ec17ebd6f59358bc04409fed2299" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1a71fbc272beb1c338054b79dbb92cf735" kind="variable"><name>accelerometer</name></member>
@@ -1565,39 +1540,6 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1a4ceb073d81987f718c5f29784e199bbd" kind="variable"><name>jointTorques</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1aff5d8065eea618abc03017e1b629cdb5" kind="variable"><name>contactWrenches</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a1d0e78332b19a454b418c55ac3a7166b" kind="variable"><name>dx</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1ac961f7f19babdf6cc1ca6a5ccb6bf46c" kind="variable"><name>dy</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a058b47a1a72e2b4976e4b57a030cc816" kind="variable"><name>time</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a5f2127c0da7dd9be6335b06e7c9aa52e" kind="function"><name>UnicycleKnot</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae7ad740e7ed503ad8a22cb8702c474a" kind="function"><name>UnicycleKnot</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae606a38c060a968ede0af46cb23f7f9" kind="function"><name>operator==</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner" kind="class"><name>BipedalLocomotion::Planners::UnicyclePlanner</name>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a2c3b23ca0652a619ec21a2f5e9b96cb6" kind="variable"><name>m_pImpl</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ac706d460e5f941553ce81dcce3710c3f" kind="function"><name>UnicyclePlanner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1aa90a125b2219a7848a633d837e8ba230" kind="function"><name>~UnicyclePlanner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4" kind="function"><name>getOutput</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d" kind="function"><name>isOutputValid</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a51e36afda11214c32d11ffe3b11705f7" kind="function"><name>setInput</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0" kind="function"><name>advance</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerInput</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ac102e3005b29fe9be5db56f9fcf05ec4" kind="variable"><name>t0</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a99312056248188fb21ebfbd0f76d9dc4" kind="variable"><name>tf</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ab8c5a61e1c78fead71010c62b7924e0d" kind="variable"><name>initialLeftContact</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a57f640f74b13c6bda4126839174294ea" kind="variable"><name>initialRightContact</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1afc24d357f9138b19fa71ddb533071445" kind="variable"><name>knots</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1aa1486d28efdff3a3da058bf507e400a6" kind="function"><name>UnicyclePlannerInput</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerOutput</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a191cd4f5c7022996f9893d0935e20a27" kind="variable"><name>left</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1aedf88ce4115faea15dd8cdff4fde689d" kind="variable"><name>right</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a53d6fe7056b832d8f5b73a2ecf9fc2f9" kind="function"><name>UnicyclePlannerOutput</name></member>
-  </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kind="struct"><name>BipedalLocomotion::System::VariablesHandler::VariableDescription</name>
     <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a66b30b52ac1228e2909ff2509c7cfb5a" kind="variable"><name>offset</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1a9059e70b0951f8e1270c6b4f94e7eced" kind="variable"><name>size</name></member>
@@ -1750,9 +1692,6 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a24a75f5c666a6a26571fd1ad0320a42b" kind="function"><name>clone</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a229f0efd055b386c23fb4f3d16ba56eb" kind="function"><name>~YarpImplementation</name></member>
   </compound>
-  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::YarpLoggerFactory</name>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1aba1299855fe13af7a310e008f88c4a4d" kind="function"><name>createLogger</name></member>
-  </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" kind="class"><name>BipedalLocomotion::RobotInterface::YarpRobotControl</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1afafcb9039f5ae8deaac0d3ca95258dd1" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a4ec6b9d2a7d24b197431776c257d7c50" kind="function"><name>YarpRobotControl</name></member>
@@ -1809,10 +1748,6 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755" kind="function"><name>getMotorPositions</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae" kind="function"><name>getMotorVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b" kind="function"><name>getMotorVelocities</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink" kind="class"><name>BipedalLocomotion::TextLogging::sinks::YarpSink</name>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1ad9f365bbabbd35f8764487ddc5531007" kind="function"><name>sink_it_</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1a47a754ca24dc3823a1817831ae49b06e" kind="function"><name>flush_</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
@@ -1919,9 +1854,6 @@
     <member refid="Logger_8h_1a0cadd5e174b4505db4519f1bad65030d" kind="typedef"><name>Logger</name></member>
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
-  <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
-    <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
-  </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1YarpUtilities" kind="namespace"><name>BipedalLocomotion::YarpUtilities</name>
@@ -1942,10 +1874,6 @@
   <compound refid="namespaceEigen" kind="namespace"><name>Eigen</name>
   </compound>
   <compound refid="namespaceEigen_1_1internal" kind="namespace"><name>Eigen::internal</name>
-  </compound>
-  <compound refid="namespacespdlog" kind="namespace"><name>spdlog</name>
-  </compound>
-  <compound refid="namespacespdlog_1_1sinks" kind="namespace"><name>spdlog::sinks</name>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
   </compound>
@@ -2134,8 +2062,6 @@
   </compound>
   <compound refid="TimeVaryingDCMPlanner_8h" kind="file"><name>TimeVaryingDCMPlanner.h</name>
   </compound>
-  <compound refid="UnicyclePlanner_8h" kind="file"><name>UnicyclePlanner.h</name>
-  </compound>
   <compound refid="ICameraBridge_8h" kind="file"><name>ICameraBridge.h</name>
   </compound>
   <compound refid="IPointCloudBridge_8h" kind="file"><name>IPointCloudBridge.h</name>
@@ -2164,8 +2090,6 @@
   </compound>
   <compound refid="AdvanceableRunner_8h" kind="file"><name>AdvanceableRunner.h</name>
   </compound>
-  <compound refid="Barrier_8h" kind="file"><name>Barrier.h</name>
-  </compound>
   <compound refid="Clock_8h" kind="file"><name>Clock.h</name>
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
@@ -2192,8 +2116,6 @@
   </compound>
   <compound refid="YarpClock_8h" kind="file"><name>YarpClock.h</name>
   </compound>
-  <compound refid="DefaultLogger_8h" kind="file"><name>DefaultLogger.h</name>
-  </compound>
   <compound refid="Logger_8h" kind="file"><name>Logger.h</name>
     <member refid="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64" kind="enum"><name>Verbosity</name></member>
     <member refid="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64add4ec0ac4e58f7c32a01244ae91150b1" kind="enumvalue"><name>Trace</name></member>
@@ -2204,13 +2126,8 @@
     <member refid="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64a278d01e5af56273bae1bb99a98b370cd" kind="enumvalue"><name>Critical</name></member>
     <member refid="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64ad15305d7a4e34e02489c74a5ef542f36" kind="enumvalue"><name>Off</name></member>
     <member refid="Logger_8h_1a0cadd5e174b4505db4519f1bad65030d" kind="typedef"><name>Logger</name></member>
-    <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
-  </compound>
-  <compound refid="LoggerBuilder_8h" kind="file"><name>LoggerBuilder.h</name>
-  </compound>
-  <compound refid="YarpLogger_8h" kind="file"><name>YarpLogger.h</name>
-    <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+    <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
   </compound>
   <compound refid="BaseDynamicsTask_8h" kind="file"><name>BaseDynamicsTask.h</name>
   </compound>
@@ -2245,13 +2162,9 @@
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -2259,37 +2172,39 @@
   </compound>
   <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_236a1b57464bafc12d3e7f870739eeda" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_531c7abd5b4eafc7c353b939b0a8a2d6" kind="dir"><name>BipedalLocomotion/Perception/Capture</name>
   </compound>
@@ -2321,19 +2236,19 @@
   </compound>
   <compound refid="dir_ef3b2545113449f8f25e623a543d64e3" kind="dir"><name>/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/bipedal-locomotion-framework/docs/pages</name>
   </compound>
-  <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
-  </compound>
   <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_5de36add22bf70f2482142ec548a1759" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
+  </compound>
+  <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_224cc52f73d01a88baf301b7a814488c" kind="dir"><name>BipedalLocomotion/Perception</name>
   </compound>
   <compound refid="dir_9a2340c01aedb0f76560dc44ac9c4ec3" kind="dir"><name>BipedalLocomotion/Planners</name>
   </compound>
-  <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
-  </compound>
   <compound refid="dir_0508a58ae2d23521ceabe770d09ae119" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
+  </compound>
+  <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>
   <compound refid="dir_36e58bdfebd16f43fc703a9958258094" kind="dir"><name>BipedalLocomotion/SimplifiedModelControllers</name>
   </compound>
@@ -2342,8 +2257,6 @@
   <compound refid="dir_149d75d1ca0d14fb80db86def7c6665a" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
   <compound refid="dir_08ae5806f2f967acb676f6f7b56a4c93" kind="dir"><name>BipedalLocomotion/TextLogging</name>
-  </compound>
-  <compound refid="dir_243c1a0ecbb90c80ab66ea5f2e4da99e" kind="dir"><name>BipedalLocomotion/TextLogging</name>
   </compound>
   <compound refid="dir_14e94b1d2b214f46e7485b8938bfc05d" kind="dir"><name>BipedalLocomotion/TSID</name>
   </compound>

@@ -5,38 +5,61 @@
     <includes local="no">memory</includes>
     <includes local="no">manif/manif.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
-    <includes refid="ContactList_8h" local="no">BipedalLocomotion/Planners/ContactList.h</includes>
-    <includes refid="QuinticSpline_8h" local="no">BipedalLocomotion/Planners/QuinticSpline.h</includes>
+    <includes refid="ContactList_8h" local="no">BipedalLocomotion/Contacts/ContactList.h</includes>
+    <includes refid="Spline_8h" local="no">BipedalLocomotion/Planners/Spline.h</includes>
     <includes refid="SO3Planner_8h" local="no">BipedalLocomotion/Planners/SO3Planner.h</includes>
-    <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
+    <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <incdepgraph>
-      <node id="12">
-        <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
-        <link refid="QuinticSpline_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
+      <node id="13">
         <label>functional</label>
       </node>
-      <node id="15">
+      <node id="20">
         <label>BipedalLocomotion/Planners/SO3Planner.h</label>
         <link refid="SO3Planner_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>BipedalLocomotion/Planners/Spline.h</label>
+        <link refid="Spline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
       </node>
+      <node id="19">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/Contacts/Contact.h</label>
+        <link refid="Contact_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>manif/manif.h</label>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/Math/Wrench.h</label>
+        <link refid="Wrench_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -48,32 +71,50 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>manif/SE3.h</label>
       </node>
       <node id="5">
         <label>string</label>
       </node>
-      <node id="14">
+      <node id="18">
         <label>BipedalLocomotion/System/Advanceable.h</label>
         <link refid="Advanceable_8h"/>
-      </node>
-      <node id="8">
-        <label>BipedalLocomotion/Planners/Contact.h</label>
-        <link refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="13">
-        <label>Eigen/Dense</label>
       </node>
       <node id="17">
+        <label>BipedalLocomotion/System/Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="21">
         <label>BipedalLocomotion/Planners/SO3Planner.tpp</label>
       </node>
       <node id="6">
         <label>vector</label>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/Contacts/ContactList.h</label>
+        <link refid="ContactList_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
@@ -86,31 +127,20 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>BipedalLocomotion/Planners/ContactList.h</label>
-        <link refid="ContactList_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
         <label>manif/SO3.h</label>
       </node>
-      <node id="10">
+      <node id="14">
         <label>set</label>
       </node>
       <node id="2">

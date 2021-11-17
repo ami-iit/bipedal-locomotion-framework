@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_6ff8db79a2e8949908243ad0032e27de" kind="dir">
+    <compoundname>BipedalLocomotion/ContinuousDynamicalSystem</compoundname>
+    <innerdir refid="dir_570615e3cbc87051f9df1f3149652ad1">BipedalLocomotion/ContinuousDynamicalSystem/impl</innerdir>
+    <innerfile refid="CompliantContactWrench_8h">CompliantContactWrench.h</innerfile>
+    <innerfile refid="DynamicalSystem_8h">DynamicalSystem.h</innerfile>
+    <innerfile refid="FixedBaseDynamics_8h">FixedBaseDynamics.h</innerfile>
+    <innerfile refid="FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
+    <innerfile refid="FloatingBaseDynamicsWithCompliantContacts_8h">FloatingBaseDynamicsWithCompliantContacts.h</innerfile>
+    <innerfile refid="FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
+    <innerfile refid="ForwardEuler_8h">ForwardEuler.h</innerfile>
+    <innerfile refid="Integrator_8h">Integrator.h</innerfile>
+    <innerfile refid="LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/"/>
+  </compounddef>
+</doxygen>

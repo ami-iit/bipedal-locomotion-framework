@@ -2030,6 +2030,8 @@
   </compound>
   <compound refid="main-page_8dox" kind="file"><name>main-page.dox</name>
   </compound>
+  <compound refid="python-additional-info_8md" kind="file"><name>python-additional-info.md</name>
+  </compound>
   <compound refid="CppAD_8h" kind="file"><name>CppAD.h</name>
     <member refid="CppAD_8h_1a2213d9d8ff64ff534f3a57c9afa3b924" kind="define"><name>EIGEN_MAKE_TYPEDEFS</name></member>
     <member refid="CppAD_8h_1a892e22c9b467dd1a68caa783b05d15f5" kind="define"><name>EIGEN_MAKE_TYPEDEFS_ALL_SIZES</name></member>
@@ -2327,6 +2329,8 @@
     <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a5773cfa7434d8a83e3cdc774c86d5607" kind="function"><name>populateBottleWithStrings</name></member>
   </compound>
   <compound refid="RosPublisher_8h" kind="file"><name>RosPublisher.h</name>
+  </compound>
+  <compound refid="python-additional-info" kind="page"><name>python-additional-info</name>
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>

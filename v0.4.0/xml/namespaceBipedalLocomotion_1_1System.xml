@@ -6,7 +6,6 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1Barrier" prot="public">BipedalLocomotion::System::Barrier</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" prot="public">BipedalLocomotion::System::ClockBuilder</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public">BipedalLocomotion::System::IClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockFactory" prot="public">BipedalLocomotion::System::ClockFactory</innerclass>

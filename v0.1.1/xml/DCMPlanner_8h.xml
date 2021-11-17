@@ -5,10 +5,13 @@
     <includes local="no">memory</includes>
     <includes local="no">Eigen/Dense</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
-    <includes refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Planners/ContactPhaseList.h</includes>
-    <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
+    <includes refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includes>
+    <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <includedby refid="TimeVaryingDCMPlanner_8h" local="no">BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</includedby>
     <incdepgraph>
+      <node id="9">
+        <label>variant</label>
+      </node>
       <node id="4">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
@@ -34,9 +37,19 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>BipedalLocomotion/System/Advanceable.h</label>
         <link refid="Advanceable_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/System/Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>Eigen/Dense</label>

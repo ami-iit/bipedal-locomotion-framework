@@ -107,7 +107,6 @@
         <label>memory</label>
       </node>
     </incdepgraph>
-    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>
     <briefdescription>

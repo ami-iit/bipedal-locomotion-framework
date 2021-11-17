@@ -1577,7 +1577,6 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac256d05311483c6bd380fc1a29cc7163" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateBaseStateFromIMUState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a22dfe34e6bba688d4e00f6c97c47bd0c" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateKinematics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1acca7d1580a8085caedfdecbe08e89d9f" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateLandmarkRelativePoses</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~FloatingBaseEstimator</name></member>
     </listofallmembers>
   </compounddef>

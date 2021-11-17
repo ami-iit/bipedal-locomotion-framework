@@ -3,6 +3,7 @@
   <compounddef id="FloatingBaseEstimatorParams_8h" kind="file" language="C++">
     <compoundname>FloatingBaseEstimatorParams.h</compoundname>
     <includes local="no">Eigen/Dense</includes>
+    <includes local="no">map</includes>
     <includedby refid="FloatingBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includedby>
     <incdepgraph>
       <node id="1">
@@ -10,6 +11,11 @@
         <link refid="FloatingBaseEstimatorParams_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>map</label>
       </node>
       <node id="2">
         <label>Eigen/Dense</label>
@@ -22,6 +28,10 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
+        <link refid="LeggedOdometry_8h"/>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
@@ -31,6 +41,8 @@
         <link refid="FloatingBaseEstimator_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev" prot="public">BipedalLocomotion::Estimators::FloatingBaseEstimators::SensorsStdDev</innerclass>
@@ -39,6 +51,21 @@
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators">BipedalLocomotion::Estimators::FloatingBaseEstimators</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="FloatingBaseEstimatorParams_8h_1a0278244abffd2414273812bafbda7395" prot="public" static="no">
+        <type>std::map&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</type>
+        <definition>using BipedalLocomotion::Estimators::FloatingBaseEstimators::PoseCovariance = typedef std::map&lt;int, Eigen::Matrix&lt;double, 6, 1&gt;, std::less&lt;int&gt;, Eigen::aligned_allocator&lt;std::pair&lt;const int, Eigen::Matrix&lt;double, 6, 1&gt; &gt; &gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>PoseCovariance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h" line="22" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

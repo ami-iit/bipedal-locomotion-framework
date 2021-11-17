@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="53" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="53" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="52" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1af789dffdb21035027c9a19a565c44adc" prot="public" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev" kindref="compound">StateStdDev</ref></type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="54" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="53" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1a72dd2002d9aff25904ba70c7bae3b2d8" prot="public" static="no" mutable="no">
         <type>manif::SE3d</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="56" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="55" column="17" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1aee1030b9489dc7d1b74f124f0478d206" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, 6, 1 &gt;</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="57" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="57" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="56" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -145,7 +145,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="51" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="52" bodyend="58"/>
+    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" line="50" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h" bodystart="51" bodyend="57"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1a72dd2002d9aff25904ba70c7bae3b2d8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</scope><name>basePose</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1aee1030b9489dc7d1b74f124f0478d206" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</scope><name>baseTwist</name></member>

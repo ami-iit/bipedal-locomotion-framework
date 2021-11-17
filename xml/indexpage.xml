@@ -173,6 +173,8 @@
 </programlisting></para>
 <para><simplesect kind="warning"><para>⚠️ The python bindings are currently supported on Linux.</para>
 </simplesect>
+<simplesect kind="note"><para>You can find further information regarding the <computeroutput>python</computeroutput> bindings in <ref refid="python-additional-info" kindref="compound">🐍 Python bindings</ref></para>
+</simplesect>
 </para>
 </sect1>
 <sect1 id="index_1how-to-use-the-libraries">

@@ -15,6 +15,7 @@
     <innernamespace refid="namespaceBipedalLocomotion_1_1Perception">BipedalLocomotion::Perception</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1SimplifiedModelControllers">BipedalLocomotion::SimplifiedModelControllers</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging">BipedalLocomotion::TextLogging</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
@@ -46,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="28" column="27" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="28" declcolumn="27"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="46" column="27" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="46" declcolumn="27"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

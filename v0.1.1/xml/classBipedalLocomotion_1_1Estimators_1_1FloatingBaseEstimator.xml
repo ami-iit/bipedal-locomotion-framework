@@ -2,8 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::Estimators::FloatingBaseEstimator</compoundname>
-    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; FloatingBaseEstimators::Output &gt;</basecompoundref>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; FloatingBaseEstimators::Output &gt;</basecompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::InvariantEKFBaseEstimator</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::LeggedOdometry</derivedcompoundref>
     <includes local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includes>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations" prot="public">BipedalLocomotion::Estimators::FloatingBaseEstimator::ModelComputations</innerclass>
       <sectiondef kind="protected-type">
@@ -41,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="351" column="5" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="352" bodyend="357"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="406" column="5" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="407" bodyend="412"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
@@ -57,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="340" column="23" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="340" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="395" column="23" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="395" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a620d1da852a07960e55a6dd8a53fd1a5" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options" kindref="compound">FloatingBaseEstimators::Options</ref></type>
@@ -71,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="341" column="37" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="341" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="396" column="37" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="396" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a39e4591671b56359f28884caa4a0a5cf" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref></type>
@@ -84,7 +85,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="342" column="42" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="342" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="397" column="42" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="397" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a17e146652bf36d8a62bae4f217a26294" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref></type>
@@ -98,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="342" column="49" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="342" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="397" column="49" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="397" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a6c98bb1f972363c0f1b795bdcd50f5fd" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kindref="compound">FloatingBaseEstimators::InternalState</ref></type>
@@ -111,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="343" column="43" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="343" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="398" column="43" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="398" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac13379b400e3a5448370d62a60495c48" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kindref="compound">FloatingBaseEstimators::InternalState</ref></type>
@@ -125,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="343" column="51" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="343" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="398" column="51" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="398" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a7a69586c1a993d3abc61c786d25b88c1" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">FloatingBaseEstimators::Output</ref></type>
@@ -139,7 +140,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="344" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="344" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="399" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="399" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a4a9a0355d4b8a11e747d2180c55cba64" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev" kindref="compound">FloatingBaseEstimators::StateStdDev</ref></type>
@@ -152,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="345" column="41" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="345" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="400" column="41" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="400" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad3c4555ded287bb1450dd9b664705c7c" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev" kindref="compound">FloatingBaseEstimators::StateStdDev</ref></type>
@@ -166,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="345" column="50" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="345" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="400" column="50" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="400" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a4a762098fd8fe1158f163209402db0d1" prot="protected" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev" kindref="compound">FloatingBaseEstimators::SensorsStdDev</ref></type>
@@ -180,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="346" column="43" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="346" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="401" column="43" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="401" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a67d83d2880b0c9e7e279410081138bd7" prot="protected" static="no" mutable="no">
         <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac94d11332538be5c0ae96761645b74f1" kindref="member">State</ref></type>
@@ -195,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="359" column="11" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="359" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="414" column="11" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="414" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a73f6c5a571246a976c534dbf0c8485c9" prot="protected" static="no" mutable="no">
         <type>double</type>
@@ -210,10 +211,84 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="361" column="12" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="361" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="416" column="12" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a85d6ac77a6ccc37ef659e3378593fd07" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::m_useIMUForAngVelEstimate</definition>
+        <argsstring></argsstring>
+        <name>m_useIMUForAngVelEstimate</name>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Use IMU measurements as internal state imu angular velocity by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="417" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a5e5751df76b701e6d0ef3d54fba70e0c" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::m_useIMUVelForBaseVelComputation</definition>
+        <argsstring></argsstring>
+        <name>m_useIMUVelForBaseVelComputation</name>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Compute base velocity using inertnal state IMU velocity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>by default set to true for strap down IMU based EKF implementations, if IMU measurements not used, corresponding impl can set to false </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="418" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad58879a3431ccf1a250419f79c54377c" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::m_useModelInfo</definition>
+        <argsstring></argsstring>
+        <name>m_useModelInfo</name>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Flag to enable running the estimator without using the URDF model information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="419" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a25aecb934450c5584c292b0573880efc" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::m_isInvEKF</definition>
+        <argsstring></argsstring>
+        <name>m_isInvEKF</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Flag to maintain soon to be deprecated functionalities currently existing only in InvEKFBaseEstimator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="420" column="10" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="420" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad7fae2ee9adde778ab2c1c3b468ea6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::FloatingBaseEstimator::FloatingBaseEstimator</definition>
+        <argsstring>()</argsstring>
+        <name>FloatingBaseEstimator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="35" column="5"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::Estimators::FloatingBaseEstimator::~FloatingBaseEstimator</definition>
@@ -227,18 +302,18 @@
         </inbodydescription>
         <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="36" column="13" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="36" bodyend="36"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a5ee4344d0fd1353e91c52ef15d8ff61d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a6effc5655b1fa1bdcad345f2ea420047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler, const iDynTree::Model &amp;model)</argsstring>
+        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler, std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kindyn)</argsstring>
         <name>initialize</name>
         <param>
           <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <param>
-          <type>const iDynTree::Model &amp;</type>
-          <declname>model</declname>
+          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+          <declname>kindyn</declname>
         </param>
         <briefdescription>
 <para>Configure generic parameters and the model. </para>
@@ -260,10 +335,10 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername direction="in">model</parametername>
+<parametername direction="in">kindyn</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>reduced iDynTree model required by the estimator </para>
+<para>shared pointer of iDynTree kindyncomputations object (model will be loaded internally) </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -279,7 +354,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="155" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="160" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::initialize</definition>
+        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77">initialize</reimplements>
+        <param>
+          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Configure generic parameters, calling this overloaded method assumes model information is not going to be used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>configure the generic parameters for the estimator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="169" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a2ccbfaf83d8eed0fe3b0b5ca46017ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -321,7 +427,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="163" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="177" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a776353b9fda2354f3f7eb0c80940ca49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -363,7 +469,72 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="172" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="186" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a349f90524a834477ab51825f4be11f85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::setContactStatus</definition>
+        <argsstring>(const std::string &amp;name, const bool &amp;contactStatus, const double &amp;switchTime, double timeNow=0.)</argsstring>
+        <name>setContactStatus</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>contactStatus</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>switchTime</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>timeNow</declname>
+          <defval>0.</defval>
+        </param>
+        <briefdescription>
+<para>Set contact status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>contact frame name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">contactStatus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag to check active contact </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">switchTime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>time of switching contact </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeNow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current measurement update time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="196" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad203e691ae8d7d8b41da86b2e081267b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -407,14 +578,80 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="181" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="208" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a12d71bdc48916f3f5a275008417ef6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::setLandmarkRelativePose</definition>
+        <argsstring>(const int &amp;landmarkID, const Eigen::Quaterniond &amp;quat, const Eigen::Vector3d &amp;pos, const double &amp;timeNow)</argsstring>
+        <name>setLandmarkRelativePose</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>landmarkID</declname>
+        </param>
+        <param>
+          <type>const Eigen::Quaterniond &amp;</type>
+          <declname>quat</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>timeNow</declname>
+        </param>
+        <briefdescription>
+<para>Set the relative pose of a landmark relative to the base link. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">landmarkID</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>unique landmark ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>relative orientation of the landmark as a quaternion </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>relative position of the landmark </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeNow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>relative position of the landmark </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="220" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8deaab0e4940165c59f15355d47ddc79" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::advance</definition>
         <argsstring>() final</argsstring>
         <name>advance</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a766b2a1d75a733ec09016adf1cb75e10">advance</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2">advance</reimplements>
         <briefdescription>
 <para>Compute one step of the estimator. </para>
         </briefdescription>
@@ -425,12 +662,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="188" column="18"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="229" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a529f9d8ec5ff8448a6ee853f03c99a90" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1afaa96d18ba685b1cb5cb9a56f4d862cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::resetEstimator</definition>
-        <argsstring>(const FloatingBaseEstimators::InternalState &amp;newState) final</argsstring>
+        <argsstring>(const FloatingBaseEstimators::InternalState &amp;newState)</argsstring>
         <name>resetEstimator</name>
         <param>
           <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kindref="compound">FloatingBaseEstimators::InternalState</ref> &amp;</type>
@@ -457,12 +694,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="197" column="18"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="238" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abbba797785c6492b25395122e4694432" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a3b6896ce5674651e673761bbce201154" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::resetEstimator</definition>
-        <argsstring>(const Eigen::Quaterniond &amp;newBaseOrientation, const Eigen::Vector3d &amp;newBasePosition) final</argsstring>
+        <argsstring>(const Eigen::Quaterniond &amp;newBaseOrientation, const Eigen::Vector3d &amp;newBasePosition)</argsstring>
         <name>resetEstimator</name>
         <param>
           <type>const Eigen::Quaterniond &amp;</type>
@@ -504,14 +741,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="207" column="18"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="248" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a9109beb3315d981d80e8d817d7b56818" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aecc991f84626ed5114483a3e7c0fd78c" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output" kindref="compound">FloatingBaseEstimators::Output</ref> &amp;</type>
-        <definition>virtual const FloatingBaseEstimators::Output&amp; BipedalLocomotion::Estimators::FloatingBaseEstimator::get</definition>
+        <definition>virtual const FloatingBaseEstimators::Output&amp; BipedalLocomotion::Estimators::FloatingBaseEstimator::getOutput</definition>
         <argsstring>() const final</argsstring>
-        <name>get</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ab0ecf6787eae22b06d9f9bfd8ed68184">get</reimplements>
+        <name>getOutput</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
         <briefdescription>
 <para>Get estimator outputs. </para>
         </briefdescription>
@@ -522,16 +759,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="214" column="50"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="255" column="50"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8ed3453160e5ed65062ddf36700db336" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a0baf4a4877c4c790c35be575f63ea2d2" prot="public" static="no" const="yes" explicit="no" inline="yes" final="yes" virt="virtual">
         <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::isValid</definition>
+        <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::isOutputValid</definition>
         <argsstring>() const final</argsstring>
-        <name>isValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ae05561bcb6de140d2269b7ca490d711d">isValid</reimplements>
+        <name>isOutputValid</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a9109beb3315d981d80e8d817d7b56818" kindref="member">get()</ref> </para>
+<para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True in case of success, false otherwise. </para>
@@ -540,7 +777,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="220" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="220" bodyend="220"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="261" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="261" bodyend="261"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aad3b0c5d6736bdc39e501833d6fd7dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations" kindref="compound">ModelComputations</ref> &amp;</type>
@@ -557,46 +794,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="227" column="23"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="268" column="23"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
-        <name>initialize</name>
-        <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
-          <declname>handler</declname>
-        </param>
-        <briefdescription>
-<para>Configure generic parameters. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handler</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>configure the generic parameters for the estimator </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>True in case of success, false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="235" column="10"/>
-      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a462a1ca838fc97062d93395f2ecb52e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::customInitialization</definition>
         <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
         <name>customInitialization</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator_1a88d89de191ce004ad8fc1556f635f4d0">customInitialization</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a3e622dbc8c0559b2ed5cb5048fc620f9">customInitialization</reimplementedby>
         <param>
           <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
@@ -626,7 +834,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="250" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="250" bodyend="250"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="284" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="284" bodyend="284"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a26c64914587b18e5eaa2f8b8df321446" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -685,16 +893,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="260" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="260" bodyend="261"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="294" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="294" bodyend="295"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abb02ba0cfa179ff2e2ede5a51894f079" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a22dfe34e6bba688d4e00f6c97c47bd0c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::updateKinematics</definition>
-        <argsstring>(const FloatingBaseEstimators::Measurements &amp;meas, const double &amp;dt)</argsstring>
+        <argsstring>(FloatingBaseEstimators::Measurements &amp;meas, const double &amp;dt)</argsstring>
         <name>updateKinematics</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator_1afb7b1c76913f5166d0e4ce6641466d91">updateKinematics</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator_1a88eb6bac3576d78fd5a246a012ca7540">updateKinematics</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a1a123da1d1e7a8bf3401dbcaa44fa93b">updateKinematics</reimplementedby>
         <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref> &amp;</type>
+          <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref> &amp;</type>
           <declname>meas</declname>
         </param>
         <param>
@@ -728,7 +937,113 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="269" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="269" bodyend="270"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="303" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="303" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1acca7d1580a8085caedfdecbe08e89d9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::updateLandmarkRelativePoses</definition>
+        <argsstring>(FloatingBaseEstimators::Measurements &amp;meas, const double &amp;dt)</argsstring>
+        <name>updateLandmarkRelativePoses</name>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref> &amp;</type>
+          <declname>meas</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Update the predicted state estimates using relative pose measurements of static landmarks in the environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">meas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>measurements to update the predicted states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>sampling period in seconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="312" column="18" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="312" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac256d05311483c6bd380fc1a29cc7163" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::updateBaseStateFromIMUState</definition>
+        <argsstring>(const FloatingBaseEstimators::InternalState &amp;state, const FloatingBaseEstimators::Measurements &amp;meas, manif::SE3d &amp;basePose, Eigen::Ref&lt; Eigen::Matrix&lt; double, 6, 1 &gt;&gt; baseTwist)</argsstring>
+        <name>updateBaseStateFromIMUState</name>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kindref="compound">FloatingBaseEstimators::InternalState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref> &amp;</type>
+          <declname>meas</declname>
+        </param>
+        <param>
+          <type>manif::SE3d &amp;</type>
+          <declname>basePose</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::Matrix&lt; double, 6, 1 &gt;&gt;</type>
+          <declname>baseTwist</declname>
+        </param>
+        <briefdescription>
+<para>Wrapper method for getting base state from internal IMU state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>internal state of the estimator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>previous measurement to the estimator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">basePose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>base pose as an iDynTree Transform object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">baseTwist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>mixe- trivialized base velocity as an iDynTree Twist object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="322" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a47e47d6dc44f160b520b673901db3abc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -767,7 +1082,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="283" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="338" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a9ceef906a3dadd188f590dc21d0b5fd3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -813,7 +1128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="302" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="357" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad8bf6b1b6356c909fb930b0346610551" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -858,7 +1173,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="320" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="375" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abaaacf9df3cc68efdae1ec21ed55a90e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -903,7 +1218,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="338" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="393" column="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -935,7 +1250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="370" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="428" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1001,75 +1316,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="381" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a4b30bd2271c3f84d936b6f2ea5e01a40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Estimators::FloatingBaseEstimator::updateBaseStateFromIMUState</definition>
-        <argsstring>(const FloatingBaseEstimators::InternalState &amp;state, const FloatingBaseEstimators::Measurements &amp;meas, iDynTree::Transform &amp;basePose, iDynTree::Twist &amp;baseTwist)</argsstring>
-        <name>updateBaseStateFromIMUState</name>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kindref="compound">FloatingBaseEstimators::InternalState</ref> &amp;</type>
-          <declname>state</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements" kindref="compound">FloatingBaseEstimators::Measurements</ref> &amp;</type>
-          <declname>meas</declname>
-        </param>
-        <param>
-          <type>iDynTree::Transform &amp;</type>
-          <declname>basePose</declname>
-        </param>
-        <param>
-          <type>iDynTree::Twist &amp;</type>
-          <declname>baseTwist</declname>
-        </param>
-        <briefdescription>
-<para>Wrapper method for getting base state from internal IMU state. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">state</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>internal state of the estimator </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">meas</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>previous measurement to the estimator </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">basePose</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>base pose as an iDynTree Transform object </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">baseTwist</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>mixe- trivialized base velocity as an iDynTree Twist object </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="392" column="10"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="439" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator" kindref="compound">FloatingBaseEstimator</ref> class contains the bare-bones implementation for a LeggedOdometry based or Extended Kalman Filter based floating base estimation algorithms for bipedal robots. </para>
+<para><ref refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator" kindref="compound">FloatingBaseEstimator</ref> class contains the bare-bones implementation for a <ref refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry" kindref="compound">LeggedOdometry</ref> based or Extended Kalman Filter based floating base estimation algorithms for bipedal robots. </para>
     </briefdescription>
     <detaileddescription>
 <para><simplesect kind="note"><para>it is assumed that if an IMU (primary) is specified in the inherited implementation, then this IMU is rigidly attached to the specified base link in the implementation </para>
@@ -1077,7 +1328,7 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::Estimators::InvariantEKFBaseEstimator</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator"/>
         <childnode refid="1" relation="public-inheritance">
@@ -1090,105 +1341,208 @@
         </childnode>
       </node>
       <node id="2">
-        <label>BipedalLocomotion::System::Advanceable&lt; FloatingBaseEstimators::Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <label>BipedalLocomotion::System::Source&lt; FloatingBaseEstimators::Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
       </node>
+      <node id="7">
+        <label>BipedalLocomotion::Estimators::LeggedOdometry</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="3">
-        <label>BipedalLocomotion::System::Advanceable&lt; T &gt;</label>
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="10">
+      <node id="21">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options"/>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion::Contacts::EstimatedContact</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>K</label>
+      </node>
+      <node id="15">
+        <label>T</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimator</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>m_modelComp</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="7" relation="usage">
           <edgelabel>m_meas</edgelabel>
           <edgelabel>m_measPrev</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="16" relation="usage">
           <edgelabel>m_priors</edgelabel>
           <edgelabel>m_stateStdDev</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="18" relation="usage">
           <edgelabel>m_estimatorOut</edgelabel>
         </childnode>
-        <childnode refid="9" relation="usage">
+        <childnode refid="20" relation="usage">
           <edgelabel>m_sensorsDev</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="19" relation="usage">
           <edgelabel>m_state</edgelabel>
           <edgelabel>m_statePrev</edgelabel>
         </childnode>
-        <childnode refid="10" relation="usage">
+        <childnode refid="21" relation="usage">
           <edgelabel>m_options</edgelabel>
         </childnode>
       </node>
+      <node id="17">
+        <label>std::map&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</label>
+        <childnode refid="13" relation="template-instance">
+          <edgelabel>&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
+        <label>std::map&lt; K, T &gt;</label>
+        <childnode refid="14" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
       <node id="2">
-        <label>BipedalLocomotion::System::Advanceable&lt; FloatingBaseEstimators::Output &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <label>BipedalLocomotion::System::Source&lt; FloatingBaseEstimators::Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="12">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="16">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::StateStdDev</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev"/>
-      </node>
-      <node id="3">
-        <label>BipedalLocomotion::System::Advanceable&lt; T &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="17" relation="usage">
+          <edgelabel>landmarkPose</edgelabel>
+          <edgelabel>supportFramePose</edgelabel>
+        </childnode>
       </node>
       <node id="8">
+        <label>std::map&lt; int, BipedalLocomotion::Contacts::EstimatedContact &gt;</label>
+        <childnode refid="9" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="13" relation="template-instance">
+          <edgelabel>&lt; int, BipedalLocomotion::Contacts::EstimatedContact &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="19">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::InternalState</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>landmarkData</edgelabel>
+          <edgelabel>supportFrameData</edgelabel>
+        </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Measurements</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>stampedContactsStatus</edgelabel>
+          <edgelabel>stampedRelLandmarkPoses</edgelabel>
+        </childnode>
       </node>
-      <node id="9">
+      <node id="5">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="20">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::SensorsStdDev</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev"/>
       </node>
-      <node id="7">
+      <node id="10">
+        <label>BipedalLocomotion::Contacts::ContactBase</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase"/>
+        <childnode refid="11" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="18">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output"/>
-        <childnode refid="6" relation="usage">
+        <childnode refid="16" relation="usage">
           <edgelabel>stateStdDev</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="19" relation="usage">
           <edgelabel>state</edgelabel>
         </childnode>
       </node>
       <node id="4">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimator::ModelComputations</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations"/>
       </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+      </node>
+      <node id="11">
+        <label>std::string</label>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="33" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="34" bodyend="396"/>
+    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="32" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="33" bodyend="442"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8deaab0e4940165c59f15355d47ddc79" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a462a1ca838fc97062d93395f2ecb52e9" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>customInitialization</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a9109beb3315d981d80e8d817d7b56818" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>get</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a5ee4344d0fd1353e91c52ef15d8ff61d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8ed3453160e5ed65062ddf36700db336" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad7fae2ee9adde778ab2c1c3b468ea6ac" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>FloatingBaseEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aecc991f84626ed5114483a3e7c0fd78c" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a6effc5655b1fa1bdcad345f2ea420047" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a0baf4a4877c4c790c35be575f63ea2d2" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a73f6c5a571246a976c534dbf0c8485c9" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_dt</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a7a69586c1a993d3abc61c786d25b88c1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_estimatorOut</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a67d83d2880b0c9e7e279410081138bd7" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_estimatorState</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a25aecb934450c5584c292b0573880efc" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_isInvEKF</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a39e4591671b56359f28884caa4a0a5cf" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_meas</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a17e146652bf36d8a62bae4f217a26294" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_measPrev</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a1e23695506ec5bd1b3bccc32fe2ac75a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_modelComp</name></member>
@@ -1198,13 +1552,21 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a6c98bb1f972363c0f1b795bdcd50f5fd" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac13379b400e3a5448370d62a60495c48" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_statePrev</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad3c4555ded287bb1450dd9b664705c7c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_stateStdDev</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a85d6ac77a6ccc37ef659e3378593fd07" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_useIMUForAngVelEstimate</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a5e5751df76b701e6d0ef3d54fba70e0c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_useIMUVelForBaseVelComputation</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad58879a3431ccf1a250419f79c54377c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_useModelInfo</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aad3b0c5d6736bdc39e501833d6fd7dcf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>modelComputations</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a26c64914587b18e5eaa2f8b8df321446" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>predictState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a529f9d8ec5ff8448a6ee853f03c99a90" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abbba797785c6492b25395122e4694432" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1afaa96d18ba685b1cb5cb9a56f4d862cb" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a3b6896ce5674651e673761bbce201154" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a776353b9fda2354f3f7eb0c80940ca49" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setContacts</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a349f90524a834477ab51825f4be11f85" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setContactStatus</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a2ccbfaf83d8eed0fe3b0b5ca46017ef4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setIMUMeasurement</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad203e691ae8d7d8b41da86b2e081267b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setKinematics</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a12d71bdc48916f3f5a275008417ef6b6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setLandmarkRelativePose</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupFixedVectorParamPrivate</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad8bf6b1b6356c909fb930b0346610551" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupInitialStates</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a14bb55c740bab8b15a8a89dd28c40d5d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupModelParams</name></member>
@@ -1212,8 +1574,9 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abaaacf9df3cc68efdae1ec21ed55a90e" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupPriorDevs</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a9ceef906a3dadd188f590dc21d0b5fd3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupSensorDevs</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac94d11332538be5c0ae96761645b74f1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>State</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a4b30bd2271c3f84d936b6f2ea5e01a40" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateBaseStateFromIMUState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1abb02ba0cfa179ff2e2ede5a51894f079" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateKinematics</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac256d05311483c6bd380fc1a29cc7163" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateBaseStateFromIMUState</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a22dfe34e6bba688d4e00f6c97c47bd0c" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateKinematics</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1acca7d1580a8085caedfdecbe08e89d9f" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateLandmarkRelativePoses</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~FloatingBaseEstimator</name></member>
     </listofallmembers>
   </compounddef>

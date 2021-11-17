@@ -159,7 +159,6 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>Task</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~ILinearTaskSolver</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~IntegrationBasedIK</name></member>
     </listofallmembers>

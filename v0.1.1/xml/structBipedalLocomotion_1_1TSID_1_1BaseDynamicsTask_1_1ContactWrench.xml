@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="40" column="30" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="40" bodyend="-1"/>
+        <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="49" column="30" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1aec2d67df8dc5baaf7ef497c14d8c7e20" prot="public" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kindref="compound">System::VariablesHandler::VariableDescription</ref></type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="41" column="55" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="50" column="55" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -43,12 +43,23 @@
           <edgelabel>variable</edgelabel>
         </childnode>
       </node>
+      <node id="4">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::VariablesHandler::VariableDescription</label>
         <link refid="structBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::string</label>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="38" column="5" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="39" bodyend="43"/>
+    <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="47" column="5" bodyfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" bodystart="48" bodyend="52"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1abce8353dd8af6d6ee499e837492517a5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask::ContactWrench</scope><name>frameIndex</name></member>
       <member refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench_1aec2d67df8dc5baaf7ef497c14d8c7e20" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask::ContactWrench</scope><name>variable</name></member>

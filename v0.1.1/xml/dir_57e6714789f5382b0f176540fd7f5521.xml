@@ -2,7 +2,11 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="dir_57e6714789f5382b0f176540fd7f5521" kind="dir">
     <compoundname>BipedalLocomotion/Contacts</compoundname>
-    <innerfile refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h">Contact.h</innerfile>
+    <innerfile refid="Contact_8h">Contact.h</innerfile>
+    <innerfile refid="ContactList_8h">ContactList.h</innerfile>
+    <innerfile refid="ContactListJsonParser_8h">ContactListJsonParser.h</innerfile>
+    <innerfile refid="ContactPhase_8h">ContactPhase.h</innerfile>
+    <innerfile refid="ContactPhaseList_8h">ContactPhaseList.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
