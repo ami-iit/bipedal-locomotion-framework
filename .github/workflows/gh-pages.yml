@@ -24,7 +24,7 @@ jobs:
           conda config --remove channels defaults
 
           # Dependencies
-          mamba install doxygen toml pygments docutils jinja2
+          mamba install doxygen toml pygments docutils jinja2 texlive-core
 
       - name: Fetch m.css
         shell: bash -l {0}
