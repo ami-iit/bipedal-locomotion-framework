@@ -1810,6 +1810,37 @@ struct YarpSensorBridge::Impl
                                  checkForNAN);
     }
 
+    bool readAllAnalogSixAxisForceTorqueSensors(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllAnalogSixAxisForceTorqueSensors]";
+
+        bool allFTsReadCorrectly{true};
+        failedSensorReads.clear();
+        for (auto const& FTUnit : wholeBodyAnalogSixAxisFTSensorsInterface)
+        {
+            const auto& FTName = FTUnit.first;
+            bool ok = readAnalogOrGenericSensor(FTName,
+                                                nrChannelsInYARPAnalogSixAxisFTSensor,
+                                                wholeBodyAnalogSixAxisFTSensorsInterface,
+                                                wholeBodyFTMeasures,
+                                                checkForNAN);
+            if (!ok)
+            {
+                log()->error("{} Read FT sensor failed for {}.", logPrefix, FTName);
+                failedSensorReads.emplace_back(FTName);
+            }
+            allFTsReadCorrectly = ok && allFTsReadCorrectly;
+        }
+
+        return allFTsReadCorrectly;
+    }
+
     bool readAllSensors(std::vector<std::string>& failedReadAllSensors)
     {
         failedReadAllSensors.clear();
@@ -1863,6 +1894,13 @@ struct YarpSensorBridge::Impl
         }
 
         if (!readAllMASSixAxisForceTorqueSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllAnalogSixAxisForceTorqueSensors(failedReads))
         {
             failedReadAllSensors.insert(failedReadAllSensors.end(),
                                         failedReads.begin(),

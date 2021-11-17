@@ -21,6 +21,7 @@ All notable changes to this project are documented in this file.
 - Inherits all the `Eigen::Matrix` constructors in the `Wrenchd` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
 
 ### Fix
+- Fix Analog FT Sensor reading in `YarpSensorBridgeImpl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/459)
 
 ## [0.4.0] - 2021-10-15
 ### Added
