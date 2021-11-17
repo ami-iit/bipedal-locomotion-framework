@@ -17,6 +17,14 @@ jobs:
           channels: conda-forge
           channel-priority: true
 
+      - name: Dependencies [apt]
+        shell: bash -l {0}
+        run: |
+          # The following dependencies are not available in conda
+          # See: https://github.com/conda-forge/texlive-core-feedstock/issues/19
+          sudo apt update
+          sudo apt install -y xsltproc texlive ghostscript graphviz texlive-base texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended flex bison
+
       - name: Dependencies
         shell: bash -l {0}
         run: |
