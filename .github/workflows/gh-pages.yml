@@ -11,19 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y xsltproc texlive ghostscript graphviz texlive-base texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended flex bison
-          git clone --depth 1 --branch Release_1_9_1 https://github.com/doxygen/doxygen.git
-          cd doxygen && mkdir build && cd build
-          cmake -G "Unix Makefiles" ..
-          sudo make install
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          mamba-version: "*"
+          channels: conda-forge
+          channel-priority: true
 
-      - name: Fetch Python deps
-        run: python3 -m pip install jinja2 Pygments docutils
+      - name: Dependencies
+        shell: bash -l {0}
+        run: |
+          # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
+          conda config --remove channels defaults
+
+          # Dependencies
+          mamba install doxygen toml pygments docutils jinja2
 
       - name: Fetch m.css
+        shell: bash -l {0}
         run: |
           # Use an unofficial version of m.css because of https://github.com/mosra/m.css/pull/189
           cd ${GITHUB_WORKSPACE}
@@ -32,10 +36,11 @@ jobs:
           git checkout fix-class-parsed-as-function
 
       - name: Build docs
+        shell: bash -l {0}
         run: |
           cd docs
           git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
-          ./generate_website.sh ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
+          python3 ./generate_website.py --mcss_path ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2

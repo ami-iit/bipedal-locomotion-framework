@@ -1,0 +1,20 @@
+[master]
+main_page = "docs/pages/main-page.dox"
+additional_pages = ["docs/pages/python-additional-info.md"]
+src_folder = "src"
+
+['v0.4.0']
+main_page = "docs/pages/main-page.dox"
+src_folder = "src"
+
+['v0.3.0']
+main_page = "docs/pages/main-page.dox"
+src_folder = "src"
+
+['v0.2.0']
+main_page = "docs/pages/main-page.dox"
+src_folder = "src"
+
+['v0.1.1']
+main_page = "README.md"
+src_folder = "src"
