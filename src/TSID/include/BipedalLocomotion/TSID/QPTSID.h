@@ -129,7 +129,7 @@ public:
     /**
      * Return the description of the TSID problem.
      */
-    std::string toString() const;
+    std::string toString() const override;
 };
 
 } // namespace TSID

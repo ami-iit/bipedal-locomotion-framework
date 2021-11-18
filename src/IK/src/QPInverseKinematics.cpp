@@ -463,3 +463,21 @@ bool QPInverseKinematics::initialize(std::weak_ptr<const ParametersHandler::IPar
 
     return true;
 }
+
+std::string QPInverseKinematics::toString() const
+{
+    std::ostringstream oss;
+
+    oss << "====== QPInverseKinematics class ======" << std::endl
+        << "The optimization problem is composed by the following tasks:" << std::endl;
+    for (const auto& [name, task] : m_pimpl->tasks)
+    {
+        oss << "\t - " << name << ": " << task.task->getDescription()
+            << " Priority: " << task.priority << "." << std::endl;
+    }
+    oss << "Note: The lower is the integer associated to the priority, the higher is the priority."
+        << std::endl
+        << "==========================" << std::endl;
+
+    return oss.str();
+}

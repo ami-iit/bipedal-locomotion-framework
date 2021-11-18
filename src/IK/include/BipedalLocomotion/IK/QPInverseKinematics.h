@@ -128,6 +128,12 @@ public:
      * nullptr is returned.
      */
     std::weak_ptr<Task> getTask(const std::string& name) const override;
+
+    /**
+     * Return the description of the InverseKinematics problem.
+     * @return a string containing the description of the solver.
+     */
+    std::string toString() const override;
 };
 } // namespace IK
 } // namespace BipedalLocomotion
