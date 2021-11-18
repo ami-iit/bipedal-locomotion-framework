@@ -56,6 +56,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="13" column="1"/>
+    <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="23" column="1"/>
   </compounddef>
 </doxygen>

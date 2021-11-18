@@ -330,7 +330,7 @@
 <para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> describes a Linear Task element. </para>
     </briefdescription>
     <detaileddescription>
-<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="20">$A$</formula> and a vector <formula id="21">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="22">$ A $</formula> and <formula id="23">$ b $</formula> represents: <formula id="24">$ Ax = b$</formula> In case of inequality constraint <formula id="22">$ A $</formula> and <formula id="23">$ b $</formula> represents: <formula id="25">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
+<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="39">$A$</formula> and a vector <formula id="40">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="41">$ A $</formula> and <formula id="42">$ b $</formula> represents: <formula id="43">$ Ax = b$</formula> In case of inequality constraint <formula id="41">$ A $</formula> and <formula id="42">$ b $</formula> represents: <formula id="44">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
 </simplesect>
 </para>
     </detaileddescription>
