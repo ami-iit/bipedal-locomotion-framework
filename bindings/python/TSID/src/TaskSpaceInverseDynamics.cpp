@@ -57,7 +57,8 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
             [](ILinearTaskSolver<TSIDLinearTask, TSIDState>& impl,
                std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
                    handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"));
+            py::arg("handler"))
+	.def("__repr__", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::toString);
 
     py::class_<TaskSpaceInverseDynamics, //
                ILinearTaskSolver<TSIDLinearTask, TSIDState>>(module, "TaskSpaceInverseDynamics");
