@@ -52,6 +52,7 @@ private:
     std::unordered_map<std::string, Eigen::MatrixXd> m_accelerometers;
     std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
     std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_wrenches;
     std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
     std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
     std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
@@ -61,6 +62,7 @@ private:
 
     std::vector<std::string> m_IMUNames;
     std::vector<std::string> m_FTNames;
+    std::vector<std::string> m_CartesianWrenchNames;
     std::vector<std::string> m_accelerometerNames;
     std::vector<std::string> m_gyroNames;
     std::vector<std::string> m_orientationNames;
@@ -71,6 +73,9 @@ private:
     bool m_streamJointStates{false};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
+    bool m_streamWrenches{false};
+    bool m_streamFTs{false};
+    bool m_streamInertials{false};
 
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
