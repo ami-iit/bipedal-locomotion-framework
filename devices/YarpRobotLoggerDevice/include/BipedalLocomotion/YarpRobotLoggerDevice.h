@@ -52,6 +52,7 @@ private:
     std::unordered_map<std::string, Eigen::MatrixXd> m_accelerometers;
     std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
     std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
+    std::unordered_map<std::string, Eigen::MatrixXd> m_wrenches;
     std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
     std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
     std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
@@ -61,6 +62,7 @@ private:
 
     std::vector<std::string> m_IMUNames;
     std::vector<std::string> m_FTNames;
+    std::vector<std::string> m_cartesianWrenchNames;
     std::vector<std::string> m_accelerometerNames;
     std::vector<std::string> m_gyroNames;
     std::vector<std::string> m_orientationNames;

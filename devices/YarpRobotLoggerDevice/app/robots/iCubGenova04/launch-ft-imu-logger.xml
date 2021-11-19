@@ -17,6 +17,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <xi:include href="interface/mas-left-leg-inertial-client.xml" />
         <xi:include href="interface/mas-right-leg-inertial-client.xml" />
         <xi:include href="interface/ft-imu-mas-remapper.xml" />
-        <xi:include href="./ft-imu-logger.xml" />
+        <xi:include href="./yarp-robot-logger.xml" />
     </devices>
 </robot>
