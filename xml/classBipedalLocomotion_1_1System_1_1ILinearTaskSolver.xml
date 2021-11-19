@@ -186,6 +186,25 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="79" column="27"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1afbd5b817d76ec0097386eec2bc5eb914" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::toString</definition>
+        <argsstring>() const =0</argsstring>
+        <name>toString</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b">toString</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0875e576675b9f0c8dffbe231abb21cf">toString</reimplementedby>
+        <briefdescription>
+<para>Return the description of the solver problem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a string containing the description of the solver. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="85" column="25"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::~ILinearTaskSolver</definition>
@@ -198,7 +217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="84" column="13"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="90" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -319,7 +338,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="34" column="14" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="35" bodyend="85"/>
+    <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="34" column="14" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="35" bodyend="91"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>advance</name></member>
@@ -336,6 +355,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>Task</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1afbd5b817d76ec0097386eec2bc5eb914" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>toString</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" virt="virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>~ILinearTaskSolver</name></member>
     </listofallmembers>

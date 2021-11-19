@@ -136,6 +136,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a1025c001495c8dd9e700dd562add7fea" class="m-doc">getTask</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; std::weak_ptr&lt;Task&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get a specific task.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#afbd5b817d76ec0097386eec2bc5eb914" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Return the description of the solver problem.</dd>
           </dl>
         </section>
         <section>
@@ -247,6 +251,23 @@
                 <tr>
                   <th>Returns</th>
                   <td>a weak ptr associated to an existing task in the solver. If the task does not exist a nullptr is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="afbd5b817d76ec0097386eec2bc5eb914"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Task, class _State&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">std::string BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afbd5b817d76ec0097386eec2bc5eb914" class="m-doc-self">toString</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Return the description of the solver problem.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a string containing the description of the solver.</td>
                 </tr>
               </tfoot>
             </table>
