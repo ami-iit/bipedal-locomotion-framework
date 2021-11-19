@@ -142,10 +142,21 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         return false;
     }
 
+    if (!m_robotSensorBridge->getCartesianWrenchesList(m_cartesianWrenchNames))
+    {
+        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the cartesian wrenches list ";
+        return false;
+    }
+
     // prepare the unordered_maps
     for (const auto& ft : m_FTNames)
     {
         m_fts[ft] = Eigen::MatrixXd();
+    }
+
+    for (const auto& wrench : m_cartesianWrenchNames)
+    {
+        m_wrenches[wrench] = Eigen::MatrixXd();
     }
 
     for (const auto& gyro : m_gyroNames)
@@ -227,6 +238,18 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
+    // get the cartesian wrenches
+    for (const auto& key : m_cartesianWrenchNames)
+    {
+        m_wrenches.at(key).conservativeResize(6, bufferSize + 1);
+        if (!m_robotSensorBridge->getCartesianWrench(key,
+                                                     m_wrenches.at(key).col(bufferSize),
+                                                     m_timeNow))
+        {
+            yError() << "[YarpRobotLoggerDevice][run] Unable to get the cartesian wrench named: " << key;
+        }
+    }
+
     for (const auto& key : m_orientationNames)
     {
         m_orientations.at(key).conservativeResize(3, bufferSize + 1);
@@ -261,6 +284,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     // base imu (analog sensor)
+
     for (const auto& IMU : m_IMUNames)
     {
         if (!m_robotSensorBridge->getIMUMeasurement(IMU, m_analogSensorBuffer, m_timeNow))
@@ -377,12 +401,13 @@ bool YarpRobotLoggerDevice::logData()
     std::tm tm = *std::localtime(&t);
 
     std::stringstream fileName;
-    fileName << "ftimu_dataset_" << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
+    fileName << "yarprobot_dataset_" << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
 
     matioCpp::File file = matioCpp::File::Create(fileName.str());
     auto outTime = Conversions::tomatioCpp(m_time, "time");
 
     const matioCpp::Struct outFt = this->createStruct("FT", m_fts);
+    const matioCpp::Struct outWrench = this->createStruct("CartesianWrench", m_wrenches);
     const matioCpp::Struct outGyros = this->createStruct("Gyros", m_gyros);
     const matioCpp::Struct outAcc = this->createStruct("Accelerometer", m_accelerometers);
     const matioCpp::Struct outOrient = this->createStruct("Orientation", m_orientations);
@@ -394,6 +419,7 @@ bool YarpRobotLoggerDevice::logData()
 
     bool write_ok{true};
     write_ok = write_ok && file.write(outFt);
+    write_ok = write_ok && file.write(outWrench);
     write_ok = write_ok && file.write(outGyros);
     write_ok = write_ok && file.write(outAcc);
     write_ok = write_ok && file.write(outOrient);
