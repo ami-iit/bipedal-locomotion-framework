@@ -160,7 +160,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         return false;
     }
 
-    if (!m_robotSensorBridge->getCartesianWrenchesList(m_CartesianWrenchNames))
+    if (!m_robotSensorBridge->getCartesianWrenchesList(m_cartesianWrenchNames))
     {
         yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the cartesian wrenches list ";
         return false;
@@ -172,7 +172,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         m_fts[ft] = Eigen::MatrixXd();
     }
 
-    for (const auto& wrench : m_CartesianWrenchNames)
+    for (const auto& wrench : m_cartesianWrenchNames)
     {
         m_wrenches[wrench] = Eigen::MatrixXd();
     }
@@ -257,7 +257,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     // get the cartesian wrenches
-    for (const auto& key : m_CartesianWrenchNames)
+    for (const auto& key : m_cartesianWrenchNames)
     {
         m_wrenches.at(key).conservativeResize(6, bufferSize + 1);
         if (!m_robotSensorBridge->getCartesianWrench(key,
@@ -302,6 +302,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     // base imu (analog sensor)
+
     for (const auto& IMU : m_IMUNames)
     {
         if (!m_robotSensorBridge->getIMUMeasurement(IMU, m_analogSensorBuffer, m_timeNow))

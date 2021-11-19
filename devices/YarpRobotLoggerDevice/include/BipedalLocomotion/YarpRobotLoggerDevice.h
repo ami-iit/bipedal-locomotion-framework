@@ -73,9 +73,6 @@ private:
     bool m_streamJointStates{false};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
-    bool m_streamWrenches{false};
-    bool m_streamFTs{false};
-    bool m_streamInertials{false};
 
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
