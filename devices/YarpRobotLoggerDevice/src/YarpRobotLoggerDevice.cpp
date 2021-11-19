@@ -93,24 +93,6 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
                    "not found. The Motor pid values are not logged.";
     }
 
-    if (!originalHandler->getParameter("stream_inertials", m_streamInertials))
-    {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_inertials' parameter is "
-                   "not found. The IMU values are not logged.";
-    }
-
-    if (!originalHandler->getParameter("stream_cartesian_wrenches", m_streamWrenches))
-    {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_cartesian_wrenches' parameter is "
-                   "not found. The cartesian wrench values are not logged.";
-    }
-
-    if (!originalHandler->getParameter("stream_forcetorque_sensors", m_streamFTs))
-    {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_forcetorque_sensors' parameter is "
-                   "not found. The force/torque sensor values are not logged.";
-    }
-
     return true;
 }
 
