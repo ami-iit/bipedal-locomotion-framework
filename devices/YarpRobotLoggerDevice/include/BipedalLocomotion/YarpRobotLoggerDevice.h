@@ -62,7 +62,7 @@ private:
 
     std::vector<std::string> m_IMUNames;
     std::vector<std::string> m_FTNames;
-    std::vector<std::string> m_CartesianWrenchNames;
+    std::vector<std::string> m_cartesianWrenchNames;
     std::vector<std::string> m_accelerometerNames;
     std::vector<std::string> m_gyroNames;
     std::vector<std::string> m_orientationNames;
