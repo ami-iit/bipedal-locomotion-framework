@@ -56,7 +56,8 @@ void CreateIntegrationBasedIK(pybind11::module& module)
             [](ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>& impl,
                std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
                    handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"));
+            py::arg("handler"))
+        .def("__repr__", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::toString);
 
     py::class_<IntegrationBasedIK, //
                ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>>(module,

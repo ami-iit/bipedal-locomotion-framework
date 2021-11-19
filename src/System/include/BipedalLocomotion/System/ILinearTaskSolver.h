@@ -79,6 +79,12 @@ public:
     virtual std::weak_ptr<Task> getTask(const std::string& name) const = 0;
 
     /**
+     * Return the description of the solver problem.
+     * @return a string containing the description of the solver.
+     */
+    virtual std::string toString() const = 0;
+
+    /**
      * Destructor.
      */
     virtual ~ILinearTaskSolver() = default;
