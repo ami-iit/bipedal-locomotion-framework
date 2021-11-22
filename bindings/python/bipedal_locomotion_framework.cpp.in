@@ -48,6 +48,9 @@
 #include <BipedalLocomotion/bindings/TSID/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_TSID
 
+@cmakeif FRAMEWORK_COMPILE_ManifConversions
+#include <BipedalLocomotion/bindings/Conversions/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ManifConversions
 
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
@@ -112,4 +115,9 @@ PYBIND11_MODULE(bindings, m)
     py::module tsidModule = m.def_submodule("tsid");
     bindings::TSID::CreateModule(tsidModule);
     @endcmakeif FRAMEWORK_COMPILE_TSID
+
+    @cmakeif FRAMEWORK_COMPILE_ManifConversions
+    py::module conversionsModule = m.def_submodule("conversions");
+    bindings::Conversions::CreateModule(conversionsModule);
+    @endcmakeif FRAMEWORK_COMPILE_ManifConversions
 }
