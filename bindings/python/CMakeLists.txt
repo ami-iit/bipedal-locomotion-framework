@@ -12,6 +12,7 @@ add_subdirectory(FloatingBaseEstimators)
 add_subdirectory(IK)
 add_subdirectory(TSID)
 add_subdirectory(TextLogging)
+add_subdirectory(Conversions)
 
 include(ConfigureFileWithCMakeIf)
 

@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to enable/disable the joints and motors state logging in the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/453)
 - Implement `QPInverseKinematics::toString` method and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/461)
 - Add the cartesian wrenches logging in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/447)
+- Implement the python bindings for the manif conversions methods (https://github.com/ami-iit/bipedal-locomotion-framework/pull/465)
 
 ### Changed
 - Inherits all the `Eigen::Matrix` constructors in the `Wrenchd` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/441)
