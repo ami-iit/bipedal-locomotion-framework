@@ -128,6 +128,9 @@ def create_ik(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
        variables_name = ["robot_velocity"]
        variables_size = [29]
 
+       [IK]
+       robot_velocity_variable_name = "robot_velocity"
+
        [COM_TASK]
        name = "com"
        type = "CoMTask"
@@ -161,6 +164,9 @@ def create_ik(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
 
     # initialize the variable handler
     assert variables_handler.initialize(param_handler.get_group("VARIABLES"))
+
+    # initialize the solver
+    assert solver.initialize(param_handler.get_group("IK"))
 
     # retrieve all the tasks
     task_groups_name = param_handler.get_parameter_vector_string("tasks")
