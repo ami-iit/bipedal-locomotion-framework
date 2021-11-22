@@ -215,6 +215,14 @@ bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::finalize]";
 
+    if (!m_pimpl->isInitialized)
+    {
+        log()->error("{} Please call initialize() before finalize().", logPrefix);
+        return false;
+    }
+
+    m_pimpl->isFinalized = false;
+
     // clear the solver
     m_pimpl->solver.clearSolver();
 
