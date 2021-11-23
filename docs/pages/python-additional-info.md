@@ -85,6 +85,10 @@ solver, tasks, variables_handler = utils.create_ik(kindyn=kindyn_descriptor, par
 An example of the configuration file is
 ~~~~~~~~~~~~~{.ini}
 tasks = ["COM_TASK", "LF_TASK"]
+
+[IK]
+robot_velocity_variable_name = "robot_velocity"
+
 [VARIABLES]
 variables_name = ["robot_velocity"]
 variables_size = [29]
