@@ -99,6 +99,10 @@
 <span class="n">kindyn_descriptor</span> <span class="o">=</span> <span class="n">blf</span><span class="o">.</span><span class="n">floating_base_estimators</span><span class="o">.</span><span class="n">construct_kindyncomputations_descriptor</span><span class="p">(</span><span class="n">kindyn_handler</span><span class="p">)</span>
 
 <span class="n">solver</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">variables_handler</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">create_ik</span><span class="p">(</span><span class="n">kindyn</span><span class="o">=</span><span class="n">kindyn_descriptor</span><span class="p">,</span> <span class="n">param_handler</span><span class="o">=</span><span class="n">ik_handler</span><span class="p">)</span></pre><p>An example of the configuration file is</p><pre class="m-code"><span class="na">tasks</span> <span class="o">=</span> <span class="s">[&quot;COM_TASK&quot;, &quot;LF_TASK&quot;]</span>
+
+<span class="k">[IK]</span>
+<span class="na">robot_velocity_variable_name</span> <span class="o">=</span> <span class="s">&quot;robot_velocity&quot;</span>
+
 <span class="k">[VARIABLES]</span>
 <span class="na">variables_name</span> <span class="o">=</span> <span class="s">[&quot;robot_velocity&quot;]</span>
 <span class="na">variables_size</span> <span class="o">=</span> <span class="s">[29]</span>

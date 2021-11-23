@@ -67,6 +67,10 @@
 <codeline><highlight class="normal">solver,<sp/>tasks,<sp/>variables_handler<sp/>=<sp/>utils.create_ik(kindyn=kindyn_descriptor,<sp/>param_handler=ik_handler)</highlight></codeline>
 </programlisting></para>
 <para>An example of the configuration file is <programlisting filename=".ini"><codeline><highlight class="normal">tasks<sp/>=<sp/>[&quot;COM_TASK&quot;,<sp/>&quot;LF_TASK&quot;]</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[IK]</highlight></codeline>
+<codeline><highlight class="normal">robot_velocity_variable_name<sp/>=<sp/>&quot;robot_velocity&quot;</highlight></codeline>
+<codeline></codeline>
 <codeline><highlight class="normal">[VARIABLES]</highlight></codeline>
 <codeline><highlight class="normal">variables_name<sp/>=<sp/>[&quot;robot_velocity&quot;]</highlight></codeline>
 <codeline><highlight class="normal">variables_size<sp/>=<sp/>[29]</highlight></codeline>
