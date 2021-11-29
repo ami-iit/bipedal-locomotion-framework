@@ -9,7 +9,8 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <devices>
         <!-- interface -->
         <xi:include href="interface/all_joints_mc.xml" />
-        <xi:include href="interface/root_imu.xml" />
+        <xi:include href="interface/head_imu.xml" />
+        <xi:include href="interface/mas-remapper.xml" />
         <xi:include href="interface/left_front_ft_client.xml" />
         <xi:include href="interface/left_rear_ft_client.xml" />
         <xi:include href="interface/right_front_ft_client.xml" />

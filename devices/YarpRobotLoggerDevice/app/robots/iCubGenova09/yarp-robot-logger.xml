@@ -11,9 +11,13 @@ GNU Lesser General Public License v2.1 or any later version. -->
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>
-    <param name="stream_inertials">false</param>
+    <param name="stream_motor_states">true</param>
+    <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">true</param>
     <param name="stream_forcetorque_sensors">true</param>
+    <param name="stream_joint_states">true</param>
+    <param name="stream_pids">true</param>
+    <param name="stream_motor_PWM">false</param>
 
     <group name="RemoteControlBoardRemapper">
       <param name="joints_list">("neck_pitch", "neck_roll", "neck_yaw", "torso_pitch", "torso_roll", "torso_yaw", "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow", "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll", "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
@@ -27,12 +31,11 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client")</param>
     </group>
 
-    <!--group name="InertialSensors">
-      <param name="imu_list">("root_link_imu_acc")</param>
-      <param name="accelerometers_list">("l_upper_leg_ft_acc_3b12", "l_foot_ft_acc_3b13", "r_upper_leg_ft_acc_3b11", "r_foot_ft_acc_3b14")</param>
-      <param name="gyroscopes_list">("l_upper_leg_ft_gyro_3b12", "l_foot_ft_gyro_3b13", "r_upper_leg_ft_gyro_3b11", "r_foot_ft_gyro_3b14")</param>
-      <param name="orientation_sensors_list">("l_upper_leg_ft_eul_3b12", "l_foot_ft_eul_3b13", "r_upper_leg_ft_eul_3b11", "r_foot_ft_eul_3b14")</param>
-    </group-->
+    <group name="InertialSensors">
+      <param name="accelerometers_list">("rfeimu_acc")</param>
+      <param name="gyroscopes_list">("rfeimu_gyro")</param>
+      <param name="magnetometers_list">("rfeimu_mag")</param>
+    </group>
 
   </group>
 
@@ -40,7 +43,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
   <action phase="startup" level="15" type="attach">
     <paramlist name="networks">
       <elem name="all_joints">all_joints_mc</elem>
-      <elem name="root_link_imu_acc">root_link_imu_acc</elem>
       <elem name="left_front_ft_client">left_front_ft_client</elem>
       <elem name="left_rear_ft_client">left_rear_ft_client</elem>
       <elem name="right_front_ft_client">right_front_ft_client</elem>
@@ -49,6 +51,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
       <elem name="right_front_wrench_client">right_front_wrench_client</elem>
       <elem name="right_rear_wrench_client">right_rear_wrench_client</elem>
+      <elem name="mas-remapper">mas-remapper</elem>
     </paramlist>
   </action>
 
