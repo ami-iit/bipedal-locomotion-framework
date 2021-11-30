@@ -35,6 +35,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <param name="accelerometers_list">("rfeimu_acc")</param>
       <param name="gyroscopes_list">("rfeimu_gyro")</param>
       <param name="magnetometers_list">("rfeimu_mag")</param>
+      <param name="orientation_sensors_list">("rfeimu_eul")</param>
     </group>
 
   </group>
