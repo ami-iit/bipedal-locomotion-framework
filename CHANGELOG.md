@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Add the reading of the orientation of the head IMU in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/471)
+
 ### Changed
 ### Fix
 
