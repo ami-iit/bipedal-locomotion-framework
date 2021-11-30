@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fix
+
+## [0.5.0] - 2021-11-30
+### Added
 - Implement Python bindings for the TSID component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/428)
 - Add the possibility to set the name of each element of a variable stored in the variables handler (https://github.com/ami-iit/bipedal-locomotion-framework/pull/429)
 - Develop the python bindings for toml implementation of the parameters handler (https://github.com/ami-iit/bipedal-locomotion-framework/pull/432)
@@ -190,7 +195,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.4.0...master
+[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.5.0...master
+[0.5.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
