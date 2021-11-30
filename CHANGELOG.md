@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file.
 
 ### Fix
 - Fix Analog FT Sensor reading in `YarpSensorBridgeImpl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/459)
+- Fix config files in `YarpRobotLoggerDevice` for iCub3 head IMU reading (https://github.com/ami-iit/bipedal-locomotion-framework/pull/467)
 
 ## [0.4.0] - 2021-10-15
 ### Added
