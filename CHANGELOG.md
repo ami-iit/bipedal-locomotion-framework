@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - Add virtual destrutors in `System::Sink`, `System::Source`, `System::LinearTask`,
 `System::ITaskControlMode`, `TSID::TSIDLinearTask` and `IK::IKLinearTask` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - The joint torques is now correctly retrieved in QPTSID class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/482)
+- Fix `YarpRobotLoggerDevice` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/472)
 
 ## [0.5.0] - 2021-11-30
 ### Added
