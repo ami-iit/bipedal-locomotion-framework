@@ -10,6 +10,8 @@
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/System/Clock.h>
+#include <BipedalLocomotion/System/YarpClock.h>
 
 #include <yarp/os/LogStream.h>
 
@@ -22,6 +24,7 @@ using namespace BipedalLocomotion;
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock)
     : yarp::os::PeriodicThread(period, useSystemClock)
 {
+    BipedalLocomotion::System::ClockBuilder::setFactory(std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
@@ -378,7 +381,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     m_time.conservativeResize(bufferSize + 1);
-    m_time.row(bufferSize) << m_timeNow;
+    m_time.row(bufferSize) << BipedalLocomotion::clock().now().count();
 }
 
 matioCpp::Struct
