@@ -43,6 +43,10 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
              py::arg("task_name"),
              py::arg("priority"),
              py::arg("weight") = Eigen::VectorXd())
+        .def("set_task_weight",
+             &ILinearTaskSolver<TSIDLinearTask, TSIDState>::setTaskWeight,
+             py::arg("task_name"),
+             py::arg("weight"))
         .def("get_task_names",
              &ILinearTaskSolver<TSIDLinearTask, TSIDState>::getTaskNames)
         .def("finalize",
