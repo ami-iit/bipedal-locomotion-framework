@@ -15,7 +15,7 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
 
 - Press Ctrl+c to close the device, and the dataset is stored as the device is closed.
 
-## Data
+## 💾 Data
 
  Depending on the configuration file, each dataset can contain:
  - `time` vector with the receive time stamps.
