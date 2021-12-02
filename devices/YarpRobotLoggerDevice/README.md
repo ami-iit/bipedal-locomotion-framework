@@ -18,7 +18,7 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
 ## 💾 Data
 
  Depending on the configuration file, each dataset can contain:
- - `time` vector with the receive time stamps.
+ - `time` vector with the YARP clock time stamps.
  - `joint_state` that containins
    - `joints`: name of the joints
    - `joint_positions`
