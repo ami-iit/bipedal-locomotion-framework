@@ -44,6 +44,7 @@ public:
     /**
      * Add a linear task in the solver.
      * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
      * @param priority Priority associated to the task. The lower the number the higher the
      * priority.
      * @param weight Weight associated to the task. This parameter is optional. The default value is
@@ -55,6 +56,15 @@ public:
                          std::size_t priority,
                          std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {})
         = 0;
+
+    /**
+     * Set the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight new Weight associated to the task.
+     * @return true if the weight has been updated
+     */
+    virtual bool setTaskWeight(const std::string& taskName,
+                               Eigen::Ref<const Eigen::VectorXd> weight) = 0;
 
     /**
      * Get a vector containing the name of the tasks.

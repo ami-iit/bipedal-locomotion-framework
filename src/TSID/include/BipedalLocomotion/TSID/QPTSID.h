@@ -72,6 +72,15 @@ public:
                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
 
     /**
+     * Set the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight new Weight associated to the task.
+     * @return true if the weight has been updated
+     */
+    bool setTaskWeight(const std::string& taskName,
+                       Eigen::Ref<const Eigen::VectorXd> weight) override;
+
+    /**
      * Get a vector containing the name of the tasks.
      * @return an std::vector containing all the names associated to the tasks
      */

@@ -226,6 +226,47 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
     return true;
 }
 
+bool QPTSID::setTaskWeight(const std::string& taskName, Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    constexpr auto logPrefix = "[QPTSID::setTaskWeight]";
+
+    auto tmp = m_pimpl->tasks.find(taskName);
+
+    const bool taskExist = (tmp != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return false;
+    }
+
+    auto taskWithPriority = tmp->second;
+
+    if (taskWithPriority.priority != 1)
+    {
+        log()->error("{} - [Task name: '{}'] The weight can be set only to a task with priority "
+                     "equal to 1.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weight.size() != taskWithPriority.task->size())
+    {
+        log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
+                     "size of the task. Expected: {}. Given: {}.",
+                     logPrefix,
+                     taskName,
+                     taskWithPriority.task->size(),
+                     weight.size());
+        return false;
+    }
+
+    // update the weight
+    m_pimpl->tasks[taskName].weight = weight;
+
+    return true;
+}
+
 std::vector<std::string> QPTSID::getTaskNames() const
 {
     std::vector<std::string> tasksName;
