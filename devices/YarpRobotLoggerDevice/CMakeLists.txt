@@ -9,7 +9,8 @@ add_bipedal_yarp_device(
   TYPE BipedalLocomotion::YarpRobotLoggerDevice
   SOURCES src/YarpRobotLoggerDevice.cpp
   PUBLIC_HEADERS include/BipedalLocomotion/YarpRobotLoggerDevice.h
-  PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES} BipedalLocomotion::YarpUtilities  BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation BipedalLocomotion::matioCppConversions Eigen3::Eigen
+  PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES} BipedalLocomotion::YarpUtilities  BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation BipedalLocomotion::matioCppConversions Eigen3::Eigen BipedalLocomotion::SystemYarpImplementation
+
   CONFIGURE_PACKAGE_NAME yarp_robot_logger_test_device)
 endif()
 

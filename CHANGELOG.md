@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 - Add the reading of the orientation of the head IMU in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/471)
 
 ### Changed
+- Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)
+
 ### Fix
 
 ## [0.5.0] - 2021-11-30
