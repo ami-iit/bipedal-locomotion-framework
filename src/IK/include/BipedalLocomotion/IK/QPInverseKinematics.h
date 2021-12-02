@@ -85,6 +85,15 @@ public:
                        Eigen::Ref<const Eigen::VectorXd> weight) override;
 
     /**
+     * Get the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight the weight associated to the task.
+     * @return true in case of success and false otherwise
+     */
+    bool getTaskWeight(const std::string& taskName,
+                       Eigen::Ref<Eigen::VectorXd> weight) const override;
+
+    /**
      * Finalize the IK.
      * @param handler parameter handler.
      * @note You should call this method after you add ALL the tasks.

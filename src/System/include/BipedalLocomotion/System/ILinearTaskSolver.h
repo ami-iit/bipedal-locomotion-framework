@@ -67,6 +67,16 @@ public:
                                Eigen::Ref<const Eigen::VectorXd> weight) = 0;
 
     /**
+     * Get the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight the weight associated to the task.
+     * @return true in case of success and false otherwise
+     */
+    virtual bool getTaskWeight(const std::string& taskName,
+                               Eigen::Ref<Eigen::VectorXd> weight) const = 0;
+
+
+    /**
      * Get a vector containing the name of the tasks.
      * @return an std::vector containing all the names associated to the tasks
      */

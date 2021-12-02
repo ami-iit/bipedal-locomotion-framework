@@ -253,6 +253,35 @@ bool QPInverseKinematics::setTaskWeight(const std::string& taskName,
     return true;
 }
 
+bool QPInverseKinematics::getTaskWeight(const std::string& taskName,
+                                        Eigen::Ref<Eigen::VectorXd> weight) const
+{
+    constexpr auto logPrefix = "[QPInverseKinematics::getTaskWeight]";
+
+    auto taskWithPriority = m_pimpl->tasks.find(taskName);
+    const bool taskExist = (taskWithPriority != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return false;
+    }
+
+    if (weight.size() != taskWithPriority->second.task->size())
+    {
+        log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
+                     "size of the task. Expected: {}. Given: {}.",
+                     logPrefix,
+                     taskName,
+                     taskWithPriority->second.task->size(),
+                     weight.size());
+        return false;
+    }
+
+    weight = taskWithPriority->second.weight;
+
+    return true;
+}
+
 bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::finalize]";
