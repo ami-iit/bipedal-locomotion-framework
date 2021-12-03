@@ -43,22 +43,43 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
              py::arg("task_name"),
              py::arg("priority"),
              py::arg("weight") = Eigen::VectorXd())
-        .def("get_task_names",
-             &ILinearTaskSolver<TSIDLinearTask, TSIDState>::getTaskNames)
+        .def("set_task_weight",
+             &ILinearTaskSolver<TSIDLinearTask, TSIDState>::setTaskWeight,
+             py::arg("task_name"),
+             py::arg("weight"))
+        .def(
+            "get_task_weight",
+            [](const ILinearTaskSolver<TSIDLinearTask, TSIDState>& impl, const std::string& name) {
+                auto task = impl.getTask("name").lock();
+                if(task == nullptr)
+                {
+                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
+                    throw py::value_error(msg);
+                }
+                Eigen::VectorXd weight(task->size());
+
+                if (!impl.getTaskWeight(name, weight))
+                {
+                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
+                    throw py::value_error(msg);
+                }
+                return weight;
+            },
+            py::arg("task_name"))
+        .def("get_task_names", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::getTaskNames)
         .def("finalize",
              &ILinearTaskSolver<TSIDLinearTask, TSIDState>::finalize,
              py::arg("handler"))
         .def("advance", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::advance)
         .def("get_output", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::getOutput)
-        .def("is_output_valid",
-             &ILinearTaskSolver<TSIDLinearTask, TSIDState>::isOutputValid)
+        .def("is_output_valid", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::isOutputValid)
         .def(
             "initialize",
             [](ILinearTaskSolver<TSIDLinearTask, TSIDState>& impl,
                std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
                    handler) -> bool { return impl.initialize(handler); },
             py::arg("handler"))
-	.def("__repr__", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::toString);
+        .def("__repr__", &ILinearTaskSolver<TSIDLinearTask, TSIDState>::toString);
 
     py::class_<TaskSpaceInverseDynamics, //
                ILinearTaskSolver<TSIDLinearTask, TSIDState>>(module, "TaskSpaceInverseDynamics");

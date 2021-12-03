@@ -42,6 +42,30 @@ void CreateIntegrationBasedIK(pybind11::module& module)
              py::arg("task_name"),
              py::arg("priority"),
              py::arg("weight") = Eigen::VectorXd())
+        .def("set_task_weight",
+             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::setTaskWeight,
+             py::arg("task_name"),
+             py::arg("weight"))
+        .def(
+            "get_task_weight",
+            [](const ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>& impl,
+               const std::string& name) {
+                auto task = impl.getTask("name").lock();
+                if(task == nullptr)
+                {
+                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
+                    throw py::value_error(msg);
+                }
+                Eigen::VectorXd weight(task->size());
+
+                if (!impl.getTaskWeight(name, weight))
+                {
+                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
+                    throw py::value_error(msg);
+                }
+                return weight;
+            },
+            py::arg("task_name"))
         .def("get_task_names",
              &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::getTaskNames)
         .def("finalize",

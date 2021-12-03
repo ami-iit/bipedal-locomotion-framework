@@ -126,6 +126,17 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
                             lowPriority,
                             weightRegularization));
 
+
+
+    Eigen::VectorXd newWeight = 10 * weightRegularization;
+    REQUIRE(out.ik->setTaskWeight("regularization_task", newWeight));
+
+    Eigen::VectorXd weight(newWeight.size());
+    REQUIRE(out.ik->getTaskWeight("regularization_task", weight));
+    REQUIRE(weight.isApprox(newWeight));
+
+    REQUIRE(out.ik->setTaskWeight("regularization_task", weightRegularization));
+
     REQUIRE(out.ik->finalize(variables));
 
     return out;

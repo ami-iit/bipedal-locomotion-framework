@@ -124,6 +124,15 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
                             lowPriority,
                             weightRegularization));
 
+    Eigen::VectorXd newWeight = 10 * weightRegularization;
+    REQUIRE(out.tsid->setTaskWeight("regularization_task", newWeight));
+
+    Eigen::VectorXd weight(newWeight.size());
+    REQUIRE(out.tsid->getTaskWeight("regularization_task", weight));
+    REQUIRE(weight.isApprox(newWeight));
+    REQUIRE(out.tsid->setTaskWeight("regularization_task", weightRegularization));
+
+
     REQUIRE(out.tsid->finalize(variables));
 
     return out;
