@@ -126,6 +126,16 @@
             </dt>
             <dd>Add a linear task in the solver.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aaf4d7e4a163df3f4939d119f002302d6" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the weight associated to an already existing task.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6a6c05fa2ea49d1af0e27f9b51b03364" class="m-doc">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Get the weight associated to an already existing task.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a0b947d91a384c6ffab544b62857f181e" class="m-doc">getTaskNames</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get a vector containing the name of the tasks.</dd>
@@ -167,7 +177,7 @@
                 </tr>
                 <tr>
                   <td>taskName</td>
-                  <td></td>
+                  <td>unique name associated to the task.</td>
                 </tr>
                 <tr>
                   <td>priority</td>
@@ -182,6 +192,68 @@
                 <tr>
                   <th>Returns</th>
                   <td>true if the task has been added to the inverse kinematics.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aaf4d7e4a163df3f4939d119f002302d6"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Task, class _State&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaf4d7e4a163df3f4939d119f002302d6" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>new Weight associated to the task.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the weight has been updated</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a6a6c05fa2ea49d1af0e27f9b51b03364"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Task, class _State&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6a6c05fa2ea49d1af0e27f9b51b03364" class="m-doc-self">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Get the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>the weight associated to the task.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success and false otherwise</td>
                 </tr>
               </tfoot>
             </table>

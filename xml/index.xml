@@ -655,6 +655,8 @@
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" kind="typedef"><name>Task</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" kind="typedef"><name>State</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6a6c05fa2ea49d1af0e27f9b51b03364" kind="function"><name>getTaskWeight</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a0b947d91a384c6ffab544b62857f181e" kind="function"><name>getTaskNames</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3c4a0555f5e1f98f7fbda7c200a7ed" kind="function"><name>finalize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a1025c001495c8dd9e700dd562add7fea" kind="function"><name>getTask</name></member>
@@ -1154,6 +1156,8 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5e8f8d2855c94ef0539815664b65a0fb" kind="function"><name>QPInverseKinematics</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ab66c09c2e12b3496f357018d0818e831" kind="function"><name>~QPInverseKinematics</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a2858997d7e7a47d2f602d1a158a49800" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a418b0e0b18f2f99ca55b88829e031898" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a952cf33f812a17a90505933370afbc8a" kind="function"><name>getTaskWeight</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a345b7b00600b13be14c74bdb007c5362" kind="function"><name>finalize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1aea4524325aeaa138f0953b5bbf56e5b6" kind="function"><name>getTaskNames</name></member>
@@ -1168,6 +1172,8 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adb8db0bf0a0d8ea5903dadadaf5fbdcf" kind="function"><name>QPTSID</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" kind="function"><name>~QPTSID</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aba93fbb3d6e24b407bfdb6aa3874aa8f" kind="function"><name>getTaskWeight</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" kind="function"><name>getTaskNames</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" kind="function"><name>initialize</name></member>

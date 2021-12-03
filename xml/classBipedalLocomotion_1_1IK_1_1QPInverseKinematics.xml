@@ -111,6 +111,92 @@
         </inbodydescription>
         <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="73" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a418b0e0b18f2f99ca55b88829e031898" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::IK::QPInverseKinematics::setTaskWeight</definition>
+        <argsstring>(const std::string &amp;taskName, Eigen::Ref&lt; const Eigen::VectorXd &gt; weight) override</argsstring>
+        <name>setTaskWeight</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6">setTaskWeight</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>taskName</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Set the weight associated to an already existing task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>taskName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name associated to the task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new Weight associated to the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the weight has been updated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="84" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a952cf33f812a17a90505933370afbc8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::IK::QPInverseKinematics::getTaskWeight</definition>
+        <argsstring>(const std::string &amp;taskName, Eigen::Ref&lt; Eigen::VectorXd &gt; weight) const override</argsstring>
+        <name>getTaskWeight</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6a6c05fa2ea49d1af0e27f9b51b03364">getTaskWeight</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>taskName</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Get the weight associated to an already existing task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>taskName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name associated to the task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight associated to the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success and false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="93" column="10"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a345b7b00600b13be14c74bdb007c5362" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::QPInverseKinematics::finalize</definition>
@@ -142,7 +228,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="84" column="10"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="102" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -194,7 +280,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="99" column="10"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="117" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1aea4524325aeaa138f0953b5bbf56e5b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -212,7 +298,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="105" column="17"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="123" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a82818a7d4b208780d7ae1fb03b7bb38a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -227,7 +313,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="128" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7e89856750429fa6bc97d34845a1f153" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -245,7 +331,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="116" column="10"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="134" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const State &amp;</type>
@@ -263,7 +349,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="122" column="17"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="140" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::weak_ptr&lt; Task &gt;</type>
@@ -294,7 +380,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="130" column="19"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="148" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -312,7 +398,7 @@ Where the generalized robot velocity is a vector containing the base spatialvelo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="136" column="17"/>
+        <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="154" column="17"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -432,7 +518,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="40" column="1" bodyfile="BipedalLocomotion/IK/QPInverseKinematics.h" bodystart="41" bodyend="137"/>
+    <location file="BipedalLocomotion/IK/QPInverseKinematics.h" line="40" column="1" bodyfile="BipedalLocomotion/IK/QPInverseKinematics.h" bodystart="41" bodyend="155"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a2858997d7e7a47d2f602d1a158a49800" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::IK::IntegrationBasedIK::"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>addTask</name></member>
@@ -442,6 +528,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>getTask</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1aea4524325aeaa138f0953b5bbf56e5b6" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>getTaskNames</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a952cf33f812a17a90505933370afbc8a" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>getTaskWeight</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a82818a7d4b208780d7ae1fb03b7bb38a" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>isOutputValid</name></member>
@@ -449,6 +536,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5e8f8d2855c94ef0539815664b65a0fb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>QPInverseKinematics</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a418b0e0b18f2f99ca55b88829e031898" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>setTaskWeight</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>Task</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::QPInverseKinematics</scope><name>toString</name></member>

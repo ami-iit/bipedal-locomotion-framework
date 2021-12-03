@@ -125,6 +125,16 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
             </dt>
             <dd>Add a linear task in the fixed base TSID.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1350f108b174380ac457e31b32dc0aa5" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Set the weight associated to an already existing task.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aba93fbb3d6e24b407bfdb6aa3874aa8f" class="m-doc">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Get the weight associated to an already existing task.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ab9f5f896dc418c0370f87a083bfd9c32" class="m-doc">getTaskNames</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get a vector containing the name of the tasks.</dd>
@@ -198,6 +208,62 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>currently we support only task with priority 0 or 1. If the priority is set to 0 the task will be considered as a constraint. In this case the weight is not required.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a1350f108b174380ac457e31b32dc0aa5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1350f108b174380ac457e31b32dc0aa5" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Set the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>new Weight associated to the task.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the weight has been updated</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aba93fbb3d6e24b407bfdb6aa3874aa8f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aba93fbb3d6e24b407bfdb6aa3874aa8f" class="m-doc-self">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Get the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>the weight associated to the task.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success and false otherwise</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="ab9f5f896dc418c0370f87a083bfd9c32"><div>
             <h3>
