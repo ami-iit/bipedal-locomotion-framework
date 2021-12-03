@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)
 
 ### Fix
+- Fix the population of the jointAccelerations and baseAcceleration variables in QPTSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/478)
 
 ## [0.5.0] - 2021-11-30
 ### Added
