@@ -37,6 +37,12 @@ public:
     bool setIntegrationStep(const double& dT);
 
     /**
+     * get the integration step time
+     * @return the integration step time
+     */
+    double getIntegrationStep() const;
+
+    /**
      * Integrate the dynamical system from initialTime to finalTime.
      * @note We assume a constant control input in the interval.
      * @param initialTime initial time of the integration.
@@ -58,6 +64,11 @@ template <class _Derived> bool FixedStepIntegrator<_Derived>::setIntegrationStep
     m_dT = dT;
 
     return true;
+}
+
+template <class _Derived> double FixedStepIntegrator<_Derived>::getIntegrationStep() const
+{
+    return m_dT;
 }
 
 template <class _Derived>
