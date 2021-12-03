@@ -506,8 +506,14 @@ bool QPTSID::advance()
     constexpr std::size_t spatialAccelerationSize = 6;
     const std::size_t joints = m_pimpl->robotAccelerationVariable.size - spatialAccelerationSize;
 
+    // the first six elements are the base acceleration
+    m_pimpl->solution.baseAcceleration
+        = m_pimpl->solver.getSolution().segment<spatialAccelerationSize>(
+            m_pimpl->robotAccelerationVariable.offset);
+
     m_pimpl->solution.jointAccelerations
-        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset,
+        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset
+                                                    + spatialAccelerationSize,
                                                 joints);
 
     m_pimpl->solution.jointTorques
