@@ -19,6 +19,13 @@ namespace bindings
 {
 namespace System
 {
+class LinearTaskPublicist : public BipedalLocomotion::System::LinearTask
+{
+public:
+    using BipedalLocomotion::System::LinearTask::m_A;
+    using BipedalLocomotion::System::LinearTask::m_b;
+    using BipedalLocomotion::System::LinearTask::m_description;
+};
 
 void CreateLinearTask(pybind11::module& module)
 {
@@ -26,14 +33,17 @@ void CreateLinearTask(pybind11::module& module)
 
     using namespace BipedalLocomotion::System;
 
-    py::class_<LinearTask, std::shared_ptr<LinearTask>> linearTask(module, "LinearTask");
+    py::class_<LinearTask, //
+               LinearTaskTrampoline<>,
+               std::shared_ptr<LinearTask>>
+        linearTask(module, "LinearTask");
 
     py::enum_<LinearTask::Type>(linearTask, "Type")
         .value("equality", LinearTask::Type::equality)
         .value("inequality", LinearTask::Type::inequality)
         .export_values();
 
-    linearTask
+    linearTask.def(py::init<>())
         .def(
             "initialize",
             [](LinearTask& impl,
@@ -51,7 +61,10 @@ void CreateLinearTask(pybind11::module& module)
         .def("type", &LinearTask::type)
         .def("is_valid", &LinearTask::isValid)
         .def("__repr__", &LinearTask::getDescription)
-        .def("__len__", &LinearTask::size);
+        .def("__len__", &LinearTask::size)
+        .def_readwrite("_A", &LinearTaskPublicist::m_A)
+        .def_readwrite("_b", &LinearTaskPublicist::m_b)
+        .def_readwrite("_description", &LinearTaskPublicist::m_description);
 }
 
 } // namespace System
