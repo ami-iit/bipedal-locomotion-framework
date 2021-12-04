@@ -12,3 +12,8 @@ add_bipedal_test(
   NAME IntegratorFloatingBaseSystemKinematicsTest
   SOURCES IntegratorFloatingBaseSystemKinematics.cpp
   LINKS BipedalLocomotion::ContinuousDynamicalSystem Eigen3::Eigen)
+
+add_bipedal_test(
+  NAME FirstOrderSmootherTest
+  SOURCES FirstOrderSmoother.cpp
+  LINKS BipedalLocomotion::ContinuousDynamicalSystem Eigen3::Eigen)
