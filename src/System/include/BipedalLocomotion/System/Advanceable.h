@@ -52,8 +52,9 @@ public:
     virtual const Output& getOutput() const = 0;
 
     /**
-     * @brief Get the object.
-     * @return a const reference of the requested object.
+     * @brief Set the input of the Advanceable
+     * @param input the input of the Advanceable
+     * @return True in case of success and false otherwise
      */
     virtual bool setInput(const Input& input) = 0;
 
