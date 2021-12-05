@@ -23,10 +23,19 @@
           <declname>input</declname>
         </param>
         <briefdescription>
-<para>Get the object. </para>
+<para>Set the input of the <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable" kindref="compound">Advanceable</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>a const reference of the requested object. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the input of the <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable" kindref="compound">Advanceable</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success and false otherwise </para>
 </simplesect>
 </para>
         </detaileddescription>

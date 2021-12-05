@@ -175,12 +175,21 @@
 <para>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <ref refid="traits_8h_1a6bf7b1211fa65894662edc6be7e91536" kindref="member">BLF_DEFINE_INTEGRATOR_STRUCTURE()</ref> </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="4">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
         </childnode>
       </node>
@@ -190,7 +199,7 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="public-inheritance">

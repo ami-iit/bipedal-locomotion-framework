@@ -75,6 +75,7 @@
               Reference
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pro-attribs">Protected variables</a></li>
               </ul>
@@ -92,6 +93,16 @@
             <dd><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html" class="m-doc">Integrator</a> base class.</dd>
           </dl>
         </section>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;class _DynamicalSystem&gt;</div>
+              class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler.html" class="m-doc">ForwardEuler</a>
+            </dt>
+            <dd>Forward Euler integration method.</dd>
+          </dl>
+        </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
@@ -99,6 +110,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#ac280ef326a7990da7f071ab017a09be0" class="m-doc">setIntegrationStep</a>(</span><span class="m-doc-wrap">const double&amp; dT) -&gt; bool</span>
             </dt>
             <dd>Set the integration step time.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aba2da45951b8666480904b057bb9f7c8" class="m-doc">getIntegrationStep</a>(</span><span class="m-doc-wrap">) const -&gt; double</span>
+            </dt>
+            <dd>get the integration step time</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a57e3eb0f7cdcf33de88056df74b63697" class="m-doc">integrate</a>(</span><span class="m-doc-wrap">double initialTime,
               double finalTime) -&gt; bool</span>
@@ -135,6 +150,23 @@
                   <td>integration step time</td>
                 </tr>
               </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aba2da45951b8666480904b057bb9f7c8"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Derived&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">double BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FixedStepIntegrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aba2da45951b8666480904b057bb9f7c8" class="m-doc-self">getIntegrationStep</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>get the integration step time</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the integration step time</td>
+                </tr>
+              </tfoot>
             </table>
           </div></section>
           <section class="m-doc-details" id="a57e3eb0f7cdcf33de88056df74b63697"><div>

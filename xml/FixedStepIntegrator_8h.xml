@@ -90,6 +90,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
@@ -99,6 +103,8 @@
       <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</innerclass>

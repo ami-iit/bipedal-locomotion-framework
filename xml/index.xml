@@ -505,6 +505,21 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1af0a43ea40ca6a2458c43a91121a22182" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0b332b35b7d5cb8b1666727470ad2970" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a6212eec91e32762e21b46945576ad1bb" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a38dcb59fa362d718c9369198a65bed32" kind="variable"><name>m_isInitialStateSet</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a93263aa10464873c504af32034e4fdc9" kind="variable"><name>m_isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ab43ee97c4e3a0578f432014161569613" kind="variable"><name>m_settlingTime</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a3adff369ad94cceba485bf63dc57d0fb" kind="variable"><name>m_output</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a2fa051571c87307a7569485337b715ac" kind="variable"><name>m_linearSystem</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ad646fb9879a8560a9dc5c687741f0a68" kind="variable"><name>m_integrator</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a699553512ac3d76602d9c771f265a2a3" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1aff8bbd70af1820483a434fad46665c4d" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a857ecad479baac775759f91b286069c3" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ac5914a6768674100165630736548341d" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a4abb7565bb83ed84cdf1072d27db171c" kind="function"><name>isOutputValid</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a2fe8484fe797a5dd81c666e097418a79" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a8ac5575029e45cb0815747c59ec810f7" kind="variable"><name>m_actuatedDoFs</name></member>
@@ -538,6 +553,7 @@
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a0e7c63f41a63c4945fddf1219cb25632" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1ac280ef326a7990da7f071ab017a09be0" kind="function"><name>setIntegrationStep</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" kind="function"><name>getIntegrationStep</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a57e3eb0f7cdcf33de88056df74b63697" kind="function"><name>integrate</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseDynamicsWithCompliantContacts</name>
@@ -2076,6 +2092,8 @@
   <compound refid="CompliantContactWrench_8h" kind="file"><name>CompliantContactWrench.h</name>
   </compound>
   <compound refid="DynamicalSystem_8h" kind="file"><name>DynamicalSystem.h</name>
+  </compound>
+  <compound refid="FirstOrderSmoother_8h" kind="file"><name>FirstOrderSmoother.h</name>
   </compound>
   <compound refid="FixedBaseDynamics_8h" kind="file"><name>FixedBaseDynamics.h</name>
     <member refid="FixedBaseDynamics_8h_1a6400691b2dcaf8686f528b48e4246b44" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>

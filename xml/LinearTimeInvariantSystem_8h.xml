@@ -7,6 +7,7 @@
     <includes refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includes>
     <includes refid="traits_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</includes>
     <includes local="no">Eigen/Dense</includes>
+    <includedby refid="FirstOrderSmoother_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</includedby>
     <incdepgraph>
       <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
@@ -66,6 +67,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
+        <link refid="LinearTimeInvariantSystem_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>

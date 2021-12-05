@@ -6,6 +6,7 @@
     <includes local="no">type_traits</includes>
     <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
     <includes refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includes>
+    <includedby refid="FirstOrderSmoother_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</includedby>
     <incdepgraph>
       <node id="4">
         <label>iDynTree/Core/EigenHelpers.h</label>
@@ -107,6 +108,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
+        <link refid="ForwardEuler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>

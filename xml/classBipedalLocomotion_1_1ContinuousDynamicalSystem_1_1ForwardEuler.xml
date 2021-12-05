@@ -127,11 +127,18 @@
 </parameterlist>
 <simplesect kind="warning"><para>We assume that the operator + is defined for the objects contained in the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> and <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" kindref="member">DynamicalSystem::StateDerivative</ref>. </para>
 </simplesect>
-<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="37">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="38">$X$</formula> belongs to a Lie group and <formula id="39">$\psi$</formula> belongs to the tangent space. </para>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="42">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="43">$X$</formula> belongs to a Lie group and <formula id="44">$\psi$</formula> belongs to the tangent space. </para>
 </simplesect>
 </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="5">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
@@ -208,6 +215,7 @@
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>addArea</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>DynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>dynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>getIntegrationStep</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>getSolution</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a57e3eb0f7cdcf33de88056df74b63697" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>integrate</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>m_computationalBufferState</name></member>

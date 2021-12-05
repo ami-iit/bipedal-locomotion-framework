@@ -5,6 +5,7 @@
     <innerdir refid="dir_d32d817a4db95a21286fb6e6fac94d14">BipedalLocomotion/ContinuousDynamicalSystem/impl</innerdir>
     <innerfile refid="CompliantContactWrench_8h">CompliantContactWrench.h</innerfile>
     <innerfile refid="DynamicalSystem_8h">DynamicalSystem.h</innerfile>
+    <innerfile refid="FirstOrderSmoother_8h">FirstOrderSmoother.h</innerfile>
     <innerfile refid="FixedBaseDynamics_8h">FixedBaseDynamics.h</innerfile>
     <innerfile refid="FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
     <innerfile refid="FloatingBaseDynamicsWithCompliantContacts_8h">FloatingBaseDynamicsWithCompliantContacts.h</innerfile>

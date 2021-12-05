@@ -29,7 +29,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
@@ -39,7 +39,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
         <link refid="Integrator_8h"/>
         <childnode refid="6" relation="include">
@@ -48,6 +48,10 @@
       <node id="2">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
       </node>
       <node id="3">
         <label>BipedalLocomotion/TextLogging/YarpLogger.h</label>
@@ -72,9 +76,9 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -84,6 +88,8 @@
       <node id="7">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public">BipedalLocomotion::TextLogging::LoggerFactory</innerclass>

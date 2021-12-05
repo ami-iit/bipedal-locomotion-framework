@@ -3,6 +3,7 @@
   <compounddef id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;</basecompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</derivedcompoundref>
     <includes local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includes>
     <templateparamlist>
       <param>
@@ -53,7 +54,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="37" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="49" bodyend="61"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="37" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="55" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;::getIntegrationStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getIntegrationStep</name>
+        <briefdescription>
+<para>get the integration step time </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the integration step time </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="43" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="69" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a57e3eb0f7cdcf33de88056df74b63697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -97,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="46" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="64" bodyend="110"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="52" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="75" bodyend="121"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -108,16 +126,25 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="3">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
+          <edgelabel>&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="template-instance">
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
-        <childnode refid="3" relation="public-inheritance">
+        <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -161,10 +188,11 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="26" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="27" bodyend="47"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" line="26" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h" bodystart="27" bodyend="53"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>DynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>dynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>getIntegrationStep</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>getSolution</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a57e3eb0f7cdcf33de88056df74b63697" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>integrate</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a0e7c63f41a63c4945fddf1219cb25632" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</scope><name>m_dT</name></member>

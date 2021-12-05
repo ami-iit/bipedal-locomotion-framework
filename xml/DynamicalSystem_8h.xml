@@ -66,7 +66,7 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -87,19 +87,27 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</innerclass>

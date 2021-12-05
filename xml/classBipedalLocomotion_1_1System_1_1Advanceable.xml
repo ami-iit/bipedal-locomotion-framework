@@ -73,6 +73,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aee5c47374eb365a445abf15300ecaea6">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a699553512ac3d76602d9c771f265a2a3">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1a0eb48afbadf1bf3c8d48cec0e8b006ca">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed">initialize</reimplementedby>
@@ -96,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="46" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="91" bodyend="95"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="46" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="92" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>const Output &amp;</type>
@@ -116,6 +117,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92beedaec20313db5623cca3f9b630fd">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a5413119cdc59bf3418e488057b539974">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1Sink_1a4f83834c9269c31074e5a7e35ddb5f99">getOutput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ac5914a6768674100165630736548341d">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa">getOutput</reimplementedby>
@@ -136,22 +138,32 @@
         <definition>virtual bool BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;::setInput</definition>
         <argsstring>(const Input &amp;input)=0</argsstring>
         <name>setInput</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce">setInput</reimplementedby>
         <param>
           <type>const Input &amp;</type>
           <declname>input</declname>
         </param>
         <briefdescription>
-<para>Get the object. </para>
+<para>Set the input of the <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable" kindref="compound">Advanceable</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>a const reference of the requested object. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the input of the <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable" kindref="compound">Advanceable</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success and false otherwise </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="58" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="59" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -171,6 +183,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a331d69e7059d2622ccb84ff4f2246d37">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1Sink_1a6228f114c0fc428501649d4c13ae5cb8">isOutputValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a4abb7565bb83ed84cdf1072d27db171c">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a82818a7d4b208780d7ae1fb03b7bb38a">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c">isOutputValid</reimplementedby>
@@ -184,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="64" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="65" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -203,6 +216,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ad2935a4ff1c4e345a6e1b49dc5a3bfc6">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a6e2de7b972ea706c244a9e30dbc201ad">advance</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a857ecad479baac775759f91b286069c3">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7e89856750429fa6bc97d34845a1f153">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1">advance</reimplementedby>
@@ -216,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="70" column="18"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="71" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -235,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="77" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="85" bodyend="88"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="78" column="18" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="86" bodyend="89"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -260,17 +274,17 @@
         <childnode refid="30" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="41">
+      <node id="43">
         <label>BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
           <edgelabel>&lt; Input, EmptySignal &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="40">
+      <node id="42">
         <label>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</label>
         <link refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController"/>
-        <childnode refid="39" relation="public-inheritance">
+        <childnode refid="41" relation="public-inheritance">
         </childnode>
       </node>
       <node id="35">
@@ -285,6 +299,13 @@
         <childnode refid="16" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="39">
+        <label>BipedalLocomotion::System::Advanceable&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="5">
         <label>BipedalLocomotion::RobotInterface::YarpSensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge"/>
@@ -297,13 +318,19 @@
         <childnode refid="19" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="40">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="28">
         <label>BipedalLocomotion::TSID::QPTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
         <childnode refid="27" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="43">
+      <node id="45">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -373,10 +400,10 @@
           <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="42">
+      <node id="44">
         <label>BipedalLocomotion::System::Sink&lt; Input &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Sink"/>
-        <childnode refid="41" relation="public-inheritance">
+        <childnode refid="43" relation="public-inheritance">
         </childnode>
       </node>
       <node id="8">
@@ -394,10 +421,10 @@
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="44">
+      <node id="46">
         <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="43" relation="public-inheritance">
+        <childnode refid="45" relation="public-inheritance">
         </childnode>
       </node>
       <node id="36">
@@ -412,7 +439,7 @@
         <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="39">
+      <node id="41">
         <label>BipedalLocomotion::System::Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -551,7 +578,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/System/Advanceable.h" line="33" column="14" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="34" bodyend="78"/>
+    <location file="BipedalLocomotion/System/Advanceable.h" line="33" column="14" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="34" bodyend="79"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Advanceable</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Advanceable</scope><name>close</name></member>
