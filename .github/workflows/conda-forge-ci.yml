@@ -55,7 +55,7 @@ jobs:
       if: contains(matrix.os, 'macos')
       shell: bash -l {0}
       run: |
-        conda install "libblas=*=*blis"
+        mamba install "libblas=*=*netlib"
 
     - name: Print used environment [Conda]
       shell: bash -l {0}
