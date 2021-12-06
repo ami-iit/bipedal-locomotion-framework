@@ -51,6 +51,12 @@ jobs:
         # Compilation related dependencies
         mamba install vs2019_win-64
 
+    - name: Switch to netlib macOS [macOS]
+      if: contains(matrix.os, 'macos')
+      shell: bash -l {0}
+      run: |
+        conda install "libblas=*=*netlib"
+
     - name: Print used environment [Conda]
       shell: bash -l {0}
       run: |
