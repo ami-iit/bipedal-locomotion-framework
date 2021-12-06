@@ -18,7 +18,11 @@ def test_custom_task():
         def set_variables_handler(self, variables_handler:blf.system.VariablesHandler):
             variable = variables_handler.get_variable("robotVelocity")
             temp = np.zeros((10, variables_handler.get_number_of_variables()))
-            temp[:, variable.offset] = np.ones(10)
+
+            # avoiding slicing
+            for i in range(10):
+                temp[i, variable.offset] = 1
+
             self._A = temp
             self._b = np.ones(10)
             return True
