@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 ### Fix
 - Fix the population of the jointAccelerations and baseAcceleration variables in QPTSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/478)
 - Fix the documentation in the `Advanceable` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
+- The joint torques is now correctly retrieved in QPTSID class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/482)
 
 ## [0.5.0] - 2021-11-30
 ### Added
