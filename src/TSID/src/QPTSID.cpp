@@ -586,9 +586,8 @@ bool QPTSID::advance()
                                                 joints);
 
     m_pimpl->solution.jointTorques
-        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset
-                                                    + m_pimpl->robotAccelerationVariable.size,
-                                                joints);
+        = m_pimpl->solver.getSolution().segment(m_pimpl->jointTorquesVariable.offset,
+                                                m_pimpl->jointTorquesVariable.size);
 
     for (const auto& variable : m_pimpl->contactWrenchVariables)
     {
