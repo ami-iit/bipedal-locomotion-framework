@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 
 #include <BipedalLocomotion/bindings/System/ILinearTaskSolver.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 #include <BipedalLocomotion/bindings/TSID/TaskSpaceInverseDynamics.h>
 
 namespace BipedalLocomotion
@@ -34,7 +35,7 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
         .def_readwrite("joint_torques", &TSIDState::jointTorques)
         .def_readwrite("contact_wrenches", &TSIDState::contactWrenches);
 
-    py::class_<::BipedalLocomotion::System::Source<TSIDState>>(module, "TSIDStateSource");
+    BipedalLocomotion::bindings::System::CreateSource<TSIDState>(module, "ILinearTaskSolverTSID");
 
     BipedalLocomotion::bindings::System::CreateILinearTaskSolver<TSIDLinearTask,
                                                                  TSIDState> //

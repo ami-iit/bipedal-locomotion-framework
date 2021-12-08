@@ -14,6 +14,7 @@
 #include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
 
 #include <BipedalLocomotion/bindings/Contacts/ContactDetectors.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -29,7 +30,8 @@ void CreateContactDetector(pybind11::module& module)
     using namespace BipedalLocomotion::System;
     using namespace BipedalLocomotion::ParametersHandler;
 
-    py::class_<Source<EstimatedContactList>>(module, "EstimatedContactListSource");
+    BipedalLocomotion::bindings::System::CreateSource<EstimatedContactList>(module,
+                                                                            "ContactDetector");
     py::class_<ContactDetector, Source<EstimatedContactList>>(module, "ContactDetector");
 }
 
@@ -81,18 +83,10 @@ void CreateSchmittTriggerDetector(pybind11::module& module)
 
     py::class_<SchmittTriggerDetector, ContactDetector>(module, "SchmittTriggerDetector")
         .def(py::init())
-        .def(
-            "initialize",
-            [](SchmittTriggerDetector& impl, std::shared_ptr<const IParametersHandler> handler)
-                -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
-        .def("advance", &SchmittTriggerDetector::advance)
         .def("reset_contacts", &SchmittTriggerDetector::resetContacts)
-        .def("get_output", &SchmittTriggerDetector::getOutput)
         .def("get",
              py::overload_cast<const std::string&>(&SchmittTriggerDetector::get, py::const_),
              py::arg("contact_name"))
-        .def("is_output_valid", &SchmittTriggerDetector::isOutputValid)
         .def("set_timed_trigger_input",
              &SchmittTriggerDetector::setTimedTriggerInput,
              py::arg("contact_name"),
@@ -137,13 +131,6 @@ void CreateFixedFootDetector(pybind11::module& module)
 
     py::class_<FixedFootDetector, ContactDetector>(module, "FixedFootDetector")
         .def(py::init())
-        .def(
-            "initialize",
-            [](FixedFootDetector& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
-                return impl.initialize(handler);
-            },
-            py::arg("handler"))
-        .def("advance", &FixedFootDetector::advance)
         .def("get_fixed_foot", &FixedFootDetector::getFixedFoot)
         .def("set_contact_phase_list",
              &FixedFootDetector::setContactPhaseList,

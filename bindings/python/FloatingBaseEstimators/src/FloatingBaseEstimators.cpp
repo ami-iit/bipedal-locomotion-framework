@@ -9,12 +9,14 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <iDynTree/Model/Model.h>
+
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
 #include <BipedalLocomotion/Math/Constants.h>
-#include <iDynTree/Model/Model.h>
 
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -234,7 +236,8 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
         .def_readwrite("forward_kinematics_noise", &SensorsStdDev::forwardKinematicsNoise)
         .def_readwrite("encoders_noise", &SensorsStdDev::encodersNoise);
 
-    py::class_<Source<Output>>(module, "FloatingBaseEstimatorOutputSource");
+    BipedalLocomotion::bindings::System::CreateSource<Output>(module,
+                                                              "FloatingBaseEstimatorOutput");
 
     py::class_<FloatingBaseEstimator, Source<Output>> floatingBaseEstimator( //
         module,
@@ -255,7 +258,6 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
              &FloatingBaseEstimator::setKinematics,
              py::arg("encoders"),
              py::arg("encoder_speeds"))
-        .def("advance", &FloatingBaseEstimator::advance)
         .def("reset_estimator",
              py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
@@ -264,8 +266,6 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
                  &FloatingBaseEstimator::resetEstimator),
              py::arg("new_base_orientation"),
              py::arg("new_base_position"))
-        .def("get_output", &FloatingBaseEstimator::getOutput)
-        .def("is_output_valid", &FloatingBaseEstimator::isOutputValid)
         .def(
             "initialize",
             [](FloatingBaseEstimator& impl,

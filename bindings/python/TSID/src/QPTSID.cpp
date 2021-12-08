@@ -11,7 +11,7 @@
 
 #include <BipedalLocomotion/TSID/QPFixedBaseTSID.h>
 #include <BipedalLocomotion/TSID/QPTSID.h>
-#include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/TSID/QPTSID.h>
 
 namespace BipedalLocomotion

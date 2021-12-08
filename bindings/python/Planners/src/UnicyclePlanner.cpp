@@ -5,10 +5,12 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include "BipedalLocomotion/Planners/UnicyclePlanner.h"
-#include "BipedalLocomotion/Contacts/ContactList.h"
-#include "BipedalLocomotion/ParametersHandler/IParametersHandler.h"
-#include "BipedalLocomotion/System/Advanceable.h"
+#include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/System/Advanceable.h>
+
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
@@ -91,24 +93,15 @@ void CreateUnicyclePlanner(pybind11::module& module)
                    ")";
         });
 
-    py::class_<Advanceable<UnicyclePlannerInput, UnicyclePlannerOutput>>( //
+    BipedalLocomotion::bindings::System::CreateAdvanceable<UnicyclePlannerInput,
+                                                           UnicyclePlannerOutput>( //
         module,
-        "UnicyclePlannerAdvanceable");
+        "UnicyclePlanner");
 
     py::class_<UnicyclePlanner, Advanceable<UnicyclePlannerInput, UnicyclePlannerOutput>>( //
         module,
         "UnicyclePlanner")
-        .def(py::init())
-        .def(
-            "initialize",
-            [](UnicyclePlanner& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
-                return impl.initialize(handler);
-            },
-            py::arg("handler"))
-        .def("get_output", &UnicyclePlanner::getOutput)
-        .def("is_output_valid", &UnicyclePlanner::isOutputValid)
-        .def("set_input", &UnicyclePlanner::setInput, py::arg("input"))
-        .def("advance", &UnicyclePlanner::advance);
+        .def(py::init());
 }
 
 } // namespace BipedalLocomotion::bindings::Planners
