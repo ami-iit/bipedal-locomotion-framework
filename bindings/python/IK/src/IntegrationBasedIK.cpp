@@ -10,9 +10,10 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
-#include <BipedalLocomotion/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
+#include <BipedalLocomotion/bindings/System/ILinearTaskSolver.h>
 
 namespace BipedalLocomotion
 {
@@ -34,54 +35,9 @@ void CreateIntegrationBasedIK(pybind11::module& module)
 
     py::class_<Source<IntegrationBasedIKState>>(module, "IntegrationBasedIKStateSource");
 
-    py::class_<ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>,
-               Source<IntegrationBasedIKState>>(module, "ILinearTaskSolverIK")
-        .def("add_task",
-             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::addTask,
-             py::arg("task"),
-             py::arg("task_name"),
-             py::arg("priority"),
-             py::arg("weight") = Eigen::VectorXd())
-        .def("set_task_weight",
-             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::setTaskWeight,
-             py::arg("task_name"),
-             py::arg("weight"))
-        .def(
-            "get_task_weight",
-            [](const ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>& impl,
-               const std::string& name) {
-                auto task = impl.getTask("name").lock();
-                if(task == nullptr)
-                {
-                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
-                    throw py::value_error(msg);
-                }
-                Eigen::VectorXd weight(task->size());
-
-                if (!impl.getTaskWeight(name, weight))
-                {
-                    const std::string msg = "Failed to get the weight for the task named " + name + ".";
-                    throw py::value_error(msg);
-                }
-                return weight;
-            },
-            py::arg("task_name"))
-        .def("get_task_names",
-             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::getTaskNames)
-        .def("finalize",
-             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::finalize,
-             py::arg("handler"))
-        .def("advance", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::advance)
-        .def("get_output", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::getOutput)
-        .def("is_output_valid",
-             &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::isOutputValid)
-        .def(
-            "initialize",
-            [](ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>& impl,
-               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
-        .def("__repr__", &ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>::toString);
+    BipedalLocomotion::bindings::System::CreateILinearTaskSolver<IKLinearTask,
+                                                                 IntegrationBasedIKState> //
+        (module, "ILinearTaskSolverIK");
 
     py::class_<IntegrationBasedIK, //
                ILinearTaskSolver<IKLinearTask, IntegrationBasedIKState>>(module,
