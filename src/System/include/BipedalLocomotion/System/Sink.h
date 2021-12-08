@@ -32,6 +32,8 @@ public:
     {
         return true;
     }
+
+    virtual ~Sink() = default;
 };
 
 } // namespace System
