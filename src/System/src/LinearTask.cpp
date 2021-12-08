@@ -57,3 +57,11 @@ const std::string& LinearTask::getDescription() const
 {
     return m_description;
 }
+
+Eigen::VectorXd LinearTask::getResidual(Eigen::Ref<const Eigen::VectorXd> solution) const
+{
+    Eigen::VectorXd vec = -m_b;
+    vec.noalias() += m_A * solution;
+
+    return vec;
+}

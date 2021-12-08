@@ -119,6 +119,16 @@ public:
     virtual bool isValid() const = 0;
 
     /**
+     * Compute the residual of the task. The residual is defined as
+     * \f[
+     * r = A x - b
+     * \f]
+     * where \f$x\f$ is the solution of the ILinearTaskSolver
+     * @return the residual associated to the task
+     */
+    Eigen::VectorXd getResidual(Eigen::Ref<const Eigen::VectorXd> solution) const;
+
+    /**
      * Destructor.
      */
     virtual ~LinearTask() = default;
