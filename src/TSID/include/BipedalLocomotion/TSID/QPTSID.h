@@ -148,6 +148,12 @@ public:
      * Return the description of the TSID problem.
      */
     std::string toString() const override;
+
+    /**
+     * Return the vector representing the entire solution of the QPTSID.
+     * @return a vector containing the solution of the optimization problem
+     */
+    Eigen::Ref<const Eigen::VectorXd> getRawSolution() const override;
 };
 
 } // namespace TSID

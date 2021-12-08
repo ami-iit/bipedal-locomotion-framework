@@ -627,3 +627,8 @@ std::string QPTSID::toString() const
 
     return oss.str();
 }
+
+Eigen::Ref<const Eigen::VectorXd> QPTSID::getRawSolution() const
+{
+    return m_pimpl->solver.getSolution();
+}

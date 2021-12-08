@@ -105,6 +105,12 @@ public:
     virtual std::string toString() const = 0;
 
     /**
+     * Return the vector representing the entire solution of the ILinearTaskSolver.
+     * @return a vector containing the solution of the solver
+     */
+    virtual Eigen::Ref<const Eigen::VectorXd> getRawSolution() const = 0;
+
+    /**
      * Destructor.
      */
     virtual ~ILinearTaskSolver() = default;

@@ -560,3 +560,8 @@ std::string QPInverseKinematics::toString() const
 
     return oss.str();
 }
+
+Eigen::Ref<const Eigen::VectorXd> QPInverseKinematics::getRawSolution() const
+{
+    return m_pimpl->solver.getSolution();
+}
