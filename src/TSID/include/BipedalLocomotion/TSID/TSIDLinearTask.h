@@ -20,6 +20,7 @@ namespace TSID
  */
 struct TSIDLinearTask : public BipedalLocomotion::System::LinearTask
 {
+    virtual ~TSIDLinearTask() = default;
 };
 
 } // namespace TSID
