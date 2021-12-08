@@ -20,6 +20,7 @@ namespace IK
  */
 struct IKLinearTask : public BipedalLocomotion::System::LinearTask
 {
+    virtual ~IKLinearTask() = default;
 };
 
 } // namespace IK

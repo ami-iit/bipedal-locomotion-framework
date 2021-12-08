@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to change the weight in TSID/IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/475)
 - Implement a `FirstOrderSmoother` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
 - Implement `getIntegrationStep` in `FixedIntegration` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
+- Add the possibility to create custom `LinearTasks` in python (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 
 ### Changed
 - Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)
@@ -14,6 +15,8 @@ All notable changes to this project are documented in this file.
 ### Fix
 - Fix the population of the jointAccelerations and baseAcceleration variables in QPTSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/478)
 - Fix the documentation in the `Advanceable` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
+- Add virtual destrutors in `System::Sink`, `System::Source`, `System::LinearTask`,
+`System::ITaskControlMode`, `TSID::TSIDLinearTask` and `IK::IKLinearTask` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - The joint torques is now correctly retrieved in QPTSID class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/482)
 
 ## [0.5.0] - 2021-11-30

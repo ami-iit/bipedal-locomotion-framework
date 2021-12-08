@@ -8,6 +8,59 @@ import tempfile
 import urllib.request
 import os
 
+
+def test_custom_task():
+    class CustomTask(blf.tsid.TSIDLinearTask):
+        def __init__(self):
+            blf.tsid.TSIDLinearTask.__init__(self)
+
+            self._description = "Custom Task"
+
+        def set_variables_handler(self, variables_handler: blf.system.VariablesHandler):
+            variable = variables_handler.get_variable("robotAcceleration")
+            temp = np.zeros((10, variables_handler.get_number_of_variables()))
+
+            # avoiding slicing
+            for i in range(10):
+                temp[i, variable.offset] = 1
+
+            self._A = temp
+            self._b = np.ones(10)
+            return True
+
+        def size(self):
+            return 10
+
+        def type(self):
+            return blf.tsid.TSIDLinearTask.Type.equality
+
+        def is_valid(self):
+            return True
+
+    # Set the parameters
+    qp_tsid_param_handler = blf.parameters_handler.StdParametersHandler()
+    qp_tsid_param_handler.set_parameter_string(name="robot_acceleration_variable_name", value="robotAcceleration")
+    qp_tsid_param_handler.set_parameter_string(name="joint_torques_variable_name", value="jointTorque")
+    qp_tsid_param_handler.set_parameter_vector_string(name="contact_wrench_variables_name", value=["contact_1"])
+
+    # Initialize the QP inverse kinematics
+    qp_tsid = blf.tsid.QPTSID()
+    assert qp_tsid.initialize(handler=qp_tsid_param_handler)
+
+    qp_tsid_param_handler = blf.system.VariablesHandler()
+    assert qp_tsid_param_handler.add_variable("robotAcceleration",
+                                              38) is True  # robot velocity size = 32 (joints) + 6 (base)
+    assert qp_tsid_param_handler.add_variable("jointTorque",
+                                              32) is True  # robot velocity size = 32 (joints) + 6 (base)
+    assert qp_tsid_param_handler.add_variable("contact_1",
+                                              6) is True  # robot velocity size = 32 (joints) + 6 (base)
+
+    # add the custom task
+    custom_task = CustomTask()
+    assert qp_tsid.add_task(custom_task, "custom_task", 0)
+    assert qp_tsid.finalize(qp_tsid_param_handler)
+
+
 def get_kindyn():
 
     # retrieve the model

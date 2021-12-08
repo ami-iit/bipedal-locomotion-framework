@@ -9,8 +9,10 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
+
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
 namespace BipedalLocomotion
@@ -24,10 +26,12 @@ void CreateTSIDLinearTask(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
-    using namespace BipedalLocomotion::System;
 
-    py::class_<TSIDLinearTask, std::shared_ptr<TSIDLinearTask>, LinearTask>(module,
-                                                                            "TSIDLinearTask");
+    py::class_<::BipedalLocomotion::TSID::TSIDLinearTask,
+               ::BipedalLocomotion::System::LinearTask,
+               ::BipedalLocomotion::bindings::System::LinearTaskTrampoline<TSIDLinearTask>,
+               std::shared_ptr<TSIDLinearTask>>(module, "TSIDLinearTask")
+        .def(py::init<>());
 }
 
 } // namespace TSID

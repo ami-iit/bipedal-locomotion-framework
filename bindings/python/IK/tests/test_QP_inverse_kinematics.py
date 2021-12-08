@@ -7,6 +7,52 @@ import numpy as np
 import tempfile
 import urllib.request
 
+
+def test_custom_task():
+    class CustomTask(blf.ik.IKLinearTask):
+        def __init__(self):
+            blf.ik.IKLinearTask.__init__(self)
+
+            self._description = "Custom Task"
+
+        def set_variables_handler(self, variables_handler:blf.system.VariablesHandler):
+            variable = variables_handler.get_variable("robotVelocity")
+            temp = np.zeros((10, variables_handler.get_number_of_variables()))
+
+            # avoiding slicing
+            for i in range(10):
+                temp[i, variable.offset] = 1
+
+            self._A = temp
+            self._b = np.ones(10)
+            return True
+
+        def size(self):
+            return 10
+
+        def type(self):
+            return blf.ik.IKLinearTask.Type.equality
+
+        def is_valid(self):
+            return True
+
+    # Set the parameters
+    qp_ik_param_handler = blf.parameters_handler.StdParametersHandler()
+    qp_ik_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+
+    # Initialize the QP inverse kinematics
+    qp_ik = blf.ik.QPInverseKinematics()
+    assert qp_ik.initialize(handler=qp_ik_param_handler)
+
+    qp_ik_var_handler = blf.system.VariablesHandler()
+    assert qp_ik_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
+
+    # add the custom task
+    custom_task = CustomTask()
+    assert qp_ik.add_task(custom_task, "custom_task", 0)
+    assert qp_ik.finalize(qp_ik_var_handler)
+
+
 def test_com_task():
 
     # retrieve the model

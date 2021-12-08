@@ -27,6 +27,8 @@ public:
     {
         return true;
     }
+
+    virtual ~Source() = default;
 };
 
 } // namespace System
