@@ -443,6 +443,7 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1afe4ed11bbdbaabd4acbeceeb9d2aa6ad" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>TimeVaryingDCMPlanner</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner_1a4be34427ec06b98edcdd7ab62ab2728e" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~DCMPlanner</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~Source</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ab8ab59949f0b38a5de1f7e31196a2d79" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</scope><name>~TimeVaryingDCMPlanner</name></member>
     </listofallmembers>
   </compounddef>

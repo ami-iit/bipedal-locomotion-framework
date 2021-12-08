@@ -666,6 +666,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a220afc1ddc1f19474cb0da08a3cd3640" kind="function"><name>yield</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" kind="struct"><name>BipedalLocomotion::IK::IKLinearTask</name>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1ae1ea36d22880e1068c77661eef76ecf0" kind="function"><name>~IKLinearTask</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kind="class"><name>BipedalLocomotion::System::ILinearTaskSolver</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" kind="typedef"><name>Task</name></member>
@@ -917,6 +918,7 @@
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050abcfaccebf745acfd5e75351095a5394a" kind="enumvalue"><name>Disable</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1aa60f879578f705c8e78c181970604988" kind="function"><name>setTaskControllerMode</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a43194fa6a058fa977c54f7aedf375c6b" kind="function"><name>getTaskControllerMode</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1ab1d59ede7af6334a2cb058d499546434" kind="function"><name>~ITaskControllerManager</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::JointDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" kind="variable"><name>m_robotAccelerationVariable</name></member>
@@ -1029,6 +1031,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a34621cd88c6d60909f09e95226f2cd67" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" kind="function"><name>~LinearTask</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a6b6fb1ecb39632c842cc96b883bafde9" kind="variable"><name>m_A</name></member>
@@ -1433,6 +1436,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a76e236d8e9d44b6c0100108b9421a842" kind="variable"><name>m_out</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a4f83834c9269c31074e5a7e35ddb5f99" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a6228f114c0fc428501649d4c13ae5cb8" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Sink_1adb2b9dd914f4b55afd3382e7b62d85cc" kind="function"><name>~Sink</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kind="class"><name>BipedalLocomotion::Planners::SO3Planner</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1aba756f69b09b277f3746676bfef082a2" kind="variable"><name>m_initialRotation</name></member>
@@ -1494,6 +1498,7 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1Source" kind="class"><name>BipedalLocomotion::System::Source</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" kind="function"><name>~Source</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1Spline" kind="class"><name>BipedalLocomotion::Planners::Spline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" kind="function"><name>~Spline</name></member>
@@ -1644,6 +1649,7 @@
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01const_01T_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; const T &gt;</name>
   </compound>
   <compound refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kind="struct"><name>BipedalLocomotion::TSID::TSIDLinearTask</name>
+    <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" kind="function"><name>~TSIDLinearTask</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1TSID_1_1TSIDState" kind="struct"><name>BipedalLocomotion::TSID::TSIDState</name>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1a7c69f9adac19b9095179ba41f10a55e8" kind="variable"><name>baseAcceleration</name></member>

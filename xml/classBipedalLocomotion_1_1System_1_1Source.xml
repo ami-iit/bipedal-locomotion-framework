@@ -43,6 +43,19 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/Source.h" line="26" column="10" bodyfile="BipedalLocomotion/System/Source.h" bodystart="26" bodyend="29"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::System::Source&lt; Output &gt;::~Source</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Source</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Source.h" line="31" column="13"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1System_1_1Source" kindref="compound">Source</ref> is a template specialization of <ref refid="classBipedalLocomotion_1_1System_1_1Advanceable" kindref="compound">Advanceable</ref> and represents a block that does not contains input. </para>
@@ -317,7 +330,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/Source.h" line="22" column="12" bodyfile="BipedalLocomotion/System/Source.h" bodystart="23" bodyend="30"/>
+    <location file="BipedalLocomotion/System/Source.h" line="22" column="12" bodyfile="BipedalLocomotion/System/Source.h" bodystart="23" bodyend="32"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Source</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>close</name></member>
@@ -328,6 +341,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Source</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Source</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -340,6 +340,8 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask_1a3ad566a5bda20a0dc7ea45e983f78ead" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::VariableRegularizationTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::VariableRegularizationTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::VariableRegularizationTask</scope><name>update</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::VariableRegularizationTask</scope><name>~LinearTask</name></member>
+      <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::VariableRegularizationTask</scope><name>~TSIDLinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

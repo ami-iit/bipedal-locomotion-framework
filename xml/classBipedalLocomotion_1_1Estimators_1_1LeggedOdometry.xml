@@ -739,6 +739,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~FloatingBaseEstimator</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1aa55f03f2372f5cfb7bc9da1b8ebbb5be" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~LeggedOdometry</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::LeggedOdometry</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -88,7 +88,57 @@
 
 <span class="n">vector</span> <span class="o">=</span> <span class="n">param_handler</span><span class="o">.</span><span class="n">get_vector_of_int</span><span class="p">(</span><span class="s1">&#39;vector&#39;</span><span class="p">)</span></pre><pre class="m-code"><span class="c1"># config.toml file</span>
 
-<span class="na">vector</span> <span class="o">=</span> <span class="s">[1, 2, 3, 4, 5]</span></pre></section><section id="autotoc_md1"><h2><a href="#autotoc_md1">Some utilities</a></h2><p>If you are a <code>python</code> user you can easily create a inverse kinematics (IK) or a task based inverse dynamics (TSID) problem writing just a configuration file. The configuration file should contains the name of the tasks and the parameters of the associated tasks. This is possible thanks to two utilities function available only in python (<code>create_ik</code> and <code>create_tsid</code>)</p><p>For instance you can create a IK problem with</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
+<span class="na">vector</span> <span class="o">=</span> <span class="s">[1, 2, 3, 4, 5]</span></pre></section><section id="autotoc_md1"><h2><a href="#autotoc_md1">Some utilities</a></h2><section id="autotoc_md2"><h3><a href="#autotoc_md2">Create a custom TSID or IK task directly in Python</a></h3><p>If you are a <code>python</code> user and you want create a inverse kinematics (IK) or a task based inverse dynamics (TSID) tasks, you do not need to write a <code>C++</code> code. Indeed it is possible to write a class that inherits from <code>TSIDLinearTask</code> or <code>IKLinearTask</code> and pass it to <code>tsid</code> or <code>ik</code> solvers. The following snippet can be used as starting point to build a custom TSID task, a similar approach can be used to define a custom IK task</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
+
+
+<span class="k">class</span> <span class="nc">CustomTSIDTask</span><span class="p">(</span><span class="n">blf</span><span class="o">.</span><span class="n">tsid</span><span class="o">.</span><span class="n">TSIDLinearTask</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; CustomTSIDTask represents a custom task for the tsid solver.</span>
+
+<span class="sd">    The class must define the following functions:</span>
+<span class="sd">    __init__(self): the constructor</span>
+<span class="sd">    size(self) -&gt; Get the size of the task. (I.e the number of rows of the vector b)</span>
+<span class="sd">    is_valid(self) -&gt; Determines the validity of the objects retrieved with getA() and getB()</span>
+<span class="sd">    type(self) -&gt; Get the type of the task. Namely equality or inequality</span>
+
+<span class="sd">    Furthemore you have to populate the following attrubutes defined in TSIDLinearTask:</span>
+<span class="sd">    self._description:str -&gt; contains the description of the task</span>
+<span class="sd">    self._A:numpy.ndarray[float64[m, n]]) -&gt; matrix that describes the task A * x = b</span>
+<span class="sd">    self._b: numpy.ndarray[float64[m, 1]]) -&gt; vector that describes the task A * x = b</span>
+
+<span class="sd">    Depending on the content of the task you may need to reimplement the following methods</span>
+<span class="sd">    initialize(self, param_handler: blf.parameters_handler.IParameterHandler) -&gt; usefull function to set parameters to the task</span>
+<span class="sd">    set_variables_handler(self, variables_handler: blf.system.VariablesHandler) -&gt; usefull function to set the variables</span>
+<span class="sd">    update(self) -&gt; update the content of the task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">blf</span><span class="o">.</span><span class="n">tsid</span><span class="o">.</span><span class="n">TSIDLinearTask</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c1"># Without this, a TypeError is raised.</span>
+
+        <span class="c1"># set the description of the task</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Custom task&quot;</span>
+
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># this is the number of rows of the vector b (in this example is equal to 1)</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># the types are defined in blf.tsid.TSIDLinearTask.Type</span>
+        <span class="k">return</span> <span class="n">blf</span><span class="o">.</span><span class="n">tsid</span><span class="o">.</span><span class="n">TSIDLinearTask</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">equality</span></pre><p>Then you can use your custom task as follows</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
+
+<span class="c1"># Instantiate the task</span>
+<span class="n">custom_task</span> <span class="o">=</span> <span class="n">CustomTSIDTask</span><span class="p">()</span>
+
+<span class="c1"># Initialize your task</span>
+<span class="n">custom_task</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">param_handler</span><span class="p">)</span>
+
+<span class="c1"># Create the solver</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">blf</span><span class="o">.</span><span class="n">tsid</span><span class="o">.</span><span class="n">QPTSID</span><span class="p">()</span>
+<span class="n">priority</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">custom_task</span><span class="p">,</span> <span class="s1">&#39;custom_task&#39;</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span></pre></section><section id="autotoc_md3"><h3><a href="#autotoc_md3">Automatically build a TSID or IK from configuration file</a></h3><p>If you are a <code>python</code> user you can easily create a inverse kinematics (IK) or a task based inverse dynamics (TSID) problem writing just a configuration file. The configuration file should contains the name of the tasks and the parameters of the associated tasks. This is possible thanks to two utilities function available only in python (<code>create_ik</code> and <code>create_tsid</code>)</p><p>For instance you can create a IK problem with</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
 <span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.utils</span> <span class="k">as</span> <span class="nn">utils</span>
 
 <span class="c1"># create a param handler</span>
@@ -131,7 +181,7 @@
 
 
 <span class="n">help</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">create_tsid</span><span class="p">)</span>
-<span class="n">help</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">create_ik</span><span class="p">)</span></pre></section>
+<span class="n">help</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">create_ik</span><span class="p">)</span></pre></section></section>
       </div>
     </div>
   </div>

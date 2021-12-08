@@ -13,6 +13,21 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SO3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::VariableRegularizationTask</derivedcompoundref>
     <includes local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::TSID::TSIDLinearTask::~TSIDLinearTask</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TSIDLinearTask</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/TSIDLinearTask.h" line="23" column="13"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
 <para><ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref> specializes a LinearTask in the case of Task based Inverse Dynamics. </para>
     </briefdescription>
@@ -107,7 +122,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/TSIDLinearTask.h" line="21" column="1" bodyfile="BipedalLocomotion/TSID/TSIDLinearTask.h" bodystart="22" bodyend="23"/>
+    <location file="BipedalLocomotion/TSID/TSIDLinearTask.h" line="21" column="1" bodyfile="BipedalLocomotion/TSID/TSIDLinearTask.h" bodystart="22" bodyend="24"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>getB</name></member>
@@ -124,6 +139,8 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>update</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>~LinearTask</name></member>
+      <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::TSIDLinearTask</scope><name>~TSIDLinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

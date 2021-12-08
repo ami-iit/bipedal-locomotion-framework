@@ -380,6 +380,20 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/LinearTask.h" line="119" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::System::LinearTask::~LinearTask</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LinearTask</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="124" column="13"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> describes a Linear Task element. </para>
@@ -508,7 +522,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/LinearTask.h" line="33" column="1" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="34" bodyend="120"/>
+    <location file="BipedalLocomotion/System/LinearTask.h" line="33" column="1" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="34" bodyend="125"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getB</name></member>
@@ -525,6 +539,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>update</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>~LinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

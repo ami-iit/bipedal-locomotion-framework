@@ -165,6 +165,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~ILinearTaskSolver</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~IntegrationBasedIK</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IntegrationBasedIK</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

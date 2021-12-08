@@ -386,6 +386,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>updateFixedFoot</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~ContactDetector</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

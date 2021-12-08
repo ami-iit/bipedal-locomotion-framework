@@ -83,6 +83,20 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/ITaskControllerManager.h" line="41" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1ab1d59ede7af6334a2cb058d499546434" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::System::ITaskControllerManager::~ITaskControllerManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITaskControllerManager</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ITaskControllerManager.h" line="46" column="13"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" kindref="compound">ITaskControllerManager</ref> is an interface that can help you to handle tasks containing controllers. </para>
@@ -108,11 +122,12 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/System/ITaskControllerManager.h" line="20" column="1" bodyfile="BipedalLocomotion/System/ITaskControllerManager.h" bodystart="21" bodyend="42"/>
+    <location file="BipedalLocomotion/System/ITaskControllerManager.h" line="20" column="1" bodyfile="BipedalLocomotion/System/ITaskControllerManager.h" bodystart="21" bodyend="47"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a43194fa6a058fa977c54f7aedf375c6b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ITaskControllerManager</scope><name>getTaskControllerMode</name></member>
       <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ITaskControllerManager</scope><name>Mode</name></member>
       <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1aa60f879578f705c8e78c181970604988" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ITaskControllerManager</scope><name>setTaskControllerMode</name></member>
+      <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1ab1d59ede7af6334a2cb058d499546434" prot="public" virt="virtual"><scope>BipedalLocomotion::System::ITaskControllerManager</scope><name>~ITaskControllerManager</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

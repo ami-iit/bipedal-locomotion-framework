@@ -448,6 +448,8 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac7ae4baae1066e6c4884aa4320a9b94a" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9df9b3511e48b0f3c0107d022f89f516" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>update</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>~LinearTask</name></member>
+      <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>~TSIDLinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -423,6 +423,8 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ad629d399cdc84de02002c19c9d753882" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4d85e404b2290c7c4a590db7faba5e6b" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>update</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>~LinearTask</name></member>
+      <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>~TSIDLinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

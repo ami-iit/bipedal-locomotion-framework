@@ -13,7 +13,8 @@
 <para><programlisting filename=".py"><codeline><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bipedal_locomotion_framework.bindings<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>blf</highlight></codeline>
 </programlisting></para>
 <para>Once you have import it you can check the content of the bindings using <computeroutput>help(blf)</computeroutput>. We tried to implement a 1-to-1 mapping between the c++ structure and the python one, this means that every python submodule is associated to the equivalent c++ submodule. For instance <computeroutput>blf.tsid</computeroutput> represents the python bindings of <computeroutput>BipedalLocomotion::TSID</computeroutput> component.</para>
-<para>The python bindings has been designed to be compliant to the <ulink url="https://www.python.org/dev/peps/pep-0008/">PEP-8</ulink>. This means that:<orderedlist>
+<para>The python bindings has been designed to be compliant to the <ulink url="https://www.python.org/dev/peps/pep-0008/">PEP-8</ulink>. This means that:</para>
+<para><orderedlist>
 <listitem><para><bold>function</bold> and the <bold>variables</bold> are lowercase words separated by underscore (<computeroutput>snake_case</computeroutput>)</para>
 </listitem><listitem><para>The <bold>class</bold> names starts with a capital letter (<computeroutput>CammelCase</computeroutput>)</para>
 </listitem><listitem><para>The <bold>modules</bold> are lowercase words separated by underscore (<computeroutput>snake_case</computeroutput>)</para>
@@ -52,6 +53,67 @@
 </sect1>
 <sect1 id="python-additional-info_1autotoc_md1">
 <title>Some utilities</title>
+<sect2 id="python-additional-info_1autotoc_md2">
+<title>Create a custom TSID or IK task directly in Python</title>
+<para>If you are a <computeroutput>python</computeroutput> user and you want create a inverse kinematics (IK) or a task based inverse dynamics (TSID) tasks, you do not need to write a <computeroutput>C++</computeroutput> code. Indeed it is possible to write a class that inherits from <computeroutput>TSIDLinearTask</computeroutput> or <computeroutput>IKLinearTask</computeroutput> and pass it to <computeroutput>tsid</computeroutput> or <computeroutput>ik</computeroutput> solvers. The following snippet can be used as starting point to build a custom TSID task, a similar approach can be used to define a custom IK task</para>
+<para><programlisting filename=".py"><codeline><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bipedal_locomotion_framework.bindings<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>blf</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CustomTSIDTask(blf.tsid.TSIDLinearTask):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;<sp/>CustomTSIDTask<sp/>represents<sp/>a<sp/>custom<sp/>task<sp/>for<sp/>the<sp/>tsid<sp/>solver.</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>class<sp/>must<sp/>define<sp/>the<sp/>following<sp/>functions:</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>__init__(self):<sp/>the<sp/>constructor</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>size(self)<sp/>-&gt;<sp/>Get<sp/>the<sp/>size<sp/>of<sp/>the<sp/>task.<sp/>(I.e<sp/>the<sp/>number<sp/>of<sp/>rows<sp/>of<sp/>the<sp/>vector<sp/>b)</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>is_valid(self)<sp/>-&gt;<sp/>Determines<sp/>the<sp/>validity<sp/>of<sp/>the<sp/>objects<sp/>retrieved<sp/>with<sp/>getA()<sp/>and<sp/>getB()</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>type(self)<sp/>-&gt;<sp/>Get<sp/>the<sp/>type<sp/>of<sp/>the<sp/>task.<sp/>Namely<sp/>equality<sp/>or<sp/>inequality</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Furthemore<sp/>you<sp/>have<sp/>to<sp/>populate<sp/>the<sp/>following<sp/>attrubutes<sp/>defined<sp/>in<sp/>TSIDLinearTask:</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>self._description:str<sp/>-&gt;<sp/>contains<sp/>the<sp/>description<sp/>of<sp/>the<sp/>task</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>self._A:numpy.ndarray[float64[m,<sp/>n]])<sp/>-&gt;<sp/>matrix<sp/>that<sp/>describes<sp/>the<sp/>task<sp/>A<sp/>*<sp/>x<sp/>=<sp/>b</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>self._b:<sp/>numpy.ndarray[float64[m,<sp/>1]])<sp/>-&gt;<sp/>vector<sp/>that<sp/>describes<sp/>the<sp/>task<sp/>A<sp/>*<sp/>x<sp/>=<sp/>b</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Depending<sp/>on<sp/>the<sp/>content<sp/>of<sp/>the<sp/>task<sp/>you<sp/>may<sp/>need<sp/>to<sp/>reimplement<sp/>the<sp/>following<sp/>methods</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>initialize(self,<sp/>param_handler:<sp/>blf.parameters_handler.IParameterHandler)<sp/>-&gt;<sp/>usefull<sp/>function<sp/>to<sp/>set<sp/>parameters<sp/>to<sp/>the<sp/>task</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>set_variables_handler(self,<sp/>variables_handler:<sp/>blf.system.VariablesHandler)<sp/>-&gt;<sp/>usefull<sp/>function<sp/>to<sp/>set<sp/>the<sp/>variables</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>update(self)<sp/>-&gt;<sp/>update<sp/>the<sp/>content<sp/>of<sp/>the<sp/>task</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">__init__(self):</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>blf.tsid.TSIDLinearTask.__init__(self)<sp/><sp/></highlight><highlight class="comment">#<sp/>Without<sp/>this,<sp/>a<sp/>TypeError<sp/>is<sp/>raised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>set<sp/>the<sp/>description<sp/>of<sp/>the<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._description<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Custom<sp/>task&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">size(self):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>this<sp/>is<sp/>the<sp/>number<sp/>of<sp/>rows<sp/>of<sp/>the<sp/>vector<sp/>b<sp/>(in<sp/>this<sp/>example<sp/>is<sp/>equal<sp/>to<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">is_valid(self):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">type(self):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>types<sp/>are<sp/>defined<sp/>in<sp/>blf.tsid.TSIDLinearTask.Type</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>blf.tsid.TSIDLinearTask.Type.equality</highlight></codeline>
+</programlisting></para>
+<para>Then you can use your custom task as follows</para>
+<para><programlisting filename=".py"><codeline><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bipedal_locomotion_framework.bindings<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>blf</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">#<sp/>Instantiate<sp/>the<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">custom_task<sp/>=<sp/>CustomTSIDTask()</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">#<sp/>Initialize<sp/>your<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">custom_task.initialize(param_handler)</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">#<sp/>Create<sp/>the<sp/>solver</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">solver<sp/>=<sp/>blf.tsid.QPTSID()</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal">solver.add_task(custom_task,<sp/></highlight><highlight class="stringliteral">&apos;custom_task&apos;</highlight><highlight class="normal">,<sp/>priority)</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="python-additional-info_1autotoc_md3">
+<title>Automatically build a TSID or IK from configuration file</title>
 <para>If you are a <computeroutput>python</computeroutput> user you can easily create a inverse kinematics (IK) or a task based inverse dynamics (TSID) problem writing just a configuration file. The configuration file should contains the name of the tasks and the parameters of the associated tasks. This is possible thanks to two utilities function available only in python (<computeroutput>create_ik</computeroutput> and <computeroutput>create_tsid</computeroutput>)</para>
 <para>For instance you can create a IK problem with <programlisting filename=".py"><codeline><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bipedal_locomotion_framework.bindings<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>blf</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bipedal_locomotion_framework.utils<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>utils</highlight></codeline>
@@ -102,6 +164,7 @@
 <codeline><highlight class="normal">help(utils.create_tsid)</highlight></codeline>
 <codeline><highlight class="normal">help(utils.create_ik)</highlight></codeline>
 </programlisting> </para>
+</sect2>
 </sect1>
     </detaileddescription>
     <location file="/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/pages/python-additional-info.md"/>

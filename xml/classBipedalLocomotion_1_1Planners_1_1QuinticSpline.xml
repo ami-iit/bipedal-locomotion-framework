@@ -491,6 +491,7 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a5911832330c2e084958f95abe4e82f2e" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setKnots</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a9baf5f5d4cb3b31a87367fa06c8c28aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~QuinticSpline</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~Source</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~Spline</name></member>
     </listofallmembers>
   </compounddef>

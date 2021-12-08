@@ -602,6 +602,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~ContactDetector</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a36c544fc955734a77ddf3c3e3bd65c77" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~SchmittTriggerDetector</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::SchmittTriggerDetector</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

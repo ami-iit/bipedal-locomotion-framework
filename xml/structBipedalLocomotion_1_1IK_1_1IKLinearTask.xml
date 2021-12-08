@@ -9,6 +9,21 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SO3Task</derivedcompoundref>
     <includes local="no">BipedalLocomotion/IK/IKLinearTask.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1ae1ea36d22880e1068c77661eef76ecf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::IK::IKLinearTask::~IKLinearTask</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKLinearTask</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/IKLinearTask.h" line="23" column="13"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
 <para><ref refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" kindref="compound">IKLinearTask</ref> specializes a LinearTask in the case of Inverse Kinematics. </para>
     </briefdescription>
@@ -79,7 +94,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/IKLinearTask.h" line="21" column="1" bodyfile="BipedalLocomotion/IK/IKLinearTask.h" bodystart="22" bodyend="23"/>
+    <location file="BipedalLocomotion/IK/IKLinearTask.h" line="21" column="1" bodyfile="BipedalLocomotion/IK/IKLinearTask.h" bodystart="22" bodyend="24"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>getB</name></member>
@@ -96,6 +111,8 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>Type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1accd4ab19a7e8738abe53b485d8acbf1c" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>update</name></member>
+      <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1ae1ea36d22880e1068c77661eef76ecf0" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>~IKLinearTask</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>~LinearTask</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>
