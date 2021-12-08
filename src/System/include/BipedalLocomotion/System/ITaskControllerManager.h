@@ -39,6 +39,11 @@ struct ITaskControllerManager
      * @return the state of the controller
      */
     virtual Mode getTaskControllerMode() const = 0;
+
+    /**
+     * Destructor.
+     */
+    virtual ~ITaskControllerManager() = default;
 };
 
 } // namespace System

@@ -117,6 +117,11 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     virtual bool isValid() const = 0;
+
+    /**
+     * Destructor.
+     */
+    virtual ~LinearTask() = default;
 };
 
 } // namespace System
