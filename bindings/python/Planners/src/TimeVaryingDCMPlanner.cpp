@@ -11,7 +11,7 @@
 
 #include <BipedalLocomotion/Planners/DCMPlanner.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
-#include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/Planners/TimeVaryingDCMPlanner.h>
 
 namespace BipedalLocomotion
@@ -28,16 +28,7 @@ void CreateTimeVaryingDCMPlanner(pybind11::module& module)
 
     py::class_<TimeVaryingDCMPlanner, DCMPlanner>(module, "TimeVaryingDCMPlanner")
         .def(py::init())
-        .def(
-            "initialize",
-            [](TimeVaryingDCMPlanner& impl,
-               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
         .def("compute_trajectory", &TimeVaryingDCMPlanner::computeTrajectory)
-        .def("get_output", &TimeVaryingDCMPlanner::getOutput)
-        .def("is_output_valid", &TimeVaryingDCMPlanner::isOutputValid)
-        .def("advance", &TimeVaryingDCMPlanner::advance)
         .def("set_contact_phase_list",
              &TimeVaryingDCMPlanner::setContactPhaseList,
              py::arg("contact_phase_list"))

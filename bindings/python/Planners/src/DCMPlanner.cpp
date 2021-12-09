@@ -1,6 +1,6 @@
 /**
  * @file DCMPlanner.cpp
- * @authors DiegoFerigo
+ * @authors Diego Ferigo, Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
@@ -10,8 +10,9 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/Planners/DCMPlanner.h>
-#include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/Planners/DCMPlanner.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -34,7 +35,7 @@ void CreateDCMPlanner(pybind11::module& module)
         .def_readwrite("omega", &DCMPlannerState::omega)
         .def_readwrite("omega_dot", &DCMPlannerState::omegaDot);
 
-    py::class_<Source<DCMPlannerState>>(module, "DCMPlannerStateSource");
+    BipedalLocomotion::bindings::System::CreateSource<DCMPlannerState>(module, "DCMPlanner");
 
     py::class_<DCMPlanner, Source<DCMPlannerState>>(module, "DCMPlanner")
         .def("set_initial_state", &DCMPlanner::setInitialState, py::arg("state"))
@@ -43,6 +44,6 @@ void CreateDCMPlanner(pybind11::module& module)
              py::arg("contact_phase_list"));
 }
 
-}
-}
-}
+} // namespace Planners
+} // namespace bindings
+} // namespace BipedalLocomotion

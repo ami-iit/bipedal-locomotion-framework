@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/System/Source.h>
 
 #include <BipedalLocomotion/bindings/IK/IntegrationBasedIK.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 #include <BipedalLocomotion/bindings/System/ILinearTaskSolver.h>
 
 namespace BipedalLocomotion
@@ -33,7 +34,8 @@ void CreateIntegrationBasedIK(pybind11::module& module)
         .def_readwrite("joint_velocity", &IntegrationBasedIKState::jointVelocity)
         .def_readwrite("base_velocity", &IntegrationBasedIKState::baseVelocity);
 
-    py::class_<Source<IntegrationBasedIKState>>(module, "IntegrationBasedIKStateSource");
+    BipedalLocomotion::bindings::System::CreateSource<IntegrationBasedIKState> //
+        (module, "IntegrationBasedIK");
 
     BipedalLocomotion::bindings::System::CreateILinearTaskSolver<IKLinearTask,
                                                                  IntegrationBasedIKState> //

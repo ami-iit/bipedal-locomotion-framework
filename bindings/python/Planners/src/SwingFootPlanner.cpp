@@ -11,9 +11,9 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
-#include <BipedalLocomotion/System/Source.h>
 
 #include <BipedalLocomotion/bindings/Planners/SwingFootPlanner.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -54,20 +54,12 @@ void CreateSwingFootPlanner(pybind11::module& module)
                 s.mixedAcceleration.coeffs() = coeffs;
             });
 
-    py::class_<Source<SwingFootPlannerState>>(module, "SwingFootPlannerStateSource");
+    BipedalLocomotion::bindings::System::CreateSource<SwingFootPlannerState> //
+        (module, "SwingFootPlanner");
 
     py::class_<SwingFootPlanner, Source<SwingFootPlannerState>>(module, "SwingFootPlanner")
         .def(py::init())
-        .def(
-            "initialize",
-            [](SwingFootPlanner& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
-                return impl.initialize(handler);
-            },
-            py::arg("handler"))
-        .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"))
-        .def("get_output", &SwingFootPlanner::getOutput)
-        .def("is_output_valid", &SwingFootPlanner::isOutputValid)
-        .def("advance", &SwingFootPlanner::advance);
+        .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"));
 }
 
 } // namespace Planners
