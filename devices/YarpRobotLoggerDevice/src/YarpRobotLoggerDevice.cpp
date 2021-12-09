@@ -7,13 +7,14 @@
 #include <tuple>
 
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
-#include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
-#include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
-
-#include <yarp/os/LogStream.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/TextLogging/LoggerBuilder.h>
+#include <BipedalLocomotion/TextLogging/YarpLogger.h>
+#include <BipedalLocomotion/YarpRobotLoggerDevice.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -24,12 +25,25 @@ using namespace BipedalLocomotion;
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock)
     : yarp::os::PeriodicThread(period, useSystemClock)
 {
-    BipedalLocomotion::System::ClockBuilder::setFactory(std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
+    // Use the yarp clock in blf
+    BipedalLocomotion::System::ClockBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
+
+    // the logging message are streamed using yarp
+    BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
     : yarp::os::PeriodicThread(0.01, yarp::os::ShouldUseSystemClock::No)
 {
+    // Use the yarp clock in blf
+    BipedalLocomotion::System::ClockBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
+
+    // the logging message are streamed using yarp
+    BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 }
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
@@ -52,11 +66,12 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
 bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice][setupRobotSensorBridge]";
+
     auto bridgeConfig = config.findGroup("RobotSensorBridge");
     if (bridgeConfig.isNull())
     {
-        yError() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] Missing required group "
-                    "\"RobotSensorBridge\"";
+        log()->error("{} Missing required group 'RobotSensorBridge'", logPrefix);
         return false;
     }
 
@@ -66,34 +81,36 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
     m_robotSensorBridge = std::make_unique<YarpSensorBridge>();
     if (!m_robotSensorBridge->initialize(originalHandler))
     {
-        yError() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] Could not configure "
-                    "RobotSensorBridge";
+        log()->error("{} Unable to configure the 'SensorBridge'", logPrefix);
         return false;
     }
 
     // Get additional flags required by the device
     if (!originalHandler->getParameter("stream_joint_states", m_streamJointStates))
     {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_joint_states' "
-                   "parameter is not found. The joint states is not logged.";
+        log()->info("{} The 'stream_joint_states' parameter is not found. The joint states is not "
+                    "logged",
+                    logPrefix);
     }
 
     if (!originalHandler->getParameter("stream_motor_states", m_streamMotorStates))
     {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_motor_states' "
-                   "parameter is not found. The motor states is not logged.";
+        log()->info("{} The 'stream_motor_states' parameter is not found. The motor states is not "
+                    "logged",
+                    logPrefix);
     }
 
     if (!originalHandler->getParameter("stream_motor_PWM", m_streamMotorPWM))
     {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_motor_PWM' "
-                   "parameter is not found. The Motor PWM is not logged.";
+        log()->info("{} The 'stream_motor_PWM' parameter is not found. The motor PWM is not logged",
+                    logPrefix);
     }
 
     if (!originalHandler->getParameter("stream_pids", m_streamPIDs))
     {
-        yInfo() << "[YarpRobotLoggerDevice][setupRobotSensorBridge] The 'stream_pids' parameter is "
-                   "not found. The Motor pid values are not logged.";
+        log()->info("{} The 'stream_pids' parameter is not found. The motor pid values are not "
+                    "logged",
+                    logPrefix);
     }
 
     return true;
@@ -101,53 +118,53 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
 
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice][attachAll]";
+
     if (!m_robotSensorBridge->setDriversList(poly))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not attach drivers list to sensor "
-                    "bridge.";
+        log()->error("{} Could not attach drivers list to sensor bridge.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getJointsList(m_jointNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the joints list.";
+        log()->error("{} Could not get the joints list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getSixAxisForceTorqueSensorsList(m_FTNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the six axis force torque "
-                    "sensors list.";
+        log()->error("{} Could not get the six axis force torque sensors list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getGyroscopesList(m_gyroNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the gyroscope list.";
+        log()->error("{} Could not get the gyroscope list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getLinearAccelerometersList(m_accelerometerNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the accelerometers list.";
+        log()->error("{} Could not get the accelerometers list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getOrientationSensorsList(m_orientationNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the orientation sensor list.";
+        log()->error("{} Could not get the orientation sensor list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getIMUsList(m_IMUNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the IMUs list.";
+        log()->error("{} Could not get the IMUs list.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getCartesianWrenchesList(m_cartesianWrenchNames))
     {
-        yError() << "[YarpRobotLoggerDevice][attachAll] Could not get the cartesian wrenches list ";
+        log()->error("{} Could not get the cartesian wrenches list.", logPrefix);
         return false;
     }
 
@@ -221,10 +238,12 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
 
 void YarpRobotLoggerDevice::run()
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice][run]";
+
     // get the data
     if (!m_robotSensorBridge->advance())
     {
-        yError() << "[YarpRobotLoggerDevice][run] could not advance sensor bridge.";
+        log()->error("{} Could not advance sensor bridge.", logPrefix);
     }
 
     const auto bufferSize = m_time.rows();
@@ -237,7 +256,7 @@ void YarpRobotLoggerDevice::run()
                                                                    m_fts.at(key).col(bufferSize),
                                                                    m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the ft named: " << key;
+            log()->error("{} Unable to get the ft named: {}.", logPrefix, key);
         }
     }
 
@@ -249,7 +268,7 @@ void YarpRobotLoggerDevice::run()
                                                      m_wrenches.at(key).col(bufferSize),
                                                      m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the cartesian wrench named: " << key;
+            log()->error("{} Unable to get the Cartesian wrench named: {}.", logPrefix, key);
         }
     }
 
@@ -261,7 +280,7 @@ void YarpRobotLoggerDevice::run()
                                                                       bufferSize),
                                                                   m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the orientation named: " << key;
+            log()->error("{} Unable to get the orientation named: {}.", logPrefix, key);
         }
     }
 
@@ -273,16 +292,18 @@ void YarpRobotLoggerDevice::run()
                                                                         bufferSize),
                                                                     m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the accelerometer named: " << key;
+            log()->error("{} Unable to get the accelerometer named: {}.", logPrefix, key);
         }
     }
 
     for (const auto& key : m_gyroNames)
     {
         m_gyros.at(key).conservativeResize(3, bufferSize + 1);
-        if (!m_robotSensorBridge->getGyroscopeMeasure(key, m_gyros.at(key).col(bufferSize), m_timeNow))
+        if (!m_robotSensorBridge->getGyroscopeMeasure(key,
+                                                      m_gyros.at(key).col(bufferSize),
+                                                      m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the gyroscope named: " << key;
+            log()->error("{} Unable to get the gyroscope named: {}.", logPrefix, key);
         }
     }
 
@@ -292,7 +313,7 @@ void YarpRobotLoggerDevice::run()
     {
         if (!m_robotSensorBridge->getIMUMeasurement(IMU, m_analogSensorBuffer, m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the imu named : " << IMU;
+            log()->error("{} Unable to get the imu named: {}.", logPrefix, IMU);
         }
 
         // resize the vectors
@@ -317,20 +338,20 @@ void YarpRobotLoggerDevice::run()
                  ->getJointPositions(m_jointState.at("joint_positions").col(bufferSize), m_timeNow))
 
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint positions";
+            log()->error("{} Unable to get the joint positions.", logPrefix);
         }
 
         if (!m_robotSensorBridge
                  ->getJointVelocities(m_jointState.at("joint_velocities").col(bufferSize),
                                       m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint velocities";
+            log()->error("{} Unable to get the joint velocities.", logPrefix);
         }
 
         if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize),
                                                   m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the joint torques";
+            log()->error("{} Unable to get the joint torques.", logPrefix);
         }
     }
 
@@ -344,20 +365,20 @@ void YarpRobotLoggerDevice::run()
                  ->getMotorPositions(m_motorState.at("motor_positions").col(bufferSize), m_timeNow))
 
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor positions";
+            log()->error("{} Unable to get the motor positions.", logPrefix);
         }
 
         if (!m_robotSensorBridge
                  ->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
                                       m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor velocities";
+            log()->error("{} Unable to get the motor velocities.", logPrefix);
         }
 
         if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize),
                                                    m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor currents";
+            log()->error("{} Unable to get the motor currents.", logPrefix);
         }
     }
 
@@ -367,7 +388,7 @@ void YarpRobotLoggerDevice::run()
         m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
         if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the motor PWMs";
+            log()->error("{} Unable to get the motor PWMs.", logPrefix);
         }
     }
 
@@ -376,7 +397,7 @@ void YarpRobotLoggerDevice::run()
         m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
         if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
         {
-            yError() << "[YarpRobotLoggerDevice][run] Unable to get the PIDs references";
+            log()->error("{} Unable to get the PIDs references.", logPrefix);
         }
     }
 
@@ -434,7 +455,7 @@ bool YarpRobotLoggerDevice::logData()
 
     if (!write_ok)
     {
-        yError() << "[YarpRobotLoggerDevice][logData] Could not write to file.";
+        log()->error("[YarpRobotLoggerDevice][logData] Could not write to file.");
         return false;
     }
 
@@ -457,7 +478,7 @@ bool YarpRobotLoggerDevice::close()
     std::lock_guard<std::mutex> guard(m_deviceMutex);
     if (!logData())
     {
-        yError() << "[YarpRobotLoggerDevice][close] Failed to log data.";
+        log()->error("[YarpRobotLoggerDevice][close] Failed to log the data.");
     }
 
     return true;
