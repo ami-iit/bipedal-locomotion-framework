@@ -64,7 +64,8 @@ void CreateLinearTask(pybind11::module& module)
         .def("__len__", &LinearTask::size)
         .def_readwrite("_A", &LinearTaskPublicist::m_A)
         .def_readwrite("_b", &LinearTaskPublicist::m_b)
-        .def_readwrite("_description", &LinearTaskPublicist::m_description);
+        .def_readwrite("_description", &LinearTaskPublicist::m_description)
+        .def("get_residual", &LinearTask::getResidual, py::arg("solution"));
 }
 
 } // namespace System

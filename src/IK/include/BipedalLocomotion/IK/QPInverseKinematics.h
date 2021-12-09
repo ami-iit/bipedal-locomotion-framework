@@ -152,6 +152,12 @@ public:
      * @return a string containing the description of the solver.
      */
     std::string toString() const override;
+
+    /**
+     * Return the vector representing the entire solution of the QPInverseKinematics.
+     * @return a vector containing the solution of the optimization problem
+     */
+    Eigen::Ref<const Eigen::VectorXd> getRawSolution() const override;
 };
 } // namespace IK
 } // namespace BipedalLocomotion
