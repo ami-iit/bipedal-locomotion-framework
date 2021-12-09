@@ -402,7 +402,7 @@
 <para>JointsTrackingTask is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="101">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \dot{s} ^ * \]</formula> where <formula id="83">$0_6$</formula> and <formula id="84">$I_n$</formula> are the zero and the identity matrix. The desired joint velocity is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="58">$\mathbb{R}^n$</formula>. </para>
+<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="102">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \dot{s} ^ * \]</formula> where <formula id="84">$0_6$</formula> and <formula id="85">$I_n$</formula> are the zero and the identity matrix. The desired joint velocity is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="59">$\mathbb{R}^n$</formula>. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -456,6 +456,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>getDescription</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a591be3a0f92c9e1c40ccadf85c21f739" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>getResidual</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a2efd9d5826a308b97292365094847122" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a0afb416680e3da4cee2c11ea51dd97aa" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::JointTrackingTask</scope><name>m_A</name></member>

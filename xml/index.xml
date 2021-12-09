@@ -678,6 +678,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3c4a0555f5e1f98f7fbda7c200a7ed" kind="function"><name>finalize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a1025c001495c8dd9e700dd562add7fea" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1afbd5b817d76ec0097386eec2bc5eb914" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3cebfecafc57d2e8fc4f55d6f52b57" kind="function"><name>getRawSolution</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" kind="function"><name>~ILinearTaskSolver</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</name>
@@ -1031,6 +1032,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a34621cd88c6d60909f09e95226f2cd67" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ac20d8e993c66663b61f587d9642f3e8a" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a591be3a0f92c9e1c40ccadf85c21f739" kind="function"><name>getResidual</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" kind="function"><name>~LinearTask</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem</name>
@@ -1185,6 +1187,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a0db3848338591bfe39376b7c4d7aefb9" kind="function"><name>getRawSolution</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kind="class"><name>BipedalLocomotion::TSID::QPTSID</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" kind="variable"><name>m_pimpl</name></member>
@@ -1201,6 +1204,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0875e576675b9f0c8dffbe231abb21cf" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" kind="function"><name>getRawSolution</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" kind="class"><name>BipedalLocomotion::Planners::QuinticSpline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" kind="variable"><name>m_pimpl</name></member>

@@ -380,6 +380,27 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/LinearTask.h" line="119" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a591be3a0f92c9e1c40ccadf85c21f739" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::System::LinearTask::getResidual</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; solution) const</argsstring>
+        <name>getResidual</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>solution</declname>
+        </param>
+        <briefdescription>
+<para>Compute the residual of the task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The residual is defined as <formula id="51">\[ r = A x - b \]</formula> where <formula id="8">$x$</formula> is the solution of the <ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kindref="compound">ILinearTaskSolver</ref> <simplesect kind="return"><para>the residual associated to the task </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="129" column="21"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::System::LinearTask::~LinearTask</definition>
@@ -392,7 +413,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/LinearTask.h" line="124" column="13"/>
+        <location file="BipedalLocomotion/System/LinearTask.h" line="134" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -522,11 +543,12 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/LinearTask.h" line="33" column="1" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="34" bodyend="125"/>
+    <location file="BipedalLocomotion/System/LinearTask.h" line="33" column="1" bodyfile="BipedalLocomotion/System/LinearTask.h" bodystart="34" bodyend="135"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getB</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getDescription</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a591be3a0f92c9e1c40ccadf85c21f739" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>getResidual</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ae8bd038ace5d8bccda37b62c5712f22b" prot="public" virt="virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2566bae7a097d11b420b89cdd3f2002f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::LinearTask</scope><name>m_A</name></member>

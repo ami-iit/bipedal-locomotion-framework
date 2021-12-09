@@ -166,6 +166,10 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
               <span class="m-doc-wrap-bumper">auto <a href="#a0875e576675b9f0c8dffbe231abb21cf" class="m-doc-self">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Return the description of the TSID problem.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a29cac804112c38c5dc69267e9c6a5feb" class="m-doc">getRawSolution</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt; <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Return the vector representing the entire solution of the <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a>.</dd>
           </dl>
         </section>
         <section>
@@ -374,6 +378,20 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>the state of the TSID.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a29cac804112c38c5dc69267e9c6a5feb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />TSID::<wbr />QPTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a29cac804112c38c5dc69267e9c6a5feb" class="m-doc-self">getRawSolution</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Return the vector representing the entire solution of the <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a vector containing the solution of the optimization problem</td>
                 </tr>
               </tfoot>
             </table>

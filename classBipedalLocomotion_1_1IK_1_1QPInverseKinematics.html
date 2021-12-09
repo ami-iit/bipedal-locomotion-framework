@@ -156,6 +156,10 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               <span class="m-doc-wrap-bumper">auto <a href="#a516929da79680d1df8fe34d85dac5c3b" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Return the description of the InverseKinematics problem.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0db3848338591bfe39376b7c4d7aefb9" class="m-doc">getRawSolution</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt; <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Return the vector representing the entire solution of the <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a>.</dd>
           </dl>
         </section>
         <section>
@@ -378,6 +382,20 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>a string containing the description of the solver.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a0db3848338591bfe39376b7c4d7aefb9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0db3848338591bfe39376b7c4d7aefb9" class="m-doc-self">getRawSolution</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Return the vector representing the entire solution of the <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a vector containing the solution of the optimization problem</td>
                 </tr>
               </tfoot>
             </table>

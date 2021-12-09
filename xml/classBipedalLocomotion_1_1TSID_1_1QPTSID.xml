@@ -410,6 +410,24 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/QPTSID.h" line="150" column="17"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+        <definition>Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::TSID::QPTSID::getRawSolution</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRawSolution</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3cebfecafc57d2e8fc4f55d6f52b57">getRawSolution</reimplements>
+        <briefdescription>
+<para>Return the vector representing the entire solution of the <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a vector containing the solution of the optimization problem </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="156" column="16"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> is a concrete class and implements a task space inverse dynamics. </para>
@@ -534,7 +552,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/QPTSID.h" line="37" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="38" bodyend="151"/>
+    <location file="BipedalLocomotion/TSID/QPTSID.h" line="37" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="38" bodyend="157"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::TSID::TaskSpaceInverseDynamics::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
@@ -542,6 +560,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>finalize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getRawSolution</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTask</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTaskNames</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aba93fbb3d6e24b407bfdb6aa3874aa8f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTaskWeight</name></member>
