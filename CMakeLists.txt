@@ -79,6 +79,9 @@ include(AddBipedalLocomotionApplication)
 # macro to automatize the process of creating a YARP device
 include(AddBipedalLocomotionYARPDevice)
 
+# macro to automatize the process of creating a YARP thrift
+include(AddBipedalLocomotionYARPThrift)
+
 #Function to automatize the process of creating python bindings
 include(AddBipedalLocomotionPythonModule)
 

@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - Implement `getIntegrationStep` in `FixedIntegration` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
 - Add the possibility to create custom `LinearTasks` in python (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - Implement the possibility to compute the residual terms in the `LinearTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/483)
+- Define `VectorsCollection` message in `YarpUtilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/483)
 
 ### Changed
 - Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)

@@ -12,4 +12,9 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
     PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging
     SUBDIRECTORIES         tests)
 
+  add_bipedal_locomotion_yarp_thrift(
+    NAME VectorsCollection
+    THRIFT thrifts/BipedalLocomotion/YarpUtilities/VectorsCollection.thrift
+    INSTALLATION_FOLDER YarpUtilities)
+
 endif()
