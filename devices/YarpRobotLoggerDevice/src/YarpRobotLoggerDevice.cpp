@@ -3,10 +3,14 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <cstddef>
 #include <iomanip>
+#include <matioCpp/Span.h>
+#include <memory>
 #include <tuple>
 
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
@@ -16,13 +20,16 @@
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
+#include <yarp/telemetry/experimental/BufferConfig.h>
+
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion;
 
-YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period, yarp::os::ShouldUseSystemClock useSystemClock)
+YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
+                                             yarp::os::ShouldUseSystemClock useSystemClock)
     : yarp::os::PeriodicThread(period, useSystemClock)
 {
     // Use the yarp clock in blf
@@ -50,13 +57,20 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
+    auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
+
     double devicePeriod{0.01};
-    if (YarpUtilities::getElementFromSearchable(config, "sampling_period_in_s", devicePeriod))
+    if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
         this->setPeriod(devicePeriod);
     }
 
-    if (!setupRobotSensorBridge(config))
+    if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
+    {
+        return false;
+    }
+
+    if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
     {
         return false;
     }
@@ -64,49 +78,82 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     return true;
 }
 
-bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
+bool YarpRobotLoggerDevice::setupTelemetry(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> params, const double& devicePeriod)
 {
-    constexpr auto logPrefix = "[YarpRobotLoggerDevice][setupRobotSensorBridge]";
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupTelemetry]";
 
-    auto bridgeConfig = config.findGroup("RobotSensorBridge");
-    if (bridgeConfig.isNull())
+    auto ptr = params.lock();
+    if (ptr == nullptr)
     {
-        log()->error("{} Missing required group 'RobotSensorBridge'", logPrefix);
+        log()->error("{} The parameters handler is not valid.", logPrefix);
         return false;
     }
 
-    auto originalHandler = std::make_shared<YarpImplementation>();
-    originalHandler->set(bridgeConfig);
+    yarp::telemetry::experimental::BufferConfig config;
+    config.filename = "robot_logger_device";
+    config.auto_save = true;
+    config.save_periodically = true;
+    config.file_indexing = "%Y_%m_%d_%H_%M_%S";
+
+    if (!ptr->getParameter("save_period", config.save_period))
+    {
+        log()->error("{} Unable to get the 'save_period' parameter for the telemetry.", logPrefix);
+        return false;
+    }
+
+    // the telemetry will flush the content of its storage every config.save_period
+    // and this device runs every devicePeriod
+    // so the size of the telemetry buffer must be at least config.save_period / devicePeriod
+    // to be sure we are not going to lose data the buffer will be 10% longer
+    constexpr double percentage = 0.1;
+    config.n_samples = static_cast<int>(ceil((1 + percentage) //
+                                             * (config.save_period / devicePeriod)));
+
+    return m_bufferManager.configure(config);
+}
+
+bool YarpRobotLoggerDevice::setupRobotSensorBridge(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> params)
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotSensorBridge]";
+
+    auto ptr = params.lock();
+    if (ptr == nullptr)
+    {
+        log()->error("{} The parameters handler is not valid.", logPrefix);
+        return false;
+    }
 
     m_robotSensorBridge = std::make_unique<YarpSensorBridge>();
-    if (!m_robotSensorBridge->initialize(originalHandler))
+    if (!m_robotSensorBridge->initialize(ptr))
     {
         log()->error("{} Unable to configure the 'SensorBridge'", logPrefix);
         return false;
     }
 
     // Get additional flags required by the device
-    if (!originalHandler->getParameter("stream_joint_states", m_streamJointStates))
+    if (!ptr->getParameter("stream_joint_states", m_streamJointStates))
     {
         log()->info("{} The 'stream_joint_states' parameter is not found. The joint states is not "
                     "logged",
                     logPrefix);
     }
 
-    if (!originalHandler->getParameter("stream_motor_states", m_streamMotorStates))
+    if (!ptr->getParameter("stream_motor_states", m_streamMotorStates))
     {
         log()->info("{} The 'stream_motor_states' parameter is not found. The motor states is not "
                     "logged",
                     logPrefix);
     }
 
-    if (!originalHandler->getParameter("stream_motor_PWM", m_streamMotorPWM))
+    if (!ptr->getParameter("stream_motor_PWM", m_streamMotorPWM))
     {
         log()->info("{} The 'stream_motor_PWM' parameter is not found. The motor PWM is not logged",
                     logPrefix);
     }
 
-    if (!originalHandler->getParameter("stream_pids", m_streamPIDs))
+    if (!ptr->getParameter("stream_pids", m_streamPIDs))
     {
         log()->info("{} The 'stream_pids' parameter is not found. The motor pid values are not "
                     "logged",
@@ -118,7 +165,7 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(yarp::os::Searchable& config)
 
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
-    constexpr auto logPrefix = "[YarpRobotLoggerDevice][attachAll]";
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
 
     if (!m_robotSensorBridge->setDriversList(poly))
     {
@@ -126,104 +173,93 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         return false;
     }
 
-    if (!m_robotSensorBridge->getJointsList(m_jointNames))
+    // TODO this should be removed
+    // this sleep is required since the sensor bridge could be not ready
+    using namespace std::chrono_literals;
+    BipedalLocomotion::clock().sleepFor(2000ms);
+
+    std::vector<std::string> joints;
+    if (!m_robotSensorBridge->getJointsList(joints))
     {
         log()->error("{} Could not get the joints list.", logPrefix);
         return false;
     }
 
-    if (!m_robotSensorBridge->getSixAxisForceTorqueSensorsList(m_FTNames))
+    const unsigned dofs = joints.size();
+    m_bufferManager.setDescriptionList(joints);
+
+    bool ok = true;
+
+    // prepare the telemetry
+    if (m_streamJointStates)
     {
-        log()->error("{} Could not get the six axis force torque sensors list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"joints_state::positions", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"joints_state::velocities", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"joints_state::torques", {dofs, 1}});
+    }
+    if (m_streamMotorStates)
+    {
+        ok = ok && m_bufferManager.addChannel({"motors_state::positions", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}});
     }
 
-    if (!m_robotSensorBridge->getGyroscopesList(m_gyroNames))
+    if (m_streamMotorPWM)
     {
-        log()->error("{} Could not get the gyroscope list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"motors_state::PWM", {dofs, 1}});
+    }
+    if (m_streamPIDs)
+    {
+        ok = ok && m_bufferManager.addChannel({"PIDs", {dofs, 1}});
     }
 
-    if (!m_robotSensorBridge->getLinearAccelerometersList(m_accelerometerNames))
+    for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
-        log()->error("{} Could not get the accelerometers list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"FTs::" + sensorName, {6, 1}});
     }
 
-    if (!m_robotSensorBridge->getOrientationSensorsList(m_orientationNames))
+    for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
-        log()->error("{} Could not get the orientation sensor list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"gyros::" + sensorName, {3, 1}});
     }
 
-    if (!m_robotSensorBridge->getIMUsList(m_IMUNames))
+    for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
     {
-        log()->error("{} Could not get the IMUs list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"accelerometers::" + sensorName, {3, 1}});
     }
 
-    if (!m_robotSensorBridge->getCartesianWrenchesList(m_cartesianWrenchNames))
+    for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
     {
-        log()->error("{} Could not get the cartesian wrenches list.", logPrefix);
-        return false;
+        ok = ok && m_bufferManager.addChannel({"orientations::" + sensorName, {3, 1}});
     }
 
-    // prepare the unordered_maps
-    for (const auto& ft : m_FTNames)
+    // an IMU contains a gyro accelerometer and an orientation sensor
+    for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
     {
-        m_fts[ft] = Eigen::MatrixXd();
+        ok = ok && m_bufferManager.addChannel({"accelerometers::" + sensorName, {3, 1}});
+        ok = ok && m_bufferManager.addChannel({"gyros::" + sensorName, {3, 1}});
+        ok = ok && m_bufferManager.addChannel({"orientations::" + sensorName, {3, 1}});
     }
 
-    for (const auto& wrench : m_cartesianWrenchNames)
+    for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
     {
-        m_wrenches[wrench] = Eigen::MatrixXd();
+        ok = ok && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName, {6, 1}});
     }
 
-    for (const auto& gyro : m_gyroNames)
+    // resize the temporary vectors
+    m_jointSensorBuffer.resize(dofs);
+
+    if (ok)
     {
-        m_gyros[gyro] = Eigen::MatrixXd();
+        return start();
     }
-
-    for (const auto& acc : m_accelerometerNames)
-    {
-        m_accelerometers[acc] = Eigen::MatrixXd();
-    }
-
-    for (const auto& orientation : m_orientationNames)
-    {
-        m_orientations[orientation] = Eigen::MatrixXd();
-    }
-
-    // an IMU consists gyro acc and orient
-    for (const auto& IMU : m_IMUNames)
-    {
-        m_gyros[IMU] = Eigen::MatrixXd();
-        m_accelerometers[IMU] = Eigen::MatrixXd();
-        m_orientations[IMU] = Eigen::MatrixXd();
-    }
-
-    m_dofs = m_jointNames.size();
-
-    m_jointState["joint_positions"] = Eigen::MatrixXd();
-    m_jointState["joint_velocities"] = Eigen::MatrixXd();
-    m_jointState["joint_torques"] = Eigen::MatrixXd();
-
-    m_motorState["motor_positions"] = Eigen::MatrixXd();
-    m_motorState["motor_velocities"] = Eigen::MatrixXd();
-    m_motorState["motor_currents"] = Eigen::MatrixXd();
-
-    m_motorPWMs["PWM"] = Eigen::MatrixXd();
-
-    m_PIDs["PID"] = Eigen::MatrixXd();
-
-    start();
-    return true;
+    return ok;
 }
 
 void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
-                                  Eigen::Ref<accelerometer_t> accelerometer,
-                                  Eigen::Ref<gyro_t> gyro,
-                                  Eigen::Ref<orientation_t> orientation)
+                                      Eigen::Ref<accelerometer_t> accelerometer,
+                                      Eigen::Ref<gyro_t> gyro,
+                                      Eigen::Ref<orientation_t> orientation)
 {
     // the output consists 12 double, organized as follows:
     //  euler angles [3]
@@ -238,7 +274,7 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
 
 void YarpRobotLoggerDevice::run()
 {
-    constexpr auto logPrefix = "[YarpRobotLoggerDevice][run]";
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
 
     // get the data
     if (!m_robotSensorBridge->advance())
@@ -246,225 +282,118 @@ void YarpRobotLoggerDevice::run()
         log()->error("{} Could not advance sensor bridge.", logPrefix);
     }
 
-    const auto bufferSize = m_time.rows();
+    const double time = BipedalLocomotion::clock().now().count();
 
-    // get the FT
-    for (const auto& key : m_FTNames)
-    {
-        m_fts.at(key).conservativeResize(6, bufferSize + 1);
-        if (!m_robotSensorBridge->getSixAxisForceTorqueMeasurement(key,
-                                                                   m_fts.at(key).col(bufferSize),
-                                                                   m_timeNow))
-        {
-            log()->error("{} Unable to get the ft named: {}.", logPrefix, key);
-        }
-    }
-
-    // get the cartesian wrenches
-    for (const auto& key : m_cartesianWrenchNames)
-    {
-        m_wrenches.at(key).conservativeResize(6, bufferSize + 1);
-        if (!m_robotSensorBridge->getCartesianWrench(key,
-                                                     m_wrenches.at(key).col(bufferSize),
-                                                     m_timeNow))
-        {
-            log()->error("{} Unable to get the Cartesian wrench named: {}.", logPrefix, key);
-        }
-    }
-
-    for (const auto& key : m_orientationNames)
-    {
-        m_orientations.at(key).conservativeResize(3, bufferSize + 1);
-        if (!m_robotSensorBridge->getOrientationSensorMeasurement(key,
-                                                                  m_orientations.at(key).col(
-                                                                      bufferSize),
-                                                                  m_timeNow))
-        {
-            log()->error("{} Unable to get the orientation named: {}.", logPrefix, key);
-        }
-    }
-
-    for (const auto& key : m_accelerometerNames)
-    {
-        m_accelerometers.at(key).conservativeResize(3, bufferSize + 1);
-        if (!m_robotSensorBridge->getLinearAccelerometerMeasurement(key,
-                                                                    m_accelerometers.at(key).col(
-                                                                        bufferSize),
-                                                                    m_timeNow))
-        {
-            log()->error("{} Unable to get the accelerometer named: {}.", logPrefix, key);
-        }
-    }
-
-    for (const auto& key : m_gyroNames)
-    {
-        m_gyros.at(key).conservativeResize(3, bufferSize + 1);
-        if (!m_robotSensorBridge->getGyroscopeMeasure(key,
-                                                      m_gyros.at(key).col(bufferSize),
-                                                      m_timeNow))
-        {
-            log()->error("{} Unable to get the gyroscope named: {}.", logPrefix, key);
-        }
-    }
-
-    // base imu (analog sensor)
-
-    for (const auto& IMU : m_IMUNames)
-    {
-        if (!m_robotSensorBridge->getIMUMeasurement(IMU, m_analogSensorBuffer, m_timeNow))
-        {
-            log()->error("{} Unable to get the imu named: {}.", logPrefix, IMU);
-        }
-
-        // resize the vectors
-        m_accelerometers.at(IMU).conservativeResize(3, bufferSize + 1);
-        m_orientations.at(IMU).conservativeResize(3, bufferSize + 1);
-        m_gyros.at(IMU).conservativeResize(3, bufferSize + 1);
-
-        // it will return a tuple containing the Accelerometer, the gyro and the orientatio
-        this->unpackIMU(m_analogSensorBuffer,
-                        m_accelerometers.at(IMU).col(bufferSize),
-                        m_gyros.at(IMU).col(bufferSize),
-                        m_orientations.at(IMU).col(bufferSize));
-    }
-
-    // joint state
+    // collect the data
     if (m_streamJointStates)
     {
-        m_jointState.at("joint_positions").conservativeResize(m_dofs, bufferSize + 1);
-        m_jointState.at("joint_velocities").conservativeResize(m_dofs, bufferSize + 1);
-        m_jointState.at("joint_torques").conservativeResize(m_dofs, bufferSize + 1);
-        if (!m_robotSensorBridge
-                 ->getJointPositions(m_jointState.at("joint_positions").col(bufferSize), m_timeNow))
-
+        if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the joint positions.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::positions");
         }
-
-        if (!m_robotSensorBridge
-                 ->getJointVelocities(m_jointState.at("joint_velocities").col(bufferSize),
-                                      m_timeNow))
+        if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the joint velocities.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::velocities");
         }
-
-        if (!m_robotSensorBridge->getJointTorques(m_jointState.at("joint_torques").col(bufferSize),
-                                                  m_timeNow))
+        if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the joint torques.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::torques");
         }
     }
 
-    // Motor state
     if (m_streamMotorStates)
     {
-        m_motorState.at("motor_positions").conservativeResize(m_dofs, bufferSize + 1);
-        m_motorState.at("motor_velocities").conservativeResize(m_dofs, bufferSize + 1);
-        m_motorState.at("motor_currents").conservativeResize(m_dofs, bufferSize + 1);
-        if (!m_robotSensorBridge
-                 ->getMotorPositions(m_motorState.at("motor_positions").col(bufferSize), m_timeNow))
-
+        if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the motor positions.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::positions");
         }
-
-        if (!m_robotSensorBridge
-                 ->getMotorVelocities(m_motorState.at("motor_velocities").col(bufferSize),
-                                      m_timeNow))
+        if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the motor velocities.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
         }
-
-        if (!m_robotSensorBridge->getMotorCurrents(m_motorState.at("motor_currents").col(bufferSize),
-                                                   m_timeNow))
+        if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the motor currents.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
         }
     }
 
-    // Motor PWM
     if (m_streamMotorPWM)
     {
-        m_motorPWMs.at("PWM").conservativeResize(m_dofs, bufferSize + 1);
-        if (!m_robotSensorBridge->getMotorPWMs(m_motorPWMs.at("PWM").col(bufferSize), m_timeNow))
+        if (m_robotSensorBridge->getMotorPWMs(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the motor PWMs.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::PWM");
         }
     }
 
     if (m_streamPIDs)
     {
-        m_PIDs.at("PID").conservativeResize(m_dofs, bufferSize + 1);
-        if (!m_robotSensorBridge->getPidPositions(m_PIDs.at("PID").col(bufferSize), m_timeNow))
+        if (m_robotSensorBridge->getPidPositions(m_jointSensorBuffer))
         {
-            log()->error("{} Unable to get the PIDs references.", logPrefix);
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "PIDs");
         }
     }
 
-    m_time.conservativeResize(bufferSize + 1);
-    m_time.row(bufferSize) << BipedalLocomotion::clock().now().count();
-}
-
-matioCpp::Struct
-YarpRobotLoggerDevice::createStruct(const std::string& structName,
-                                const std::unordered_map<std::string, Eigen::MatrixXd>& signal)
-{
-    std::vector<matioCpp::Variable> vector;
-    for (const auto& [key, value] : signal)
+    for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
-        vector.emplace_back(tomatioCpp(value, key));
+        if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
+        {
+            m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
+        }
     }
 
-    return matioCpp::Struct(structName, vector);
-}
-
-bool YarpRobotLoggerDevice::logData()
-{
-    // set the file name
-    std::time_t t = std::time(nullptr);
-    std::tm tm = *std::localtime(&t);
-
-    std::stringstream fileName;
-    fileName << "yarprobot_dataset_" << std::put_time(&tm, "%Y_%m_%d_%H_%M_%S") << ".mat";
-
-    matioCpp::File file = matioCpp::File::Create(fileName.str());
-    auto outTime = Conversions::tomatioCpp(m_time, "time");
-
-    const matioCpp::Struct outFt = this->createStruct("FT", m_fts);
-    const matioCpp::Struct outWrench = this->createStruct("CartesianWrench", m_wrenches);
-    const matioCpp::Struct outGyros = this->createStruct("Gyros", m_gyros);
-    const matioCpp::Struct outAcc = this->createStruct("Accelerometer", m_accelerometers);
-    const matioCpp::Struct outOrient = this->createStruct("Orientation", m_orientations);
-    matioCpp::Struct outJointState = this->createStruct("Joint_state", m_jointState);
-    matioCpp::Struct outMotorState = this->createStruct("Motor_state", m_motorState);
-    const matioCpp::Struct outPWM = this->createStruct("Motor_PWM", m_motorPWMs);
-    const matioCpp::Struct outPID = this->createStruct("PID", m_PIDs);
-    outJointState.setField(tomatioCpp(m_jointNames, "joints"));
-
-    bool write_ok{true};
-    write_ok = write_ok && file.write(outFt);
-    write_ok = write_ok && file.write(outWrench);
-    write_ok = write_ok && file.write(outGyros);
-    write_ok = write_ok && file.write(outAcc);
-    write_ok = write_ok && file.write(outOrient);
-    write_ok = write_ok && file.write(outJointState);
-    write_ok = write_ok && file.write(outMotorState);
-    write_ok = write_ok && file.write(outPWM);
-    write_ok = write_ok && file.write(outPID);
-    write_ok = write_ok && file.write(outTime);
-
-    if (!write_ok)
+    for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
-        log()->error("[YarpRobotLoggerDevice][logData] Could not write to file.");
-        return false;
+        if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
+        {
+            m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
+        }
     }
 
-    return true;
+    for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
+    {
+        if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName,
+                                                                   m_acceloremeterBuffer))
+        {
+            m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
+        }
+    }
+
+    for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
+    {
+        if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
+        {
+            m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
+        }
+    }
+
+    // an IMU contains a gyro accelerometer and an orientation sensor
+    for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
+    {
+        if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
+        {
+            // it will return a tuple containing the Accelerometer, the gyro and the orientatio
+            this->unpackIMU(m_analogSensorBuffer,
+                            m_acceloremeterBuffer,
+                            m_gyroBuffer,
+                            m_orientationBuffer);
+
+            m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
+            m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
+            m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
+        }
+    }
+
+    for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
+    {
+        if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
+        {
+            m_bufferManager.push_back(m_ftBuffer, time, "cartesian_wrenches::" + sensorName);
+        }
+    }
 }
 
 bool YarpRobotLoggerDevice::detachAll()
 {
-    std::lock_guard<std::mutex> guard(m_deviceMutex);
     if (isRunning())
     {
         stop();
@@ -475,11 +404,5 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
-    std::lock_guard<std::mutex> guard(m_deviceMutex);
-    if (!logData())
-    {
-        log()->error("[YarpRobotLoggerDevice][close] Failed to log the data.");
-    }
-
     return true;
 }
