@@ -275,6 +275,46 @@ bool YarpSensorBridge::getCartesianWrenchesList(std::vector<std::string>& cartes
     return true;
 }
 
+const std::vector<std::string>& YarpSensorBridge::getJointsList() const
+{
+    return m_pimpl->metaData.sensorsList.jointsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getIMUsList() const
+{
+    return m_pimpl->metaData.sensorsList.IMUsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getLinearAccelerometersList() const
+{
+    return m_pimpl->metaData.sensorsList.linearAccelerometersList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getGyroscopesList() const
+{
+    return m_pimpl->metaData.sensorsList.gyroscopesList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getOrientationSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.orientationSensorsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getMagnetometersList() const
+{
+    return m_pimpl->metaData.sensorsList.magnetometersList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getSixAxisForceTorqueSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.sixAxisForceTorqueSensorsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getCartesianWrenchesList() const
+{
+    return m_pimpl->metaData.sensorsList.cartesianWrenchesList;
+}
+
 bool YarpSensorBridge::getJointPosition(const std::string& jointName,
                                         double& jointPosition,
                                         OptionalDoubleRef receiveTimeInSeconds)

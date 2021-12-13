@@ -195,6 +195,22 @@ public:
      */
     bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) final;
 
+    const std::vector<std::string>& getJointsList() const;
+
+    const std::vector<std::string>& getIMUsList() const;
+
+    const std::vector<std::string>& getLinearAccelerometersList() const;
+
+    const std::vector<std::string>& getGyroscopesList() const;
+
+    const std::vector<std::string>& getOrientationSensorsList() const;
+
+    const std::vector<std::string>& getMagnetometersList() const;
+
+    const std::vector<std::string>& getSixAxisForceTorqueSensorsList() const;
+
+    const std::vector<std::string>& getCartesianWrenchesList() const;
+
     /**
      * Get joint position  in radians
      * @param[in] jointName name of the joint
