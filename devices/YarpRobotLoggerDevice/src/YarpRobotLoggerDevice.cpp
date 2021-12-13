@@ -3,6 +3,7 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+
 #include <cstddef>
 #include <iomanip>
 #include <matioCpp/Span.h>
@@ -19,7 +20,9 @@
 #include <BipedalLocomotion/TextLogging/YarpLogger.h>
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
+#include <yarp/os/BufferedPort.h>
 #include <yarp/telemetry/experimental/BufferConfig.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
@@ -75,8 +78,56 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!this->setupExogenousInputs(params->getGroup("ExogeneousSignals")))
+    {
+        return false;
+    }
+
     return true;
 }
+
+bool YarpRobotLoggerDevice::setupExogenousInputs(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> params)
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupExogenousInputs]";
+
+    auto ptr = params.lock();
+    if (ptr == nullptr)
+    {
+        log()->info("{} No exogenous input will be logged.", logPrefix);
+        return true;
+    }
+
+    std::vector<std::string> inputs;
+    if (!ptr->getParameter("exogenous_inputs", inputs))
+    {
+        log()->error("{} Unable to get the exogenous inputs.", logPrefix);
+        return false;
+    }
+
+    for (const auto& input : inputs)
+    {
+        auto group = ptr->getGroup(input).lock();
+        std::string portName, signalName;
+        if (group == nullptr || !group->getParameter("port_name", portName)
+            || !group->getParameter("signal_name", signalName))
+        {
+            log()->error("{} Unable to get the parameters related to the input: {}.",
+                        logPrefix,
+                        input);
+            return false;
+        }
+
+        if (!m_exogenousPorts[signalName].open(portName))
+        {
+            log()->error("{} Unable to open the port named: {}.", logPrefix, portName);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 bool YarpRobotLoggerDevice::setupTelemetry(
     std::weak_ptr<const ParametersHandler::IParametersHandler> params, const double& devicePeriod)
@@ -388,6 +439,29 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
         {
             m_bufferManager.push_back(m_ftBuffer, time, "cartesian_wrenches::" + sensorName);
+        }
+    }
+
+    std::string signalFullName;
+    for (auto& [name, port] : m_exogenousPorts)
+    {
+        BipedalLocomotion::YarpUtilities::VectorsCollection* collection = port.read(false);
+        if (collection != nullptr)
+        {
+            for (const auto& [key, vector] : collection->vectors)
+            {
+                signalFullName = name + "::" + key;
+
+                // if it is the first time this signal is seen by the device the channel is added
+                if (m_exogenousPortsStoredInManager.find(signalFullName)
+                    == m_exogenousPortsStoredInManager.end())
+                {
+                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+                    m_exogenousPortsStoredInManager.insert(signalFullName);
+                }
+
+                m_bufferManager.push_back(vector, time, signalFullName);
+            }
         }
     }
 }

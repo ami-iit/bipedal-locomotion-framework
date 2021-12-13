@@ -6,13 +6,16 @@
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
+#include <unordered_set>
 #include <yarp/telemetry/experimental/BufferManager.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 #include <yarp/dev/DeviceDriver.h>
 #include <yarp/dev/Wrapper.h>
 #include <yarp/os/PeriodicThread.h>
+#include <yarp/os/BufferedPort.h>
 
 #include <memory>
 #include <string>
@@ -47,6 +50,11 @@ private:
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
 
+    std::unordered_map<std::string,
+                       yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>>
+        m_exogenousPorts;
+    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
+
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
     gyro_t m_gyroBuffer;
@@ -68,8 +76,7 @@ private:
     bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
-
-
+    bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
 };
 
 } // namespace BipedalLocomotion
