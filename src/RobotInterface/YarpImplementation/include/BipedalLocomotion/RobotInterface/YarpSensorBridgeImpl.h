@@ -1535,10 +1535,11 @@ struct YarpSensorBridge::Impl
 
                 controlBoardRemapperMeasures.motorPositions.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorPositionsUnordered;
+                      * controlBoardRemapperMeasures.motorPositionsUnordered * M_PI / 180;
+
                 controlBoardRemapperMeasures.motorVelocities.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorVelocitiesUnordered;
+                      * controlBoardRemapperMeasures.motorVelocitiesUnordered * M_PI / 180;
             } else
             {
                 log()->error("{} Unable to read from IMotorEncoders interface, use previous "
