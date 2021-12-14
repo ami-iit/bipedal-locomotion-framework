@@ -221,7 +221,7 @@
 <para>Computes the system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="12">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="35">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -269,7 +269,7 @@
 <para><ref refid="classBipedalLocomotion_1_1System_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> defines a continuous time dynamical system, i.e. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="11">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. <parameterlist kind="templateparam"><parameteritem>
+<para><formula id="34">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. <parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
 <parametername>State</parametername>
 </parameternamelist>

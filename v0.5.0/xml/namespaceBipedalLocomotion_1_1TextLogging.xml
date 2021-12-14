@@ -2,10 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1TextLogging" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::TextLogging</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" prot="public">BipedalLocomotion::TextLogging::YarpLoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" prot="public">BipedalLocomotion::TextLogging::DefaultLoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public">BipedalLocomotion::TextLogging::LoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder" prot="public">BipedalLocomotion::TextLogging::LoggerBuilder</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" prot="public">BipedalLocomotion::TextLogging::YarpLoggerFactory</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks">BipedalLocomotion::TextLogging::sinks</innernamespace>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64" prot="public" static="no" strong="yes">
@@ -118,6 +118,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="24" column="1"/>
+    <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="15" column="1"/>
   </compounddef>
 </doxygen>
