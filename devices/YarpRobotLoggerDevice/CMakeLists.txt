@@ -15,6 +15,7 @@ add_bipedal_yarp_device(
   PUBLIC_HEADERS include/BipedalLocomotion/YarpRobotLoggerDevice.h
   PUBLIC_LINK_LIBRARIES ${YARP_LIBRARIES}
     BipedalLocomotion::YarpUtilities
+    BipedalLocomotion::VectorsCollection
     BipedalLocomotion::ParametersHandlerYarpImplementation
     BipedalLocomotion::RobotInterfaceYarpImplementation
     BipedalLocomotion::matioCppConversions
