@@ -7,13 +7,16 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
 ## :running: How to use the device
 
 - Launch `yarprobotinterface` on the robot.
+  
   Depending on your logger configuration file and on the data you want to collect you should run the main `yarprobotinterface` with a different option. In order to use the [defaul logger configuration files](./app/robots), use the following commands:
   - **iCubGenova04**
+    
     launch the `yarprobotinterface` with the `root_imu` device on the robot head
     ```
     yarprobotinterface --config icub_wbd_inertials.xml
     ```
   - **iCubGazeboV3**
+    
     open the robot model in gazebo and launch `whole-body-dynamics`
     ```
     YARP_ROBOT_NAME=iCubGazeboV3 yarprobotinterface --config launch-wholebodydynamics.xml
@@ -24,6 +27,7 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
     ```
 
 - Launch the logger device.
+  
   In order to use the [defaul logger configuration files](./app/robots), set the `YARP_ROBOT_NAME` environment variable and launch the `yarprobotinterface` as follow
   ```
   yarprobotinterface --config launch-yarp-robot-logger.xml
@@ -44,7 +48,7 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
   - `motor_currents`
   - `motor_velocities`
   - `motor_positions`
-- `PID` 
+- `PID`
 - `Motor_PWM`
 - `Accelerometer` struct containing data for each selected source.
 - `CartesianWrench` struct containing data for each selected source.
