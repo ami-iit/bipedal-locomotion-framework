@@ -23,6 +23,7 @@ All notable changes to this project are documented in this file.
 `System::ITaskControlMode`, `TSID::TSIDLinearTask` and `IK::IKLinearTask` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - The joint torques is now correctly retrieved in QPTSID class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/482)
 - The motor velocity and positions are now returned in rad/s and rad (https://github.com/ami-iit/bipedal-locomotion-framework/pull/489)
+- Fix `YarpRobotLoggerDevice` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/472)
 
 ## [0.5.0] - 2021-11-30
 ### Added
