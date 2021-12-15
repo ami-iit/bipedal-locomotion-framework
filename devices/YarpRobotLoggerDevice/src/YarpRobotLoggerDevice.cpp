@@ -6,6 +6,7 @@
 
 #include <cstddef>
 #include <iomanip>
+#include <matioCpp/ForwardDeclarations.h>
 #include <matioCpp/Span.h>
 #include <memory>
 #include <tuple>
@@ -146,6 +147,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     config.auto_save = true;
     config.save_periodically = true;
     config.file_indexing = "%Y_%m_%d_%H_%M_%S";
+    config.mat_file_version = matioCpp::FileVersion::MAT7_3;
 
     if (!ptr->getParameter("save_period", config.save_period))
     {
