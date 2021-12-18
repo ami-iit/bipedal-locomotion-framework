@@ -6,32 +6,31 @@
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
+#include <memory>
+#include <string>
+#include <unordered_map>
 #include <unordered_set>
+
+#include <yarp/dev/DeviceDriver.h>
+#include <yarp/dev/Wrapper.h>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/PeriodicThread.h>
 #include <yarp/telemetry/experimental/BufferManager.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
-#include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/Wrapper.h>
-#include <yarp/os/PeriodicThread.h>
-#include <yarp/os/BufferedPort.h>
-
-#include <memory>
-#include <string>
-#include <unordered_map>
-
 namespace BipedalLocomotion
 {
 
 class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
-                          public yarp::dev::IMultipleWrapper,
-                          public yarp::os::PeriodicThread
+                              public yarp::dev::IMultipleWrapper,
+                              public yarp::os::PeriodicThread
 {
 public:
     YarpRobotLoggerDevice(double period,
-                      yarp::os::ShouldUseSystemClock useSystemClock
-                      = yarp::os::ShouldUseSystemClock::No);
+                          yarp::os::ShouldUseSystemClock useSystemClock
+                          = yarp::os::ShouldUseSystemClock::No);
     YarpRobotLoggerDevice();
     ~YarpRobotLoggerDevice();
 
