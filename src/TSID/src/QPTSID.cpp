@@ -5,6 +5,7 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
+#include <OsqpEigen/Constants.hpp>
 #include <OsqpEigen/OsqpEigen.h>
 
 #include <BipedalLocomotion/Math/Wrench.h>
@@ -565,10 +566,22 @@ bool QPTSID::advance()
     }
 
     // solve the QP
-    if (!m_pimpl->solver.solve())
+    if (m_pimpl->solver.solveProblem() != OsqpEigen::ErrorExitFlag::NoError)
     {
         log()->error("{} Unable to to solve the problem.", logPrefix);
         return false;
+    }
+
+    if (m_pimpl->solver.getStatus() != OsqpEigen::Status::Solved
+        && m_pimpl->solver.getStatus() != OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->error("{} osqp was not able to find a feasible solution.", logPrefix);
+        return false;
+    }
+
+    if (m_pimpl->solver.getStatus() == OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->debug("{} The solver found an inaccurate feasible solution.", logPrefix);
     }
 
     // retrieve the solution
