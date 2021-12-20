@@ -39,9 +39,9 @@ find_package(manif 0.0.4 QUIET)
 checkandset_dependency(manif)
 dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
-find_package(OsqpEigen 0.6.3 QUIET)
+find_package(OsqpEigen 0.6.4.100 QUIET)
 checkandset_dependency(OsqpEigen)
-dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3 IS_USED ${FRAMEWORK_USE_OsqpEigen})
+dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.4.100 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
@@ -161,7 +161,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
 
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON
-  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact" OFF)
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact;FRAMEWORK_USE_OsqpEigen" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_IK
   "Compile IK library?" ON
