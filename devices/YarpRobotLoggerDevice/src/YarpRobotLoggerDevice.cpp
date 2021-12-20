@@ -79,7 +79,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    if (!this->setupExogenousInputs(params->getGroup("ExogeneousSignals")))
+    if (!this->setupExogenousInputs(params->getGroup("ExogenousSignals")))
     {
         return false;
     }
