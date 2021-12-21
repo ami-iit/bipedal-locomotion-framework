@@ -384,6 +384,7 @@ bool QPTSID::finalize(const System::VariablesHandler& handler)
 
     // set the some internal parameter of osqp-eigen
     m_pimpl->solver.settings()->setVerbosity(m_pimpl->isVerbose);
+    m_pimpl->solver.settings()->setMaxIteration(1000000);
 
     // set the variable handler for all the tasks
     m_pimpl->numberOfConstraints = 0;
