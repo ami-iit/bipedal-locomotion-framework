@@ -38,12 +38,12 @@ void YarpUtilities::populateBottleWithStrings(yarp::os::Bottle& bottle,
 
 template <> int YarpUtilities::convertValue<int>(const yarp::os::Value& value)
 {
-    return value.asInt();
+    return value.asInt32();
 }
 
 template <> double YarpUtilities::convertValue<double>(const yarp::os::Value& value)
 {
-    return value.asDouble();
+    return value.asFloat64();
 }
 
 template <> std::string YarpUtilities::convertValue<std::string>(const yarp::os::Value& value)

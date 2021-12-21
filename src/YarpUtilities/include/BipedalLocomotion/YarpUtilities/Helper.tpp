@@ -31,11 +31,11 @@
      false ))))
 
 #define YARP_UTILITES_GET_CHECKER_NAME(type)                                                  \
-    ((std::is_same<type, int>::value) ? &yarp::os::Value::isInt :                             \
-    ((std::is_same<type, double>::value) ? &yarp::os::Value::isDouble :                       \
+    ((std::is_same<type, int>::value) ? &yarp::os::Value::isInt32 :                           \
+    ((std::is_same<type, double>::value) ? &yarp::os::Value::isFloat64 :                      \
     ((std::is_same<type, std::string>::value) ? &yarp::os::Value::isString :                  \
     ((std::is_same<type, bool>::value) ? &yarp::os::Value::isBool :                           \
-     &yarp::os::Value::isDouble ))))
+     &yarp::os::Value::isFloat64 ))))
 
 // clang-format on
 
