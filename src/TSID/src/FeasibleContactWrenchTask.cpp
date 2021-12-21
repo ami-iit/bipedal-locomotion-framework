@@ -56,7 +56,7 @@ bool FeasibleContactWrenchTask::setVariablesHandler(const System::VariablesHandl
     }
 
     // the additional constrains refer to the normal force
-    constexpr std::size_t normalForceFeasibilityConstraints = 2;
+    constexpr std::size_t normalForceFeasibilityConstraints = 1;
     const auto rowsOfConeMatrix = m_cone.getA().rows();
 
     // resize the matrices
@@ -73,15 +73,13 @@ bool FeasibleContactWrenchTask::setVariablesHandler(const System::VariablesHandl
     // if the task is enabled max_normal_force is equal to the max double. If the task is disabled
     // max_normal_force is equal to 0
     m_b.head(rowsOfConeMatrix) = m_cone.getB();
-    m_b.tail<2>()(0) = 0;
-    m_b.tail<2>()(1) = std::numeric_limits<double>::max();
+    m_b.tail<1>()(0) = 0;
 
     // the matrix A in body coordinate is fixed
     m_AinBodyCoordinate.resize(normalForceFeasibilityConstraints + rowsOfConeMatrix,
                                BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime);
     m_AinBodyCoordinate.topRows(rowsOfConeMatrix) = m_cone.getA();
-    m_AinBodyCoordinate.bottomRows<2>() << 0, 0, -1, 0, 0, 0,
-                                           0, 0,  1, 0, 0, 0;
+    m_AinBodyCoordinate.bottomRows<1>() << 0, 0, -1, 0, 0, 0;
 
     return true;
 }
@@ -189,15 +187,15 @@ bool FeasibleContactWrenchTask::update()
 
 void FeasibleContactWrenchTask::setContactActive(bool isActive)
 {
-    if (isActive)
-    {
-        // the last element of the vector b can be used to disable / enable the task
-        m_b.tail<1>()(0) = std::numeric_limits<double>::max();
-    } else
-    {
-        // the last element of the vector b can be used to disable / enable the task
-        m_b.tail<1>()(0) = 0;
-    }
+    // if (isActive)
+    // {
+    //     // the last element of the vector b can be used to disable / enable the task
+    //     m_b.tail<1>()(0) = std::numeric_limits<double>::max();
+    // } else
+    // {
+    //     // the last element of the vector b can be used to disable / enable the task
+    //     m_b.tail<1>()(0) = 0;
+    // }
 }
 
 std::size_t FeasibleContactWrenchTask::size() const
