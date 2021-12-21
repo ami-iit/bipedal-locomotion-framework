@@ -24,7 +24,7 @@ checkandset_dependency(YARP MINIMUM_VERSION 3.5.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.5.0 IS_USED ${FRAMEWORK_USE_YARP} PUBLIC)
 
 find_package(Qhull 8.0.0 QUIET)
-checkandset_dependency(Qhull 8.0.0)
+checkandset_dependency(Qhull MINIMUM_VERSION 8.0.0)
 dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull} PUBLIC)
 
 find_package(casadi QUIET)
@@ -36,11 +36,11 @@ checkandset_dependency(cppad)
 dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
 find_package(manif 0.0.4 QUIET)
-checkandset_dependency(manif)
+checkandset_dependency(manif MINIMUM_VERSION 0.0.4)
 dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
 find_package(OsqpEigen 0.6.4.100 QUIET)
-checkandset_dependency(OsqpEigen)
+checkandset_dependency(OsqpEigen MINIMUM_VERSION 0.6.4.100)
 dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.4.100 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
@@ -54,7 +54,7 @@ checkandset_dependency(matioCpp)
 dependency_classifier(matioCpp IS_USED ${FRAMEWORK_USE_matioCpp} PUBLIC)
 
 find_package(LieGroupControllers 0.1.1 QUIET)
-checkandset_dependency(LieGroupControllers)
+checkandset_dependency(LieGroupControllers MINIMUM_VERSION 0.1.1)
 dependency_classifier(LieGroupControllers MINIMUM_VERSION 0.1.1 IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
 
 find_package(OpenCV QUIET)
@@ -70,11 +70,11 @@ checkandset_dependency(realsense2)
 dependency_classifier(realsense2 IS_USED ${FRAMEWORK_USE_realsense2} PUBLIC)
 
 find_package(nlohmann_json 3.7.3 QUIET)
-checkandset_dependency(nlohmann_json)
+checkandset_dependency(nlohmann_json MINIMUM_VERSION 3.7.3)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
 find_package(tomlplusplus 2.4.0 QUIET)
-checkandset_dependency(tomlplusplus)
+checkandset_dependency(tomlplusplus MINIMUM_VERSION 2.4.0)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
 find_package(YARP_telemetry QUIET)
