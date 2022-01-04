@@ -242,6 +242,29 @@ public:
                             OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
+     * Get joint acceleration in rad/s^2
+     * @param[in] jointName name of the joint
+     * @param[out] jointAcceleration joint acceleration in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    bool getJointAcceleration(const std::string& jointName,
+                          double& jointAcceleration,
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all joints' accelerations in rad/s^2
+     * @param[out] parameter all joints' accelerations in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "jointAccelerations" to this method
+     * @return true/false in case of success/failure
+     */
+    bool getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
+                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
      * Get IMU measurement
      * The serialization of measurments is as follows,
      *   (rpy acc omega mag)
@@ -494,6 +517,29 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVelocties,
+                                    OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get motor acceleration in rad/s^2
+     * @param[in] jointName name of the joint
+     * @param[out] motorAcceleration motor acceleration in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorAcceleration(const std::string& jointName,
+                                  double& motorAcceleration,
+                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get all motors' accelerations in rad/s
+     * @param[out] parameter all motors' accelerations in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorAccelerations" to this method
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
                                     OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
 private:
