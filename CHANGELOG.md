@@ -15,6 +15,7 @@ All notable changes to this project are documented in this file.
 - Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)
 - Reduce code duplication in python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/484)
 - Use `TextLogger` in `YarpRobotLoggerDevice` instead of `yarp` commands (https://github.com/ami-iit/bipedal-locomotion-framework/pull/486)
+- `yarp-telemetry` is now a dependency of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/487)
 
 ### Fix
 - Fix the population of the jointAccelerations and baseAcceleration variables in QPTSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/478)
