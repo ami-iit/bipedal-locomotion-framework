@@ -37,11 +37,10 @@ jobs:
       - name: Fetch m.css
         shell: bash -l {0}
         run: |
-          # Use an unofficial version of m.css because of https://github.com/mosra/m.css/pull/189
           cd ${GITHUB_WORKSPACE}
-          git clone https://github.com/crisluengo/m.css.git
+          git clone https://github.com/mosra/m.css.git
           cd m.css
-          git checkout fix-class-parsed-as-function
+          git checkout 4bf4ddade48717ffabbdc6a1fd7ed15a75f9bec3
 
       - name: Build docs
         shell: bash -l {0}
