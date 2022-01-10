@@ -15,7 +15,7 @@
     <includes local="no">thread</includes>
     <includes local="no">type_traits</includes>
     <incdepgraph>
-      <node id="20">
+      <node id="21">
         <label>atomic</label>
       </node>
       <node id="1">
@@ -33,15 +33,15 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -118,8 +118,10 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>optional</label>
       </node>
       <node id="5">
@@ -142,10 +144,10 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>thread</label>
       </node>
-      <node id="23">
+      <node id="20">
         <label>type_traits</label>
       </node>
       <node id="3">

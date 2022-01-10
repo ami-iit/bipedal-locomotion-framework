@@ -12,16 +12,16 @@
     <includes local="no">pcl/segmentation/extract_clusters.h</includes>
     <includes local="no">pcl/common/transforms.h</includes>
     <incdepgraph>
-      <node id="10">
+      <node id="11">
         <label>pcl/point_types.h</label>
       </node>
-      <node id="15">
+      <node id="16">
         <label>pcl/common/transforms.h</label>
       </node>
-      <node id="14">
+      <node id="15">
         <label>pcl/segmentation/extract_clusters.h</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>pcl/point_cloud.h</label>
       </node>
       <node id="2">
@@ -44,8 +44,6 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
@@ -58,6 +56,8 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>spdlog/fmt/ostr.h</label>
@@ -65,10 +65,10 @@
       <node id="8">
         <label>spdlog/spdlog.h</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>pcl/kdtree/kdtree.h</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>pcl/filters/statistical_outlier_removal.h</label>
       </node>
       <node id="6">
@@ -78,14 +78,19 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>vector</label>
       </node>
+      <node id="9">
+        <label>type_traits</label>
+      </node>
       <node id="3">
         <label>memory</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>pcl/filters/voxel_grid.h</label>
       </node>
     </incdepgraph>

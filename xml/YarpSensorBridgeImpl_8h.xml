@@ -25,16 +25,16 @@
     <includes local="no">cmath</includes>
     <includes local="no">set</includes>
     <incdepgraph>
-      <node id="32">
+      <node id="33">
         <label>yarp/dev/IAxisInfo.h</label>
       </node>
-      <node id="26">
+      <node id="27">
         <label>yarp/dev/IMotorEncoders.h</label>
       </node>
       <node id="3">
         <label>functional</label>
       </node>
-      <node id="28">
+      <node id="29">
         <label>yarp/dev/ITorqueControl.h</label>
       </node>
       <node id="8">
@@ -45,10 +45,10 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>yarp/dev/ICurrentControl.h</label>
       </node>
-      <node id="31">
+      <node id="32">
         <label>yarp/dev/IRGBDSensor.h</label>
       </node>
       <node id="13">
@@ -74,7 +74,7 @@
       <node id="9">
         <label>variant</label>
       </node>
-      <node id="19">
+      <node id="20">
         <label>yarp/os/Time.h</label>
       </node>
       <node id="10">
@@ -87,7 +87,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="37">
         <label>cmath</label>
       </node>
       <node id="7">
@@ -96,7 +96,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="29">
+      <node id="30">
         <label>yarp/dev/MultipleAnalogSensorsInterfaces.h</label>
       </node>
       <node id="11">
@@ -105,7 +105,7 @@
       <node id="17">
         <label>spdlog/fmt/ostr.h</label>
       </node>
-      <node id="25">
+      <node id="26">
         <label>yarp/dev/IGenericSensor.h</label>
       </node>
       <node id="1">
@@ -114,8 +114,6 @@
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -153,6 +151,8 @@
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
       </node>
       <node id="18">
         <label>spdlog/spdlog.h</label>
@@ -160,7 +160,7 @@
       <node id="15">
         <label>Eigen/Dense</label>
       </node>
-      <node id="30">
+      <node id="31">
         <label>yarp/dev/FrameGrabberInterfaces.h</label>
       </node>
       <node id="16">
@@ -170,14 +170,16 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>yarp/dev/IAnalogSensor.h</label>
       </node>
       <node id="5">
         <label>optional</label>
       </node>
-      <node id="20">
+      <node id="21">
         <label>yarp/sig/Image.h</label>
       </node>
       <node id="12">
@@ -186,13 +188,13 @@
       <node id="6">
         <label>yarp/dev/PolyDriverList.h</label>
       </node>
-      <node id="21">
+      <node id="22">
         <label>yarp/sig/Vector.h</label>
       </node>
-      <node id="22">
+      <node id="23">
         <label>yarp/dev/IAmplifierControl.h</label>
       </node>
-      <node id="34">
+      <node id="35">
         <label>yarp/eigen/Eigen.h</label>
       </node>
       <node id="14">
@@ -214,19 +216,22 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="37">
+      <node id="19">
+        <label>type_traits</label>
+      </node>
+      <node id="38">
         <label>set</label>
       </node>
-      <node id="35">
+      <node id="36">
         <label>algorithm</label>
       </node>
-      <node id="27">
+      <node id="28">
         <label>yarp/dev/IPidControl.h</label>
       </node>
       <node id="4">
         <label>memory</label>
       </node>
-      <node id="33">
+      <node id="34">
         <label>yarp/dev/IEncodersTimed.h</label>
       </node>
     </incdepgraph>

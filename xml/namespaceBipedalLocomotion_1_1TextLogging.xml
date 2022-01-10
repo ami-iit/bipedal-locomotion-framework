@@ -8,53 +8,60 @@
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" prot="public">BipedalLocomotion::TextLogging::YarpLoggerFactory</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks">BipedalLocomotion::TextLogging::sinks</innernamespace>
       <sectiondef kind="enum">
-      <memberdef kind="enum" id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64" prot="public" static="no" strong="yes">
-        <type></type>
+      <memberdef kind="enum" id="Logger_8h_1acfed58204165b9a8456eed896669dc56" prot="public" static="no" strong="yes">
+        <type>std::underlying_type&lt; spdlog::level::level_enum &gt;::type</type>
         <name>Verbosity</name>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64add4ec0ac4e58f7c32a01244ae91150b1" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56add4ec0ac4e58f7c32a01244ae91150b1" prot="public">
           <name>Trace</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::trace)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64aa603905470e2a5b8c13e96b579ef0dba" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56aa603905470e2a5b8c13e96b579ef0dba" prot="public">
           <name>Debug</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::debug)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64a4059b0251f66a18cb56f544728796875" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56a4059b0251f66a18cb56f544728796875" prot="public">
           <name>Info</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::info)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64a56525ae64d370c0b448ac0d60710ef17" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56a56525ae64d370c0b448ac0d60710ef17" prot="public">
           <name>Warn</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::warn)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64ab47f6a6092c5d7e4bffec12dff309c3b" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56ab47f6a6092c5d7e4bffec12dff309c3b" prot="public">
           <name>Err</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::err)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64a278d01e5af56273bae1bb99a98b370cd" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56a278d01e5af56273bae1bb99a98b370cd" prot="public">
           <name>Critical</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::critical)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="Logger_8h_1ab8803ec281bc4ee984bcc613becb7d64ad15305d7a4e34e02489c74a5ef542f36" prot="public">
+        <enumvalue id="Logger_8h_1acfed58204165b9a8456eed896669dc56ad15305d7a4e34e02489c74a5ef542f36" prot="public">
           <name>Off</name>
+          <initializer>= static_cast&lt;std::underlying_type&lt;spdlog::level::level_enum&gt;::type&gt;(spdlog::level::level_enum::off)</initializer>
           <briefdescription>
           </briefdescription>
           <detaileddescription>
@@ -66,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="38" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="39" bodyend="47"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="39" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="40" bodyend="48"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -81,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="21" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="21" bodyend="-1"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="22" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="22" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -111,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="54" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="54" declcolumn="6"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="55" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="55" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
