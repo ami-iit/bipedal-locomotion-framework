@@ -39,9 +39,9 @@ find_package(manif 0.0.4 QUIET)
 checkandset_dependency(manif)
 dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
-find_package(OsqpEigen 0.6.4.100 QUIET)
+find_package(OsqpEigen 0.7.0 QUIET)
 checkandset_dependency(OsqpEigen)
-dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.4.100 IS_USED ${FRAMEWORK_USE_OsqpEigen})
+dependency_classifier(OsqpEigen MINIMUM_VERSION 0.7.0 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
