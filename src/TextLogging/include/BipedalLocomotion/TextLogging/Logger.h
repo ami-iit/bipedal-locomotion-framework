@@ -12,6 +12,7 @@
 #include <spdlog/fmt/ostr.h>
 
 #include <spdlog/spdlog.h>
+#include <type_traits>
 
 namespace BipedalLocomotion
 {
@@ -35,15 +36,15 @@ namespace BipedalLocomotion
 {
 namespace TextLogging
 {
-enum class Verbosity
+enum class Verbosity : std::underlying_type<spdlog::level::level_enum>::type
 {
-    Trace,
-    Debug,
-    Info,
-    Warn,
-    Err,
-    Critical,
-    Off,
+    Trace = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::trace),
+    Debug = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::debug),
+    Info = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::info),
+    Warn = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::warn),
+    Err = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::err),
+    Critical = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::critical),
+    Off = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::off),
 };
 
 /**

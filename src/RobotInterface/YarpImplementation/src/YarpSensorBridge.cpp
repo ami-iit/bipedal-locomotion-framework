@@ -403,6 +403,46 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
     return true;
 }
 
+bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
+                                            double& jointAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("{} {} could not be found in the configured list of joints.",
+                     logPrefix,
+                     jointName);
+        return false;
+    }
+
+    jointAcceleration = m_pimpl->controlBoardRemapperMeasures.jointAccelerations[idx];
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
+                                             OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getJointAccelerations]",
+                                          m_pimpl->controlBoardRemapperInterfaces.encoders,
+                                          m_pimpl->metaData.bridgeOptions.isJointSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.jointAccelerations))
+    {
+        return false;
+    }
+    jointAccelerations = m_pimpl->controlBoardRemapperMeasures.jointAccelerations;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    return true;
+}
+
 bool YarpSensorBridge::getIMUMeasurement(const std::string& imuName,
                                          Eigen::Ref<Vector12d> imuMeasurement,
                                          OptionalDoubleRef receiveTimeInSeconds)
@@ -887,6 +927,56 @@ bool YarpSensorBridge::getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVeloc
     }
 
     motorVelocties = m_pimpl->controlBoardRemapperMeasures.motorVelocities;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorAcceleration(const std::string& jointName,
+                                            double& motorAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAcceleration]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorAccelerations))
+    {
+        return false;
+    }
+
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("[YarpSensorBridge::getMotorPosition] {} could not be found in the configured "
+                     "list of motors.",
+                     jointName);
+        return false;
+    }
+
+    motorAcceleration = m_pimpl->controlBoardRemapperMeasures.motorAccelerations[idx];
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
+                                             OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAccelerations]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorAccelerations))
+    {
+        return false;
+    }
+
+    motorAccelerations = m_pimpl->controlBoardRemapperMeasures.motorAccelerations;
 
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()

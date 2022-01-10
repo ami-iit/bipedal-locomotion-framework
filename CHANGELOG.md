@@ -10,11 +10,14 @@ All notable changes to this project are documented in this file.
 - Add the possibility to create custom `LinearTasks` in python (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - Implement the possibility to compute the residual terms in the `LinearTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/483)
 - Define `VectorsCollection` message in `YarpUtilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/483)
+- Add the reading of the joint and motor acceleration in `YarpSensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/492)
 
 ### Changed
 - Use yarp clock instead of system clock in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/473)
 - Reduce code duplication in python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/484)
 - Use `TextLogger` in `YarpRobotLoggerDevice` instead of `yarp` commands (https://github.com/ami-iit/bipedal-locomotion-framework/pull/486)
+- Ask for `osqp-eigen 0.6.4.100`(https://github.com/ami-iit/bipedal-locomotion-framework/pull/490)
+- Use enum underlying type to convert `TextLogging` verbosity level to `spdlog` verbosity level (https://github.com/ami-iit/bipedal-locomotion-framework/pull/495)
 - `yarp-telemetry` is now a dependency of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/487)
 
 ### Fix
@@ -23,6 +26,8 @@ All notable changes to this project are documented in this file.
 - Add virtual destrutors in `System::Sink`, `System::Source`, `System::LinearTask`,
 `System::ITaskControlMode`, `TSID::TSIDLinearTask` and `IK::IKLinearTask` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/480)
 - The joint torques is now correctly retrieved in QPTSID class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/482)
+- The motor velocity and positions are now returned in rad/s and rad (https://github.com/ami-iit/bipedal-locomotion-framework/pull/489)
+- Fix `YarpRobotLoggerDevice` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/472)
 
 ## [0.5.0] - 2021-11-30
 ### Added
