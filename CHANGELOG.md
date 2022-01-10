@@ -3,6 +3,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fix
+
+## [0.6.0] - 2022-12-10
+### Added
 - Add the reading of the orientation of the head IMU in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/471)
 - Add the possibility to change the weight in TSID/IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/475)
 - Implement a `FirstOrderSmoother` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/476)
@@ -219,10 +224,11 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/dic-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/dic-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.5.0...master
-[0.5.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.4.0...v0.5.0
-[0.4.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
-[0.1.1]: https://github.com/dic-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/dic-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.6.0...master
+[0.6.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.1.1...v0.2.0
+[0.1.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/ami-iit/bipedal-locomotion-framework/releases/tag/v0.1.0
