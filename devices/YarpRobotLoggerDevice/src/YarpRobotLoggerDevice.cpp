@@ -3,11 +3,9 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-
+#include <cmath>
 #include <cstddef>
 #include <iomanip>
-#include <matioCpp/ForwardDeclarations.h>
-#include <matioCpp/Span.h>
 #include <memory>
 #include <tuple>
 
@@ -25,6 +23,9 @@
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/telemetry/experimental/BufferConfig.h>
+
+#include <matioCpp/ForwardDeclarations.h>
+#include <matioCpp/Span.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -160,8 +161,8 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     // so the size of the telemetry buffer must be at least config.save_period / devicePeriod
     // to be sure we are not going to lose data the buffer will be 10% longer
     constexpr double percentage = 0.1;
-    config.n_samples = static_cast<int>(ceil((1 + percentage) //
-                                             * (config.save_period / devicePeriod)));
+    config.n_samples = static_cast<int>(std::ceil((1 + percentage) //
+                                                  * (config.save_period / devicePeriod)));
 
     return m_bufferManager.configure(config);
 }
