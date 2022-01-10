@@ -208,7 +208,7 @@ public:
 
     /**
      * Get all joints' positions in radians
-     * @param[out] parameter all joints' position in radians
+     * @param[out] jointPositions all joints' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -231,7 +231,7 @@ public:
 
     /**
      * Get all joints' velocities in rad/s
-     * @param[out] parameter all joints' velocities in radians per second
+     * @param[out] jointVelocties all joints' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -249,12 +249,12 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointAcceleration(const std::string& jointName,
-                          double& jointAcceleration,
-                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                              double& jointAcceleration,
+                              OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all joints' accelerations in rad/s^2
-     * @param[out] parameter all joints' accelerations in radians per second squared
+     * @param[out] jointAccelerations all joints' accelerations in radians per second squared
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -262,7 +262,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
-                            OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                               OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get IMU measurement
@@ -366,8 +366,8 @@ public:
      * @return true/false in case of success/failure
      */
     bool getMotorCurrent(const std::string& jointName,
-                          double& motorCurrent,
-                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                         double& motorCurrent,
+                         OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all motors' currents in ampere
@@ -379,7 +379,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
-                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor PWM
@@ -389,8 +389,8 @@ public:
      * @return true/false in case of success/failure
      */
     bool getMotorPWM(const std::string& jointName,
-                          double& motorPWM,
-                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                     double& motorPWM,
+                     OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all motors' PWMs
@@ -402,7 +402,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
-                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                      OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor torque in Nm
@@ -412,8 +412,8 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointTorque(const std::string& jointName,
-                          double& jointTorque,
-                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                        double& jointTorque,
+                        OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all motors' torques in Nm
@@ -425,7 +425,7 @@ public:
      * @return true/false in case of success/failure
      */
     bool getJointTorques(Eigen::Ref<Eigen::VectorXd> jointTorques,
-                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                         OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get pid position in rad
@@ -448,7 +448,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getPidPositions(Eigen::Ref<Eigen::VectorXd> pidPositions,
-                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                 OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get pid position error in rad
@@ -471,7 +471,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getPidPositionErrors(Eigen::Ref<Eigen::VectorXd> pidPositionErrors,
-                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                      OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor position in rad
@@ -486,7 +486,7 @@ public:
 
     /**
      * Get all motors' positions in rad
-     * @param[out] parameter all motors' position in radians
+     * @param[out] motorPositions all motors' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -509,7 +509,7 @@ public:
 
     /**
      * Get all motors' velocities in rad/s
-     * @param[out] parameter all motors' velocities in radians per second
+     * @param[out] motorVelocties all motors' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -527,12 +527,12 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getMotorAcceleration(const std::string& jointName,
-                                  double& motorAcceleration,
-                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                      double& motorAcceleration,
+                                      OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all motors' accelerations in rad/s
-     * @param[out] parameter all motors' accelerations in radians per second squared
+     * @param[out] motorAccelerations all motors' accelerations in radians per second squared
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -540,7 +540,7 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
-                                    OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                       OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
 private:
     /** Private implementation */

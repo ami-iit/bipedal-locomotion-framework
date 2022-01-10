@@ -364,8 +364,8 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
 }
 
 bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
-                                        double& jointAcceleration,
-                                        OptionalDoubleRef receiveTimeInSeconds)
+                                            double& jointAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
 {
     constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
     int idx;
@@ -387,7 +387,7 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
 }
 
 bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
-                                         OptionalDoubleRef receiveTimeInSeconds)
+                                             OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getJointAccelerations]",
                                           m_pimpl->controlBoardRemapperInterfaces.encoders,
@@ -896,8 +896,8 @@ bool YarpSensorBridge::getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVeloc
 }
 
 bool YarpSensorBridge::getMotorAcceleration(const std::string& jointName,
-                                        double& motorAcceleration,
-                                        OptionalDoubleRef receiveTimeInSeconds)
+                                            double& motorAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAcceleration]",
                                           m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
@@ -926,7 +926,7 @@ bool YarpSensorBridge::getMotorAcceleration(const std::string& jointName,
 }
 
 bool YarpSensorBridge::getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
-                                         OptionalDoubleRef receiveTimeInSeconds)
+                                             OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAccelerations]",
                                           m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
