@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespaceBipedalLocomotion_1_1GenericContainer" kind="namespace" language="C++">
+    <compoundname>BipedalLocomotion::GenericContainer</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" prot="public">BipedalLocomotion::GenericContainer::Vector</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1GenericContainer_1_1is__vector" prot="public">BipedalLocomotion::GenericContainer::is_vector</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1GenericContainer_1_1is__vector_3_01Vector_3_01T_01_4_01_4" prot="public">BipedalLocomotion::GenericContainer::is_vector&lt; Vector&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1GenericContainer_1_1is__span__constructible" prot="public">BipedalLocomotion::GenericContainer::is_span_constructible</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1GenericContainer_1_1is__span__constructible_3_01Class_00_01typename_075ffca013f10d11599823b4dea1e9407" prot="public">BipedalLocomotion::GenericContainer::is_span_constructible&lt; Class, typename std::enable_if&lt; std::is_constructible&lt; iDynTree::Span&lt; typename container_data&lt; Class &gt;::type &gt;, Class &amp; &gt;::value &gt;::type &gt;</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1GenericContainer_1_1is__vector__constructible" prot="public">BipedalLocomotion::GenericContainer::is_vector_constructible</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">Vector</ref>&lt; T &gt; &gt;</type>
+        <definition>using BipedalLocomotion::GenericContainer::Vector_ptr = typedef std::shared_ptr&lt;Vector&lt;T&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector_ptr</name>
+        <briefdescription>
+<para>Utility alias to a std::shared_ptr of a <ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">Vector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/GenericContainer/Vector.h" line="36" column="1" bodyfile="BipedalLocomotion/GenericContainer/Vector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/GenericContainer/Vector.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>
