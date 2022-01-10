@@ -6,29 +6,31 @@
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
-#include <matioCpp/matioCpp.h>
-
-#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-
-#include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/Wrapper.h>
-#include <yarp/os/PeriodicThread.h>
-
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
+
+#include <yarp/dev/DeviceDriver.h>
+#include <yarp/dev/Wrapper.h>
+#include <yarp/os/BufferedPort.h>
+#include <yarp/os/PeriodicThread.h>
+#include <yarp/telemetry/experimental/BufferManager.h>
+
+#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 namespace BipedalLocomotion
 {
 
 class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
-                          public yarp::dev::IMultipleWrapper,
-                          public yarp::os::PeriodicThread
+                              public yarp::dev::IMultipleWrapper,
+                              public yarp::os::PeriodicThread
 {
 public:
     YarpRobotLoggerDevice(double period,
-                      yarp::os::ShouldUseSystemClock useSystemClock
-                      = yarp::os::ShouldUseSystemClock::No);
+                          yarp::os::ShouldUseSystemClock useSystemClock
+                          = yarp::os::ShouldUseSystemClock::No);
     YarpRobotLoggerDevice();
     ~YarpRobotLoggerDevice();
 
@@ -46,44 +48,34 @@ private:
     using analog_sensor_t = Eigen::Matrix<double, 12, 1>;
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
-    std::mutex m_deviceMutex;
 
-    std::unordered_map<std::string, Eigen::MatrixXd> m_orientations;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_accelerometers;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_wrenches;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_PIDs;
-    Eigen::VectorXd m_time;
-    double m_timeNow;
+    std::unordered_map<std::string,
+                       yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>>
+        m_exogenousPorts;
+    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
 
-    std::vector<std::string> m_IMUNames;
-    std::vector<std::string> m_FTNames;
-    std::vector<std::string> m_cartesianWrenchNames;
-    std::vector<std::string> m_accelerometerNames;
-    std::vector<std::string> m_gyroNames;
-    std::vector<std::string> m_orientationNames;
-    std::vector<std::string> m_jointNames;
+    Eigen::VectorXd m_jointSensorBuffer;
+    ft_t m_ftBuffer;
+    gyro_t m_gyroBuffer;
+    accelerometer_t m_acceloremeterBuffer;
+    orientation_t m_orientationBuffer;
     analog_sensor_t m_analogSensorBuffer;
-    unsigned int m_dofs;
+
     bool m_streamMotorStates{false};
     bool m_streamJointStates{false};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
 
+    yarp::telemetry::experimental::BufferManager<double> m_bufferManager;
+
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
-
-    matioCpp::Struct createStruct(const std::string& key,
-                                  const std::unordered_map<std::string, Eigen::MatrixXd>& signal);
-
-    bool setupRobotSensorBridge(yarp::os::Searchable& config);
-    bool logData();
+    bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
+                        const double& devicePeriod);
+    bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
 };
 
 } // namespace BipedalLocomotion

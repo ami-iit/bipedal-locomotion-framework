@@ -8,6 +8,11 @@ GNU Lesser General Public License v2.1 or any later version. -->
   <param name="sampling_period_in_s">0.01</param>
   <param name="port_prefix">/yarp-robot-logger</param>
 
+  <group name="Telemetry">
+    <param name="save_period">600.0</param>
+  </group>
+
+
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>

@@ -77,6 +77,10 @@ find_package(tomlplusplus 2.4.0 QUIET)
 checkandset_dependency(tomlplusplus)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
+find_package(YARP_telemetry QUIET)
+checkandset_dependency(YARP_telemetry)
+dependency_classifier(YARP_telemetry IS_USED ${FRAMEWORK_USE_YARP_telemetry})
+
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
 
@@ -210,3 +214,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
 framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
   "Compile calibration-delta-updater application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
+  "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
+  "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_YARP_telemetry" OFF)

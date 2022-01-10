@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file.
 - Use `TextLogger` in `YarpRobotLoggerDevice` instead of `yarp` commands (https://github.com/ami-iit/bipedal-locomotion-framework/pull/486)
 - Ask for `osqp-eigen 0.6.4.100`(https://github.com/ami-iit/bipedal-locomotion-framework/pull/490)
 - Use enum underlying type to convert `TextLogging` verbosity level to `spdlog` verbosity level (https://github.com/ami-iit/bipedal-locomotion-framework/pull/495)
+- `yarp-telemetry` is now a dependency of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/487)
 
 ### Fix
 - Fix the population of the jointAccelerations and baseAcceleration variables in QPTSID (https://github.com/ami-iit/bipedal-locomotion-framework/pull/478)
