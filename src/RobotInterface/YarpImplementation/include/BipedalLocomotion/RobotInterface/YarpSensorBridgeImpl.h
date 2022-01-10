@@ -114,20 +114,24 @@ struct YarpSensorBridge::Impl
         Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> remappedJointPermutationMatrix;
         Eigen::VectorXd jointPositions;
         Eigen::VectorXd jointVelocities;
+        Eigen::VectorXd jointAccelerations;
         Eigen::VectorXd motorCurrents;
         Eigen::VectorXd jointTorques;
         Eigen::VectorXd motorPositions;
         Eigen::VectorXd motorVelocities;
+        Eigen::VectorXd motorAccelerations;
         Eigen::VectorXd pidPositions;
         Eigen::VectorXd pidPositionErrors;
         Eigen::VectorXd motorPWMs;
 
         Eigen::VectorXd jointPositionsUnordered;
         Eigen::VectorXd jointVelocitiesUnordered;
+        Eigen::VectorXd jointAccelerationsUnordered;
         Eigen::VectorXd motorCurrentsUnordered;
         Eigen::VectorXd jointTorquesUnordered;
         Eigen::VectorXd motorPositionsUnordered;
         Eigen::VectorXd motorVelocitiesUnordered;
+        Eigen::VectorXd motorAccelerationsUnordered;
         Eigen::VectorXd pidPositionsUnordered;
         Eigen::VectorXd pidPositionErrorsUnordered;
         Eigen::VectorXd motorPWMsUnordered;
@@ -974,11 +978,14 @@ struct YarpSensorBridge::Impl
 
             controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.jointAccelerations.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointTorques.resize(metaData.bridgeOptions.nrJoints);
 
             controlBoardRemapperMeasures.jointPositionsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
+                metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.jointAccelerationsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointTorquesUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
@@ -987,6 +994,7 @@ struct YarpSensorBridge::Impl
             controlBoardRemapperMeasures.remappedJointPermutationMatrix.setIdentity();
             controlBoardRemapperMeasures.jointPositions.setZero();
             controlBoardRemapperMeasures.jointVelocities.setZero();
+            controlBoardRemapperMeasures.jointAccelerations.setZero();
             controlBoardRemapperMeasures.jointTorques.setZero();
         }
 
@@ -1006,11 +1014,14 @@ struct YarpSensorBridge::Impl
             // firstly resize all the controlboard data buffers
             controlBoardRemapperMeasures.motorPositions.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorVelocities.resize(metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.motorAccelerations.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
 
             controlBoardRemapperMeasures.motorPositionsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorVelocitiesUnordered.resize(
+                metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.motorAccelerationsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorCurrentsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
@@ -1018,6 +1029,7 @@ struct YarpSensorBridge::Impl
             // zero buffers
             controlBoardRemapperMeasures.motorPositions.setZero();
             controlBoardRemapperMeasures.motorVelocities.setZero();
+            controlBoardRemapperMeasures.motorAccelerations.setZero();
             controlBoardRemapperMeasures.motorCurrents.setZero();
         }
 
@@ -1428,6 +1440,9 @@ struct YarpSensorBridge::Impl
             ok = ok
                  && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(
                      controlBoardRemapperMeasures.jointVelocitiesUnordered.data());
+            ok = ok
+                 && controlBoardRemapperInterfaces.encoders->getEncoderAccelerations(
+                     controlBoardRemapperMeasures.jointAccelerationsUnordered.data());
 
             if (ok)
             {
@@ -1446,6 +1461,13 @@ struct YarpSensorBridge::Impl
                     {
                         return false;
                     }
+
+                    if (nanExistsInVec(controlBoardRemapperMeasures.jointAccelerationsUnordered,
+                                       logPrefix,
+                                       "encoder accelerations"))
+                    {
+                        return false;
+                    }
                 }
 
                 // convert from degrees to radians - YARP convention is to store joint positions in
@@ -1457,6 +1479,10 @@ struct YarpSensorBridge::Impl
                 controlBoardRemapperMeasures.jointVelocities.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
                       * controlBoardRemapperMeasures.jointVelocitiesUnordered * M_PI / 180;
+
+                controlBoardRemapperMeasures.jointAccelerations.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.jointAccelerationsUnordered * M_PI / 180;
             } else
             {
                 log()->error("{} Unable to read from IEncodersTimed interface, use previous "
@@ -1513,6 +1539,9 @@ struct YarpSensorBridge::Impl
             ok = ok
                  && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoderSpeeds(
                      controlBoardRemapperMeasures.motorVelocitiesUnordered.data());
+            ok = ok
+                 && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoderAccelerations(
+                     controlBoardRemapperMeasures.motorAccelerationsUnordered.data());
 
             if (ok)
             {
@@ -1531,6 +1560,13 @@ struct YarpSensorBridge::Impl
                     {
                         return false;
                     }
+
+                    if (nanExistsInVec(controlBoardRemapperMeasures.motorAccelerationsUnordered,
+                                       logPrefix,
+                                       "MotorEncodersAcc"))
+                    {
+                        return false;
+                    }
                 }
 
                 controlBoardRemapperMeasures.motorPositions.noalias()
@@ -1540,6 +1576,10 @@ struct YarpSensorBridge::Impl
                 controlBoardRemapperMeasures.motorVelocities.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
                       * controlBoardRemapperMeasures.motorVelocitiesUnordered * M_PI / 180;
+
+                controlBoardRemapperMeasures.motorAccelerations.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.motorAccelerationsUnordered * M_PI / 180;
             } else
             {
                 log()->error("{} Unable to read from IMotorEncoders interface, use previous "
