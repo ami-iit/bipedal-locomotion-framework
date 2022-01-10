@@ -249,12 +249,14 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     {
         ok = ok && m_bufferManager.addChannel({"joints_state::positions", {dofs, 1}});
         ok = ok && m_bufferManager.addChannel({"joints_state::velocities", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"joints_state::accelerations", {dofs, 1}});
         ok = ok && m_bufferManager.addChannel({"joints_state::torques", {dofs, 1}});
     }
     if (m_streamMotorStates)
     {
         ok = ok && m_bufferManager.addChannel({"motors_state::positions", {dofs, 1}});
         ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"motors_state::accelerations", {dofs, 1}});
         ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}});
     }
 
@@ -349,6 +351,10 @@ void YarpRobotLoggerDevice::run()
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::velocities");
         }
+        if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+        {
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::accelerations");
+        }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::torques");
@@ -364,6 +370,10 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
+        }
+        if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
+        {
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::accelerations");
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {

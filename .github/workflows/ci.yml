@@ -22,7 +22,7 @@ env:
   matioCpp_TAG: v0.1.0
   LieGroupControllers_TAG: v0.1.1
   osqp_TAG: v0.6.2
-  OsqpEigen_TAG: 6ea453d3c8e9aa1414d83c9f1d877564586556eb
+  OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v2.5.0
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
 
