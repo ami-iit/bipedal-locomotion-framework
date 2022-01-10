@@ -101,3 +101,68 @@
    fun:_dl_init
    obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
 }
+
+{
+   <ubuntu-20.04-_dl_init-libgobject-libglib>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:g_type_register_fundamental
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
+}
+
+{
+   <ubuntu-20.04-_dl_init-libgobject-libglib>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:g_malloc0
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:g_type_register_fundamental
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
+}
+
+{
+   <ubuntu-20.04-_dl_init-libgobject-libglib>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:realloc
+   fun:g_realloc
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:g_type_register_static
+   fun:g_param_type_register_static
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
+}
+
+{
+   <ubuntu-20.04-_dl_init-libgobject-libglib>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:g_malloc0
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.6400.6
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
+}
