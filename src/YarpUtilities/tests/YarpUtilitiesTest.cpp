@@ -82,7 +82,7 @@ TEST_CASE("Get int vector from searchable", "[std::vector<int>]")
     auto list = yarpValue.asList();
 
     for (const auto& v : value)
-        list->addInt(v);
+        list->addInt32(v);
 
     property.put(key, yarpValue);
 
@@ -159,7 +159,7 @@ TEST_CASE("Get iDynTree vector from searchable", "[iDynTree::VectorDynSize]")
     for (unsigned int i = 0; i < 6; i++)
     {
         double seriesElement = 0.5 * std::pow(0.5, i);
-        list->addDouble(seriesElement);
+        list->addFloat64(seriesElement);
         value[i] = seriesElement;
     }
     property.put(key, yarpValue);
@@ -183,7 +183,7 @@ TEST_CASE("Get YARP vector from searchable", "[yarp::sig::Vector]")
     for (unsigned int i = 0; i < 6; i++)
     {
         double seriesElement = 0.5 * std::pow(0.5, i);
-        list->addDouble(seriesElement);
+        list->addFloat64(seriesElement);
         value[i] = seriesElement;
     }
     property.put(key, yarpValue);
