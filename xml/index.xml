@@ -1905,6 +1905,14 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a942974549cb60ba7deea1242073c33bd" kind="function"><name>getSixAxisForceTorqueSensorsList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" kind="function"><name>getThreeAxisForceTorqueSensorsList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab2b8a502338624b417a7efcd5aa2e477" kind="function"><name>getCartesianWrenchesList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a8442cfaa7be61819a1d21ddea230870b" kind="function"><name>getJointsList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae9bfd903f230f20f3abcf822efe56fbf" kind="function"><name>getIMUsList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a71b6826ba3f425379fd2f6e19e4c1e06" kind="function"><name>getLinearAccelerometersList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5a2fe80cb0ad4ee381d5cdedaba71a01" kind="function"><name>getGyroscopesList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e24fa9685500cc599dfb63da9290547" kind="function"><name>getOrientationSensorsList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a65d5a269e007cfc293d1a4ac6b31ded3" kind="function"><name>getMagnetometersList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a908c87b20897f034e0313dd053937bb2" kind="function"><name>getSixAxisForceTorqueSensorsList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a88be8bc5ef96fd1228b7144a057b573f" kind="function"><name>getCartesianWrenchesList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a499e07ea5081b2fa8f72e1af488ed8f0" kind="function"><name>getJointPosition</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acfb5db4bb7dc7193e3d8ba91f866310e" kind="function"><name>getJointPositions</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a56f4f7f4171c04a641d678c936984647" kind="function"><name>getJointVelocity</name></member>
