@@ -99,5 +99,5 @@
    fun:call_init.part.0
    fun:call_init
    fun:_dl_init
-   obj:/usr/lib/x86_
+   obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
 }
