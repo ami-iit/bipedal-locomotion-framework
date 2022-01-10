@@ -68,7 +68,7 @@
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1GenericContainer.html">GenericContainer</a>::<wbr/></span>Vector <span class="m-thin">class</span>
         </h1>
         <p>Forward declaration of <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a> class.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -82,7 +82,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p><a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a> is a utility class which maps another existing contiguous container.</p><p>T is the type of vector (double, float, int, string,...)</p><p>It does not contain any data, but only a pointer to an existing contiguous area of memory containing a sequence of objects. It also stores its size, i.e. the number of objects. It does not own this portion of memory, hence it needs to be properly initialized from an existing container, such as an iDynTree::Vector, std::vector, array, yarp::sig::Vector and similar. Even if it does not own the memory, it is possible to resize it. This is done through an user specified lambda, which calls the corresponding &quot;resize&quot; method on the original object from which <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a> has been initialized.</p><aside class="m-note m-danger"><h4>Warning</h4><p>The original object from which <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a> has been initialized should not be deallocated before <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a>. This would invalidate the pointer inside it.</p></aside>
         <section id="derived-classes">
           <h2><a href="#derived-classes">Derived classes</a></h2>
@@ -1156,8 +1156,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">

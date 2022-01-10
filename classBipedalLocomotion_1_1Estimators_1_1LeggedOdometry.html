@@ -67,7 +67,7 @@
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="LeggedOdometry_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h&gt;</a></div>
         </h1>
         <p>Floating base estimation algorithm using only kinematic measurements by assuming atleast one frame on the robot is in contact with the environment.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -80,7 +80,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p>Configuration parameters,</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td>LeggedOdom</td><td>-</td><td>group</td><td>Yes</td><td>Configuration group for initializing the legged odometry block</td></tr><tr><td></td><td>initial_fixed_frame</td><td>string</td><td>Yes</td><td>Frame on the URDF model of the robot assumed to be fixed (in contact) during the initialization phase</td></tr><tr><td></td><td>initial_ref_frame_for_world</td><td>string</td><td>No</td><td>Frame on the URDF model of the robot to be used as a reference to initialize the inertial frame for the estimation. If not present, the initial fixed frame is assumed as the reference</td></tr><tr><td></td><td>initial_world_orientation_in_ref_frame</td><td>vector of 4 doubles</td><td>No</td><td>Orientation of the inertial frame wrt the the reference frame as quaternion wxyz. If not present, assumed to be unit quaternion.</td></tr><tr><td></td><td>initial_world_position_in_ref_frame</td><td>vector of 3 doubles</td><td>No</td><td>Position of the inertial frame wrt the reference frame as xyz. If not present,assumed to be zero position</td></tr><tr><td></td><td>switching_pattern</td><td>string</td><td>No</td><td>Options: latest, lastActive, useExternal. Switching pattern to decide the fixed frame from the set of all frames in contact. latest chooses the recently switched contact frame, lastActive chooses the earliest switched contact frame. Default is latest</td></tr><tr><td></td><td>vel_computation_method</td><td>string</td><td>No</td><td>Options: single, multiAvg, multiLS, multLSJvel. Method used for computing the floating base velocity using the fixed frame constraints. single uses only the fixed frame, multiAvg computes a simple average from all the contact frames, multLS uses a least square solution and multLSJVel regualrizes the least square solution by augmenting joint velocities in the computation. Default is multiLS.</td></tr><tr><td></td><td>wLin</td><td>double</td><td>No</td><td>weight used for linear velocity in the least square computation of base velocity. If not present, set to 1.0</td></tr><tr><td></td><td>wAng</td><td>double</td><td>No</td><td>weight used for angular velocity in the least square computation of base velocity. If not present, set to 0.5</td></tr><tr><td></td><td>wJVel</td><td>double</td><td>No</td><td>weight used for linear velocity in the least square (with joint velocities) computation of base velocity. If not present, set to 10.0</td></tr><tr><td></td><td>reg</td><td>double</td><td>No</td><td>regularization used for matrix inversion operation in least square. If not present, set to 1e-6</td></tr></tbody></table>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -378,8 +378,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">

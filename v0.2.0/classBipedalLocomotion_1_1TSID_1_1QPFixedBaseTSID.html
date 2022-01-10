@@ -67,7 +67,7 @@
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="QPFixedBaseTSID_8h.html">&lt;BipedalLocomotion/TSID/QPFixedBaseTSID.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> is a concrete class and implements a task space inverse dynamics.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -79,7 +79,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p>The TSID is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html#a78bae44707c00085378c6e1f81be0ed8" class="m-doc">QPFixedBaseTSID::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as a hard task, thus treated as a constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. Note that this class considers just one contact wrench as we assume the external wrench acting on only the base link.</p>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -363,8 +363,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">

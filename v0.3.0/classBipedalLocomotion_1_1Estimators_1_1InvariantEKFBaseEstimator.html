@@ -67,7 +67,7 @@
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="InvariantEKFBaseEstimator_8h.html">&lt;BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator.html" class="m-doc">InvariantEKFBaseEstimator</a> class implements the Contact Aided Invariant EKF algorithm, developed by Ross Hartley, Maani Ghaffari, Ryan M.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -80,7 +80,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p>Eustice, Jessy W. Grizzle in the research article, &quot;Contact-Aided Invariant Extended Kalman Filtering for Robot State Estimation&quot; arXiv:1904.09251 [cs.RO] Please cite this paper, if using this implementation as well. Link to the paper (<a href="https://arxiv.org/abs/1904.09251">https:/<wbr />/<wbr />arxiv.org/<wbr />abs/<wbr />1904.09251</a>). For the original version of the filter implementation, please see <a href="https://github.com/RossHartley/invariant-ekf">https:/<wbr />/<wbr />github.com/<wbr />RossHartley/<wbr />invariant-ekf</a>.</p><p>This implementation is a reduced version of the algorithm used to estimate only the bipedal feet poses along with the base pose and IMU biases.</p><p>Usage:</p><ul><li>setup the estimator using the configuration paremeters related to<ul><li>Options group</li><li>SensorsStdDev group</li><li>InitialStates group</li><li>PriorsStdDev group (For details on these parameter configuration groups, plese see the documentation of <a href="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator.html" class="m-doc">FloatingBaseEstimator</a> class)</li></ul></li><li>set the measurments<ul><li>IMU measurements (accelerometer and gyroscope)</li><li>Kinematic measurements (joint positions and velocities)</li><li>Feet contact states (left foot contact state and right foot contact state)</li></ul></li><li>advance the filter to run the computation step</li><li>get estimator outputs</li></ul>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -374,8 +374,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">

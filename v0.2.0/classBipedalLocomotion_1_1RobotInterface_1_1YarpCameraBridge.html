@@ -67,7 +67,7 @@
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="YarpCameraBridge_8h.html">&lt;BipedalLocomotion/RobotInterface/YarpCameraBridge.h&gt;</a></div>
         </h1>
         <p><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" class="m-doc">ICameraBridge</a> interface Currently available interfaces.</p>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -79,7 +79,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <ul><li>Depth Cameras through RGBD sensor interface</li><li>Camera images through OpenCV Grabber interface</li></ul><p>The <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a> expects a list of device drivers through the yarp::dev::PolyDriverList object. Each PolyDriver object in the list is compared with the configured sensor names and the assumptions listed below to infer the sensor types and relevant interfaces in order to to read the relevant data.</p><p>MAJOR ASSUMPTIONS</p><ul><li>Every sensor unit(device driver) attached to this Bridge is identified by a unique name</li><li>The images are available through a FrameGrabber interface (RGB only) and a RGBD interface (RGB and Depth).</li><li>The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set</li></ul><p>The parameters for writing the configuration file for this class is given as,</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Cameras</td><td></td><td></td><td>Expects cameras to be opened either as remote frame grabber (&quot;RemoteFrameGrabber&quot;) with IFrameGrabber interface or rgbd sensor (&quot;RGBDSensorClient&quot;) with IRGBDSensor interface</td></tr><tr><td></td><td>rgbd_cameras_list</td><td>vector of strings</td><td>list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface</td></tr><tr><td></td><td>rgbd_image_width</td><td>vector of integers</td><td>list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list</td></tr><tr><td></td><td>rgbd_image_height</td><td>vector of integers</td><td>list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list</td></tr><tr><td></td><td>rgb_cameras_list</td><td>vector of strings</td><td>list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface</td></tr><tr><td></td><td>rgb_image_width</td><td>vector of integers</td><td>list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list</td></tr><tr><td></td><td>rgb_image_height</td><td>vector of integers</td><td>list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list</td></tr></tbody></table>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -367,8 +367,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">
