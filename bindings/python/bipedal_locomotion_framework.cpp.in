@@ -25,6 +25,10 @@
 #include <BipedalLocomotion/bindings/System/Clock.h>
 @endcmakeif FRAMEWORK_COMPILE_System
 
+@cmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+#include <BipedalLocomotion/bindings/System/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+
 @cmakeif FRAMEWORK_COMPILE_Contact
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Contact
@@ -87,6 +91,10 @@ PYBIND11_MODULE(bindings, m)
     bindings::System::CreateModule(systemModule);
     bindings::CreateClock(m);
     @endcmakeif FRAMEWORK_COMPILE_System
+
+    @cmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+    bindings::System::CreateYarpModule(systemModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module contactsModule = m.def_submodule("contacts");
