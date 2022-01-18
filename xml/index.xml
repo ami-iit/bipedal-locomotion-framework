@@ -143,6 +143,7 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" kind="class"><name>BipedalLocomotion::System::ClockBuilder</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1aaeba0c51ba3f7e4efada474492533d32" kind="variable"><name>m_factory</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1a7b12cafd50359ec6bfe835483b7ffba1" kind="variable"><name>m_clockAlreadyCalledOnce</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1a77ee6a0ac739edfbb9fecc64d16ebf0a" kind="function"><name>setFactory</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1add6baabdedcd52ab9d6b2595135cdd54" kind="friend"><name>BipedalLocomotion::clock</name></member>
   </compound>
