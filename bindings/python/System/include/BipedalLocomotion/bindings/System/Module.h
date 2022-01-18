@@ -18,7 +18,6 @@ namespace System
 {
 
 void CreateModule(pybind11::module& module);
-
 } // namespace System
 } // namespace bindings
 } // namespace BipedalLocomotion

@@ -22,6 +22,7 @@
 
 @cmakeif FRAMEWORK_COMPILE_System
 #include <BipedalLocomotion/bindings/System/Module.h>
+#include <BipedalLocomotion/bindings/System/Clock.h>
 @endcmakeif FRAMEWORK_COMPILE_System
 
 @cmakeif FRAMEWORK_COMPILE_Contact
@@ -84,6 +85,7 @@ PYBIND11_MODULE(bindings, m)
     @cmakeif FRAMEWORK_COMPILE_System
     py::module systemModule = m.def_submodule("system");
     bindings::System::CreateModule(systemModule);
+    bindings::CreateClock(m);
     @endcmakeif FRAMEWORK_COMPILE_System
 
     @cmakeif FRAMEWORK_COMPILE_Contact
