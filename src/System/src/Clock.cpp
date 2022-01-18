@@ -12,12 +12,23 @@ BipedalLocomotion::System::IClock& BipedalLocomotion::clock()
 {
     // m_factory is always initialized.
     assert(BipedalLocomotion::System::ClockBuilder::m_factory);
+    BipedalLocomotion::System::ClockBuilder::m_clockAlreadyCalledOnce = true;
     return BipedalLocomotion::System::ClockBuilder::m_factory->createClock();
 }
 
 bool BipedalLocomotion::System::ClockBuilder::setFactory(std::shared_ptr<ClockFactory> factory)
 {
     constexpr auto logPrefix = "[ClockBuilder::setFactory]";
+
+    if (m_clockAlreadyCalledOnce)
+    {
+        log()->error("{} The clock has been already called. Since the clock() returns a singleton "
+                     "it is not possible to set the factory anymore. Please call 'setFactory()' at "
+                     "the beginning of your application to avoid this problem.",
+                     logPrefix);
+        return false;
+    }
+
     if (factory == nullptr)
     {
         log()->error("{} The factory is not valid.", logPrefix);
