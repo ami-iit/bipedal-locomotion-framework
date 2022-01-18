@@ -3,7 +3,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
+
 ### Changed
+- An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
+
 ### Fix
 
 ## [0.6.0] - 2022-12-10
