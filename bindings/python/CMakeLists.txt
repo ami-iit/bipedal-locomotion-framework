@@ -17,6 +17,7 @@ add_subdirectory(Conversions)
 include(ConfigureFileWithCMakeIf)
 
 set(FRAMEWORK_COMPILE_RobotInterfaceBindings FRAMEWORK_COMPILE_RobotInterface AND FRAMEWORK_COMPILE_YarpImplementation)
+set(FRAMEWORK_COMPILE_YarpBindingsSystem FRAMEWORK_COMPILE_System AND FRAMEWORK_COMPILE_YarpImplementation)
 
 configure_file_with_cmakeif(${CMAKE_CURRENT_SOURCE_DIR}/bipedal_locomotion_framework.cpp.in
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp

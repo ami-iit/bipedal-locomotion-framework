@@ -30,6 +30,9 @@ class ClockBuilder
      * Pointer to factory used to build the clock
      */
     inline static std::shared_ptr<ClockFactory> m_factory{std::make_shared<StdClockFactory>()};
+    inline static bool m_clockAlreadyCalledOnce{false}; /**< True if the clock() has been already
+                                                           called once. If True it will not be
+                                                           possible to set a new Factory */
 
 public:
     /**
