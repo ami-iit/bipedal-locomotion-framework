@@ -9,7 +9,6 @@
 #include <memory>
 #include <tuple>
 
-#include <BipedalLocomotion/Conversions/matioCppConversions.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
@@ -30,7 +29,6 @@
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::RobotInterface;
-using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion;
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
