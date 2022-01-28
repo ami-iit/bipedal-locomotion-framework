@@ -71,7 +71,7 @@ RealSense::~RealSense()
     m_pimpl->stopStream();
 }
 
-bool RealSense::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool RealSense::initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     constexpr std::string_view logPrefix = "[RealSense::initialize] ";
     auto ptr = handler.lock();

@@ -42,7 +42,7 @@ class RealSense : public BipedalLocomotion::RobotInterface::ICameraBridge,
 
     ~RealSense();
 
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
 
     bool isValid();
 
