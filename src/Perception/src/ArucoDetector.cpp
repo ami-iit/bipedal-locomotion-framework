@@ -26,6 +26,36 @@ public:
      * clear all internal buffers
      */
     void resetBuffers();
+    void estimateMarkerPose(std::vector<int>& markerIds,
+                            std::vector<std::vector<cv::Point2f>>& markerCorners,
+                            const double& markerLength,
+                            const cv::Mat& cameraMatrix,
+                            const cv::Mat& distCoeffs,
+                            std::vector<cv::Vec3d>& detectedMarkerRotVecs,
+                            std::vector<cv::Vec3d>& detectedMarkerTransVecs,
+                            bool solvePnP = false);
+    void solvePnPMarkerPose(std::vector<int>& markerIds,
+                            std::vector<std::vector<cv::Point2f>>& markerCorners,
+                            const double& markerLength,
+                            const cv::Mat& cameraMatrix,
+                            const cv::Mat& distCoeffs,
+                            const double& ambiguityThreshold,
+                            std::vector<cv::Vec3d>& detectedMarkerRotVecs,
+                            std::vector<cv::Vec3d>& detectedMarkerTransVecs);
+    bool solvePnPSingleMarkerPose(const std::vector<cv::Point2f>& corners,
+                                  const double& markerLength,
+                                  const cv::Mat& cameraMatrix,
+                                  const cv::Mat& distCoeffs,
+                                  const double& ambiguityThreshold,
+                                  cv::Vec3d& rVec,
+                                  cv::Vec3d& tVec);
+    void getSingleMarkerObjectPoints(const double& markerLength, std::vector<cv::Vec3f>& objPoints);
+
+    bool useSolvePnPOutlierRejection{true}; // if set to true, we call solvePnPGeneric and perform
+                                            // pose estimation manually instead of using
+                                            // cv::aruco::estimateMarkerPose, this will allow us to
+                                            // choose the pose solution based on reprojection error
+    double ambiguityThreshold{5.0}; // threshold ratio of reprojection error
 
     // parameters
     cv::Ptr<cv::aruco::Dictionary> dictionary; /**< container with detected markers data */
@@ -124,7 +154,8 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 // instead of a cv::Ptr<cv::aruco::Dictionary>
 #if (CV_VERSION_MAJOR >= 5) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
     m_pimpl->dictionary = cv::makePtr<cv::aruco::Dictionary>();
-    *(m_pimpl->dictionary) = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
+    *(m_pimpl->dictionary)
+        = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
 #else
     m_pimpl->dictionary = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
 #endif
@@ -162,6 +193,25 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 
     m_pimpl->distCoeff = cv::Mat(5, 1, CV_64F);
     cv::eigen2cv(distCoeffVec, m_pimpl->distCoeff);
+
+    if (!handle->getParameter("use_solve_pnp_outlier_rejection",
+                              m_pimpl->useSolvePnPOutlierRejection))
+    {
+        m_pimpl->useSolvePnPOutlierRejection = false;
+    }
+
+    if (m_pimpl->useSolvePnPOutlierRejection)
+    {
+        if (!handle->getParameter("ambiguity_threshold_reprojection_error_ratio",
+                                  m_pimpl->ambiguityThreshold))
+        {
+            m_pimpl->ambiguityThreshold = 5.0;
+            log()->warn("{} The parameter \" ambiguity_threshold_reprojection_error_ratio \" "
+                        "was not found. Setting to default value: {}",
+                        printPrefix,
+                        m_pimpl->ambiguityThreshold);
+        }
+    }
 
     m_pimpl->initialized = true;
     return true;
@@ -209,12 +259,14 @@ bool ArucoDetector::advance()
 
     if (m_pimpl->currentDetectedMarkerIds.size() > 0)
     {
-        cv::aruco::estimatePoseSingleMarkers(m_pimpl->currentDetectedMarkerCorners,
-                                             m_pimpl->markerLength,
-                                             m_pimpl->cameraMatrix,
-                                             m_pimpl->distCoeff,
-                                             m_pimpl->currentDetectedMarkersRotVecs,
-                                             m_pimpl->currentDetectedMarkersTransVecs);
+        m_pimpl->estimateMarkerPose(m_pimpl->currentDetectedMarkerIds,
+                                    m_pimpl->currentDetectedMarkerCorners,
+                                    m_pimpl->markerLength,
+                                    m_pimpl->cameraMatrix,
+                                    m_pimpl->distCoeff,
+                                    m_pimpl->currentDetectedMarkersRotVecs,
+                                    m_pimpl->currentDetectedMarkersTransVecs,
+                                    m_pimpl->useSolvePnPOutlierRejection);
 
         for (std::size_t idx = 0; idx < m_pimpl->currentDetectedMarkerIds.size(); idx++)
         {
@@ -307,4 +359,178 @@ void ArucoDetector::Impl::resetBuffers()
     currentDetectedMarkersTransVecs.clear();
     out.markers.clear();
     out.timeNow = -1.0;
+}
+
+void ArucoDetector::Impl::estimateMarkerPose(std::vector<int>& ids,
+                                             std::vector<std::vector<cv::Point2f>>& corners,
+                                             const double& mLength,
+                                             const cv::Mat& camMat,
+                                             const cv::Mat& distCoeffs,
+                                             std::vector<cv::Vec3d>& detectedMarkerRotVecs,
+                                             std::vector<cv::Vec3d>& detectedMarkerTransVecs,
+                                             bool useSolvePnP)
+{
+    if (!useSolvePnP)
+    {
+        cv::aruco::estimatePoseSingleMarkers(corners,
+                                             mLength,
+                                             camMat,
+                                             distCoeffs,
+                                             detectedMarkerRotVecs,
+                                             detectedMarkerTransVecs);
+
+    } else
+    {
+        solvePnPMarkerPose(ids,
+                           corners,
+                           mLength,
+                           camMat,
+                           distCoeffs,
+                           ambiguityThreshold,
+                           detectedMarkerRotVecs,
+                           detectedMarkerTransVecs);
+    }
+}
+
+void ArucoDetector::Impl::solvePnPMarkerPose(std::vector<int>& ids,
+                                             std::vector<std::vector<cv::Point2f>>& corners,
+                                             const double& mLength,
+                                             const cv::Mat& camMat,
+                                             const cv::Mat& distCoeffs,
+                                             const double& ambiguityThreshold,
+                                             std::vector<cv::Vec3d>& detectedMarkerRotVecs,
+                                             std::vector<cv::Vec3d>& detectedMarkerTransVecs)
+{
+    constexpr auto printPrefix = "[ArucoDetector::Impl::solvePnPMarkerPose]";
+    if (mLength < 0)
+    {
+        log()->error("{} Invalid marker length.", printPrefix);
+    }
+
+    auto nrMarkers{ids.size()};
+
+    detectedMarkerRotVecs.resize(nrMarkers);
+    detectedMarkerTransVecs.resize(nrMarkers);
+
+    std::vector<int> unambiguousIDs;
+    for (auto mIdx = 0; mIdx < nrMarkers; mIdx++)
+    {
+        cv::Vec3d rVec, tVec;
+        bool solved = solvePnPSingleMarkerPose(corners[mIdx],
+                                               mLength,
+                                               camMat,
+                                               distCoeffs,
+                                               ambiguityThreshold,
+                                               rVec,
+                                               tVec);
+
+        if (solved)
+        {
+            unambiguousIDs.emplace_back(mIdx);
+        }
+
+        detectedMarkerRotVecs[mIdx] = rVec;
+        detectedMarkerTransVecs[mIdx] = tVec;
+    }
+
+    // if the two solutions of estimated rotations
+    // is too close and ambiguous, then mark the
+    // the marker as not detected and remove them from outputs
+    for (auto mIdx = 0; mIdx < nrMarkers; mIdx++)
+    {
+        if (std::find(unambiguousIDs.begin(), unambiguousIDs.end(), mIdx) == unambiguousIDs.end())
+        {
+            ids.erase(ids.begin() + mIdx);
+            corners.erase(corners.begin() + mIdx);
+            detectedMarkerRotVecs.erase(detectedMarkerRotVecs.begin() + mIdx);
+            detectedMarkerTransVecs.erase(detectedMarkerTransVecs.begin() + mIdx);
+        }
+    }
+}
+
+void ArucoDetector::Impl::getSingleMarkerObjectPoints(const double& markerLength,
+                                                      std::vector<cv::Vec3f>& objPoints)
+{
+    constexpr auto printPrefix = "[ArucoDetector::Impl::getSingleMarkerObjectPoints]";
+    if (markerLength < 0)
+    {
+        log()->error("{} Invalid marker length.", printPrefix);
+    }
+
+    objPoints.clear();
+    objPoints.emplace_back(cv::Vec3f(-markerLength / 2.f, markerLength / 2.f, 0.));
+    objPoints.emplace_back(cv::Vec3f(markerLength / 2.f, markerLength / 2.f, 0.));
+    objPoints.emplace_back(cv::Vec3f(markerLength / 2.f, -markerLength / 2.f, 0.));
+    objPoints.emplace_back(cv::Vec3f(-markerLength / 2.f, -markerLength / 2.f, 0.));
+}
+
+bool ArucoDetector::Impl::solvePnPSingleMarkerPose(const std::vector<cv::Point2f>& corners,
+                                                   const double& markerLength,
+                                                   const cv::Mat& camMat,
+                                                   const cv::Mat& distCoeffs,
+                                                   const double& ambiguityThreshold,
+                                                   cv::Vec3d& rVec,
+                                                   cv::Vec3d& tVec)
+{
+    std::vector<cv::Vec3f> markerObjPoints;
+    getSingleMarkerObjectPoints(markerLength, markerObjPoints);
+
+    std::vector<cv::Mat> rvecs, tvecs;
+    cv::Mat reprojErr(0, 0, CV_64FC1);
+    bool useExtrinsicGuess{false};
+    cv::SolvePnPMethod flags{cv::SOLVEPNP_IPPE_SQUARE};
+    int solutions = cv::solvePnPGeneric(markerObjPoints,
+                                        corners,
+                                        camMat,
+                                        distCoeffs,
+                                        rvecs,
+                                        tvecs,
+                                        useExtrinsicGuess,
+                                        flags,
+                                        cv::noArray(),
+                                        cv::noArray(),
+                                        reprojErr);
+
+    if (solutions > 0)
+    {
+        int rdepth = CV_64F;
+        int tdepth = CV_64F;
+        if (solutions == 1)
+        {
+            rvecs[0].convertTo(rVec, rdepth);
+            tvecs[0].convertTo(tVec, tdepth);
+        }
+
+        if (solutions == 2)
+        {
+            double e1{reprojErr.at<double>(0, 0)};
+            double e2{reprojErr.at<double>(1, 0)};
+
+            if (e1 <= e2)
+            {
+                double ratio{e2 / e1};
+                if (ratio < ambiguityThreshold)
+                {
+                    // ambiguous solutions
+                    return false;
+                }
+                // choose solution with low reprojection error
+                rvecs[0].convertTo(rVec, rdepth);
+                tvecs[0].convertTo(tVec, tdepth);
+            } else
+            {
+                double ratio{e1 / e2};
+                if (ratio < ambiguityThreshold)
+                {
+                    // ambiguous solutions
+                    return false;
+                }
+                // choose solution with low reprojection error
+                rvecs[1].convertTo(rVec, rdepth);
+                tvecs[1].convertTo(tVec, tdepth);
+            }
+        }
+    }
+
+    return true;
 }

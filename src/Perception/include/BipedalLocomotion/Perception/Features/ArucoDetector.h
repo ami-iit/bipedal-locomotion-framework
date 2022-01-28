@@ -78,6 +78,31 @@ public:
      * - "marker_length" marker length in m
      * - "camera_matrix" 9d vector representing the camera calbration matrix in row major order
      * - "distortion_coefficients" 5d vector containing camera distortion coefficients
+     * - "use_solve_pnp_outlier_rejection" solve for marker pose using PnP method instead of default
+     *                                     aruco pose estimation, this method allows to eliminate
+     *                                     outliers in estimated rotations, in the form of rotation flips,
+     *                                     up to a certain degree by considering ambiguous solutions as outliers
+     *                                     and removing associated detections from the set of detected markers.
+     *                                     If using this option, please cite the work,
+     *                                     "Infinitesimal Plane-Based Pose Estimation"
+     *                                     (https://link.springer.com/article/10.1007/s11263-014-0725-5)
+     *                                     and also cite,
+     *                                     "Absolute humanoid localization and mapping based on IMU
+     *                                      Lie group and fiducial markers"
+     *                                     (https://ieeexplore.ieee.org/document/9035005)
+     *
+     * - "ambiguity_threshold_reprojection_error_ratio" threshold ratio of reprojection error for
+     *                                                  outlier rejection to resolve
+     *                                                  rotation ambiguity using solvePnP method.
+     *                                                  This is done based on reprojection error ratio
+     *                                                  between two solutions obtained from sovlePnP.
+     *                                                  Pose estimation for planar landmarks (homography) usually results in
+     *                                                  two rotation solutions (with one-solution having z axis flipped in opposite direction).
+     *                                                  The rotation with a lower reprojection error is a suitable solution
+     *                                                  and we use a reprojection error ratio test to decide if two rotation solutions
+     *                                                  are close to each other: higher the ratio, highly distinct rotations.
+     *                                                  If the resulting ratio is small, then we mark the estimated pose as an outlier.
+     *                                                  However, setting high threshold values makes successful marker detection less frequent.
      * @param[in] handlerWeak weak pointer to a ParametersHandler::IParametersHandler interface
      * @tparameter Derived particular implementation of the IParameterHandler
      * @return True in case of success, false otherwise.
