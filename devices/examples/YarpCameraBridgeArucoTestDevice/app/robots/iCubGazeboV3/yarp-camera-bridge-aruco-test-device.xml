@@ -1,0 +1,37 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+GNU Lesser General Public License v2.1 or any later version. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-camera-bridge-aruco-test-device" type="YarpCameraBridgeArucoTestDevice">
+  <param name="robot">icubSim</param>
+  <param name="sampling_period_in_s">0.03</param>
+  <param name="port_prefix">/yarp_camera_bridge</param>
+
+  <group name="RobotCameraBridge">
+      <param name="stream_cameras">true</param>
+    <group name="Cameras">
+      <param name="rgbd_cameras_list">("rgbd_cam")</param>
+      <param name="rgbd_image_width">(640)</param>
+      <param name="rgbd_image_height">(480)</param>
+    </group>
+  </group>
+
+  <group name="ArucoDetector">
+      <param name="marker_dictionary">4X4_50</param>
+      <param name="marker_length">0.806</param>
+      <param name="camera_matrix">(922.309448242188,0.0,664.546813964844,0.0,922.194458007813,348.770141601563,0.0,0.0,1.0)</param>
+      <param name="distortion_coefficients">(0.0, 0.0, 0.0, 0.0, 0.0)</param>
+  </group>
+
+  <!-- ATTACH -->
+  <action phase="startup" level="15" type="attach">
+    <paramlist name="networks">
+      <elem name="rgbd_cam">rgbd_cam</elem>
+    </paramlist>
+  </action>
+
+  <action phase="shutdown" level="2" type="detach" />
+  <!-- FINISH ATTACH-->
+
+</device>
