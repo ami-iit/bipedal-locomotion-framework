@@ -1,0 +1,13 @@
+material ArucoMarker4x4_1000_18/Marker
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture 4x4_1000-18.png
+			}
+		}
+	}
+}
