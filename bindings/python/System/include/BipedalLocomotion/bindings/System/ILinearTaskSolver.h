@@ -36,30 +36,24 @@ void CreateILinearTaskSolver(pybind11::module& module, const std::string& python
              py::arg("task_name"),
              py::arg("priority"),
              py::arg("weight") = Eigen::VectorXd())
-        .def("set_task_weight",
-             &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::setTaskWeight,
+        .def("set_task_weight_provider",
+             &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::setTaskWeightProvider,
              py::arg("task_name"),
-             py::arg("weight"))
-        .def(
-            "get_task_weight",
+             py::arg("weight_provider"))
+        .def("get_task_weight_provider",
             [](const ::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>& impl,
                const std::string& taskName) {
-                auto task = impl.getTask(taskName).lock();
-                if (task == nullptr)
-                {
-                    const std::string msg = "Failed to get the weight for the task named " //
-                                            + taskName + ".";
-                    throw py::value_error(msg);
-                }
-                Eigen::VectorXd weight(task->size());
 
-                if (!impl.getTaskWeight(taskName, weight))
+                auto provider = impl.getTaskWeightProvider(taskName).lock();
+
+                if (provider == nullptr)
                 {
-                    const std::string msg = "Failed to get the weight for the task named " //
-                                            + taskName + ".";
+                    const std::string msg = "Failed to get the weight Provider for the task named "
+                        + taskName + ".";
                     throw py::value_error(msg);
                 }
-                return weight;
+
+                return provider;
             },
             py::arg("task_name"))
         .def("get_task_names",

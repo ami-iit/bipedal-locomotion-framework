@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/System/Module.h>
 #include <BipedalLocomotion/bindings/System/VariablesHandler.h>
+#include <BipedalLocomotion/bindings/System/WeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -30,6 +31,8 @@ void CreateModule(pybind11::module& module)
     CreateIClock(module);
     CreateClockFactory(module);
     CreateClockBuilder(module);
+    CreateIWeightProvider(module);
+    CreateConstantWeightProvider(module);
 }
 } // namespace System
 } // namespace bindings
