@@ -18,6 +18,7 @@
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/IWeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -76,22 +77,23 @@ public:
                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
 
     /**
-     * Set the weight associated to an already existing task
+     * Set the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weight new Weight associated to the task.
+     * @param weightProvider new Weight provider associated to the task.
      * @return true if the weight has been updated
      */
-    bool setTaskWeight(const std::string& taskName,
-                       Eigen::Ref<const Eigen::VectorXd> weight) override;
+    bool
+    setTaskWeightProvider(const std::string& taskName,
+                          std::shared_ptr<const System::IWeightProvider> weightProvider) override;
 
     /**
-     * Get the weight associated to an already existing task
+     * Get the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weight the weight associated to the task.
-     * @return true in case of success and false otherwise
+     * @return a weak pointer to the weightProvider. If the task does not exist the pointer is not
+     * lockable
      */
-    bool getTaskWeight(const std::string& taskName,
-                       Eigen::Ref<Eigen::VectorXd> weight) const override;
+    std::weak_ptr<const System::IWeightProvider>
+    getTaskWeightProvider(const std::string& taskName) const override;
 
     /**
      * Finalize the IK.

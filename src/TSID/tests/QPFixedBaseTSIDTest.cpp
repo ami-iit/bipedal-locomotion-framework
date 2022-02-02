@@ -6,9 +6,11 @@
  */
 
 // Catch2
+#include "BipedalLocomotion/System/ConstantWeightProvider.h"
 #include <catch2/catch.hpp>
 
 // std
+#include <memory>
 #include <random>
 
 // BipedalLocomotion
@@ -125,13 +127,17 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
                             weightRegularization));
 
     Eigen::VectorXd newWeight = 10 * weightRegularization;
-    REQUIRE(out.tsid->setTaskWeight("regularization_task", newWeight));
-
-    Eigen::VectorXd weight(newWeight.size());
-    REQUIRE(out.tsid->getTaskWeight("regularization_task", weight));
-    REQUIRE(weight.isApprox(newWeight));
-    REQUIRE(out.tsid->setTaskWeight("regularization_task", weightRegularization));
-
+    REQUIRE(out.tsid->setTaskWeightProvider("regularization_task",
+                                            std::make_shared<
+                                                BipedalLocomotion::System::ConstantWeightProvider>(
+                                                newWeight)));
+    auto provider = out.tsid->getTaskWeightProvider("regularization_task").lock();
+    REQUIRE(provider);
+    REQUIRE(provider->getWeight().isApprox(newWeight));
+    REQUIRE(out.tsid->setTaskWeightProvider("regularization_task",
+                                            std::make_shared<
+                                                BipedalLocomotion::System::ConstantWeightProvider>(
+                                                weightRegularization)));
 
     REQUIRE(out.tsid->finalize(variables));
 

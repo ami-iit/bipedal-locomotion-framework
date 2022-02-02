@@ -9,6 +9,8 @@
 #include <OsqpEigen/OsqpEigen.h>
 
 #include <BipedalLocomotion/Math/Wrench.h>
+#include <BipedalLocomotion/System/ConstantWeightProvider.h>
+#include <BipedalLocomotion/System/IWeightProvider.h>
 #include <BipedalLocomotion/TSID/QPTSID.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -23,7 +25,7 @@ struct QPTSID::Impl
     {
         std::shared_ptr<QPTSID::Task> task;
         std::size_t priority;
-        Eigen::VectorXd weight;
+        std::shared_ptr<const System::IWeightProvider> weightProvider;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix useful to reduce dynamics allocation
                                 in advance method */
     };
@@ -170,15 +172,6 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
         return false;
     }
 
-    if (priority == 1 && !weight)
-    {
-        log()->error("{} - [Task name: '{}'] In case of priority equal to 1 the weight is "
-                     "mandatory.",
-                     logPrefix,
-                     taskName);
-        return false;
-    }
-
     if (priority == 1 && task->type() == QPTSID::Task::Type::inequality)
     {
         log()->error("{} - [Task name: '{}'] This implementation of the task space inverse "
@@ -193,7 +186,9 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
     m_pimpl->tasks[taskName].task = task;
     m_pimpl->tasks[taskName].priority = priority;
 
-    if (priority == 1)
+    // IF a weight the priority is 1 and the weight is provided means that the user wants to specify
+    // a constant weight in the task
+    if (priority == 1 && weight)
     {
         if (weight.value().size() != task->size())
         {
@@ -210,8 +205,8 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
             return false;
         }
 
-        // add the weight
-        m_pimpl->tasks[taskName].weight = weight.value();
+        // add the weight In this case we assume that the weight will be constant
+        m_pimpl->tasks[taskName].weightProvider = std::make_shared<System::ConstantWeightProvider>(weight.value());
 
         // add the task to the list of the element that are used to build the cost function
         m_pimpl->costs.push_back(m_pimpl->tasks[taskName]);
@@ -227,9 +222,10 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
     return true;
 }
 
-bool QPTSID::setTaskWeight(const std::string& taskName, Eigen::Ref<const Eigen::VectorXd> weight)
+bool QPTSID::setTaskWeightProvider(const std::string& taskName,
+                                   std::shared_ptr<const System::IWeightProvider> weightProvider)
 {
-    constexpr auto logPrefix = "[QPTSID::setTaskWeight]";
+    constexpr auto logPrefix = "[QPTSID::setTaskWeightProvider]";
 
     auto tmp = m_pimpl->tasks.find(taskName);
 
@@ -251,49 +247,45 @@ bool QPTSID::setTaskWeight(const std::string& taskName, Eigen::Ref<const Eigen::
         return false;
     }
 
-    if (weight.size() != taskWithPriority.task->size())
+    if (weightProvider == nullptr)
+    {
+        log()->error("{} - [Task name: '{}'] The weightProvider is not valid.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weightProvider->getWeight().size() != taskWithPriority.task->size())
     {
         log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                      "size of the task. Expected: {}. Given: {}.",
                      logPrefix,
                      taskName,
                      taskWithPriority.task->size(),
-                     weight.size());
+                     weightProvider->getWeight().size());
         return false;
     }
 
     // update the weight
-    m_pimpl->tasks[taskName].weight = weight;
+    m_pimpl->tasks[taskName].weightProvider = weightProvider;
 
     return true;
 }
 
-bool QPTSID::getTaskWeight(const std::string& taskName, Eigen::Ref<Eigen::VectorXd> weight) const
+std::weak_ptr<const System::IWeightProvider>
+QPTSID::getTaskWeightProvider(const std::string& taskName) const
 {
-    constexpr auto logPrefix = "[QPTSID::getTaskWeight]";
+    constexpr auto logPrefix = "[QPTSID::getTaskWeightProvider]";
 
     auto taskWithPriority = m_pimpl->tasks.find(taskName);
     const bool taskExist = (taskWithPriority != m_pimpl->tasks.end());
     if (!taskExist)
     {
         log()->error("{} The task named {} does not exist.", logPrefix, taskName);
-        return false;
+        return std::shared_ptr<System::IWeightProvider>();
     }
 
-    if (weight.size() != taskWithPriority->second.task->size())
-    {
-        log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
-                     "size of the task. Expected: {}. Given: {}.",
-                     logPrefix,
-                     taskName,
-                     taskWithPriority->second.task->size(),
-                     weight.size());
-        return false;
-    }
-
-    weight = taskWithPriority->second.weight;
-
-    return true;
+    return taskWithPriority->second.weightProvider;
 }
 
 std::vector<std::string> QPTSID::getTaskNames() const
@@ -409,7 +401,15 @@ bool QPTSID::finalize(const System::VariablesHandler& handler)
     // resize the temporary matrix useful to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        cost.get().tmp.resize(handler.getNumberOfVariables(), cost.get().weight.size());
+        if(cost.get().weightProvider == nullptr)
+        {
+            log()->error("{} One of the weight provider has been not correctly set.",
+                         logPrefix);
+            return false;
+        }
+
+        cost.get().tmp.resize(handler.getNumberOfVariables(),
+                              cost.get().weightProvider->getWeight().size());
     }
 
     m_pimpl->solver.data()->setNumberOfVariables(handler.getNumberOfVariables());
@@ -505,7 +505,8 @@ bool QPTSID::advance()
         Eigen::Ref<const Eigen::VectorXd> b = cost.get().task->getB();
 
         // Here we avoid to have dynamic allocation
-        cost.get().tmp.noalias() = A.transpose() * cost.get().weight.asDiagonal();
+        cost.get().tmp.noalias() = A.transpose() * //
+                                   cost.get().weightProvider->getWeight().asDiagonal();
         m_pimpl->hessian.noalias() += cost.get().tmp * A;
         m_pimpl->gradient.noalias() -= cost.get().tmp * b;
     }

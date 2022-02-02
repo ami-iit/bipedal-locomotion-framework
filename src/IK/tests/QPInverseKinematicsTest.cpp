@@ -9,11 +9,14 @@
 #include <catch2/catch.hpp>
 
 // std
+#include <memory>
 #include <random>
 
 // BipedalLocomotion
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+
+#include <BipedalLocomotion/System/ConstantWeightProvider.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/IK/CoMTask.h>
@@ -129,13 +132,16 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
 
 
     Eigen::VectorXd newWeight = 10 * weightRegularization;
-    REQUIRE(out.ik->setTaskWeight("regularization_task", newWeight));
+    auto newWeightProvider = std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(newWeight);
+    REQUIRE(out.ik->setTaskWeightProvider("regularization_task", newWeightProvider));
 
-    Eigen::VectorXd weight(newWeight.size());
-    REQUIRE(out.ik->getTaskWeight("regularization_task", weight));
-    REQUIRE(weight.isApprox(newWeight));
+    auto outWeightProvider = out.ik->getTaskWeightProvider("regularization_task").lock();
+    REQUIRE(outWeightProvider);
+    REQUIRE(outWeightProvider->getWeight().isApprox(newWeight));
 
-    REQUIRE(out.ik->setTaskWeight("regularization_task", weightRegularization));
+    REQUIRE(out.ik->setTaskWeightProvider("regularization_task",
+                                          std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(
+                                              weightRegularization)));
 
     REQUIRE(out.ik->finalize(variables));
 
