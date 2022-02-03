@@ -48,14 +48,30 @@ public:
      * @param taskName unique name associated to the task.
      * @param priority Priority associated to the task. The lower the number the higher the
      * priority.
-     * @param weight Weight associated to the task. This parameter is optional. The default value is
-     * an object that does not contain any value. So is an invalid weight.
+     * @param weight Weight associated to the task.
+     * @return true if the task has been added to the inverse kinematics.
+     * @note If this method is used the solver assume that the weight is a constant value
+     */
+    virtual bool addTask(std::shared_ptr<Task> task,
+                         const std::string& taskName,
+                         std::size_t priority,
+                         Eigen::Ref<const Eigen::VectorXd> weight)
+        = 0;
+
+    /**
+     * Add a linear task in the solver.
+     * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
+     * @param priority Priority associated to the task. The lower the number the higher the
+     * priority.
+     * @param weightProvider Weight provider associated to the task. This parameter is optional. The
+     * default value is an object that does not contain any value. So is an invalid provider.
      * @return true if the task has been added to the inverse kinematics.
      */
     virtual bool addTask(std::shared_ptr<Task> task,
                          const std::string& taskName,
                          std::size_t priority,
-                         std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {})
+                         std::shared_ptr<const IWeightProvider> weightProvider = nullptr)
         = 0;
 
     /**

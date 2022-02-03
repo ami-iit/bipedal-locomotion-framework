@@ -121,15 +121,13 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
 
     out.regularizationTask = std::make_shared<JointTrackingTask>();
 
-
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
     REQUIRE(out.regularizationTask->initialize(handler->getGroup("REGULARIZATION_TASK")));
     REQUIRE(out.ik->addTask(out.regularizationTask,
                             "regularization_task",
                             lowPriority,
-                            weightRegularization));
-
-
+                            std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(
+                                weightRegularization)));
 
     Eigen::VectorXd newWeight = 10 * weightRegularization;
     auto newWeightProvider = std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(newWeight);

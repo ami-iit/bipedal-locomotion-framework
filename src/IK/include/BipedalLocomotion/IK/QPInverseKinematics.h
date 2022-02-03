@@ -59,22 +59,34 @@ public:
     virtual ~QPInverseKinematics();
 
     /**
-     * Add a linear task in the inverse kinematics
+     * Add a linear task in the solver.
      * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
      * @param priority Priority associated to the task. The lower the number the higher the
      * priority.
-     * @param weight weight associated to the task. This parameter is optional. The default value is
-     * an object that does not contain any value. So is an invalid weight.
-     * @note currently we support only task with priority 0 or 1. If the priority is set to 0 the
-     * task will be considered as a constraint. In this case the weight is not required.
-     * @warning The QPInverseKinematics cannot handle inequality tasks (please check
-     * Task::Type) with priority equal to 1.
+     * @param weight Weight associated to the task.
+     * @return true if the task has been added to the inverse kinematics.
+     * @note If this method is used the solver assume that the weight is a constant value
+     */
+    bool addTask(std::shared_ptr<Task> task,
+                 const std::string& taskName,
+                 std::size_t priority,
+                 Eigen::Ref<const Eigen::VectorXd> weight) override;
+
+    /**
+     * Add a linear task in the solver.
+     * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
+     * @param priority Priority associated to the task. The lower the number the higher the
+     * priority.
+     * @param weightProvider Weight provider associated to the task. This parameter is optional. The
+     * default value is an object that does not contain any value. So is an invalid provider.
      * @return true if the task has been added to the inverse kinematics.
      */
     bool addTask(std::shared_ptr<Task> task,
                  const std::string& taskName,
                  std::size_t priority,
-                 std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
+                 std::shared_ptr<const System::IWeightProvider> weightProvider = nullptr) override;
 
     /**
      * Set the weightProvider associated to an already existing task

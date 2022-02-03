@@ -122,9 +122,10 @@ TSIDAndTasks createTSID(std::shared_ptr<IParametersHandler> handler,
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
     REQUIRE(out.regularizationTask->initialize(handler->getGroup("REGULARIZATION_TASK")));
     REQUIRE(out.tsid->addTask(out.regularizationTask,
-                            "regularization_task",
-                            lowPriority,
-                            weightRegularization));
+                              "regularization_task",
+                              lowPriority,
+                              std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(
+                                  weightRegularization)));
 
     Eigen::VectorXd newWeight = 10 * weightRegularization;
     REQUIRE(out.tsid->setTaskWeightProvider("regularization_task",

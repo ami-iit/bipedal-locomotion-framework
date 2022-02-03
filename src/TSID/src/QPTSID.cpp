@@ -148,10 +148,21 @@ QPTSID::QPTSID()
 
 QPTSID::~QPTSID() = default;
 
+bool QPTSID::addTask(std::shared_ptr<Task> task,
+                     const std::string& taskName,
+                     std::size_t priority,
+                     Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->addTask(task,
+                         taskName,
+                         priority,
+                         std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
 bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
                      const std::string& taskName,
                      std::size_t priority,
-                     std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
+                     std::shared_ptr<const System::IWeightProvider> weightProvider)
 {
     constexpr auto logPrefix = "[QPTSID::addTask]";
 
@@ -188,16 +199,16 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
 
     // IF a weight the priority is 1 and the weight is provided means that the user wants to specify
     // a constant weight in the task
-    if (priority == 1 && weight)
+    if (priority == 1 && weightProvider)
     {
-        if (weight.value().size() != task->size())
+        if (weightProvider->getWeight().size() != task->size())
         {
             log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                          "size of the task. Expected: {}. Given: {}.",
                          logPrefix,
                          taskName,
                          m_pimpl->tasks[taskName].task->size(),
-                         weight.value().size());
+                         weightProvider->getWeight().size());
 
             // erase the task since it is not valid
             m_pimpl->tasks.erase(taskName);
@@ -205,8 +216,7 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
             return false;
         }
 
-        // add the weight In this case we assume that the weight will be constant
-        m_pimpl->tasks[taskName].weightProvider = std::make_shared<System::ConstantWeightProvider>(weight.value());
+        m_pimpl->tasks[taskName].weightProvider = weightProvider;
 
         // add the task to the list of the element that are used to build the cost function
         m_pimpl->costs.push_back(m_pimpl->tasks[taskName]);
