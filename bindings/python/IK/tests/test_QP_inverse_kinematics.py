@@ -357,7 +357,10 @@ def test_qp_inverse_kinematics():
     assert joint_tracking_task.set_set_point(joint_position=np.add(joint_values,joint_values_delta))
 
     # Add joint tracking task as soft constraint
-    assert qp_ik.add_task(task=joint_tracking_task, task_name="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    assert qp_ik.add_task(task=joint_tracking_task,
+                          task_name="joint_tracking_task",
+                          priority=1,
+                          weight_provider=blf.system.ConstantWeightProvider([1.0]*kindyn_desc.kindyn.get_nr_of_dofs()))
 
     # Check that all the tasks have been added
     task_names = qp_ik.get_task_names()

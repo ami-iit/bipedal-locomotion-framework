@@ -99,7 +99,8 @@ def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescripto
         priority = task_group.get_parameter_int("priority")
         assert priority == 1 or priority == 0
         if priority == 1:
-            assert solver.add_task(tasks[name], name, priority, task_group.get_parameter_vector_float("weight"))
+            assert solver.add_task(tasks[name], name, priority,
+                                   blf.system.ConstantWeightProvider(task_group.get_parameter_vector_float("weight")))
         else:
             assert solver.add_task(tasks[name], name, priority)
 
@@ -189,7 +190,8 @@ def create_ik(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
         priority = task_group.get_parameter_int("priority")
         assert priority == 1 or priority == 0
         if priority == 1:
-            assert solver.add_task(tasks[name], name, priority, task_group.get_parameter_vector_float("weight"))
+            assert solver.add_task(tasks[name], name, priority,
+                                   blf.system.ConstantWeightProvider(task_group.get_parameter_vector_float("weight")))
         else:
             assert solver.add_task(tasks[name], name, priority)
 

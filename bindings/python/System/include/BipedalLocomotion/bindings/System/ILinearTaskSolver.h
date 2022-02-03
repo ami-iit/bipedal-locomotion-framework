@@ -15,6 +15,7 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/System/ILinearTaskSolver.h>
+#include <BipedalLocomotion/System/IWeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -31,11 +32,25 @@ void CreateILinearTaskSolver(pybind11::module& module, const std::string& python
     py::class_<::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>,
                ::BipedalLocomotion::System::Source<_State>>(module, pythonClassName.c_str())
         .def("add_task",
-             &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::addTask,
+             py::overload_cast<std::shared_ptr<_Task>,
+                               const std::string&,
+                               std::size_t,
+                               std::shared_ptr<const ::BipedalLocomotion::System::IWeightProvider>>(
+                 &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::addTask),
              py::arg("task"),
              py::arg("task_name"),
              py::arg("priority"),
-             py::arg("weight") = Eigen::VectorXd())
+             py::arg("weight_provider") = nullptr)
+        .def("add_task",
+             py::overload_cast<std::shared_ptr<_Task>,
+                               const std::string&,
+                               std::size_t,
+                               Eigen::Ref<const Eigen::VectorXd>>(
+                 &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::addTask),
+             py::arg("task"),
+             py::arg("task_name"),
+             py::arg("priority"),
+             py::arg("weight"))
         .def("set_task_weight_provider",
              &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::setTaskWeightProvider,
              py::arg("task_name"),
@@ -43,7 +58,6 @@ void CreateILinearTaskSolver(pybind11::module& module, const std::string& python
         .def("get_task_weight_provider",
             [](const ::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>& impl,
                const std::string& taskName) {
-
                 auto provider = impl.getTaskWeightProvider(taskName).lock();
 
                 if (provider == nullptr)
