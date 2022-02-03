@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="41" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="42" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" static="no">
         <type>_State</type>
@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="42" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="43" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="43" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -106,25 +106,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="54" column="18"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="55" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa2edbdf2f38c063a1bfcd519883d813b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::setTaskWeight</definition>
-        <argsstring>(const std::string &amp;taskName, Eigen::Ref&lt; const Eigen::VectorXd &gt; weight)=0</argsstring>
-        <name>setTaskWeight</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a418b0e0b18f2f99ca55b88829e031898">setTaskWeight</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5">setTaskWeight</reimplementedby>
+        <definition>virtual bool BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::setTaskWeightProvider</definition>
+        <argsstring>(const std::string &amp;taskName, std::shared_ptr&lt; const IWeightProvider &gt; weightProvider)=0</argsstring>
+        <name>setTaskWeightProvider</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ad57e1665b2cc4806241841d6c097bdad">setTaskWeightProvider</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a8f6dbf1f2fa73fab4e72ea4e0282cb61">setTaskWeightProvider</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>taskName</declname>
         </param>
         <param>
-          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
-          <declname>weight</declname>
+          <type>std::shared_ptr&lt; const <ref refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kindref="compound">IWeightProvider</ref> &gt;</type>
+          <declname>weightProvider</declname>
         </param>
         <briefdescription>
-<para>Set the weight associated to an already existing task. </para>
+<para>Set the weightProvider associated to an already existing task. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -137,10 +137,10 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>weight</parametername>
+<parametername>weightProvider</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>new Weight associated to the task. </para>
+<para>new Weight provider associated to the task. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -150,25 +150,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="66" column="18"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="67" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6a6c05fa2ea49d1af0e27f9b51b03364" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::getTaskWeight</definition>
-        <argsstring>(const std::string &amp;taskName, Eigen::Ref&lt; Eigen::VectorXd &gt; weight) const =0</argsstring>
-        <name>getTaskWeight</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a952cf33f812a17a90505933370afbc8a">getTaskWeight</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aba93fbb3d6e24b407bfdb6aa3874aa8f">getTaskWeight</reimplementedby>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1ac7055685c9244cb10fc0cfd42dfb59e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::weak_ptr&lt; const <ref refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kindref="compound">IWeightProvider</ref> &gt;</type>
+        <definition>virtual std::weak_ptr&lt;const IWeightProvider&gt; BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;::getTaskWeightProvider</definition>
+        <argsstring>(const std::string &amp;taskName) const =0</argsstring>
+        <name>getTaskWeightProvider</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a62ce954d5b8064b6bb4148b65d81c628">getTaskWeightProvider</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a40777a0ab00d75e32ab2a8537636344f">getTaskWeightProvider</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>taskName</declname>
         </param>
-        <param>
-          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
-          <declname>weight</declname>
-        </param>
         <briefdescription>
-<para>Get the weight associated to an already existing task. </para>
+<para>Get the weightProvider associated to an already existing task. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -179,22 +175,14 @@
 <para>name associated to the task </para>
 </parameterdescription>
 </parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>weight</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>the weight associated to the task. </para>
-</parameterdescription>
-</parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>true in case of success and false otherwise </para>
+<simplesect kind="return"><para>a weak pointer to the weightProvider. If the task does not exist the pointer is not lockable </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="75" column="18"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="78" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a0b947d91a384c6ffab544b62857f181e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -213,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="83" column="25"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="84" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3c4a0555f5e1f98f7fbda7c200a7ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -248,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="91" column="18"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="92" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a1025c001495c8dd9e700dd562add7fea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::weak_ptr&lt; Task &gt;</type>
@@ -280,7 +268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="99" column="27"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="100" column="27"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1afbd5b817d76ec0097386eec2bc5eb914" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -299,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="105" column="25"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="106" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3cebfecafc57d2e8fc4f55d6f52b57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -318,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="111" column="24"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="112" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -332,7 +320,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="116" column="13"/>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="117" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -453,7 +441,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="34" column="14" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="35" bodyend="117"/>
+    <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="35" column="14" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="36" bodyend="118"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>advance</name></member>
@@ -463,14 +451,14 @@
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3cebfecafc57d2e8fc4f55d6f52b57" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>getRawSolution</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a1025c001495c8dd9e700dd562add7fea" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>getTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a0b947d91a384c6ffab544b62857f181e" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>getTaskNames</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6a6c05fa2ea49d1af0e27f9b51b03364" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>getTaskWeight</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1ac7055685c9244cb10fc0cfd42dfb59e2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>getTaskWeightProvider</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>setTaskWeight</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa2edbdf2f38c063a1bfcd519883d813b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>setTaskWeightProvider</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>Task</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1afbd5b817d76ec0097386eec2bc5eb914" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::ILinearTaskSolver</scope><name>toString</name></member>

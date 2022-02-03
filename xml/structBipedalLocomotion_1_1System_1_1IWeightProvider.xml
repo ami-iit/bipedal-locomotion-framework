@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1System_1_1IWeightProvider" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>BipedalLocomotion::System::IWeightProvider</compoundname>
+    <derivedcompoundref refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider" prot="public" virt="non-virtual">BipedalLocomotion::System::ConstantWeightProvider</derivedcompoundref>
+    <includes local="no">BipedalLocomotion/System/IWeightProvider.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1System_1_1IWeightProvider_1afe67e06d9a6e4c143d14af3840c489ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+        <definition>virtual Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::System::IWeightProvider::getWeight</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getWeight</name>
+        <reimplementedby refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a7cda22fd99324e914a9a3146f8464cb3">getWeight</reimplementedby>
+        <briefdescription>
+<para>Get the weight associated to the provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A vector representing the diagonal matrix of the weight </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/IWeightProvider.h" line="29" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1System_1_1IWeightProvider_1a50c9b15b55ec75c13e367da8885b3228" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::System::IWeightProvider::~IWeightProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWeightProvider</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/IWeightProvider.h" line="34" column="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kindref="compound">IWeightProvider</ref> describes the interface for a provider that produces the weight for a <ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kindref="compound">BipedalLocomotion::System::ILinearTaskSolver</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>BipedalLocomotion::System::ConstantWeightProvider</label>
+        <link refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::System::IWeightProvider</label>
+        <link refid="structBipedalLocomotion_1_1System_1_1IWeightProvider"/>
+      </node>
+    </inheritancegraph>
+    <location file="BipedalLocomotion/System/IWeightProvider.h" line="22" column="1" bodyfile="BipedalLocomotion/System/IWeightProvider.h" bodystart="23" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1System_1_1IWeightProvider_1afe67e06d9a6e4c143d14af3840c489ca" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IWeightProvider</scope><name>getWeight</name></member>
+      <member refid="structBipedalLocomotion_1_1System_1_1IWeightProvider_1a50c9b15b55ec75c13e367da8885b3228" prot="public" virt="virtual"><scope>BipedalLocomotion::System::IWeightProvider</scope><name>~IWeightProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

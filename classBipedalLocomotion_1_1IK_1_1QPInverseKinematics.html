@@ -35,12 +35,12 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
                 <li><a href="./v0.4.0/index.html">v0.4.0</a></li>
-                <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
-                <li><a href="./v0.5.0/index.html">v0.5.0</a></li>
                 <li><a href="./v0.6.0/index.html">v0.6.0</a></li>
+                <li><a href="./v0.5.0/index.html">v0.5.0</a></li>
                 <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
+                <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
+                <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
               </ol>
             </li>
             <li>
@@ -116,15 +116,14 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
             </dt>
             <dd>Add a linear task in the inverse kinematics.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a418b0e0b18f2f99ca55b88829e031898" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad57e1665b2cc4806241841d6c097bdad" class="m-doc">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; weightProvider) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>Set the weight associated to an already existing task.</dd>
+            <dd>Set the weightProvider associated to an already existing task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a952cf33f812a17a90505933370afbc8a" class="m-doc">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a62ce954d5b8064b6bb4148b65d81c628" class="m-doc">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const -&gt; std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>Get the weight associated to an already existing task.</dd>
+            <dd>Get the weightProvider associated to an already existing task.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a345b7b00600b13be14c74bdb007c5362" class="m-doc">finalize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
@@ -204,12 +203,12 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>currently we support only task with priority 0 or 1. If the priority is set to 0 the task will be considered as a constraint. In this case the weight is not required.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a> cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a418b0e0b18f2f99ca55b88829e031898"><div>
+          <section class="m-doc-details" id="ad57e1665b2cc4806241841d6c097bdad"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a418b0e0b18f2f99ca55b88829e031898" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad57e1665b2cc4806241841d6c097bdad" class="m-doc-self">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; weightProvider) <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>Set the weight associated to an already existing task.</p>
+            <p>Set the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -220,8 +219,8 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                   <td>name associated to the task</td>
                 </tr>
                 <tr>
-                  <td>weight</td>
-                  <td>new Weight associated to the task.</td>
+                  <td>weightProvider</td>
+                  <td>new Weight provider associated to the task.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -232,12 +231,11 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a952cf33f812a17a90505933370afbc8a"><div>
+          <section class="m-doc-details" id="a62ce954d5b8064b6bb4148b65d81c628"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a952cf33f812a17a90505933370afbc8a" class="m-doc-self">getTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              Eigen::Ref&lt;Eigen::VectorXd&gt; weight) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a62ce954d5b8064b6bb4148b65d81c628" class="m-doc-self">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>Get the weight associated to an already existing task.</p>
+            <p>Get the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -247,15 +245,11 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                   <td style="width: 1%">taskName</td>
                   <td>name associated to the task</td>
                 </tr>
-                <tr>
-                  <td>weight</td>
-                  <td>the weight associated to the task.</td>
-                </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>true in case of success and false otherwise</td>
+                  <td>a weak pointer to the weightProvider. If the task does not exist the pointer is not lockable</td>
                 </tr>
               </tfoot>
             </table>

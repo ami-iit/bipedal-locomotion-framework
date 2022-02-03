@@ -6,10 +6,12 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Barrier" prot="public">BipedalLocomotion::System::Barrier</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" prot="public">BipedalLocomotion::System::ClockBuilder</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider" prot="public">BipedalLocomotion::System::ConstantWeightProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public">BipedalLocomotion::System::IClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockFactory" prot="public">BipedalLocomotion::System::ClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" prot="public">BipedalLocomotion::System::ILinearTaskSolver</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" prot="public">BipedalLocomotion::System::ITaskControllerManager</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" prot="public">BipedalLocomotion::System::IWeightProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public">BipedalLocomotion::System::LinearTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1SharedResource" prot="public">BipedalLocomotion::System::SharedResource</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Sink" prot="public">BipedalLocomotion::System::Sink</innerclass>

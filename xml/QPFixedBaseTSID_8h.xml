@@ -13,16 +13,22 @@
       <node id="4">
         <label>functional</label>
       </node>
-      <node id="23">
+      <node id="24">
         <label>BipedalLocomotion/System/Advanceable.h</label>
         <link refid="Advanceable_8h"/>
-        <childnode refid="24" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>variant</label>
+      </node>
+      <node id="19">
+        <label>BipedalLocomotion/System/IWeightProvider.h</label>
+        <link refid="IWeightProvider_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -34,10 +40,10 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>BipedalLocomotion/System/Source.h</label>
         <link refid="Source_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -50,10 +56,10 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="26">
         <label>BipedalLocomotion/TSID/TSIDLinearTask.h</label>
         <link refid="TSIDLinearTask_8h"/>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -77,29 +83,31 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="18">
         <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
         <link refid="ILinearTaskSolver_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
         <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -118,7 +126,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>BipedalLocomotion/System/LinearTask.h</label>
         <link refid="LinearTask_8h"/>
         <childnode refid="2" relation="include">
@@ -127,7 +135,7 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -137,7 +145,7 @@
       <node id="13">
         <label>Eigen/Dense</label>
       </node>
-      <node id="26">
+      <node id="27">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="3">
@@ -156,7 +164,7 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -187,6 +195,8 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>cstddef</label>
@@ -197,10 +207,10 @@
       <node id="17">
         <label>manif/SO3.h</label>
       </node>
-      <node id="19">
+      <node id="20">
         <label>type_traits</label>
       </node>
-      <node id="20">
+      <node id="21">
         <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="2">
