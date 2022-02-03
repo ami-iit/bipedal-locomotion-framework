@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H
 #define BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H
 
+#include "BipedalLocomotion/System/IWeightProvider.h"
 #include <memory>
 #include <optional>
 #include <string>
@@ -58,23 +59,23 @@ public:
         = 0;
 
     /**
-     * Set the weight associated to an already existing task
+     * Set the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weight new Weight associated to the task.
+     * @param weightProvider new Weight provider associated to the task.
      * @return true if the weight has been updated
      */
-    virtual bool setTaskWeight(const std::string& taskName,
-                               Eigen::Ref<const Eigen::VectorXd> weight) = 0;
+    virtual bool setTaskWeightProvider(const std::string& taskName,
+                                       std::shared_ptr<const IWeightProvider> weightProvider)
+        = 0;
 
     /**
-     * Get the weight associated to an already existing task
+     * Get the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weight the weight associated to the task.
-     * @return true in case of success and false otherwise
+     * @return a weak pointer to the weightProvider. If the task does not exist the pointer is not
+     * lockable
      */
-    virtual bool getTaskWeight(const std::string& taskName,
-                               Eigen::Ref<Eigen::VectorXd> weight) const = 0;
-
+    virtual std::weak_ptr<const IWeightProvider>
+    getTaskWeightProvider(const std::string& taskName) const = 0;
 
     /**
      * Get a vector containing the name of the tasks.
