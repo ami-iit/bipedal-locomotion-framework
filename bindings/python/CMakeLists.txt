@@ -13,6 +13,7 @@ add_subdirectory(IK)
 add_subdirectory(TSID)
 add_subdirectory(TextLogging)
 add_subdirectory(Conversions)
+add_subdirectory(ContinuousDynamicalSystem)
 
 include(ConfigureFileWithCMakeIf)
 
