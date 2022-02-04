@@ -5,11 +5,14 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Implement the `IWeightProvider` interface and the `ConstantWeightProvider` class in the System component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
+- Implement the `MultiStateWeightProvider` class in the `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/507)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Log the arms external wrenches on the YarpRobotLogger for iCubGenova09 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
 - IK and TSID now uses the weight provider to specify the weight associated to a task (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
+- Add the possibility to pass a `System::IWeightProvider` to the `ILinearTaskSolver::addTask` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/507)
+- It is now possible to reset multiple time the state of the `FirstOrderSmoother` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/507)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
