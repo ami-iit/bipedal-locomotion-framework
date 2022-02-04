@@ -42,6 +42,11 @@ bool FirstOrderSmoother::initialize(
     }
 
     m_linearSystem = std::make_shared<LinearTimeInvariantSystem>();
+    if (!m_integrator.setDynamicalSystem(m_linearSystem))
+    {
+        log()->error("{} Unable to initialize integrator.", logPrefix);
+        return false;
+    }
     m_isInitialized = true;
 
     return true;
@@ -52,7 +57,7 @@ bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
     constexpr auto logPrefix = "[FirstOrderSmoother::reset]";
     m_isInitialStateSet = false;
 
-    if(!m_isInitialized)
+    if (!m_isInitialized)
     {
         log()->error("{} Please initialize the class before.", logPrefix);
         return false;
@@ -65,7 +70,7 @@ bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
     const Eigen::MatrixXd A = 3.0 / m_settlingTime //
                               * Eigen::MatrixXd::Identity(systemSize, systemSize);
 
-    if(!m_linearSystem->setSystemMatrices(-A, A))
+    if (!m_linearSystem->setSystemMatrices(-A, A))
     {
         log()->error("{} Unable to set the linear system matrices.", logPrefix);
         return false;
@@ -73,11 +78,6 @@ bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
     if (!m_linearSystem->setState(initialPoint))
     {
         log()->error("{} Unable to initialize the system.", logPrefix);
-        return false;
-    }
-    if (!m_integrator.setDynamicalSystem(m_linearSystem))
-    {
-        log()->error("{} Unable to initialize integrator.", logPrefix);
         return false;
     }
 
@@ -92,7 +92,7 @@ bool FirstOrderSmoother::advance()
 
     m_isOutputValid = false;
 
-    if(!m_isInitialized || !m_isInitialStateSet)
+    if (!m_isInitialized || !m_isInitialStateSet)
     {
         log()->error("[FirstOrderSmoother::advance] Please call initialize() and reset() before "
                      "advance.");
