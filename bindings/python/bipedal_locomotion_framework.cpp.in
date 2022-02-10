@@ -57,6 +57,10 @@
 #include <BipedalLocomotion/bindings/Conversions/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_ManifConversions
 
+@cmakeif FRAMEWORK_COMPILE_YarpUtilities
+#include <BipedalLocomotion/bindings/YarpUtilities/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
 {
@@ -130,4 +134,9 @@ PYBIND11_MODULE(bindings, m)
     py::module conversionsModule = m.def_submodule("conversions");
     bindings::Conversions::CreateModule(conversionsModule);
     @endcmakeif FRAMEWORK_COMPILE_ManifConversions
+
+    @cmakeif FRAMEWORK_COMPILE_YarpUtilities
+    py::module yarpUtilitiesModule = m.def_submodule("yarp_utilities");
+    bindings::YarpUtilities::CreateModule(yarpUtilitiesModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpUtilities
 }
