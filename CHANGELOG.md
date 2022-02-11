@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Implement the `IWeightProvider` interface and the `ConstantWeightProvider` class in the System component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
+- Add installation of pip metadata files for when blf python bindings are installed only via CMake (https://github.com/ami-iit/bipedal-locomotion-framework/pull/508)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
