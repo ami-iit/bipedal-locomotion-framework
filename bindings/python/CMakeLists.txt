@@ -17,8 +17,19 @@ add_subdirectory(YarpUtilities)
 
 include(ConfigureFileWithCMakeIf)
 
-set(FRAMEWORK_COMPILE_RobotInterfaceBindings FRAMEWORK_COMPILE_RobotInterface AND FRAMEWORK_COMPILE_YarpImplementation)
-set(FRAMEWORK_COMPILE_YarpBindingsSystem FRAMEWORK_COMPILE_System AND FRAMEWORK_COMPILE_YarpImplementation)
+if (FRAMEWORK_COMPILE_RobotInterface AND FRAMEWORK_COMPILE_YarpImplementation)
+  set(FRAMEWORK_COMPILE_BINDINGS_RobotInterface ON)
+else ()
+  set(FRAMEWORK_COMPILE_BINDINGS_RobotInterface OFF)
+endif()
+mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_RobotInterface)
+
+if (FRAMEWORK_COMPILE_System AND FRAMEWORK_COMPILE_YarpImplementation)
+  set(FRAMEWORK_COMPILE_BINDINGS_YarpSystem ON)
+else ()
+  set(FRAMEWORK_COMPILE_BINDINGS_YarpSystem OFF)
+endif()
+mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_YarpSystem)
 
 configure_file_with_cmakeif(${CMAKE_CURRENT_SOURCE_DIR}/bipedal_locomotion_framework.cpp.in
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp

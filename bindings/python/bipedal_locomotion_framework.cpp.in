@@ -25,9 +25,9 @@
 #include <BipedalLocomotion/bindings/System/Clock.h>
 @endcmakeif FRAMEWORK_COMPILE_System
 
-@cmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
 #include <BipedalLocomotion/bindings/System/YarpModule.h>
-@endcmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
 
 @cmakeif FRAMEWORK_COMPILE_Contact
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
@@ -37,9 +37,9 @@
 #include <BipedalLocomotion/bindings/Planners/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Planners
 
-@cmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 
 @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
@@ -96,9 +96,9 @@ PYBIND11_MODULE(bindings, m)
     bindings::CreateClock(m);
     @endcmakeif FRAMEWORK_COMPILE_System
 
-    @cmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
     bindings::System::CreateYarpModule(systemModule);
-    @endcmakeif FRAMEWORK_COMPILE_YarpBindingsSystem
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module contactsModule = m.def_submodule("contacts");
@@ -110,10 +110,10 @@ PYBIND11_MODULE(bindings, m)
     bindings::Planners::CreateModule(plannersModule);
     @endcmakeif FRAMEWORK_COMPILE_Planners
 
-    @cmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
     py::module robotInterfaceModule = m.def_submodule("robot_interface");
     bindings::RobotInterface::CreateModule(robotInterfaceModule);
-    @endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 
     @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
     py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
