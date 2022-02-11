@@ -82,7 +82,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
       if: contains(matrix.os, 'windows')
