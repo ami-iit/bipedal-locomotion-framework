@@ -218,3 +218,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
 framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
   "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_YARP_telemetry" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
+  "Do you want to generate and compile the VectorsCollectionWrapper?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)
