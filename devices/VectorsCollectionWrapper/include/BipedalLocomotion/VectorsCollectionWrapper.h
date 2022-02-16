@@ -74,7 +74,6 @@ private:
 
     BufferedVectorsCollectionPort m_wrapperPort; ///< output port
     std::string m_portPrefix{"/vcWrapper"};
-    yarp::sig::Vector m_placeHolderVec;
 
     bool setupPortManager(const std::vector<PortName>& portNames,
                           const std::vector<VarOutName>& varNames,

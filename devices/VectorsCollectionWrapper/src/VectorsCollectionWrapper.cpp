@@ -144,7 +144,7 @@ bool VectorsCollectionWrapper::setupPortManager(const std::vector<PortName>& por
 void VectorsCollectionWrapper::run()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_placeHolderVec.clear();
+
     auto& data = m_wrapperPort.prepare();
     data.vectors.clear();
     // get the data from the ports
@@ -155,9 +155,8 @@ void VectorsCollectionWrapper::run()
         vec = portData.port.read(/*shouldWait = */ false);
         if (vec)
         {
-            m_placeHolderVec = *vec;
-            data.vectors[portData.varName].assign(m_placeHolderVec.data(),
-                                                  m_placeHolderVec.data() + m_placeHolderVec.size());
+            data.vectors[portData.varName].assign(vec->data(),
+                                                  vec->data() + vec->size());
         }
     }
 
