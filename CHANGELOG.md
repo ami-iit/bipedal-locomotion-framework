@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement the `IWeightProvider` interface and the `ConstantWeightProvider` class in the System component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
 - Add installation of pip metadata files for when blf python bindings are installed only via CMake (https://github.com/ami-iit/bipedal-locomotion-framework/pull/508)
 - Implement the python bindings for the VectorsCollection message and the associated buffered port (https://github.com/ami-iit/bipedal-locomotion-framework/pull/511)
+- Implement the `VectorsCollectionWrapper` device for collection of arbitrary vector ports (https://github.com/ami-iit/bipedal-locomotion-framework/pull/512)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
