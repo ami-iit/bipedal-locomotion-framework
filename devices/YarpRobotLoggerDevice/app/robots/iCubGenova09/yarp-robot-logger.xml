@@ -37,7 +37,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <param name="sixaxis_forcetorque_sensors_list">("left_front_ft_client", "left_rear_ft_client", "right_front_ft_client", "right_rear_ft_client")</param>
+      <param name="sixaxis_forcetorque_sensors_list">("left_front_ft_client", "left_rear_ft_client", "right_front_ft_client", "right_rear_ft_client", "left_arm_ft_client", "right_arm_ft_client")</param>
     </group>
 
     <group name="CartesianWrenches">
@@ -61,6 +61,8 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <elem name="left_rear_ft_client">left_rear_ft_client</elem>
       <elem name="right_front_ft_client">right_front_ft_client</elem>
       <elem name="right_rear_ft_client">right_rear_ft_client</elem>
+      <elem name="left_arm_ft_client">left_arm_ft_client</elem>
+      <elem name="right_arm_ft_client">right_arm_ft_client</elem>
       <elem name="left_front_wrench_client">left_front_wrench_client</elem>
       <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
       <elem name="right_front_wrench_client">right_front_wrench_client</elem>
