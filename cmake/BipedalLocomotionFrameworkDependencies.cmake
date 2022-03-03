@@ -181,7 +181,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
 
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
   "Do you want to generate and compile the Python bindings?" ON
-  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation" OFF)
+  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Math" OFF)
 
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
@@ -218,3 +218,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
 framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
   "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_YARP_telemetry" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
+  "Do you want to generate and compile the VectorsCollectionWrapper?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)

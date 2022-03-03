@@ -4,6 +4,7 @@
 
 add_subdirectory(FloatingBaseEstimatorDevice)
 add_subdirectory(YarpRobotLoggerDevice)
+add_subdirectory(VectorsCollectionWrapper)
 
 if (FRAMEWORK_COMPILE_example_devices)
   add_subdirectory(examples)

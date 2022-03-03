@@ -5,11 +5,16 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Implement the `IWeightProvider` interface and the `ConstantWeightProvider` class in the System component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
+- Add installation of pip metadata files for when blf python bindings are installed only via CMake (https://github.com/ami-iit/bipedal-locomotion-framework/pull/508)
+- Implement the python bindings for the VectorsCollection message and the associated buffered port (https://github.com/ami-iit/bipedal-locomotion-framework/pull/511)
+- Implement the `VectorsCollectionWrapper` device for collection of arbitrary vector ports (https://github.com/ami-iit/bipedal-locomotion-framework/pull/512)
+- Add reading of right upper leg FT for `iCubGenova09` and associated cartesian wrench in `YarpRobotLoggerDevice` configuration files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/513)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Log the arms external wrenches on the YarpRobotLogger for iCubGenova09 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
 - IK and TSID now uses the weight provider to specify the weight associated to a task (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
+- The `Planners`, `System`, `RobotInterface` and `YarpImplementation` components are no more mandatory to compile the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/511)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
