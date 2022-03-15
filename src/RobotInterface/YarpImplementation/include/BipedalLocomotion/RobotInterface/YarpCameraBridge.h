@@ -64,7 +64,7 @@ public:
      * Initialize estimator
      * @param[in] handler Parameters handler
      */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the list of device drivers from which the sensor measurements need to be streamed

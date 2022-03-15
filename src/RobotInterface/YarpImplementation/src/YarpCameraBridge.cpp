@@ -96,7 +96,7 @@ struct YarpCameraBridge::Impl
     }
 
 
-    using SubConfigLoader = bool (YarpCameraBridge::Impl::*)(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler>,
+    using SubConfigLoader = bool (YarpCameraBridge::Impl::*)(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
                                                              CameraBridgeMetaData&);
     /**
      * Checks is a stream is enabled in configuration and
@@ -105,7 +105,7 @@ struct YarpCameraBridge::Impl
     bool subConfigLoader(const std::string& enableStreamString,
                          const std::string& streamGroupString,
                          const SubConfigLoader loader,
-                         std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+                         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                          CameraBridgeMetaData& metaData,
                          bool& enableStreamFlag)
     {
@@ -140,7 +140,7 @@ struct YarpCameraBridge::Impl
     /**
      * Configure cameras meta data
      */
-    bool configureCameras(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool configureCameras(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                           CameraBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpCameraBridge::Impl::configureCameras] ";
@@ -461,7 +461,7 @@ YarpCameraBridge::YarpCameraBridge() : m_pimpl(std::make_unique<Impl>())
 
 YarpCameraBridge::~YarpCameraBridge() = default;
 
-bool YarpCameraBridge::initialize(std::weak_ptr<IParametersHandler> handler)
+bool YarpCameraBridge::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr std::string_view logPrefix = "[YarpCameraBridge::initialize] ";
 
