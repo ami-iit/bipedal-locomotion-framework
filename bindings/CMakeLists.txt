@@ -4,12 +4,7 @@
 
 if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
-    # define new line accordingly to the operating system
-    if (WIN32)
-       set(NEW_LINE "\n\r")
-    else()
-       set(NEW_LINE "\n")
-    endif()
+    set(NEW_LINE "\n")
 
     option(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES
         "Do you want BLF to detect and use the active site-package directory? (it could be a system dir)"
