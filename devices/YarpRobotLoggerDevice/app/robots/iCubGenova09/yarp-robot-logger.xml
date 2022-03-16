@@ -6,6 +6,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">icub</param>
   <param name="sampling_period_in_s">0.01</param>
+  <param name="video_fps">30</param>
   <param name="port_prefix">/yarp-robot-logger</param>
 
   <group name="Telemetry">
@@ -21,6 +22,16 @@ GNU Lesser General Public License v2.1 or any later version. -->
     </group>
   </group>
 
+  <group name="RobotCameraBridge">
+      <param name="stream_cameras">true</param>
+      <group name="Cameras">
+        <param name="rgb_cameras_list">("webcam")</param>
+        <param name="rgb_image_width">(640)</param>
+        <param name="rgb_image_height">(480)</param>
+      </group>
+  </group>
+
+  
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>
@@ -28,8 +39,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">true</param>
     <param name="stream_forcetorque_sensors">true</param>
-    <param name="stream_joint_states">true</param>
-    <param name="stream_pids">true</param>
+    <param name="stream_pids">false</param>
     <param name="stream_motor_PWM">true</param>
 
     <group name="RemoteControlBoardRemapper">
@@ -72,6 +82,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <elem name="left_arm_wrench_client">left_arm_wrench_client</elem>
       <elem name="right_upper_leg_wrench_client">right_upper_leg_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
+      <elem name="webcam">webcam</elem>
     </paramlist>
   </action>
 

@@ -25,6 +25,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <xi:include href="interface/right_arm_wrench_client.xml" />
         <xi:include href="interface/left_arm_wrench_client.xml" />
         <xi:include href="interface/right_upper_leg_wrench_client.xml" />
+        <xi:include href="interface/webcam.xml" />	
         <xi:include href="./yarp-robot-logger.xml" />
     </devices>
 </robot>
