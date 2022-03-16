@@ -8,12 +8,13 @@
 
 #include <memory>
 #include <mutex>
-#include <opencv2/videoio.hpp>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <atomic>
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/videoio.hpp>
 
 #include <yarp/dev/DeviceDriver.h>
 #include <yarp/dev/Wrapper.h>
@@ -83,9 +84,12 @@ private:
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
 
+    std::atomic<bool> m_recordVideoIsRunning{false};
+    std::thread m_videoThread;
+
     yarp::telemetry::experimental::BufferManager<double> m_bufferManager;
 
-
+    void recordVideo();
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,

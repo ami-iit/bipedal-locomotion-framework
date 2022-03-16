@@ -379,6 +379,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
     if (ok)
     {
+        m_videoThread = std::thread(&YarpRobotLoggerDevice::recordVideo, this);
         return start();
     }
     return ok;
@@ -398,6 +399,48 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     orientation = signal.segment<3>(0);
     accelerometer = signal.segment<3>(3);
     gyro = signal.segment<3>(6);
+}
+
+void YarpRobotLoggerDevice::recordVideo()
+{
+    auto time = BipedalLocomotion::clock().now();
+    auto oldTime = time;
+    auto wakeUpTime = time;
+    m_recordVideoIsRunning = true;
+    const std::chrono::duration<double> recordVideoPeriod = std::chrono::duration<double>(1 / double(m_videoFPS));
+
+    while(m_recordVideoIsRunning)
+    {
+        // detect if a clock has been reset
+        oldTime = time;
+        time = BipedalLocomotion::clock().now();
+        // if the current time is lower than old time, the timer has been reset.
+        if ((time - oldTime).count() < 1e-12)
+        {
+            wakeUpTime = time;
+        }
+        wakeUpTime += recordVideoPeriod;
+
+        for (const auto& camera : m_rgbCamerasList)
+        {
+            if (m_cameraBridge->getColorImage(camera, m_videoWriters[camera].frame))
+            {
+                auto& writer = m_videoWriters[camera];
+                std::lock_guard<std::mutex> lock(writer.mutex);
+                writer.writer->write(m_videoWriters[camera].frame);
+            }
+        }
+
+        // release the CPU
+        BipedalLocomotion::clock().yield();
+
+        if (wakeUpTime < BipedalLocomotion::clock().now())
+        {
+            log()->debug("[YarpRobotLoggerDevice::recordVideo] The video thread spent more time than expected to save the cameras");
+        }
+
+        BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+    }
 }
 
 void YarpRobotLoggerDevice::run()
@@ -549,24 +592,6 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
-
-    // save the video if required
-    if (m_counter == 0)
-    {
-        for (const auto& camera : m_rgbCamerasList)
-        {
-            if (m_cameraBridge->getColorImage(camera, m_videoWriters[camera].frame))
-            {
-                std::lock_guard<std::mutex> lock(m_videoWriters[camera].mutex);
-                m_videoWriters[camera].writer->write(m_videoWriters[camera].frame);
-            }
-        }
-    }
-    m_counter++;
-    if (m_counter > (1 / double(m_videoFPS)) / this->getPeriod())
-    {
-        m_counter = 0;
-    }
 }
 
 void YarpRobotLoggerDevice::saveVideo(const std::string& fileName, bool lastSave)
@@ -608,5 +633,12 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
+    m_recordVideoIsRunning = false;
+    if (m_videoThread.joinable())
+    {
+        m_videoThread.join();
+        m_videoThread = std::thread();
+    }
+
     return true;
 }
