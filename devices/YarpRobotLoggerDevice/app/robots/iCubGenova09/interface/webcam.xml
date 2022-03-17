@@ -1,8 +1,8 @@
 <!-- Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 This software may be modified and distributed under the terms of the
 GNU Lesser General Public License v2.1 or any later version. -->
-<?xml version="1.0" encoding="UTF-8" ?>
-<device xmlns:xi="http://www.w3.org/2001/XInclude" name="webcam" type="remote_grabber">
-    <param name="local">/yarp_robot_logger/webcam_rgb:i</param>
-    <param name="remote">/webcam_icub</param>
+<device xmlns:xi="http://www.w3.org/2001/XInclude" name="webcam" type="opencv_grabber">
+    <param name="camera">2</param>
+    <param name="width">640</param>
+    <param name="height">480</param>
 </device>
