@@ -135,6 +135,19 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                     logPrefix);
     }
 
+    ret = m_pimpl->subConfigLoader("stream_temperatures",
+                                   "TemperatureSensors",
+                                   &YarpSensorBridge::Impl::configureTemperatureSensors,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   m_pimpl->metaData.bridgeOptions.isTemperatureSensorEnabled);
+    if (!ret)
+    {
+        log()->info("{} Skipping the configuration of TemperatureSensors. YarpSensorBridge "
+                    "will not stream relevant measures.",
+                    logPrefix);
+    }
+
     m_pimpl->bridgeInitialized = true;
     return true;
 }
@@ -155,6 +168,7 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
     ret = ret && m_pimpl->attachAllInertials(deviceDriversList);
     ret = ret && m_pimpl->attachAllSixAxisForceTorqueSensors(deviceDriversList);
     ret = ret && m_pimpl->attachCartesianWrenchInterface(deviceDriversList);
+    ret = ret && m_pimpl->attachAllTemperatureSensors(deviceDriversList);
 
     if (!ret)
     {
@@ -272,6 +286,16 @@ bool YarpSensorBridge::getCartesianWrenchesList(std::vector<std::string>& cartes
         return false;
     }
     cartesianWrenchesList = m_pimpl->metaData.sensorsList.cartesianWrenchesList;
+    return true;
+}
+
+bool YarpSensorBridge::getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList)
+{
+    if (!m_pimpl->checkValid("[YarpSensorBridge::getTemperatureSensorsList]"))
+    {
+        return false;
+    }
+    temperatureSensorsList = m_pimpl->metaData.sensorsList.temperatureSensorsList;
     return true;
 }
 
@@ -564,6 +588,25 @@ bool YarpSensorBridge::getCartesianWrench(const std::string& cartesianWrenchName
 
     auto iter = m_pimpl->wholeBodyCartesianWrenchMeasures.find(cartesianWrenchName);
     cartesianWrenchMeasurement = yarp::eigen::toEigen(iter->second.first);
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
+    return true;
+}
+
+bool YarpSensorBridge::getTemperature(const std::string& temperatureSensorName,
+                                      double& temperature,
+                                      OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getTemperature ",
+                                          m_pimpl->wholeBodyTemperatureMeasures,
+                                          temperatureSensorName))
+    {
+        return false;
+    }
+
+    auto iter = m_pimpl->wholeBodyTemperatureMeasures.find(temperatureSensorName);
+    // assuming the vector has only one value
+    temperature = iter->second.first(0);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
     return true;

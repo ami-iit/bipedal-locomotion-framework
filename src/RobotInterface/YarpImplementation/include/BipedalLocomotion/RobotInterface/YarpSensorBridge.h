@@ -60,6 +60,7 @@ namespace RobotInterface
  * |                            |stream_pids                      | boolean           |Flag to activate the attachment to remapped control boards for pids reading      |
  * |                            |stream_motor_states              | boolean           |Flag to activate the attachment to remapped control boards for motor states reading      |
  * |                            |stream_motor_PWM                 | boolean           |Flag to activate the attachment to remapped control boards for PWM reading      |
+ * |                            |stream_temperatures              | boolean           |Flag to activate the attachment to MAS temperature sensors      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
@@ -72,13 +73,8 @@ namespace RobotInterface
  * |                            |cartesian_wrenches_list          | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 6      |
  * |SixAxisForceTorqueSensors   |                                 |                   |Expects the Six axis FT sensors to be opened with SixAxisForceTorqueSensors interface remapped through multiple analog sensors remapper ("multipleanalogsensorsremapper") or to be opened as analog sensor ("analogsensorclient") device having channel dimensions as 6|
  * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors (the difference between a MAS FT and an analog FT is done internally assuming that the names are distinct form each other)|
- * |Cameras                     |                                 |                   |Expects cameras to be opened either as remote frame grabber ("RemoteFrameGrabber") with IFrameGrabber interface or rgbd sensor ("RGBDSensorClient") with IRGBDSensor interface|
- * |                            |rgbd_list                        | vector of strings |list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface      |
- * |                            |rgbd_image_width                 | vector of strings |list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
- * |                            |rgbd_image_height                | vector of strings |list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list |
- * |                            |rgb_cameras_list                 | vector of strings |list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface|
- * |                            |rgb_image_width                  | vector of strings |list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
- * |                            |rgb_image_height                 | vector of strings |list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list |
+ * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
+ * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
  *
  */
 class YarpSensorBridge : public ISensorBridge,
@@ -194,6 +190,13 @@ public:
      * @return  true/false in case of success/failure
      */
     bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList) final;
+
+    /**
+     * Get temperature sensors
+     * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
+     * @return  true/false in case of success/failure
+     */
+    bool getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList);
 
     const std::vector<std::string>& getJointsList() const;
 
@@ -373,6 +376,17 @@ public:
     bool getCartesianWrench(const std::string& cartesianWrenchName,
                             Eigen::Ref<Vector6d> cartesianWrenchMeasurement,
                             OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get temperature measurement
+     * @param[in] temperatureSensorName name of the temperature sensor
+     * @param[out] temperature temperature measurement
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    bool getTemperature(const std::string& temperatureSensorName,
+                        double& temperature,
+                        OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor current in ampere

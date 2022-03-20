@@ -46,6 +46,8 @@ struct SensorBridgeOptions
     bool isMotorSensorsEnabled{false}; /** flag to connect motor measurement sources */
     bool isPWMControlEnabled{false}; /** flag to connect PWM measurement sources */
 
+    bool isTemperatureSensorEnabled{false}; /** flag to connect temperature measurement sources */
+
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured
                            at initialization */
 };
@@ -69,6 +71,7 @@ struct SensorLists
                                                                  sensors attached to the bridge */
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached
                                                        to the bridge */
+    std::vector<std::string> temperatureSensorsList; /**< list of temperature sensors attached to the bridge */
 };
 
 /**
@@ -188,6 +191,16 @@ public:
      * @return  true/false in case of success/failure
      */
     virtual bool getCartesianWrenchesList(std::vector<std::string>& cartesianWrenchesList)
+    {
+        return false;
+    };
+
+    /**
+     * Get temperature sensors
+     * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
+     * @return  true/false in case of success/failure
+     */
+    virtual bool getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList)
     {
         return false;
     };
@@ -399,6 +412,20 @@ public:
     };
 
     /**
+     * Get temperature measurement
+     * @param[in] temperatureSensorName name of the temperature sensor
+     * @param[out] temperature temperature measurement
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getTemperature(const std::string& temperatureSensorName,
+                                double& temperature,
+                                OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
      * Destructor
      */
     virtual ~ISensorBridge() = default;
@@ -456,6 +483,7 @@ protected:
         return true;
     };
 
+public:
     /**
      * Get motor currents in ampere
      * @param[in] jointName name of the joint
