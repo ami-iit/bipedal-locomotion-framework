@@ -56,3 +56,16 @@ The **YARPRobotLoggerDevice** is a YARP device based on `YarpSensorBridge` and `
 - `Gyros` struct containing data for each selected source.
 - `Orientation` struct containing data for each selected source as roll-pitch-yaw euler angles.
 
+## 🏷️ Migrate mat files 
+### v0.6.0 -> v0.7.0
+
+To migrate an existing `mat` file saved with the device version `v0.6.0` to `v0.7.0` you can run the matlab script `scripts/migrate_0_6_0_to_0_7_0.m` as
+```matlab
+% name of the robot 
+robot_name = 'iCubGenova09';
+
+% path of the folder containing the mat files that will migrate
+files_path = './dataset';
+migrate_0_6_0_to_0_7_0(files_path, robot_name);
+```
+You will find the new datasets in `<files_path>/v070`
