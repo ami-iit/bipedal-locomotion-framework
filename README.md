@@ -4,9 +4,9 @@
 
 <p align="center">
    <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++17-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" class="center"/></a>
-   <a href="https://github.com/dic-iit/bipedal-locomotion-framework/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" class="center"/></a>
-  <a href="https://dic-iit.github.io/bipedal-locomotion-framework/doxygen/doc/html/index.html"><img src="https://github.com/dic-iit/bipedal-locomotion-framework/workflows/GitHub%20Pages/badge.svg" alt="doxygen"/></a>
-  <a href="https://github.com/dic-iit/bipedal-locomotion-framework/actions?query=workflow%3A%22C%2B%2B+CI+Workflow%22"><img src="https://github.com/dic-iit/bipedal-locomotion-framework/workflows/C++%20CI%20Workflow/badge.svg" alt="CI"/></a>
+   <a href="https://github.com/ami-iit/bipedal-locomotion-framework/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" class="center"/></a>
+  <a href="https://ami-iit.github.io/bipedal-locomotion-framework/doxygen/doc/html/index.html"><img src="https://github.com/ami-iit/bipedal-locomotion-framework/workflows/GitHub%20Pages/badge.svg" alt="doxygen"/></a>
+  <a href="https://github.com/ami-iit/bipedal-locomotion-framework/actions?query=workflow%3A%22C%2B%2B+CI+Workflow%22"><img src="https://github.com/ami-iit/bipedal-locomotion-framework/workflows/C++%20CI%20Workflow/badge.svg" alt="CI"/></a>
 </p>
 
 
@@ -63,7 +63,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/dic-iit/lie-group-controllers) |
+|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
 |     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
 | [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
 |    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
@@ -88,7 +88,7 @@ The **bipedal-locomotion-framework**  can be built on Windows, macOS, and Linux.
 If you do not want to use the `robotology-superbuild` you can manually compile the code in the repository running the following command in the terminal
 
 ```sh
-git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
+git clone https://github.com/ami-iit/bipedal-locomotion-framework.git
 cd bipedal-locomotion-framework
 mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=<path/where/you/want/to/install> \

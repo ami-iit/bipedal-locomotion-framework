@@ -35,7 +35,7 @@ namespace TSID
  * The desired acceleration is chosen such that the CoM will asymptotically converge to the
  * desired trajectory. \f$\dot{v} ^ *\f$ is computed with a
  * standard PD controller in \f$R^3\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class CoMTask : public TSIDLinearTask

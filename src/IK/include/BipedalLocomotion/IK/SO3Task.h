@@ -36,7 +36,7 @@ namespace IK
  * desired velocity. The desired velocity is chosen such that the orientation of the frame will
  * asymptotically converge to the desired trajectory. \f$\omega ^ *\f$ is computed with a
  * Proportional controller in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class SO3Task : public IKLinearTask

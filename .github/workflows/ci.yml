@@ -128,7 +128,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ${{ github.workspace }}/install/deps
-        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
+        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/ami-iit/bipedal-locomotion-framework/pull/45
         key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}
 
 
@@ -219,7 +219,7 @@ jobs:
         # the other dependencies. Please check:
         # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -250,7 +250,7 @@ jobs:
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
@@ -263,7 +263,7 @@ jobs:
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
@@ -355,7 +355,7 @@ jobs:
 
         # CasADi
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -375,7 +375,7 @@ jobs:
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
@@ -385,7 +385,7 @@ jobs:
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
