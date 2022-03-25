@@ -46,7 +46,7 @@ jobs:
         shell: bash -l {0}
         run: |
           cd docs
-          git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
+          git clone https://github.com/ami-iit/bipedal-locomotion-framework.git
           python3 ./generate_website.py --mcss_path ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
 
       - name: Archive artifacts
