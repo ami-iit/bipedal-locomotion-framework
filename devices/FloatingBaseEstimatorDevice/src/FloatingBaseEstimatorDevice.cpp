@@ -65,16 +65,9 @@ FloatingBaseEstimatorDevice::~FloatingBaseEstimatorDevice()
 bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
 {
     YarpUtilities::getElementFromSearchable(config, "robot", m_robot);
-    if (!YarpUtilities::getElementFromSearchable(config, "robot_model", m_robotModel))
+    if (!YarpUtilities::getElementFromSearchable(config, "robot_model_uses_front_rear_foot_fts", m_robotModelUsesFrontRearFootFTs))
     {
-        yError() << m_printPrefix << "[open] Missing required parameter \"robot_model\"";
-        return false;
-    }
-    if (std::find(m_supportedRobotModels.begin(), m_supportedRobotModels.end(),
-        m_robotModel) == m_supportedRobotModels.end())
-    {
-        yError() << m_printPrefix << "[open] Specified \"robot_model\" parameter not in the list of supported models."
-                 << " Currently supported robot models: iCubGenova04 and iCubGenova09.";
+        yError() << m_printPrefix << "[open] Missing required parameter \"robot_model_uses_front_rear_foot_fts\"";
         return false;
     }
 
@@ -84,7 +77,7 @@ bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
     YarpUtilities::getVectorFromSearchable(config, "left_foot_wrenches", m_leftFootWrenchNames);
     YarpUtilities::getVectorFromSearchable(config, "right_foot_wrenches", m_rightFootWrenchNames);
 
-    if (m_robotModel == "iCubGenova04")
+    if (!m_robotModelUsesFrontRearFootFTs)
     {
         // if robot model is iCubGenova04, expect only one wrench per foot
         if (m_leftFootWrenchNames.size() != 1 || m_rightFootWrenchNames.size() != 1)
@@ -93,7 +86,7 @@ bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
             return false;
         }
     }
-    else if (m_robotModel == "iCubGenova09")
+    else if (m_robotModelUsesFrontRearFootFTs)
     {
         // if robot model is iCubGenova09, expect front and rear foot cartesian wrenches
         if (m_leftFootWrenchNames.size() != 2 || m_rightFootWrenchNames.size() != 2)
@@ -387,9 +380,12 @@ bool FloatingBaseEstimatorDevice::updateContactWrenches()
     lfWrench.setZero();
     rfWrench.setZero();
 
-    if (m_robotModel == "iCubGenova09")
+    if (m_robotModelUsesFrontRearFootFTs)
     {
         // in case of iCubGenova09, sum the front and rear contact wrenches
+        // no need for an adjoint wrench transform since, both the
+        // wrenches are already expressed in the sole frame
+        // see https://github.com/robotology/whole-body-estimators/blob/6841cdcc49a30c2ee59a6d7e5437d9b24b5b2d4f/devices/wholeBodyDynamics/app/wholebodydynamics-icub3-external-sim.xml#L31-L34
         for (auto& wrenchName : m_leftFootWrenchNames)
         {
             Eigen::Matrix<double, 6, 1> tempWrench;
@@ -400,11 +396,11 @@ bool FloatingBaseEstimatorDevice::updateContactWrenches()
         for (auto& wrenchName : m_rightFootWrenchNames)
         {
             Eigen::Matrix<double, 6, 1> tempWrench;
-            ok = ok && m_robotSensorBridge->getCartesianWrench(wrenchName, rfWrench);
+            ok = ok && m_robotSensorBridge->getCartesianWrench(wrenchName, tempWrench);
             rfWrench += tempWrench;
         }
     }
-    else if (m_robotModel == "iCubGenova04")
+    else
     {
         ok = ok && m_robotSensorBridge->getCartesianWrench(m_leftFootWrenchNames[0], lfWrench);
         ok = ok && m_robotSensorBridge->getCartesianWrench(m_rightFootWrenchNames[0], rfWrench);
@@ -472,8 +468,10 @@ void FloatingBaseEstimatorDevice::publishBaseLinkState(const FloatingBaseEstimat
     size_t linVelOffset{6};
     size_t angVelOffset{9};
 
+    iDynTree::Rotation baseRdyn;
+    iDynTree::toEigen(baseRdyn) = estimatorOut.basePose.quat().toRotationMatrix();
     m_basePos = estimatorOut.basePose.translation();
-    m_baseRPY = estimatorOut.basePose.quat().toRotationMatrix().eulerAngles(2, 1, 0).reverse(); // rpy euler angles in xyz convention
+    m_baseRPY = iDynTree::toEigen(baseRdyn.asRPY()); // rpy euler angles in xyz convention
     m_baseLinearVel = estimatorOut.baseTwist.head<3>();
     m_baseAngularVel = estimatorOut.baseTwist.tail<3>();
 
@@ -508,9 +506,16 @@ void FloatingBaseEstimatorDevice::publishInternalStateAndStdDev(const FloatingBa
 
     const auto& s = estimatorOut.state;
     const auto& d = estimatorOut.stateStdDev;
-    Eigen::Vector3d imuRPY = s.imuOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
-    Eigen::Vector3d rfRPY = s.rContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
-    Eigen::Vector3d lfRPY = s.lContactFrameOrientation.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
+
+    iDynTree::Rotation Rdyn;
+    iDynTree::toEigen(Rdyn) = s.imuOrientation.toRotationMatrix();
+    Eigen::Vector3d imuRPY = iDynTree::toEigen(Rdyn.asRPY());
+
+    iDynTree::toEigen(Rdyn) = s.rContactFrameOrientation.toRotationMatrix();
+    Eigen::Vector3d rfRPY = iDynTree::toEigen(Rdyn.asRPY());
+
+    iDynTree::toEigen(Rdyn) = s.lContactFrameOrientation.toRotationMatrix();
+    Eigen::Vector3d lfRPY = iDynTree::toEigen(Rdyn.asRPY());
 
     Eigen::VectorXd internalstateAndStdDev;
     internalstateAndStdDev.resize(vecSize + vecSize);

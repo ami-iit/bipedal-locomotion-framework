@@ -5,7 +5,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
 <?xml version="1.0" encoding="UTF-8" ?>
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="base-estimator" type="FloatingBaseEstimatorDevice">
     <param name="robot">icubSim</param>
-    <param name="robot_model">iCubGenova04</param>
+    <param name="robot_model_uses_front_rear_foot_fts">true</param>
     <param name="sampling_period_in_s">0.01</param>
     <param name="port_prefix">/base-estimator</param>
     <param name="model_file">model.urdf</param>
