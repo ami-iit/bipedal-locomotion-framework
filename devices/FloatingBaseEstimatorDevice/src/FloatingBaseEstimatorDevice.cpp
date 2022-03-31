@@ -71,6 +71,12 @@ bool FloatingBaseEstimatorDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!YarpUtilities::getElementFromSearchable(config, "use_mas_imu", m_useMASIMUInterface))
+    {
+        yError() << m_printPrefix << "[open] Missing required parameter \"use_mas_imu\"";
+        return false;
+    }
+
     YarpUtilities::getElementFromSearchable(config, "port_prefix", m_portPrefix);
     YarpUtilities::getElementFromSearchable(config, "base_link_imu", m_baseLinkImuName);
 
@@ -359,16 +365,26 @@ bool FloatingBaseEstimatorDevice::updateMeasurements()
 
 bool FloatingBaseEstimatorDevice::updateInertialBuffers()
 {
-    Eigen::Matrix<double, 12, 1> imuMeasure;
-    if (!m_robotSensorBridge->getIMUMeasurement(m_baseLinkImuName, imuMeasure))
+    if (!m_useMASIMUInterface)
     {
-        return false;
+        Eigen::Matrix<double, 12, 1> imuMeasure;
+        if (!m_robotSensorBridge->getIMUMeasurement(m_baseLinkImuName, imuMeasure))
+        {
+            return false;
+        }
+        const int accOffset{3};
+        const int gyroOffset{6};
+        m_input.acc = imuMeasure.segment<3>(accOffset);
+        m_input.gyro = imuMeasure.segment<3>(gyroOffset);
     }
-
-    const int accOffset{3};
-    const int gyroOffset{6};
-    m_input.acc = imuMeasure.segment<3>(accOffset);
-    m_input.gyro = imuMeasure.segment<3>(gyroOffset);
+    else
+    {
+        if (!m_robotSensorBridge->getLinearAccelerometerMeasurement(m_baseLinkImuName, m_input.acc) ||
+            !m_robotSensorBridge->getGyroscopeMeasure(m_baseLinkImuName, m_input.gyro))
+        {
+            return false;
+        }
+    }
 
     return true;
 }

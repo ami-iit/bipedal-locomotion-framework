@@ -120,6 +120,7 @@ private:
     std::string m_robot{"icubSim"};
 
     bool m_robotModelUsesFrontRearFootFTs{true};  // true for iCubGenova09, false for iCubGenova04
+    bool m_useMASIMUInterface{false};
 
     // Top Level Parameters - iCubGenova09 // iCubGenova04
     std::string m_baseLinkImuName{"chest_imu_acc_1x1"}; // root_link_imu_acc
