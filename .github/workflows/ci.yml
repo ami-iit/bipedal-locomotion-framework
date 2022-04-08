@@ -54,7 +54,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-2019, macos-latest]
       fail-fast: false
 
     steps:
@@ -77,7 +77,7 @@ jobs:
         for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
 
     - name: Dependencies [Windows]
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       run: |
         # To avoid spending a huge time compiling vcpkg dependencies, we download a root that comes precompiled with all the ports that we need
         choco install -y wget unzip
@@ -133,7 +133,7 @@ jobs:
 
 
     - name: Source-based Dependencies [Windows]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-2019'
       shell: bash
       run: |
         # YCM
@@ -466,7 +466,7 @@ jobs:
 
     - name: Configure [Windows]
       # Use bash also on Windows (otherwise cd, mkdir, ... do not work)
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       shell: bash
       run: |
         mkdir -p build
