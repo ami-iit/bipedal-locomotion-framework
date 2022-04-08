@@ -161,7 +161,7 @@ bool FixedFootDetector::updateContactStates()
     return this->updateFixedFoot();
 }
 
-bool FixedFootDetector::setContactPhaseList(const Contacts::ContactPhaseList& phaseList)
+bool FixedFootDetector::setContactPhaseList(const ContactPhaseList& phaseList)
 {
     m_contactPhaselist = phaseList;
 
