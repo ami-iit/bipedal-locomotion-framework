@@ -33,7 +33,7 @@ bool LinearTask::setVariablesHandler(const VariablesHandler& variablesHandler)
     return true;
 }
 
-bool LinearTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool LinearTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
 {
     return true;
 }
