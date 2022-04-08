@@ -11,12 +11,13 @@
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
+using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion::Planners;
 
 using Vector1d = Eigen::Matrix<double, 1, 1>;
 
-bool SwingFootPlanner::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[SwingFootPlanner::initialize]";
     auto ptr = handler.lock();
