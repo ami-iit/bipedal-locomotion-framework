@@ -57,6 +57,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="13" column="1"/>
+    <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="22" column="1"/>
   </compounddef>
 </doxygen>
