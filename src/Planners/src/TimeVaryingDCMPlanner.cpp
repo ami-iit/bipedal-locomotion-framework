@@ -772,7 +772,7 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     return true;
 }
 
-bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList &contactPhaseList)
+bool TimeVaryingDCMPlanner::setContactPhaseList(const ContactPhaseList &contactPhaseList)
 {
     assert(m_pimpl);
 
