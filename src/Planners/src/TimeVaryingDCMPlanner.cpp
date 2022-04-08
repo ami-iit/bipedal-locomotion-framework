@@ -15,6 +15,7 @@
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
+using namespace BipedalLocomotion;
 
 /**
  * Private implementation of the TimeVaryingDCMPlanner class
