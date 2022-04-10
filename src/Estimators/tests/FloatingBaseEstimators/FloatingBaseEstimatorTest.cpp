@@ -7,16 +7,17 @@
 
 #include <catch2/catch.hpp>
 
+#include <Eigen/Dense>
+
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+
 #include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
 
-#include <ResourceFolderPath.h>
-
-#include <Eigen/Dense>
+#include <iCubModels/iCubModels.h>
 
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -47,7 +48,7 @@ TEST_CASE("Bare Bones Base Estimator")
     REQUIRE(populateConfig(parameterHandler));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    std::string model_path{getFBEURDFModelPath()};
+    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5_plus");
     std::cout << model_path << std::endl;
     std::vector<std::string> joints_list = {"neck_pitch", "neck_roll", "neck_yaw",
         "torso_pitch", "torso_roll", "torso_yaw",
