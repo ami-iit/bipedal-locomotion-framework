@@ -10,10 +10,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <!-- interface -->
         <xi:include href="interface/all_joints_mc.xml" />
         <xi:include href="interface/root_imu.xml" />
-        <xi:include href="interface/mas-left-leg-ft-client.xml" />
-        <xi:include href="interface/mas-left-foot-ft-client.xml" />
-        <xi:include href="interface/mas-right-leg-ft-client.xml" />
-        <xi:include href="interface/mas-right-foot-ft-client.xml" />
+        <xi:include href="interface/ft_clients.xml" />
         <xi:include href="interface/mas-left-leg-inertial-client.xml" />
         <xi:include href="interface/mas-right-leg-inertial-client.xml" />
         <xi:include href="interface/ft-imu-mas-remapper.xml" />

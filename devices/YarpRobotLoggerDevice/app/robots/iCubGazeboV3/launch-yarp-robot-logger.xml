@@ -11,20 +11,8 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <xi:include href="interface/all_joints_mc.xml" />
         <xi:include href="interface/head_imu.xml" />
         <xi:include href="interface/mas-remapper.xml" />
-        <xi:include href="interface/left_front_ft_client.xml" />
-        <xi:include href="interface/left_rear_ft_client.xml" />
-        <xi:include href="interface/right_front_ft_client.xml" />
-        <xi:include href="interface/right_rear_ft_client.xml" />
-        <xi:include href="interface/right_upper_leg_ft_client.xml" />
-        <xi:include href="interface/right_arm_ft_client.xml" />
-        <xi:include href="interface/left_arm_ft_client.xml" />
-        <xi:include href="interface/left_front_wrench_client.xml" />
-        <xi:include href="interface/left_rear_wrench_client.xml" />
-        <xi:include href="interface/right_front_wrench_client.xml" />
-        <xi:include href="interface/right_rear_wrench_client.xml" />
-        <xi:include href="interface/right_arm_wrench_client.xml" />
-        <xi:include href="interface/left_arm_wrench_client.xml" />
-        <xi:include href="interface/right_upper_leg_wrench_client.xml" />
+        <xi:include href="interface/ft_clients.xml" />
+        <xi:include href="interface/wrench_clients.xml" />
         <xi:include href="./yarp-robot-logger.xml" />
     </devices>
 </robot>

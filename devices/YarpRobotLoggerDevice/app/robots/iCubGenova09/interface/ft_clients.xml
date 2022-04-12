@@ -1,0 +1,43 @@
+<!-- Copyright (C) 2022 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+GNU Lesser General Public License v2.1 or any later version. -->
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<devices>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/left_arm/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_arm</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_arm_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/right_arm/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_arm</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_front_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/left_foot_tiptoe/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_front_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_rear_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/left_foot_heel/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_foot_rear</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_upper_leg_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/right_leg_hip/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_upper_leg_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_front_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/right_foot_tiptoe/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_front_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_rear_ft_client" type="analogsensorclient">
+        <param name="remote">/icub/right_foot_heel/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_rear_ft</param>
+    </device>
+
+</devices>
