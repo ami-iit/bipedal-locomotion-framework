@@ -37,12 +37,11 @@ GNU Lesser General Public License v2.1 or any later version. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <!--<param name="sixaxis_forcetorque_sensors_list">("left_front_ft_client", "left_rear_ft_client", "right_front_ft_client", "right_rear_ft_client", "right_upper_leg_ft_client",  "left_arm_ft_client", "right_arm_ft_client")</param>-->
-      <param name="sixaxis_forcetorque_sensors_list">("left_front_ft_client", "left_rear_ft_client", "right_front_ft_client", "right_rear_ft_client", "right_upper_leg_ft_client",  "id_l_upper_arm_strain", "id_r_upper_arm_strain")</param>
+      <param name="sixaxis_forcetorque_sensors_list">("id_l_upper_arm_strain", "id_r_upper_arm_strain", "id_l_heel_strain", "id_l_tiptoe_strain", "id_r_heel_strain", "id_r_tiptoe_strain", "id_r_hip_strain")</param>
     </group>
 
     <group name="TemperatureSensors">
-      <param name="temperature_sensors_list">("id_l_upper_arm_strain", "id_r_upper_arm_strain")</param>
+      <param name="temperature_sensors_list">("id_l_upper_arm_strain", "id_r_upper_arm_strain", "id_l_heel_strain", "id_l_tiptoe_strain", "id_r_heel_strain", "id_r_tiptoe_strain", "id_r_hip_strain")</param>
     </group>
 
     <group name="CartesianWrenches">
@@ -62,13 +61,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
   <action phase="startup" level="15" type="attach">
     <paramlist name="networks">
       <elem name="all_joints">all_joints_mc</elem>
-      <elem name="left_front_ft_client">left_front_ft_client</elem>
-      <elem name="left_rear_ft_client">left_rear_ft_client</elem>
-      <elem name="right_front_ft_client">right_front_ft_client</elem>
-      <elem name="right_rear_ft_client">right_rear_ft_client</elem>
-      <elem name="right_upper_leg_ft_client">right_upper_leg_ft_client</elem>
-<!--      <elem name="left_arm_ft_client">left_arm_ft_client</elem>
-      <elem name="right_arm_ft_client">right_arm_ft_client</elem>-->
       <elem name="left_front_wrench_client">left_front_wrench_client</elem>
       <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
       <elem name="right_front_wrench_client">right_front_wrench_client</elem>
