@@ -60,6 +60,7 @@ private:
     accelerometer_t m_acceloremeterBuffer;
     orientation_t m_orientationBuffer;
     analog_sensor_t m_analogSensorBuffer;
+    double m_ftTemperatureBuffer;
 
     bool m_streamMotorStates{false};
     bool m_streamJointStates{false};

@@ -427,6 +427,14 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
+    for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
+    {
+        if (m_robotSensorBridge->getTemperature(sensorname, m_ftTemperatureBuffer))
+        {
+            m_bufferManager.push_back({m_ftTemperatureBuffer}, time, "temperatures::" + sensorname);
+        }
+    }
+
     for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
         if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))

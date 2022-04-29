@@ -334,6 +334,11 @@ const std::vector<std::string>& YarpSensorBridge::getSixAxisForceTorqueSensorsLi
     return m_pimpl->metaData.sensorsList.sixAxisForceTorqueSensorsList;
 }
 
+const std::vector<std::string>& YarpSensorBridge::getTemperatureSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.temperatureSensorsList;
+}
+
 const std::vector<std::string>& YarpSensorBridge::getCartesianWrenchesList() const
 {
     return m_pimpl->metaData.sensorsList.cartesianWrenchesList;

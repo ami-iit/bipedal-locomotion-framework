@@ -196,7 +196,7 @@ public:
      * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
      * @return  true/false in case of success/failure
      */
-    bool getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList);
+    bool getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList) final;
 
     const std::vector<std::string>& getJointsList() const;
 
@@ -211,6 +211,8 @@ public:
     const std::vector<std::string>& getMagnetometersList() const;
 
     const std::vector<std::string>& getSixAxisForceTorqueSensorsList() const;
+
+    const std::vector<std::string>& getTemperatureSensorsList() const;
 
     const std::vector<std::string>& getCartesianWrenchesList() const;
 
