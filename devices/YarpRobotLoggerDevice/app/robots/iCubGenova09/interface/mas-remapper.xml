@@ -32,7 +32,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
             <elem name="left_front_ft_client">left_front_ft_client</elem>
             <elem name="left_rear_ft_client">left_rear_ft_client</elem>
             <elem name="right_upper_leg_ft_client">right_upper_leg_ft_client</elem>
-            <elem name="right_front_wrench_client">right_front_wrench_client</elem>
+            <elem name="right_front_ft_client">right_front_ft_client</elem>
             <elem name="right_rear_ft_client">right_rear_ft_client</elem>
         </paramlist>
     </action>
