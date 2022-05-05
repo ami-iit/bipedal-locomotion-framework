@@ -19,6 +19,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="13" column="1"/>
+    <location file="BipedalLocomotion/ContactModels/ContactModel.h" line="25" column="1"/>
   </compounddef>
 </doxygen>
