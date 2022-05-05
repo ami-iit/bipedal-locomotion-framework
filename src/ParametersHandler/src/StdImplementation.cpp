@@ -7,10 +7,12 @@
 
 #include <string>
 
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion;
 
 void StdImplementation::setParameter(const std::string& parameterName,
                                      const GenericContainer::Vector<const int>::Ref parameter)
@@ -24,8 +26,9 @@ void StdImplementation::setParameter(const std::string& parameterName,
     return setParameterPrivate(parameterName, parameter);
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const GenericContainer::Vector<const std::string>::Ref parameter)
+void StdImplementation::setParameter(
+    const std::string& parameterName,
+    const GenericContainer::Vector<const std::string>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
@@ -53,14 +56,12 @@ bool StdImplementation::getParameter(const std::string& parameterName, int& para
     return getParameterPrivate(parameterName, parameter);
 }
 
-bool StdImplementation::getParameter(const std::string& parameterName,
-                                     double& parameter) const
+bool StdImplementation::getParameter(const std::string& parameterName, double& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
-bool StdImplementation::getParameter(const std::string& parameterName,
-                                     std::string& parameter) const
+bool StdImplementation::getParameter(const std::string& parameterName, std::string& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -81,8 +82,7 @@ void StdImplementation::setParameter(const std::string& parameterName, const int
     return setParameterPrivate(parameterName, parameter);
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const double& parameter)
+void StdImplementation::setParameter(const std::string& parameterName, const double& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
@@ -92,8 +92,7 @@ void StdImplementation::setParameter(const std::string& parameterName, const cha
     return setParameterPrivate(parameterName, std::string(parameter));
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const std::string& parameter)
+void StdImplementation::setParameter(const std::string& parameterName, const std::string& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }

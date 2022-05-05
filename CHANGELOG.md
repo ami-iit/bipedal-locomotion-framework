@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file.
 - IK and TSID now uses the weight provider to specify the weight associated to a task (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
 - The `Planners`, `System`, `RobotInterface` and `YarpImplementation` components are no more mandatory to compile the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/511)
 - Reorganize the multiple FT sensor and external wrench files into a single file in the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/525)
+- Save the robot name and the names of the channel's elements in the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/522)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
