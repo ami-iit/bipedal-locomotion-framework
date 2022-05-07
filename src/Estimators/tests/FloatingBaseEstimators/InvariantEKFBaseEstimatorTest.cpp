@@ -189,8 +189,8 @@ TEST_CASE("Invariant EKF Base Estimator")
         rotError = estR - simR; // performs logvee(R1.T R2)
     }
 
-    REQUIRE(rotError.weightedNorm() < 0.002);
-    REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
+    REQUIRE(rotError.weightedNorm() < 0.003);
+    REQUIRE((simIMUPos - out.state.imuPosition).norm() < 4e-3);
 
     // test reset methods
     out = estimator.getOutput();
