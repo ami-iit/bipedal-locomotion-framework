@@ -12,8 +12,6 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
     HEADERS ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/FloatingBaseEstimators.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::FloatingBaseEstimators
     TESTS tests/test_legged_odometry.py
-    )
-
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/model.urdf ${PROJECT_BINARY_DIR}/model.urdf COPYONLY)
+    TESTS_RUNTIME_CONDITIONS FRAMEWORK_USE_icub-models)
 
 endif()

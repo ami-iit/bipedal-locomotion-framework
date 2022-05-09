@@ -12,6 +12,7 @@ if(FRAMEWORK_COMPILE_IK)
     HEADERS ${H_PREFIX}/IntegrationBasedIK.h ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/AngularMomentumTask.h ${H_PREFIX}/Module.h ${H_PREFIX}/IKLinearTask.h
     LINK_LIBRARIES BipedalLocomotion::IK
     TESTS tests/test_QP_inverse_kinematics.py
+    TESTS_RUNTIME_CONDITIONS FRAMEWORK_USE_icub-models
     )
 
 endif()
