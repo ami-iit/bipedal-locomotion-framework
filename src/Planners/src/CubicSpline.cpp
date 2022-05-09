@@ -182,6 +182,11 @@ CubicSpline::~CubicSpline() = default;
 bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
                                        Eigen::Ref<const Eigen::VectorXd> /**acceleration*/)
 {
+    return this->setInitialConditions(velocity);
+}
+
+bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity)
+{
     m_pimpl->initialCondition.velocity = velocity;
     m_pimpl->initialCondition.acceleration = Eigen::VectorXd::Zero(velocity.size());
 
@@ -202,6 +207,11 @@ bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocit
 
 bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
                                      Eigen::Ref<const Eigen::VectorXd> /**acceleration*/)
+{
+    return this->setFinalConditions(velocity);
+}
+
+bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity)
 {
     m_pimpl->finalCondition.velocity = velocity;
     m_pimpl->finalCondition.acceleration = Eigen::VectorXd::Zero(velocity.size());
