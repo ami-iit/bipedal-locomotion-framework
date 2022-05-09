@@ -80,6 +80,20 @@ public:
                             Eigen::Ref<const Eigen::VectorXd> acceleration) final;
 
     /**
+     * Set the initial condition of the spline
+     * @param velocity initial velocity (i.e. first derivative).
+     * @return True in case of success, false otherwise.
+     */
+    bool setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity);
+
+    /**
+     * Set the final condition of the spline
+     * @param velocity final velocity (i.e. first derivative).
+     * @return True in case of success, false otherwise.
+     */
+    bool setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity);
+
+    /**
      * Evaluate the spline at a given point
      * @param t instant time
      * @param position position at time t

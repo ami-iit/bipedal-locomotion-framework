@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Add reading of right and left arms FT for `iCubGenova09` in `YarpRobotLoggerDevice` configuration files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/515)
 - Add reading of right and left arms and right upper leg FTs and cartesian wrenches for `iCubGazeboV3` in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/525)
 - Add the possibility to retrieve the temperature sensor from `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
+- Add the possibility to set only the velocity in `CubicSpline::setInitialConditions` and `CubicSpline::setFinalConditions` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/528)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
