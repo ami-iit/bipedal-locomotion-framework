@@ -979,14 +979,7 @@ struct YarpSensorBridge::Impl
                 ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.torques);
             }
             if (metaData.bridgeOptions.isPWMControlEnabled)
-            {std::string_view interfaceType{"IThreeAxisLinearAccelerometers"};
-            if (!attachAndCheckMASSensors(devList,
-                                          wholeBodyMASInertialsInterface.accelerometers,
-                                          metaData.sensorsList.linearAccelerometersList,
-                                          interfaceType))
             {
-                return false;
-            }
                 ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);
             }
             if (metaData.bridgeOptions.isMotorSensorsEnabled)
