@@ -7,18 +7,21 @@
 
 #include <catch2/catch.hpp>
 
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
-#include <iDynTree/Core/TestUtils.h>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <ResourceFolderPath.h>
-
 #include <Eigen/Dense>
 #include <cmath>
+
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
+
+#include <iCubModels/iCubModels.h>
+
 #include <manif/manif.h>
 
 using namespace BipedalLocomotion::Estimators;
@@ -111,7 +114,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     REQUIRE(populateConfig(parameterHandler,nr_joints));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    std::string model_path{getFBEURDFModelPath()};
+    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5_plus");
     std::cout << model_path << std::endl;
 
 
@@ -186,8 +189,8 @@ TEST_CASE("Invariant EKF Base Estimator")
         rotError = estR - simR; // performs logvee(R1.T R2)
     }
 
-    REQUIRE(rotError.weightedNorm() < 0.002);
-    REQUIRE((simIMUPos - out.state.imuPosition).norm() < 1e-3);
+    REQUIRE(rotError.weightedNorm() < 0.003);
+    REQUIRE((simIMUPos - out.state.imuPosition).norm() < 4e-3);
 
     // test reset methods
     out = estimator.getOutput();

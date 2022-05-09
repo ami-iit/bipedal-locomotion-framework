@@ -3,6 +3,7 @@ pytestmark = pytest.mark.floating_base_estimators
 
 import bipedal_locomotion_framework.bindings as blf
 import numpy as np
+import icub_models
 
 def test_legged_odometry():
     # This function just performs an interface test for
@@ -10,7 +11,7 @@ def test_legged_odometry():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", "./model.urdf")
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",

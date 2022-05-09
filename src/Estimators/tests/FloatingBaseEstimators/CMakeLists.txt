@@ -2,15 +2,21 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ResourceFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ResourceFolderPath.h" @ONLY)
-add_bipedal_test(
- NAME BareBonesBaseEstimator
- SOURCES FloatingBaseEstimatorTest.cpp
- LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio-urdf)
 
-add_bipedal_test(
- NAME InvariantEKFBaseEstimatorTest
- SOURCES InvariantEKFBaseEstimatorTest.cpp
- LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen MANIF::manif)
+if(FRAMEWORK_USE_icub-models)
 
+  add_bipedal_test(
+    NAME BareBonesBaseEstimator
+    SOURCES FloatingBaseEstimatorTest.cpp
+    LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio-urdf icub-models::icub-models)
+
+
+  add_bipedal_test(
+    NAME InvariantEKFBaseEstimatorTest
+    SOURCES InvariantEKFBaseEstimatorTest.cpp
+    LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions
+          Eigen3::Eigen
+          MANIF::manif
+          icub-models::icub-models)
+
+endif()

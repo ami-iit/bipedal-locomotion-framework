@@ -12,6 +12,7 @@ if(FRAMEWORK_COMPILE_TSID)
     HEADERS ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/FeasibleContactWrenchTask.h ${H_PREFIX}/JointDynamicsTask.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/Module.h ${H_PREFIX}/QPTSID.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/TaskSpaceInverseDynamics.h ${H_PREFIX}/TSIDLinearTask.h ${H_PREFIX}/VariableRegularizationTask.h ${H_PREFIX}/AngularMomentumTask.h
     LINK_LIBRARIES BipedalLocomotion::TSID
     TESTS tests/test_TSID.py
+    TESTS_RUNTIME_CONDITIONS FRAMEWORK_USE_icub-models
     )
 
 endif()

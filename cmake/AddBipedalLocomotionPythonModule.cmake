@@ -10,7 +10,8 @@ function(add_bipedal_locomotion_python_module)
     SOURCES
     HEADERS
     LINK_LIBRARIES
-    TESTS)
+    TESTS
+    TESTS_RUNTIME_CONDITIONS)
 
   set(prefix "bipedal_component")
 
@@ -27,6 +28,7 @@ function(add_bipedal_locomotion_python_module)
   set(link_libraries ${${prefix}_LINK_LIBRARIES})
   set(subdirectories ${${prefix}_SUBDIRECTORIES})
   set(tests ${${prefix}_TESTS})
+  set(tests_runtime_conditions ${${prefix}_TESTS_RUNTIME_CONDITIONS})
 
   foreach(file ${headers})
     set_property(GLOBAL APPEND PROPERTY pybind_headers ${CMAKE_CURRENT_SOURCE_DIR}/${file})
@@ -40,10 +42,20 @@ function(add_bipedal_locomotion_python_module)
 
   set_property(GLOBAL APPEND PROPERTY pybind_link_libraries ${link_libraries})
 
-  foreach(test ${tests})
-    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFrameworkBindings_TESTS
-      ${CMAKE_CURRENT_SOURCE_DIR}/${test})
+  set(run_python_test ON)
+  foreach(condition ${tests_runtime_conditions})
+    if(NOT ${condition})
+      set(run_python_test OFF)
+      break()
+    endif()
   endforeach()
+
+  if(${run_python_test})
+    foreach(test ${tests})
+      set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFrameworkBindings_TESTS
+        ${CMAKE_CURRENT_SOURCE_DIR}/${test})
+    endforeach()
+  endif()
 
   message(STATUS "Added files for bindings named ${name} in ${PROJECT_NAME}.")
 
