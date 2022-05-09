@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="564" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="563" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="580" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="579" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="91" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="87" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad140d8706d86b037715d283cae1eca0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="96" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="92" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="102" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="98" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e67bd6969608baa82270d73aa218ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="109" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="105" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="115" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="111" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="121" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="117" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a195c7b9fad31f33435704a5b721430ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="127" column="17"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="123" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92beedaec20313db5623cca3f9b630fd" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="133" column="32"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="129" column="32"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5ed3adf70e3be0f4020e7c2ecdaf8b9b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -209,7 +209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="140" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="136" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1562faa1a69c475f95b88ad943966a90" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="147" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="143" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06b6b193c3407b0d489a5bba5c1b4f1d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -271,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="154" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="150" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a1e476a8729c50254046bb6b9f34130a3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -302,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="161" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="157" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0306dedea0c8239fb132df564f350e25" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -333,7 +333,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="168" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="164" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae1d4e48477fbf613d261ad3d473b6e71" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -364,7 +364,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="175" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="171" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a942974549cb60ba7deea1242073c33bd" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -395,7 +395,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="182" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="178" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="189" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="185" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab2b8a502338624b417a7efcd5aa2e477" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -457,7 +457,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="196" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="192" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5eab67d4c64208bb97ec8c476de1409a" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getTemperatureSensorsList</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;temperatureSensorsList) final</argsstring>
+        <name>getTemperatureSensorsList</name>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1adbde89a822c2f343838b2b919987ca1f">getTemperatureSensorsList</reimplements>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>temperatureSensorsList</declname>
+        </param>
+        <briefdescription>
+<para>Get temperature sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">cartesianWrenchesList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>list of cartesian wrenches attached to the bridge </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="199" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a8442cfaa7be61819a1d21ddea230870b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -470,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="198" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="201" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ae9bfd903f230f20f3abcf822efe56fbf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -483,7 +514,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="200" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="203" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a71b6826ba3f425379fd2f6e19e4c1e06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -496,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="202" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="205" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5a2fe80cb0ad4ee381d5cdedaba71a01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -509,7 +540,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="204" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="207" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e24fa9685500cc599dfb63da9290547" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -522,7 +553,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="206" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="209" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a65d5a269e007cfc293d1a4ac6b31ded3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -535,7 +566,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="208" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="211" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a908c87b20897f034e0313dd053937bb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -548,7 +579,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="210" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="213" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4d46434142511f4bfa6d23cf577d5f01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt;std::string&gt;&amp; BipedalLocomotion::RobotInterface::YarpSensorBridge::getTemperatureSensorsList</definition>
+        <argsstring>() const</argsstring>
+        <name>getTemperatureSensorsList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="215" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a88be8bc5ef96fd1228b7144a057b573f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -561,7 +605,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="212" column="23"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="217" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a499e07ea5081b2fa8f72e1af488ed8f0" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -617,7 +661,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="221" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="226" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acfb5db4bb7dc7193e3d8ba91f866310e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -663,7 +707,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="234" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="239" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a56f4f7f4171c04a641d678c936984647" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -719,7 +763,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="244" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="249" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0418048570f711df729598ba129712f4" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -765,7 +809,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="257" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="262" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a291dadb7f52ef4239cd916e45bc6a1d0" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -821,7 +865,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="267" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="272" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4961849d5a46ef6101db533b97f34688" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -867,7 +911,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="280" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="285" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad93d84935e2a8b8de199f1af6f37ea94" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -929,7 +973,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="296" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="301" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a84b7ab5b488bbc0845784d62231f301e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -985,7 +1029,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="307" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="312" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7491b08358c13cbfe0e7db5d6cc1c5b3" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1041,7 +1085,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="318" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="323" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac0a30d06912f7ddcd013f08788293d94" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1097,7 +1141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="329" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="334" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a20fe4d0e6d278b88a31fa3085cb63e8b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1153,7 +1197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="340" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="345" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a66749025c13868754865046ac3da07cb" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1209,7 +1253,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="351" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="356" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06e36c7b2258609c441afaf786a8992c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1265,7 +1309,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="362" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="367" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5142cbe32cde1a63595df4da1cb147e1" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1321,7 +1365,63 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="373" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="378" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2d34946341578f1f3bcad7c2bcd69586" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::getTemperature</definition>
+        <argsstring>(const std::string &amp;temperatureSensorName, double &amp;temperature, OptionalDoubleRef receiveTimeInSeconds={}) final</argsstring>
+        <name>getTemperature</name>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a9844da390618ef67e8dde314c4fee4a5">getTemperature</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>temperatureSensorName</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>OptionalDoubleRef</type>
+          <declname>receiveTimeInSeconds</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Get temperature measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temperatureSensorName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the temperature sensor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>temperature measurement </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">receiveTimeInSeconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>time at which the measurement was received </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="389" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac346d428d98a915c180eefa88e77c4f5" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1377,7 +1477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="384" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="400" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1423,7 +1523,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="397" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="413" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1479,7 +1579,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="407" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="423" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1525,7 +1625,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="420" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="436" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1581,7 +1681,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="430" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="446" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aae0867c8a5de903041906c4ad7bedccc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1627,7 +1727,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="443" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="459" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa1c6c07e3a5385b0b192f0f02f77bebc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1683,7 +1783,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="453" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="469" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a386d1d0391c48bb6bb74ce778086a214" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1729,7 +1829,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="466" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="482" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad883780f4592b71f4b44230d3d204976" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1785,7 +1885,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="476" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="492" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aaa6b1a101bc1bfb4e8d50045e90f6454" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1831,7 +1931,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="489" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="505" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a54de0c229c806a3d9f0cb49823dc20fc" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1887,7 +1987,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="499" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="515" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1acb689c00f3f5b1ca3f6ae2c72ebcd755" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1933,7 +2033,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="512" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="528" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a42cc2c5ba8fe820225f06583598d64ae" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1989,7 +2089,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="522" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="538" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7b6c8db15e5b7eaadf1ed3a9d296765b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -2035,7 +2135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="535" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="551" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a29270304583bef0106120b72d903a3cd" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -2091,7 +2191,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="545" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="561" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92ebdab8ae337b9658d413856da3a36b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -2137,7 +2237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="558" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="574" column="18"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -2164,7 +2264,7 @@
 </listitem><listitem><para>The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set</para>
 </listitem></itemizedlist>
 </para>
-<para>The parameters for writing the configuration file for this class is given as, <table rows="29" cols="4"><row>
+<para>The parameters for writing the configuration file for this class is given as, <table rows="25" cols="4"><row>
 <entry thead="yes" align='center'><para>Group   </para>
 </entry><entry thead="yes" align='center'><para>Parameter   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
@@ -2223,6 +2323,12 @@
 </entry><entry thead="no" align='center'><para>stream_motor_PWM   </para>
 </entry><entry thead="no" align='center'><para>boolean   </para>
 </entry><entry thead="no" align='center'><para>Flag to activate the attachment to remapped control boards for PWM reading    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para></para>
+</entry><entry thead="no" align='center'><para>stream_temperatures   </para>
+</entry><entry thead="no" align='center'><para>boolean   </para>
+</entry><entry thead="no" align='center'><para>Flag to activate the attachment to MAS temperature sensors    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para>RemoteControlBoardRemapper   </para>
@@ -2297,46 +2403,16 @@
 </entry><entry thead="no" align='center'><para>list of six axis FT sensors (the difference between a MAS FT and an analog FT is done internally assuming that the names are distinct form each other)    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para>Cameras   </para>
+<entry thead="no" align='center'><para>TemperatureSensors   </para>
 </entry><entry thead="no" align='center'><para></para>
 </entry><entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>Expects cameras to be opened either as remote frame grabber (&quot;RemoteFrameGrabber&quot;) with IFrameGrabber interface or rgbd sensor (&quot;RGBDSensorClient&quot;) with IRGBDSensor interface    </para>
+</entry><entry thead="no" align='center'><para>Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgbd_list   </para>
+</entry><entry thead="no" align='center'><para>temperature_sensors_list   </para>
 </entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the devices opened as RGBDSensorClients containing the IRGBD sensor interface    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgbd_image_width   </para>
-</entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the image width dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgbd_image_height   </para>
-</entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the image height dimensions of RGBD cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgbd_list    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgb_cameras_list   </para>
-</entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the devices opened as RemoteFrameGrabber devices containing the IFrameGrabber interface    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgb_image_width   </para>
-</entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the image width dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para>rgb_image_height   </para>
-</entry><entry thead="no" align='center'><para>vector of strings   </para>
-</entry><entry thead="no" align='center'><para>list containing the image height dimensions of RGB cameras. Required parameter if cameras are enabled. The list must be the same size and order as rgb_list   </para>
+</entry><entry thead="no" align='center'><para>list containing the devices opened with TemperatureSensors interface   </para>
 </entry></row>
 </table>
 </para>
@@ -2421,7 +2497,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="84" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="86" bodyend="565"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="80" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="82" bodyend="581"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>close</name></member>
@@ -2472,6 +2548,9 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a66749025c13868754865046ac3da07cb" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a942974549cb60ba7deea1242073c33bd" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueSensorsList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a908c87b20897f034e0313dd053937bb2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getSixAxisForceTorqueSensorsList</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2d34946341578f1f3bcad7c2bcd69586" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getTemperature</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5eab67d4c64208bb97ec8c476de1409a" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getTemperatureSensorsList</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4d46434142511f4bfa6d23cf577d5f01" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getTemperatureSensorsList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06e36c7b2258609c441afaf786a8992c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueSensorsList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>initialize</name></member>

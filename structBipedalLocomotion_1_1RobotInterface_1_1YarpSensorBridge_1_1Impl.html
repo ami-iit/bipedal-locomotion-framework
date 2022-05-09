@@ -104,6 +104,10 @@
               struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface.html" class="m-doc">WholeBodyMASInertialsInterface</a>
             </dt>
             <dd>Struct holding remapped MAS interfaces -inertial sensors related.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface.html" class="m-doc">WholeBodyTemperatureSensorsInterface</a>
+            </dt>
+            <dd><span></span></dd>
             <dt id="affb6f61e8c5fd651c2b443d86e298f01">
               using <a href="#affb6f61e8c5fd651c2b443d86e298f01" class="m-doc-self">StampedYARPVector</a> = std::pair&lt;yarp::sig::Vector, double&gt;
             </dt>
@@ -162,6 +166,11 @@
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
             </dt>
             <dd>Configure cartesian wrenches meta data.</dd>
+            <dt id="a61a1cbc1acff82301f4d6966ca1a1ce2">
+              <span class="m-doc-wrap-bumper">auto <a href="#a61a1cbc1acff82301f4d6966ca1a1ce2" class="m-doc-self">configureTemperatureSensors</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              <a href="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData.html" class="m-doc">SensorBridgeMetaData</a>&amp; metaData) -&gt; bool</span>
+            </dt>
+            <dd>Configure temperature sensors meta data.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename SensorType&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a3b2d10014cc5407a3b55f04698f02208" class="m-doc">attachGenericOrAnalogSensor</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList,
@@ -262,6 +271,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a2998f82b666aa2a06a7e352948965dab" class="m-doc-self">attachAllSixAxisForceTorqueSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
             </dt>
             <dd><span></span></dd>
+            <dt id="a8a4a9b68a8e05b4885d3f6ccd0cb06b0">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8a4a9b68a8e05b4885d3f6ccd0cb06b0" class="m-doc-self">attachAllTemperatureSensors</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="aa8f34bfd335827bcc8101263c7d03b56">
               <span class="m-doc-wrap-bumper">auto <a href="#aa8f34bfd335827bcc8101263c7d03b56" class="m-doc-self">attachCartesianWrenchInterface</a>(</span><span class="m-doc-wrap">const yarp::dev::PolyDriverList&amp; devList) -&gt; bool</span>
             </dt>
@@ -349,6 +362,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a359a8fb3a0eb18d896aa6ffc1deceefc" class="m-doc-self">readAllAnalogSixAxisForceTorqueSensors</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
             </dt>
             <dd><span></span></dd>
+            <dt id="a7f56fd56fde786b07326dedf2932d3db">
+              <span class="m-doc-wrap-bumper">auto <a href="#a7f56fd56fde786b07326dedf2932d3db" class="m-doc-self">readAllMASTemperatures</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedSensorReads) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="ad9596982c7236d76378db18a1f78c85e">
               <span class="m-doc-wrap-bumper">auto <a href="#ad9596982c7236d76378db18a1f78c85e" class="m-doc-self">readAllSensors</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp; failedReadAllSensors) -&gt; bool</span>
             </dt>
@@ -368,6 +385,10 @@
             <dd><span></span></dd>
             <dt id="adb7402419e404672a51e88b9e1cd82a4">
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface.html" class="m-doc">WholeBodyMASForceTorquesInterface</a> <a href="#adb7402419e404672a51e88b9e1cd82a4" class="m-doc-self">wholeBodyMASForceTorquesInterface</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a33b4e67df75711e8fcef386f638f92d1">
+              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface.html" class="m-doc">WholeBodyTemperatureSensorsInterface</a> <a href="#a33b4e67df75711e8fcef386f638f92d1" class="m-doc-self">wholeBodyTemperatureSensorsInterface</a>
             </dt>
             <dd><span></span></dd>
             <dt id="a368b7e691b1b97efeab70991b08d53ba">
@@ -404,6 +425,10 @@
             <dd>map holding cartesian wrench measures</dd>
             <dt id="ae823a598bcdd7c2d564809113917bbc8">
               std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#ae823a598bcdd7c2d564809113917bbc8" class="m-doc-self">wholeBodyCartesianWrenchMeasures</a>
+            </dt>
+            <dd>map holding temperature measures</dd>
+            <dt id="a582321138c98369836422c8bfc6751f7">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a582321138c98369836422c8bfc6751f7" class="m-doc-self">wholeBodyTemperatureMeasures</a>
             </dt>
             <dd><span></span></dd>
             <dt id="aec19fa9be3de7df28e3f98f55e984e34">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -64,7 +64,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1RobotInterface.html">RobotInterface</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html">YarpSensorBridge</a>::<wbr/></span><span class="m-breadcrumb"><a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html">Impl</a>::<wbr/></span>MASSensorIndexMaps <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1RobotInterface.html">RobotInterface</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html">YarpSensorBridge</a>::<wbr/></span><span class="m-breadcrumb"><a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html">Impl</a>::<wbr/></span>WholeBodyTemperatureSensorsInterface <span class="m-thin">struct</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="YarpSensorBridgeImpl_8h.html">&lt;BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h&gt;</a></div>
         </h1>
         <p><span></span></p>
@@ -82,28 +82,8 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a71fbc272beb1c338054b79dbb92cf735">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#a71fbc272beb1c338054b79dbb92cf735" class="m-doc-self">accelerometer</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aa05dee7a432fc3fe7328e77aa8d83409">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#aa05dee7a432fc3fe7328e77aa8d83409" class="m-doc-self">gyroscopes</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ad133cb50d68eccd21a295a8f537fcbdb">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#ad133cb50d68eccd21a295a8f537fcbdb" class="m-doc-self">magnetometers</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a25cced8c5e56ab004bb4f4814e6079fd">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#a25cced8c5e56ab004bb4f4814e6079fd" class="m-doc-self">orientationSensors</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a28e359fff8e9f2fea697d376a77997e0">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#a28e359fff8e9f2fea697d376a77997e0" class="m-doc-self">sixAxisFTSensors</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a3f455f6cb270b28f5a1db610dd9a5e35">
-              std::unordered_map&lt;std::string, std::size_t&gt; <a href="#a3f455f6cb270b28f5a1db610dd9a5e35" class="m-doc-self">temperatureSensors</a>
+            <dt id="a91b8e16cf465857d30536cf4266e2049">
+              yarp::dev::ITemperatureSensors* <a href="#a91b8e16cf465857d30536cf4266e2049" class="m-doc-self">temperatureSensors</a>
             </dt>
             <dd><span></span></dd>
           </dl>

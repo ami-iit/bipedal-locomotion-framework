@@ -239,6 +239,7 @@
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperInterfaces</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperMeasures</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>

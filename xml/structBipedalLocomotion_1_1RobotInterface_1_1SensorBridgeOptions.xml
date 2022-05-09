@@ -183,6 +183,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="47" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="47" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ac165eee2794add881f0773c3de59d96b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::SensorBridgeOptions::isTemperatureSensorEnabled</definition>
+        <argsstring></argsstring>
+        <name>isTemperatureSensorEnabled</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>flag to connect PWM measurement sources </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="49" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a4570c2a27e0c3288f690d35070ace64f" prot="public" static="no" mutable="no">
         <type>size_t</type>
         <definition>size_t BipedalLocomotion::RobotInterface::SensorBridgeOptions::nrJoints</definition>
@@ -190,14 +205,14 @@
         <name>nrJoints</name>
         <initializer>{0}</initializer>
         <briefdescription>
-<para>flag to connect PWM measurement sources </para>
+<para>flag to connect temperature measurement sources </para>
         </briefdescription>
         <detaileddescription>
 <para>number of joints available through Kinematics stream, to be configured at initialization </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="49" column="12" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="51" column="12" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -205,7 +220,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="31" bodyend="51"/>
+    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="31" bodyend="53"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a888e76e7d573ea9a55e06d1c18999780" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isCartesianWrenchEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af22b711670afb72717101620e85f5f63" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isGyroscopeEnabled</name></member>
@@ -218,6 +233,7 @@
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af7cdf9dd94eb559201ee6a35f2427df8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isPIDsEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a0f81c5a2b2e5b264377357e1e0a79747" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isPWMControlEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a8b1d17ce5827f5ec298c3ab402bfe64d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isSixAxisForceTorqueSensorEnabled</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ac165eee2794add881f0773c3de59d96b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isTemperatureSensorEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a76bc51592890b64494bb4ceb8acd9905" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isThreeAxisForceTorqueSensorEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a4570c2a27e0c3288f690d35070ace64f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>nrJoints</name></member>
     </listofallmembers>
