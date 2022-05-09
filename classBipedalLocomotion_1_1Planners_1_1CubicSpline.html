@@ -138,6 +138,14 @@ $\mathbb{R}^n$
             </dt>
             <dd>Set the final condition of the spline.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a39e3e52dc8604119856bc319593972aa" class="m-doc">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity) -&gt; bool</span>
+            </dt>
+            <dd>Set the initial condition of the spline.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0b92ae99ec2a87af4046ae963b3ca7cb" class="m-doc">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity) -&gt; bool</span>
+            </dt>
+            <dd>Set the final condition of the spline.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a837809322e9e6b336cc3b598f94bf278" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
               Eigen::Ref&lt;Eigen::VectorXd&gt; position,
               Eigen::Ref&lt;Eigen::VectorXd&gt; velocity,
@@ -281,6 +289,52 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the acceleration is not considered in the spline evaluation</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a39e3e52dc8604119856bc319593972aa"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a39e3e52dc8604119856bc319593972aa" class="m-doc-self">setInitialConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity)</span></span>
+            </h3>
+            <p>Set the initial condition of the spline.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">velocity</td>
+                  <td>initial velocity (i.e. first derivative).</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a0b92ae99ec2a87af4046ae963b3ca7cb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />CubicSpline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0b92ae99ec2a87af4046ae963b3ca7cb" class="m-doc-self">setFinalConditions</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; velocity)</span></span>
+            </h3>
+            <p>Set the final condition of the spline.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">velocity</td>
+                  <td>final velocity (i.e. first derivative).</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a837809322e9e6b336cc3b598f94bf278"><div>
             <h3>

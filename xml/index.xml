@@ -457,6 +457,8 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" kind="function"><name>setKnots</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" kind="function"><name>setFinalConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" kind="function"><name>setInitialConditions</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" kind="function"><name>setFinalConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" kind="function"><name>getOutput</name></member>
