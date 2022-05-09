@@ -114,8 +114,8 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             || !group->getParameter("signal_name", signalName))
         {
             log()->error("{} Unable to get the parameters related to the input: {}.",
-                        logPrefix,
-                        input);
+                         logPrefix,
+                         input);
             return false;
         }
 
@@ -128,7 +128,6 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
 
     return true;
 }
-
 
 bool YarpRobotLoggerDevice::setupTelemetry(
     std::weak_ptr<const ParametersHandler::IParametersHandler> params, const double& devicePeriod)
@@ -223,21 +222,24 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
 
     if (!ptr->getParameter("stream_cartesian_wrenches", m_streamCartesianWrenches))
     {
-        log()->info("{} The 'stream_cartesian_wrenches' parameter is not found. The cartesian wrench values are not "
+        log()->info("{} The 'stream_cartesian_wrenches' parameter is not found. The cartesian "
+                    "wrench values are not "
                     "logged",
                     logPrefix);
     }
 
     if (!ptr->getParameter("stream_forcetorque_sensors", m_streamFTSensors))
     {
-        log()->info("{} The 'stream_forcetorque_sensors' parameter is not found. The FT values are not "
+        log()->info("{} The 'stream_forcetorque_sensors' parameter is not found. The FT values are "
+                    "not "
                     "logged",
                     logPrefix);
     }
 
     if (!ptr->getParameter("stream_temperatures", m_streamTemperatureSensors))
     {
-        log()->info("{} The 'stream_temperatures' parameter is not found. The temperature sensor values are not "
+        log()->info("{} The 'stream_temperatures' parameter is not found. The temperature sensor "
+                    "values are not "
                     "logged",
                     logPrefix);
     }
@@ -321,7 +323,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
-        ok = ok
+            ok = ok
                  && m_bufferManager.addChannel({"accelerometers::" + sensorName,
                                                 {3, 1}, //
                                                 {"a_x", "a_y", "a_z"}});
@@ -361,16 +363,17 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {"f_x", "f_y", "f_y", "mu_x", "mu_y", "mu_y"}});
         }
     }
+
     if (m_streamTemperatureSensors)
     {
         for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
-            ok = ok && m_bufferManager.addChannel({"temperatures::" + sensorName, 
-                                                   {1, 1}, //
-                                                   {"temperature"}});
+            ok = ok
+                 && m_bufferManager.addChannel({"temperatures::" + sensorName,
+                                                {1, 1}, //
+                                                {"temperature"}});
         }
     }
-
 
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
