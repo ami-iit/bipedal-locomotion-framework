@@ -28,7 +28,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">true</param>
     <param name="stream_forcetorque_sensors">true</param>
-    <param name="stream_joint_states">true</param>
     <param name="stream_pids">true</param>
     <param name="stream_motor_PWM">true</param>
 

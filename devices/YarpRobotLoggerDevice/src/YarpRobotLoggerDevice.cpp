@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iomanip>
 #include <memory>
 #include <tuple>
@@ -142,6 +143,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     }
 
     yarp::telemetry::experimental::BufferConfig config;
+    config.yarp_robot_name = std::getenv("YARP_ROBOT_NAME");
     config.filename = "robot_logger_device";
     config.auto_save = true;
     config.save_periodically = true;
@@ -245,59 +247,81 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && m_bufferManager.addChannel({"joints_state::positions", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"joints_state::velocities", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"joints_state::accelerations", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"joints_state::torques", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"joints_state::positions", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"joints_state::velocities", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"joints_state::accelerations", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"joints_state::torques", {dofs, 1}, joints});
     }
     if (m_streamMotorStates)
     {
-        ok = ok && m_bufferManager.addChannel({"motors_state::positions", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"motors_state::accelerations", {dofs, 1}});
-        ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"motors_state::positions", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"motors_state::accelerations", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}, joints});
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && m_bufferManager.addChannel({"motors_state::PWM", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"motors_state::PWM", {dofs, 1}, joints});
     }
     if (m_streamPIDs)
     {
-        ok = ok && m_bufferManager.addChannel({"PIDs", {dofs, 1}});
+        ok = ok && m_bufferManager.addChannel({"PIDs", {dofs, 1}, joints});
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
-        ok = ok && m_bufferManager.addChannel({"FTs::" + sensorName, {6, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"FTs::" + sensorName,
+                                            {6, 1}, //
+                                            {"f_x", "f_y", "f_y", "mu_x", "mu_y", "mu_y"}});
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
-        ok = ok && m_bufferManager.addChannel({"gyros::" + sensorName, {3, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"gyros::" + sensorName,
+                                            {3, 1}, //
+                                            {"omega_x", "omega_y", "omega_z"}});
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
     {
-        ok = ok && m_bufferManager.addChannel({"accelerometers::" + sensorName, {3, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"accelerometers::" + sensorName,
+                                            {3, 1}, //
+                                            {"a_x", "a_y", "a_z"}});
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
     {
-        ok = ok && m_bufferManager.addChannel({"orientations::" + sensorName, {3, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"orientations::" + sensorName,
+                                            {3, 1}, //
+                                            {"r", "p", "y"}});
     }
 
     // an IMU contains a gyro accelerometer and an orientation sensor
     for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
     {
-        ok = ok && m_bufferManager.addChannel({"accelerometers::" + sensorName, {3, 1}});
-        ok = ok && m_bufferManager.addChannel({"gyros::" + sensorName, {3, 1}});
-        ok = ok && m_bufferManager.addChannel({"orientations::" + sensorName, {3, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"accelerometers::" + sensorName,
+                                            {3, 1}, //
+                                            {"a_x", "a_y", "a_z"}})
+             && m_bufferManager.addChannel({"gyros::" + sensorName,
+                                            {3, 1}, //
+                                            {"omega_x", "omega_y", "omega_z"}})
+             && m_bufferManager.addChannel({"orientations::" + sensorName,
+                                            {3, 1}, //
+                                            {"r", "p", "y"}});
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
     {
-        ok = ok && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName, {6, 1}});
+        ok = ok
+             && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName,
+                                            {6, 1}, //
+                                            {"f_x", "f_y", "f_y", "mu_x", "mu_y", "mu_y"}});
     }
 
     // resize the temporary vectors
