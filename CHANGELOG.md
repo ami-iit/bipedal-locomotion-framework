@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Add reading of right and left arms and right upper leg FTs and cartesian wrenches for `iCubGazeboV3` in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/525)
 - Add the possibility to retrieve the temperature sensor from `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
 - Add the possibility to set only the velocity in `CubicSpline::setInitialConditions` and `CubicSpline::setFinalConditions` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/528)
+- Add the possibility to log the video in the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
@@ -23,6 +24,8 @@ All notable changes to this project are documented in this file.
 - Save the robot name and the names of the channel's elements in the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/522)
 - Use icub-models to get the urdf models for the tests (https://github.com/ami-iit/bipedal-locomotion-framework/pull/526)
 - The FT sensor are now considered as `multianalogsensor` in `YarpSensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
+- Make `YarpCameraBridge::getColorImage()` and `YarpCameraBridge::getDepthImage()` thread safe (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
+- Deprecate `YarpCameraBridge::get()` in favor of `YarpCameraBridge::getMetaData()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
