@@ -334,9 +334,9 @@ struct YarpCameraBridge::Impl
         if (!metaData.bridgeOptions.isRGBCameraEnabled
             && !metaData.bridgeOptions.isRGBDCameraEnabled)
         {
-            log()->error("{} None of the camera types configured. Cannot use Camera bridge.",
-                         logPrefix);
-            return false;
+            log()->warn("{} None of the camera types configured. Cannot use Camera bridge.",
+                        logPrefix);
+            return true;
         }
 
         return true;
@@ -384,8 +384,8 @@ struct YarpCameraBridge::Impl
             && !metaData.bridgeOptions.isRGBDCameraEnabled)
         {
             // do nothing
-            log()->error("{} No camera types enaable. Not attaching any cameras.", prefix);
-            return false;
+            log()->warn("{} No camera types enable. Not attaching any cameras.", prefix);
+            return true;
         }
 
         if (metaData.bridgeOptions.isRGBCameraEnabled)
