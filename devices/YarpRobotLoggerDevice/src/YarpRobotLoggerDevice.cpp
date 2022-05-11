@@ -22,6 +22,7 @@
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/telemetry/experimental/BufferConfig.h>
+#include <yarp/telemetry/experimental/BufferManager.h>
 
 #include <matioCpp/ForwardDeclarations.h>
 #include <matioCpp/Span.h>
@@ -73,19 +74,49 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         this->setPeriod(devicePeriod);
     }
 
-    if (!params->getParameter("video_fps", m_videoFPS))
-    {
-        return false;
-    }
-
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
     {
         return false;
     }
 
-    if (!this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
+    if (this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
     {
-        return false;
+        // Currently the logger supports only rgb cameras
+        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
+            // || m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
+        {
+            std::vector<int> rgbFPS;
+            if (!params->getParameter("rgb_cameras_fps", rgbFPS))
+            {
+                return false;
+            }
+
+            const auto& rgbCameras = m_cameraBridge->getMetaData().sensorsList.rgbCamerasList;
+            if (rgbFPS.size() != rgbCameras.size())
+            {
+                return false;
+            }
+
+            for (unsigned int i = 0; i < rgbFPS.size(); i++)
+            {
+                if (rgbFPS[i] < 0)
+                {
+                    return false;
+                }
+
+                // get the desired fps for each camera
+                m_videoWriters[rgbCameras[i]].fps = rgbFPS[i];
+            }
+        }
+
+        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
+        {
+            log()->warn("[YarpRobotLoggerDevice::open] The logger does not support rgbd cameras.");
+        }
+
+    } else
+    {
+        log()->info("[YarpRobotLoggerDevice::open] The video will not be recorded");
     }
 
     if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
@@ -199,13 +230,6 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
         return false;
     }
 
-    m_cameraBridge = std::make_unique<YarpCameraBridge>();
-    if (!m_cameraBridge->initialize(ptr))
-    {
-        log()->error("{} Unable to configure the 'Camera bridge'", logPrefix);
-        return false;
-    }
-
     // Get additional flags required by the device
     if (!ptr->getParameter("stream_joint_states", m_streamJointStates))
     {
@@ -270,10 +294,14 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         return false;
     }
 
-    if (!m_cameraBridge->setDriversList(poly))
+    // The user can avoid to record the camera
+    if (m_cameraBridge != nullptr)
     {
-        log()->error("{} Could not attach drivers list to camera bridge.", logPrefix);
-        return false;
+        if (!m_cameraBridge->setDriversList(poly))
+        {
+            log()->error("{} Could not attach drivers list to camera bridge.", logPrefix);
+            return false;
+        }
     }
 
     // TODO this should be removed
@@ -313,6 +341,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     {
         ok = ok && m_bufferManager.addChannel({"motors_state::PWM", {dofs, 1}});
     }
+
     if (m_streamPIDs)
     {
         ok = ok && m_bufferManager.addChannel({"PIDs", {dofs, 1}});
@@ -351,37 +380,59 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         ok = ok && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName, {6, 1}});
     }
 
-
-    ok = ok && m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
-    for(const auto& camera : m_rgbCamerasList)
-    {
-        const auto cameraInfo = m_cameraBridge->get().bridgeOptions.rgbImgDimensions.find(camera);
-        if (cameraInfo == m_cameraBridge->get().bridgeOptions.rgbImgDimensions.end())
-        {
-            log()->error("{} Unable to get the info of the camera named {}.", logPrefix, camera);
-            return false;
-        }
-
-        m_videoWriters[camera].writer
-            = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
-                                                cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
-                                                m_videoFPS,
-                                                cv::Size(cameraInfo->second.first,
-                                                         cameraInfo->second.second));
-    }
-
-    ok = ok && m_bufferManager.setSaveExogenous([this](const std::string& s, bool lastSave) {
-                                                    this->saveVideo(s, lastSave);
-    });
-
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
 
+    // The user can avoid to record the camera
+    if (m_cameraBridge != nullptr)
+    {
+        ok = ok && m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
+
+        for (const auto& camera : m_rgbCamerasList)
+        {
+            const auto& cameraInfo
+                = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);
+            if (cameraInfo == m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.end())
+            {
+                log()->error("{} Unable to get the info of the camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+
+            m_videoWriters[camera].writer
+                = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
+                                                    cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
+                                                    m_videoWriters[camera].fps,
+                                                    cv::Size(cameraInfo->second.first,
+                                                             cameraInfo->second.second));
+        }
+
+        // if there is at least one camera we set the callback
+        if (m_rgbCamerasList.size() != 0)
+        {
+            ok = ok
+                 && m_bufferManager.setSaveCallback(
+                     [this](const std::string& filePrefix,
+                            const yarp::telemetry::experimental::SaveCallbackSaveMethod& method)
+                         -> bool { return this->saveVideo(filePrefix, method); });
+        }
+
+        if (ok)
+        {
+            for (auto& [cameraName, writer] : m_videoWriters)
+            {
+                // start a separate the thread for each camera
+                writer.videoThread = std::thread([&] { this->recordVideo(cameraName, writer); });
+            }
+        }
+    }
+
     if (ok)
     {
-        m_videoThread = std::thread(&YarpRobotLoggerDevice::recordVideo, this);
         return start();
     }
+
     return ok;
 }
 
@@ -401,15 +452,15 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     gyro = signal.segment<3>(6);
 }
 
-void YarpRobotLoggerDevice::recordVideo()
+void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWriter& writer)
 {
     auto time = BipedalLocomotion::clock().now();
     auto oldTime = time;
     auto wakeUpTime = time;
-    m_recordVideoIsRunning = true;
-    const std::chrono::duration<double> recordVideoPeriod = std::chrono::duration<double>(1 / double(m_videoFPS));
+    writer.recordVideoIsRunning = true;
+    const auto recordVideoPeriod = std::chrono::duration<double>(1 / double(writer.fps));
 
-    while(m_recordVideoIsRunning)
+    while (writer.recordVideoIsRunning)
     {
         // detect if a clock has been reset
         oldTime = time;
@@ -421,14 +472,10 @@ void YarpRobotLoggerDevice::recordVideo()
         }
         wakeUpTime += recordVideoPeriod;
 
-        for (const auto& camera : m_rgbCamerasList)
+        if (m_cameraBridge->getColorImage(cameraName, writer.frame))
         {
-            if (m_cameraBridge->getColorImage(camera, m_videoWriters[camera].frame))
-            {
-                auto& writer = m_videoWriters[camera];
-                std::lock_guard<std::mutex> lock(writer.mutex);
-                writer.writer->write(m_videoWriters[camera].frame);
-            }
+            std::lock_guard<std::mutex> lock(writer.mutex);
+            writer.writer->write(writer.frame);
         }
 
         // release the CPU
@@ -436,7 +483,9 @@ void YarpRobotLoggerDevice::recordVideo()
 
         if (wakeUpTime < BipedalLocomotion::clock().now())
         {
-            log()->debug("[YarpRobotLoggerDevice::recordVideo] The video thread spent more time than expected to save the cameras");
+            log()->info("[YarpRobotLoggerDevice::recordVideo] The video thread spent more time "
+                        "than expected to save the camera named: {}.",
+                        cameraName);
         }
 
         BipedalLocomotion::clock().sleepUntil(wakeUpTime);
@@ -594,31 +643,35 @@ void YarpRobotLoggerDevice::run()
     }
 }
 
-void YarpRobotLoggerDevice::saveVideo(const std::string& fileName, bool lastSave)
+bool YarpRobotLoggerDevice::saveVideo(
+    const std::string& fileName,
+    const yarp::telemetry::experimental::SaveCallbackSaveMethod& method)
 {
     for (const auto& camera : m_rgbCamerasList)
     {
-        {
-            std::lock_guard<std::mutex> lock(m_videoWriters[camera].mutex);
-            m_videoWriters[camera].writer->release();
-        }
-
         const std::string temp = fileName + "_" + camera + ".mp4";
         const std::string oldName = "output_" + camera + ".mp4";
+
+        std::lock_guard<std::mutex> lock(m_videoWriters[camera].mutex);
+        m_videoWriters[camera].writer->release();
+
+        // rename the file associated to the camera
         std::rename(oldName.c_str(), temp.c_str());
 
-        if (!lastSave)
+        if (method == yarp::telemetry::experimental::SaveCallbackSaveMethod::periodic)
         {
-            const auto cameraInfo
-                = m_cameraBridge->get().bridgeOptions.rgbImgDimensions.find(camera);
+            const auto& cameraInfo
+                = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);
             m_videoWriters[camera].writer
                 = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
                                                     cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
-                                                    m_videoFPS,
+                                                    m_videoWriters[camera].fps,
                                                     cv::Size(cameraInfo->second.first,
                                                              cameraInfo->second.second));
         }
     }
+
+    return true;
 }
 
 bool YarpRobotLoggerDevice::detachAll()
@@ -633,11 +686,20 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
-    m_recordVideoIsRunning = false;
-    if (m_videoThread.joinable())
+    // stop all the video thread
+    for (auto& [cameraName, writer] : m_videoWriters)
     {
-        m_videoThread.join();
-        m_videoThread = std::thread();
+        writer.recordVideoIsRunning = false;
+    }
+
+    // close all the thread
+    for (auto& [cameraName, writer] : m_videoWriters)
+    {
+        if (writer.videoThread.joinable())
+        {
+            writer.videoThread.join();
+            writer.videoThread = std::thread();
+        }
     }
 
     return true;

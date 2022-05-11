@@ -67,10 +67,11 @@ private:
         std::mutex mutex;
         std::shared_ptr<cv::VideoWriter> writer;
         cv::Mat frame;
+        std::thread videoThread;
+        std::atomic<bool> recordVideoIsRunning{false};
+        int fps{-1};
     };
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
-    int m_videoFPS;
-    int m_counter{0};
 
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
@@ -84,12 +85,9 @@ private:
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
 
-    std::atomic<bool> m_recordVideoIsRunning{false};
-    std::thread m_videoThread;
+    yarp::telemetry::experimental::BufferManager<> m_bufferManager;
 
-    yarp::telemetry::experimental::BufferManager<double> m_bufferManager;
-
-    void recordVideo();
+    void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
@@ -100,7 +98,8 @@ private:
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
 
-    void saveVideo(const std::string& fileName, bool lastSave);
+    bool saveVideo(const std::string& fileName,
+                   const yarp::telemetry::experimental::SaveCallbackSaveMethod& method);
 };
 
 } // namespace BipedalLocomotion
