@@ -19,7 +19,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <xi:include href="interface/left_rear_wrench_client.xml" />
         <xi:include href="interface/right_front_wrench_client.xml" />
         <xi:include href="interface/right_rear_wrench_client.xml" />
-        <xi:include href="interface/webcam.xml" />
+        <xi:include href="interface/webcams.xml" />
         <xi:include href="./yarp-robot-logger.xml" />
     </devices>
 </robot>
