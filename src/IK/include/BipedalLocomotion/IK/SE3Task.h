@@ -38,7 +38,7 @@ namespace IK
  * desired trajectory. The linear component of \f$\mathrm{v} ^ *\f$ is computed with a
  * standard Proportional controller in \f$R^3\f$ while the angular velocity is computed
  * by a Proportional controller in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  * @note The SE3Task is technically not a \f$SE(3)\f$ space defined task, instead is a \f$SO(3)
  * \times \mathbb{R}^3\f$ task. Theoretically, there are differences between the two due to the

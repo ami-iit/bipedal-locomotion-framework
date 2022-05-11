@@ -11,7 +11,7 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.7.0
+  vcpkg_robotology_TAG: v0.8.0
   YCM_TAG: v0.13.0
   YARP_TAG: v3.5.0
   iDynTree_TAG: v3.1.0
@@ -24,6 +24,7 @@ env:
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v2.5.0
+  icub_models_TAG: v1.23.3
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
@@ -54,7 +55,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-2019, macos-latest]
       fail-fast: false
 
     steps:
@@ -77,7 +78,7 @@ jobs:
         for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
 
     - name: Dependencies [Windows]
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       run: |
         # To avoid spending a huge time compiling vcpkg dependencies, we download a root that comes precompiled with all the ports that we need
         choco install -y wget unzip
@@ -128,12 +129,12 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ${{ github.workspace }}/install/deps
-        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}
+        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/ami-iit/bipedal-locomotion-framework/pull/45
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-2019'
       shell: bash
       run: |
         # YCM
@@ -219,7 +220,7 @@ jobs:
         # the other dependencies. Please check:
         # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -250,7 +251,7 @@ jobs:
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
@@ -258,12 +259,12 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
@@ -271,7 +272,7 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # UnicycleFootstepPlanner
@@ -284,8 +285,24 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
+
+
+        # icub-models
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/icub-models
+        cd icub-models
+        git checkout ${icub_models_TAG}
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
 
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
@@ -355,7 +372,7 @@ jobs:
 
         # CasADi
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -375,7 +392,7 @@ jobs:
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
@@ -385,7 +402,7 @@ jobs:
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
@@ -401,6 +418,16 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # icub-models
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/icub-models
+        cd icub-models
+        git checkout ${icub_models_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu]
@@ -460,13 +487,18 @@ jobs:
         echo "Default interpreter: $(which python)"
         python3 -c 'import sys; print(sys.prefix)'
 
+    - name: Extend the pythonpath [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        echo "PYTHONPATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages" >> $GITHUB_ENV
+
     # ===================
     # CMAKE-BASED PROJECT
     # ===================
 
     - name: Configure [Windows]
       # Use bash also on Windows (otherwise cd, mkdir, ... do not work)
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       shell: bash
       run: |
         mkdir -p build
@@ -510,7 +542,7 @@ jobs:
       shell: bash
       run: |
         cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json; do
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json icub-models; do
             echo "Testing ${missing_dep} as missing dependency."
             # Deselect missing dependency and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .

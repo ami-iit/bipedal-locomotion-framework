@@ -4,9 +4,8 @@ pytestmark = pytest.mark.ik
 import bipedal_locomotion_framework.bindings as blf
 import manifpy as manif
 import numpy as np
-import tempfile
-import urllib.request
 
+import icub_models
 
 def test_custom_task():
     class CustomTask(blf.ik.IKLinearTask):
@@ -55,15 +54,9 @@ def test_custom_task():
 
 def test_com_task():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -90,15 +83,9 @@ def test_com_task():
 
 def test_se3_task():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -131,15 +118,9 @@ def test_se3_task():
 
 def test_so3_task():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -171,15 +152,9 @@ def test_so3_task():
 
 def test_joint_tracking_task():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -214,15 +189,9 @@ def test_joint_tracking_task():
 
 def test_angular_momentum_task():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -260,12 +229,6 @@ def test_integration_based_ik_state():
 
 def test_qp_inverse_kinematics():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile()
-    temp.write(model.read())
-
     # Set the parameters
     qp_ik_param_handler = blf.parameters_handler.StdParametersHandler()
     qp_ik_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
@@ -276,7 +239,7 @@ def test_qp_inverse_kinematics():
 
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'r_hip_pitch',
                    'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'torso_pitch', 'torso_roll',
                    'torso_yaw', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', 'l_wrist_prosup',

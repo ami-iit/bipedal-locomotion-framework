@@ -79,11 +79,16 @@ private:
     accelerometer_t m_acceloremeterBuffer;
     orientation_t m_orientationBuffer;
     analog_sensor_t m_analogSensorBuffer;
+    double m_ftTemperatureBuffer;
 
     bool m_streamMotorStates{false};
     bool m_streamJointStates{false};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
+    bool m_streamInertials{false};
+    bool m_streamCartesianWrenches{false};
+    bool m_streamFTSensors{false};
+    bool m_streamTemperatureSensors{false};
 
     yarp::telemetry::experimental::BufferManager<> m_bufferManager;
 

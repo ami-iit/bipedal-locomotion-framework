@@ -5,9 +5,8 @@ import bipedal_locomotion_framework.bindings as blf
 import manifpy as manif
 import numpy as np
 import tempfile
-import urllib.request
-import os
 
+import icub_models
 
 def test_custom_task():
     class CustomTask(blf.tsid.TSIDLinearTask):
@@ -63,16 +62,9 @@ def test_custom_task():
 
 def get_kindyn():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile('wb', delete=False)
-    temp.write(model.read())
-    temp.close()
-
     # create KinDynComputationsDescriptor
     kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
+    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
@@ -82,8 +74,6 @@ def get_kindyn():
     kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
     kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
     assert kindyn_desc.is_valid()
-
-    os.unlink(temp.name)
 
     return joints_list, kindyn_desc
 

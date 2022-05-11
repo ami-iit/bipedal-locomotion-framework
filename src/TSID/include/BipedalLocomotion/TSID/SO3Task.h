@@ -34,7 +34,7 @@ namespace TSID
  * The desired acceleration is chosen such that the frame orientation will asymptotically converge
  * to the desired trajectory. The angular acceleration is computed by a PD controller in
  * \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class SO3Task : public TSIDLinearTask

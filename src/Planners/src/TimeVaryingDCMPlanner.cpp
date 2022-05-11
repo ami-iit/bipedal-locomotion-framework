@@ -15,6 +15,7 @@
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
+using namespace BipedalLocomotion;
 
 /**
  * Private implementation of the TimeVaryingDCMPlanner class
@@ -772,7 +773,7 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     return true;
 }
 
-bool TimeVaryingDCMPlanner::setContactPhaseList(const Contacts::ContactPhaseList &contactPhaseList)
+bool TimeVaryingDCMPlanner::setContactPhaseList(const ContactPhaseList &contactPhaseList)
 {
     assert(m_pimpl);
 

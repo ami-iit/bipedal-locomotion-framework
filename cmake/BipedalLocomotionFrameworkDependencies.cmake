@@ -81,6 +81,10 @@ find_package(YARP_telemetry QUIET)
 checkandset_dependency(YARP_telemetry)
 dependency_classifier(YARP_telemetry IS_USED ${FRAMEWORK_USE_YARP_telemetry})
 
+# required only for some tests
+find_package(icub-models 1.23.3 QUIET)
+checkandset_dependency(icub-models)
+
 find_package(Catch2 QUIET)
 checkandset_dependency(Catch2)
 
