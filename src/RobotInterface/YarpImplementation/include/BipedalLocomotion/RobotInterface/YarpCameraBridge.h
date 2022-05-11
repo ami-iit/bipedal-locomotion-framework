@@ -83,7 +83,14 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
+    [[deprecated("Replaced by getMetaData")]]
     const BipedalLocomotion::RobotInterface::CameraBridgeMetaData& get() const;
+
+    /**
+     * Get the stored metadata.
+     * @return a const reference to the metadata
+     */
+    const BipedalLocomotion::RobotInterface::CameraBridgeMetaData& getMetaData() const final;
 
     /**
      * Get rgb cameras

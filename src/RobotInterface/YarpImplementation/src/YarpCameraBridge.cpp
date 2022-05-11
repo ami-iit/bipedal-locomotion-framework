@@ -525,9 +525,14 @@ bool YarpCameraBridge::isValid() const
     return m_pimpl->checkValid("[YarpCameraBridge::isValid]");
 }
 
-const CameraBridgeMetaData& YarpCameraBridge::get() const
+const CameraBridgeMetaData& YarpCameraBridge::getMetaData() const
 {
     return m_pimpl->metaData;
+}
+
+const CameraBridgeMetaData& YarpCameraBridge::get() const
+{
+    return this->getMetaData();
 }
 
 bool YarpCameraBridge::getRGBCamerasList(std::vector<std::string>& rgbCamerasList)

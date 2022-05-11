@@ -160,6 +160,11 @@ protected:
     virtual bool populateCameraBridgeMetaDataFromConfig(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                                         CameraBridgeMetaData& cameraBridgeMetaData) { return true; };
 
+    /**
+     * Get the stored metadata.
+     * @return a const reference to the metadata
+     */
+    virtual const CameraBridgeMetaData& getMetaData() const = 0;
 
 };
 } // namespace RobotInterface
