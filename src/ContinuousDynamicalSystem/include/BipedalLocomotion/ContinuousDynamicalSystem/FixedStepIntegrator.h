@@ -17,14 +17,30 @@ namespace BipedalLocomotion
 {
 namespace ContinuousDynamicalSystem
 {
+template <typename _Derived> class FixedStepIntegrator;
+}
+}
+
+BLF_DEFINE_INTEGRATOR_STRUCTURE(FixedStepIntegrator, _Derived)
+
+
+namespace BipedalLocomotion
+{
+namespace ContinuousDynamicalSystem
+{
 
 /**
  * Fixed step integrator base class. Please inherit publicly from this class in order to specify a
  * custom integration method. The custom integration method must define a method called
  * `oneStepIntegration()`
  */
-template <class _Derived> class FixedStepIntegrator : public Integrator<_Derived>
+template <class _Derived>
+class FixedStepIntegrator : public Integrator<FixedStepIntegrator<_Derived>>
 {
+public:
+    using DynamicalSystem = typename internal::traits<FixedStepIntegrator<_Derived>>::DynamicalSystem;
+    using State = typename internal::traits<FixedStepIntegrator<_Derived>>::State;
+    using StateDerivative = typename internal::traits<FixedStepIntegrator<_Derived>>::StateDerivative;
 
 protected:
     double m_dT{-1}; /**< Fixed step size */

@@ -27,7 +27,7 @@
  * @param InputType the list of the types used to define inputs. The list must be defined using
  * round parenthesis. E.g. `(Eigen::VectorXd, Eigen::VectorXd)`.
  */
-#define BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(DynamicalSystemType, \
+#define BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(_DynamicalSystem,    \
                                                                  StateType,           \
                                                                  StateDerivativeType, \
                                                                  InputType)           \
@@ -37,11 +37,12 @@
     {                                                                                 \
     namespace internal                                                                \
     {                                                                                 \
-    template <> struct traits<DynamicalSystemType>                                    \
+    template <> struct traits<_DynamicalSystem>                                       \
     {                                                                                 \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE StateType;                              \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_DERIVATIVE StateDerivativeType;         \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_INPUT InputType;                        \
+        using DynamicalSystem = _DynamicalSystem;                                     \
     };                                                                                \
     }                                                                                 \
     }                                                                                 \
@@ -50,26 +51,26 @@
 /**
  * The user must call this macro before defining a custom ContinuousDynamicalSystem::Integrator
  * @param IntegratorType the type of the integrator.
- * @param DynamicalSystemType the type of the dynamical system.
+ * @param _Derived the type derived integrator.
  */
-#define BLF_DEFINE_INTEGRATOR_STRUCTURE(IntegratorType, DynamicalSystemType)                \
-    namespace BipedalLocomotion                                                             \
-    {                                                                                       \
-    namespace ContinuousDynamicalSystem                                                     \
-    {                                                                                       \
-    namespace internal                                                                      \
-    {                                                                                       \
-    template <class DynamicalSystemType> struct traits<IntegratorType<DynamicalSystemType>> \
-    {                                                                                       \
-        /** State of the integrator */                                                      \
-        using State = typename traits<DynamicalSystemType>::State;                          \
-        /** State derivative of the integrator */                                           \
-        using StateDerivative = typename traits<DynamicalSystemType>::StateDerivative;      \
-        /** Type of the dynamical system */                                                 \
-        using DynamicalSystem = DynamicalSystemType;                                        \
-    };                                                                                      \
-    }                                                                                       \
-    }                                                                                       \
+#define BLF_DEFINE_INTEGRATOR_STRUCTURE(IntegratorType, _Derived)           \
+    namespace BipedalLocomotion                                             \
+    {                                                                       \
+    namespace ContinuousDynamicalSystem                                     \
+    {                                                                       \
+    namespace internal                                                      \
+    {                                                                       \
+    template <class _Derived> struct traits<IntegratorType<_Derived>>       \
+    {                                                                       \
+        /** State of the integrator */                                      \
+        using State = typename traits<_Derived>::State;                     \
+        /** State derivative of the integrator */                           \
+        using StateDerivative = typename traits<_Derived>::StateDerivative; \
+        /** Type of the dynamical system */                                 \
+        using DynamicalSystem = typename traits<_Derived>::DynamicalSystem; \
+    };                                                                      \
+    }                                                                       \
+    }                                                                       \
     }
 
 namespace BipedalLocomotion

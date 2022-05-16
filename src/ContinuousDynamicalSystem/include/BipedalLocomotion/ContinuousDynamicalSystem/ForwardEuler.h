@@ -30,6 +30,7 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 
+
 /**
  * Forward Euler integration method.
  * @tparam _DynamicalSystem a class derived from DynamicalSystem
@@ -46,8 +47,12 @@ namespace ContinuousDynamicalSystem
 template <class _DynamicalSystem>
 class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
 {
+public:
+    using DynamicalSystem = typename internal::traits<ForwardEuler<_DynamicalSystem>>::DynamicalSystem;
     using State = typename internal::traits<ForwardEuler<_DynamicalSystem>>::State;
     using StateDerivative = typename internal::traits<ForwardEuler<_DynamicalSystem>>::StateDerivative;
+
+private:
 
     /** Temporary buffer usefully to avoid continuous memory allocation */
     StateDerivative m_computationalBufferStateDerivative;
