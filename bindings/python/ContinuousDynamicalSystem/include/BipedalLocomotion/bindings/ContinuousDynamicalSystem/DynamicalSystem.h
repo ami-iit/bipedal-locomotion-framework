@@ -1,7 +1,7 @@
 /**
  * @file DynamicalSystem.h
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2022 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
@@ -24,11 +24,11 @@ namespace ContinuousDynamicalSystem
 {
 
 template <typename _DynamicalSystem, typename... _Args>
-void CreateDynamicalSystem(pybind11::class_<_DynamicalSystem, _Args...>& pyClass)
+void CreateDynamicalSystem(pybind11::module& module, const std::string& name)
 {
     namespace py = ::pybind11;
-
-    pyClass.def(pybind11::init<>())
+    const std::string completeName = "_" + name+ "Base";
+    py::class_<_DynamicalSystem, _Args...>(module, completeName.c_str())
         .def(
             "initialize",
             [](_DynamicalSystem& impl,
