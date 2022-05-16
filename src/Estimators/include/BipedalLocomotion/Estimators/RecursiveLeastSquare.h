@@ -38,6 +38,8 @@ class RecursiveLeastSquare : public System::Source<RecursiveLeastSquareState>
 
     RecursiveLeastSquareState m_state; /**< State of the RLS algorithm */
 
+    Eigen::MatrixXd m_initialStateCovariance; /**< Initial Value of the state covariance */
+
     Eigen::VectorXd m_measurements; /**< Vector containing the measurements */
 
     /** Covariance matrix of the measurements we assume that the measurements are uncorrelated
@@ -132,6 +134,11 @@ public:
      * @return True if the object is valid, false otherwise.
      */
     bool isOutputValid() const final;
+
+    /**
+     * Reset the state covariance to the initial state
+     */
+    void resetStateCovarianceToInitialState();
 };
 } // namespace Estimators
 } // namespace BipedalLocomotion

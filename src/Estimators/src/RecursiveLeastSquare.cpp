@@ -72,7 +72,8 @@ bool RecursiveLeastSquare::initialize(std::weak_ptr<const IParametersHandler> ha
     }
 
     m_state.covariance.resize(m_state.expectedValue.size(), m_state.expectedValue.size());
-    m_state.covariance= stateCovariance.asDiagonal();
+    m_state.covariance = stateCovariance.asDiagonal();
+    m_initialStateCovariance = m_state.covariance;
 
     // resize the vector containing the measuraments
     m_measurements.resize(measurementCovariance.size());
@@ -140,6 +141,11 @@ void RecursiveLeastSquare::setMeasurements(const Eigen::Ref<const Eigen::VectorX
 {
     assert(m_measurements.size() == measurements.size());
     m_measurements = measurements;
+}
+
+void RecursiveLeastSquare::resetStateCovarianceToInitialState()
+{
+    m_state.covariance = m_initialStateCovariance;
 }
 
 const RecursiveLeastSquareState& RecursiveLeastSquare::getOutput() const
