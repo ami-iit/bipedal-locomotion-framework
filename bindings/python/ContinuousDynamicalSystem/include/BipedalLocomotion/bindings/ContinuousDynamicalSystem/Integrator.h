@@ -11,9 +11,9 @@
 #include <memory>
 #include <string>
 
-#include <BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h>
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
@@ -46,6 +46,23 @@ void CreateIntegrator(pybind11::module& module, const std::string& name)
                  }
                  return ptr;
              })
+        .def_property(
+            "dynamical_system",
+            [](const Integrator<_Derived>& impl) {
+                auto ptr = impl.dynamicalSystem().lock();
+                if (ptr == nullptr)
+                {
+                    throw py::value_error("The Dynamical system is not valid.");
+                }
+                return ptr;
+            },
+            [](Integrator<_Derived>& impl,
+               std::shared_ptr<typename Integrator<_Derived>::DynamicalSystem> dynamicalSystem) {
+                if (!impl.setDynamicalSystem(dynamicalSystem))
+                {
+                    throw py::value_error("The Dynamical system is not valid.");
+                }
+            })
         .def("get_solution", &Integrator<_Derived>::getSolution)
         .def("integrate",
              &Integrator<_Derived>::integrate,
@@ -68,7 +85,15 @@ void CreateFixedStepIntegrator(pybind11::module& module, const std::string& name
         .def("set_integration_step",
              &FixedStepIntegrator<_Derived>::setIntegrationStep,
              py::arg("dT"))
-        .def("get_integration_step", &FixedStepIntegrator<_Derived>::getIntegrationStep);
+        .def("get_integration_step", &FixedStepIntegrator<_Derived>::getIntegrationStep)
+        .def_property("integration_step",
+                      &FixedStepIntegrator<_Derived>::getIntegrationStep,
+                      [](FixedStepIntegrator<_Derived>& impl, double dt) {
+                          if (!impl.setIntegrationStep(dt))
+                          {
+                              throw py::value_error("Invalid integration step.");
+                          }
+                      });
 }
 
 template <typename _DynamicalSystem, typename... _Args>
@@ -85,7 +110,6 @@ void CreateForwardEulerIntegrator(pybind11::module& module, const std::string& n
                _Args...>(module, completeName.c_str())
         .def(py::init());
 }
-
 
 } // namespace ContinuousDynamicalSystem
 } // namespace bindings

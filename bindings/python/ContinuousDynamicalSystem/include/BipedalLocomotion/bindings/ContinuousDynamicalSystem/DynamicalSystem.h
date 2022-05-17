@@ -27,7 +27,7 @@ template <typename _DynamicalSystem, typename... _Args>
 void CreateDynamicalSystem(pybind11::module& module, const std::string& name)
 {
     namespace py = ::pybind11;
-    const std::string completeName = "_" + name+ "Base";
+    const std::string completeName = "_" + name + "Base";
     py::class_<_DynamicalSystem, _Args...>(module, completeName.c_str())
         .def(
             "initialize",
@@ -38,6 +38,15 @@ void CreateDynamicalSystem(pybind11::module& module, const std::string& name)
             py::arg("param_handler"))
         .def("set_state", &_DynamicalSystem::setState, py::arg("state"))
         .def("get_state", &_DynamicalSystem::getState)
+        .def_property(
+            "state",
+            &_DynamicalSystem::getState,
+            [](_DynamicalSystem& impl, const typename _DynamicalSystem::State& state) {
+                if (!impl.setState(state))
+                {
+                    throw py::value_error("Invalid state.");
+                };
+            })
         .def("set_control_input", &_DynamicalSystem::setControlInput, py::arg("control_input"));
 }
 
