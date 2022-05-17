@@ -16,9 +16,9 @@ def test_linear_system():
     simulation_time = 0.5
 
     np.random.seed(42)
-    twist = np.random.uniform(-2, 2, (6,1))
+    twist = np.random.uniform(-2, 2, (6))
 
-    joint_velocity = np.random.uniform(-2, 2, (23,1))
+    joint_velocity = np.random.uniform(-2, 2, (23))
 
     rotation0 = manif.SO3.Identity()
     position0 = np.array([0,0,0])
@@ -26,12 +26,12 @@ def test_linear_system():
 
 
     system = blf.continuous_dynamical_system.FloatingBaseSystemKinematics()
-    assert system.set_state((position0, rotation0, joint_position0))
+    system.state = position0, rotation0, joint_position0
     assert system.set_control_input((twist, joint_velocity))
 
     integrator = blf.continuous_dynamical_system.FloatingBaseSystemKinematicsForwardEulerIntegrator()
     assert integrator.set_dynamical_system(system)
-    assert integrator.set_integration_step(dt)
+    integrator.integration_step = dt
 
 
     for i in range(0, int(simulation_time / dt)):
