@@ -9,8 +9,21 @@
         <type>class _DynamicalSystem</type>
       </param>
     </templateparamlist>
-      <sectiondef kind="private-type">
-      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" prot="private" static="no">
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1aa26271c83b32e174a8fea487a2dafc4a" prot="public" static="no">
+        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref>&lt; _DynamicalSystem &gt; &gt;::DynamicalSystem</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;::DynamicalSystem =  typename internal::traits&lt;ForwardEuler&lt;_DynamicalSystem&gt; &gt;::DynamicalSystem</definition>
+        <argsstring></argsstring>
+        <name>DynamicalSystem</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="51" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" prot="public" static="no">
         <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref>&lt; _DynamicalSystem &gt; &gt;::State</type>
         <definition>using BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;::State =  typename internal::traits&lt;ForwardEuler&lt;_DynamicalSystem&gt; &gt;::State</definition>
         <argsstring></argsstring>
@@ -21,9 +34,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="49" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="52" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="52" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" prot="private" static="no">
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" prot="public" static="no">
         <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref>&lt; _DynamicalSystem &gt; &gt;::StateDerivative</type>
         <definition>using BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;::StateDerivative =  typename internal::traits&lt;ForwardEuler&lt;_DynamicalSystem&gt; &gt;::StateDerivative</definition>
         <argsstring></argsstring>
@@ -34,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="50" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="50" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="53" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -50,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="53" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="53" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="58" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" prot="private" static="no" mutable="no">
         <type>State</type>
@@ -64,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="56" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="61" column="11" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -109,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="60" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="60" bodyend="63"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="65" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="65" bodyend="68"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -127,12 +140,19 @@
 </parameterlist>
 <simplesect kind="warning"><para>We assume that the operator + is defined for the objects contained in the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> and <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" kindref="member">DynamicalSystem::StateDerivative</ref>. </para>
 </simplesect>
-<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="57">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="58">$X$</formula> belongs to a Lie group and <formula id="59">$\psi$</formula> belongs to the tangent space. </para>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="54">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="55">$X$</formula> belongs to a Lie group and <formula id="56">$\psi$</formula> belongs to the tangent space. </para>
 </simplesect>
 </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="5">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
         <childnode refid="1" relation="template-instance">
@@ -157,7 +177,7 @@
       <node id="4">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
-        <childnode refid="3" relation="public-inheritance">
+        <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -166,6 +186,13 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="8">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator"/>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="6">
         <label>T</label>
       </node>
@@ -199,7 +226,7 @@
       <node id="7">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
-        <childnode refid="3" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -210,10 +237,10 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="47" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="48" bodyend="84"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" line="48" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h" bodystart="49" bodyend="89"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>addArea</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>DynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1aa26271c83b32e174a8fea487a2dafc4a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>DynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>getIntegrationStep</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>getSolution</name></member>
@@ -224,8 +251,8 @@
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a46b112d6863d23df09e3814fe24c62a3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>m_dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a5451a664b250c963ad16ded761e7fd1b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>setDynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1ac280ef326a7990da7f071ab017a09be0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>setIntegrationStep</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>State</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>StateDerivative</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a3bf6c7c2f1c3fa9e250ad06e5315e1c0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</scope><name>StateDerivative</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

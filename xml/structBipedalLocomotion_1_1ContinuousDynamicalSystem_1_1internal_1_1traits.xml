@@ -31,7 +31,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="82" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="82" bodyend="-1"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="83" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="83" bodyend="-1"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

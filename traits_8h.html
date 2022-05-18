@@ -35,10 +35,10 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
                 <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
                 <li><a href="./v0.5.0/index.html">v0.5.0</a></li>
+                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.4.0/index.html">v0.4.0</a></li>
                 <li><a href="./v0.6.0/index.html">v0.6.0</a></li>
               </ol>
@@ -116,16 +116,16 @@
               <span class="m-doc-wrap-bumper">#define <a href="#a8a9ee4596b0fae2dc9e6a6961cafb657" class="m-doc-self">BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_INPUT</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a34923977c164b57d348f0e6d908c3cc3">
-              <span class="m-doc-wrap-bumper">#define <a href="#a34923977c164b57d348f0e6d908c3cc3" class="m-doc-self">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</a>(</span><span class="m-doc-wrap">DynamicalSystemType,
+            <dt id="a0163896a87affbf02ec432fba8bb6f09">
+              <span class="m-doc-wrap-bumper">#define <a href="#a0163896a87affbf02ec432fba8bb6f09" class="m-doc-self">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</a>(</span><span class="m-doc-wrap">_DynamicalSystem,
               StateType,
               StateDerivativeType,
               InputType)</span>
             </dt>
             <dd>The user must call this macro before defining a custom ContinuousDynamicalSystem::DynamicalSystem.</dd>
-            <dt id="a6bf7b1211fa65894662edc6be7e91536">
-              <span class="m-doc-wrap-bumper">#define <a href="#a6bf7b1211fa65894662edc6be7e91536" class="m-doc-self">BLF_DEFINE_INTEGRATOR_STRUCTURE</a>(</span><span class="m-doc-wrap">IntegratorType,
-              DynamicalSystemType)</span>
+            <dt id="a0f84fde07f0a6fd9fd13de1c9c7c8a16">
+              <span class="m-doc-wrap-bumper">#define <a href="#a0f84fde07f0a6fd9fd13de1c9c7c8a16" class="m-doc-self">BLF_DEFINE_INTEGRATOR_STRUCTURE</a>(</span><span class="m-doc-wrap">IntegratorType,
+              _Derived)</span>
             </dt>
             <dd>The user must call this macro before defining a custom ContinuousDynamicalSystem::Integrator.</dd>
           </dl>

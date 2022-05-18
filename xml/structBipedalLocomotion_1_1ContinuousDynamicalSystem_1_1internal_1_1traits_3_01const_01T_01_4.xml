@@ -40,7 +40,7 @@ When constness must affect traits, it has to be constness on template parameters
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="91" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="92" bodyend="93"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="92" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="93" bodyend="94"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

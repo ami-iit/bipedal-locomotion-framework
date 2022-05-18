@@ -35,10 +35,10 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
                 <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
                 <li><a href="./v0.5.0/index.html">v0.5.0</a></li>
+                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.4.0/index.html">v0.4.0</a></li>
                 <li><a href="./v0.6.0/index.html">v0.6.0</a></li>
               </ol>
@@ -80,6 +80,18 @@
             </tr>
           </tbody>
         </table>
+        <nav class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
 <aside class="m-note m-danger"><h4>Warning</h4><p>We assume that the operator + is defined for the objects contained in the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">DynamicalSystem::<wbr />State</a> and <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">DynamicalSystem::<wbr />StateDerivative</a>.</p><p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler.html" class="m-doc">ForwardEuler</a> integrator is compatible with Lie groups defined by the <code>manif</code> library. Since the <em>box-plus</em> operator is not commutative for a Lie group, here we consider only manifold left plus</p><div class="m-math"><svg style="width: 11.024em; height: 1.245em;" viewBox="141.355187 -11.955168 105.832658 11.955168">
 <title>
 \[ X + \psi = X \circ \exp(\psi) \]
@@ -139,6 +151,23 @@ $\psi$
               class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator.html" class="m-doc">FixedStepIntegrator&lt;ForwardEuler&lt;_DynamicalSystem&gt;&gt;</a>
             </dt>
             <dd>Fixed step integrator base class.</dd>
+          </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="aa26271c83b32e174a8fea487a2dafc4a">
+              using <a href="#aa26271c83b32e174a8fea487a2dafc4a" class="m-doc-self">DynamicalSystem</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler.html" class="m-doc">ForwardEuler</a>&lt;_DynamicalSystem&gt;&gt;::DynamicalSystem
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3bf6c7c2f1c3fa9e250ad06e5315e1c0">
+              using <a href="#a3bf6c7c2f1c3fa9e250ad06e5315e1c0" class="m-doc-self">State</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler.html" class="m-doc">ForwardEuler</a>&lt;_DynamicalSystem&gt;&gt;::State
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a6d16666e106b95c9c22e9728f296784f">
+              using <a href="#a6d16666e106b95c9c22e9728f296784f" class="m-doc-self">StateDerivative</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler.html" class="m-doc">ForwardEuler</a>&lt;_DynamicalSystem&gt;&gt;::StateDerivative
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

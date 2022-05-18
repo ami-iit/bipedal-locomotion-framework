@@ -35,10 +35,10 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.3.0/index.html">v0.3.0</a></li>
                 <li><a href="./v0.2.0/index.html">v0.2.0</a></li>
                 <li><a href="./v0.5.0/index.html">v0.5.0</a></li>
+                <li><a href="./v0.1.1/index.html">v0.1.1</a></li>
                 <li><a href="./v0.4.0/index.html">v0.4.0</a></li>
                 <li><a href="./v0.6.0/index.html">v0.6.0</a></li>
               </ol>
@@ -83,15 +83,10 @@
             </li>
           </ul>
         </nav>
-<p>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <a href="traits_8h.html#a6bf7b1211fa65894662edc6be7e91536" class="m-doc">BLF_<wbr />DEFINE_<wbr />INTEGRATOR_<wbr />STRUCTURE()</a></p>
+<p>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <a href="traits_8h.html#a0f84fde07f0a6fd9fd13de1c9c7c8a16" class="m-doc">BLF_<wbr />DEFINE_<wbr />INTEGRATOR_<wbr />STRUCTURE()</a></p>
         <section id="derived-classes">
           <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;class _Derived&gt;</div>
-              class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator.html" class="m-doc">FixedStepIntegrator</a>
-            </dt>
-            <dd>Fixed step integrator base class.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class _Derived&gt;</div>
               class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator.html" class="m-doc">FixedStepIntegrator</a>
@@ -102,29 +97,33 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="a89714192dd179d740cc9cf31e49df44f">
-              using <a href="#a89714192dd179d740cc9cf31e49df44f" class="m-doc-self">DynamicalSystem</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;_Derived&gt;::<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>
+            <dt id="a6725719c887fd9702ca0529d73c219e2">
+              using <a href="#a6725719c887fd9702ca0529d73c219e2" class="m-doc-self">DynamicalSystem</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html" class="m-doc">Integrator</a>&lt;_Derived&gt;&gt;::DynamicalSystem
             </dt>
-            <dd><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> type.</dd>
-            <dt id="a029dfe8dfb360aea11183bd0dec38ac7">
-              using <a href="#a029dfe8dfb360aea11183bd0dec38ac7" class="m-doc-self">State</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;_Derived&gt;::<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a029dfe8dfb360aea11183bd0dec38ac7" class="m-doc">State</a>
+            <dd><span></span></dd>
+            <dt id="a6faac6e30bf7310bf3b2692f00c544e7">
+              using <a href="#a6faac6e30bf7310bf3b2692f00c544e7" class="m-doc-self">State</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html" class="m-doc">Integrator</a>&lt;_Derived&gt;&gt;::State
             </dt>
-            <dd>State of the integrator type.</dd>
+            <dd><span></span></dd>
+            <dt id="ad1d1bb0fc15d18e7db541e5ee04a327e">
+              using <a href="#ad1d1bb0fc15d18e7db541e5ee04a327e" class="m-doc-self">StateDerivative</a> = typename <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits.html" class="m-doc">internal::<wbr />traits</a>&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html" class="m-doc">Integrator</a>&lt;_Derived&gt;&gt;::StateDerivative
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5451a664b250c963ad16ded761e7fd1b" class="m-doc">setDynamicalSystem</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>&gt; dynamicalSystem) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5451a664b250c963ad16ded761e7fd1b" class="m-doc">setDynamicalSystem</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;DynamicalSystem&gt; dynamicalSystem) -&gt; bool</span>
             </dt>
             <dd>Set the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> to be considered.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a074cbee339717f65f76b4120dc3df05a" class="m-doc">dynamicalSystem</a>(</span><span class="m-doc-wrap">) const -&gt; std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a074cbee339717f65f76b4120dc3df05a" class="m-doc">dynamicalSystem</a>(</span><span class="m-doc-wrap">) const -&gt; std::weak_ptr&lt;DynamicalSystem&gt;</span>
             </dt>
             <dd>Get the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae6265b4cb4bfece95a6c46358ac5ab52" class="m-doc">getSolution</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a029dfe8dfb360aea11183bd0dec38ac7" class="m-doc">State</a>&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae6265b4cb4bfece95a6c46358ac5ab52" class="m-doc">getSolution</a>(</span><span class="m-doc-wrap">) const -&gt; const State&amp;</span>
             </dt>
             <dd>Retrieve the solution.</dd>
             <dt>
@@ -138,7 +137,7 @@
           <h2><a href="#pro-attribs">Protected variables</a></h2>
           <dl class="m-doc">
             <dt id="a46b112d6863d23df09e3814fe24c62a3">
-              std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>&gt; <a href="#a46b112d6863d23df09e3814fe24c62a3" class="m-doc-self">m_dynamicalSystem</a>
+              std::shared_ptr&lt;DynamicalSystem&gt; <a href="#a46b112d6863d23df09e3814fe24c62a3" class="m-doc-self">m_dynamicalSystem</a>
             </dt>
             <dd>Pointer to a dynamical system.</dd>
           </dl>
@@ -150,7 +149,7 @@
               <div class="m-doc-template">
                 template&lt;class _Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5451a664b250c963ad16ded761e7fd1b" class="m-doc-self">setDynamicalSystem</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>&gt; dynamicalSystem)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5451a664b250c963ad16ded761e7fd1b" class="m-doc-self">setDynamicalSystem</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;DynamicalSystem&gt; dynamicalSystem)</span></span>
             </h3>
             <p>Set the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> to be considered.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -177,7 +176,7 @@
               <div class="m-doc-template">
                 template&lt;class _Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a89714192dd179d740cc9cf31e49df44f" class="m-doc">DynamicalSystem</a>&gt; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a074cbee339717f65f76b4120dc3df05a" class="m-doc-self">dynamicalSystem</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;DynamicalSystem&gt; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a074cbee339717f65f76b4120dc3df05a" class="m-doc-self">dynamicalSystem</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Get the dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -194,7 +193,7 @@
               <div class="m-doc-template">
                 template&lt;class _Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator.html#a029dfe8dfb360aea11183bd0dec38ac7" class="m-doc">State</a>&amp; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae6265b4cb4bfece95a6c46358ac5ab52" class="m-doc-self">getSolution</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">const State&amp; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />Integrator&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae6265b4cb4bfece95a6c46358ac5ab52" class="m-doc-self">getSolution</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Retrieve the solution.</p>
             <table class="m-table m-fullwidth m-flat">

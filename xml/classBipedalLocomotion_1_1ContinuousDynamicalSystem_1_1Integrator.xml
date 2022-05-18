@@ -3,7 +3,6 @@
   <compounddef id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</compoundname>
     <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</derivedcompoundref>
     <includes local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includes>
     <templateparamlist>
       <param>
@@ -11,38 +10,49 @@
       </param>
     </templateparamlist>
       <sectiondef kind="public-type">
-      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" prot="public" static="no">
-        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; _Derived &gt;::<ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" kindref="member">DynamicalSystem</ref></type>
-        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::DynamicalSystem =  typename internal::traits&lt;_Derived&gt;::DynamicalSystem</definition>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6725719c887fd9702ca0529d73c219e2" prot="public" static="no">
+        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref>&lt; _Derived &gt; &gt;::DynamicalSystem</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::DynamicalSystem =  typename internal::traits&lt;Integrator&lt;_Derived&gt; &gt;::DynamicalSystem</definition>
         <argsstring></argsstring>
         <name>DynamicalSystem</name>
         <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> type. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="32" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="32" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="43" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="43" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a029dfe8dfb360aea11183bd0dec38ac7" prot="public" static="no">
-        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; _Derived &gt;::<ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a029dfe8dfb360aea11183bd0dec38ac7" kindref="member">State</ref></type>
-        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::State =  typename internal::traits&lt;_Derived&gt;::State</definition>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6faac6e30bf7310bf3b2692f00c544e7" prot="public" static="no">
+        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref>&lt; _Derived &gt; &gt;::State</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::State =  typename internal::traits&lt;Integrator&lt;_Derived&gt; &gt;::State</definition>
         <argsstring></argsstring>
         <name>State</name>
         <briefdescription>
-<para>State of the integrator type. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="35" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="35" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="44" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad1d1bb0fc15d18e7db541e5ee04a327e" prot="public" static="no">
+        <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref>&lt; _Derived &gt; &gt;::StateDerivative</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::StateDerivative =  typename internal::traits&lt;Integrator&lt;_Derived&gt; &gt;::StateDerivative</definition>
+        <argsstring></argsstring>
+        <name>StateDerivative</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="45" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a46b112d6863d23df09e3814fe24c62a3" prot="protected" static="no" mutable="no">
-        <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" kindref="member">DynamicalSystem</ref> &gt;</type>
+        <type>std::shared_ptr&lt; DynamicalSystem &gt;</type>
         <definition>std::shared_ptr&lt;DynamicalSystem&gt; BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::m_dynamicalSystem</definition>
         <argsstring></argsstring>
         <name>m_dynamicalSystem</name>
@@ -53,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="44" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="40" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="54" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -63,7 +73,7 @@
         <argsstring>(std::shared_ptr&lt; DynamicalSystem &gt; dynamicalSystem)</argsstring>
         <name>setDynamicalSystem</name>
         <param>
-          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" kindref="member">DynamicalSystem</ref> &gt;</type>
+          <type>std::shared_ptr&lt; DynamicalSystem &gt;</type>
           <declname>dynamicalSystem</declname>
         </param>
         <briefdescription>
@@ -87,10 +97,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="53" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="78" bodyend="98"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="63" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="88" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" kindref="member">DynamicalSystem</ref> &gt;</type>
+        <type>std::weak_ptr&lt; DynamicalSystem &gt;</type>
         <definition>std::weak_ptr&lt; typename Integrator&lt; _Derived &gt;::DynamicalSystem &gt; BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::dynamicalSystem</definition>
         <argsstring>() const</argsstring>
         <name>dynamicalSystem</name>
@@ -104,10 +114,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="59" column="19" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="101" bodyend="104"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="69" column="19" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="111" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a029dfe8dfb360aea11183bd0dec38ac7" kindref="member">State</ref> &amp;</type>
+        <type>const State &amp;</type>
         <definition>const Integrator&lt; _Derived &gt;::State &amp; BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::getSolution</definition>
         <argsstring>() const</argsstring>
         <name>getSolution</name>
@@ -121,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="65" column="17" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="107" bodyend="110"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="75" column="17" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="117" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a8916aae4ea7dcbf75e728c6051cab04a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -165,23 +175,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="74" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="112" bodyend="115"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="84" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="122" bodyend="125"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref> base class. </para>
     </briefdescription>
     <detaileddescription>
-<para>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <ref refid="traits_8h_1a6bf7b1211fa65894662edc6be7e91536" kindref="member">BLF_DEFINE_INTEGRATOR_STRUCTURE()</ref> </para>
+<para>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <ref refid="traits_8h_1a0f84fde07f0a6fd9fd13de1c9c7c8a16" kindref="member">BLF_DEFINE_INTEGRATOR_STRUCTURE()</ref> </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="5">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="4">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</edgelabel>
         </childnode>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -189,7 +206,7 @@
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="5" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
         </childnode>
       </node>
@@ -199,10 +216,10 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -234,15 +251,16 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="28" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="29" bodyend="75"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="40" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="41" bodyend="85"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a89714192dd179d740cc9cf31e49df44f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>DynamicalSystem</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6725719c887fd9702ca0529d73c219e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>DynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>getSolution</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a8916aae4ea7dcbf75e728c6051cab04a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>integrate</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a46b112d6863d23df09e3814fe24c62a3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>m_dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a5451a664b250c963ad16ded761e7fd1b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>setDynamicalSystem</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a029dfe8dfb360aea11183bd0dec38ac7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6faac6e30bf7310bf3b2692f00c544e7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>State</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad1d1bb0fc15d18e7db541e5ee04a327e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>StateDerivative</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

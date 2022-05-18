@@ -130,9 +130,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="18" column="9" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="18" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="define" id="traits_8h_1a34923977c164b57d348f0e6d908c3cc3" prot="public" static="no">
+      <memberdef kind="define" id="traits_8h_1a0163896a87affbf02ec432fba8bb6f09" prot="public" static="no">
         <name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name>
-        <param><defname>DynamicalSystemType</defname></param>
+        <param><defname>_DynamicalSystem</defname></param>
         <param><defname>StateType</defname></param>
         <param><defname>StateDerivativeType</defname></param>
         <param><defname>InputType</defname></param>
@@ -142,11 +142,12 @@
     {                                                                                 \
     namespace internal                                                                \
     {                                                                                 \
-    template &lt;&gt; struct traits&lt;DynamicalSystemType&gt;                                    \
+    template &lt;&gt; struct traits&lt;_DynamicalSystem&gt;                                       \
     {                                                                                 \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE StateType;                              \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_DERIVATIVE StateDerivativeType;         \
         BLF_CONTINUOUS_DYNAMICAL_SYSTEM_STATE_INPUT InputType;                        \
+        using DynamicalSystem = _DynamicalSystem;                                     \
     };                                                                                \
     }                                                                                 \
     }                                                                                 \
@@ -194,27 +195,27 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="33" column="9" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="30" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="define" id="traits_8h_1a6bf7b1211fa65894662edc6be7e91536" prot="public" static="no">
+      <memberdef kind="define" id="traits_8h_1a0f84fde07f0a6fd9fd13de1c9c7c8a16" prot="public" static="no">
         <name>BLF_DEFINE_INTEGRATOR_STRUCTURE</name>
         <param><defname>IntegratorType</defname></param>
-        <param><defname>DynamicalSystemType</defname></param>
-        <initializer>    namespace BipedalLocomotion                                                             \
-    {                                                                                       \
-    namespace ContinuousDynamicalSystem                                                     \
-    {                                                                                       \
-    namespace internal                                                                      \
-    {                                                                                       \
-    template &lt;class DynamicalSystemType&gt; struct traits&lt;IntegratorType&lt;DynamicalSystemType&gt;&gt; \
-    {                                                                                       \
-        /** State of the integrator */                                                      \
-        using State = typename traits&lt;DynamicalSystemType&gt;::State;                          \
-        /** State derivative of the integrator */                                           \
-        using StateDerivative = typename traits&lt;DynamicalSystemType&gt;::StateDerivative;      \
-        /** Type of the dynamical system */                                                 \
-        using DynamicalSystem = DynamicalSystemType;                                        \
-    };                                                                                      \
-    }                                                                                       \
-    }                                                                                       \
+        <param><defname>_Derived</defname></param>
+        <initializer>    namespace BipedalLocomotion                                             \
+    {                                                                       \
+    namespace ContinuousDynamicalSystem                                     \
+    {                                                                       \
+    namespace internal                                                      \
+    {                                                                       \
+    template &lt;class _Derived&gt; struct traits&lt;IntegratorType&lt;_Derived&gt;&gt;       \
+    {                                                                       \
+        /** State of the integrator */                                      \
+        using State = typename traits&lt;_Derived&gt;::State;                     \
+        /** State derivative of the integrator */                           \
+        using StateDerivative = typename traits&lt;_Derived&gt;::StateDerivative; \
+        /** Type of the dynamical system */                                 \
+        using DynamicalSystem = typename traits&lt;_Derived&gt;::DynamicalSystem; \
+    };                                                                      \
+    }                                                                       \
+    }                                                                       \
     }</initializer>
         <briefdescription>
 <para>The user must call this macro before defining a custom ContinuousDynamicalSystem::Integrator. </para>
@@ -230,10 +231,10 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>DynamicalSystemType</parametername>
+<parametername>_Derived</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the type of the dynamical system. </para>
+<para>the type derived integrator. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -241,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="55" column="9" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="55" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="56" column="9" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
