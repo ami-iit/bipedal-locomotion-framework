@@ -61,6 +61,10 @@
 #include <BipedalLocomotion/bindings/YarpUtilities/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_YarpUtilities
 
+@cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+#include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
 {
@@ -139,4 +143,9 @@ PYBIND11_MODULE(bindings, m)
     py::module yarpUtilitiesModule = m.def_submodule("yarp_utilities");
     bindings::YarpUtilities::CreateModule(yarpUtilitiesModule);
     @endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+
+    @cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+    py::module continuousDynamicalSystemModule = m.def_submodule("continuous_dynamical_system");
+    bindings::ContinuousDynamicalSystem::CreateModule(continuousDynamicalSystemModule);
+    @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
 }

@@ -16,6 +16,18 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+
+namespace BipedalLocomotion
+{
+namespace ContinuousDynamicalSystem
+{
+template <typename _Derived> class Integrator;
+}
+}
+
+BLF_DEFINE_INTEGRATOR_STRUCTURE(Integrator, _Derived)
+
+
 namespace BipedalLocomotion
 {
 namespace ContinuousDynamicalSystem
@@ -28,11 +40,9 @@ namespace ContinuousDynamicalSystem
 template <class _Derived> class Integrator
 {
 public:
-    /** DynamicalSystem type */
-    using DynamicalSystem = typename internal::traits<_Derived>::DynamicalSystem;
-
-    /** State of the integrator type */
-    using State = typename internal::traits<_Derived>::State;
+    using DynamicalSystem = typename internal::traits<Integrator<_Derived>>::DynamicalSystem;
+    using State = typename internal::traits<Integrator<_Derived>>::State;
+    using StateDerivative = typename internal::traits<Integrator<_Derived>>::StateDerivative;
 
     static_assert(std::is_base_of<
                       BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem<DynamicalSystem>,
