@@ -78,9 +78,9 @@ find_package(tomlplusplus 2.4.0 QUIET)
 checkandset_dependency(tomlplusplus MINIMUM_VERSION 2.4.0)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
-find_package(YARP_telemetry 0.5.1 QUIET)
-checkandset_dependency(YARP_telemetry MINIMUM_VERSION 0.5.1)
-dependency_classifier(YARP_telemetry MINIMUM_VERSION 0.5.1 IS_USED ${FRAMEWORK_USE_YARP_telemetry})
+find_package(robometry 1.1.0 QUIET)
+checkandset_dependency(robometry MINIMUM_VERSION 1.1.0)
+dependency_classifier(robometry MINIMUM_VERSION 1.1.0 IS_USED ${FRAMEWORK_USE_robometry})
 
 # required only for some tests
 find_package(icub-models 1.23.3 QUIET)
@@ -222,7 +222,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
-  "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_YARP_telemetry" OFF)
+  "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_robometry" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
   "Do you want to generate and compile the VectorsCollectionWrapper?" ON

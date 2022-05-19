@@ -22,7 +22,8 @@
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
-#include <yarp/telemetry/experimental/BufferManager.h>
+
+#include <robometry/BufferManager.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
@@ -102,7 +103,7 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
 
-    yarp::telemetry::experimental::BufferManager<> m_bufferManager;
+    robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
@@ -117,7 +118,7 @@ private:
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
 
     bool saveVideo(const std::string& fileName,
-                   const yarp::telemetry::experimental::SaveCallbackSaveMethod& method);
+                   const robometry::SaveCallbackSaveMethod& method);
 };
 
 } // namespace BipedalLocomotion
