@@ -71,7 +71,7 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
 
-    yarp::telemetry::experimental::BufferManager<double> m_bufferManager;
+    yarp::telemetry::experimental::BufferManager<> m_bufferManager;
 
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
