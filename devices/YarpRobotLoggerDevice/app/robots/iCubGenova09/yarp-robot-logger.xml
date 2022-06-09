@@ -6,7 +6,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">icub</param>
   <param name="sampling_period_in_s">0.01</param>
-  <param name="rgb_cameras_fps">(20)</param>
+  <param name="rgb_cameras_fps">(30)</param>
   <param name="port_prefix">/yarp-robot-logger</param>
 
   <group name="Telemetry">
@@ -47,11 +47,11 @@ GNU Lesser General Public License v2.1 or any later version. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <param name="sixaxis_forcetorque_sensors_list">("id_l_upper_arm_strain", "id_r_upper_arm_strain", "id_l_heel_strain", "id_l_tiptoe_strain", "id_r_heel_strain", "id_r_tiptoe_strain", "id_r_hip_strain")</param>
+      <param name="sixaxis_forcetorque_sensors_list">("l_arm_ft_sensor", "r_arm_ft_sensor",  "r_leg_ft_sensor", "l_foot_front_ft_sensor", "l_foot_rear_ft_sensor", "r_foot_front_ft_sensor", "r_foot_rear_ft_sensor")</param>
     </group>
 
     <group name="TemperatureSensors">
-      <param name="temperature_sensors_list">("id_l_upper_arm_strain", "id_r_upper_arm_strain", "id_l_heel_strain", "id_l_tiptoe_strain", "id_r_heel_strain", "id_r_tiptoe_strain", "id_r_hip_strain")</param>
+      <param name="temperature_sensors_list">("l_arm_ft_sensor", "r_arm_ft_sensor",  "r_leg_ft_sensor", "l_foot_front_ft_sensor", "l_foot_rear_ft_sensor", "r_foot_front_ft_sensor", "r_foot_rear_ft_sensor")</param>
     </group>
 
     <group name="CartesianWrenches">

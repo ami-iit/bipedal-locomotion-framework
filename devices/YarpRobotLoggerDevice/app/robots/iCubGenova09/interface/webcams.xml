@@ -6,7 +6,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
 <devices>
 
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="camera1" type="opencv_grabber">
-    <param name="camera">2</param>
+    <param name="camera">0</param>
     <param name="width">1280</param>
     <param name="height">720</param>
   </device>

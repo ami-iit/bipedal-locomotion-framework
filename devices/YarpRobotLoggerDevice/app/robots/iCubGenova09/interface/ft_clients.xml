@@ -15,14 +15,9 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <param name="local">/yarp_robot_logger/right_arm</param>
     </device>
 
-    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_front_ft_client" type="multipleanalogsensorsclient">
-        <param name="remote">/icub/left_foot_tiptoe</param>
-        <param name="local">/yarp_robot_logger/left_front_ft</param>
-    </device>
-
-    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_rear_ft_client" type="multipleanalogsensorsclient">
-        <param name="remote">/icub/left_foot_heel</param>
-        <param name="local">/yarp_robot_logger/left_foot_rear</param>
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_foot_ft_client" type="multipleanalogsensorsclient">
+        <param name="remote">/icub/left_foot_heel_tiptoe</param>
+        <param name="local">/yarp_robot_logger/left_foot_heel_tiptoe</param>
     </device>
 
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_upper_leg_ft_client" type="multipleanalogsensorsclient">
@@ -30,14 +25,9 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <param name="local">/yarp_robot_logger/right_upper_leg_ft</param>
     </device>
 
-    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_front_ft_client" type="multipleanalogsensorsclient">
-        <param name="remote">/icub/right_foot_tiptoe</param>
-        <param name="local">/yarp_robot_logger/right_front_ft</param>
-    </device>
-
-    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_rear_ft_client" type="multipleanalogsensorsclient">
-        <param name="remote">/icub/right_foot_heel</param>
-        <param name="local">/yarp_robot_logger/right_rear_ft</param>
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_foot_ft_client" type="multipleanalogsensorsclient">
+        <param name="remote">/icub/right_foot_heel_tiptoe</param>
+        <param name="local">/yarp_robot_logger/right_foot_heel_tiptoe</param>
     </device>
 
 </devices>
