@@ -561,7 +561,7 @@ jobs:
           path: build
 
   check-missing-dependencies:
-    name: 'Check build if some dependencies are not enabled'
+    name: 'missing-deps [${{ matrix.build_type }}]'
     needs: build
     if: github.event_name != 'push' && github.event_name != 'release'
     runs-on: ubuntu-20.04
@@ -574,7 +574,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-          # Remove apt repos that are known to break from time to time
+    # Remove apt repos that are known to break from time to time
     # See https://github.com/actions/virtual-environments/issues/323
     - name: Remove broken apt repos [Ubuntu]
       run: |
@@ -596,7 +596,7 @@ jobs:
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
 
-                # Catch2
+        # Catch2
         git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
         cd Catch2
         mkdir -p build
@@ -618,7 +618,7 @@ jobs:
     - name: 📦 Download artifacts
       uses: actions/download-artifact@v2
       with:
-          name: temporary-build-${{ matrix.os }}-${{ matrix.build_type }}
+          name: temporary-build-ubuntu-20.04-${{ matrix.build_type }}
           path: build
 
     - name: Build
