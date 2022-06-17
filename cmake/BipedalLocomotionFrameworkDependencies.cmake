@@ -77,9 +77,9 @@ find_package(tomlplusplus 2.4.0 QUIET)
 checkandset_dependency(tomlplusplus MINIMUM_VERSION 2.4.0)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
-find_package(YARP_telemetry QUIET)
-checkandset_dependency(YARP_telemetry)
-dependency_classifier(YARP_telemetry IS_USED ${FRAMEWORK_USE_YARP_telemetry})
+find_package(YARP_telemetry 0.5.1 QUIET)
+checkandset_dependency(YARP_telemetry MINIMUM_VERSION 0.5.1)
+dependency_classifier(YARP_telemetry MINIMUM_VERSION 0.5.1 IS_USED ${FRAMEWORK_USE_YARP_telemetry})
 
 # required only for some tests
 find_package(icub-models 1.23.3 QUIET)

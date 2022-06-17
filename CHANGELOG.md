@@ -24,6 +24,8 @@ All notable changes to this project are documented in this file.
 - Save the robot name and the names of the channel's elements in the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/522)
 - Use icub-models to get the urdf models for the tests (https://github.com/ami-iit/bipedal-locomotion-framework/pull/526)
 - The FT sensor are now considered as `multianalogsensor` in `YarpSensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
+- Make `YarpRobotLogger` compatible with `yarp-telemetry` v0.5.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/535)
+- Set for `yarp-telemetry` minimum version to v0.5.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/535)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
