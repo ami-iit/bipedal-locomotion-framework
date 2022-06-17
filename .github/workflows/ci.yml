@@ -537,20 +537,6 @@ jobs:
               -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
               -DBUILD_TESTING:BOOL=ON ..
 
-    - name: Check build if some dependencies are not enabled [Ubuntu]
-      if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
-      shell: bash
-      run: |
-        cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json icub-models; do
-            echo "Testing ${missing_dep} as missing dependency."
-            # Deselect missing dependency and build
-            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
-            cmake --build . --config ${{ matrix.build_type }}
-            # Enable again dependency
-            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
-        done
-
     - name: Build
       shell: bash
       run: |
@@ -566,3 +552,68 @@ jobs:
         cd build
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         ctest --output-on-failure -C ${{ matrix.build_type }} .
+
+
+  check-missing-dependencies:
+    name: 'Check build if some dependencies are not enabled'
+    needs: build
+    if: github.event_name != 'push' && github.event_name != 'release'
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        missing_dep: [YARP, Qhull, casadi, cppad, manif, Python3, pybind11, pytest, matioCpp, LieGroupControllers, nlohmann_json, icub-models]
+        build_type: [Release, Debug]
+
+    steps:
+    - uses: actions/checkout@master
+
+          # Remove apt repos that are known to break from time to time
+    # See https://github.com/actions/virtual-environments/issues/323
+    - name: Remove broken apt repos [Ubuntu]
+      run: |
+        for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
+
+    - name: Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
+                             libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
+                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
+        # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
+        sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+        # please see https://github.com/IntelRealSense/realsense-ros/blob/a161efb84c9cf8077fbd37d6a78ef1fad0b677d0/.travis.yml#L17-L19
+        sudo apt-get update -qq
+        # please see https://github.com/IntelRealSense/librealsense/issues/9607#issuecomment-896789179
+        mkdir -p /usr/share/librealsense2/presets
+        sudo apt-get install librealsense2-dev
+
+                # Catch2
+        git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
+        cd Catch2
+        mkdir -p build
+        cd build
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+               -DBUILD_TESTING=OFF ..
+
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Cache Source-based Dependencies
+      id: cache-source-deps
+      uses: actions/cache@v1
+      with:
+        path: ${{ github.workspace }}/install/deps
+        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/ami-iit/bipedal-locomotion-framework/pull/45
+        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
+
+    - name: Build
+      shell: bash
+      run: |
+        cd build
+        echo "Testing ${{ matrix.missing_dep }} as missing dependency."
+        # Deselect missing dependency and build
+        cmake -DFRAMEWORK_USE_${{ matrix.missing_dep }}:BOOL=OFF .
+        cmake --build . --config ${{ matrix.build_type }}
