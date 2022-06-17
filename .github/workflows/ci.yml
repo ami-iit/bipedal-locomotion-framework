@@ -104,7 +104,7 @@ jobs:
       run: |
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
+        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
@@ -430,8 +430,8 @@ jobs:
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Source-based Dependencies [Ubuntu]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
+    - name: Catch2 Dependency [Ubuntu/macOS]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
       shell: bash
       run: |
         # Catch2
@@ -445,6 +445,10 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+    - name: Source-based Dependencies [Ubuntu]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
+      shell: bash
+      run: |
         # Qhull
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/qhull/qhull
@@ -457,10 +461,6 @@ jobs:
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: CppAD [Ubuntu]
-      if: startsWith(matrix.os, 'ubuntu')
-      shell: bash
-      run: |
         # CppAD
         git clone https://github.com/coin-or/CppAD.git
         cd CppAD
@@ -473,7 +473,7 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Install manifpy [Ubintu/macOS]
+    - name: Install manifpy [Ubuntu/macOS]
       if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
       run: |
         git clone https://github.com/artivis/manif.git manifpy
