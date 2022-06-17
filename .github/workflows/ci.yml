@@ -561,7 +561,7 @@ jobs:
           path: build
 
   check-missing-dependencies:
-    name: 'missing-deps [${{ matrix.build_type }}]'
+    name: 'missing-${{ matrix.missing_dep }}-${{ matrix.build_type }}'
     needs: build
     if: github.event_name != 'push' && github.event_name != 'release'
     runs-on: ubuntu-20.04
