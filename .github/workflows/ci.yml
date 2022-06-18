@@ -553,6 +553,13 @@ jobs:
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         ctest --output-on-failure -C ${{ matrix.build_type }} .
 
+    - name: 📦 Archive Deps
+      if: startsWith(matrix.os, 'ubuntu')
+      uses: actions/upload-artifact@v2
+      with:
+          name: deps-${{ matrix.os }}-${{ matrix.build_type }}
+          path: ${GITHUB_WORKSPACE}/install/deps
+
     - name: 📦 Archive artifacts
       if: startsWith(matrix.os, 'ubuntu')
       uses: actions/upload-artifact@v2
@@ -607,13 +614,11 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Cache Source-based Dependencies
-      id: cache-source-deps
-      uses: actions/cache@v1
+    - name: 📦 Download Deps
+      uses: actions/download-artifact@v2
       with:
-        path: ${{ github.workspace }}/install/deps
-        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/ami-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
+          name: deps-ubuntu-20.04-${{ matrix.build_type }}
+          path: ${GITHUB_WORKSPACE}/install/deps
 
     - name: 📦 Download artifacts
       uses: actions/download-artifact@v2
