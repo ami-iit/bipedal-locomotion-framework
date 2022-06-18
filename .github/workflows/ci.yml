@@ -556,7 +556,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
           name: deps-${{ matrix.os }}-${{ matrix.build_type }}
-          path: ${GITHUB_WORKSPACE}/install/deps
+          path: install/deps
 
     - name: 📦 Archive artifacts
       if: startsWith(matrix.os, 'ubuntu')
@@ -616,7 +616,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
           name: deps-ubuntu-20.04-${{ matrix.build_type }}
-          path: ${GITHUB_WORKSPACE}/install/deps
+          path: install/deps
 
     - name: 📦 Download artifacts
       uses: actions/download-artifact@v2
