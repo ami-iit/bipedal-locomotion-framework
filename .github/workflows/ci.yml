@@ -104,7 +104,7 @@ jobs:
       run: |
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
+        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json ninja
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
@@ -114,7 +114,7 @@ jobs:
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev ninja-build
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
         sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
@@ -145,9 +145,7 @@ jobs:
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL
-
 
         # YARP
         cd ${GITHUB_WORKSPACE}
@@ -173,7 +171,6 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # Qhull
@@ -308,7 +305,6 @@ jobs:
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
       shell: bash
       run: |
-
         # Tomlplusplus
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/marzer/tomlplusplus
@@ -515,7 +511,8 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+        cmake -GNinja \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DBUILD_TESTING:BOOL=ON \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
@@ -529,7 +526,8 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+        cmake -GNinja \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
@@ -593,7 +591,7 @@ jobs:
         sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
                              libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
                              libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
+                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev ninja-build
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
         sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
