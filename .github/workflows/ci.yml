@@ -558,13 +558,6 @@ jobs:
           name: deps-${{ matrix.os }}-${{ matrix.build_type }}
           path: install/deps
 
-    - name: 📦 Archive artifacts
-      if: startsWith(matrix.os, 'ubuntu')
-      uses: actions/upload-artifact@v2
-      with:
-          name: temporary-build-${{ matrix.os }}-${{ matrix.build_type }}
-          path: build
-
   check-missing-dependencies:
     name: 'missing-${{ matrix.missing_dep }}-${{ matrix.build_type }}'
     needs: build
@@ -618,17 +611,19 @@ jobs:
           name: deps-ubuntu-20.04-${{ matrix.build_type }}
           path: install/deps
 
-    - name: 📦 Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-          name: temporary-build-ubuntu-20.04-${{ matrix.build_type }}
-          path: build
-
     - name: Build
       shell: bash
       run: |
+        mkdir -p build
         cd build
-        echo "Testing ${{ matrix.missing_dep }} as missing dependency."
+        cmake -GNinja \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DBUILD_TESTING:BOOL=ON \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
+              -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
         # Deselect missing dependency and build
         cmake -DFRAMEWORK_USE_${{ matrix.missing_dep }}:BOOL=OFF .
         cmake --build . --config ${{ matrix.build_type }}
