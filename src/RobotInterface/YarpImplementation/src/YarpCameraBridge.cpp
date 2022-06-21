@@ -264,34 +264,29 @@ struct YarpCameraBridge::Impl
             metaData.bridgeOptions.isRGBCameraEnabled = true;
 
             std::vector<int> rgbWidth, rgbHeight;
-            if (!ptr->getParameter("rgb_image_width", rgbWidth))
-            {
-                log()->error("{} Required parameter \"rgb_image_width\" not available in the "
-                             "configuration.",
-                             logPrefix);
-                return false;
-            }
+            bool ok = ptr->getParameter("rgb_image_width", rgbWidth);
+            ok = ok && ptr->getParameter("rgb_image_height", rgbHeight);
 
-            if (!ptr->getParameter("rgb_image_height", rgbHeight))
+            if (ok)
             {
-                log()->error("{} Required parameter \"rgb_image_height\" not available in the "
-                             "configuration.",
-                             logPrefix);
-                return false;
-            }
+                if ((rgbWidth.size() != metaData.sensorsList.rgbCamerasList.size())
+                    || (rgbHeight.size() != metaData.sensorsList.rgbCamerasList.size()))
+                {
+                    log()->error("{} Parameters list size mismatch.", logPrefix);
+                    return false;
+                }
 
-            if ((rgbWidth.size() != metaData.sensorsList.rgbCamerasList.size())
-                || (rgbHeight.size() != metaData.sensorsList.rgbCamerasList.size()))
+                for (int idx = 0; idx < rgbHeight.size(); idx++)
+                {
+                    std::pair<int, int> imgDimensions(rgbWidth[idx], rgbHeight[idx]);
+                    auto cameraName{metaData.sensorsList.rgbCamerasList[idx]};
+                    metaData.bridgeOptions.rgbImgDimensions[cameraName] = imgDimensions;
+                }
+            } else
             {
-                log()->error("{} Parameters list size mismatch.", logPrefix);
-                return false;
-            }
-
-            for (int idx = 0; idx < rgbHeight.size(); idx++)
-            {
-                std::pair<int, int> imgDimensions(rgbWidth[idx], rgbHeight[idx]);
-                auto cameraName{metaData.sensorsList.rgbCamerasList[idx]};
-                metaData.bridgeOptions.rgbImgDimensions[cameraName] = imgDimensions;
+                log()->info("{} 'rgb_image_width' and / or 'rgb_image_height' are not provided. "
+                            "The image size will be retrieved from the YARP interface.",
+                            logPrefix);
             }
         }
 
@@ -300,34 +295,29 @@ struct YarpCameraBridge::Impl
             metaData.bridgeOptions.isRGBDCameraEnabled = true;
 
             std::vector<int> rgbdCamWidth, rgbdCamHeight;
-            if (!ptr->getParameter("rgbd_image_width", rgbdCamWidth))
-            {
-                log()->error("{} Required parameter \"rgbd_image_width\" not available in the "
-                             "configuration.",
-                             logPrefix);
-                return false;
-            }
+            bool ok = ptr->getParameter("rgbd_image_width", rgbdCamWidth);
+            ok = ok && ptr->getParameter("rgbd_image_height", rgbdCamHeight);
 
-            if (!ptr->getParameter("rgbd_image_height", rgbdCamHeight))
+            if (ok)
             {
-                log()->error("{} Required parameter \"rgbd_image_height\" not available in the "
-                             "configuration.",
-                             logPrefix);
-                return false;
-            }
+                if ((rgbdCamWidth.size() != metaData.sensorsList.rgbdCamerasList.size())
+                    || (rgbdCamHeight.size() != metaData.sensorsList.rgbdCamerasList.size()))
+                {
+                    log()->error("{} Parameters list size mismatch.", logPrefix);
+                    return false;
+                }
 
-            if ((rgbdCamWidth.size() != metaData.sensorsList.rgbdCamerasList.size())
-                || (rgbdCamHeight.size() != metaData.sensorsList.rgbdCamerasList.size()))
+                for (int idx = 0; idx < rgbdCamHeight.size(); idx++)
+                {
+                    std::pair<int, int> imgDimensions(rgbdCamWidth[idx], rgbdCamHeight[idx]);
+                    auto cameraName{metaData.sensorsList.rgbdCamerasList[idx]};
+                    metaData.bridgeOptions.rgbdImgDimensions[cameraName] = imgDimensions;
+                }
+            } else
             {
-                log()->error("{} Parameters list size mismatch.", logPrefix);
-                return false;
-            }
-
-            for (int idx = 0; idx < rgbdCamHeight.size(); idx++)
-            {
-                std::pair<int, int> imgDimensions(rgbdCamWidth[idx], rgbdCamHeight[idx]);
-                auto cameraName{metaData.sensorsList.rgbdCamerasList[idx]};
-                metaData.bridgeOptions.rgbdImgDimensions[cameraName] = imgDimensions;
+                log()->info("{} 'rgb_image_width' and / or 'rgb_image_height' are not provided. "
+                            "The image size will be retrieved from the YARP interface.",
+                            logPrefix);
             }
         }
 
@@ -473,20 +463,6 @@ bool YarpCameraBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                                    m_pimpl->metaData,
                                    useCameras);
 
-    // initialize the images container accordingly to the metadata this is required to make
-    // YarpCameraBridge thread safe
-    // This should speedup also the getColorImage function since the memory is already allocated
-    for (const auto& [cameraName, dimension] : m_pimpl->metaData.bridgeOptions.rgbImgDimensions)
-    {
-        m_pimpl->rgbImages[cameraName].resize(dimension);
-    }
-
-    for (const auto& [cameraName, dimension] : m_pimpl->metaData.bridgeOptions.rgbdImgDimensions)
-    {
-        m_pimpl->flexImages[cameraName].resize(dimension);
-        m_pimpl->depthImages[cameraName].resize(dimension);
-    }
-
     if (!ret)
     {
         log()->error("{} Skipping the configuration of Cameras. YarpCameraBridge will not stream "
@@ -516,6 +492,50 @@ bool YarpCameraBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
         log()->error("{} Failed to attach to one or more device drivers.", logPrefix);
         return false;
     }
+
+    // in the case the user does not provide the images size the YarpCameraBridge will be retrieve
+    // it from the yarp interface
+    if (m_pimpl->metaData.bridgeOptions.rgbImgDimensions.empty())
+    {
+        for (const auto& [cameraName, interface] : m_pimpl->wholeBodyFrameGrabberInterface)
+        {
+            m_pimpl->metaData.bridgeOptions.rgbImgDimensions[cameraName]
+                = {interface->width(), interface->height()};
+        }
+    }
+
+    if (m_pimpl->metaData.bridgeOptions.rgbdImgDimensions.empty())
+    {
+        for (const auto& [cameraName, interface] : m_pimpl->wholeBodyRGBDInterface)
+        {
+            if ((interface->getRgbWidth() != interface->getDepthWidth())
+                || (interface->getRgbHeight() != interface->getDepthHeight()))
+            {
+                log()->error("{} Mismatch between the rgb and depth width or the rgb height and "
+                             "the depth height. For the camera {}. YarpCameraBridge do not support "
+                             "cameras having a different resolutions. The support will be added in "
+                             "the future.");
+                return false;
+            }
+            m_pimpl->metaData.bridgeOptions.rgbdImgDimensions[cameraName]
+                = {interface->getRgbWidth(), interface->getRgbWidth()};
+        }
+    }
+
+    // Initialize the images container accordingly to the metadata this is required to make
+    // YarpCameraBridge thread safe
+    // This should speedup also the getColorImage function since the memory is already allocated
+    for (const auto& [cameraName, dimension] : m_pimpl->metaData.bridgeOptions.rgbImgDimensions)
+    {
+        m_pimpl->rgbImages[cameraName].resize(dimension);
+    }
+
+    for (const auto& [cameraName, dimension] : m_pimpl->metaData.bridgeOptions.rgbdImgDimensions)
+    {
+        m_pimpl->flexImages[cameraName].resize(dimension);
+        m_pimpl->depthImages[cameraName].resize(dimension);
+    }
+
     m_pimpl->driversAttached = true;
     return true;
 }
