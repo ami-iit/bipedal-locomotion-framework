@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="49" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="48" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a186c9991d90c1f6d20e10c8934767400" prot="public" static="no">
         <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge" kindref="compound">IPointCloudBridge</ref> &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="51" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="51" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="50" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a1d2cdb0917dc1ef7b12f26178c6d942b" prot="public" static="no">
         <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge" kindref="compound">IPointCloudBridge</ref> &gt;</type>
@@ -42,18 +42,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="53" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="53" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="52" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a16bdc8ed82831ecae93c36fea66c5c5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a6692873599123310b4e0ad742cc7f087" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::RobotInterface::IPointCloudBridge::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)=0</argsstring>
+        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)=0</argsstring>
         <name>initialize</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a02514717d46ff0c843553daa99faedf9">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab62c959a67d07050e32e4268de97855e">initialize</reimplementedby>
         <param>
-          <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
         </param>
         <briefdescription>
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="59" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="59" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a61669ce43eea213a43405678721baadf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="66" column="18" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="66" bodyend="66"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="67" column="18" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="67" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a2ce35da8b3671cb9a6d1a51c8a9ce4f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="69" column="18" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="69" bodyend="71"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="73" column="5" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="73" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1aa007bed44d5547e1d4b0dd651f151875" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="76" column="13"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="83" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -165,11 +165,11 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="46" column="1" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="47" bodyend="78"/>
+    <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="45" column="1" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="46" bodyend="84"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a61669ce43eea213a43405678721baadf" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>getPCLDevicesList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a2ce35da8b3671cb9a6d1a51c8a9ce4f7" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>getPointCloud</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a16bdc8ed82831ecae93c36fea66c5c5b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a6692873599123310b4e0ad742cc7f087" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a186c9991d90c1f6d20e10c8934767400" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>shared_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1ad36eeaa28234f1a57783adc6c1638236" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>unique_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a1d2cdb0917dc1ef7b12f26178c6d942b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IPointCloudBridge</scope><name>weak_ptr</name></member>

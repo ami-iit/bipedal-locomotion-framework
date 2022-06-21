@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="40" column="18" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="40" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="39" column="20" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -65,7 +65,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="38" column="1" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="39" bodyend="41"/>
+    <location file="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" line="37" column="1" bodyfile="BipedalLocomotion/RobotInterface/IPointCloudBridge.h" bodystart="38" bodyend="40"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData_1a82396711aeecd07721acf9962cb33975" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PCLBridgeMetaData</scope><name>pclDevList</name></member>
     </listofallmembers>

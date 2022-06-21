@@ -665,7 +665,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aaa69e3706400eaaa4292e2b57e81baf7" kind="typedef"><name>shared_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab535fbdd8130c0208c2f97e031f07f89" kind="typedef"><name>weak_ptr</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a11332cef18c262811aecb581d004ce7f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1af24fb70446a870f16a41c9709680d1ae" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a18d604a503f9ba409aa1351de5fc7f1f" kind="function"><name>getRGBCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a4157fc5df74981423dc29fe3afb27558" kind="function"><name>getRGBDCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a06408daf35fede203127d24e05a219a9" kind="function"><name>getColorImage</name></member>
@@ -674,6 +674,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab3512211fe40a0ef2bad6c8354dd581d" kind="function"><name>populateCameraBridgeOptionsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a558cc51658fe940823573793e0aea396" kind="function"><name>populateCameraListsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" kind="function"><name>populateCameraBridgeMetaDataFromConfig</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" kind="function"><name>getMetaData</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1IClock" kind="class"><name>BipedalLocomotion::System::IClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a99a28837fb84b2a1df959890ec561f82" kind="function"><name>IClock</name></member>
@@ -855,7 +856,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1ad36eeaa28234f1a57783adc6c1638236" kind="typedef"><name>unique_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a186c9991d90c1f6d20e10c8934767400" kind="typedef"><name>shared_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a1d2cdb0917dc1ef7b12f26178c6d942b" kind="typedef"><name>weak_ptr</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a16bdc8ed82831ecae93c36fea66c5c5b" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a6692873599123310b4e0ad742cc7f087" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a61669ce43eea213a43405678721baadf" kind="function"><name>getPCLDevicesList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1a2ce35da8b3671cb9a6d1a51c8a9ce4f7" kind="function"><name>getPointCloud</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IPointCloudBridge_1aa007bed44d5547e1d4b0dd651f151875" kind="function"><name>~IPointCloudBridge</name></member>
@@ -1259,7 +1260,7 @@
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3f194396f0831ef9592e5e511769187a" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a0b17adbe7b3840f0f30f8ebba491f961" kind="function"><name>RealSense</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a7bf48c316a6b1e29781b40f38c1930f0" kind="function"><name>~RealSense</name></member>
-    <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a02514717d46ff0c843553daa99faedf9" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab62c959a67d07050e32e4268de97855e" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab694f3e94475b9443f3a71463f3b403a" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1af1ca4cd8209134751b367bc50e8c0188" kind="function"><name>getRGBCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1aa74ffa2259745453e3967698ba57b1ad" kind="function"><name>getRGBDCamerasList</name></member>
@@ -1269,6 +1270,7 @@
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ac71fa2e23352736c009de41d7c3ddf06" kind="function"><name>getColorizedDepthImage</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3ad2630b863bfe3b8e84051c624eb844" kind="function"><name>getInfraredImage</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a8848e401a6d46ee456f6b55e9bc7740c" kind="function"><name>getPointCloud</name></member>
+    <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a4f5b5a2361719920b803c936326a5092" kind="function"><name>getMetaData</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare" kind="class"><name>BipedalLocomotion::Estimators::RecursiveLeastSquare</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a3b7f002a1677d08f574495ce9274ceed" kind="enum"><name>State</name></member>
@@ -1850,10 +1852,11 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a81693f83366dd6337bcd8db4253467ba" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a97b5ba8a7f1514d2852b9dc94dce0af0" kind="function"><name>YarpCameraBridge</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a450a60a8f09823c072747140896f91e9" kind="function"><name>~YarpCameraBridge</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a603f8de996f4d757e190ea785da91685" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1ab940d3cdfaa1a4096142c762e1e74868" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1af2a0c66486efeff01f86401837a95585" kind="function"><name>setDriversList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acb11554bb43a8c3a48ce6019cc7701a4" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a8705abc70daf7e47fb9808f513958a80" kind="function"><name>get</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acf9b48bab358a0d307312a102bbb6f78" kind="function"><name>getMetaData</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a5bcc48a9687e55fff28e3eb3d530631c" kind="function"><name>getRGBCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a3608f3f85a736e7cfe24e7aa0fc8b9f6" kind="function"><name>getRGBDCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a3a537945fb338732f19c3a5834238d43" kind="function"><name>getColorImage</name></member>
