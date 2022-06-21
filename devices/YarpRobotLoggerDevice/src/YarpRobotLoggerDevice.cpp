@@ -108,7 +108,8 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                 if (rgbFPS[i] <= 0)
                 {
                     log()->error("[YarpRobotLoggerDevice::open] The FPS associated to the camera "
-                                 "{} is negative or equal to zero." i);
+                                 "{} is negative or equal to zero.",
+                                 i);
                     return false;
                 }
 
@@ -535,6 +536,8 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
 
 void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWriter& writer)
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::recordVideo]";
+
     auto time = BipedalLocomotion::clock().now();
     auto oldTime = time;
     auto wakeUpTime = time;
@@ -553,7 +556,16 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
         }
         wakeUpTime += recordVideoPeriod;
 
-        if (m_cameraBridge->getColorImage(cameraName, writer.frame))
+        // get the frame from the camera
+        if (!m_cameraBridge->getColorImage(cameraName, writer.frame))
+        {
+            log()->info("{} Unable to get the frame of the camera named: {}. The previous frame "
+                        "will be used.",
+                        logPrefix,
+                        cameraName);
+        }
+
+        // save the frame in the video writer
         {
             std::lock_guard<std::mutex> lock(writer.mutex);
             writer.writer->write(writer.frame);
@@ -564,11 +576,13 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
         if (wakeUpTime < BipedalLocomotion::clock().now())
         {
-            log()->info("[YarpRobotLoggerDevice::recordVideo] The video thread spent more time "
-                        "than expected to save the camera named: {}.",
+            log()->info("{} The video thread spent more time than expected to save the camera "
+                        "named: {}.",
+                        logPrefix,
                         cameraName);
         }
 
+        // sleep
         BipedalLocomotion::clock().sleepUntil(wakeUpTime);
     }
 }
