@@ -7,9 +7,14 @@
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <atomic>
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/videoio.hpp>
 
 #include <yarp/dev/DeviceDriver.h>
 #include <yarp/dev/Wrapper.h>
@@ -18,6 +23,8 @@
 #include <yarp/telemetry/experimental/BufferManager.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
+
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 namespace BipedalLocomotion
@@ -48,11 +55,23 @@ private:
     using analog_sensor_t = Eigen::Matrix<double, 12, 1>;
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
+    std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
     std::unordered_map<std::string,
                        yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>>
         m_exogenousPorts;
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
+
+    std::vector<std::string> m_rgbCamerasList;
+    struct VideoWriter{
+        std::mutex mutex;
+        std::shared_ptr<cv::VideoWriter> writer;
+        cv::Mat frame;
+        std::thread videoThread;
+        std::atomic<bool> recordVideoIsRunning{false};
+        int fps{-1};
+    };
+    std::unordered_map<std::string, VideoWriter> m_videoWriters;
 
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
@@ -73,14 +92,19 @@ private:
 
     yarp::telemetry::experimental::BufferManager<> m_bufferManager;
 
+    void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
     bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupRobotCameraBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+
+    bool saveVideo(const std::string& fileName,
+                   const yarp::telemetry::experimental::SaveCallbackSaveMethod& method);
 };
 
 } // namespace BipedalLocomotion

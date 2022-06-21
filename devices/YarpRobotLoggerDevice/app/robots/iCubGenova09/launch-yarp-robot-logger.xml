@@ -13,6 +13,7 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <xi:include href="interface/mas-remapper.xml" />
         <xi:include href="interface/ft_clients.xml" />
         <xi:include href="interface/wrench_clients.xml" />
+        <xi:include href="interface/webcams.xml" />
         <xi:include href="./yarp-robot-logger.xml" />
     </devices>
 </robot>

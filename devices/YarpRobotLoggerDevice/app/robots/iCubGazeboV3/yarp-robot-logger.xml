@@ -22,6 +22,10 @@ GNU Lesser General Public License v2.1 or any later version. -->
 
   </group>
 
+  <group name="RobotCameraBridge">
+      <param name="stream_cameras">false</param>
+  </group>
+
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>

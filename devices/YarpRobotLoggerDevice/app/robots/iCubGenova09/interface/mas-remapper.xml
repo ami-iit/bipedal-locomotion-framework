@@ -18,10 +18,10 @@ GNU Lesser General Public License v2.1 or any later version. -->
       (rfeimu_eul)
     </param>
     <param name="SixAxisForceTorqueSensorsNames">
-      (id_l_upper_arm_strain, id_r_upper_arm_strain, id_l_heel_strain, id_l_tiptoe_strain, id_r_heel_strain, id_r_tiptoe_strain, id_r_hip_strain)
+      (l_arm_ft_sensor, r_arm_ft_sensor,  r_leg_ft_sensor,l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)
     </param>
     <param name="TemperatureSensorsNames">
-      (id_l_upper_arm_strain, id_r_upper_arm_strain, id_l_heel_strain, id_l_tiptoe_strain, id_r_heel_strain, id_r_tiptoe_strain, id_r_hip_strain)
+      (l_arm_ft_sensor, r_arm_ft_sensor,  r_leg_ft_sensor,l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)
     </param>
 
     <action phase="startup" level="5" type="attach">
@@ -29,11 +29,9 @@ GNU Lesser General Public License v2.1 or any later version. -->
             <elem name="head_imu_acc">head_imu_acc</elem>
             <elem name="left_arm_ft_client">left_arm_ft_client</elem>
             <elem name="right_arm_ft_client">right_arm_ft_client</elem>
-            <elem name="left_front_ft_client">left_front_ft_client</elem>
-            <elem name="left_rear_ft_client">left_rear_ft_client</elem>
+            <elem name="left_foot_ft_client">left_foot_ft_client</elem>
             <elem name="right_upper_leg_ft_client">right_upper_leg_ft_client</elem>
-            <elem name="right_front_ft_client">right_front_ft_client</elem>
-            <elem name="right_rear_ft_client">right_rear_ft_client</elem>
+            <elem name="right_foot_ft_client">right_foot_ft_client</elem>
         </paramlist>
     </action>
 

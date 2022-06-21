@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to retrieve the temperature sensor from `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
 - Add the possibility to set only the velocity in `CubicSpline::setInitialConditions` and `CubicSpline::setFinalConditions` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/528)
 - Implement the python bindings for the `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/532)
+- Add the possibility to log the video in the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
 
 ### Changed
 - An error it will be returned if the user tries to change the clock type once the `clock()` has been already called once (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
@@ -26,6 +27,8 @@ All notable changes to this project are documented in this file.
 - The FT sensor are now considered as `multianalogsensor` in `YarpSensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/519)
 - Make `YarpRobotLogger` compatible with `yarp-telemetry` v0.5.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/535)
 - Set for `yarp-telemetry` minimum version to v0.5.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/535)
+- Make `YarpCameraBridge::getColorImage()` and `YarpCameraBridge::getDepthImage()` thread safe (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
+- Deprecate `YarpCameraBridge::get()` in favor of `YarpCameraBridge::getMetaData()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
