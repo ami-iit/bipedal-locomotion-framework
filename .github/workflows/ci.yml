@@ -582,7 +582,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
+        key: source-deps-${{ runner.os }}-os-ubuntu-20.04-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
 
     - name: Source-based Dependencies
       if: steps.cache-source-deps.outputs.cache-hit != 'true'
