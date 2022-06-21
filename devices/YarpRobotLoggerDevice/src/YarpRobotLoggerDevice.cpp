@@ -95,13 +95,20 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
             const auto& rgbCameras = m_cameraBridge->getMetaData().sensorsList.rgbCamerasList;
             if (rgbFPS.size() != rgbCameras.size())
             {
+                log()->error("[YarpRobotLoggerDevice::open] Mismatch between the number of cameras "
+                             "and the vector containg the FPS. Number of cameras: {}. Size of the "
+                             "FPS vector {}.",
+                             rgbCameras.size(),
+                             rgbFPS.size());
                 return false;
             }
 
             for (unsigned int i = 0; i < rgbFPS.size(); i++)
             {
-                if (rgbFPS[i] < 0)
+                if (rgbFPS[i] <= 0)
                 {
+                    log()->error("[YarpRobotLoggerDevice::open] The FPS associated to the camera "
+                                 "{} is negative or equal to zero." i);
                     return false;
                 }
 
