@@ -26,8 +26,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <param name="stream_cameras">true</param>
       <group name="Cameras">
         <param name="rgb_cameras_list">("camera1")</param>
-        <param name="rgb_image_width">(1280)</param>
-        <param name="rgb_image_height">(720)</param>
       </group>
   </group>
 
