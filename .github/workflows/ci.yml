@@ -92,12 +92,9 @@ jobs:
         cd C:/robotology/vcpkg
         ./bootstrap-vcpkg.bat
 
-        # Install Catch2
+        # Install Catch2 and tomlplusplus
         cd C:/robotology/vcpkg
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
-
-        # Install tomlplusplus
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
+        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows tomlplusplus:x64-windows
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
@@ -126,12 +123,10 @@ jobs:
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/ami-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
-
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
 
     - name: Source-based Dependencies [Windows]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-2019'
@@ -426,10 +421,6 @@ jobs:
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: Catch2 Dependency [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
-      shell: bash
-      run: |
         # Catch2
         git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
         cd Catch2
@@ -438,7 +429,6 @@ jobs:
         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                -DBUILD_TESTING=OFF ..
-
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu]
@@ -551,15 +541,8 @@ jobs:
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
         ctest --output-on-failure -C ${{ matrix.build_type }} .
 
-    - name: 📦 Archive Deps
-      if: startsWith(matrix.os, 'ubuntu')
-      uses: actions/upload-artifact@v2
-      with:
-          name: deps-${{ matrix.os }}-${{ matrix.build_type }}
-          path: install/deps
-
   check-missing-dependencies:
-    name: 'missing-${{ matrix.missing_dep }}-${{ matrix.build_type }}'
+    name: '[missing-${{ matrix.missing_dep }}-${{ matrix.build_type }}]'
     needs: build
     if: github.event_name != 'push' && github.event_name != 'release'
     runs-on: ubuntu-20.04
@@ -594,6 +577,138 @@ jobs:
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
 
+    - name: Cache Source-based Dependencies
+      id: cache-source-deps
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/install/deps
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
+
+    - name: Source-based Dependencies
+      if: steps.cache-source-deps.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        # Tomlplusplus
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/marzer/tomlplusplus
+        cd tomlplusplus
+        git checkout ${tomlplusplus_TAG}
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # YCM
+        cd ${GITHUB_WORKSPACE}
+        git clone -b ${YCM_TAG} https://github.com/robotology/ycm
+        cd ycm
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # YARP
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/yarp
+        cd yarp
+        git checkout ${YARP_TAG}
+        mkdir -p build
+        cd build
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # iDynTree
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/iDynTree
+        cd iDynTree
+        git checkout ${iDynTree_TAG}
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # osqp
+        cd ${GITHUB_WORKSPACE}
+        git clone --recursive -b ${osqp_TAG} https://github.com/oxfordcontrol/osqp
+        cd osqp
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # osqp-eigen
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/osqp-eigen
+        cd osqp-eigen
+        git checkout ${OsqpEigen_TAG}
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # CasADi
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
+        cd casadi
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON \
+              -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # manif
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/artivis/manif.git
+        cd manif
+        git checkout ${manif_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # matioCpp
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/ami-iit/matio-cpp
+        cd matio-cpp
+        git checkout ${matioCpp_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # LieGroupControllers
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/ami-iit/lie-group-controllers
+        cd lie-group-controllers
+        git checkout ${LieGroupControllers_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # UnicycleFootstepPlanner
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/unicycle-footstep-planner
+        cd unicycle-footstep-planner
+        git checkout ${UnicyclePlanner_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # icub-models
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/icub-models
+        cd icub-models
+        git checkout ${icub_models_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
         # Catch2
         git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
         cd Catch2
@@ -602,14 +717,33 @@ jobs:
         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                -DBUILD_TESTING=OFF ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # Qhull
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/qhull/qhull
+        cd qhull
+        git checkout ${Qhull_TAG}
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+        # CppAD
+        git clone https://github.com/coin-or/CppAD.git
+        cd CppAD
+        mkdir -p build
+        cd build
+        cmake -Dcppad_prefix=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+              -DBUILD_TESTING=OFF ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
-    - name: 📦 Download Deps
-      uses: actions/download-artifact@v2
-      with:
-          name: deps-ubuntu-20.04-${{ matrix.build_type }}
-          path: install/deps
+
 
     - name: Build
       shell: bash
