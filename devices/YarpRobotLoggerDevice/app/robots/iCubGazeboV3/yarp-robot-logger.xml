@@ -6,7 +6,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">icubSim</param>
   <param name="sampling_period_in_s">0.01</param>
-  <param name="rgb_cameras_fps">(20, 20)</param>
   <param name="port_prefix">/yarp-robot-logger</param>
 
   <group name="Telemetry">
@@ -25,11 +24,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
 
   <group name="RobotCameraBridge">
       <param name="stream_cameras">false</param>
-      <group name="Cameras">
-        <param name="rgb_cameras_list">("jabra", "logitech")</param>
-        <param name="rgb_image_width">(1280, 1280)</param>
-        <param name="rgb_image_height">(720, 720)</param>
-      </group>
   </group>
 
   <group name="RobotSensorBridge">
@@ -79,9 +73,6 @@ GNU Lesser General Public License v2.1 or any later version. -->
       <elem name="left_arm_wrench_client">left_arm_wrench_client</elem>
       <elem name="right_upper_leg_wrench_client">right_upper_leg_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
-      <!-- <elem name="jabra">jabra</elem> -->
-      <!-- <elem name="logitech">logitech</elem> -->
-
     </paramlist>
   </action>
 
