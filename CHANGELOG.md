@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [0.7.0] - 2022-06-21
 ### Added
 - Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)
 - Implement the `IWeightProvider` interface and the `ConstantWeightProvider` class in the System component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/506)
@@ -33,7 +33,7 @@ All notable changes to this project are documented in this file.
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
 
-## [0.6.0] - 2022-12-10
+## [0.6.0] - 2022-01-10
 ### Added
 - Add the reading of the orientation of the head IMU in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/471)
 - Add the possibility to change the weight in TSID/IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/475)
@@ -251,7 +251,7 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[Unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.6.0...master
+[0.7.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.3.0...v0.4.0
