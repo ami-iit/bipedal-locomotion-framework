@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+### Added
+### Changed
+### Fix
+
 ## [0.7.0] - 2022-06-21
 ### Added
 - Implement the python bindings for the clock machinery and for the yarp clock (https://github.com/ami-iit/bipedal-locomotion-framework/pull/500)

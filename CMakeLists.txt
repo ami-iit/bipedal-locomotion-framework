@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.16.0)
 
 ## MAIN project
 project(BipedalLocomotionFramework
-  VERSION 0.7.0)
+  VERSION 0.7.100)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -24,7 +24,7 @@ include(BipedalLocomotionFrameworkDependencies)
 if(NOT CMAKE_CONFIGURATION_TYPES)
     if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-        "Choose the type of build, recommanded options are: Debug or Release" FORCE)
+        "Choose the type of build, recommended options are: Debug or Release" FORCE)
     endif()
     set(ROBOTOLOGY_BUILD_TYPES "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${ROBOTOLOGY_BUILD_TYPES})
