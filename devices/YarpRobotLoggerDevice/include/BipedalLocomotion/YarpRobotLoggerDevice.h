@@ -9,6 +9,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <atomic>
@@ -18,6 +19,7 @@
 
 #include <yarp/dev/DeviceDriver.h>
 #include <yarp/dev/Wrapper.h>
+#include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/telemetry/experimental/BufferManager.h>
@@ -71,7 +73,15 @@ private:
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
     };
+
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
+
+    const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
+    std::unordered_set<std::string> m_textLoggingPortNames;
+    yarp::os::BufferedPort<yarp::os::Bottle> m_textLoggingPort;
+    std::atomic<bool> m_lookForNewLogsIsRunning{false};
+    std::unordered_set<std::string> m_textLogsStoredInManager;
+    std::thread m_lookForNewLogsThread;
 
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
@@ -91,6 +101,9 @@ private:
     bool m_streamTemperatureSensors{false};
 
     yarp::telemetry::experimental::BufferManager<> m_bufferManager;
+
+    void lookForNewLogs();
+    // void saveTextLogging();
 
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,

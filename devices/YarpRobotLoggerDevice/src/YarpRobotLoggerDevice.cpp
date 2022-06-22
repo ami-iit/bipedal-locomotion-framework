@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <memory>
+#include <string>
 #include <tuple>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
@@ -17,16 +18,18 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/TextLogging/LoggerBuilder.h>
 #include <BipedalLocomotion/TextLogging/YarpLogger.h>
-#include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
+#include <BipedalLocomotion/YarpRobotLoggerDevice.h>
+#include <BipedalLocomotion/YarpTextLoggingUtilities.h>
+
+
 #include <yarp/os/BufferedPort.h>
+#include <yarp/profiler/NetworkProfiler.h>
+
 #include <yarp/telemetry/experimental/BufferConfig.h>
 #include <yarp/telemetry/experimental/BufferManager.h>
-
-#include <matioCpp/ForwardDeclarations.h>
-#include <matioCpp/Span.h>
 
 #include <iostream>
 #include <fstream>
@@ -37,6 +40,40 @@ using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion;
+
+VISITABLE_STRUCT(TextLoggingEntry,
+                 level,
+                 text,
+                 filename,
+                 line,
+                 function,
+                 hostname,
+                 cmd,
+                 args,
+                 pid,
+                 thread_id,
+                 component,
+                 id,
+                 systemtime,
+                 networktime,
+                 externaltime,
+                 backtrace,
+                 yarprun_timestamp,
+                 local_timestamp);
+
+void findAndReplaceAll(std::string& data, std::string toSearch, std::string replaceStr)
+{
+    // Get the first occurrence
+    size_t pos = data.find(toSearch);
+    // Repeat till end is reached
+    while (pos != std::string::npos)
+    {
+        // Replace this occurrence of Sub String
+        data.replace(pos, toSearch.size(), replaceStr);
+        // Get the next occurrence from the current position
+        pos = data.find(toSearch, pos + replaceStr.size());
+    }
+}
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
                                              yarp::os::ShouldUseSystemClock useSystemClock)
@@ -465,6 +502,12 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
 
+    // open the TextLogging port
+    ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
+    // run the thread
+    m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
+
+
     // The user can avoid to record the camera
     if (m_cameraBridge != nullptr)
     {
@@ -533,6 +576,102 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     accelerometer = signal.segment<3>(3);
     gyro = signal.segment<3>(6);
 }
+
+void YarpRobotLoggerDevice::lookForNewLogs()
+{
+    yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
+    constexpr auto textLoggingPortPrefix = "/log/";
+
+    auto time = BipedalLocomotion::clock().now();
+    auto oldTime = time;
+    auto wakeUpTime = time;
+    const auto lookForNewLogsPeriod = std::chrono::duration<double>(0.5);
+    m_lookForNewLogsIsRunning = true;
+
+    while (m_lookForNewLogsIsRunning)
+    {
+        // detect if a clock has been reset
+        oldTime = time;
+        time = BipedalLocomotion::clock().now();
+        // if the current time is lower than old time, the timer has been reset.
+        if ((time - oldTime).count() < 1e-12)
+        {
+            wakeUpTime = time;
+        }
+        wakeUpTime += lookForNewLogsPeriod;
+
+        // check for new messages
+        yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
+        for (const auto& port : yarpPorts)
+        {
+            // check if the port exist is a logging port
+            if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
+                && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end()))
+            {
+                m_textLoggingPortNames.insert(port.name);
+                yarp::os::Network::connect(port.name, m_textLoggingPortName);
+            }
+        }
+
+        // release the CPU
+        BipedalLocomotion::clock().yield();
+
+        // sleep
+        BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+    }
+}
+
+// void YarpRobotLoggerDevice::saveTextLogging()
+// {
+//     auto time = BipedalLocomotion::clock().now();
+//     auto oldTime = time;
+//     auto wakeUpTime = time;
+//     const auto period = std::chrono::duration<double>(0.05);
+//     m_saveTextLoggingIsRunning = true;
+
+//     while (m_saveTextLoggingIsRunning)
+//     {
+//         // detect if a clock has been reset
+//         oldTime = time;
+//         time = BipedalLocomotion::clock().now();
+//         // if the current time is lower than old time, the timer has been reset.
+//         if ((time - oldTime).count() < 1e-12)
+//         {
+//             wakeUpTime = time;
+//         }
+//         wakeUpTime += period;
+
+//         {
+//             std::lock_guard lock(m_newTextLoggingPortsMutex);
+//             for (const auto& portName : m_newTextLoggingPorts)
+//             {
+
+//             }
+//             m_newTextLoggingPorts.clear();
+//         }
+//         // check for new messages
+//         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
+//         for (const auto& port : yarpPorts)
+//         {
+//             // check if the port exist is a logging port
+//             if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
+//                 && (m_textLoggingPortNames.find(port.name) != m_textLoggingPortNames.end()))
+//             {
+//                 m_textLoggingPortNames.insert(port.name);
+//                 yarp::os::Network::connect(port.name, m_textLoggingPortName);
+
+//                 std::lock_guard lock(m_newTextLoggingPortsMutex);
+//                 m_newTextLoggingPorts.insert(port.name);
+//             }
+//         }
+
+//         // release the CPU
+//         BipedalLocomotion::clock().yield();
+
+//         // sleep
+//         BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+//     }
+// }
 
 void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWriter& writer)
 {
@@ -744,6 +883,37 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
+
+    int bufferportSize = m_textLoggingPort.getPendingReads();
+    BipedalLocomotion::TextLoggingEntry msg;
+
+    while (bufferportSize > 0)
+    {
+        yarp::os::Bottle* b = m_textLoggingPort.read(false);
+        if (b != nullptr)
+        {
+            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b, std::to_string(time));
+            if (msg.isValid)
+            {
+                signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
+                                 + "::p" + msg.processPID;
+
+                // if it is the first time this signal is seen by the device the channel is added
+                if (m_textLogsStoredInManager.find(signalFullName)
+                    == m_textLogsStoredInManager.end())
+                {
+                    m_bufferManager.addChannel({signalFullName, {1, 1}});
+                    m_textLogsStoredInManager.insert(signalFullName);
+                }
+
+                m_bufferManager.push_back(msg, time, signalFullName);
+            }
+            bufferportSize = m_textLoggingPort.getPendingReads();
+        } else
+        {
+            break;
+        }
+    }
 }
 
 bool YarpRobotLoggerDevice::saveVideo(
@@ -795,7 +965,7 @@ bool YarpRobotLoggerDevice::close()
         writer.recordVideoIsRunning = false;
     }
 
-    // close all the thread
+    // close all the thread associated to the video logging
     for (auto& [cameraName, writer] : m_videoWriters)
     {
         if (writer.videoThread.joinable())
@@ -803,6 +973,14 @@ bool YarpRobotLoggerDevice::close()
             writer.videoThread.join();
             writer.videoThread = std::thread();
         }
+    }
+
+    // close the thread associated to the text logging polling
+    m_lookForNewLogsIsRunning = false;
+    if (m_lookForNewLogsThread.joinable())
+    {
+        m_lookForNewLogsThread.join();
+        m_lookForNewLogsThread = std::thread();
     }
 
     return true;
