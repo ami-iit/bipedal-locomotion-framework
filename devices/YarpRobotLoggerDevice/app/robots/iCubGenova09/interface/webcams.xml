@@ -11,4 +11,16 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <param name="height">720</param>
   </device>
 
+  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_eye" type="remote_grabber">
+    <param name="local">/yarp_robot_logger/cam/left</param>
+    <param name="remote">/icub/cam/left</param>
+    <param name="stream">mjpeg</param>
+  </device>
+
+  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_eye" type="remote_grabber">
+    <param name="local">/yarp_robot_logger/cam/right</param>
+    <param name="remote">/icub/cam/right</param>
+    <param name="stream">mjpeg</param>
+  </device>
+
 </devices>
