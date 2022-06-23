@@ -3,32 +3,30 @@
  * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
  */
 
-#include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
+#include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 // YARP sig
 #include <yarp/sig/Image.h>
 
 // YARP Camera Interfaces
+#include <yarp/cv/Cv.h>
 #include <yarp/dev/FrameGrabberInterfaces.h>
 #include <yarp/dev/IRGBDSensor.h>
-#include <yarp/cv/Cv.h>
 
 // std
+#include <algorithm>
 #include <cmath>
 #include <set>
-#include <algorithm>
 
 using namespace BipedalLocomotion::RobotInterface;
 using namespace BipedalLocomotion::GenericContainer;
 using namespace BipedalLocomotion::ParametersHandler;
 
-
 struct YarpCameraBridge::Impl
 {
-    template<typename PixelCode>
-    struct StampedYARPImage
+    template <typename PixelCode> struct StampedYARPImage
     {
         yarp::sig::ImageOf<PixelCode> image;
         double time;
@@ -141,7 +139,6 @@ struct YarpCameraBridge::Impl
         }
     };
 
-
     std::unordered_map<std::string, yarp::dev::IFrameGrabberImage*>
         wholeBodyFrameGrabberInterface; /** < map of cameras attached through frame grabber
                                            interfaces */
@@ -152,8 +149,10 @@ struct YarpCameraBridge::Impl
                                                                                         interfaces
                                                                                       */
     CameraBridgeMetaData metaData; /**< struct holding meta data **/
-    bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized */
-    bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to required device drivers */
+    bool bridgeInitialized{false}; /**< flag set to true if the bridge is successfully initialized
+                                    */
+    bool driversAttached{false}; /**< flag set to true if the bridge is successfully attached to
+                                    required device drivers */
 
     std::unordered_map<std::string, StampedYARPImage<yarp::sig::PixelFloat>> depthImages;
     std::unordered_map<std::string, StampedYARPFlexImage> flexImages;
@@ -178,7 +177,7 @@ struct YarpCameraBridge::Impl
      */
     template <typename YARPDataType>
     bool checkValidSensorMeasure(std::string_view logPrefix,
-                                 const std::unordered_map<std::string, YARPDataType >& sensorMap,
+                                 const std::unordered_map<std::string, YARPDataType>& sensorMap,
                                  const std::string& sensorName)
     {
         if (!checkValid(logPrefix))
@@ -209,18 +208,20 @@ struct YarpCameraBridge::Impl
         return true;
     }
 
-    using SubConfigLoader = bool (YarpCameraBridge::Impl::*)(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
-                                                             CameraBridgeMetaData&);
+    using SubConfigLoader = bool (YarpCameraBridge::Impl::*)(
+        std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
+        CameraBridgeMetaData&);
     /**
      * Checks is a stream is enabled in configuration and
      * loads the relevant stream group from configuration
      */
-    bool subConfigLoader(const std::string& enableStreamString,
-                         const std::string& streamGroupString,
-                         const SubConfigLoader loader,
-                         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                         CameraBridgeMetaData& metaData,
-                         bool& enableStreamFlag)
+    bool subConfigLoader(
+        const std::string& enableStreamString,
+        const std::string& streamGroupString,
+        const SubConfigLoader loader,
+        std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+        CameraBridgeMetaData& metaData,
+        bool& enableStreamFlag)
     {
         constexpr auto logPrefix = "[YarpCameraBridge::Impl::subConfigLoader]";
 
@@ -252,12 +253,16 @@ struct YarpCameraBridge::Impl
     /**
      * Configure cameras meta data
      */
-    bool configureCameras(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                          CameraBridgeMetaData& metaData)
+    bool configureCameras(
+        std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+        CameraBridgeMetaData& metaData)
     {
         constexpr std::string_view logPrefix = "[YarpCameraBridge::Impl::configureCameras] ";
         auto ptr = handler.lock();
-        if (ptr == nullptr) { return false; }
+        if (ptr == nullptr)
+        {
+            return false;
+        }
 
         if (ptr->getParameter("rgb_cameras_list", metaData.sensorsList.rgbCamerasList))
         {
@@ -332,14 +337,13 @@ struct YarpCameraBridge::Impl
         return true;
     }
 
-
     /**
      * Attach cameras
      */
     template <typename CameraType>
     bool attachCamera(const yarp::dev::PolyDriverList& devList,
                       const std::string sensorName,
-                      std::unordered_map<std::string, CameraType* >& sensorMap)
+                      std::unordered_map<std::string, CameraType*>& sensorMap)
     {
         constexpr std::string_view logPrefix = "[YarpCameraBridge::Impl::attachCamera] ";
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
@@ -412,7 +416,7 @@ struct YarpCameraBridge::Impl
     bool attachAllCamerasOfSpecificType(const yarp::dev::PolyDriverList& devList,
                                         const std::vector<std::string>& camList,
                                         std::string_view interfaceType,
-                                        std::unordered_map<std::string, CameraType* >& sensorMap)
+                                        std::unordered_map<std::string, CameraType*>& sensorMap)
     {
         constexpr auto logPrefix = "[YarpCameraBridge::Impl::attachAllCamerasOfSpecificType]";
         for (const auto& cam : camList)
@@ -480,7 +484,8 @@ bool YarpCameraBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
 
     if (!m_pimpl->bridgeInitialized)
     {
-        log()->error("{} Please initialize YarpCameraBridge before calling setDriversList().", logPrefix);
+        log()->error("{} Please initialize YarpCameraBridge before calling setDriversList().",
+                     logPrefix);
         return false;
     }
 
@@ -497,8 +502,28 @@ bool YarpCameraBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
     // it from the yarp interface
     if (m_pimpl->metaData.bridgeOptions.rgbImgDimensions.empty())
     {
+        yarp::sig::ImageOf<yarp::sig::PixelRgb> tmpImg;
         for (const auto& [cameraName, interface] : m_pimpl->wholeBodyFrameGrabberInterface)
         {
+            constexpr std::size_t maxAttemp = 20;
+            std::size_t attemp = 0;
+
+            // for each camera we wait for the first image. It is necessary to get the image size
+            while (!interface->getImage(tmpImg))
+            {
+                attemp++;
+                if (attemp > maxAttemp)
+                {
+                    log()->error("{} Unable to get the image from the camera named {}.",
+                                 logPrefix,
+                                 cameraName);
+                    return false;
+                }
+                using namespace std::chrono_literals;
+                BipedalLocomotion::clock().yield();
+                BipedalLocomotion::clock().sleepFor(10ms);
+            }
+
             m_pimpl->metaData.bridgeOptions.rgbImgDimensions[cameraName]
                 = {interface->width(), interface->height()};
         }
@@ -575,10 +600,10 @@ bool YarpCameraBridge::getRGBDCamerasList(std::vector<std::string>& rgbdCamerasL
     return true;
 }
 
-
-bool YarpCameraBridge::getColorImage(const std::string& camName,
-                                     cv::Mat& colorImg,
-                                     std::optional<std::reference_wrapper<double>> receiveTimeInSeconds)
+bool YarpCameraBridge::getColorImage(
+    const std::string& camName,
+    cv::Mat& colorImg,
+    std::optional<std::reference_wrapper<double>> receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValid("YarpCameraBridge::getColorImage "))
     {
@@ -599,8 +624,7 @@ bool YarpCameraBridge::getColorImage(const std::string& camName,
 
         colorImg = yarp::cv::toCvMat(rgbImage->second.image);
         receiveTimeInSeconds = rgbImage->second.time;
-    }
-    else
+    } else
     {
         auto flexImage = m_pimpl->flexImages.find(camName);
         if (flexImage == m_pimpl->flexImages.end())
@@ -610,7 +634,6 @@ bool YarpCameraBridge::getColorImage(const std::string& camName,
             return false;
         }
 
-
         if (!flexImage->second.readCameraImage(camName,
                                                m_pimpl->wholeBodyRGBDInterface.at(camName)))
         {
@@ -619,8 +642,11 @@ bool YarpCameraBridge::getColorImage(const std::string& camName,
         }
 
         auto& yarpImage = flexImage->second.image;
-        colorImg = cv::Mat(yarpImage.height(), yarpImage.width(), yarp::cv::type_code<yarp::sig::PixelRgb>::value,
-                           yarpImage.getRawImage(), yarpImage.getRowSize());
+        colorImg = cv::Mat(yarpImage.height(),
+                           yarpImage.width(),
+                           yarp::cv::type_code<yarp::sig::PixelRgb>::value,
+                           yarpImage.getRawImage(),
+                           yarpImage.getRowSize());
         receiveTimeInSeconds = flexImage->second.time;
     }
 
@@ -633,9 +659,10 @@ bool YarpCameraBridge::getColorImage(const std::string& camName,
     return true;
 }
 
-bool YarpCameraBridge::getDepthImage(const std::string& camName,
-                                     cv::Mat& depthImg,
-                                     std::optional<std::reference_wrapper<double>> receiveTimeInSeconds)
+bool YarpCameraBridge::getDepthImage(
+    const std::string& camName,
+    cv::Mat& depthImg,
+    std::optional<std::reference_wrapper<double>> receiveTimeInSeconds)
 {
 
     constexpr auto prefix = "[YarpCameraBridge::getDepthImage]";
@@ -650,7 +677,7 @@ bool YarpCameraBridge::getDepthImage(const std::string& camName,
     {
         //
         if (!depthImage->second.readCameraImage(camName,
-                                              m_pimpl->wholeBodyRGBDInterface.at(camName)))
+                                                m_pimpl->wholeBodyRGBDInterface.at(camName)))
         {
             log()->error("{} {} could not read image.", prefix, camName);
             return false;
