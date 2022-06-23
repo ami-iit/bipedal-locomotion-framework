@@ -617,58 +617,6 @@ void YarpRobotLoggerDevice::lookForNewLogs()
     }
 }
 
-// void YarpRobotLoggerDevice::saveTextLogging()
-// {
-//     auto time = BipedalLocomotion::clock().now();
-//     auto oldTime = time;
-//     auto wakeUpTime = time;
-//     const auto period = std::chrono::duration<double>(0.05);
-//     m_saveTextLoggingIsRunning = true;
-
-//     while (m_saveTextLoggingIsRunning)
-//     {
-//         // detect if a clock has been reset
-//         oldTime = time;
-//         time = BipedalLocomotion::clock().now();
-//         // if the current time is lower than old time, the timer has been reset.
-//         if ((time - oldTime).count() < 1e-12)
-//         {
-//             wakeUpTime = time;
-//         }
-//         wakeUpTime += period;
-
-//         {
-//             std::lock_guard lock(m_newTextLoggingPortsMutex);
-//             for (const auto& portName : m_newTextLoggingPorts)
-//             {
-
-//             }
-//             m_newTextLoggingPorts.clear();
-//         }
-//         // check for new messages
-//         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
-//         for (const auto& port : yarpPorts)
-//         {
-//             // check if the port exist is a logging port
-//             if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
-//                 && (m_textLoggingPortNames.find(port.name) != m_textLoggingPortNames.end()))
-//             {
-//                 m_textLoggingPortNames.insert(port.name);
-//                 yarp::os::Network::connect(port.name, m_textLoggingPortName);
-
-//                 std::lock_guard lock(m_newTextLoggingPortsMutex);
-//                 m_newTextLoggingPorts.insert(port.name);
-//             }
-//         }
-
-//         // release the CPU
-//         BipedalLocomotion::clock().yield();
-
-//         // sleep
-//         BipedalLocomotion::clock().sleepUntil(wakeUpTime);
-//     }
-// }
-
 void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWriter& writer)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::recordVideo]";
