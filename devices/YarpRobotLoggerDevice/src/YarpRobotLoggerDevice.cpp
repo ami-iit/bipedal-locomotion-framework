@@ -24,17 +24,15 @@
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpTextLoggingUtilities.h>
 
-
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
 
 #include <yarp/telemetry/experimental/BufferConfig.h>
 #include <yarp/telemetry/experimental/BufferManager.h>
 
-#include <iostream>
-#include <fstream>
 #include <cstdio>
-
+#include <fstream>
+#include <iostream>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -121,7 +119,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     {
         // Currently the logger supports only rgb cameras
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
-            // || m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
+        // || m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
         {
             std::vector<int> rgbFPS;
             if (!params->getParameter("rgb_cameras_fps", rgbFPS))
@@ -360,7 +358,6 @@ bool YarpRobotLoggerDevice::setupRobotCameraBridge(
     return true;
 }
 
-
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
@@ -506,7 +503,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
     // run the thread
     m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
-
 
     // The user can avoid to record the camera
     if (m_cameraBridge != nullptr)
@@ -897,6 +893,9 @@ void YarpRobotLoggerDevice::run()
             {
                 signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
                                  + "::p" + msg.processPID;
+
+                // matlab does not support the character - as a key of a struct
+                findAndReplaceAll(signalFullName, "-", "_");
 
                 // if it is the first time this signal is seen by the device the channel is added
                 if (m_textLogsStoredInManager.find(signalFullName)
