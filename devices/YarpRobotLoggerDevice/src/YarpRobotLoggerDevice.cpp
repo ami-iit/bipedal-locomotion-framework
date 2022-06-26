@@ -394,7 +394,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok
                  && m_bufferManager.addChannel({"FTs::" + sensorName,
                                                 {6, 1}, //
-                                                {"f_x", "f_y", "f_y", "mu_x", "mu_y", "mu_y"}});
+                                                {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"}});
         }
     }
 
@@ -447,7 +447,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok
                  && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName,
                                                 {6, 1}, //
-                                                {"f_x", "f_y", "f_y", "mu_x", "mu_y", "mu_y"}});
+                                                {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"}});
         }
     }
 
