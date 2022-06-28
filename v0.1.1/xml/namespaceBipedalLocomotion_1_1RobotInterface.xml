@@ -2,14 +2,14 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1RobotInterface" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::RobotInterface</compoundname>
-    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" prot="public">BipedalLocomotion::RobotInterface::PolyDriverDescriptor</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" prot="public">BipedalLocomotion::RobotInterface::YarpRobotControl</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl" prot="public">BipedalLocomotion::RobotInterface::IRobotControl</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions" prot="public">BipedalLocomotion::RobotInterface::SensorBridgeOptions</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists" prot="public">BipedalLocomotion::RobotInterface::SensorLists</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" prot="public">BipedalLocomotion::RobotInterface::SensorBridgeMetaData</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" prot="public">BipedalLocomotion::RobotInterface::ISensorBridge</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" prot="public">BipedalLocomotion::RobotInterface::PolyDriverDescriptor</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" prot="public">BipedalLocomotion::RobotInterface::YarpRobotControl</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge</innerclass>
       <sectiondef kind="func">
       <memberdef kind="function" id="YarpHelper_8h_1a4d8ce7de2788fe1398fb5988c3d77744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></type>
@@ -144,6 +144,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="22" column="1"/>
+    <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="19" column="1"/>
   </compounddef>
 </doxygen>

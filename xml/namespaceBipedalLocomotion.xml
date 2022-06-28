@@ -57,6 +57,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="22" column="1"/>
+    <location file="BipedalLocomotion/YarpUtilities/Helper.h" line="23" column="1"/>
   </compounddef>
 </doxygen>
