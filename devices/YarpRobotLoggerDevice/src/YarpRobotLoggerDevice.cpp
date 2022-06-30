@@ -457,6 +457,14 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {"r", "p", "y"}});
         }
 
+        for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
+        {
+            ok = ok
+                 && m_bufferManager.addChannel({"magnetometers::" + sensorName,
+                                                {3, 1}, //
+                                                {"mag_x", "mag_y", "mag_z"}});
+        }
+
         // an IMU contains a gyro accelerometer and an orientation sensor
         for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
         {
@@ -778,6 +786,14 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
         {
             m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
+        }
+    }
+
+    for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
+    {
+        if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
+        {
+            m_bufferManager.push_back(m_magnemetometerBuffer, time, "magnetometers::" + sensorName);
         }
     }
 
