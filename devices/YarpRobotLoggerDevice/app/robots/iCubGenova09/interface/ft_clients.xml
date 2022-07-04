@@ -8,31 +8,37 @@ BSD-3-Clause license. -->
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/left_arm</param>
         <param name="local">/yarp_robot_logger/left_arm</param>
+        <param name="timeout">0.02</param>
     </device>
 
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_arm_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/right_arm</param>
         <param name="local">/yarp_robot_logger/right_arm</param>
+        <param name="timeout">0.02</param>
     </device>
 
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_upper_leg_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/left_leg_hip</param>
         <param name="local">/yarp_robot_logger/left_upper_leg_ft</param>
+        <param name="timeout">0.02</param>
     </device>
-\
+
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_foot_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/left_foot_heel_tiptoe</param>
         <param name="local">/yarp_robot_logger/left_foot_heel_tiptoe</param>
+        <param name="timeout">0.02</param>
     </device>
 
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_upper_leg_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/right_leg_hip</param>
         <param name="local">/yarp_robot_logger/right_upper_leg_ft</param>
+        <param name="timeout">0.02</param>
     </device>
 
     <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_foot_ft_client" type="multipleanalogsensorsclient">
         <param name="remote">/icub/right_foot_heel_tiptoe</param>
         <param name="local">/yarp_robot_logger/right_foot_heel_tiptoe</param>
+        <param name="timeout">0.02</param>
     </device>
 
 </devices>
