@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Add reading of left upper leg FTs and cartesian wrenches for `iCubGazeboV3` in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/547)
+
 ### Changed
 ### Fix
 
