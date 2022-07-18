@@ -12,7 +12,7 @@ on:
 
 env:
   vcpkg_robotology_TAG: v0.8.0
-  YCM_TAG: v0.13.0
+  YCM_TAG: v0.14.2
   YARP_TAG: v3.7.0
   iDynTree_TAG: v5.2.1
   Catch2_TAG: v2.13.4
