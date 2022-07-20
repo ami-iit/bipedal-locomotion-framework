@@ -14,6 +14,8 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <manif/manif.h>
+
+#include <unordered_map>
 #include <map>
 
 namespace BipedalLocomotion
