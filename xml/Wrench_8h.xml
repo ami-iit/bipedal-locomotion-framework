@@ -67,7 +67,7 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -90,15 +90,15 @@
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
-      <node id="17">
+      <node id="15">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
       </node>
-      <node id="14">
+      <node id="16">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="16">
+      <node id="14">
         <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
         <link refid="ContactListJsonParser_8h"/>
       </node>
@@ -128,7 +128,7 @@
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
         <link refid="UnicyclePlanner_8h"/>
       </node>
@@ -175,9 +175,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="61">$H$</formula> is <formula id="62">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="63">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="64">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="24">$H$</formula> is <formula id="25">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="26">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="27">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>transform</parametername>
 </parameternamelist>
@@ -224,9 +224,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="61">$H$</formula> is <formula id="65">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="63">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="66">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="24">$H$</formula> is <formula id="28">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="26">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="29">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>rotation</parametername>
 </parameternamelist>
@@ -257,7 +257,7 @@
     <detaileddescription>
 <para><simplesect kind="authors"><para>Giulio Romualdi </para>
 </simplesect>
-<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the GNU Lesser General Public License v2.1 or any later version. </para>
+<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
 </simplesect>
 </para>
     </detaileddescription>

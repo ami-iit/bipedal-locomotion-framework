@@ -1132,6 +1132,16 @@
   </compound>
   <compound refid="ContinuousContactModel_8h" kind="file"><name>ContinuousContactModel.h</name>
   </compound>
+  <compound refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h" kind="file"><name>Contact.h</name>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kind="enum"><name>ContactType</name></member>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
+    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
+  </compound>
+  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h" kind="file"><name>Contact.h</name>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9dd" kind="enum"><name>ContactType</name></member>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
+  </compound>
   <compound refid="CommonConversions_8h" kind="file"><name>CommonConversions.h</name>
     <member refid="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" kind="function"><name>toEigenPose</name></member>
   </compound>
@@ -1187,16 +1197,6 @@
   <compound refid="StdImplementation_8h" kind="file"><name>StdImplementation.h</name>
   </compound>
   <compound refid="YarpImplementation_8h" kind="file"><name>YarpImplementation.h</name>
-  </compound>
-  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h" kind="file"><name>Contact.h</name>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9dd" kind="enum"><name>ContactType</name></member>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Contact_8h_1a01d3c513231f7b6b8585adf3118db9ddaaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
-  </compound>
-  <compound refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h" kind="file"><name>Contact.h</name>
-    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" kind="enum"><name>ContactType</name></member>
-    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
-    <member refid="Contacts_2include_2BipedalLocomotion_2Contacts_2Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" kind="enumvalue"><name>POINT</name></member>
   </compound>
   <compound refid="ContactList_8h" kind="file"><name>ContactList.h</name>
   </compound>
@@ -1287,7 +1287,7 @@
   </compound>
   <compound refid="dir_37cc90df092f7132d70b1c73f92abcd7" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="dir_91c2441da59622c57293fb216bf9f982" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_a2bb25c2700ae5b4992b43bb36bdf2f0" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_b7bc20b466f53aa6287716c29f6e5a1c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -1299,23 +1299,23 @@
   </compound>
   <compound refid="dir_9fd679679692794f21da78f90e6149b4" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_ddf391fe403635d3f89a3ec81913d0f7" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_ca55280438ccdca640803e542d4d56fa" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_ac8bc67de35c8e46e85a575d4e1d9255" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_91c2441da59622c57293fb216bf9f982" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_3711bb4510814fcf3bca83cf1553fa96" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_a2bb25c2700ae5b4992b43bb36bdf2f0" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ac8bc67de35c8e46e85a575d4e1d9255" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_9fec4c6e41852c2ec4601c1038255757" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_7c8c37115c891cd5af34a0f253d970ce" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_d519c713466180a07e801187407a5df6" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_9cdbab1e9051b4a277c0ec04b92ab5c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_d519c713466180a07e801187407a5df6" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_7c8c37115c891cd5af34a0f253d970ce" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_ca55280438ccdca640803e542d4d56fa" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_ddf391fe403635d3f89a3ec81913d0f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_297bc6027b7b0d153961eabe0d3e252f" kind="dir"><name>BipedalLocomotion/ContactDetectors</name>
   </compound>
@@ -1339,9 +1339,9 @@
   </compound>
   <compound refid="dir_34242e811c64f15e913b0479436a874d" kind="dir"><name>BipedalLocomotion/Planners</name>
   </compound>
-  <compound refid="dir_5d68f2add9e03e0d0f403cb504003208" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
-  </compound>
   <compound refid="dir_5caa57f5e0da1990e2de3fa4772b3a6e" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
+  </compound>
+  <compound refid="dir_5d68f2add9e03e0d0f403cb504003208" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>
   <compound refid="dir_dcddc83874c26cc7d8cc22f05f40f6c4" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
