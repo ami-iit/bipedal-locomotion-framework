@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 ### Changed
 ### Fix
+- Fix linking target deprecation of iDynTree::idyntree-modelio (https://github.com/ami-iit/bipedal-locomotion-framework/pull/551)
 
 ## [0.7.0] - 2022-06-21
 ### Added
