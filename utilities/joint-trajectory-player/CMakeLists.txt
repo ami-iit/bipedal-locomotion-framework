@@ -1,5 +1,5 @@
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 # Authors: Ines Sorrentino
 
 if(FRAMEWORK_COMPILE_JointTrajectoryPlayer)
