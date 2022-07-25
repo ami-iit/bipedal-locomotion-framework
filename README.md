@@ -4,7 +4,7 @@
 
 <p align="center">
    <a href="https://isocpp.org"><img src="https://img.shields.io/badge/standard-C++17-blue.svg?style=flat&logo=c%2B%2B" alt="C++ Standard" class="center"/></a>
-   <a href="https://github.com/ami-iit/bipedal-locomotion-framework/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-LGPL-19c2d8.svg" alt="Size" class="center"/></a>
+   <a href="https://github.com/ami-iit/bipedal-locomotion-framework/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-BSD_3--Clause-orange.svg" alt="Size" class="center"/></a>
   <a href="https://ami-iit.github.io/bipedal-locomotion-framework/doxygen/doc/html/index.html"><img src="https://github.com/ami-iit/bipedal-locomotion-framework/workflows/GitHub%20Pages/badge.svg" alt="doxygen"/></a>
   <a href="https://github.com/ami-iit/bipedal-locomotion-framework/actions?query=workflow%3A%22C%2B%2B+CI+Workflow%22"><img src="https://github.com/ami-iit/bipedal-locomotion-framework/workflows/C++%20CI%20Workflow/badge.svg" alt="CI"/></a>
 </p>

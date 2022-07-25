@@ -34,6 +34,7 @@ All notable changes to this project are documented in this file.
 - Set for `yarp-telemetry` minimum version to v0.5.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/535)
 - Make `YarpCameraBridge::getColorImage()` and `YarpCameraBridge::getDepthImage()` thread safe (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
 - Deprecate `YarpCameraBridge::get()` in favor of `YarpCameraBridge::getMetaData()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/516)
+- Move from LGPL to BSD3 license (https://github.com/ami-iit/bipedal-locomotion-framework/pull/550)
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
