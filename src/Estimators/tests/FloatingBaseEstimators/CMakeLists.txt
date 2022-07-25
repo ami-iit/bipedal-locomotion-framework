@@ -8,7 +8,7 @@ if(FRAMEWORK_USE_icub-models)
   add_bipedal_test(
     NAME BareBonesBaseEstimator
     SOURCES FloatingBaseEstimatorTest.cpp
-    LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio-urdf icub-models::icub-models)
+    LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions Eigen3::Eigen iDynTree::idyntree-modelio icub-models::icub-models)
 
 
   add_bipedal_test(
