@@ -19,9 +19,10 @@ dependency_classifier(spdlog MINIMUM_VERSION 1.5.0 IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
-find_package(YARP 3.7.0 QUIET COMPONENTS companion profiler dev os idl_tools)
+find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools QUIET)
 checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
-dependency_classifier(YARP MINIMUM_VERSION 3.7.0 COMPONENTS companion profiler dev os idl_tools IS_USED ${FRAMEWORK_USE_YARP} PUBLIC)
+dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
+                      COMPONENTS companion profiler dev os idl_tools PUBLIC)
 
 find_package(Qhull 8.0.0 QUIET)
 checkandset_dependency(Qhull MINIMUM_VERSION 8.0.0)
