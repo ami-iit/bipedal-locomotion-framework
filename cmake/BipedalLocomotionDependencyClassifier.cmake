@@ -25,7 +25,10 @@ function(dependency_classifier package)
     endif()
 
     if (DC_COMPONENTS)
-      set(dependency "${dependency} COMPONENTS ${DC_COMPONENTS}")
+      # DC_COMPONENTS contains the components separated by ";" we now replace ";" with " " this is
+      # required to correctly parse the string
+      string(REPLACE ";" " " DC_COMPONENTS_STR "${DC_COMPONENTS}")
+      set(dependency "${dependency} COMPONENTS ${DC_COMPONENTS_STR}")
     endif()
 
     if(DC_PUBLIC)
