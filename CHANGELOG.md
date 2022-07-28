@@ -38,6 +38,7 @@ All notable changes to this project are documented in this file.
 
 ### Fix
 - Remove outdated includes in YarpRobotLoggerDevice.cpp (https://github.com/ami-iit/bipedal-locomotion-framework/pull/502)
+- Avoid to use deprecated function cv::aruco::drawAxis in ArucoDetector to fix compilation with OpenCV 4.6.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/552)
 
 ## [0.6.0] - 2022-01-10
 ### Added
