@@ -275,12 +275,12 @@ bool ArucoDetector::getImageWithDetectedMarkers(cv::Mat& outputImg,
     {
         for (std::size_t idx = 0; idx < nrDetectedMarkers; idx++)
         {
-            cv::aruco::drawAxis(outputImg,
-                                m_pimpl->cameraMatrix,
-                                m_pimpl->distCoeff,
-                                m_pimpl->currentDetectedMarkersRotVecs[idx],
-                                m_pimpl->currentDetectedMarkersTransVecs[idx],
-                                axisLengthForDrawing);
+            cv::drawFrameAxes(outputImg,
+                              m_pimpl->cameraMatrix,
+                              m_pimpl->distCoeff,
+                              m_pimpl->currentDetectedMarkersRotVecs[idx],
+                              m_pimpl->currentDetectedMarkersTransVecs[idx],
+                              axisLengthForDrawing);
         }
     }
 
