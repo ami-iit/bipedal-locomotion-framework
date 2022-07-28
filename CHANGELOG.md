@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 ### Changed
 ### Fix
+- Avoid to use deprecated function cv::aruco::drawAxis in ArucoDetector to fix compilation with OpenCV 4.6.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/552)
 
 ## [0.7.0] - 2022-06-21
 ### Added
