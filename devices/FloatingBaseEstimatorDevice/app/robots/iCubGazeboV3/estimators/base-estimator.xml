@@ -75,9 +75,9 @@ GNU Lesser General Public License v2.1 or any later version. -->
         <!-- Legged Odometry parameters -->
         <group name="LeggedOdom">
             <param name="initial_fixed_frame">r_sole</param>
-            <param name="initial_ref_frame_for_world">r_sole</param>
+            <param name="initial_ref_frame_for_world">chest</param>
             <param name="initial_world_orientation_in_ref_frame">(1.0, 0.0, 0.0, 0.0)</param>
-            <param name="initial_world_position_in_ref_frame">(0.0, 0.0, 0.0)</param>
+            <param name="initial_world_position_in_ref_frame">(0.0119, 0.0, -0.8299)</param>
             <param name="switching_pattern">lastActive</param>
         </group>
 
@@ -124,13 +124,13 @@ GNU Lesser General Public License v2.1 or any later version. -->
 
 
         <group name="InitialStates">
-            <param name="imu_orientation_quaternion_wxyz">(0.5003982, -0.4999998, 0.4996018, -0.4999998)</param>
-            <param name="imu_position_xyz">(0.0891, 0.0175, 0.9293)</param>
+            <param name="imu_orientation_quaternion_wxyz">(0.4999, -0.5004, 0.5001, -0.4996)</param>
+            <param name="imu_position_xyz">(0.0784, 0.0176, 0.9291)</param>
             <param name="imu_linear_velocity_xyz">(0.0, 0.0, 0.0)</param>
             <param name="l_contact_frame_orientation_quaternion_wxyz">(1.0000, -0.0059, -0.0001, -0.0015)</param>
-            <param name="l_contact_frame_position_xyz">(0.0519, 0.0647, 0.0001)</param>
+            <param name="l_contact_frame_position_xyz">(0.04879, 0.0647, 0.0001)</param>
             <param name="r_contact_frame_orientation_quaternion_wxyz">(1.0000, 0.0059, -0.0002, -0.0004)</param>
-            <param name="r_contact_frame_position_xyz">(0.0519, -0.0647, 0.0001)</param>
+            <param name="r_contact_frame_position_xyz">(0.04879, -0.0647, 0.0001)</param>
             <param name="accelerometer_bias">(0.0, 0.0, 0.0)</param>
             <param name="gyroscope_bias">(0.0, 0.0, 0.0)</param>
         </group>
