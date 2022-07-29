@@ -600,9 +600,11 @@ void YarpRobotLoggerDevice::lookForNewLogs()
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
         for (const auto& port : yarpPorts)
         {
-            // check if the port exist is a logging port
+            // check if the port has not be already connected if exits and its resposive
+            // and is a text logging port
             if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
-                && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end()))
+                && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
+                && yarp::os::Network::exists(port.name))
             {
                 m_textLoggingPortNames.insert(port.name);
                 yarp::os::Network::connect(port.name, m_textLoggingPortName);
