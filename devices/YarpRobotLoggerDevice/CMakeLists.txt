@@ -8,12 +8,13 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
   add_bipedal_yarp_device(
     NAME YarpRobotLoggerDevice
     TYPE BipedalLocomotion::YarpRobotLoggerDevice
-    SOURCES src/YarpRobotLoggerDevice.cpp
-    PUBLIC_HEADERS include/BipedalLocomotion/YarpRobotLoggerDevice.h
+    SOURCES src/YarpRobotLoggerDevice.cpp src/YarpTextLoggingUtilities.cpp
+    PUBLIC_HEADERS include/BipedalLocomotion/YarpRobotLoggerDevice.h include/BipedalLocomotion/YarpTextLoggingUtilities.h
     PUBLIC_LINK_LIBRARIES
       Eigen3::Eigen
       YARP::YARP_os
       YARP::YARP_dev
+      YARP::YARP_profiler
       YARP::YARP_telemetry
       BipedalLocomotion::TextLogging
       BipedalLocomotion::System

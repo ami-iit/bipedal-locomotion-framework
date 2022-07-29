@@ -12,20 +12,21 @@ on:
 
 env:
   vcpkg_robotology_TAG: v0.8.0
-  YCM_TAG: v0.13.0
-  YARP_TAG: v3.5.0
-  iDynTree_TAG: v3.1.0
+  YCM_TAG: v0.14.2
+  YARP_TAG: v3.7.0
+  iDynTree_TAG: v5.2.1
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.4
-  matioCpp_TAG: v0.1.0
+  matioCpp_TAG: v0.2.0
   LieGroupControllers_TAG: v0.1.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v2.5.0
   icub_models_TAG: v1.23.3
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
+  telemetry_TAG: v0.5.1
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
@@ -129,7 +130,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -302,6 +303,18 @@ jobs:
                      -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # robometry
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/robometry
+        cd robometry
+        git checkout ${telemetry_TAG}
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
@@ -429,6 +442,15 @@ jobs:
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
+        # robometry
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/robometry
+        cd robometry
+        git checkout ${telemetry_TAG}
+        mkdir build && cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
     - name: Catch2 Dependency [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
       shell: bash
@@ -520,6 +542,7 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
               -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
+              -DENABLE_YarpRobotLoggerDevice:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
