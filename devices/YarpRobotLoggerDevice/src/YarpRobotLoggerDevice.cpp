@@ -119,7 +119,6 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     {
         // Currently the logger supports only rgb cameras
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
-        // || m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
         {
             std::vector<int> rgbFPS;
             if (!params->getParameter("rgb_cameras_fps", rgbFPS))

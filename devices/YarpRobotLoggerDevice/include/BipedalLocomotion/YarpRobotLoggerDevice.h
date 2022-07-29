@@ -103,8 +103,6 @@ private:
     yarp::telemetry::experimental::BufferManager<> m_bufferManager;
 
     void lookForNewLogs();
-    // void saveTextLogging();
-
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
