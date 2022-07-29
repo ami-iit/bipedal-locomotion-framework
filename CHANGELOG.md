@@ -2,6 +2,9 @@
 All notable changes to this project are documented in this file.
 
 ## [Unreleased]
+### Added
+### Changed
+### Fix
 
 ## [0.8.0] - 2022-07-29
 ### Added
