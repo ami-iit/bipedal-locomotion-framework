@@ -2,6 +2,8 @@
 All notable changes to this project are documented in this file.
 
 ## [Unreleased]
+
+## [0.8.0] - 2022-07-29
 ### Added
 - Add the possibility to log the YarpTextLogging in the YarpRobotLogger (https://github.com/ami-iit/bipedal-locomotion-framework/pull/541)
 - Enable the logging FTs and IMU logging of iCubGenova09 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/546/)
@@ -262,6 +264,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.8.0...master
+[0.8.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.4.0...v0.5.0
