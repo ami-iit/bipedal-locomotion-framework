@@ -17,9 +17,10 @@ GNU Lesser General Public License v2.1 or any later version. -->
     <param name="right_foot_wrenches">(right_foot_front, right_foot_rear)</param>
     <param name="left_foot_contact_frame">l_sole</param>
     <param name="right_foot_contact_frame">r_sole</param>
-    <param name="estimator_type">InvEKF</param>
+    <param name="estimator_type">InvEKF</param> <!-- opetions are InvEKF or LeggedOdometry -->
     <param name="contact_detector_type">SchmittTrigger</param>
     <param name="publish_to_tf_server">false</param>
+    <param name="use_mas_imu">false</param>
 
      <group name="RobotSensorBridge">
         <param name="check_for_nan">false</param>

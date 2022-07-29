@@ -26,11 +26,15 @@ BSD-3-Clause license. -->
     </group>
   </group>
 
+  <group name="RobotCameraBridge">
+      <param name="stream_cameras">false</param>
+  </group>
+
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
         <param name="stream_joint_states">true</param>
-        <param name="stream_inertials">true</param>
-        <param name="stream_cartesian_wrenches">true</param>
+        <param name="stream_inertials">false</param>
+        <param name="stream_cartesian_wrenches">false</param>
         <param name="stream_forcetorque_sensors">false</param>
         <param name="stream_cameras">false</param>
 
@@ -50,7 +54,7 @@ BSD-3-Clause license. -->
   <!-- ATTACH -->
   <action phase="startup" level="15" type="attach">
     <paramlist name="networks">
-      <elem name="all_joints">all_joints_mc</elem>
+            <elem name="all_joints">all_joints_mc</elem>
             <elem name="chest_imu_acc_1x1">chest_inertial</elem>
             <elem name="left_foot_front">left_foot_front_cartesian_wrench</elem>
             <elem name="right_foot_front">right_foot_front_cartesian_wrench</elem>
