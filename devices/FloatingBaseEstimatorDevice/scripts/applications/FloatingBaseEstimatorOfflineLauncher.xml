@@ -1,0 +1,37 @@
+<application>
+
+  <name>Floating Base Estimator Device Startup</name>
+  <description>launch applications for running floating base estimation with gazbeo</description>
+
+
+  <module>
+    <name>gazebo</name>
+    <parameters>--slibgazebo_yarp_clock.so icub3.world</parameters>
+    <node>localhost</node>
+  </module>
+
+  <module>
+    <name>yarprobotinterface</name>
+    <parameters>--config launch-wholebodydynamics.xml</parameters>
+    <node>localhost</node>
+  </module>
+
+  <module>
+    <name>WalkingModule</name>
+    <node>localhost</node>
+  </module>
+
+  <module>
+    <name>yarprobotinterface</name>
+    <parameters>--config launch-base-estimator.xml</parameters>
+    <node>localhost</node>
+    <tag>WBKViz</tag>
+  </module>
+
+   <module>
+    <name>yarprobotinterface</name>
+    <parameters>--config --config launch-icub3-vc-wrapper-sim.xml</parameters>
+    <node>localhost</node>
+  </module>
+</application>
+
