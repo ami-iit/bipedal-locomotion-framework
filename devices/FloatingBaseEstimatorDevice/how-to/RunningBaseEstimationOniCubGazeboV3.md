@@ -9,7 +9,7 @@
       name /icubSim/floating_base/state:o
       period 1
       device analogServer
-      
+
       [DRIVER]
       device gazebo_basestate
       baseLink chest
@@ -24,7 +24,7 @@
       name /icubSim/r_foot_rear/state:o
       period 1
       device analogServer
-      
+
       [DRIVER]
       device gazebo_basestate
       baseLink r_foot_rear
@@ -64,7 +64,7 @@ Optionally, also add,
       		<include>
       			<uri>model://sun</uri>
       		</include>
-      
+
       		<!-- A ground plane -->
       		<include>
       			<uri>model://ground_plane</uri>
@@ -107,7 +107,7 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
     <!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
     This software may be modified and distributed under the terms of the
     BSD-3-Clause license. -->
-    
+
     <?xml version="1.0" encoding="UTF-8" ?>
     <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="icub3-sim-vectors-collection-wrapper" type="VectorsCollectionWrapper">
       <param name="sampling_period_in_s">0.01</param>
@@ -116,7 +116,7 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
       <param name="remote_var_names">("sim_base_state", "est_base_state")</param>
       <param name="output_port_name">"/vcWrapper/floating_base_state"</param>
     </device>
-    
+
     ```
 
     while, `launch-icub3-vc-wrapper-sim.xml` reads as,
@@ -125,10 +125,10 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
     <!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
     This software may be modified and distributed under the terms of the
     BSD-3-Clause license. -->
-    
+
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE robot PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
-    
+
     <robot name="iCubGazeboV3" portprefix="icubSim" build="1" xmlns:xi="http://www.w3.org/2001/XInclude">
         <devices>
             <xi:include href="./interface/icub3-vc-wrapper-sim.xml" />
@@ -163,7 +163,7 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
         </force_torque>
         <origin rpy="3.141592653589793 0.0 -2.6179934742070086" xyz="0.0 0.0 0.0"/>
       </sensor>
-    
+
     ```
 
 ### Launching
