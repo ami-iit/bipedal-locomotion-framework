@@ -1,5 +1,7 @@
 
 
+### Prerequisites
+
 1. Create  a file `gazebo_icub_base_state.ini` in `icub-models/iCub/conf_icub3` which contains the following lines,
 
       ``` ini
@@ -28,10 +30,6 @@
       baseLink r_foot_rear
       ```
 
-      
-
-      
-
 2. Add these as plugins to the  `model.urdf` in `icub-models/iCub/robots/iCubGazeboV3` by adding the following lines in the file within the `<robot> .... </robot> `tags,
 
       ``` xml
@@ -41,7 +39,6 @@
       </plugin>
       </gazebo>
       ```
-      
 
 Optionally, also add,
 
@@ -60,7 +57,7 @@ Optionally, also add,
 
 ``` xml
 <?xml version="1.0" ?>
-      
+
       <sdf version="1.5">
       	<world name="default">
       		<!-- A global light source -->
@@ -72,7 +69,7 @@ Optionally, also add,
       		<include>
       			<uri>model://ground_plane</uri>
       		</include>
-      		
+
       		<!-- iCub -->
           		<include>
       		        <uri>model://iCubGazeboV3</uri>
@@ -80,8 +77,6 @@ Optionally, also add,
       	</world>
       </sdf>
 ```
-
-
 
 5. Add the world to the Gazebo resource path by adding the following line to the `.bashrc` file,
 
@@ -141,8 +136,6 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
     </robot>
     ```
 
-    
-
 11. Prepare the `YarpRobotLoggerDevice` to log the relevant output from Gazebo and Base EKF.
 
 12. Added left_leg_ft_sensor to the URDF model in order to run WBD.
@@ -173,15 +166,7 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
     
     ```
 
-    
-
-
-
-
-
-
-
-### Launching 
+### Launching
 
 1. `yarpserver`
 2. `gazebo --slibgazebo_yarp_clock.so icub3.world`
@@ -190,10 +175,6 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
 5. `yarprobotinterface --config launch-base-estimator.xml`
 6. `yarprobotinterface --config launch-icub3-vc-wrapper-sim.xml`
 7. Launch logger (to be tested with the recent changes in the `YarpRobotLoggerDevice`)
-
-
-
-
 
 ### Troubleshooting
 
@@ -210,7 +191,11 @@ These data will be used to fill the `InitialStates` subgroup in the `BaseEstimat
 
    do `sudo ln -s /usr/include/opencv4/opencv2 /usr/include/opencv2`
 
-or wherever `opencv4` is installed.
+or wherever `opencv4` is installed, for example if installed with conda in `robsub` environment,
+
+``` bash
+sudo ln -s /home/user/mambaforge/envs/robsub/include/opencv4/opencv2 /home/user/mambaforge/envs/robsub/include/opencv2
+```
 
 2. If there is position error in x-direction, then the Schmitt Trigger parameters need to be tuned for proper contact detection.
 3. If there is orientation errors, then there is a problem with the measurements coming form the Gazebo IMU. Specifically, they are not rotated into the IMU frame.
