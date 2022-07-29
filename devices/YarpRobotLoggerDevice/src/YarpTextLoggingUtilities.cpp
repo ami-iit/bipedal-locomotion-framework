@@ -5,11 +5,13 @@
 
 #include <string>
 
-#include <BipedalLocomotion/YarpTextLoggingUtilities.h>
 #include <BipedalLocomotion/System/Clock.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/YarpTextLoggingUtilities.h>
 
 BipedalLocomotion::TextLoggingEntry
-BipedalLocomotion::TextLoggingEntry::deserializeMessage(const yarp::os::Bottle& message, const std::string& currentTime)
+BipedalLocomotion::TextLoggingEntry::deserializeMessage(const yarp::os::Bottle& message,
+                                                        const std::string& currentTime)
 {
     if (message.size() != 2)
     {
@@ -24,17 +26,12 @@ BipedalLocomotion::TextLoggingEntry::deserializeMessage(const yarp::os::Bottle& 
         header = message.get(0).asString();
     } else
     {
-        fprintf(stderr, "ERROR: unknown log format!\n");
+        BipedalLocomotion::log()->error("[TextLoggingEntry::deserializeMessage] Unknown log "
+                                        "format!");
         return BipedalLocomotion::TextLoggingEntry();
     }
 
     BipedalLocomotion::TextLoggingEntry body;
-
-    // TODO
-    // char ttstr[20];
-    // static int count = 0;
-    // sprintf(ttstr, "%d", count++);
-    // body.yarprun_timestamp = std::string(ttstr);
     body.local_timestamp = currentTime;
 
     std::string s;
@@ -56,89 +53,56 @@ BipedalLocomotion::TextLoggingEntry::deserializeMessage(const yarp::os::Bottle& 
         if (p.check("filename"))
         {
             body.filename = p.find("filename").asString();
-        } else
-        {
-            body.filename.clear();
         }
 
         if (p.check("line"))
         {
             body.line = static_cast<uint32_t>(p.find("line").asInt32());
-        } else
-        {
-            body.line = 0;
         }
 
         if (p.check("function"))
         {
             body.function = p.find("function").asString();
-        } else
-        {
-            body.function.clear();
         }
 
         if (p.check("hostname"))
         {
             body.hostname = p.find("hostname").asString();
-        } else
-        {
-            body.hostname.clear();
         }
 
         if (p.check("pid"))
         {
             body.pid = p.find("pid").asInt32();
-        } else
-        {
-            body.pid = 0;
         }
 
         if (p.check("cmd"))
         {
             body.cmd = p.find("cmd").asString();
-        } else
-        {
-            body.cmd.clear();
         }
 
         if (p.check("args"))
         {
             body.args = p.find("args").asString();
-        } else
-        {
-            body.args.clear();
         }
 
         if (p.check("thread_id"))
         {
             body.thread_id = p.find("thread_id").asInt64();
-        } else
-        {
-            body.thread_id = 0;
         }
 
         if (p.check("component"))
         {
             body.component = p.find("component").asString();
-        } else
-        {
-            body.component.clear();
         }
 
         if (p.check("id"))
         {
             body.id = p.find("id").asString();
-        } else
-        {
-            body.id.clear();
         }
 
         if (p.check("systemtime"))
         {
             body.systemtime = p.find("systemtime").asFloat64();
-        } else
-        {
-            body.systemtime = 0.0;
         }
 
         if (p.check("networktime"))
@@ -153,17 +117,11 @@ BipedalLocomotion::TextLoggingEntry::deserializeMessage(const yarp::os::Bottle& 
         if (p.check("externaltime"))
         {
             body.externaltime = p.find("externaltime").asFloat64();
-        } else
-        {
-            body.externaltime = 0.0;
         }
 
         if (p.check("backtrace"))
         {
             body.backtrace = p.find("backtrace").asString();
-        } else
-        {
-            body.backtrace.clear();
         }
     } else
     {
