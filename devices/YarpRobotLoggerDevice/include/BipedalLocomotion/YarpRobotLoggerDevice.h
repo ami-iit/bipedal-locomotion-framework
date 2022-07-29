@@ -54,6 +54,7 @@ private:
     using gyro_t = Eigen::Matrix<double, 3, 1>;
     using accelerometer_t = Eigen::Matrix<double, 3, 1>;
     using orientation_t = Eigen::Matrix<double, 3, 1>;
+    using magnemetometer_t = Eigen::Matrix<double, 3, 1>;
     using analog_sensor_t = Eigen::Matrix<double, 12, 1>;
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
@@ -88,6 +89,7 @@ private:
     gyro_t m_gyroBuffer;
     accelerometer_t m_acceloremeterBuffer;
     orientation_t m_orientationBuffer;
+    magnemetometer_t m_magnemetometerBuffer;
     analog_sensor_t m_analogSensorBuffer;
     double m_ftTemperatureBuffer;
 
