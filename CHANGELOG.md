@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [Unreleased]
 ### Added
 - Add the possibility to log the YarpTextLogging in the YarpRobotLogger (https://github.com/ami-iit/bipedal-locomotion-framework/pull/541)
+- Enable the logging FTs and IMU logging of iCubGenova09 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/546/)
 ### Changed
 - bipedal locomotion framework now depends on YARP 3.7.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/541)
 ### Fix
