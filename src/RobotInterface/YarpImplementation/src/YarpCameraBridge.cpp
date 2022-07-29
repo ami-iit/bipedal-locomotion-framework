@@ -505,14 +505,14 @@ bool YarpCameraBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
         yarp::sig::ImageOf<yarp::sig::PixelRgb> tmpImg;
         for (const auto& [cameraName, interface] : m_pimpl->wholeBodyFrameGrabberInterface)
         {
-            constexpr std::size_t maxAttemp = 20;
-            std::size_t attemp = 0;
+            constexpr std::size_t maxAttempt = 20;
+            std::size_t attempt = 0;
 
             // for each camera we wait for the first image. It is necessary to get the image size
             while (!interface->getImage(tmpImg))
             {
-                attemp++;
-                if (attemp > maxAttemp)
+                attempt++;
+                if (attempt > maxAttempt)
                 {
                     log()->error("{} Unable to get the image from the camera named {}.",
                                  logPrefix,
