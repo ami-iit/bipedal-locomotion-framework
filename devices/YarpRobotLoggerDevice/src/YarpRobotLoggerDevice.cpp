@@ -27,8 +27,8 @@
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
 
-#include <yarp/telemetry/experimental/BufferConfig.h>
-#include <yarp/telemetry/experimental/BufferManager.h>
+#include <robometry/BufferConfig.h>
+#include <robometry/BufferManager.h>
 
 #include <cstdio>
 #include <fstream>
@@ -229,7 +229,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
         return false;
     }
 
-    yarp::telemetry::experimental::BufferConfig config;
+    robometry::BufferConfig config;
     config.yarp_robot_name = std::getenv("YARP_ROBOT_NAME");
     config.filename = "robot_logger_device";
     config.auto_save = true;
@@ -542,7 +542,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok
                  && m_bufferManager.setSaveCallback(
                      [this](const std::string& filePrefix,
-                            const yarp::telemetry::experimental::SaveCallbackSaveMethod& method)
+                            const robometry::SaveCallbackSaveMethod& method)
                          -> bool { return this->saveVideo(filePrefix, method); });
         }
 
@@ -882,7 +882,7 @@ void YarpRobotLoggerDevice::run()
 
 bool YarpRobotLoggerDevice::saveVideo(
     const std::string& fileName,
-    const yarp::telemetry::experimental::SaveCallbackSaveMethod& method)
+    const robometry::SaveCallbackSaveMethod& method)
 {
     for (const auto& camera : m_rgbCamerasList)
     {
@@ -895,7 +895,7 @@ bool YarpRobotLoggerDevice::saveVideo(
         // rename the file associated to the camera
         std::rename(oldName.c_str(), temp.c_str());
 
-        if (method == yarp::telemetry::experimental::SaveCallbackSaveMethod::periodic)
+        if (method == robometry::SaveCallbackSaveMethod::periodic)
         {
             const auto& cameraInfo
                 = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);

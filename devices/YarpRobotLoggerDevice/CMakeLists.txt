@@ -15,7 +15,7 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
       YARP::YARP_os
       YARP::YARP_dev
       YARP::YARP_profiler
-      YARP::YARP_telemetry
+      robometry::robometry
       BipedalLocomotion::TextLogging
       BipedalLocomotion::System
       BipedalLocomotion::YarpUtilities
