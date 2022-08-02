@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 ### Changed
 ### Fix
+- Fix the dependency required to compile the YarpRobotLogger device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/554)
 
 ## [0.8.0] - 2022-07-29
 ### Added
