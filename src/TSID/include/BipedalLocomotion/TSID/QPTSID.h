@@ -15,7 +15,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
-#include <BipedalLocomotion/System/IWeightProvider.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -55,32 +55,60 @@ public:
     virtual ~QPTSID();
 
     /**
-     * Add a linear task in the fixed base TSID
+     * Add a linear task in the solver.
      * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
      * @param priority Priority associated to the task. The lower the number the higher the
      * priority.
-     * @param weight weight associated to the task. This parameter is optional. The default value is
-     * an object that does not contain any value. So is an invalid weight.
-     * @note currently we support only task with priority 0 or 1. If the priority is set to 0 the
-     * task will be considered as a constraint. In this case the weight is not required.
-     * @warning The QPTSID cannot handle inequality tasks (please check
-     * Task::Type) with priority equal to 1.
-     * @return true if the task has been added to the TSID.
+     * @param weightProvider Weight provider associated to the task. This parameter is optional. The
+     * default value is an object that does not contain any value. The user may avoid to pass a
+     * provider only if the priority of the task is equal to 0.
+     * @return true if the task has been added to the solver.
+     * @warning The QPTSID cannot handle inequality tasks (please check Task::Type) with priority
+     * equal to 1.
+     * @warning The QPTSID can handle only priority equal to 0 and 1. 0 means high priority while 1
+     * low priority.
+     */
+    bool
+    addTask(std::shared_ptr<Task> task,
+            const std::string& taskName,
+            std::size_t priority,
+            std::shared_ptr<const System::WeightProviderPort> weightProvider = nullptr) override;
+
+    /**
+     * Add a linear task in the solver.
+     * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
+     * @param priority Priority associated to the task. The lower the number the higher the
+     * priority.
+     * @param weight Weight associated to the task.
+     * @return true if the task has been added to the solver.
+     * @note The solver assumes the weight is a constant value.
+     * @warning The QPTSID cannot handle inequality tasks (please check Task::Type) with priority
+     * equal to 1.
      */
     bool addTask(std::shared_ptr<Task> task,
                  const std::string& taskName,
                  std::size_t priority,
-                 std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {}) override;
+                 Eigen::Ref<const Eigen::VectorXd> weight) override;
 
     /**
      * Set the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weightProvider new Weight provider associated to the task.
+     * @param weightProvider new weight provider associated to the task.
      * @return true if the weight has been updated
      */
-    bool
-    setTaskWeightProvider(const std::string& taskName,
-                          std::shared_ptr<const System::IWeightProvider> weightProvider) override;
+    bool setTaskWeight(const std::string& taskName,
+                       std::shared_ptr<const System::WeightProviderPort> weightProvider) override;
+
+    /**
+     * Set the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight new Weight associated to the task. A constant weight is assumed.
+     * @return true if the weight has been updated
+     */
+    bool setTaskWeight(const std::string& taskName,
+                       Eigen::Ref<const Eigen::VectorXd> weight) override;
 
     /**
      * Get the weightProvider associated to an already existing task
@@ -88,7 +116,7 @@ public:
      * @return a weak pointer to the weightProvider. If the task does not exist the pointer is not
      * lockable
      */
-    std::weak_ptr<const System::IWeightProvider>
+    std::weak_ptr<const System::WeightProviderPort>
     getTaskWeightProvider(const std::string& taskName) const override;
 
     /**

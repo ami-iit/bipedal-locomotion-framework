@@ -15,6 +15,8 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/InputPort.h>
+#include <BipedalLocomotion/System/OutputPort.h>
 #include <BipedalLocomotion/System/Sink.h>
 #include <BipedalLocomotion/System/Source.h>
 
@@ -25,25 +27,61 @@ namespace bindings
 namespace System
 {
 
+void CreateSharedInputPort(pybind11::module& module);
+
+void CreateSharedOutputPort(pybind11::module& module);
+
+void CreateSharedSource(pybind11::module& module);
+
+template <class Input>
+void CreateInputPort(pybind11::module& module, const std::string& pythonClassName)
+{
+    namespace py = ::pybind11;
+    const std::string inputPortName = "_" + pythonClassName + "InputPort";
+    py::class_<::BipedalLocomotion::System::InputPort<Input>> //
+        (module, inputPortName.c_str())
+            .def("set_input",
+                 &::BipedalLocomotion::System::InputPort<Input>::setInput,
+                 py::arg("input"));
+}
+
+template <class Output>
+void CreateOutputPort(pybind11::module& module, const std::string& pythonClassName)
+{
+    namespace py = ::pybind11;
+    const std::string outputPortName = "_" + pythonClassName + "OutputPort";
+    py::class_<::BipedalLocomotion::System::OutputPort<Output>> //
+        (module, outputPortName.c_str())
+            .def("get_output", &::BipedalLocomotion::System::OutputPort<Output>::getOutput)
+            .def("is_output_valid",
+                 &::BipedalLocomotion::System::OutputPort<Output>::isOutputValid);
+}
+
 template <class Input, class Output>
 void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassName)
 {
     namespace py = ::pybind11;
+
+    if constexpr (!std::is_same<Input, ::BipedalLocomotion::System::EmptySignal>())
+    {
+        ::BipedalLocomotion::bindings::System::CreateInputPort<Input>(module, pythonClassName);
+    }
+    if constexpr (!std::is_same<Output, ::BipedalLocomotion::System::EmptySignal>())
+    {
+        ::BipedalLocomotion::bindings::System::CreateOutputPort<Output>(module, pythonClassName);
+    }
+
     const std::string advanceableName = "_" + pythonClassName + "Advanceable";
-    py::class_<::BipedalLocomotion::System::Advanceable<Input, Output>> //
-        (module, advanceableName.c_str())
+    py::class_<::BipedalLocomotion::System::Advanceable<Input, Output>,
+               ::BipedalLocomotion::System::InputPort<Input>,
+               ::BipedalLocomotion::System::OutputPort<Output>> //
+        (module, advanceableName.c_str(), py::multiple_inheritance())
             .def(
                 "initialize",
                 [](::BipedalLocomotion::System::Advanceable<Input, Output>& impl,
                    std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
                        handler) -> bool { return impl.initialize(handler); },
                 py::arg("handler"))
-            .def("get_output", &::BipedalLocomotion::System::Advanceable<Input, Output>::getOutput)
-            .def("is_output_valid",
-                 &::BipedalLocomotion::System::Advanceable<Input, Output>::isOutputValid)
-            .def("set_input",
-                 &::BipedalLocomotion::System::Advanceable<Input, Output>::setInput,
-                 py::arg("input"))
             .def("advance", &::BipedalLocomotion::System::Advanceable<Input, Output>::advance)
             .def("close", &::BipedalLocomotion::System::Advanceable<Input, Output>::close);
 }

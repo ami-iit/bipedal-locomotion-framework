@@ -17,7 +17,7 @@ if(FRAMEWORK_COMPILE_System)
                            ${H_PREFIX}/SharedResource.h ${H_PREFIX}/AdvanceableRunner.h
                            ${H_PREFIX}/QuitHandler.h
                            ${H_PREFIX}/Barrier.h
-                           ${H_PREFIX}/IWeightProvider.h ${H_PREFIX}/ConstantWeightProvider.h
+                           ${H_PREFIX}/WeightProvider.h ${H_PREFIX}/ConstantWeightProvider.h
     SOURCES                src/VariablesHandler.cpp src/LinearTask.cpp
                            src/StdClock.cpp src/Clock.cpp src/QuitHandler.cpp src/Barrier.cpp
                            src/ConstantWeightProvider.cpp

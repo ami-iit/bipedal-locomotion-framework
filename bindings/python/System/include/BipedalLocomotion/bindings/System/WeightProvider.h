@@ -18,7 +18,7 @@ namespace bindings
 namespace System
 {
 
-void CreateIWeightProvider(pybind11::module& module);
+void CreateWeightProvider(pybind11::module& module);
 void CreateConstantWeightProvider(pybind11::module& module);
 
 } // namespace System

@@ -13,7 +13,9 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/ConstantWeightProvider.h>
-#include <BipedalLocomotion/System/IWeightProvider.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
+
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -22,14 +24,23 @@ namespace bindings
 namespace System
 {
 
-void CreateIWeightProvider(pybind11::module& module)
+void CreateWeightProvider(pybind11::module& module)
 {
     namespace py = ::pybind11;
 
     using namespace BipedalLocomotion::System;
 
-    py::class_<IWeightProvider, std::shared_ptr<IWeightProvider>>(module, "IWeightProvider")
-        .def("get_weight", &IWeightProvider::getWeight);
+    py::class_<WeightProvider, std::shared_ptr<WeightProvider>>(module, "WeightProvider")
+        .def(
+            "initialize",
+            [](WeightProvider& impl,
+               std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"))
+        .def("advance", &WeightProvider::advance)
+        .def("close", &WeightProvider::close)
+        .def("get_output", &WeightProvider::getOutput)
+        .def("is_output_valid", &WeightProvider::isOutputValid);
 }
 
 void CreateConstantWeightProvider(pybind11::module& module)
@@ -38,17 +49,13 @@ void CreateConstantWeightProvider(pybind11::module& module)
 
     using namespace BipedalLocomotion::System;
 
-    py::class_<ConstantWeightProvider,
-               IWeightProvider,
+    // ::BipedalLocomotion::System::Source<Eigen::VectorXd> has been registered in
+    // BipedalLocomotion::bindigs::System::CreateSharedSource()
+    py::class_<ConstantWeightProvider, //
+               WeightProvider,
                std::shared_ptr<ConstantWeightProvider>>(module, "ConstantWeightProvider")
         .def(py::init())
-        .def(py::init<Eigen::Ref<const Eigen::VectorXd>>(), py::arg("weight"))
-        .def("initialize",
-             [](ConstantWeightProvider& impl,
-                std::shared_ptr<ParametersHandler::IParametersHandler> handler) -> bool {
-                 return impl.initialize(handler);
-             })
-        .def_readwrite("weight", &ConstantWeightProvider::weight);
+        .def(py::init<const Eigen::VectorXd&>());
 }
 
 } // namespace System
