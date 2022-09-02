@@ -14,6 +14,9 @@
 
 // this will no longer necessary after
 // https://github.com/pybind/pybind11/pull/3818
+// Release https://github.com/pybind/pybind11/releases/tag/v2.10.0
+#if !(defined(PYBIND11_VERSION_HEX) \
+      || (defined(PYBIND11_VERSION_HEX) && (PYBIND11_VERSION_HEX < 0x020A0000)))
 namespace pybind11
 {
 namespace detail
@@ -21,9 +24,10 @@ namespace detail
 template <> struct type_caster<std::monostate> : public void_caster<std::monostate>
 {
 };
-
 } // namespace detail
 } // namespace pybind11
+
+#endif
 
 namespace BipedalLocomotion
 {
