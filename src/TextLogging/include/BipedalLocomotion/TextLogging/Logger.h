@@ -14,6 +14,19 @@
 #include <spdlog/spdlog.h>
 #include <type_traits>
 
+// This is required only for FMT > v9.0.0
+#if (defined(FMT_VERSION) && FMT_VERSION > 90000)
+#include <Eigen/Dense>
+template <typename _Derived>
+struct fmt::formatter<Eigen::DenseBase<_Derived>> : ostream_formatter
+{
+};
+template <typename _Derived>
+struct fmt::formatter<Eigen::Transpose<_Derived>> : ostream_formatter
+{
+};
+#endif
+
 namespace BipedalLocomotion
 {
 namespace TextLogging
