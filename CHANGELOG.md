@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 ### Fix
 - Fix the dependency required to compile the YarpRobotLogger device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/554)
+- Fix the compatibility with fmt v9.0.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/556)
 
 ## [0.8.0] - 2022-07-29
 ### Added
