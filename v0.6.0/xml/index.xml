@@ -1949,8 +1949,8 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1a47a754ca24dc3823a1817831ae49b06e" kind="function"><name>flush_</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
-    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
     <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1AutoDiff" kind="namespace"><name>BipedalLocomotion::AutoDiff</name>
   </compound>

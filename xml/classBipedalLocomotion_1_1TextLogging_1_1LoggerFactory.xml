@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="67" column="13"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="80" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1a8ba0ec17ebd6f59358bc04409fed2299" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>Logger *const</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="72" column="26"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="85" column="26"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -61,7 +61,7 @@
         <link refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/TextLogging/Logger.h" line="61" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="62" bodyend="73"/>
+    <location file="BipedalLocomotion/TextLogging/Logger.h" line="74" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="75" bodyend="86"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1a8ba0ec17ebd6f59358bc04409fed2299" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TextLogging::LoggerFactory</scope><name>createLogger</name></member>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1ac43836e327df2a153d5cddee9a0ed278" prot="public" virt="virtual"><scope>BipedalLocomotion::TextLogging::LoggerFactory</scope><name>~LoggerFactory</name></member>

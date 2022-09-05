@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="39" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="40" bodyend="48"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="52" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="53" bodyend="61"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="22" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="22" bodyend="-1"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="35" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="55" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="55" declcolumn="6"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="68" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="68" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
