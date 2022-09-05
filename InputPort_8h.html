@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::IWeightProvider struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion/System/InputPort.h file | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -66,66 +66,39 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>IWeightProvider <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IWeightProvider_8h.html">&lt;BipedalLocomotion/System/IWeightProvider.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="dir_851e45f592bcaa6147ca4dae8a337a6d.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_1a41e7752d0b8c023e1d3ecf18af98b7.html">System</a>/</span>InputPort.h <span class="m-thin">file</span>
         </h1>
-        <p><a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a> describes the interface for a provider that produces the weight for a <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver</a>.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
+<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2022 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
+            <dd></dd>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1System.html" class="m-doc">BipedalLocomotion::System</a></dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a>
+              <div class="m-doc-template">template&lt;class _Input&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1InputPort.html" class="m-doc">BipedalLocomotion::System::InputPort</a>
             </dt>
-            <dd><a href="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a> describes the provider for a constant weight.</dd>
+            <dd>Basic class that represents an input port.</dd>
           </dl>
-        </section>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
-          <dl class="m-doc">
-            <dt id="a50c9b15b55ec75c13e367da8885b3228">
-              <span class="m-doc-wrap-bumper"><a href="#a50c9b15b55ec75c13e367da8885b3228" class="m-doc-self">~IWeightProvider</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>Destructor.</dd>
-          </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#afe67e06d9a6e4c143d14af3840c489ca" class="m-doc">getWeight</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get the weight associated to the provider.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="afe67e06d9a6e4c143d14af3840c489ca"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />System::<wbr />IWeightProvider::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afe67e06d9a6e4c143d14af3840c489ca" class="m-doc-self">getWeight</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Get the weight associated to the provider.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>A vector representing the diagonal matrix of the weight</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

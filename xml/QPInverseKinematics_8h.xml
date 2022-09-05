@@ -9,7 +9,7 @@
     <includes refid="IntegrationBasedIK_8h" local="no">BipedalLocomotion/IK/IntegrationBasedIK.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
-    <includes refid="IWeightProvider_8h" local="no">BipedalLocomotion/System/IWeightProvider.h</includes>
+    <includes refid="ILinearTaskSolver_8h" local="no">BipedalLocomotion/System/ILinearTaskSolver.h</includes>
     <incdepgraph>
       <node id="20">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -17,6 +17,10 @@
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="21">
@@ -39,13 +43,7 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
-        <label>BipedalLocomotion/System/IWeightProvider.h</label>
-        <link refid="IWeightProvider_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="11">
@@ -73,23 +71,21 @@
       <node id="15">
         <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
         <link refid="ILinearTaskSolver_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -129,7 +125,7 @@
       <node id="5">
         <label>Eigen/Dense</label>
       </node>
-      <node id="17">
+      <node id="16">
         <label>optional</label>
       </node>
       <node id="3">
@@ -147,13 +143,21 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
+      <node id="18">
+        <label>BipedalLocomotion/System/OutputPort.h</label>
+        <link refid="OutputPort_8h"/>
+      </node>
       <node id="13">
         <label>cstddef</label>
       </node>
       <node id="14">
         <label>unordered_map</label>
       </node>
-      <node id="18">
+      <node id="22">
+        <label>BipedalLocomotion/System/InputPort.h</label>
+        <link refid="InputPort_8h"/>
+      </node>
+      <node id="17">
         <label>type_traits</label>
       </node>
       <node id="10">

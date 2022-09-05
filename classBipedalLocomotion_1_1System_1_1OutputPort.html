@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::ConstantWeightProvider struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::System::OutputPort class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -66,124 +66,127 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>ConstantWeightProvider <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ConstantWeightProvider_8h.html">&lt;BipedalLocomotion/System/ConstantWeightProvider.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="OutputPort_8h.html">&lt;BipedalLocomotion/System/OutputPort.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;class _Output&gt;</div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>OutputPort <span class="m-thin">class</span>
         </h1>
-        <p><a href="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a> describes the provider for a constant weight.</p>
+        <p>Basic class that represents an output port.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="base-classes">
-          <h2><a href="#base-classes">Base classes</a></h2>
+<p>The interface contains method to set inputs and output.</p>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
             </dt>
-            <dd><a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a> describes the interface for a provider that produces the weight for a <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver</a>.</dd>
+            <dd>Basic class that represents a discrete system.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            </dt>
+            <dd>Basic class that represents a discrete system.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            </dt>
+            <dd>Basic class that represents a discrete system.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            </dt>
+            <dd>Basic class that represents a discrete system.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            </dt>
+            <dd>Basic class that represents a discrete system.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            </dt>
+            <dd>Basic class that represents a discrete system.</dd>
+          </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="ab9150fecab94a5c4e06bc0579277d8c3">
+              using <a href="#ab9150fecab94a5c4e06bc0579277d8c3" class="m-doc-self">Output</a> = _Output
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ad971c451803fef96351eabe8064a20fb">
-              <span class="m-doc-wrap-bumper"><a href="#ad971c451803fef96351eabe8064a20fb" class="m-doc-self">ConstantWeightProvider</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="adcc49c38152c9204dcab4f8e87f68977">
+              <span class="m-doc-wrap-bumper"><a href="#adcc49c38152c9204dcab4f8e87f68977" class="m-doc-self">~OutputPort</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
-            <dd>Default construct.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a href="#a0596c3dbbd298d2a9f6db292b982f315" class="m-doc">ConstantWeightProvider</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; weight)</span>
-            </dt>
-            <dd>Constrict from a vector representing the diagonal matrix of a weight.</dd>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7cda22fd99324e914a9a3146f8464cb3" class="m-doc">getWeight</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt; <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8c089ecf2dd8ff0fb2732233994b6cac" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const Output&amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
-            <dd>Get the weight associated to the provider.</dd>
+            <dd>Get the output of the port.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aed53604f9c900422214806962afe0b3b" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac50de29a6160baa2bba195af9d69430a" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
-            <dd>Initialize constant weight provider.</dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a16e29eb4f6f4db47f205970bcadc4048">
-              Eigen::VectorXd <a href="#a16e29eb4f6f4db47f205970bcadc4048" class="m-doc-self">weight</a>
-            </dt>
-            <dd>Vector representing the diagonal matrix of a weight.</dd>
+            <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1System_1_1OutputPort.html#a8c089ecf2dd8ff0fb2732233994b6cac" class="m-doc">getOutput()</a></dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a0596c3dbbd298d2a9f6db292b982f315"><div>
+          <section class="m-doc-details" id="a8c089ecf2dd8ff0fb2732233994b6cac"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> BipedalLocomotion::<wbr />System::<wbr />ConstantWeightProvider::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0596c3dbbd298d2a9f6db292b982f315" class="m-doc-self">ConstantWeightProvider</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; weight)</span></span>
+              <div class="m-doc-template">
+                template&lt;class _Output&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const Output&amp; BipedalLocomotion::<wbr />System::<wbr />OutputPort&lt;_Output&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8c089ecf2dd8ff0fb2732233994b6cac" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
-            <p>Constrict from a vector representing the diagonal matrix of a weight.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">weight</td>
-                  <td>a vector representing the diagonal matrix of a weight</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a7cda22fd99324e914a9a3146f8464cb3"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />System::<wbr />ConstantWeightProvider::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7cda22fd99324e914a9a3146f8464cb3" class="m-doc-self">getWeight</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Get the weight associated to the provider.</p>
+            <p>Get the output of the port.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>A vector representing the diagonal matrix of the weight</td>
+                  <td>a const reference of the requested object.</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aed53604f9c900422214806962afe0b3b"><div>
+          <section class="m-doc-details" id="ac50de29a6160baa2bba195af9d69430a"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ConstantWeightProvider::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aed53604f9c900422214806962afe0b3b" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <div class="m-doc-template">
+                template&lt;class _Output&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />OutputPort&lt;_Output&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac50de29a6160baa2bba195af9d69430a" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
-            <p>Initialize constant weight provider.</p>
+            <p>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1System_1_1OutputPort.html#a8c089ecf2dd8ff0fb2732233994b6cac" class="m-doc">getOutput()</a></p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to the parameter handler.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
-                  <td>true in case of success/false otherwise.</td>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if the object is valid, false otherwise.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are required:</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>weight</code></td><td><code>vector&lt;double&gt;</code></td><td>Vector representing the diagonal matrix of a constant weight</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
         </section>
       </div>

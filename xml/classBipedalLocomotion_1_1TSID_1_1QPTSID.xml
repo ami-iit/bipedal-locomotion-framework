@@ -49,10 +49,10 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/QPTSID.h" line="55" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::QPTSID::addTask</definition>
-        <argsstring>(std::shared_ptr&lt; Task &gt; task, const std::string &amp;taskName, std::size_t priority, std::optional&lt; Eigen::Ref&lt; const Eigen::VectorXd &gt;&gt; weight={}) override</argsstring>
+        <argsstring>(std::shared_ptr&lt; Task &gt; task, const std::string &amp;taskName, std::size_t priority, std::shared_ptr&lt; const System::WeightProviderPort &gt; weightProvider=nullptr) override</argsstring>
         <name>addTask</name>
         <param>
           <type>std::shared_ptr&lt; Task &gt;</type>
@@ -67,12 +67,12 @@
           <declname>priority</declname>
         </param>
         <param>
-          <type>std::optional&lt; Eigen::Ref&lt; const Eigen::VectorXd &gt;&gt;</type>
-          <declname>weight</declname>
-          <defval>{}</defval>
+          <type>std::shared_ptr&lt; const <ref refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kindref="member">System::WeightProviderPort</ref> &gt;</type>
+          <declname>weightProvider</declname>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
-<para>Add a linear task in the fixed base TSID. </para>
+<para>Add a linear task in the solver. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -81,6 +81,84 @@
 </parameternamelist>
 <parameterdescription>
 <para>pointer to a given linear task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>taskName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>unique name associated to the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Priority associated to the task. The lower the number the higher the priority. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weightProvider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Weight provider associated to the task. This parameter is optional. The default value is an object that does not contain any value. The user may avoid to pass a provider only if the priority of the task is equal to 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the task has been added to the solver. </para>
+</simplesect>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> cannot handle inequality tasks (please check Task::Type) with priority equal to 1. </para>
+</simplesect>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> can handle only priority equal to 0 and 1. 0 means high priority while 1 low priority. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a876c8497d3bf307df0c9a4a3d0849aa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::QPTSID::addTask</definition>
+        <argsstring>(std::shared_ptr&lt; Task &gt; task, const std::string &amp;taskName, std::size_t priority, Eigen::Ref&lt; const Eigen::VectorXd &gt; weight) override</argsstring>
+        <name>addTask</name>
+        <param>
+          <type>std::shared_ptr&lt; Task &gt;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>taskName</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Add a linear task in the solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a given linear task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>taskName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>unique name associated to the task. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -96,34 +174,34 @@
 <parametername>weight</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight. </para>
+<para>Weight associated to the task. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>currently we support only task with priority 0 or 1. If the priority is set to 0 the task will be considered as a constraint. In this case the weight is not required. </para>
+<simplesect kind="return"><para>true if the task has been added to the solver. </para>
+</simplesect>
+<simplesect kind="note"><para>The solver assumes the weight is a constant value. </para>
 </simplesect>
 <simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> cannot handle inequality tasks (please check Task::Type) with priority equal to 1. </para>
-</simplesect>
-<simplesect kind="return"><para>true if the task has been added to the TSID. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="70" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="90" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a8f6dbf1f2fa73fab4e72ea4e0282cb61" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aae215634b3570c759197a08cf73dc787" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::TSID::QPTSID::setTaskWeightProvider</definition>
-        <argsstring>(const std::string &amp;taskName, std::shared_ptr&lt; const System::IWeightProvider &gt; weightProvider) override</argsstring>
-        <name>setTaskWeightProvider</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa2edbdf2f38c063a1bfcd519883d813b">setTaskWeightProvider</reimplements>
+        <definition>bool BipedalLocomotion::TSID::QPTSID::setTaskWeight</definition>
+        <argsstring>(const std::string &amp;taskName, std::shared_ptr&lt; const System::WeightProviderPort &gt; weightProvider) override</argsstring>
+        <name>setTaskWeight</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3de5b3fbd5d68247e799e4dd36f610cf">setTaskWeight</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>taskName</declname>
         </param>
         <param>
-          <type>std::shared_ptr&lt; const <ref refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kindref="compound">System::IWeightProvider</ref> &gt;</type>
+          <type>std::shared_ptr&lt; const <ref refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kindref="member">System::WeightProviderPort</ref> &gt;</type>
           <declname>weightProvider</declname>
         </param>
         <briefdescription>
@@ -143,7 +221,7 @@
 <parametername>weightProvider</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>new Weight provider associated to the task. </para>
+<para>new weight provider associated to the task. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -153,14 +231,57 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="82" column="5"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="101" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a40777a0ab00d75e32ab2a8537636344f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>std::weak_ptr&lt; const <ref refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kindref="compound">System::IWeightProvider</ref> &gt;</type>
-        <definition>std::weak_ptr&lt;const System::IWeightProvider&gt; BipedalLocomotion::TSID::QPTSID::getTaskWeightProvider</definition>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::QPTSID::setTaskWeight</definition>
+        <argsstring>(const std::string &amp;taskName, Eigen::Ref&lt; const Eigen::VectorXd &gt; weight) override</argsstring>
+        <name>setTaskWeight</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6">setTaskWeight</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>taskName</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Set the weight associated to an already existing task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>taskName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name associated to the task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new Weight associated to the task. A constant weight is assumed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the weight has been updated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="110" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1384c7afc1b98be5d6964aa89ef8ce1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::weak_ptr&lt; const <ref refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kindref="member">System::WeightProviderPort</ref> &gt;</type>
+        <definition>std::weak_ptr&lt;const System::WeightProviderPort&gt; BipedalLocomotion::TSID::QPTSID::getTaskWeightProvider</definition>
         <argsstring>(const std::string &amp;taskName) const override</argsstring>
         <name>getTaskWeightProvider</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1ac7055685c9244cb10fc0cfd42dfb59e2">getTaskWeightProvider</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a216c5bf1a5a79f6b4f0fad6939a8087b">getTaskWeightProvider</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>taskName</declname>
@@ -184,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="92" column="5"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="120" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -202,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="98" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="126" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::weak_ptr&lt; Task &gt;</type>
@@ -233,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="106" column="19"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="134" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -297,7 +418,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="122" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="150" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -330,7 +451,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="130" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="158" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -348,14 +469,14 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="136" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="164" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const State &amp;</type>
         <definition>const State&amp; BipedalLocomotion::TSID::QPTSID::getOutput</definition>
         <argsstring>() const override</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the outcome of the optimization problem. </para>
         </briefdescription>
@@ -366,14 +487,14 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="142" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="170" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::QPTSID::isOutputValid</definition>
         <argsstring>() const override</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Return true if the content of get is valid. </para>
         </briefdescription>
@@ -381,7 +502,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="147" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="175" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0875e576675b9f0c8dffbe231abb21cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -396,7 +517,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="152" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="180" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -414,17 +535,21 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="158" column="16"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="186" column="16"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> is a concrete class and implements a task space inverse dynamics. </para>
     </briefdescription>
     <detaileddescription>
-<para>The TSID is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" kindref="member">QPTSID::addTask</ref>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM-Based
+<para>The TSID is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" kindref="member">QPTSID::addTask</ref>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM-Based
 Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot; <ulink url="https://doi.org/10.1142/S0219843619500348">https://doi.org/10.1142/S0219843619500348</ulink> </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="6">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::TSID::QPTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
@@ -436,33 +561,41 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="7" relation="template-instance">
+        <childnode refid="9" relation="template-instance">
           <edgelabel>&lt; TSIDLinearTask, TSIDState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="7">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="10">
         <label>BipedalLocomotion::System::Source&lt; _State &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; _State &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
-        <childnode refid="8" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
       <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="6" relation="template-instance">
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>BipedalLocomotion::TSID::QPFixedBaseTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID"/>
         <childnode refid="1" relation="public-inheritance">
@@ -480,12 +613,20 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="6">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::TSID::QPTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
@@ -497,29 +638,37 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="7" relation="template-instance">
+        <childnode refid="9" relation="template-instance">
           <edgelabel>&lt; TSIDLinearTask, TSIDState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="7">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="10">
         <label>BipedalLocomotion::System::Source&lt; _State &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; _State &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::System::ILinearTaskSolver&lt; _Task, _State &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
-        <childnode refid="8" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
       <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="6" relation="template-instance">
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
@@ -535,36 +684,46 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/QPTSID.h" line="38" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="39" bodyend="159"/>
+    <location file="BipedalLocomotion/TSID/QPTSID.h" line="38" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="39" bodyend="187"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::TSID::TaskSpaceInverseDynamics::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a876c8497d3bf307df0c9a4a3d0849aa4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a2aa760519d2a9a20045d27ca97cc1d8f" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::TSID::TaskSpaceInverseDynamics::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa120f4a6ec30a664c29b0acfcca7730d" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::TSID::TaskSpaceInverseDynamics::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>finalize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getRawSolution</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTask</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTaskNames</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a40777a0ab00d75e32ab2a8537636344f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTaskWeightProvider</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1384c7afc1b98be5d6964aa89ef8ce1f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getTaskWeightProvider</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>m_pimpl</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adb8db0bf0a0d8ea5903dadadaf5fbdcf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>QPTSID</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a8f6dbf1f2fa73fab4e72ea4e0282cb61" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setTaskWeightProvider</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; EmptySignal, Output &gt;::"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aae215634b3570c759197a08cf73dc787" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setTaskWeight</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>setTaskWeight</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Task</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0875e576675b9f0c8dffbe231abb21cf" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>toString</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3f7b647df3e41efe16c75754181f9931" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~ILinearTaskSolver</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~QPTSID</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~Source</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_1af67a42286571cd0263af0b22e7b32167" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>~TaskSpaceInverseDynamics</name></member>

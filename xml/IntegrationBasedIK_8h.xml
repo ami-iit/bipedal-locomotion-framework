@@ -15,15 +15,13 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
       </node>
       <node id="20">
         <label>variant</label>
-      </node>
-      <node id="15">
-        <label>BipedalLocomotion/System/IWeightProvider.h</label>
-        <link refid="IWeightProvider_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
       </node>
       <node id="9">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -50,23 +48,21 @@
       <node id="14">
         <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
         <link refid="ILinearTaskSolver_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
@@ -106,7 +102,7 @@
       <node id="2">
         <label>Eigen/Dense</label>
       </node>
-      <node id="16">
+      <node id="15">
         <label>optional</label>
       </node>
       <node id="10">
@@ -124,13 +120,21 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
+      <node id="17">
+        <label>BipedalLocomotion/System/OutputPort.h</label>
+        <link refid="OutputPort_8h"/>
+      </node>
       <node id="12">
         <label>cstddef</label>
       </node>
       <node id="13">
         <label>unordered_map</label>
       </node>
-      <node id="17">
+      <node id="21">
+        <label>BipedalLocomotion/System/InputPort.h</label>
+        <link refid="InputPort_8h"/>
+      </node>
+      <node id="16">
         <label>type_traits</label>
       </node>
       <node id="8">

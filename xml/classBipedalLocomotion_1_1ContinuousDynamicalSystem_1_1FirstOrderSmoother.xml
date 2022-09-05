@@ -207,7 +207,7 @@
         <definition>const Eigen::VectorXd&amp; BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother::getOutput</definition>
         <argsstring>() const override</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the output of the smoother. </para>
         </briefdescription>
@@ -220,12 +220,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h" line="67" column="27"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother::setInput</definition>
         <argsstring>(const Eigen::VectorXd &amp;input) override</argsstring>
         <name>setInput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73">setInput</reimplements>
         <param>
           <type>const Eigen::VectorXd &amp;</type>
           <declname>input</declname>
@@ -256,7 +255,7 @@
         <definition>bool BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother::isOutputValid</definition>
         <argsstring>() const override</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ac5914a6768674100165630736548341d" kindref="member">getOutput()</ref> </para>
         </briefdescription>
@@ -277,10 +276,18 @@
 <para>The system is described by the following ode <formula id="72">\[ \dot{x} = a (-x + u) \]</formula> where the <formula id="73">$a$</formula> is given by <formula id="74">$a = 3.0/T_{s_5}$</formula>. <formula id="75">$T_{s_5}$</formula> is the settling time at 5%. The linear system is propagated with a Forward Euler integrator. </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
@@ -290,16 +297,32 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
@@ -309,18 +332,26 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h" line="33" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h" bodystart="35" bodyend="91"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a857ecad479baac775759f91b286069c3" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ac5914a6768674100165630736548341d" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a699553512ac3d76602d9c771f265a2a3" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a4abb7565bb83ed84cdf1072d27db171c" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ad646fb9879a8560a9dc5c687741f0a68" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>m_integrator</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a6212eec91e32762e21b46945576ad1bb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>m_isInitialized</name></member>
@@ -329,10 +360,13 @@
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a2fa051571c87307a7569485337b715ac" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>m_linearSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a3adff369ad94cceba485bf63dc57d0fb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>m_output</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1ab43ee97c4e3a0578f432014161569613" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>m_settlingTime</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1aff8bbd70af1820483a434fad46665c4d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>reset</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a885f789466ad422baddcfa2996c23eca" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; Eigen::VectorXd, Eigen::VectorXd &gt;::"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</scope><name>~OutputPort</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

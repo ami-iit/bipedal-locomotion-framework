@@ -13,6 +13,7 @@
     <innerfile refid="ForwardEuler_8h">ForwardEuler.h</innerfile>
     <innerfile refid="Integrator_8h">Integrator.h</innerfile>
     <innerfile refid="LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
+    <innerfile refid="MultiStateWeightProvider_8h">MultiStateWeightProvider.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

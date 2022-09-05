@@ -748,7 +748,7 @@
         <definition>virtual const FloatingBaseEstimators::Output&amp; BipedalLocomotion::Estimators::FloatingBaseEstimator::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get estimator outputs. </para>
         </briefdescription>
@@ -766,7 +766,7 @@
         <definition>virtual bool BipedalLocomotion::Estimators::FloatingBaseEstimator::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
@@ -1328,7 +1328,11 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="6">
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion::Estimators::InvariantEKFBaseEstimator</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1InvariantEKFBaseEstimator"/>
         <childnode refid="1" relation="public-inheritance">
@@ -1345,49 +1349,65 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::Estimators::LeggedOdometry</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
       <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="21">
+      <node id="23">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>BipedalLocomotion::Contacts::EstimatedContact</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
-        <childnode refid="10" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="14">
+      <node id="16">
         <label>K</label>
       </node>
-      <node id="15">
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="17">
         <label>T</label>
       </node>
       <node id="1">
@@ -1395,43 +1415,43 @@
         <link refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>m_modelComp</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>m_meas</edgelabel>
           <edgelabel>m_measPrev</edgelabel>
         </childnode>
-        <childnode refid="16" relation="usage">
+        <childnode refid="18" relation="usage">
           <edgelabel>m_priors</edgelabel>
           <edgelabel>m_stateStdDev</edgelabel>
         </childnode>
-        <childnode refid="18" relation="usage">
+        <childnode refid="20" relation="usage">
           <edgelabel>m_estimatorOut</edgelabel>
         </childnode>
-        <childnode refid="20" relation="usage">
+        <childnode refid="22" relation="usage">
           <edgelabel>m_sensorsDev</edgelabel>
         </childnode>
-        <childnode refid="19" relation="usage">
+        <childnode refid="21" relation="usage">
           <edgelabel>m_state</edgelabel>
           <edgelabel>m_statePrev</edgelabel>
         </childnode>
-        <childnode refid="21" relation="usage">
+        <childnode refid="23" relation="usage">
           <edgelabel>m_options</edgelabel>
         </childnode>
       </node>
-      <node id="17">
+      <node id="19">
         <label>std::map&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</label>
-        <childnode refid="13" relation="template-instance">
+        <childnode refid="15" relation="template-instance">
           <edgelabel>&lt; int, Eigen::Matrix&lt; double, 6, 1 &gt;, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Matrix&lt; double, 6, 1 &gt; &gt; &gt; &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="13">
+      <node id="15">
         <label>std::map&lt; K, T &gt;</label>
-        <childnode refid="14" relation="usage">
+        <childnode refid="16" relation="usage">
           <edgelabel>keys</edgelabel>
         </childnode>
-        <childnode refid="15" relation="usage">
+        <childnode refid="17" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
@@ -1440,104 +1460,116 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="12">
+      <node id="14">
         <label>std::basic_string&lt; Char &gt;</label>
       </node>
-      <node id="16">
+      <node id="18">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::StateStdDev</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev"/>
-        <childnode refid="17" relation="usage">
+        <childnode refid="19" relation="usage">
           <edgelabel>landmarkPose</edgelabel>
           <edgelabel>supportFramePose</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="10">
         <label>std::map&lt; int, BipedalLocomotion::Contacts::EstimatedContact &gt;</label>
-        <childnode refid="9" relation="usage">
+        <childnode refid="11" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
-        <childnode refid="13" relation="template-instance">
+        <childnode refid="15" relation="template-instance">
           <edgelabel>&lt; int, BipedalLocomotion::Contacts::EstimatedContact &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="19">
+      <node id="21">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::InternalState</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState"/>
-        <childnode refid="8" relation="usage">
+        <childnode refid="10" relation="usage">
           <edgelabel>landmarkData</edgelabel>
           <edgelabel>supportFrameData</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Measurements</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Measurements"/>
-        <childnode refid="8" relation="usage">
+        <childnode refid="10" relation="usage">
           <edgelabel>stampedContactsStatus</edgelabel>
           <edgelabel>stampedRelLandmarkPoses</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="20">
+      <node id="22">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::SensorsStdDev</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1SensorsStdDev"/>
       </node>
-      <node id="10">
+      <node id="12">
         <label>BipedalLocomotion::Contacts::ContactBase</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase"/>
-        <childnode refid="11" relation="usage">
+        <childnode refid="13" relation="usage">
           <edgelabel>name</edgelabel>
         </childnode>
       </node>
-      <node id="18">
+      <node id="20">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimators::Output</label>
         <link refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output"/>
-        <childnode refid="16" relation="usage">
+        <childnode refid="18" relation="usage">
           <edgelabel>stateStdDev</edgelabel>
         </childnode>
-        <childnode refid="19" relation="usage">
+        <childnode refid="21" relation="usage">
           <edgelabel>state</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::Estimators::FloatingBaseEstimator::ModelComputations</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations"/>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>std::string</label>
-        <childnode refid="12" relation="public-inheritance">
+        <childnode refid="14" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="32" column="1" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="33" bodyend="442"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8deaab0e4940165c59f15355d47ddc79" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a462a1ca838fc97062d93395f2ecb52e9" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad7fae2ee9adde778ab2c1c3b468ea6ac" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>FloatingBaseEstimator</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aecc991f84626ed5114483a3e7c0fd78c" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a6effc5655b1fa1bdcad345f2ea420047" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a0baf4a4877c4c790c35be575f63ea2d2" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a73f6c5a571246a976c534dbf0c8485c9" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_dt</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a7a69586c1a993d3abc61c786d25b88c1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_estimatorOut</name></member>
@@ -1556,7 +1588,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a5e5751df76b701e6d0ef3d54fba70e0c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_useIMUVelForBaseVelComputation</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad58879a3431ccf1a250419f79c54377c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>m_useModelInfo</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1aad3b0c5d6736bdc39e501833d6fd7dcf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>modelComputations</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a26c64914587b18e5eaa2f8b8df321446" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>predictState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1afaa96d18ba685b1cb5cb9a56f4d862cb" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a3b6896ce5674651e673761bbce201154" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>resetEstimator</name></member>
@@ -1564,7 +1596,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a349f90524a834477ab51825f4be11f85" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setContactStatus</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a2ccbfaf83d8eed0fe3b0b5ca46017ef4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setIMUMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad203e691ae8d7d8b41da86b2e081267b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setKinematics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a12d71bdc48916f3f5a275008417ef6b6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setLandmarkRelativePose</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>setupFixedVectorParamPrivate</name></member>
@@ -1579,6 +1611,8 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1acca7d1580a8085caedfdecbe08e89d9f" prot="protected" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>updateLandmarkRelativePoses</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ab24dc4ee5a3afb031812df139a3dbd09" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~FloatingBaseEstimator</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>

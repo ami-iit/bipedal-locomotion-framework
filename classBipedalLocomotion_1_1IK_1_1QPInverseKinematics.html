@@ -83,7 +83,7 @@
             </li>
           </ul>
         </nav>
-<p>The inverse kinematics is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a2858997d7e7a47d2f602d1a158a49800" class="m-doc">QPInverseKinematics::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM Based
+<p>The inverse kinematics is here implemented as Quadratic Programming (QP) problem. The user should set the desired task with the method <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a7666e60ae056992a39f56eddd1134d75" class="m-doc">QPInverseKinematics::<wbr />addTask</a>. Each task has a given priority. Currently we support only priority equal to 0 or 1. If the task priority is set to 0 the task will be considered as hard task, thus treated as an equality constraint. If the priority is equal to 1 the task will be embedded in the cost function. The class is also able to treat inequality constraints. A possible usage of the IK can be found in &quot;Romualdi et al. A Benchmarking of DCM Based
 Architectures for Position and Velocity Controlled Walking of Humanoid Robots&quot; <a href="https://doi.org/10.1109/HUMANOIDS.2018.8625025">https:/<wbr />/<wbr />doi.org/<wbr />10.1109/<wbr />HUMANOIDS.2018.8625025</a></p>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
@@ -111,19 +111,31 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2858997d7e7a47d2f602d1a158a49800" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              <span class="m-doc-wrap-bumper">auto <a href="#a7666e60ae056992a39f56eddd1134d75" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider = nullptr) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>Add a linear task in the inverse kinematics.</dd>
+            <dd>Add a linear task in the solver.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad57e1665b2cc4806241841d6c097bdad" class="m-doc">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; weightProvider) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2b0c765e65eb6875342f438560c99e6c" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              const std::string&amp; taskName,
+              std::size_t priority,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Add a linear task in the solver.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8357aa4b53db64ac10d9065f98203320" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Set the weightProvider associated to an already existing task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a62ce954d5b8064b6bb4148b65d81c628" class="m-doc">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const -&gt; std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a418b0e0b18f2f99ca55b88829e031898" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Set the weight associated to an already existing task.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a93ccdd021104e971a0741897124dd943" class="m-doc">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const -&gt; std::weak_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the weightProvider associated to an already existing task.</dd>
             <dt>
@@ -166,14 +178,14 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a2858997d7e7a47d2f602d1a158a49800"><div>
+          <section class="m-doc-details" id="a7666e60ae056992a39f56eddd1134d75"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2858997d7e7a47d2f602d1a158a49800" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7666e60ae056992a39f56eddd1134d75" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">override</span></span></span>
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider = nullptr) <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>Add a linear task in the inverse kinematics.</p>
+            <p>Add a linear task in the solver.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -185,7 +197,46 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                 </tr>
                 <tr>
                   <td>taskName</td>
-                  <td></td>
+                  <td>unique name associated to the task.</td>
+                </tr>
+                <tr>
+                  <td>priority</td>
+                  <td>Priority associated to the task. The lower the number the higher the priority.</td>
+                </tr>
+                <tr>
+                  <td>weightProvider</td>
+                  <td>Weight provider associated to the task. This parameter is optional. The default value is an object that does not contain any value. The user may avoid to pass a provider only if the priority of the task is equal to 0.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the task has been added to the solver.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>The QPTSID cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p><p>The QPTSID can handle only priority equal to 0 and 1. 0 means high priority while 1 low priority.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2b0c765e65eb6875342f438560c99e6c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2b0c765e65eb6875342f438560c99e6c" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              const std::string&amp; taskName,
+              std::size_t priority,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Add a linear task in the solver.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">task</td>
+                  <td>pointer to a given linear task</td>
+                </tr>
+                <tr>
+                  <td>taskName</td>
+                  <td>unique name associated to the task.</td>
                 </tr>
                 <tr>
                   <td>priority</td>
@@ -193,22 +244,22 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                 </tr>
                 <tr>
                   <td>weight</td>
-                  <td>weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight.</td>
+                  <td>Weight associated to the task.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>true if the task has been added to the inverse kinematics.</td>
+                  <td>true if the task has been added to the solver.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>currently we support only task with priority 0 or 1. If the priority is set to 0 the task will be considered as a constraint. In this case the weight is not required.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a> cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>The solver assumes the weight is a constant value.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a> cannot handle inequality tasks (please check Task::Type) with priority equal to 1.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ad57e1665b2cc4806241841d6c097bdad"><div>
+          <section class="m-doc-details" id="a8357aa4b53db64ac10d9065f98203320"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad57e1665b2cc4806241841d6c097bdad" class="m-doc-self">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; weightProvider) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8357aa4b53db64ac10d9065f98203320" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Set the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -222,7 +273,7 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
                 </tr>
                 <tr>
                   <td>weightProvider</td>
-                  <td>new Weight provider associated to the task.</td>
+                  <td>new weight provider associated to the task.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -233,9 +284,37 @@ Architectures for Position and Velocity Controlled Walking of Humanoid Robots&qu
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a62ce954d5b8064b6bb4148b65d81c628"><div>
+          <section class="m-doc-details" id="a418b0e0b18f2f99ca55b88829e031898"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">System::<wbr />IWeightProvider</a>&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a62ce954d5b8064b6bb4148b65d81c628" class="m-doc-self">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a418b0e0b18f2f99ca55b88829e031898" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Set the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>new Weight associated to the task. A constant weight is assumed.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the weight has been updated</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a93ccdd021104e971a0741897124dd943"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a93ccdd021104e971a0741897124dd943" class="m-doc-self">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Get the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">

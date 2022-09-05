@@ -112,9 +112,9 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              struct <a href="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a>
+              class <a href="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a>
             </dt>
-            <dd><a href="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a> describes the provider for a constant weight.</dd>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider.html" class="m-doc">ConstantWeightProvider</a> describes the provider for a constant weight.</dd>
             <dt>
               class <a href="classBipedalLocomotion_1_1System_1_1IClock.html" class="m-doc">IClock</a>
             </dt>
@@ -129,17 +129,23 @@
             </dt>
             <dd><a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">ILinearTaskSolver</a> describes the interface for solving problem related to <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> class.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;class _Input&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1InputPort.html" class="m-doc">InputPort</a>
+            </dt>
+            <dd>Basic class that represents an input port.</dd>
+            <dt>
               struct <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">ITaskControllerManager</a>
             </dt>
             <dd><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">ITaskControllerManager</a> is an interface that can help you to handle tasks containing controllers.</dd>
             <dt>
-              struct <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>
-            </dt>
-            <dd><a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a> describes the interface for a provider that produces the weight for a <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver</a>.</dd>
-            <dt>
               class <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> describes a Linear Task element.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class _Output&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1OutputPort.html" class="m-doc">OutputPort</a>
+            </dt>
+            <dd>Basic class that represents an output port.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
               class <a href="classBipedalLocomotion_1_1System_1_1SharedResource.html" class="m-doc">SharedResource</a>
@@ -167,6 +173,10 @@
               class <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">VariablesHandler</a>
             </dt>
             <dd>VariableHandler is useful to handle variables in an optimization problem, Their name, dimension and position.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1System_1_1WeightProvider.html" class="m-doc">WeightProvider</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1System_1_1WeightProvider.html" class="m-doc">WeightProvider</a> describes the provider for a weight.</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -176,6 +186,10 @@
               using <a href="Advanceable_8h.html#a1558f6843cd1a0f40215a6364b0af652" class="m-doc">EmptySignal</a> = std::monostate
             </dt>
             <dd>Type that can be used to described an empty signal.</dd>
+            <dt>
+              using <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">WeightProviderPort</a> = <a href="classBipedalLocomotion_1_1System_1_1OutputPort.html" class="m-doc">OutputPort</a>&lt;Eigen::VectorXd&gt;
+            </dt>
+            <dd>WeightProviderPort port representing the weight.</dd>
           </dl>
         </section>
         <section id="func-members">

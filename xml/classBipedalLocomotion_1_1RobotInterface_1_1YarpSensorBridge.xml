@@ -132,7 +132,7 @@
         <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
@@ -167,7 +167,7 @@
         <definition>const SensorBridgeMetaData&amp; BipedalLocomotion::RobotInterface::YarpSensorBridge::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the object. </para>
         </briefdescription>
@@ -2418,6 +2418,10 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::RobotInterface::YarpSensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge"/>
@@ -2431,7 +2435,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="5" relation="template-instance">
+        <childnode refid="7" relation="template-instance">
           <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
       </node>
@@ -2440,24 +2444,40 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge"/>
       </node>
       <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::RobotInterface::YarpSensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge"/>
@@ -2471,7 +2491,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="5" relation="template-instance">
+        <childnode refid="7" relation="template-instance">
           <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
       </node>
@@ -2480,27 +2500,39 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge"/>
       </node>
       <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" line="80" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridge.h" bodystart="82" bodyend="581"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aad1e2cb1e5594bd5a7cddeec3f1b3054" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a5142cbe32cde1a63595df4da1cb147e1" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrench</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab2b8a502338624b417a7efcd5aa2e477" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrenchesList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a88be8bc5ef96fd1228b7144a057b573f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getCartesianWrenchesList</name></member>
@@ -2554,17 +2586,17 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06e36c7b2258609c441afaf786a8992c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab9502b971b0c4e73ccee06b037f80fb2" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>getThreeAxisForceTorqueSensorsList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a39a23630c63ebb2b148f355627f826c9" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aacdd7b5dabf1273290cf286dab96f26a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ac399abaa3e071481a313cac6df96efd9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>OptionalDoubleRef</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1af951b34d0b4ff5dd51a23bf40dad488d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeMetaDataFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a75a4cacac8252789fa054a20a548ba75" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorBridgeOptionsFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad81d1c091fa178daf1489060c3b4756c" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>populateSensorListsFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7e67bd6969608baa82270d73aa218ea3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setDriversList</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a07594468078e3f666d7a44a6fb33e1c4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>shared_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a3b4b4107634a981037efa760f91937aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>unique_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a7435078b3d7458dfff6c9e4eb43a98b3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>Vector12d</name></member>
@@ -2572,7 +2604,9 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a57a14eeec8ad23a41886c52b11de434b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>weak_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a0f0d17374245fa901c0d74b8f7f404f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>YarpSensorBridge</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aecfb22aae3634befc8dc3b3592325484" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~ISensorBridge</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~Source</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ad140d8706d86b037715d283cae1eca0f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge</scope><name>~YarpSensorBridge</name></member>
     </listofallmembers>

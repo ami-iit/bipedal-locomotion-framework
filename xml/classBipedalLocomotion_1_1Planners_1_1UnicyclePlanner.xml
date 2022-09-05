@@ -239,9 +239,9 @@
         <definition>const UnicyclePlannerOutput&amp; BipedalLocomotion::Planners::UnicyclePlanner::getOutput</definition>
         <argsstring>() const override</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
-<para>Get the output of the advanceable. </para>
+<para>Get the output of the port. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>a const reference of the requested object. </para>
@@ -257,7 +257,7 @@
         <definition>bool BipedalLocomotion::Planners::UnicyclePlanner::isOutputValid</definition>
         <argsstring>() const override</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4" kindref="member">getOutput()</ref> </para>
         </briefdescription>
@@ -311,10 +311,18 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
@@ -324,16 +332,32 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
@@ -343,25 +367,35 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/Planners/UnicyclePlanner.h" line="107" column="1" bodyfile="BipedalLocomotion/Planners/UnicyclePlanner.h" bodystart="109" bodyend="163"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a2c3b23ca0652a619ec21a2f5e9b96cb6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>m_pImpl</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a51e36afda11214c32d11ffe3b11705f7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;::"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;::"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ac706d460e5f941553ce81dcce3710c3f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>UnicyclePlanner</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1aa90a125b2219a7848a633d837e8ba230" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicyclePlanner</scope><name>~UnicyclePlanner</name></member>
     </listofallmembers>
   </compounddef>

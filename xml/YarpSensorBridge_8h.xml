@@ -20,8 +20,12 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
-      <node id="12">
+      <node id="14">
         <label>BipedalLocomotion/RobotInterface/ISensorBridge.h</label>
         <link refid="ISensorBridge_8h"/>
         <childnode refid="2" relation="include">
@@ -32,11 +36,11 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -63,7 +67,7 @@
       <node id="10">
         <label>string</label>
       </node>
-      <node id="14">
+      <node id="16">
         <label>Eigen/Dense</label>
       </node>
       <node id="4">
@@ -76,6 +80,10 @@
         <label>yarp/dev/PolyDriverList.h</label>
       </node>
       <node id="13">
+        <label>BipedalLocomotion/System/OutputPort.h</label>
+        <link refid="OutputPort_8h"/>
+      </node>
+      <node id="15">
         <label>unordered_map</label>
       </node>
       <node id="1">
@@ -91,8 +99,12 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/System/InputPort.h</label>
+        <link refid="InputPort_8h"/>
       </node>
       <node id="3">
         <label>memory</label>

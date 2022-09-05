@@ -12,6 +12,7 @@
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::Integrator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal">BipedalLocomotion::ContinuousDynamicalSystem::internal</innernamespace>
     <briefdescription>
     </briefdescription>

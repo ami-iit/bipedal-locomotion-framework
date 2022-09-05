@@ -141,7 +141,7 @@
         <definition>bool BipedalLocomotion::Contacts::ContactDetector::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" kindref="member">get()</ref> </para>
         </briefdescription>
@@ -159,7 +159,7 @@
         <definition>const EstimatedContactList&amp; BipedalLocomotion::Contacts::ContactDetector::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get contact states. </para>
         </briefdescription>
@@ -320,7 +320,11 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="6">
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion::Contacts::FixedFootDetector</label>
         <link refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector"/>
         <childnode refid="1" relation="public-inheritance">
@@ -331,19 +335,27 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="9">
         <label>BipedalLocomotion::Contacts::SchmittTriggerDetector</label>
         <link refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
@@ -354,40 +366,48 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::Contacts::EstimatedContact</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
-        <childnode refid="8" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="14">
         <label>K</label>
       </node>
-      <node id="13">
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="15">
         <label>T</label>
       </node>
-      <node id="11">
+      <node id="13">
         <label>std::unordered_map&lt; K, T &gt;</label>
-        <childnode refid="12" relation="usage">
+        <childnode refid="14" relation="usage">
           <edgelabel>keys</edgelabel>
         </childnode>
-        <childnode refid="13" relation="usage">
+        <childnode refid="15" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="10">
+      <node id="12">
         <label>std::basic_string&lt; Char &gt;</label>
       </node>
       <node id="2">
@@ -395,33 +415,41 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="8">
         <label>std::unordered_map&lt; std::string, Contacts::EstimatedContact &gt;</label>
-        <childnode refid="7" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
-        <childnode refid="9" relation="usage">
+        <childnode refid="11" relation="usage">
           <edgelabel>keys</edgelabel>
         </childnode>
-        <childnode refid="11" relation="template-instance">
+        <childnode refid="13" relation="template-instance">
           <edgelabel>&lt; std::string, Contacts::EstimatedContact &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="10">
         <label>BipedalLocomotion::Contacts::ContactBase</label>
         <link refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase"/>
-        <childnode refid="9" relation="usage">
+        <childnode refid="11" relation="usage">
           <edgelabel>name</edgelabel>
         </childnode>
       </node>
@@ -430,47 +458,53 @@
         <link refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>m_contactStates</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>std::string</label>
-        <childnode refid="10" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="24" column="1" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="25" bodyend="105"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad1abbcb2664c44fbc2b5274b3317089a" prot="protected" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>m_contactStates</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af9644dfa23468dd4c37532600c491810" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>m_detectorState</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a11bf662e6ea3ac76dcc4767172bf6adb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>resetContacts</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a2d43086e84e475eaec9adeb9575dea84" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1aa14726515b605a427ef50a37ac7e7646" prot="protected" virt="pure-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>updateContactStates</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~ContactDetector</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>

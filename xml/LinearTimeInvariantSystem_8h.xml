@@ -71,6 +71,12 @@
       <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
         <link refid="FirstOrderSmoother_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
+        <link refid="MultiStateWeightProvider_8h"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>

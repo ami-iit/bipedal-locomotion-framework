@@ -281,7 +281,7 @@
         <definition>const RecursiveLeastSquareState&amp; BipedalLocomotion::Estimators::RecursiveLeastSquare::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the expected value and the covariance matrix of the estimated parameters. </para>
         </briefdescription>
@@ -299,7 +299,7 @@
         <definition>bool BipedalLocomotion::Estimators::RecursiveLeastSquare::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
@@ -318,14 +318,22 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Source&lt; RecursiveLeastSquareState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; RecursiveLeastSquareState &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::Estimators::RecursiveLeastSquare</label>
@@ -333,33 +341,49 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Source&lt; RecursiveLeastSquareState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; RecursiveLeastSquareState &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::Estimators::RecursiveLeastSquare</label>
@@ -367,31 +391,39 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/Estimators/RecursiveLeastSquare.h" line="36" column="1" bodyfile="BipedalLocomotion/Estimators/RecursiveLeastSquare.h" bodystart="37" bodyend="135"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a24cd1a3554e663f9745152f1aa7f3360" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a8560d01b521beb3e1564071d05bf9f8e" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a0bb457e9ead4d3c7d62aab47457de1f8" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a7d9bea401a1490a1c3074773a7d0f31a" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a3d1a4947f04c6ce03bff0e74edacb15a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>m_estimatorState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a0a6e8b93c3a4106afdcb9d4fa146be06" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>m_kalmanGain</name></member>
@@ -401,14 +433,16 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a4e45121751f2a6a499a98d6530c8b023" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>m_regressor</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1ab0ad099e2968a6cbef98adafea5c5473" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>m_regressorFunction</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a09c84f970421fa9c680dcbd8d423c106" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>m_state</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a676c2e41954b046a6491b83d5daa8a01" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setMeasurements</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1ac29279c5794195e4fb8e709c57a884fa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setRegressor</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a82b462c0e3cbbb9d3d45865238a7613a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>setRegressorFunction</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a3b7f002a1677d08f574495ce9274ceed" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RecursiveLeastSquare</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>

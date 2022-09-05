@@ -9,15 +9,17 @@
     <innerfile refid="ConstantWeightProvider_8h">ConstantWeightProvider.h</innerfile>
     <innerfile refid="IClock_8h">IClock.h</innerfile>
     <innerfile refid="ILinearTaskSolver_8h">ILinearTaskSolver.h</innerfile>
+    <innerfile refid="InputPort_8h">InputPort.h</innerfile>
     <innerfile refid="ITaskControllerManager_8h">ITaskControllerManager.h</innerfile>
-    <innerfile refid="IWeightProvider_8h">IWeightProvider.h</innerfile>
     <innerfile refid="LinearTask_8h">LinearTask.h</innerfile>
+    <innerfile refid="OutputPort_8h">OutputPort.h</innerfile>
     <innerfile refid="QuitHandler_8h">QuitHandler.h</innerfile>
     <innerfile refid="SharedResource_8h">SharedResource.h</innerfile>
     <innerfile refid="Sink_8h">Sink.h</innerfile>
     <innerfile refid="Source_8h">Source.h</innerfile>
     <innerfile refid="StdClock_8h">StdClock.h</innerfile>
     <innerfile refid="VariablesHandler_8h">VariablesHandler.h</innerfile>
+    <innerfile refid="WeightProvider_8h">WeightProvider.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

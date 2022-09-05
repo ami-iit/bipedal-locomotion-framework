@@ -30,9 +30,9 @@
         <definition>const EmptySignal&amp; BipedalLocomotion::System::Sink&lt; Input &gt;::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
-<para>Get the output of the advanceable. </para>
+<para>Get the output of the port. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>a const reference of the requested object. </para>
@@ -48,7 +48,7 @@
         <definition>bool BipedalLocomotion::System::Sink&lt; Input &gt;::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1System_1_1Sink_1a4f83834c9269c31074e5a7e35ddb5f99" kindref="member">getOutput()</ref> </para>
         </briefdescription>
@@ -85,9 +85,17 @@
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; Input, EmptySignal &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::System::Sink&lt; Input &gt;</label>
@@ -95,18 +103,34 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; Input, EmptySignal &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::System::Sink&lt; Input &gt;</label>
@@ -114,23 +138,33 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/System/Sink.h" line="22" column="12" bodyfile="BipedalLocomotion/System/Sink.h" bodystart="23" bodyend="37"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a4f83834c9269c31074e5a7e35ddb5f99" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a6228f114c0fc428501649d4c13ae5cb8" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a76e236d8e9d44b6c0100108b9421a842" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>m_out</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1adb2b9dd914f4b55afd3382e7b62d85cc" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~Sink</name></member>
     </listofallmembers>
   </compounddef>

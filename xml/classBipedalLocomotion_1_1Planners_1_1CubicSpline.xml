@@ -393,7 +393,7 @@
         <definition>const SplineState&amp; BipedalLocomotion::Planners::CubicSpline::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the state of the system. </para>
         </briefdescription>
@@ -413,7 +413,7 @@
         <definition>bool BipedalLocomotion::Planners::CubicSpline::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
@@ -455,11 +455,19 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::Planners::CubicSpline</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="2">
         <label>BipedalLocomotion::Planners::Spline</label>
@@ -472,34 +480,50 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="5" relation="template-instance">
+        <childnode refid="7" relation="template-instance">
           <edgelabel>&lt; SplineState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::Planners::CubicSpline</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="2">
         <label>BipedalLocomotion::Planners::Spline</label>
@@ -512,51 +536,61 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
-        <childnode refid="5" relation="template-instance">
+        <childnode refid="7" relation="template-instance">
           <edgelabel>&lt; SplineState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/Planners/CubicSpline.h" line="25" column="1" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="26" bodyend="140"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>CubicSpline</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>m_pimpl</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1acbee3fa75198f035fe81ee91745c8799" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setAdvanceTimeStep</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setKnots</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~CubicSpline</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Source</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Spline</name></member>
     </listofallmembers>

@@ -122,19 +122,31 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3edb86718a427c3de1489923f273452a" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              <span class="m-doc-wrap-bumper">auto <a href="#a2aa760519d2a9a20045d27ca97cc1d8f" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider = nullptr) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Add a linear task in the solver.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa2edbdf2f38c063a1bfcd519883d813b" class="m-doc">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>&gt; weightProvider) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa120f4a6ec30a664c29b0acfcca7730d" class="m-doc">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              const std::string&amp; taskName,
+              std::size_t priority,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Add a linear task in the solver.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3de5b3fbd5d68247e799e4dd36f610cf" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">WeightProviderPort</a>&gt; weightProvider) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Set the weightProvider associated to an already existing task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ac7055685c9244cb10fc0cfd42dfb59e2" class="m-doc">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const -&gt; std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aaf4d7e4a163df3f4939d119f002302d6" class="m-doc">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the weight associated to an already existing task.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a216c5bf1a5a79f6b4f0fad6939a8087b" class="m-doc">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const -&gt; std::weak_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">WeightProviderPort</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get the weightProvider associated to an already existing task.</dd>
             <dt>
@@ -161,15 +173,56 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a3edb86718a427c3de1489923f273452a"><div>
+          <section class="m-doc-details" id="a2aa760519d2a9a20045d27ca97cc1d8f"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Task, class _State&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3edb86718a427c3de1489923f273452a" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2aa760519d2a9a20045d27ca97cc1d8f" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
               const std::string&amp; taskName,
               std::size_t priority,
-              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; weight = {}) <span class="m-label m-warning">pure virtual</span></span></span>
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">System::<wbr />WeightProviderPort</a>&gt; weightProvider = nullptr) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Add a linear task in the solver.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">task</td>
+                  <td>pointer to a given linear task</td>
+                </tr>
+                <tr>
+                  <td>taskName</td>
+                  <td>unique name associated to the task.</td>
+                </tr>
+                <tr>
+                  <td>priority</td>
+                  <td>Priority associated to the task. The lower the number the higher the priority.</td>
+                </tr>
+                <tr>
+                  <td>weightProvider</td>
+                  <td>Weight provider associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid provider.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the task has been added to the solver.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa120f4a6ec30a664c29b0acfcca7730d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Task, class _State&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa120f4a6ec30a664c29b0acfcca7730d" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,
+              const std::string&amp; taskName,
+              std::size_t priority,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Add a linear task in the solver.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -191,24 +244,25 @@
                 </tr>
                 <tr>
                   <td>weight</td>
-                  <td>Weight associated to the task. This parameter is optional. The default value is an object that does not contain any value. So is an invalid weight.</td>
+                  <td>Weight associated to the task.</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>true if the task has been added to the inverse kinematics.</td>
+                  <td>true if the task has been added to the solver.</td>
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The solver assumes the weight is a constant value.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa2edbdf2f38c063a1bfcd519883d813b"><div>
+          <section class="m-doc-details" id="a3de5b3fbd5d68247e799e4dd36f610cf"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Task, class _State&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa2edbdf2f38c063a1bfcd519883d813b" class="m-doc-self">setTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
-              std::shared_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>&gt; weightProvider) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3de5b3fbd5d68247e799e4dd36f610cf" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              std::shared_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">WeightProviderPort</a>&gt; weightProvider) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Set the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -222,7 +276,7 @@
                 </tr>
                 <tr>
                   <td>weightProvider</td>
-                  <td>new Weight provider associated to the task.</td>
+                  <td>new weight provider associated to the task.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -233,12 +287,43 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ac7055685c9244cb10fc0cfd42dfb59e2"><div>
+          <section class="m-doc-details" id="aaf4d7e4a163df3f4939d119f002302d6"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Task, class _State&gt;
               </div>
-              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;const <a href="structBipedalLocomotion_1_1System_1_1IWeightProvider.html" class="m-doc">IWeightProvider</a>&gt; BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac7055685c9244cb10fc0cfd42dfb59e2" class="m-doc-self">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaf4d7e4a163df3f4939d119f002302d6" class="m-doc-self">setTaskWeight</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; weight) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the weight associated to an already existing task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">taskName</td>
+                  <td>name associated to the task</td>
+                </tr>
+                <tr>
+                  <td>weight</td>
+                  <td>new Weight associated to the task. A constant weight is assumed.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the weight has been updated</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a216c5bf1a5a79f6b4f0fad6939a8087b"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _Task, class _State&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">std::weak_ptr&lt;const <a href="ILinearTaskSolver_8h.html#aa0b9c4f50fc80885f1a6401dba73ad50" class="m-doc">WeightProviderPort</a>&gt; BipedalLocomotion::<wbr />System::<wbr />ILinearTaskSolver&lt;_Task, _State&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a216c5bf1a5a79f6b4f0fad6939a8087b" class="m-doc-self">getTaskWeightProvider</a>(</span><span class="m-doc-wrap">const std::string&amp; taskName) const <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Get the weightProvider associated to an already existing task.</p>
             <table class="m-table m-fullwidth m-flat">

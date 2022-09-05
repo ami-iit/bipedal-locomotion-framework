@@ -1,15 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
   <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class"><name>BipedalLocomotion::System::Advanceable</name>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" kind="typedef"><name>Input</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" kind="typedef"><name>Output</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" kind="typedef"><name>Input</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" kind="typedef"><name>Output</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" kind="function"><name>~Advanceable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3" kind="function"><name>getOutput</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" kind="function"><name>setInput</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" kind="function"><name>advance</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" kind="function"><name>close</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" kind="function"><name>close</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" kind="class"><name>BipedalLocomotion::System::AdvanceableRunner</name>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ab8c0fcc548344a3a24e1b02cfa9001f1" kind="typedef"><name>Input</name></member>
@@ -225,12 +222,14 @@
     <member refid="structBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPControllerInput_1ade2ca6b8502e354013c8bdd73e34067b" kind="variable"><name>ZMPPosition</name></member>
     <member refid="structBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPControllerInput_1a2af2568751de29ef1a28b5bad1e6164d" kind="variable"><name>angle</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider" kind="struct"><name>BipedalLocomotion::System::ConstantWeightProvider</name>
-    <member refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a16e29eb4f6f4db47f205970bcadc4048" kind="variable"><name>weight</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1ad971c451803fef96351eabe8064a20fb" kind="function"><name>ConstantWeightProvider</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a0596c3dbbd298d2a9f6db292b982f315" kind="function"><name>ConstantWeightProvider</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a7cda22fd99324e914a9a3146f8464cb3" kind="function"><name>getWeight</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1aed53604f9c900422214806962afe0b3b" kind="function"><name>initialize</name></member>
+  <compound refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider" kind="class"><name>BipedalLocomotion::System::ConstantWeightProvider</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a8af3d86471233a1a57633c3262cd1147" kind="variable"><name>m_weight</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1ad971c451803fef96351eabe8064a20fb" kind="function"><name>ConstantWeightProvider</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a0596c3dbbd298d2a9f6db292b982f315" kind="function"><name>ConstantWeightProvider</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a6ba39666e1bede14a4260038893c9c75" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a16bdab064ee802587c20b12ccf0d5c62" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a3391c4ce67dea1bde179f87c61c09c58" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1aaba05ecaf62d01329c1154ee7b11325f" kind="function"><name>initialize</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" kind="struct"><name>BipedalLocomotion::Contacts::ContactBase</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1aff58e7de425dabd599c896b6090fe861" kind="variable"><name>pose</name></member>
@@ -690,9 +689,11 @@
   <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kind="class"><name>BipedalLocomotion::System::ILinearTaskSolver</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" kind="typedef"><name>Task</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a770b4595f008dbc6ae50e2889639df12" kind="typedef"><name>State</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3edb86718a427c3de1489923f273452a" kind="function"><name>addTask</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa2edbdf2f38c063a1bfcd519883d813b" kind="function"><name>setTaskWeightProvider</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1ac7055685c9244cb10fc0cfd42dfb59e2" kind="function"><name>getTaskWeightProvider</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a2aa760519d2a9a20045d27ca97cc1d8f" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa120f4a6ec30a664c29b0acfcca7730d" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a3de5b3fbd5d68247e799e4dd36f610cf" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aaf4d7e4a163df3f4939d119f002302d6" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a216c5bf1a5a79f6b4f0fad6939a8087b" kind="function"><name>getTaskWeightProvider</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a0b947d91a384c6ffab544b62857f181e" kind="function"><name>getTaskNames</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aab3c4a0555f5e1f98f7fbda7c200a7ed" kind="function"><name>finalize</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a1025c001495c8dd9e700dd562add7fea" kind="function"><name>getTask</name></member>
@@ -777,6 +778,11 @@
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a93014ed6d870ae71421d3f0f41414107" kind="variable"><name>deadlineMiss</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a0898353dc375b8db868b4fd8fb4b8e10" kind="variable"><name>dT</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a4827c731c7b02fbc85845286ef79841f" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1System_1_1InputPort" kind="class"><name>BipedalLocomotion::System::InputPort</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1adc7e6f59dd13c49f34ec04c1a4550a5a" kind="typedef"><name>Input</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" kind="function"><name>~InputPort</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" kind="function"><name>setInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" kind="class"><name>BipedalLocomotion::IK::IntegrationBasedIK</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" kind="function"><name>~IntegrationBasedIK</name></member>
@@ -951,10 +957,6 @@
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1aa60f879578f705c8e78c181970604988" kind="function"><name>setTaskControllerMode</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a43194fa6a058fa977c54f7aedf375c6b" kind="function"><name>getTaskControllerMode</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1ab1d59ede7af6334a2cb058d499546434" kind="function"><name>~ITaskControllerManager</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" kind="struct"><name>BipedalLocomotion::System::IWeightProvider</name>
-    <member refid="structBipedalLocomotion_1_1System_1_1IWeightProvider_1afe67e06d9a6e4c143d14af3840c489ca" kind="function"><name>getWeight</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1IWeightProvider_1a50c9b15b55ec75c13e367da8885b3228" kind="function"><name>~IWeightProvider</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::JointDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" kind="variable"><name>m_robotAccelerationVariable</name></member>
@@ -1141,6 +1143,16 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a813709765f09c219bc9456fb3e505d40" kind="function"><name>isKinDynValid</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a7189125d369002be7de07a5cef6e0d36" kind="function"><name>kinDyn</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1accdc36dbeab2f49f667ba16a1e6a17d3" kind="variable"><name>m_states</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1adc79ac8d99d7984102c9349c33d0a696" kind="variable"><name>m_smoother</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1ad46dbab464e8680510ff523a1d41383e" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a16cd88a66f84360f7e54929e88e28021" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a4145f74f5479a2c5dcada80c90b337cc" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a7d971ca498c751ee6a24bb27b0edbb8a" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a0957336abdfda330e80aec47c2d5429b" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a2de5cc8fedca73e0a615ba3f505534be" kind="function"><name>isOutputValid</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options" kind="struct"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options_1a47215fa1057791f8e403f2e9f8bdb4db" kind="variable"><name>imuBiasEstimationEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options_1aaeb5c17970034d9d2d3effb113dfa2f4" kind="variable"><name>staticImuBiasInitializationEnabled</name></member>
@@ -1155,6 +1167,12 @@
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1af789dffdb21035027c9a19a565c44adc" kind="variable"><name>stateStdDev</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1a72dd2002d9aff25904ba70c7bae3b2d8" kind="variable"><name>basePose</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Output_1aee1030b9489dc7d1b74f124f0478d206" kind="variable"><name>baseTwist</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1System_1_1OutputPort" kind="class"><name>BipedalLocomotion::System::OutputPort</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ab9150fecab94a5c4e06bc0579277d8c3" kind="typedef"><name>Output</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" kind="function"><name>~OutputPort</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a" kind="function"><name>isOutputValid</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData" kind="struct"><name>BipedalLocomotion::RobotInterface::PCLBridgeMetaData</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData_1a82396711aeecd07721acf9962cb33975" kind="variable"><name>pclDevList</name></member>
@@ -1212,9 +1230,11 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ae07de2d2f2e45f7cab298d77c7a32037" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5e8f8d2855c94ef0539815664b65a0fb" kind="function"><name>QPInverseKinematics</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ab66c09c2e12b3496f357018d0818e831" kind="function"><name>~QPInverseKinematics</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a2858997d7e7a47d2f602d1a158a49800" kind="function"><name>addTask</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ad57e1665b2cc4806241841d6c097bdad" kind="function"><name>setTaskWeightProvider</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a62ce954d5b8064b6bb4148b65d81c628" kind="function"><name>getTaskWeightProvider</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7666e60ae056992a39f56eddd1134d75" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a2b0c765e65eb6875342f438560c99e6c" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a8357aa4b53db64ac10d9065f98203320" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a418b0e0b18f2f99ca55b88829e031898" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a93ccdd021104e971a0741897124dd943" kind="function"><name>getTaskWeightProvider</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a345b7b00600b13be14c74bdb007c5362" kind="function"><name>finalize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1aea4524325aeaa138f0953b5bbf56e5b6" kind="function"><name>getTaskNames</name></member>
@@ -1229,9 +1249,11 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adb8db0bf0a0d8ea5903dadadaf5fbdcf" kind="function"><name>QPTSID</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" kind="function"><name>~QPTSID</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f665f8f9728b563bbaef77270773bf6" kind="function"><name>addTask</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a8f6dbf1f2fa73fab4e72ea4e0282cb61" kind="function"><name>setTaskWeightProvider</name></member>
-    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a40777a0ab00d75e32ab2a8537636344f" kind="function"><name>getTaskWeightProvider</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a876c8497d3bf307df0c9a4a3d0849aa4" kind="function"><name>addTask</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aae215634b3570c759197a08cf73dc787" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5" kind="function"><name>setTaskWeight</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1384c7afc1b98be5d6964aa89ef8ce1f" kind="function"><name>getTaskWeightProvider</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" kind="function"><name>getTaskNames</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" kind="function"><name>initialize</name></member>
@@ -1829,6 +1851,8 @@
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1ae1488b2f061a0cab4b8f29d574a896ed" kind="function"><name>toEigen</name></member>
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1a7a2101a9a20acfdb75a2b01e2701fb6c" kind="function"><name>toEigen</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1System_1_1WeightProvider" kind="struct"><name>BipedalLocomotion::System::WeightProvider</name>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface_1a571aab909fc2b837e6662118bff517ca" kind="variable"><name>sixAxisFTSensors</name></member>
   </compound>
@@ -2077,6 +2101,7 @@
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1System" kind="namespace"><name>BipedalLocomotion::System</name>
     <member refid="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" kind="typedef"><name>EmptySignal</name></member>
+    <member refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kind="typedef"><name>WeightProviderPort</name></member>
     <member refid="QuitHandler_8h_1a2e69b33ec2397a9c294c5d5ebbe79e3c" kind="function"><name>handleQuitSignals</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging" kind="namespace"><name>BipedalLocomotion::TextLogging</name>
@@ -2187,6 +2212,8 @@
   </compound>
   <compound refid="LinearTimeInvariantSystem_8h" kind="file"><name>LinearTimeInvariantSystem.h</name>
     <member refid="LinearTimeInvariantSystem_8h_1a65e67fed4641f8d1a11ce7a01e0197ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
+  </compound>
+  <compound refid="MultiStateWeightProvider_8h" kind="file"><name>MultiStateWeightProvider.h</name>
   </compound>
   <compound refid="CommonConversions_8h" kind="file"><name>CommonConversions.h</name>
     <member refid="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" kind="function"><name>toEigenPose</name></member>
@@ -2334,12 +2361,15 @@
   <compound refid="IClock_8h" kind="file"><name>IClock.h</name>
   </compound>
   <compound refid="ILinearTaskSolver_8h" kind="file"><name>ILinearTaskSolver.h</name>
+    <member refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kind="typedef"><name>WeightProviderPort</name></member>
+  </compound>
+  <compound refid="InputPort_8h" kind="file"><name>InputPort.h</name>
   </compound>
   <compound refid="ITaskControllerManager_8h" kind="file"><name>ITaskControllerManager.h</name>
   </compound>
-  <compound refid="IWeightProvider_8h" kind="file"><name>IWeightProvider.h</name>
-  </compound>
   <compound refid="LinearTask_8h" kind="file"><name>LinearTask.h</name>
+  </compound>
+  <compound refid="OutputPort_8h" kind="file"><name>OutputPort.h</name>
   </compound>
   <compound refid="QuitHandler_8h" kind="file"><name>QuitHandler.h</name>
     <member refid="QuitHandler_8h_1a2e69b33ec2397a9c294c5d5ebbe79e3c" kind="function"><name>handleQuitSignals</name></member>
@@ -2353,6 +2383,8 @@
   <compound refid="StdClock_8h" kind="file"><name>StdClock.h</name>
   </compound>
   <compound refid="VariablesHandler_8h" kind="file"><name>VariablesHandler.h</name>
+  </compound>
+  <compound refid="WeightProvider_8h" kind="file"><name>WeightProvider.h</name>
   </compound>
   <compound refid="YarpClock_8h" kind="file"><name>YarpClock.h</name>
   </compound>

@@ -218,7 +218,7 @@
         <definition>const Output&amp; BipedalLocomotion::SimplifiedModelControllers::CoMZMPController::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the the controller output. </para>
         </briefdescription>
@@ -236,7 +236,7 @@
         <definition>bool BipedalLocomotion::SimplifiedModelControllers::CoMZMPController::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a5413119cdc59bf3418e488057b539974" kindref="member">getOutput()</ref> </para>
         </briefdescription>
@@ -267,11 +267,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h" line="91" column="11"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::SimplifiedModelControllers::CoMZMPController::setInput</definition>
         <argsstring>(const Input &amp;input) final</argsstring>
         <name>setInput</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808">setInput</reimplements>
         <param>
           <type>const Input &amp;</type>
           <declname>input</declname>
@@ -470,6 +471,10 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</label>
         <link refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController"/>
@@ -479,16 +484,32 @@
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
+      <node id="3">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</label>
         <link refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController"/>
@@ -498,22 +519,34 @@
       <node id="2">
         <label>BipedalLocomotion::System::Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="3" relation="template-instance">
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h" line="60" column="1" bodyfile="BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h" bodystart="61" bodyend="152"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a6e2de7b972ea706c244a9e30dbc201ad" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a5413119cdc59bf3418e488057b539974" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ab1a46178a467229bd0dff042c206eaa9" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a331d69e7059d2622ccb84ff4f2246d37" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ab63183848ae5bc870491ac32158aaf42" prot="private" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>m_CoMGain</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ac56bb747c198aa97efe56663ad462b9e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>m_CoMPosition</name></member>
@@ -526,13 +559,14 @@
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ac97108cf58a02b8b487f178c441018e8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>m_isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a4bd93f84238551dc149719194f129334" prot="private" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>m_ZMPGain</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ab5c51ecc5163c7ad36cd69d37b4834a7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>m_ZMPPosition</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a0c45af7746393a65a16746190fb95bb4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setFeedback</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a2f64eb92484542b525a804da098e373a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setFeedback</name></member>
-      <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;::"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a95c89d15561a9fec8e9157a2198a405e" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a94ccaaa7d0d8c5c1bec44c14be1ec8de" prot="public" virt="non-virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</scope><name>~OutputPort</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

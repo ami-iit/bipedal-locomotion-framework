@@ -293,7 +293,7 @@
         <definition>const SwingFootPlannerState&amp; BipedalLocomotion::Planners::SwingFootPlanner::getOutput</definition>
         <argsstring>() const final</argsstring>
         <name>getOutput</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1acb7101ba6041f23f41c8e57bac66bcf3">getOutput</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
         <briefdescription>
 <para>Get the object. </para>
         </briefdescription>
@@ -311,7 +311,7 @@
         <definition>bool BipedalLocomotion::Planners::SwingFootPlanner::isOutputValid</definition>
         <argsstring>() const final</argsstring>
         <name>isOutputValid</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a8c610311fc29bbf2ef6cde6a979630c9">isOutputValid</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
 <para>Determines the validity of the object retrieved with get() </para>
         </briefdescription>
@@ -355,9 +355,17 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; SwingFootPlannerState &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::Planners::SwingFootPlanner</label>
@@ -365,22 +373,30 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -389,9 +405,17 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
-        <childnode refid="4" relation="template-instance">
+        <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; SwingFootPlannerState &gt;</edgelabel>
         </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion::Planners::SwingFootPlanner</label>
@@ -399,31 +423,39 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
     <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="42" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="43" bodyend="112"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>advance</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ad4907077d2d2c080166f621c1277560f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aee5c47374eb365a445abf15300ecaea6" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a83437d70b7000c155686ca51f7472888" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a11f2f1f64a11a1e80c1e37d8fda93e64" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_contactList</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1abbe64bad1f881b30483dfe2c880a0465" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_currentContactPtr</name></member>
@@ -435,12 +467,14 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_SO3Planner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a05f9acf196e6eb3d2065f348d168c54c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad22ed48af0c25891c140707a2308c350" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_stepHeight</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1af236fbc2dadf10f381326a70934e513f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab0702a02ddf314accd88d2a143583ab3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setContactList</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac6f4790829906750f4ed6d87c5776d73" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>updateSE3Traj</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~Source</name></member>
     </listofallmembers>
   </compounddef>

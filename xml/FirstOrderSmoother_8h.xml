@@ -7,6 +7,7 @@
     <includes refid="ForwardEuler_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
     <includes local="no">Eigen/Dense</includes>
+    <includedby refid="MultiStateWeightProvider_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</includedby>
     <incdepgraph>
       <node id="13">
         <label>iDynTree/Core/EigenHelpers.h</label>
@@ -29,6 +30,10 @@
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="21">
@@ -119,6 +124,10 @@
       <node id="4">
         <label>vector</label>
       </node>
+      <node id="23">
+        <label>BipedalLocomotion/System/OutputPort.h</label>
+        <link refid="OutputPort_8h"/>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
@@ -132,6 +141,10 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+      </node>
+      <node id="22">
+        <label>BipedalLocomotion/System/InputPort.h</label>
+        <link refid="InputPort_8h"/>
       </node>
       <node id="12">
         <label>type_traits</label>
@@ -152,6 +165,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
+        <link refid="MultiStateWeightProvider_8h"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>

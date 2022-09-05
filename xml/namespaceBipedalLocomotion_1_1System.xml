@@ -8,19 +8,21 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Barrier" prot="public">BipedalLocomotion::System::Barrier</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" prot="public">BipedalLocomotion::System::ClockBuilder</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1System_1_1ConstantWeightProvider" prot="public">BipedalLocomotion::System::ConstantWeightProvider</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider" prot="public">BipedalLocomotion::System::ConstantWeightProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public">BipedalLocomotion::System::IClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ClockFactory" prot="public">BipedalLocomotion::System::ClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" prot="public">BipedalLocomotion::System::ILinearTaskSolver</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1InputPort" prot="public">BipedalLocomotion::System::InputPort</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" prot="public">BipedalLocomotion::System::ITaskControllerManager</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" prot="public">BipedalLocomotion::System::IWeightProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public">BipedalLocomotion::System::LinearTask</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1OutputPort" prot="public">BipedalLocomotion::System::OutputPort</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1SharedResource" prot="public">BipedalLocomotion::System::SharedResource</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Sink" prot="public">BipedalLocomotion::System::Sink</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Source" prot="public">BipedalLocomotion::System::Source</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClock" prot="public">BipedalLocomotion::System::StdClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClockFactory" prot="public">BipedalLocomotion::System::StdClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" prot="public">BipedalLocomotion::System::VariablesHandler</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1WeightProvider" prot="public">BipedalLocomotion::System::WeightProvider</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" prot="public" static="no">
         <type>std::monostate</type>
@@ -35,7 +37,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Advanceable.h" line="23" column="1" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="23" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Advanceable.h" line="25" column="1" bodyfile="BipedalLocomotion/System/Advanceable.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1OutputPort" kindref="compound">OutputPort</ref>&lt; Eigen::VectorXd &gt;</type>
+        <definition>using BipedalLocomotion::System::WeightProviderPort = typedef OutputPort&lt;Eigen::VectorXd&gt;</definition>
+        <argsstring></argsstring>
+        <name>WeightProviderPort</name>
+        <briefdescription>
+<para>WeightProviderPort port representing the weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskSolver.h" line="32" column="1" bodyfile="BipedalLocomotion/System/ILinearTaskSolver.h" bodystart="32" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
