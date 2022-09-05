@@ -3,7 +3,12 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 ### Added
+- Implement the `MultiStateWeightProvider` in `ContinuousDynamicalSystem` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
+- Implement `PortInput` and `PortOutput`in `System` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
+
 ### Changed
+- Now `Advanceable` inherits from `PortInput` and `PortOutput` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
+
 ### Fix
 - Fix the dependency required to compile the YarpRobotLogger device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/554)
 - Fix the compatibility with fmt v9.0.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/556)

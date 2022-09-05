@@ -7,6 +7,7 @@
 
 #include <pybind11/pybind11.h>
 
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 #include <BipedalLocomotion/bindings/System/Clock.h>
 #include <BipedalLocomotion/bindings/System/IClock.h>
 #include <BipedalLocomotion/bindings/System/ITaskControllerManager.h>
@@ -25,13 +26,18 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "System module";
 
+    CreateSharedInputPort(module);
+    CreateSharedOutputPort(module);
+    CreateSharedSource(module);
+
     CreateVariablesHandler(module);
     CreateLinearTask(module);
     CreateITaskControllerManager(module);
     CreateIClock(module);
     CreateClockFactory(module);
     CreateClockBuilder(module);
-    CreateIWeightProvider(module);
+
+    CreateWeightProvider(module);
     CreateConstantWeightProvider(module);
 }
 } // namespace System

@@ -12,7 +12,7 @@ using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ParametersHandler;
 
 ConstantWeightProvider::ConstantWeightProvider(Eigen::Ref<const Eigen::VectorXd> weight)
-    : weight(weight)
+    : m_weight(weight)
 {
 }
 
@@ -27,7 +27,7 @@ bool ConstantWeightProvider::initialize(std::weak_ptr<const IParametersHandler> 
         return false;
     }
 
-    if (!ptr->getParameter("weight", weight))
+    if (!ptr->getParameter("weight", m_weight))
     {
         log()->error("{} Unable to get the parameter named 'weight'.", logPrefix);
         return false;
@@ -36,7 +36,17 @@ bool ConstantWeightProvider::initialize(std::weak_ptr<const IParametersHandler> 
     return true;
 }
 
-Eigen::Ref<const Eigen::VectorXd> ConstantWeightProvider::getWeight() const
+const Eigen::VectorXd& ConstantWeightProvider::getOutput() const
 {
-    return weight;
+    return m_weight;
+}
+
+bool ConstantWeightProvider::advance()
+{
+    return true;
+}
+
+bool ConstantWeightProvider::isOutputValid() const
+{
+    return m_weight.size() != 0;
 }

@@ -12,7 +12,7 @@
 
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/System/ConstantWeightProvider.h>
-#include <BipedalLocomotion/System/IWeightProvider.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::IK;
@@ -24,7 +24,7 @@ struct QPInverseKinematics::Impl
     {
         std::shared_ptr<QPInverseKinematics::Task> task;
         std::size_t priority;
-        std::shared_ptr<const System::IWeightProvider> weightProvider;
+        std::shared_ptr<const System::WeightProviderPort> weightProvider;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix usefull to reduce dynamics allocation
                                 in advance method */
     };
@@ -138,7 +138,18 @@ QPInverseKinematics::~QPInverseKinematics() = default;
 bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> task,
                                   const std::string& taskName,
                                   std::size_t priority,
-                                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
+                                  Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->addTask(task,
+                         taskName,
+                         priority,
+                         std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> task,
+                                  const std::string& taskName,
+                                  std::size_t priority,
+                                  std::shared_ptr<const System::WeightProviderPort> weightProvider)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::addTask]";
 
@@ -172,18 +183,30 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
     m_pimpl->tasks[taskName].task = task;
     m_pimpl->tasks[taskName].priority = priority;
 
-    // IF a weight the priority is 1 and the weight is provided means that the user wants to specify
-    // a constant weight in the task
-    if (priority == 1 && weight)
+    // If the priority is set to 1 the user has to provide the weight in terms of weight provider
+    if (priority == 1 && !weightProvider)
     {
-        if (weight.value().size() != task->size())
+        log()->error("{} - [Task name: '{}'] Please provide the associated weight. This is "
+                     "necessary since the priority of the task is equal to 1",
+                     logPrefix,
+                     taskName);
+
+        // erase the task since it is not valid
+        m_pimpl->tasks.erase(taskName);
+
+        return false;
+    }
+
+    if (priority == 1 && weightProvider)
+    {
+        if (weightProvider->getOutput().size() != task->size())
         {
             log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                          "size of the task. Expected: {}. Given: {}.",
                          logPrefix,
                          taskName,
                          m_pimpl->tasks[taskName].task->size(),
-                         weight.value().size());
+                         weightProvider->getOutput().size());
 
             // erase the task since it is not valid
             m_pimpl->tasks.erase(taskName);
@@ -192,7 +215,7 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
         }
 
         // add the weight In this case we assume that the weight will be constant
-        m_pimpl->tasks[taskName].weightProvider = std::make_shared<System::ConstantWeightProvider>(weight.value());
+        m_pimpl->tasks[taskName].weightProvider = weightProvider;
 
         // add the task to the list of the element that are used to build the cost function
         m_pimpl->costs.push_back(m_pimpl->tasks[taskName]);
@@ -207,10 +230,10 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
     return true;
 }
 
-bool QPInverseKinematics::setTaskWeightProvider(
-    const std::string& taskName, std::shared_ptr<const System::IWeightProvider> weightProvider)
+bool QPInverseKinematics::setTaskWeight(
+    const std::string& taskName, std::shared_ptr<const System::WeightProviderPort> weightProvider)
 {
-    constexpr auto logPrefix = "[QPInverseKinematics::setWeightProvider]";
+    constexpr auto logPrefix = "[QPInverseKinematics::setTaskWeight]";
 
     auto tmp = m_pimpl->tasks.find(taskName);
 
@@ -232,7 +255,7 @@ bool QPInverseKinematics::setTaskWeightProvider(
         return false;
     }
 
-    if (weightProvider == nullptr)
+    if (weightProvider == nullptr || !weightProvider->isOutputValid())
     {
         log()->error("{} - [Task name: '{}'] The weightProvider is not valid.",
                      logPrefix,
@@ -240,14 +263,14 @@ bool QPInverseKinematics::setTaskWeightProvider(
         return false;
     }
 
-    if (weightProvider->getWeight().size() != taskWithPriority.task->size())
+    if (weightProvider->getOutput().size() != taskWithPriority.task->size())
     {
         log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                      "size of the task. Expected: {}. Given: {}.",
                      logPrefix,
                      taskName,
                      taskWithPriority.task->size(),
-                     weightProvider->getWeight().size());
+                     weightProvider->getOutput().size());
         return false;
     }
 
@@ -257,7 +280,13 @@ bool QPInverseKinematics::setTaskWeightProvider(
     return true;
 }
 
-std::weak_ptr<const System::IWeightProvider>
+bool QPInverseKinematics::setTaskWeight(const std::string& taskName,
+                                        Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->setTaskWeight(taskName, std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+std::weak_ptr<const System::WeightProviderPort>
 QPInverseKinematics::getTaskWeightProvider(const std::string& taskName) const
 {
     constexpr auto logPrefix = "[QPInverseKinematics::getTaskWeightProvider]";
@@ -267,7 +296,7 @@ QPInverseKinematics::getTaskWeightProvider(const std::string& taskName) const
     if (!taskExist)
     {
         log()->error("{} The task named {} does not exist.", logPrefix, taskName);
-        return std::shared_ptr<System::IWeightProvider>();
+        return std::shared_ptr<System::WeightProviderPort>();
     }
 
     return taskWithPriority->second.weightProvider;
@@ -323,7 +352,7 @@ bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
         }
 
         cost.get().tmp.resize(handler.getNumberOfVariables(),
-                              cost.get().weightProvider->getWeight().size());
+                              cost.get().weightProvider->getOutput().size());
     }
 
     m_pimpl->solver.data()->setNumberOfVariables(handler.getNumberOfVariables());
@@ -403,7 +432,7 @@ bool QPInverseKinematics::advance()
 
         // Here we avoid to have dynamic allocation
         cost.get().tmp.noalias() = A.transpose() * //
-                                   cost.get().weightProvider->getWeight().asDiagonal();
+                                   cost.get().weightProvider->getOutput().asDiagonal();
         m_pimpl->hessian.noalias() += cost.get().tmp * A;
         m_pimpl->gradient.noalias() -= cost.get().tmp * b;
     }

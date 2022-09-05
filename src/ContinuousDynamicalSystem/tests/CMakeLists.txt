@@ -17,3 +17,8 @@ add_bipedal_test(
   NAME FirstOrderSmootherTest
   SOURCES FirstOrderSmoother.cpp
   LINKS BipedalLocomotion::ContinuousDynamicalSystem Eigen3::Eigen)
+
+add_bipedal_test(
+  NAME MultiStateWeightProviderTest
+  SOURCES MultiStateWeightProvider.cpp
+  LINKS BipedalLocomotion::ContinuousDynamicalSystem Eigen3::Eigen)

@@ -8,7 +8,6 @@
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H
 #define BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H
 
-#include "BipedalLocomotion/System/IWeightProvider.h"
 #include <memory>
 #include <optional>
 #include <string>
@@ -16,10 +15,9 @@
 
 #include <Eigen/Dense>
 
-#include <iDynTree/Core/MatrixView.h>
-
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/System/OutputPort.h>
 #include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
@@ -27,6 +25,11 @@ namespace BipedalLocomotion
 {
 namespace System
 {
+
+/**
+ * WeightProviderPort port representing the weight
+ */
+using WeightProviderPort = OutputPort<Eigen::VectorXd>;
 
 /**
  * ILinearTaskSolver describes the interface for solving problem related to LinearTask class. Please
@@ -48,24 +51,50 @@ public:
      * @param taskName unique name associated to the task.
      * @param priority Priority associated to the task. The lower the number the higher the
      * priority.
-     * @param weight Weight associated to the task. This parameter is optional. The default value is
-     * an object that does not contain any value. So is an invalid weight.
-     * @return true if the task has been added to the inverse kinematics.
+     * @param weightProvider Weight provider associated to the task. This parameter is optional. The
+     * default value is an object that does not contain any value. So is an invalid provider.
+     * @return true if the task has been added to the solver.
      */
     virtual bool addTask(std::shared_ptr<Task> task,
                          const std::string& taskName,
                          std::size_t priority,
-                         std::optional<Eigen::Ref<const Eigen::VectorXd>> weight = {})
+                         std::shared_ptr<const System::WeightProviderPort> weightProvider = nullptr)
+        = 0;
+
+    /**
+     * Add a linear task in the solver.
+     * @param task pointer to a given linear task
+     * @param taskName unique name associated to the task.
+     * @param priority Priority associated to the task. The lower the number the higher the
+     * priority.
+     * @param weight Weight associated to the task.
+     * @return true if the task has been added to the solver.
+     * @note The solver assumes the weight is a constant value.
+     */
+    virtual bool addTask(std::shared_ptr<Task> task,
+                         const std::string& taskName,
+                         std::size_t priority,
+                         Eigen::Ref<const Eigen::VectorXd> weight)
         = 0;
 
     /**
      * Set the weightProvider associated to an already existing task
      * @param taskName name associated to the task
-     * @param weightProvider new Weight provider associated to the task.
+     * @param weightProvider new weight provider associated to the task.
      * @return true if the weight has been updated
      */
-    virtual bool setTaskWeightProvider(const std::string& taskName,
-                                       std::shared_ptr<const IWeightProvider> weightProvider)
+    virtual bool setTaskWeight(const std::string& taskName,
+                               std::shared_ptr<const WeightProviderPort> weightProvider)
+        = 0;
+
+    /**
+     * Set the weight associated to an already existing task
+     * @param taskName name associated to the task
+     * @param weight new Weight associated to the task. A constant weight is assumed.
+     * @return true if the weight has been updated
+     */
+    virtual bool setTaskWeight(const std::string& taskName,
+                               Eigen::Ref<const Eigen::VectorXd> weight)
         = 0;
 
     /**
@@ -74,7 +103,7 @@ public:
      * @return a weak pointer to the weightProvider. If the task does not exist the pointer is not
      * lockable
      */
-    virtual std::weak_ptr<const IWeightProvider>
+    virtual std::weak_ptr<const WeightProviderPort>
     getTaskWeightProvider(const std::string& taskName) const = 0;
 
     /**

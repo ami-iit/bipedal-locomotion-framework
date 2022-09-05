@@ -12,10 +12,8 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/System/IWeightProvider.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <Eigen/src/Core/Matrix.h>
-
+#include <BipedalLocomotion/System/WeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -25,11 +23,12 @@ namespace System
 /**
  * ConstantWeightProvider describes the provider for a constant weight.
  */
-struct ConstantWeightProvider : public IWeightProvider
+class ConstantWeightProvider : public WeightProvider
 {
 
-    Eigen::VectorXd weight; /**< Vector representing the diagonal matrix of a weight */
+    Eigen::VectorXd m_weight; /**< Vector representing the diagonal matrix of a weight */
 
+public:
     /**
      * Default construct
      */
@@ -42,21 +41,32 @@ struct ConstantWeightProvider : public IWeightProvider
     ConstantWeightProvider(Eigen::Ref<const Eigen::VectorXd> weight);
 
     /**
+     * Since the weight is constant this will always return true and it does nothing
+     */
+    bool advance() final;
+
+    /**
      * Get the weight associated to the provider
      * @return A vector representing the diagonal matrix of the weight
      */
-    Eigen::Ref<const Eigen::VectorXd> getWeight() const final;
+    const Eigen::VectorXd& getOutput() const final;
+
+    /**
+     * Determines the validity of the weight
+     * @return True if the weight is valid, false otherwise.
+     */
+    bool isOutputValid() const final;
 
     /**
      * Initialize constant weight provider.
      * @param handler pointer to the parameter handler.
      * @note The following parameters are required:
-     * |  Parameter Name  |        Type      |                          Description                              | Mandatory |
+     * |  Parameter Name  |        Type      |                          Description | Mandatory |
      * |:----------------:|:----------------:|:-----------------------------------------------------------------:|:---------:|
      * |    `weight`      | `vector<double>` |  Vector representing the diagonal matrix of a constant weight     |    Yes    |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 };
 } // namespace System
 } // namespace BipedalLocomotion
