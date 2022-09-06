@@ -1,6 +1,6 @@
 /**
  * @file ManifConversions.h
- * @authors Prashanth Ramadoss
+ * @authors Prashanth Ramadoss Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -10,6 +10,8 @@
 
 #include <iDynTree/Core/Transform.h>
 #include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Core/Twist.h>
+
 #include <manif/manif.h>
 
 
@@ -98,6 +100,21 @@ namespace Conversions
     {
         return toManifRot(iDynTree::toEigen(R));
     }
+
+    /**
+     * @brief Convert iDynTree twist object to manif SE3Tangentd object
+     *
+     * @param twist reference to iDynTree twist object
+     * @return a twist as manif SE3Tangentd object
+     */
+    inline manif::SE3Tangentd toManifTwist(const iDynTree::Twist& twist)
+    {
+        manif::SE3Tangentd manifTwist;
+        manifTwist.lin() = iDynTree::toEigen(twist.getLinearVec3());
+        manifTwist.ang() = iDynTree::toEigen(twist.getAngularVec3());
+        return manifTwist;
+    }
+
 
 } // namespace Conversions
 } // namespace BipedalLocomotion
