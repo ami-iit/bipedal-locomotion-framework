@@ -131,10 +131,11 @@ public:
     /**
      * Set the desired set-point of the trajectory.
      * @param I_H_F Homogeneous transform between the link and the inertial frame.
-     * @param mixedVelocity 6D-velocity written in mixed representation.g
+     * @param mixedVelocity 6D-velocity written in mixed representation. The default value is zero.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity);
+    bool setSetPoint(const manif::SE3d& I_H_F,
+                     const manif::SE3d::Tangent& mixedVelocity = manif::SE3d::Tangent::Zero());
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

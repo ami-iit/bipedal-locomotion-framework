@@ -98,8 +98,6 @@ public:
      */
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
 
-
-
     /**
      * Update the content of the element.
      * @return True in case of success, false otherwise.
@@ -109,10 +107,12 @@ public:
     /**
      * Set the desired reference trajectory.
      * @param I_R_F Rotation between the link and the inertial frame.
-     * @param angularVelocity angular velocity written in mixed inertial frame.
+     * @param angularVelocity angular velocity written in mixed inertial frame. The default value is
+     * zero.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SO3d& I_R_F, const manif::SO3d::Tangent& angularVelocity);
+    bool setSetPoint(const manif::SO3d& I_R_F,
+                     const manif::SO3d::Tangent& angularVelocity = manif::SO3d::Tangent::Zero());
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

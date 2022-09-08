@@ -15,6 +15,8 @@
 
 #include <BipedalLocomotion/bindings/IK/SE3Task.h>
 
+#include <manif/manif.h>
+
 namespace BipedalLocomotion
 {
 namespace bindings
@@ -33,7 +35,10 @@ void CreateSE3Task(pybind11::module& module)
                BipedalLocomotion::System::ITaskControllerManager>(module, "SE3Task")
         .def(py::init())
         .def("set_kin_dyn", &SE3Task::setKinDyn, py::arg("kin_dyn"))
-        .def("set_set_point", &SE3Task::setSetPoint, py::arg("I_H_F"), py::arg("mixed_velocity"));
+        .def("set_set_point",
+             &SE3Task::setSetPoint,
+             py::arg("I_H_F"),
+             py::arg("mixed_velocity") = manif::SE3d::Tangent::Zero());
 }
 
 } // namespace IK
