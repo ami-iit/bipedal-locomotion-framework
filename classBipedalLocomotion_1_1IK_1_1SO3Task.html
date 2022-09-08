@@ -198,8 +198,8 @@ $SO(3)$
             </dt>
             <dd>Update the content of the element.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7cd4b01846c423d72cdabdecc6e34bf9" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
-              const manif::SO3d::Tangent&amp; angularVelocity) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aea8a99e6d0f7070dbc282ccc33f9c778" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
+              const manif::SO3d::Tangent&amp; angularVelocity = manif::SO3d::Tangent::Zero()) -&gt; bool</span>
             </dt>
             <dd>Set the desired reference trajectory.</dd>
             <dt>
@@ -303,10 +303,10 @@ $SO(3)$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a7cd4b01846c423d72cdabdecc6e34bf9"><div>
+          <section class="m-doc-details" id="aea8a99e6d0f7070dbc282ccc33f9c778"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SO3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7cd4b01846c423d72cdabdecc6e34bf9" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
-              const manif::SO3d::Tangent&amp; angularVelocity)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SO3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aea8a99e6d0f7070dbc282ccc33f9c778" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; I_R_F,
+              const manif::SO3d::Tangent&amp; angularVelocity = manif::SO3d::Tangent::Zero())</span></span>
             </h3>
             <p>Set the desired reference trajectory.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -320,7 +320,7 @@ $SO(3)$
                 </tr>
                 <tr>
                   <td>angularVelocity</td>
-                  <td>angular velocity written in mixed inertial frame.</td>
+                  <td>angular velocity written in mixed inertial frame. The default value is zero.</td>
                 </tr>
               </tbody>
               <tfoot>

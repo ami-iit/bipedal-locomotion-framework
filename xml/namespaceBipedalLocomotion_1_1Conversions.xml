@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="28" column="16" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="28" bodyend="34"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="29" column="12" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="29" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="ManifConversions_8h_1a0a64a78d62562574dd0466585928371e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SE3d</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="43" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="43" bodyend="49"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="44" column="20" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="44" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="ManifConversions_8h_1ac71646fdf92888d3f6897ae090ce0a9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SE3d</type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="57" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="57" bodyend="61"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="58" column="20" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="58" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="ManifConversions_8h_1af56866b8b1ef81c3e00c5b53939386d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="70" column="16" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="70" bodyend="75"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="69" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="69" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SO3d</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="84" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="84" bodyend="89"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="83" column="20" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="83" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>manif::SO3d</type>
@@ -270,7 +270,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="97" column="24" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="97" bodyend="100"/>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="96" column="20" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="ManifConversions_8h_1a2ee026f68afc3402f6b722614d595136" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>manif::SE3Tangentd</type>
+        <definition>manif::SE3Tangentd BipedalLocomotion::Conversions::toManifTwist</definition>
+        <argsstring>(const iDynTree::Twist &amp;twist)</argsstring>
+        <name>toManifTwist</name>
+        <param>
+          <type>const iDynTree::Twist &amp;</type>
+          <declname>twist</declname>
+        </param>
+        <briefdescription>
+<para>Convert iDynTree twist object to manif SE3Tangentd object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>twist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>reference to iDynTree twist object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a twist as manif SE3Tangentd object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="107" column="27" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="107" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>

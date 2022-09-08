@@ -80,7 +80,7 @@
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>Authors</h4><p>Prashanth Ramadoss</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
+<aside class="m-note m-default"><h4>Authors</h4><p>Prashanth Ramadoss Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
@@ -121,6 +121,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#aa3cbc74d297378895e4686cd4f8f3b3f" class="m-doc">toManifRot</a>(</span><span class="m-doc-wrap">const iDynTree::Rotation&amp; R) -&gt; manif::SO3d</span>
             </dt>
             <dd>Convert iDynTree rotation object to manif SE3d object.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2ee026f68afc3402f6b722614d595136" class="m-doc">toManifTwist</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist) -&gt; manif::SE3Tangentd</span>
+            </dt>
+            <dd>Convert iDynTree twist object to manif SE3Tangentd object.</dd>
           </dl>
         </section>
         <section>
@@ -275,6 +279,29 @@
                 <tr>
                   <th>Returns</th>
                   <td>pose as manif SO3d object</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2ee026f68afc3402f6b722614d595136"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">manif::SE3Tangentd </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2ee026f68afc3402f6b722614d595136" class="m-doc-self">toManifTwist</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist)</span></span>
+            </h3>
+            <p>Convert iDynTree twist object to manif SE3Tangentd object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">twist</td>
+                  <td>reference to iDynTree twist object</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a twist as manif SE3Tangentd object</td>
                 </tr>
               </tfoot>
             </table>

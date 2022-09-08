@@ -260,8 +260,8 @@ $SO(3) \times \mathbb{R}^3$
             </dt>
             <dd>Update the content of the element.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a48b6d97d451c83c6e27a07d5f77b8ea1" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; I_H_F,
-              const manif::SE3d::Tangent&amp; mixedVelocity) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab989b002a5acb6c9dc73e1c2e78e72cc" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; I_H_F,
+              const manif::SE3d::Tangent&amp; mixedVelocity = manif::SE3d::Tangent::Zero()) -&gt; bool</span>
             </dt>
             <dd>Set the desired set-point of the trajectory.</dd>
             <dt>
@@ -373,10 +373,10 @@ $SO(3) \times \mathbb{R}^3$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a48b6d97d451c83c6e27a07d5f77b8ea1"><div>
+          <section class="m-doc-details" id="ab989b002a5acb6c9dc73e1c2e78e72cc"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a48b6d97d451c83c6e27a07d5f77b8ea1" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; I_H_F,
-              const manif::SE3d::Tangent&amp; mixedVelocity)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab989b002a5acb6c9dc73e1c2e78e72cc" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; I_H_F,
+              const manif::SE3d::Tangent&amp; mixedVelocity = manif::SE3d::Tangent::Zero())</span></span>
             </h3>
             <p>Set the desired set-point of the trajectory.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -390,7 +390,7 @@ $SO(3) \times \mathbb{R}^3$
                 </tr>
                 <tr>
                   <td>mixedVelocity</td>
-                  <td>6D-velocity written in mixed representation.g</td>
+                  <td>6D-velocity written in mixed representation. The default value is zero.</td>
                 </tr>
               </tbody>
               <tfoot>

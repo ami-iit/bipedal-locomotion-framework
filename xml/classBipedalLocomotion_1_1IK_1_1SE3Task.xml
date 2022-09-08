@@ -382,10 +382,10 @@
         </inbodydescription>
         <location file="BipedalLocomotion/IK/SE3Task.h" line="129" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a48b6d97d451c83c6e27a07d5f77b8ea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab989b002a5acb6c9dc73e1c2e78e72cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SE3Task::setSetPoint</definition>
-        <argsstring>(const manif::SE3d &amp;I_H_F, const manif::SE3d::Tangent &amp;mixedVelocity)</argsstring>
+        <argsstring>(const manif::SE3d &amp;I_H_F, const manif::SE3d::Tangent &amp;mixedVelocity=manif::SE3d::Tangent::Zero())</argsstring>
         <name>setSetPoint</name>
         <param>
           <type>const manif::SE3d &amp;</type>
@@ -394,6 +394,7 @@
         <param>
           <type>const manif::SE3d::Tangent &amp;</type>
           <declname>mixedVelocity</declname>
+          <defval>manif::SE3d::Tangent::Zero()</defval>
         </param>
         <briefdescription>
 <para>Set the desired set-point of the trajectory. </para>
@@ -412,7 +413,7 @@
 <parametername>mixedVelocity</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>6D-velocity written in mixed representation.g </para>
+<para>6D-velocity written in mixed representation. The default value is zero. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -440,7 +441,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="143" column="17"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="144" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a01137d0e28475d81d7d77f3ce24a2d8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -458,7 +459,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="149" column="10"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="150" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5bc134954b2c2e49da6eb7b322cf72f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -476,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="155" column="10"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="156" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -505,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="162" column="10"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="163" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1aa09a525f047070f5397096b17cdb550d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kindref="member">Mode</ref></type>
@@ -523,7 +524,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="168" column="10"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="169" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -597,7 +598,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/SE3Task.h" line="51" column="1" bodyfile="BipedalLocomotion/IK/SE3Task.h" bodystart="52" bodyend="169"/>
+    <location file="BipedalLocomotion/IK/SE3Task.h" line="51" column="1" bodyfile="BipedalLocomotion/IK/SE3Task.h" bodystart="52" bodyend="170"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>getB</name></member>
@@ -625,7 +626,7 @@
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a17236a753fd06ae3c3565e64276eb159" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>m_spatialVelocitySize</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a3bf3e747f32c05b7b7539066cfdd8096" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>Mode</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setKinDyn</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a48b6d97d451c83c6e27a07d5f77b8ea1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab989b002a5acb6c9dc73e1c2e78e72cc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setTaskControllerMode</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a5ab6187fe137756b042ce2691aa9713a" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>size</name></member>
