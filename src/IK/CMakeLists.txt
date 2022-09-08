@@ -8,8 +8,8 @@ if(FRAMEWORK_COMPILE_IK)
 
   add_bipedal_locomotion_library(
     NAME                   IK
-    PUBLIC_HEADERS         ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/IntegrationBasedIK.h ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/IKLinearTask.h ${H_PREFIX}/AngularMomentumTask.h
-    SOURCES                src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/QPInverseKinematics.cpp src/AngularMomentumTask.cpp
+    PUBLIC_HEADERS         ${H_PREFIX}/R3Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/IntegrationBasedIK.h ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/IKLinearTask.h ${H_PREFIX}/AngularMomentumTask.h
+    SOURCES                src/R3Task.cpp src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/QPInverseKinematics.cpp src/AngularMomentumTask.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::ParametersHandler BipedalLocomotion::System
                            LieGroupControllers::LieGroupControllers
