@@ -13,6 +13,8 @@
 #include <BipedalLocomotion/IK/SO3Task.h>
 #include <BipedalLocomotion/bindings/IK/SO3Task.h>
 
+#include <manif/manif.h>
+
 namespace BipedalLocomotion
 {
 namespace bindings
@@ -28,7 +30,10 @@ void CreateSO3Task(pybind11::module& module)
     py::class_<SO3Task, std::shared_ptr<SO3Task>, IKLinearTask>(module, "SO3Task")
         .def(py::init())
         .def("set_kin_dyn", &SO3Task::setKinDyn, py::arg("kin_dyn"))
-        .def("set_set_point", &SO3Task::setSetPoint, py::arg("I_R_F"), py::arg("angular_velocity"));
+        .def("set_set_point",
+             &SO3Task::setSetPoint,
+             py::arg("I_R_F"),
+             py::arg("angular_velocity") = manif::SO3d::Tangent::Zero());
 }
 
 } // namespace IK

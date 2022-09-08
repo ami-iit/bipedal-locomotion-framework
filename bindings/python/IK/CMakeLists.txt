@@ -10,7 +10,7 @@ if(FRAMEWORK_COMPILE_IK)
     NAME IKBindings
     SOURCES src/IntegrationBasedIK.cpp src/QPInverseKinematics.cpp src/CoMTask.cpp src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/AngularMomentumTask.cpp src/Module.cpp src/IKLinearTask.cpp
     HEADERS ${H_PREFIX}/IntegrationBasedIK.h ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/AngularMomentumTask.h ${H_PREFIX}/Module.h ${H_PREFIX}/IKLinearTask.h
-    LINK_LIBRARIES BipedalLocomotion::IK
+    LINK_LIBRARIES BipedalLocomotion::IK MANIF::manif
     TESTS tests/test_QP_inverse_kinematics.py
     TESTS_RUNTIME_CONDITIONS FRAMEWORK_USE_icub-models
     )
