@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Implement `PortInput` and `PortOutput`in `System` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
 - Implement `toManifTwist` in `Conversions` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/557)
 - Add the default value for the desired spatial and angular velocity to the `IK::SO3Task` and `IK::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/557)
+- Implement the `IK::R3Task` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/559)
 
 ### Changed
 - Now `Advanceable` inherits from `PortInput` and `PortOutput` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
