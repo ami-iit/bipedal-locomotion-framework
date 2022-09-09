@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="structBipedalLocomotion_1_1System_1_1ITaskControllerManager" kind="struct" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::ITaskControllerManager</compoundname>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1R3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::R3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::SE3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
     <includes local="no">BipedalLocomotion/System/ITaskControllerManager.h</includes>
@@ -39,6 +40,7 @@
         <definition>virtual void BipedalLocomotion::System::ITaskControllerManager::setTaskControllerMode</definition>
         <argsstring>(Mode mode)=0</argsstring>
         <name>setTaskControllerMode</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ab9ca6115c734aa7376f149d9a7180d7c">setTaskControllerMode</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e">setTaskControllerMode</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c">setTaskControllerMode</reimplementedby>
         <param>
@@ -69,6 +71,7 @@
         <definition>virtual Mode BipedalLocomotion::System::ITaskControllerManager::getTaskControllerMode</definition>
         <argsstring>() const =0</argsstring>
         <name>getTaskControllerMode</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac44c1876cedfbc6cc9a53c6f7012d686">getTaskControllerMode</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1aa09a525f047070f5397096b17cdb550d">getTaskControllerMode</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243">getTaskControllerMode</reimplementedby>
         <briefdescription>
@@ -106,6 +109,12 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
+        <label>BipedalLocomotion::IK::R3Task</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1R3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>BipedalLocomotion::IK::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
         <childnode refid="1" relation="public-inheritance">
@@ -115,7 +124,7 @@
         <label>BipedalLocomotion::System::ITaskControllerManager</label>
         <link refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion::TSID::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1SE3Task"/>
         <childnode refid="1" relation="public-inheritance">

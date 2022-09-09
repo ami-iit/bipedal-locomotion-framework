@@ -9,6 +9,7 @@
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" prot="public">BipedalLocomotion::IK::IntegrationBasedIK</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public">BipedalLocomotion::IK::JointTrackingTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics" prot="public">BipedalLocomotion::IK::QPInverseKinematics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1R3Task" prot="public">BipedalLocomotion::IK::R3Task</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1SE3Task" prot="public">BipedalLocomotion::IK::SE3Task</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1SO3Task" prot="public">BipedalLocomotion::IK::SO3Task</innerclass>
     <briefdescription>

@@ -1278,6 +1278,31 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aade486dcd2cb26b789d0ef5fa8020b7a" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19" kind="function"><name>advance</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1IK_1_1R3Task" kind="class"><name>BipedalLocomotion::IK::R3Task</name>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a0243d681dad71e8ee1ae741d329105a5" kind="typedef"><name>Mode</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a17ffaee182225a786da0f9684ab44371" kind="variable"><name>m_R3Controller</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a5f3e2fda2cb4a393ab44e0274d7bd22c" kind="variable"><name>m_robotVelocityVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a8bb054f1aa39fe169bc8428e8bbd0aee" kind="variable"><name>m_frameIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ab44098b90e4c3391d45ebaecab9563a3" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ae60f752eeb3c0a746de0cc4bc505d24c" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ad237d4f5f40147426ad65f75f7d607a3" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1aa57f0147ed9243135f3a03a137f76897" kind="variable"><name>m_mask</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a2093312481cc2efe752a1b267ea11418" kind="variable"><name>m_DoFs</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a56b450c040f65aae4ee70dabbd2364e4" kind="variable"><name>m_jacobian</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a781422ef790acc2595b1b074d22f544c" kind="variable"><name>m_controllerMode</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ade054c239fc85b4182190d130e1fe986" kind="variable"><name>m_linearVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac6e439e70ee38cc800d47807a1290e6a" kind="variable"><name>m_spatialVelocitySize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a9065a46928ee7ec60fe3b055bb1f21c1" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a12b8a750226296e8916321a750704f9e" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a395ee1f5ebb026eea86fae3c3d242c53" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac9ebcf4706ef54983b04032045c53c79" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ab0d3c080ddbab6de316637824b45c65e" kind="function"><name>setSetPoint</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a8058d3aebd33ca8679300b51be67acb8" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1afe788b85c40f02403c8de51308a42fb4" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1aa879369b5e27c145a3397579528fc96c" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ab9ca6115c734aa7376f149d9a7180d7c" kind="function"><name>setTaskControllerMode</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac44c1876cedfbc6cc9a53c6f7012d686" kind="function"><name>getTaskControllerMode</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense" kind="class"><name>BipedalLocomotion::Perception::Capture::RealSense</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3f194396f0831ef9592e5e511769187a" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a0b17adbe7b3840f0f30f8ebba491f961" kind="function"><name>RealSense</name></member>
@@ -2271,6 +2296,8 @@
   <compound refid="IntegrationBasedIK_8h" kind="file"><name>IntegrationBasedIK.h</name>
   </compound>
   <compound refid="QPInverseKinematics_8h" kind="file"><name>QPInverseKinematics.h</name>
+  </compound>
+  <compound refid="R3Task_8h" kind="file"><name>R3Task.h</name>
   </compound>
   <compound refid="CARE_8h" kind="file"><name>CARE.h</name>
   </compound>
