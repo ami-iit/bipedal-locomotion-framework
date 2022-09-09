@@ -3,6 +3,11 @@
 # BSD-3-Clause license.
 
 add_bipedal_test(
+  NAME R3TaskIK
+  SOURCES R3TaskTest.cpp
+  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions)
+
+add_bipedal_test(
   NAME SE3TaskIK
   SOURCES SE3TaskTest.cpp
   LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions)
