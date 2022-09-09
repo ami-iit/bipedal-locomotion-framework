@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+
+### Changed
+
+### Fix
+
 ## [0.9.0] - 2022-09-09
 ### Added
 - Implement the `MultiStateWeightProvider` in `ContinuousDynamicalSystem` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/555)
