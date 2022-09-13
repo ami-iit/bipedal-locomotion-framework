@@ -102,10 +102,12 @@ private:
     bool m_streamCartesianWrenches{false};
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
+    std::vector<std::string> m_textLoggingSubnames;
 
     robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
+    bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
