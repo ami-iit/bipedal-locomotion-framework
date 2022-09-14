@@ -637,7 +637,7 @@ void YarpRobotLoggerDevice::lookForNewLogs()
                 && yarp::os::Network::exists(port.name))
             {
                 m_textLoggingPortNames.insert(port.name);
-                yarp::os::Network::connect(port.name, m_textLoggingPortName);
+                yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
             }
         }
 
