@@ -102,12 +102,20 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
 
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
         this->setPeriod(devicePeriod);
+    }
+
+    if (!params->getParameter("text_logging_subnames", m_textLoggingSubnames))
+    {
+        log()->info("{} Unable to get the 'text_logging_subnames' parameter for the telemetry. All "
+                    "the ports related to the text logging will be considered.",
+                    logPrefix);
     }
 
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
@@ -580,6 +588,19 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     gyro = signal.segment<3>(6);
 }
 
+bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
+                                         const std::vector<std::string>& substrings) const
+{
+    for (const auto& substring : substrings)
+    {
+        if (str.find(substring) != std::string::npos)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void YarpRobotLoggerDevice::lookForNewLogs()
 {
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
@@ -607,14 +628,16 @@ void YarpRobotLoggerDevice::lookForNewLogs()
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
         for (const auto& port : yarpPorts)
         {
-            // check if the port has not be already connected if exits and its resposive
-            // and is a text logging port
+            // check if the port has not be already connected if exits, its resposive
+            // it is a text logging port and it should be logged
             if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
                 && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
+                && (m_textLoggingSubnames.empty()
+                    || this->hasSubstring(port.name, m_textLoggingSubnames))
                 && yarp::os::Network::exists(port.name))
             {
                 m_textLoggingPortNames.insert(port.name);
-                yarp::os::Network::connect(port.name, m_textLoggingPortName);
+                yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
             }
         }
 

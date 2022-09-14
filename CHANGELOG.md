@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 
 ### Changed
+- Add the possibility to log only a subset of text logging ports in `YarpRobotLogger` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/561)
 
 ### Fix
 
