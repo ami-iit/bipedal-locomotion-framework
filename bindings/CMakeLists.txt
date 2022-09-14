@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-# Detect if we are doing a standalone build of the bindings, using an external iDynTree
+# Detect if we are doing a standalone build of the bindings, using an external bipedal-locomotion-framework
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(FRAMEWORK_PYTHON_BINDINGS_BUILD_STANDALONE ON)
   set(FRAMEWORK_COMPILE_PYTHON_BINDINGS ON)
