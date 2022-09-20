@@ -11,7 +11,7 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.8.0
+  vcpkg_robotology_TAG: v0.10.1
   YCM_TAG: v0.14.2
   YARP_TAG: v3.7.0
   iDynTree_TAG: v5.2.1
@@ -86,9 +86,9 @@ jobs:
         # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
         # that has been used to create the pre-compiled archive
         cd C:/
-        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
-        unzip vcpkg-robotology.zip -d C:/
-        rm vcpkg-robotology.zip
+        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology-with-gazebo.zip
+        unzip vcpkg-robotology-with-gazebo.zip -d C:/
+        rm vcpkg-robotology-with-gazebo.zip
         # Also re-bootstrap to avoid problems
         cd C:/robotology/vcpkg
         ./bootstrap-vcpkg.bat
@@ -174,19 +174,6 @@ jobs:
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
-
-        # Qhull
-        cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/qhull/qhull
-        cd qhull
-        git checkout ${Qhull_TAG}
-        mkdir -p build
-        cd build
-        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
         # osqp
