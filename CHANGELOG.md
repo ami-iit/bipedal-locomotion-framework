@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to log only a subset of text logging ports in `YarpRobotLogger` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/561)
 
 ### Fix
+- Fix compatibility with qhull installed by vcpkg `2022.07.25` and robotology-superbuild-dependencies-vcpkg `0.10.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/565).
 
 ## [0.9.0] - 2022-09-09
 ### Added
