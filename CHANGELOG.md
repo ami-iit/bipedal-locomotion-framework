@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Add the possibility to log only a subset of text logging ports in `YarpRobotLogger` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/561)
+- Accept boolean as integer while getting an element from searchable in `YarpUtilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/566)
 
 ### Fix
 
