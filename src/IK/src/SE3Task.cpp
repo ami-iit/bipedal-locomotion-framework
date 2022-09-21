@@ -9,6 +9,8 @@
 #include <BipedalLocomotion/IK/SE3Task.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <Eigen/src/Geometry/Quaternion.h>
+
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/Model.h>
 
@@ -181,7 +183,32 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         }
     }
 
+    // the following parameters are optional
+    if (!ptr->getParameter("use_orientation_exogenous_feedback", m_useOrientationExogenousFeedback))
+    {
+        log()->info("{} [{} {}] Unable to find the use_orientation_exogenous_feedback parameter. "
+                    "The default value is used: {}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    m_useOrientationExogenousFeedback);
+    }
+
+    if (!ptr->getParameter("use_position_exogenous_feedback", m_usePositionExogenousFeedback))
+    {
+        log()->info("{} [{} {}] Unable to find the use_position_exogenous_feedback parameter. "
+                    "The default value is used: {}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    m_usePositionExogenousFeedback);
+    }
+
     m_description = descriptionPrefix + frameName + " Mask:" + maskDescription + ".";
+
+    // initialize the feedback of the controller
+    m_R3Controller.setState(manif::SE3d::Translation::Zero());
+    m_SO3Controller.setState(Eigen::Quaterniond::Identity());
 
     m_isInitialized = true;
 
@@ -197,14 +224,23 @@ bool SE3Task::update()
 
     auto getControllerState = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
+        {
             return controller.getControl().coeffs();
-        else
-            return controller.getFeedForward().coeffs();
+        }
+
+        return controller.getFeedForward().coeffs();
     };
 
     // set the state
-    m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
-    m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
+    if (!m_useOrientationExogenousFeedback)
+    {
+        m_SO3Controller.setState(
+            toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
+    }
+    if (!m_usePositionExogenousFeedback)
+    {
+        m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
+    }
 
     // update the controller
     m_SO3Controller.computeControlLaw();
@@ -267,6 +303,35 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& 
 
     ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat());
     ok = ok && m_SO3Controller.setFeedForward(mixedVelocity.ang());
+
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SE3d& I_H_F)
+{
+    bool ok = this->setFeedback(I_H_F.translation());
+    ok = ok && this->setFeedback(I_H_F.quat());
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SE3d::Translation& I_p_F)
+{
+    bool ok = true;
+    if (m_usePositionExogenousFeedback)
+    {
+        ok = ok && m_R3Controller.setState(I_p_F);
+    }
+
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SO3d& I_R_F)
+{
+    bool ok = true;
+    if (m_useOrientationExogenousFeedback)
+    {
+        ok = ok && m_SO3Controller.setState(I_R_F);
+    }
 
     return ok;
 }
