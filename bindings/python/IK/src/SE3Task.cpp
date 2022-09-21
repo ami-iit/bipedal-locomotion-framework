@@ -5,6 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <manif/impl/se3/SE3.h>
+#include <pybind11/detail/common.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -38,7 +40,16 @@ void CreateSE3Task(pybind11::module& module)
         .def("set_set_point",
              &SE3Task::setSetPoint,
              py::arg("I_H_F"),
-             py::arg("mixed_velocity") = manif::SE3d::Tangent::Zero());
+             py::arg("mixed_velocity") = manif::SE3d::Tangent::Zero())
+        .def("set_feedback",
+             py::overload_cast<const manif::SE3d&>(&SE3Task::setFeedback),
+             py::arg("I_H_F"))
+        .def("set_feedback",
+             py::overload_cast<const manif::SE3d::Translation&>(&SE3Task::setFeedback),
+             py::arg("I_p_F"))
+        .def("set_feedback",
+             py::overload_cast<const manif::SO3d&>(&SE3Task::setFeedback),
+             py::arg("I_R_F"));
 }
 
 } // namespace IK
