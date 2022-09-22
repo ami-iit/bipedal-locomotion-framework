@@ -54,6 +54,13 @@ void CreatePolyDriverDescriptor(pybind11::module& module)
             return constructGenericSensorClient(handler);
         },
         py::arg("handler"));
+
+    module.def(
+        "construct_multiple_analog_sensors_client",
+        [](std::shared_ptr<IParametersHandler> handler) -> PolyDriverDescriptor {
+            return constructMultipleAnalogSensorsClient(handler);
+        },
+        py::arg("handler"));
 }
 
 } // namespace RobotInterface
