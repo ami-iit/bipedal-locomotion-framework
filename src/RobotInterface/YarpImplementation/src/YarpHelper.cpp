@@ -27,14 +27,13 @@ bool PolyDriverDescriptor::isValid() const
 PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBoardRemapper(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    constexpr std::string_view errorPrefix = "[constructRemoteControlBoardRemapper] ";
+    constexpr auto errorPrefix = "[RobotInterface::constructRemoteControlBoardRemapper]";
 
     auto ptr = handler.lock();
 
-
     if (ptr == nullptr)
     {
-        std::cerr << errorPrefix << "IParametershandler is empty." << std::endl;
+        log()->error("{} Invalid parameter handler.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
@@ -54,8 +53,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
 
     if (!ok)
     {
-        std::cerr << errorPrefix << "Unable to get all the parameters from configuration file."
-                  << std::endl;
+        log()->error("{} Unable to get all the parameters from configuration file.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
@@ -66,13 +64,17 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
     options.addGroup("axesNames");
     yarp::os::Bottle& bottle = options.findGroup("axesNames").addList();
     for (const auto& joint : jointsList)
+    {
         bottle.addString(joint);
+    }
 
     yarp::os::Bottle remoteControlBoards;
 
     yarp::os::Bottle& remoteControlBoardsList = remoteControlBoards.addList();
     for (const auto& controlBoard : controlBoards)
+    {
         remoteControlBoardsList.addString("/" + robotName + "/" + controlBoard);
+    }
 
     options.put("remoteControlBoards", remoteControlBoards.get(0));
     options.put("localPortPrefix", "/" + localPrefix + "/remoteControlBoard");
@@ -83,7 +85,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
 
     if (!device.poly->open(options) && !device.poly->isValid())
     {
-        std::cerr << errorPrefix << "Could not open polydriver object." << std::endl;
+        log()->error("{} Could not open polydriver object.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
@@ -93,13 +95,13 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRemoteControlBo
 PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorClient(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    constexpr std::string_view errorPrefix = "[constructGenericSensorClient] ";
+    constexpr auto errorPrefix = "[RobotInterface::constructGenericSensorClient]";
 
     auto ptr = handler.lock();
 
     if (ptr == nullptr)
     {
-        std::cerr << errorPrefix << "IParametershandler is empty." << std::endl;
+        log()->error("{} Invalid parameter handler.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
@@ -119,8 +121,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorCl
 
     if (!ok)
     {
-        std::cerr << errorPrefix << "Unable to get all the parameters from configuration file."
-                  << std::endl;
+        log()->error("{} Unable to get all the parameters from configuration file.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
