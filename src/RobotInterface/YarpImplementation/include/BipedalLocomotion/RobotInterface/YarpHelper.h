@@ -73,7 +73,7 @@ PolyDriverDescriptor constructRemoteControlBoardRemapper(
  * |       `description`       | `string` |          Description of the genericSensorClient. It is the device name                       |    Yes    |
  * |     `remote_port_name`    | `string` |                           Name of the port associate to the remote                           |    Yes    |
  * |       `local_prefix`      | `string` |                     Prefix of the local port (e.g. the application name)                     |    Yes    |
- * | `local_port_name_suffix`  | `string` |  Suffix of the local port. The local port name is `/<local_prefix><local_port_name_suffix>`  |    Yes    |
+ * | `local_port_name_postfix` | `string` | Postfix of the local port. The local port name is `/<local_prefix><local_port_name_postfix>` |    Yes    |
  * @note The genericSensorClient device is implement in [whole-body-estimators](https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient).
  * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
  */
@@ -89,7 +89,7 @@ PolyDriverDescriptor constructGenericSensorClient(
  * |       `description`       | `string` |      Description of the multiple analog sensor client. It is the device name                 |    Yes    |
  * |     `remote_port_name`    | `string` |                           Name of the port associate to the remote                           |    Yes    |
  * |       `local_prefix`      | `string` |                     Prefix of the local port (e.g. the application name)                     |    Yes    |
- * | `local_port_name_suffix`  | `string` |  Suffix of the local port. The local port name is `/<local_prefix><local_port_name_suffix>`  |    Yes    |
+ * | `local_port_name_postfix` | `string` | Postfix of the local port. The local port name is `/<local_prefix><local_port_name_postfix>` |    Yes    |
  * |           `timeout`       | `double` |         Timeout in seconds after which the device reports an error if no measurement was received. (Default value 0.01)      |     No    |
  * |   `external_connection`   |  `bool`  | If set to true, the connection to the rpc port of the MAS server is skipped and it is possible to connect to the data source externally after being opened. (Default value `false`)      |     No    |
  * |   `carrier`    | `string` |  The carrier used for the connection with the server. (Default value `tcp`)      |     No    |
