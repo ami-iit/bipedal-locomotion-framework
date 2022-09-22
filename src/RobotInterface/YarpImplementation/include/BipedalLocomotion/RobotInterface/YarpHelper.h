@@ -80,6 +80,25 @@ PolyDriverDescriptor constructRemoteControlBoardRemapper(
 PolyDriverDescriptor constructGenericSensorClient(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsClient` device.
+ * @param handler pointer to a parameter handler interface.
+ * @note the following parameters are required by the function
+ * |       Parameter Name      |   Type   |                                          Description                                         | Mandatory |
+ * |:-------------------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
+ * |       `description`       | `string` |      Description of the multiple analog sensor client. It is the device name                 |    Yes    |
+ * |     `remote_port_name`    | `string` |                           Name of the port associate to the remote                           |    Yes    |
+ * |       `local_prefix`      | `string` |                     Prefix of the local port (e.g. the application name)                     |    Yes    |
+ * | `local_port_name_suffix`  | `string` |  Suffix of the local port. The local port name is `/<local_prefix><local_port_name_suffix>`  |    Yes    |
+ * |           `timeout`       | `double` |         Timeout in seconds after which the device reports an error if no measurement was received. (Default value 0.01)      |     No    |
+ * |   `external_connection`   |  `bool`  | If set to true, the connection to the rpc port of the MAS server is skipped and it is possible to connect to the data source externally after being opened. (Default value `false`)      |     No    |
+ * |   `carrier`    | `string` |  The carrier used for the connection with the server. (Default value `tcp`)      |     No    |
+ * @note The `MultipleAnalogSensorsClient` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsClient.html).
+ * @return A `PolyDriverDescriptor`. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsClient(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
 

@@ -6,6 +6,7 @@
  */
 
 #include <BipedalLocomotion/RobotInterface/YarpHelper.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::RobotInterface;
 
@@ -133,7 +134,75 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructGenericSensorCl
 
     if (!device.poly->open(options) && !device.poly->isValid())
     {
-        std::cerr << errorPrefix << "Could not open polydriver object." << std::endl;
+        log()->error("{} Could not open polydriver object.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    return device;
+}
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsClient(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    constexpr auto errorPrefix = "[RobotInterface::constructMultipleAnalogSensorsClient]";
+
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    bool ok = true;
+
+    std::string description;
+    ok = ok && ptr->getParameter("description", description);
+
+    std::string remotePortName;
+    ok = ok && ptr->getParameter("remote_port_name", remotePortName);
+
+    std::string localPrefix;
+    ok = ok && ptr->getParameter("local_prefix", localPrefix);
+
+    std::string localPortNamePostfix;
+    ok = ok && ptr->getParameter("local_port_name_postfix", localPortNamePostfix);
+
+    if (!ok)
+    {
+        log()->error("{} Unable to get all the parameters from configuration file.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    // open the YARP device
+    yarp::os::Property options;
+    options.put("device", "multipleanalogsensorsclient");
+    options.put("remote", remotePortName);
+    options.put("local", "/" + localPrefix + localPortNamePostfix);
+
+    double timeout;
+    if (ptr->getParameter("timeout", timeout))
+    {
+        options.put("timeout", timeout);
+    }
+
+    bool externalConnection;
+    if (ptr->getParameter("external_connection", externalConnection))
+    {
+        options.put("externalConnection", externalConnection);
+    }
+
+    std::string carrier;
+    if (ptr->getParameter("carrier", carrier))
+    {
+        options.put("carrier", carrier);
+    }
+
+    PolyDriverDescriptor device(description, std::make_shared<yarp::dev::PolyDriver>());
+
+    if (!device.poly->open(options) && !device.poly->isValid())
+    {
+        log()->error("{} Could not open polydriver object.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
