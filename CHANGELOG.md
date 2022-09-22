@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add the possibility to set the exogenous feedback for the `IK::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/567)
 
 ### Changed
 - Add the possibility to log only a subset of text logging ports in `YarpRobotLogger` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/561)
