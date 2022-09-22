@@ -6,10 +6,10 @@
     <includes local="no">spdlog/spdlog.h</includes>
     <includes local="no">type_traits</includes>
     <includedby refid="PointCloudProcessor_8h" local="no">BipedalLocomotion/Perception/Features/PointCloudProcessor.h</includedby>
-    <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
-    <includedby refid="YarpLogger_8h" local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includedby>
     <includedby refid="DefaultLogger_8h" local="no">BipedalLocomotion/TextLogging/DefaultLogger.h</includedby>
     <includedby refid="LoggerBuilder_8h" local="no">BipedalLocomotion/TextLogging/LoggerBuilder.h</includedby>
+    <includedby refid="YarpLogger_8h" local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includedby>
+    <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
     <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <includedby refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includedby>
     <includedby refid="Integrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includedby>
@@ -35,7 +35,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
+      <node id="5">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
@@ -53,7 +53,7 @@
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion/TextLogging/YarpLogger.h</label>
         <link refid="YarpLogger_8h"/>
       </node>
@@ -69,10 +69,10 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="2">
         <label>BipedalLocomotion/TextLogging/DefaultLogger.h</label>
         <link refid="DefaultLogger_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -93,7 +93,7 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="3">
         <label>BipedalLocomotion/TextLogging/LoggerBuilder.h</label>
         <link refid="LoggerBuilder_8h"/>
       </node>

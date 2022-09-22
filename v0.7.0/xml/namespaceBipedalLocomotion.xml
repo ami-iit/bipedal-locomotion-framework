@@ -57,6 +57,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h" line="18" column="1"/>
+    <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="13" column="1"/>
   </compounddef>
 </doxygen>
