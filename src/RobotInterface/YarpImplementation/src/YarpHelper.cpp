@@ -209,3 +209,59 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogS
 
     return device;
 }
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    constexpr auto errorPrefix = "[RobotInterface::constructMultipleAnalogsensorsRemapper]";
+
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    std::string description;
+    if(ptr->getParameter("description", description))
+    {
+        log()->error("{} Unable to find the parameter 'description'.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    // open the multipleanalogsensorsremapper YARP device
+    yarp::os::Property options;
+    options.put("device", "multipleanalogsensorsremapper");
+
+    auto addOption = [&](const std::string& parameterName, const std::string& optionName) -> void {
+        std::vector<std::string> temp;
+        if (ptr->getParameter(parameterName, temp))
+        {
+            yarp::os::Bottle sensorsNames;
+            yarp::os::Bottle& sensorsList = sensorsNames.addList();
+            for (const auto& name : temp)
+            {
+                sensorsList.addString(name);
+            }
+            options.put(optionName, sensorsNames.get(0));
+        }
+    };
+
+    addOption("three_axis_gyroscopes_names", "ThreeAxisGyroscopesNames");
+    addOption("three_axis_linear_accelerometers_names", "ThreeAxisLinearAccelerometersNames");
+    addOption("three_axis_magnetometers_names", "ThreeAxisMagnetometersNames");
+    addOption("orientation_sensors_names", "OrientationSensorsNames");
+    addOption("six_axis_force_torque_sensors_names", "SixAxisForceTorqueSensorsNames");
+    addOption("temperature_sensors_names", "TemperatureSensorsNames");
+
+    PolyDriverDescriptor device(description, std::make_shared<yarp::dev::PolyDriver>());
+
+    if (!device.poly->open(options) && !device.poly->isValid())
+    {
+        log()->error("{} Could not open polydriver object.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    return device;
+}

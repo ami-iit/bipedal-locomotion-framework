@@ -99,6 +99,24 @@ PolyDriverDescriptor constructGenericSensorClient(
 PolyDriverDescriptor constructMultipleAnalogSensorsClient(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsRemapper` device.
+ * @param handler pointer to a parameter handler interface.
+ * @note the following parameters are required by the function
+ * |                Parameter Name           |       Type       |                                          Description                                    | Mandatory |
+ * |:---------------------------------------:|:----------------:|:---------------------------------------------------------------------------------------:|:---------:|
+ * |       `three_axis_gyroscopes_names`     | `vector<string>` |     Vector containing the names of the gyroscopes (Default empty vector)                |     No    |
+ * | `three_axis_linear_accelerometers_names`| `vector<string>` |  Vector containing the names of the accelerometers (Default empty vector)               |     No    |
+ * |    `three_axis_magnetometers_names`     | `vector<string>` |    Vector containing the names of the magnetometers (Default empty vector)              |     No    |
+ * |       `orientation_sensors_names`       | `vector<string>` |    Vector containing the names of the orientation sensors (Default empty vector)        |     No    |
+ * | `six_axis_force_torque_sensors_names`   | `vector<string>` |    Vector containing the names of the FT sensors (Default empty vector)                 |     No    |
+ * |      `temperature_sensors_names`        | `vector<string>` |    Vector containing the names of the temperature sensors (Default empty vector)        |     No    |
+ * @note The `MultipleAnalogSensorsRemapper` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html).
+ * @return A PolyDriverDescriptor. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
 
