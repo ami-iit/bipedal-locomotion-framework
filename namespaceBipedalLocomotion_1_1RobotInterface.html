@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
+                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
                 <li><a href="./v0.7.0/index.html">v0.7.0</a></li>
                 <li><a href="./v0.9.0/index.html">v0.9.0</a></li>
-                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
               </ol>
             </li>
             <li>
@@ -79,6 +79,22 @@
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
+            <dt>
+              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" class="m-doc">ICameraBridge</a> interface Currently available interfaces.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a> describes a PolyDriver.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a> interface.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html" class="m-doc">YarpSensorBridge</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html" class="m-doc">YarpSensorBridge</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge.html" class="m-doc">ISensorBridge</a> interface Currently available interfaces.</dd>
             <dt>
               struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeOptions.html" class="m-doc">CameraBridgeOptions</a>
             </dt>
@@ -127,22 +143,6 @@
               class <a href="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge.html" class="m-doc">ISensorBridge</a>
             </dt>
             <dd>Sensor bridge interface.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge.html" class="m-doc">YarpCameraBridge</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge.html" class="m-doc">ICameraBridge</a> interface Currently available interfaces.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>
-            </dt>
-            <dd><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a> describes a PolyDriver.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html" class="m-doc">YarpRobotControl</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html" class="m-doc">IRobotControl</a> interface.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html" class="m-doc">YarpSensorBridge</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge.html" class="m-doc">YarpSensorBridge</a> Yarp implementation of the <a href="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge.html" class="m-doc">ISensorBridge</a> interface Currently available interfaces.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -156,6 +156,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="YarpHelper_8h.html#a63b15535972c13dedb0459a66321432b" class="m-doc">constructGenericSensorClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></span>
             </dt>
             <dd>Helper function that can be used to build a GenericSensorClient device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="YarpHelper_8h.html#a4929526a47c0815e98b10ae7fbd44c2d" class="m-doc">constructMultipleAnalogSensorsClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsClient</code> device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="YarpHelper_8h.html#a3428753b80de7ab5cd7b5a38f1feba18" class="m-doc">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</dd>
           </dl>
         </section>
       </div>

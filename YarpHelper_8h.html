@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
+                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
                 <li><a href="./v0.7.0/index.html">v0.7.0</a></li>
                 <li><a href="./v0.9.0/index.html">v0.9.0</a></li>
-                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
               </ol>
             </li>
             <li>
@@ -106,6 +106,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a63b15535972c13dedb0459a66321432b" class="m-doc">constructGenericSensorClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
             </dt>
             <dd>Helper function that can be used to build a GenericSensorClient device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4929526a47c0815e98b10ae7fbd44c2d" class="m-doc">constructMultipleAnalogSensorsClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsClient</code> device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3428753b80de7ab5cd7b5a38f1feba18" class="m-doc">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</dd>
           </dl>
         </section>
         <section>
@@ -156,7 +164,55 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the function</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>description</code></td><td><code>string</code></td><td>Description of the genericSensorClient. It is the device name</td><td>Yes</td></tr><tr><td><code>remote_port_name</code></td><td><code>string</code></td><td>Name of the port associate to the remote</td><td>Yes</td></tr><tr><td><code>local_prefix</code></td><td><code>string</code></td><td>Prefix of the local port (e.g. the application name)</td><td>Yes</td></tr><tr><td><code>local_port_name_suffix</code></td><td><code>string</code></td><td>Suffix of the local port. The local port name is <code>/&lt;local_prefix&gt;&lt;local_port_name_suffix&gt;</code></td><td>Yes</td></tr></tbody></table><p>The genericSensorClient device is implement in <a href="https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient">whole-body-estimators</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the function</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>description</code></td><td><code>string</code></td><td>Description of the genericSensorClient. It is the device name</td><td>Yes</td></tr><tr><td><code>remote_port_name</code></td><td><code>string</code></td><td>Name of the port associate to the remote</td><td>Yes</td></tr><tr><td><code>local_prefix</code></td><td><code>string</code></td><td>Prefix of the local port (e.g. the application name)</td><td>Yes</td></tr><tr><td><code>local_port_name_postfix</code></td><td><code>string</code></td><td>Postfix of the local port. The local port name is <code>/&lt;local_prefix&gt;&lt;local_port_name_postfix&gt;</code></td><td>Yes</td></tr></tbody></table><p>The genericSensorClient device is implement in <a href="https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient">whole-body-estimators</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a4929526a47c0815e98b10ae7fbd44c2d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4929526a47c0815e98b10ae7fbd44c2d" class="m-doc-self">constructMultipleAnalogSensorsClient</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a <code>MultipleAnalogSensorsClient</code> device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <code><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></code>. In case of error an invalid <code><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></code> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are taken into consideration</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>description</code></td><td><code>string</code></td><td>Description of the multiple analog sensor client. It is the device name</td><td>Yes</td></tr><tr><td><code>remote_port_name</code></td><td><code>string</code></td><td>Name of the port associate to the remote</td><td>Yes</td></tr><tr><td><code>local_prefix</code></td><td><code>string</code></td><td>Prefix of the local port (e.g. the application name)</td><td>Yes</td></tr><tr><td><code>local_port_name_postfix</code></td><td><code>string</code></td><td>Postfix of the local port. The local port name is <code>/&lt;local_prefix&gt;&lt;local_port_name_postfix&gt;</code></td><td>Yes</td></tr><tr><td><code>timeout</code></td><td><code>double</code></td><td>Timeout in seconds after which the device reports an error if no measurement was received. (Default value 0.01)</td><td>No</td></tr><tr><td><code>external_connection</code></td><td><code>bool</code></td><td>If set to true, the connection to the rpc port of the MAS server is skipped and it is possible to connect to the data source externally after being opened. (Default value <code>false</code>)</td><td>No</td></tr><tr><td><code>carrier</code></td><td><code>string</code></td><td>The carrier used for the connection with the server. (Default value <code>tcp</code>)</td><td>No</td></tr></tbody></table><p>The <code>MultipleAnalogSensorsClient</code> device is implement in <a href="https://www.yarp.it/git-master/classMultipleAnalogSensorsClient.html">yarp</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3428753b80de7ab5cd7b5a38f1feba18"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3428753b80de7ab5cd7b5a38f1feba18" class="m-doc-self">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>. In case of error an invalid <code><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></code> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are taken into consideration</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>three_axis_gyroscopes_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the gyroscopes (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_linear_accelerometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the accelerometers (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_magnetometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the magnetometers (Default empty vector)</td><td>No</td></tr><tr><td><code>orientation_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the orientation sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>six_axis_force_torque_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the FT sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>temperature_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the temperature sensors (Default empty vector)</td><td>No</td></tr></tbody></table><p>The <code>MultipleAnalogSensorsRemapper</code> device is implement in <a href="https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html">yarp</a>.</p></aside>
           </div></section>
         </section>
       </div>
