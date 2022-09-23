@@ -31,9 +31,6 @@ def test_int():
     assert handler.get_parameter_int(name="my_int") == 42
 
     with pytest.raises(ValueError):
-        handler.get_parameter_bool(name="my_int")
-
-    with pytest.raises(ValueError):
         handler.get_parameter_float(name="my_int")
 
     with pytest.raises(ValueError):

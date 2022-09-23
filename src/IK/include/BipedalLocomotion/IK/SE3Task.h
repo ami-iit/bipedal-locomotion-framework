@@ -69,6 +69,10 @@ private:
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
+    bool m_usePositionExogenousFeedback{false}; /**< True if the feedback of the position task must
+                                                   be provided by the user. */
+    bool m_useOrientationExogenousFeedback{false}; /**< True if the feedback of the orientation task
+                                                   must be provided by the user. */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
@@ -95,6 +99,9 @@ public:
      * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
      * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
+     * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
+     * |  `use_position_exogenous_feedback` |  `bool`  |    If true the task will consider the frame position provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |
+     * |  `use_orientation_exogenous_feedback` |  `bool`  |    If true the task will consider the frame orientation provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
@@ -136,6 +143,33 @@ public:
      */
     bool setSetPoint(const manif::SE3d& I_H_F,
                      const manif::SE3d::Tangent& mixedVelocity = manif::SE3d::Tangent::Zero());
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_H_F Homogeneous transform between the link and the inertial frame.
+     * @note the feedback will be considered only if the `use_orientation_exogenous_feedback` or
+     * `use_position_exogenous_feedback` is set to true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SE3d& I_H_F);
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_p_F position of the link respect to the inertial frame.
+     * @note the feedback will be considered only if the `use_position_exogenous_feedback` is set to
+     * true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SE3d::Translation& I_p_F);
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_R_F orientation of the link respect to the inertial frame.
+     * @note the feedback will be considered only if the `use_orientation_exogenous_feedback` is set
+     * to true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SO3d& I_R_F);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

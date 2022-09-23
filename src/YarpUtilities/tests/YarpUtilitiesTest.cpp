@@ -43,6 +43,35 @@ TEST_CASE("Get int from searchable", "[int]")
     REQUIRE(element == value);
 }
 
+TEST_CASE("Get bool from searchable", "[bool]")
+{
+    bool element;
+    yarp::os::Property property;
+    std::string key = "toss_coin_result";
+    bool value = false;
+
+    property.put(key, value);
+
+    // test
+    REQUIRE(getElementFromSearchable(property, key, element));
+    REQUIRE(element == value);
+}
+
+TEST_CASE("Get bool (int) from searchable", "[bool (int)]")
+{
+    bool element;
+    yarp::os::Property property;
+    std::string key = "toss_coin_result";
+    int value = 1;
+
+    property.put(key, value);
+
+    // test
+    REQUIRE(getElementFromSearchable(property, key, element));
+    REQUIRE((value == 1) == element);
+}
+
+
 TEST_CASE("Get double from searchable", "[double]")
 {
     double element;
