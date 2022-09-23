@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+
+### Changed
+
+### Fix
+
 ## [0.10.0] - 2022-09-23
 ### Added
 - Add the possibility to set the exogenous feedback for the `IK::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/567)
@@ -290,6 +297,7 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...master
 [0.10.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.7.0...v0.8.0
