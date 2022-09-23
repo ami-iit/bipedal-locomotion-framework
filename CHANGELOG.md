@@ -4,12 +4,14 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Add the possibility to set the exogenous feedback for the `IK::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/567)
+- Implement `RobotInterface::constructMultipleAnalogSensorsClient()` and `RobotInterface::constructMultipleAnalogsensorsRemapper()` methods (https://github.com/ami-iit/bipedal-locomotion-framework/pull/568)
 
 ### Changed
 - Add the possibility to log only a subset of text logging ports in `YarpRobotLogger` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/561)
 - Accept boolean as integer while getting an element from searchable in `YarpUtilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/566)
 
 ### Fix
+- Fix typo in the `RobotInterface::constructGenericSensorClient()` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/568)
 
 ## [0.9.0] - 2022-09-09
 ### Added
