@@ -224,7 +224,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogS
     }
 
     std::string description;
-    if(ptr->getParameter("description", description))
+    if(!ptr->getParameter("description", description))
     {
         log()->error("{} Unable to find the parameter 'description'.", errorPrefix);
         return PolyDriverDescriptor();
