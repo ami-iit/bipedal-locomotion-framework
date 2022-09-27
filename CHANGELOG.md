@@ -3,10 +3,13 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add the possibility to attach all the multiple analog sensor clients  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ### Changed
+- Add informative prints `YarpSensorBridge::Impl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ### Fix
+- Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ## [0.10.0] - 2022-09-23
 ### Added
