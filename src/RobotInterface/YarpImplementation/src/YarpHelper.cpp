@@ -8,6 +8,9 @@
 #include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <yarp/dev/IMultipleWrapper.h>
+#include <yarp/dev/PolyDriverList.h>
+
 using namespace BipedalLocomotion::RobotInterface;
 
 PolyDriverDescriptor::PolyDriverDescriptor(const std::string& key,
@@ -260,6 +263,50 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogS
     if (!device.poly->open(options) && !device.poly->isValid())
     {
         log()->error("{} Could not open polydriver object.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    return device;
+}
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    const std::vector<PolyDriverDescriptor>& polydriverList)
+{
+    // create the yarp::dev::PolyDriverList
+    yarp::dev::PolyDriverList list;
+    for (const auto& driver : polydriverList)
+    {
+        list.push(driver.poly.get(), driver.key.c_str());
+    }
+
+    return constructMultipleAnalogSensorsRemapper(handler, list);
+}
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    const yarp::dev::PolyDriverList& polydriverList)
+{
+    constexpr auto errorPrefix = "[RobotInterface::constructMultipleAnalogsensorsRemapper]";
+
+    auto device = constructMultipleAnalogSensorsRemapper(handler);
+
+    if (!device.isValid())
+    {
+        return device;
+    }
+
+    // attach the the interface
+    yarp::dev::IMultipleWrapper* multipleWrapper = nullptr;
+    if (!device.poly->view(multipleWrapper) || multipleWrapper == nullptr)
+    {
+        log()->error("{} Could not view the IMultipleWrapper interface.", errorPrefix);
+        return device;
+    }
+
+    if (!multipleWrapper->attachAll(polydriverList))
+    {
+        log()->error("{} Could not attach the polydriver list.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
