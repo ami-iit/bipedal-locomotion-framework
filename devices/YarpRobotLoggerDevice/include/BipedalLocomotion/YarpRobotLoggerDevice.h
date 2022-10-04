@@ -22,6 +22,7 @@
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
+#include <yarp/sig/Vector.h>
 
 #include <robometry/BufferManager.h>
 
@@ -61,10 +62,41 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
+    template <typename T>
+    struct ExogenousSignal
+    {
+        std::mutex mutex;
+        std::string remote;
+        std::string local;
+        std::string carrier;
+        std::string signalName;
+        yarp::os::BufferedPort<T> port;
+        bool dataArrived{false};
+        bool connected{false};
+
+        bool connect()
+        {
+            return yarp::os::Network::connect(remote, local, carrier);
+        }
+
+        void disconnect()
+        {
+            if (connected)
+            {
+                yarp::os::Network::disconnect(remote, local);
+            }
+        }
+    };
+
     std::unordered_map<std::string,
-                       yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>>
-        m_exogenousPorts;
+                       ExogenousSignal<BipedalLocomotion::YarpUtilities::VectorsCollection>>
+        m_vectorsCollectionSignals;
+
+    std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
+
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
+    std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
+    std::thread m_lookForNewExogenousSignalThread;
 
     std::vector<std::string> m_rgbCamerasList;
     struct VideoWriter{
@@ -107,6 +139,7 @@ private:
     robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
+    void lookForExogenousSignals();
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,

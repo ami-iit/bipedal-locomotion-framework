@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <tuple>
 
@@ -24,6 +25,7 @@
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpTextLoggingUtilities.h>
 
+#include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
 
@@ -196,7 +198,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     }
 
     std::vector<std::string> inputs;
-    if (!ptr->getParameter("exogenous_inputs", inputs))
+    if (!ptr->getParameter("vectors_collection_exogenous_inputs", inputs))
     {
         log()->error("{} Unable to get the exogenous inputs.", logPrefix);
         return false;
@@ -205,8 +207,9 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     for (const auto& input : inputs)
     {
         auto group = ptr->getGroup(input).lock();
-        std::string portName, signalName;
-        if (group == nullptr || !group->getParameter("port_name", portName)
+        std::string local, signalName, remote, carrier;
+        if (group == nullptr || !group->getParameter("local", local)
+            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
             || !group->getParameter("signal_name", signalName))
         {
             log()->error("{} Unable to get the parameters related to the input: {}.",
@@ -215,9 +218,51 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        if (!m_exogenousPorts[signalName].open(portName))
+        m_vectorsCollectionSignals[remote].signalName = signalName;
+        m_vectorsCollectionSignals[remote].remote = remote;
+        m_vectorsCollectionSignals[remote].local = local;
+        m_vectorsCollectionSignals[remote].carrier = carrier;
+
+        if (!m_vectorsCollectionSignals[remote].port.open(
+                m_vectorsCollectionSignals[remote].local))
         {
-            log()->error("{} Unable to open the port named: {}.", logPrefix, portName);
+            log()->error("{} Unable to open the port named: {}.",
+                         logPrefix,
+                         m_vectorsCollectionSignals[remote].local);
+            return false;
+        }
+    }
+
+    if (!ptr->getParameter("vectors_exogenous_inputs", inputs))
+    {
+        log()->error("{} Unable to get the exogenous inputs.", logPrefix);
+        return false;
+    }
+
+    for (const auto& input : inputs)
+    {
+        auto group = ptr->getGroup(input).lock();
+        std::string local, signalName, remote, carrier;
+        if (group == nullptr || !group->getParameter("local", local)
+            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
+            || !group->getParameter("signal_name", signalName))
+        {
+            log()->error("{} Unable to get the parameters related to the input: {}.",
+                         logPrefix,
+                         input);
+            return false;
+        }
+
+        m_vectorSignals[remote].signalName = signalName;
+        m_vectorSignals[remote].remote = remote;
+        m_vectorSignals[remote].local = local;
+        m_vectorSignals[remote].carrier = carrier;
+
+        if (!m_vectorSignals[remote].port.open(m_vectorSignals[remote].local))
+        {
+            log()->error("{} Unable to open the port named: {}.",
+                         logPrefix,
+                         m_vectorSignals[remote].local);
             return false;
         }
     }
@@ -519,6 +564,9 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // run the thread
     m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
 
+    // run the thread for reading the exogenous signals
+    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
+
     // The user can avoid to record the camera
     if (m_cameraBridge != nullptr)
     {
@@ -588,6 +636,80 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
     gyro = signal.segment<3>(6);
 }
 
+void YarpRobotLoggerDevice::lookForExogenousSignals()
+{
+    yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
+
+    auto time = BipedalLocomotion::clock().now();
+    auto oldTime = time;
+    auto wakeUpTime = time;
+    const auto lookForExogenousSignalPeriod = std::chrono::duration<double>(1);
+    m_lookForNewExogenousSignalIsRunning = true;
+
+    while (m_lookForNewExogenousSignalIsRunning)
+    {
+        // detect if a clock has been reset
+        oldTime = time;
+        time = BipedalLocomotion::clock().now();
+        // if the current time is lower than old time, the timer has been reset.
+        if ((time - oldTime).count() < 1e-12)
+        {
+            wakeUpTime = time;
+        }
+        wakeUpTime += lookForExogenousSignalPeriod;
+
+        bool allPortsConnected = true;
+        for (const auto& [name, signal] : m_vectorsCollectionSignals)
+        {
+            allPortsConnected = allPortsConnected && signal.connected;
+        }
+        for (const auto& [name, signal] : m_vectorSignals)
+        {
+            allPortsConnected = allPortsConnected && signal.connected;
+        }
+
+        if (!allPortsConnected)
+        {
+            // check for new messages
+            yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
+            for (const auto& port : yarpPorts)
+            {
+                // check if the port has not be already connected if exits, its resposive
+                auto vectorsCollectionSignal = m_vectorsCollectionSignals.find(port.name);
+                if (vectorsCollectionSignal != m_vectorsCollectionSignals.end())
+                {
+                    if (!vectorsCollectionSignal->second.connected
+                        && yarp::os::Network::exists(port.name))
+                    {
+                        std::lock_guard<std::mutex> lock(vectorsCollectionSignal->second.mutex);
+                        vectorsCollectionSignal->second.connected
+                            = vectorsCollectionSignal->second.connect();
+                    }
+                } else
+                {
+                    // check if the port has not be already connected if exits, its resposive
+                    auto vectorSignal = m_vectorSignals.find(port.name);
+                    if (vectorSignal != m_vectorSignals.end())
+                    {
+                        if (!vectorSignal->second.connected && yarp::os::Network::exists(port.name))
+                        {
+                            std::lock_guard<std::mutex> lock(vectorSignal->second.mutex);
+                            vectorSignal->second.connected = vectorSignal->second.connect();
+                        }
+                    }
+                }
+            }
+        }
+
+        // release the CPU
+        BipedalLocomotion::clock().yield();
+
+        // sleep
+        BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+    }
+}
+
+
 bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
                                          const std::vector<std::string>& substrings) const
 {
@@ -609,7 +731,7 @@ void YarpRobotLoggerDevice::lookForNewLogs()
     auto time = BipedalLocomotion::clock().now();
     auto oldTime = time;
     auto wakeUpTime = time;
-    const auto lookForNewLogsPeriod = std::chrono::duration<double>(0.5);
+    const auto lookForNewLogsPeriod = std::chrono::duration<double>(2);
     m_lookForNewLogsIsRunning = true;
 
     while (m_lookForNewLogsIsRunning)
@@ -846,25 +968,42 @@ void YarpRobotLoggerDevice::run()
     }
 
     std::string signalFullName;
-    for (auto& [name, port] : m_exogenousPorts)
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
-        BipedalLocomotion::YarpUtilities::VectorsCollection* collection = port.read(false);
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        BipedalLocomotion::YarpUtilities::VectorsCollection* collection = signal.port.read(false);
         if (collection != nullptr)
         {
+            if (!signal.dataArrived)
+            {
+                for (const auto& [key, vector] : collection->vectors)
+                {
+                    signalFullName = signal.signalName + "::" + key;
+                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+                }
+                signal.dataArrived = true;
+            }
+
             for (const auto& [key, vector] : collection->vectors)
             {
-                signalFullName = name + "::" + key;
-
-                // if it is the first time this signal is seen by the device the channel is added
-                if (m_exogenousPortsStoredInManager.find(signalFullName)
-                    == m_exogenousPortsStoredInManager.end())
-                {
-                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
-                    m_exogenousPortsStoredInManager.insert(signalFullName);
-                }
-
+                signalFullName = signal.signalName + "::" + key;
                 m_bufferManager.push_back(vector, time, signalFullName);
             }
+        }
+    }
+
+    for (auto& [name, signal] : m_vectorSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::sig::Vector* vector = signal.port.read(false);
+        if (vector != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
+                signal.dataArrived = true;
+            }
+            m_bufferManager.push_back(*vector, time, signal.signalName);
         }
     }
 
@@ -968,6 +1107,13 @@ bool YarpRobotLoggerDevice::close()
     {
         m_lookForNewLogsThread.join();
         m_lookForNewLogsThread = std::thread();
+    }
+
+    m_lookForNewExogenousSignalIsRunning = false;
+    if (m_lookForNewExogenousSignalThread.joinable())
+    {
+        m_lookForNewExogenousSignalThread.join();
+        m_lookForNewExogenousSignalThread = std::thread();
     }
 
     return true;
