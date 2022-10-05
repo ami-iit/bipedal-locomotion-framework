@@ -15,11 +15,28 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="ExogenousSignals">
-    <param name="exogenous_inputs">("Walking")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking")</param>
+    <param name="vectors_exogenous_inputs">("LeftHandSkin", "RightHandSkin")</param>
 
     <group name="Walking">
-      <param name="port_name">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
+      <param name="local">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
+      <param name="remote">"/walking-coordinator/logger/data:o"</param>
       <param name="signal_name">"walking"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="LeftHandSkin">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/left_hand_skin:i"</param>
+      <param name="remote">"/icub/skin/left_hand"</param>
+      <param name="signal_name">"left_hand_skin"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="RightHandSkin">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/right_hand_skin:i"</param>
+      <param name="remote">"/icub/skin/right_hand"</param>
+      <param name="signal_name">"right_hand_skin"</param>
+      <param name="carrier">"udp"</param>
     </group>
   </group>
 
