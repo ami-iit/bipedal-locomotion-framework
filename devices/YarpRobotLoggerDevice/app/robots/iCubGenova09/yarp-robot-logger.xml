@@ -16,7 +16,7 @@ BSD-3-Clause license. -->
 
   <group name="ExogenousSignals">
     <param name="vectors_collection_exogenous_inputs">("Walking")</param>
-    <param name="vectors_exogenous_inputs">("LeftHandSkin", "RightHandSkin")</param>
+    <param name="vectors_exogenous_inputs">("LeftHandSkin", "RightHandSkin", "LeftHandSkinFiltered", "RightHandSkinFiltered")</param>
 
     <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
@@ -38,6 +38,21 @@ BSD-3-Clause license. -->
       <param name="signal_name">"right_hand_skin"</param>
       <param name="carrier">"udp"</param>
     </group>
+
+    <group name="LeftHandSkinFiltered">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/left_hand_skin/filtered:i"</param>
+      <param name="remote">"/icub/skin/left_hand_filtered"</param>
+      <param name="signal_name">"left_hand_skin_filtered"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="RightHandSkinFiltered">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/right_hand_skin/filtered:i"</param>
+      <param name="remote">"/icub/skin/right_hand_filtered"</param>
+      <param name="signal_name">"right_hand_skin_filtered"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
   </group>
 
   <group name="RobotCameraBridge">
