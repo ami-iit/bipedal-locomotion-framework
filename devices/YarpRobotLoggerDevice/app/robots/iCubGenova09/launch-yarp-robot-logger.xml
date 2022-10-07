@@ -9,7 +9,7 @@ BSD-3-Clause license. -->
     <devices>
         <!-- interface -->
         <xi:include href="interface/all_joints_mc.xml" />
-        <xi:include href="interface/imu_clients.xml" />
+        <!-- <xi:include href="interface/imu_clients.xml" /> -->
         <xi:include href="interface/ft_clients.xml" />
         <xi:include href="interface/mas-remapper.xml" />
         <xi:include href="interface/wrench_clients.xml" />

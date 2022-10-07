@@ -6,9 +6,9 @@ BSD-3-Clause license. -->
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">icub</param>
   <param name="sampling_period_in_s">0.01</param>
-  <param name="rgb_cameras_fps">(20, 10, 10)</param>
+  <param name="rgb_cameras_fps">(10)</param>
   <param name="port_prefix">/yarp-robot-logger</param>
-  <param name="text_logging_subnames">("icub-head")</param>
+  <param name="text_logging_subnames">("icub-head/yarprobotinterface")</param>
 
   <group name="Telemetry">
     <param name="save_period">600.0</param>
@@ -16,7 +16,9 @@ BSD-3-Clause license. -->
 
   <group name="ExogenousSignals">
     <param name="vectors_collection_exogenous_inputs">("Walking")</param>
-    <param name="vectors_exogenous_inputs">("LeftHandSkin", "RightHandSkin", "LeftHandSkinFiltered", "RightHandSkinFiltered")</param>
+    <param name="vectors_exogenous_inputs">()</param>
+    <!-- <param name="vectors_exogenous_inputs">("LeftHandSkin", "RightHandSkin", "LeftHandSkinFiltered", "RightHandSkinFiltered")</param> -->
+
 
     <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
@@ -58,7 +60,7 @@ BSD-3-Clause license. -->
   <group name="RobotCameraBridge">
       <param name="stream_cameras">true</param>
       <group name="Cameras">
-        <param name="rgb_cameras_list">("camera1", "right_eye", "left_eye")</param>
+        <param name="rgb_cameras_list">("camera1")</param>
       </group>
   </group>
 
@@ -112,8 +114,9 @@ BSD-3-Clause license. -->
       <elem name="left_upper_leg_wrench_client">left_upper_leg_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
       <elem name="camera1">camera1</elem>
-      <elem name="left_eye">left_eye</elem>
-      <elem name="right_eye">right_eye</elem>
+
+      <!-- <elem name="left_eye">left_eye</elem> -->
+      <!-- <elem name="right_eye">right_eye</elem> -->
     </paramlist>
   </action>
 
