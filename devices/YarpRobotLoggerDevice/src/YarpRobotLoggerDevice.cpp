@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <tuple>
 
@@ -33,6 +34,11 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+
+
+#include <process.hpp>
+
+
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -544,16 +550,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                              cameraInfo->second.second));
         }
 
-        // if there is at least one camera we set the callback
-        if (m_rgbCamerasList.size() != 0)
-        {
-            ok = ok
-                 && m_bufferManager.setSaveCallback(
-                     [this](const std::string& filePrefix,
-                            const robometry::SaveCallbackSaveMethod& method)
-                         -> bool { return this->saveVideo(filePrefix, method); });
-        }
-
         if (ok)
         {
             for (auto& [cameraName, writer] : m_videoWriters)
@@ -563,6 +559,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             }
         }
     }
+
+    ok = ok
+         && m_bufferManager.setSaveCallback(
+             [this](const std::string& filePrefix,
+                    const robometry::SaveCallbackSaveMethod& method) -> bool {
+                 return this->saveCallback(filePrefix, method);
+             });
 
     if (ok)
     {
@@ -903,10 +906,31 @@ void YarpRobotLoggerDevice::run()
     }
 }
 
-bool YarpRobotLoggerDevice::saveVideo(
+bool YarpRobotLoggerDevice::saveCallback(
     const std::string& fileName,
     const robometry::SaveCallbackSaveMethod& method)
 {
+    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
+        std::stringstream processStream, stream;
+
+        // run the process
+        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
+            processStream << std::string(bytes, n);
+        });
+
+        // if the process status is ok we can save the output
+        auto exitStatus = process.get_exit_status();
+        if (exitStatus == 0)
+        {
+            stream << "## " << head << std::endl;
+            stream << "```" << std::endl;
+            stream << processStream.str() << std::endl;
+            stream << "```" << std::endl;
+        }
+        return stream.str();
+    };
+
+    // save the video if there is any
     for (const auto& camera : m_rgbCamerasList)
     {
         const std::string temp = fileName + "_" + camera + ".mp4";
@@ -930,6 +954,16 @@ bool YarpRobotLoggerDevice::saveVideo(
                                                              cameraInfo->second.second));
         }
     }
+
+    // save the status of the code
+    std::ofstream file(fileName + ".md");
+    file << "# " << fileName << std::endl;
+    file << "File containing all the installed software required to replicate the experiment.  "
+         << std::endl;
+    file << codeStatus("bash ${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                       "ROBOTOLOGY");
+    file << codeStatus("apt list --installed", "APT");
+    file.close();
 
     return true;
 }
