@@ -5,8 +5,11 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstdio>
 #include <cstdlib>
+#include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -19,11 +22,10 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/TextLogging/LoggerBuilder.h>
 #include <BipedalLocomotion/TextLogging/YarpLogger.h>
-#include <BipedalLocomotion/YarpUtilities/Helper.h>
-#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
-
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpTextLoggingUtilities.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
@@ -31,14 +33,7 @@
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
 
-#include <cstdio>
-#include <fstream>
-#include <iostream>
-
-
 #include <process.hpp>
-
-
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -121,6 +116,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     {
         log()->info("{} Unable to get the 'text_logging_subnames' parameter for the telemetry. All "
                     "the ports related to the text logging will be considered.",
+                    logPrefix);
+    }
+
+    if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+    {
+        log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will be "
+                    "added to commands.",
                     logPrefix);
     }
 
@@ -922,7 +924,7 @@ bool YarpRobotLoggerDevice::saveCallback(
         auto exitStatus = process.get_exit_status();
         if (exitStatus == 0)
         {
-            stream << "## " << head << std::endl;
+            stream << "### " << head << std::endl;
             stream << "```" << std::endl;
             stream << processStream.str() << std::endl;
             stream << "```" << std::endl;
@@ -960,9 +962,25 @@ bool YarpRobotLoggerDevice::saveCallback(
     file << "# " << fileName << std::endl;
     file << "File containing all the installed software required to replicate the experiment.  "
          << std::endl;
-    file << codeStatus("bash ${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
-                       "ROBOTOLOGY");
-    file << codeStatus("apt list --installed", "APT");
+
+    if (m_codeStatusCmdPrefixes.empty())
+    {
+        file << codeStatus("bash "
+                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                           "ROBOTOLOGY");
+        file << codeStatus("apt list --installed", "APT");
+    } else
+    {
+        for (const auto& prefix : m_codeStatusCmdPrefixes)
+        {
+            file << "## `" << prefix << "`" << std::endl;
+            file << codeStatus(prefix
+                                   + " \"bash ${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh\"",
+                               "ROBOTOLOGY");
+            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
+        }
+    }
+
     file.close();
 
     return true;

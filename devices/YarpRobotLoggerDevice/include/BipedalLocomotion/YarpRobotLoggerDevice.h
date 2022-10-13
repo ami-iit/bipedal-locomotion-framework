@@ -103,6 +103,7 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
     std::vector<std::string> m_textLoggingSubnames;
+    std::vector<std::string> m_codeStatusCmdPrefixes;
 
     robometry::BufferManager m_bufferManager;
 
