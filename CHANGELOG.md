@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Log the status of the system in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/571)
 
 ### Changed
 

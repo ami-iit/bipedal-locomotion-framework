@@ -58,6 +58,19 @@ if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
+# Further details on PIC can be found here:
+# https://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Disable C and C++ compiler extensions.
+# C/CXX_EXTENSIONS are ON by default to allow the compilers to use extended
+# variants of the C/CXX language.
+# However, this could expose cross-platform bugs in user code or in the headers
+# of third-party dependencies and thus it is strongly suggested to turn
+# extensions off.
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 option(ENABLE_RPATH "Enable RPATH for this library" ON)
 mark_as_advanced(ENABLE_RPATH)
 include(AddInstallRPATHSupport)
