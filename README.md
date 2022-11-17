@@ -138,3 +138,8 @@ target_link_libraries(example PRIVATE BipedalLocomotion::Math)
 # :gear: Contributing
 
 **bipedal-locomotion-framework** is an open-source project, and is thus built with your contributions. We strongly encourage you to open an issue with your feature request. Once the issue has been opened, you can also proceed with a pull-request :rocket:
+
+# :technologist: Maintainers
+
+* Giulio Romualdi ([@GiulioRomualdi](https://github.com/GiulioRomualdi))
+* Stefano Dafarra ([@S-Dafarra](https://github.com/S-Dafarra))
