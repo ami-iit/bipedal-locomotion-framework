@@ -25,7 +25,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>YarpLoggetFactory implements the factory you should use to enable the sink using yaro. </para>
+<para><ref refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" kindref="compound">YarpLoggerFactory</ref> implements the factory you should use to enable the sink using yaro. </para>
     </briefdescription>
     <detaileddescription>
 <para>The YARP logger can be easily used as follows <programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="Logger_8h" kindref="compound">BipedalLocomotion/TextLogging/Logger.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
