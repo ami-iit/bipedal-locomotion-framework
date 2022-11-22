@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Log the status of the system in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/571)
+- Add the `ROS2` implementation for Clock class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/575)
 
 ### Changed
 
