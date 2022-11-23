@@ -93,10 +93,6 @@ jobs:
         cd C:/robotology/vcpkg
         ./bootstrap-vcpkg.bat
 
-        # Install Catch2
-        cd C:/robotology/vcpkg
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
-
         # Install tomlplusplus
         ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
 
@@ -450,6 +446,23 @@ jobs:
         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                -DBUILD_TESTING=OFF ..
+
+        cmake --build . --config ${{ matrix.build_type }} --target install
+
+    - name: Catch2 Dependency [Windows]
+      if: matrix.os == 'windows-2019'
+      shell: bash
+      run: |
+        # Catch2
+        git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
+        cd Catch2
+        mkdir -p build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DBUILD_TESTING=OFF ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install
 
