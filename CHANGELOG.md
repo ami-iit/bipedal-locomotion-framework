@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 - Log the status of the system in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/571)
 
 ### Changed
+- YARP devices are now enabled by default if YARP is found (https://github.com/ami-iit/bipedal-locomotion-framework/pull/576).
 
 ### Fix
 
