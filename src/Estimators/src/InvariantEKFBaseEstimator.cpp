@@ -242,7 +242,7 @@ InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_uniqu
 
 InvariantEKFBaseEstimator::~InvariantEKFBaseEstimator() = default;
 
-bool InvariantEKFBaseEstimator::customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool InvariantEKFBaseEstimator::customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)

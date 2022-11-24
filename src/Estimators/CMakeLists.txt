@@ -18,7 +18,7 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
     NAME                   FloatingBaseEstimators
     SOURCES                src/ModelComputationsHelper.cpp src/FloatingBaseEstimator.cpp src/InvariantEKFBaseEstimator.cpp src/LeggedOdometry.cpp
     SUBDIRECTORIES         tests/FloatingBaseEstimators
-    PUBLIC_HEADERS         ${H_PREFIX}/FloatingBaseEstimatorParams.h ${H_PREFIX}/FloatingBaseEstimatorIO.h ${H_PREFIX}/FloatingBaseEstimator.h ${H_PREFIX}/InvariantEKFBaseEstimator.h ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/ModelComputationsHelper.h
+    PUBLIC_HEADERS         ${H_PREFIX}/FloatingBaseEstimatorParams.h ${H_PREFIX}/FloatingBaseEstimatorIO.h ${H_PREFIX}/FloatingBaseEstimator.h ${H_PREFIX}/InvariantEKFBaseEstimator.h ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/ModelComputationsHelper.h ${H_PREFIX}/KinematicInertialFilterWrapper.h
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model BipedalLocomotion::System Eigen3::Eigen BipedalLocomotion::Contacts iDynTree::idyntree-modelio-urdf BipedalLocomotion::TextLogging
     PRIVATE_LINK_LIBRARIES MANIF::manif)
 endif()

@@ -114,7 +114,7 @@ protected:
     * @param[in] handler configure the custom parameters for the estimator
     * @return bool
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
+    virtual bool customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Update the base state estimate using kinematics and contact measurements

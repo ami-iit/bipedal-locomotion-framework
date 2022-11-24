@@ -157,7 +157,7 @@ public:
     *       it must be done in customInitialization() by the child class implementing the algorithm
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                     std::shared_ptr<iDynTree::KinDynComputations> kindyn);
 
 
@@ -166,7 +166,7 @@ public:
     * @param[in] handler configure the generic parameters for the estimator
     * @return True in case of success, false otherwise.
     */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Set the polled IMU measurement
@@ -281,7 +281,7 @@ protected:
     * @param[in] handler configure the custom parameters for the estimator
     * @return bool
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) { return true; };
+    virtual bool customInitialization(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) { return true; };
 
     /**
     * Propagate the states through the prediction model, if there exists any (eg. a strap-down IMU model)

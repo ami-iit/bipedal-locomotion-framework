@@ -19,7 +19,7 @@ FloatingBaseEstimator::FloatingBaseEstimator()
     m_state.imuOrientation.setIdentity();
 }
 
-bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+bool FloatingBaseEstimator::initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                                        std::shared_ptr<iDynTree::KinDynComputations> kindyn)
 {
     if (!m_modelComp.setKinDynObject(kindyn))
@@ -37,7 +37,7 @@ bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::Paramete
     return true;
 }
 
-bool FloatingBaseEstimator::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool FloatingBaseEstimator::initialize(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     auto handle = handler.lock();
     if (handle == nullptr)
