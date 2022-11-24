@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - YARP devices are now enabled by default if YARP is found (https://github.com/ami-iit/bipedal-locomotion-framework/pull/576).
 
 ### Fix
+- Fix compatibility with YARP 3.8 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/577).
 
 ## [0.10.0] - 2022-09-23
 ### Added
