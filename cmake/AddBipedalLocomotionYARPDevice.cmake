@@ -41,7 +41,9 @@ function(add_bipedal_yarp_device)
 
   yarp_prepare_plugin(${name} CATEGORY device
                               TYPE ${type}
-                              INCLUDE ${public_headers})
+                              INCLUDE ${public_headers}
+                              OPTION ENABLE_${name}
+                              DEFAULT ON)
 
   if(NOT SKIP_${name})
 
