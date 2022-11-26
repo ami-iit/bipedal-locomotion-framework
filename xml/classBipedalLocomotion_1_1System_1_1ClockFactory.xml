@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1System_1_1ClockFactory" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::ClockFactory</compoundname>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1RosClockFactory" prot="public" virt="non-virtual">BipedalLocomotion::System::RosClockFactory</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1StdClockFactory" prot="public" virt="non-virtual">BipedalLocomotion::System::StdClockFactory</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public" virt="non-virtual">BipedalLocomotion::System::YarpClockFactory</derivedcompoundref>
     <includes local="no">BipedalLocomotion/System/IClock.h</includes>
@@ -26,6 +27,7 @@
         <argsstring>()=0</argsstring>
         <name>createClock</name>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClockFactory_1a0d52fae693d8ddfd2e10f003c0763a88">createClock</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClockFactory_1abab3c57917aa81c4377587dc562d6e92">createClock</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory_1a51acd15c369fef24115b3eb5dca065c7">createClock</reimplementedby>
         <briefdescription>
 <para>Create a clock. </para>
@@ -44,13 +46,19 @@
 <para>Please inherit from clock class if you want to build your custom clock. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="3">
+      <node id="2">
+        <label>BipedalLocomotion::System::RosClockFactory</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1RosClockFactory"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
         <label>BipedalLocomotion::System::YarpClockFactory</label>
         <link refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="2">
+      <node id="3">
         <label>BipedalLocomotion::System::StdClockFactory</label>
         <link refid="classBipedalLocomotion_1_1System_1_1StdClockFactory"/>
         <childnode refid="1" relation="public-inheritance">

@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classBipedalLocomotion_1_1System_1_1IClock" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>BipedalLocomotion::System::IClock</compoundname>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1RosClock" prot="public" virt="non-virtual">BipedalLocomotion::System::RosClock</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1StdClock" prot="public" virt="non-virtual">BipedalLocomotion::System::StdClock</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public" virt="non-virtual">BipedalLocomotion::System::YarpClock</derivedcompoundref>
     <includes local="no">BipedalLocomotion/System/IClock.h</includes>
@@ -43,6 +44,7 @@
         <argsstring>()=0</argsstring>
         <name>now</name>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1adf4aa071022036e199f19daf693eb042">now</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a012f7ae6a37f527b7503fe8b6dd7c1ef">now</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a6d9d80e3c3c123455bed534c2565082a">now</reimplementedby>
         <briefdescription>
 <para>Get the current time. </para>
@@ -64,6 +66,7 @@
         <argsstring>(const std::chrono::duration&lt; double &gt; &amp;sleepDuration)=0</argsstring>
         <name>sleepFor</name>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa4ab82f30a91e6bf7f98fb001c97e135">sleepFor</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a572a7c94b44c3b6bc3f044612c729d6d">sleepFor</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a97ff209b7f7b79aa04ef227a0f8aca2c">sleepFor</reimplementedby>
         <param>
           <type>const std::chrono::duration&lt; double &gt; &amp;</type>
@@ -94,6 +97,7 @@
         <argsstring>(const std::chrono::duration&lt; double &gt; &amp;time)=0</argsstring>
         <name>sleepUntil</name>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa49d0bb14a7cc40704c197456d90241e">sleepUntil</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a703b948c60e1349843412579983683db">sleepUntil</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1af889336071d6371103749346e3dbcdf9">sleepUntil</reimplementedby>
         <param>
           <type>const std::chrono::duration&lt; double &gt; &amp;</type>
@@ -124,6 +128,7 @@
         <argsstring>()=0</argsstring>
         <name>yield</name>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1abb868d54c2b5daff1970ad552a4536f4">yield</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a962c94da417af69dd731a193acdc0f26">yield</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a1223985052e0b22e18f2ce3851c2e884">yield</reimplementedby>
         <briefdescription>
 <para>Provides a hint to the implementation to reschedule the execution of threads, allowing other threads to run. </para>
@@ -148,12 +153,18 @@
         <link refid="classBipedalLocomotion_1_1System_1_1IClock"/>
       </node>
       <node id="2">
+        <label>BipedalLocomotion::System::RosClock</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1RosClock"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>BipedalLocomotion::System::StdClock</label>
         <link refid="classBipedalLocomotion_1_1System_1_1StdClock"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion::System::YarpClock</label>
         <link refid="classBipedalLocomotion_1_1System_1_1YarpClock"/>
         <childnode refid="1" relation="public-inheritance">

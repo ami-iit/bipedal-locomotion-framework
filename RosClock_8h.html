@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::ClockFactory class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion/System/RosClock.h file | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,57 +61,41 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>ClockFactory <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IClock_8h.html">&lt;BipedalLocomotion/System/IClock.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="dir_2b480c6fc79e0b0cdd168fd50c1d5baf.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_e35e9bd990223c176fd7894cafbb76ca.html">System</a>/</span>RosClock.h <span class="m-thin">file</span>
         </h1>
-        <p><a href="classBipedalLocomotion_1_1System_1_1ClockFactory.html" class="m-doc">ClockFactory</a> is an interface that implements the factory paradigm.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>Please inherit from clock class if you want to build your custom clock.</p>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
+<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2022 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
-            <dt>
-              class <a href="classBipedalLocomotion_1_1System_1_1RosClockFactory.html" class="m-doc">RosClockFactory</a> <span class="m-label m-flat m-warning">final</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1System_1_1StdClockFactory.html" class="m-doc">StdClockFactory</a> <span class="m-label m-flat m-warning">final</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1System_1_1YarpClockFactory.html" class="m-doc">YarpClockFactory</a> <span class="m-label m-flat m-warning">final</span>
-            </dt>
+            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
+            <dd></dd>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1System.html" class="m-doc">BipedalLocomotion::System</a></dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
-            <dt id="a2cda40326f053a485bfe4aca0e1dfd70">
-              <span class="m-doc-wrap-bumper"><a href="#a2cda40326f053a485bfe4aca0e1dfd70" class="m-doc-self">~ClockFactory</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1System_1_1RosClock.html" class="m-doc">BipedalLocomotion::System::RosClock</a>
             </dt>
-            <dd>Destructor.</dd>
-          </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt id="ab79c5dcd950de2600b5e344260f46bd2">
-              <span class="m-doc-wrap-bumper">auto <a href="#ab79c5dcd950de2600b5e344260f46bd2" class="m-doc-self">createClock</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classBipedalLocomotion_1_1System_1_1IClock.html" class="m-doc">IClock</a>&amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1RosClock.html" class="m-doc">RosClock</a> implements the <a href="classBipedalLocomotion_1_1System_1_1IClock.html" class="m-doc">IClock</a> interface using ros functions.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1System_1_1RosClockFactory.html" class="m-doc">BipedalLocomotion::System::RosClockFactory</a>
             </dt>
-            <dd>Create a clock.</dd>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>
