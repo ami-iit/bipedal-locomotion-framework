@@ -19,6 +19,10 @@ dependency_classifier(spdlog MINIMUM_VERSION 1.5.0 IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
+find_package(rclcpp 16.0.0 QUIET)
+checkandset_dependency(rclcpp MINIMUM_VERSION 16.0.0)
+dependency_classifier(rclcpp MINIMUM_VERSION 16.0.0 IS_USED ${FRAMEWORK_USE_rclcpp} PUBLIC)
+
 find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools QUIET)
 checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
@@ -107,6 +111,10 @@ framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_RosImplementation
+  "Compile All the ROS implementations?" ON
+  "FRAMEWORK_USE_rclcpp" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
