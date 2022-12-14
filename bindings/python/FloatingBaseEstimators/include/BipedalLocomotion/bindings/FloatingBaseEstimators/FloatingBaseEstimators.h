@@ -17,10 +17,6 @@ namespace bindings
 namespace FloatingBaseEstimators
 {
 
-void CreateKinDynComputations(pybind11::module& module);
-
-void CreateKinDynComputationsDescriptor(pybind11::module& module);
-
 void CreateFloatingBaseEstimator(pybind11::module& module);
 
 } // namespace FloatingBaseEstimators

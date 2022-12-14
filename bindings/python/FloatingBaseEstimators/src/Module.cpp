@@ -22,8 +22,6 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "Floating base estimators module.";
 
-    CreateKinDynComputations(module);
-    CreateKinDynComputationsDescriptor(module);
     CreateFloatingBaseEstimator(module);
     CreateLeggedOdometry(module);
 }
