@@ -4,21 +4,23 @@
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
-
 #include <catch2/catch.hpp>
 
 #include <Eigen/Dense>
+
 #include <cmath>
+#include <memory>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/KinDynComputations.h>
 #include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/Model/Model.h>
 
 #include <iCubModels/iCubModels.h>
 
@@ -29,15 +31,18 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::GenericContainer;
 using namespace BipedalLocomotion::Conversions;
 
-double deg2rad(const double& ang)
+inline double deg2rad(const double& ang)
 {
-    return ang*(M_PI/180);
+    return ang * (M_PI / 180);
 }
 
 bool populateConfig(std::weak_ptr<IParametersHandler> handler, int nr_joints)
 {
     auto handle = handler.lock();
-    if (handle == nullptr) {return false;}
+    if (handle == nullptr)
+    {
+        return false;
+    }
     handle->setParameter("sampling_period_in_s", 0.01);
 
     auto modelInfoGroup = std::make_shared<StdImplementation>();
@@ -117,26 +122,26 @@ TEST_CASE("Invariant EKF Base Estimator")
     const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5_plus");
     std::cout << model_path << std::endl;
 
-
     // load model using modelComputationsHelper
     std::shared_ptr<StdImplementation> modelHandler = std::make_shared<StdImplementation>();
     modelHandler->setParameter("joints_list", joints_list);
     modelHandler->setParameter("model_file_name", model_path);
+    iDynTree::ModelLoader loader;
+    REQUIRE(loader.loadReducedModelFromFile(model_path, joints_list));
 
-    auto kinDynDesc = constructKinDynComputationsDescriptor(modelHandler);
-    REQUIRE(kinDynDesc.isValid());
-    auto model = kinDynDesc.kindyn->model();
+    std::shared_ptr<iDynTree::KinDynComputations> kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    kinDyn->loadRobotModel(loader.model());
 
     // Instantiate the estimator
     InvariantEKFBaseEstimator estimator;
-    REQUIRE(estimator.initialize(parameterHandler, kinDynDesc.kindyn));
+    REQUIRE(estimator.initialize(parameterHandler, kinDyn));
     REQUIRE(estimator.modelComputations().nrJoints() == joints_list.size());
     REQUIRE(estimator.modelComputations().baseLink() == "root_link");
     REQUIRE(estimator.modelComputations().baseLinkIMU() == "root_link_imu_acc");
     REQUIRE(estimator.modelComputations().leftFootContactFrame() == "l_sole");
     REQUIRE(estimator.modelComputations().rightFootContactFrame() == "r_sole");
 
-    auto b_H_imu = toManifPose(model.getFrameTransform(model.getFrameIndex("root_link_imu_acc")));
+    auto b_H_imu = toManifPose(kinDyn->model().getFrameTransform(kinDyn->model().getFrameIndex("root_link_imu_acc")));
     constexpr double tolerance = 1e-5;
     REQUIRE (b_H_imu.coeffs().isApprox(estimator.modelComputations().base_H_IMU().coeffs(), tolerance));
 
@@ -148,7 +153,7 @@ TEST_CASE("Invariant EKF Base Estimator")
 
     // IMU measures
     Eigen::Vector3d acc, gyro;
-    acc << 0.0,   -7.9431,   -5.7513;
+    acc << 0.0, -7.9431, -5.7513;
     gyro << 0.0, 0.0, 0.0;
 
     // contact states
