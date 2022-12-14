@@ -9,17 +9,16 @@ https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
 at your option.
 """
 import bipedal_locomotion_framework as blf
+import idyntree.swig as idyn
 
-
-def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
+def create_tsid(kindyn: idyn.KinDynComputations,
                 param_handler: blf.parameters_handler.IParametersHandler):
     """create_tsid is a function that will help you to create a TSID problem. It creates a TSID object with all the
     associated tasks. The function returns also the variable handler associated
 
     Parameters
     ----------
-    kindyn : bipedal_locomotion_framework.floating_base_estimators.KinDynComputationsDescriptor
-       a `kindyn` computation object. The object will be shared among all the tasks
+    kindyn : idyn.KinDynComputations a `kindyn` computation object. The object will be shared among all the tasks
     param_handler : bipedal_locomotion_framework.parameters_handler.IParametersHandler
        The handler containing all the required parameter.
        The following configuration file can be used as example
@@ -91,7 +90,7 @@ def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescripto
 
         # a task may not have set_kin_dyn method
         if hasattr(tasks[name], "set_kin_dyn") and callable(getattr(tasks[name], "set_kin_dyn")):
-            assert tasks[name].set_kin_dyn(kindyn.kindyn)
+            assert tasks[name].set_kin_dyn(kindyn)
 
         assert tasks[name].initialize(task_group)
 
@@ -109,7 +108,7 @@ def create_tsid(kindyn: blf.floating_base_estimators.KinDynComputationsDescripto
     return solver, tasks, variables_handler
 
 
-def create_ik(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
+def create_ik(kindyn: idyn.KinDynComputations,
               param_handler: blf.parameters_handler.IParametersHandler):
     """create_ik is a function that will help you to create a IK problem. It creates a IK object with all the
     associated tasks. The function returns also the variable handler associated
@@ -181,7 +180,7 @@ def create_ik(kindyn: blf.floating_base_estimators.KinDynComputationsDescriptor,
 
         # a task may not have set_kin_dyn method
         if hasattr(tasks[name], "set_kin_dyn") and callable(getattr(tasks[name], "set_kin_dyn")):
-            assert tasks[name].set_kin_dyn(kindyn.kindyn)
+            assert tasks[name].set_kin_dyn(kindyn)
 
         assert tasks[name].initialize(task_group)
 

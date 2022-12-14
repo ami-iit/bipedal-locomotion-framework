@@ -6,6 +6,7 @@ import manifpy as manif
 import numpy as np
 
 import icub_models
+import idyntree.swig as idyn
 
 def test_custom_task():
     class CustomTask(blf.ik.IKLinearTask):
@@ -52,20 +53,32 @@ def test_custom_task():
     assert qp_ik.finalize(qp_ik_var_handler)
 
 
+def get_kindyn(custom_joints_list=None):
+
+    if custom_joints_list is None:
+        joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
+                       "torso_pitch", "torso_roll", "torso_yaw",
+                       "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
+                       "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
+                       "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
+                       "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
+    else:
+        joints_list = custom_joints_list
+
+    model_loader = idyn.ModelLoader()
+    assert model_loader.loadReducedModelFromFile(str(icub_models.get_model_file("iCubGazeboV2_5")), joints_list)
+
+    # create KinDynComputationsDescriptor
+    kindyn = idyn.KinDynComputations()
+    assert kindyn.loadRobotModel(model_loader.model())
+
+    return joints_list, kindyn
+
+
 def test_com_task():
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
-                   "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
-                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
-                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     com_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -74,7 +87,7 @@ def test_com_task():
 
     # Initialize the task
     com_task = blf.ik.CoMTask()
-    assert com_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert com_task.set_kin_dyn(kindyn)
     assert com_task.initialize(param_handler=com_param_handler)
     com_var_handler = blf.system.VariablesHandler()
     assert com_var_handler.add_variable("robotVelocity", 32) is True # robot velocity size = 26 (joints) + 6 (base)
@@ -84,17 +97,7 @@ def test_com_task():
 def test_se3_task():
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
-                   "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
-                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
-                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     se3_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -105,7 +108,7 @@ def test_se3_task():
 
     # Initialize the task
     se3_task = blf.ik.SE3Task()
-    assert se3_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert se3_task.set_kin_dyn(kindyn)
     assert se3_task.initialize(param_handler=se3_param_handler)
     se3_var_handler = blf.system.VariablesHandler()
     assert se3_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
@@ -119,17 +122,7 @@ def test_se3_task():
 def test_so3_task():
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
-                   "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
-                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
-                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     so3_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -139,7 +132,7 @@ def test_so3_task():
 
     # Initialize the task
     so3_task = blf.ik.SO3Task()
-    assert so3_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert so3_task.set_kin_dyn(kindyn)
     assert so3_task.initialize(param_handler=so3_param_handler)
     so3_var_handler = blf.system.VariablesHandler()
     assert so3_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
@@ -153,54 +146,34 @@ def test_so3_task():
 def test_joint_tracking_task():
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
-                   "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
-                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
-                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
     joint_tracking_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
-    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn.getNrOfDegreesOfFreedom())
 
     # Initialize the task
     joint_tracking_task = blf.ik.JointTrackingTask()
-    assert joint_tracking_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert joint_tracking_task.set_kin_dyn(kindyn)
     assert joint_tracking_task.initialize(param_handler=joint_tracking_param_handler)
     joint_tracking_var_handler = blf.system.VariablesHandler()
     assert joint_tracking_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
     assert joint_tracking_task.set_variables_handler(variables_handler=joint_tracking_var_handler)
 
     # Set desired joint pos
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values)
 
     # Set desired joint pos and vel
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
-    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
+    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
 def test_angular_momentum_task():
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
-                   "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
-                   "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
-                   "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     angular_momentum_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -208,7 +181,7 @@ def test_angular_momentum_task():
 
     # Initialize the task
     angular_momentum_task = blf.ik.AngularMomentumTask()
-    assert angular_momentum_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert angular_momentum_task.set_kin_dyn(kindyn)
     assert angular_momentum_task.initialize(param_handler=angular_momentum_param_handler)
     angular_momentum_var_handler = blf.system.VariablesHandler()
     assert angular_momentum_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
@@ -238,39 +211,37 @@ def test_qp_inverse_kinematics():
     assert qp_ik.initialize(handler=qp_ik_param_handler)
 
     # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", str(icub_models.get_model_file("iCubGazeboV2_5")))
-    joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'r_hip_pitch',
-                   'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'torso_pitch', 'torso_roll',
-                   'torso_yaw', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', 'l_wrist_prosup',
-                   'l_wrist_pitch', 'l_wrist_yaw', 'neck_pitch', 'neck_roll', 'neck_yaw', 'r_shoulder_pitch',
-                   'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow', 'r_wrist_prosup', 'r_wrist_pitch', 'r_wrist_yaw']
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
+    custom_joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'r_hip_pitch',
+                          'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'torso_pitch', 'torso_roll',
+                          'torso_yaw', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', 'l_wrist_prosup',
+                          'l_wrist_pitch', 'l_wrist_yaw', 'neck_pitch', 'neck_roll', 'neck_yaw', 'r_shoulder_pitch',
+                          'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow', 'r_wrist_prosup', 'r_wrist_pitch', 'r_wrist_yaw']
+
+    joints_list, kindyn = get_kindyn(custom_joints_list)
 
     # Set the initial robot state
-    world_T_base = np.asarray([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.], [0., 0., 0., 1.]])
-    joint_values = [0.4147046680648114, 0.020109925966605414, -0.008920202688283316, -0.9417931898020863,
-                    -0.5243497613177115, -0.021969353979888327, 0.41490863370740766, 0.019729971064546152,
-                    -0.00875663754461344, -0.942238731363784, -0.5245880299799013, -0.021615580177534933,
-                    0.10368807143683698, -1.7513061346176159e-06, -3.762644846952276e-05, -0.1599473872698949,
-                    0.4341604471687158, 0.18350557928473807, 0.5390720970077302, 6.0766272665334824e-05,
+    world_T_base = np.array([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.], [0., 0., 0., 1.]])
+
+
+    joint_values = [0.4147046680648114, 0.020109925966605414, -0.008920202688283316,
+                    -0.9417931898020863, -0.5243497613177115, -0.021969353979888327,
+                    0.41490863370740766, 0.019729971064546152, -0.00875663754461344, -0.942238731363784, -0.5245880299799013, -0.021615580177534933, 0.10368807143683698,
+                    -1.7513061346176159e-06, -3.762644846952276e-05, -0.1599473872698949, 0.4341604471687158, 0.18350557928473807, 0.5390720970077302, 6.0766272665334824e-05,
                     -0.0010549820549572227, -6.457409077219657e-05, 0.0002255313408076292, 2.3204341497780863e-05,
                     5.920527253092593e-07, -0.1591984430641039, 0.4340643739146118, 0.18311274358002663,
                     0.5398797698508592, 5.367856260643534e-05, -0.0010455524092736824, 6.414366731688693e-05]
     s = np.array(joint_values)
     base_velocity = [0.0] * 6
-    s_dot = [0.0] * kindyn_desc.kindyn.get_nr_of_dofs()
+    s_dot = [0.0] * kindyn.getNrOfDegreesOfFreedom()
     world_gravity = [0.0, 0.0, blf.math.StandardAccelerationOfGravitation]
-    assert kindyn_desc.kindyn.set_robot_state(world_T_base, s, base_velocity, s_dot, world_gravity)
+    assert kindyn.setRobotState(world_T_base, s, base_velocity, s_dot, world_gravity)
 
     # Configure CoM task
     com_param_handler = blf.parameters_handler.StdParametersHandler()
     com_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
     com_param_handler.set_parameter_float(name="kp_linear", value=10.0)
     com_task = blf.ik.CoMTask()
-    assert com_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert com_task.set_kin_dyn(kindyn)
     assert com_task.initialize(param_handler=com_param_handler)
     com_var_handler = blf.system.VariablesHandler()
     assert com_var_handler.add_variable("robotVelocity", 38) is True # robot velocity size = 32 (joints) + 6 (base)
@@ -287,7 +258,7 @@ def test_qp_inverse_kinematics():
     se3_param_handler.set_parameter_float(name="kp_linear", value=10.0)
     se3_param_handler.set_parameter_float(name="kp_angular", value=10.0)
     se3_task = blf.ik.SE3Task()
-    assert se3_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert se3_task.set_kin_dyn(kindyn)
     assert se3_task.initialize(param_handler=se3_param_handler)
     se3_var_handler = blf.system.VariablesHandler()
     assert se3_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
@@ -302,9 +273,9 @@ def test_qp_inverse_kinematics():
     # Configure joint tracking task (regularization)
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
     joint_tracking_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
-    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn.getNrOfDegreesOfFreedom())
     joint_tracking_task = blf.ik.JointTrackingTask()
-    assert joint_tracking_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert joint_tracking_task.set_kin_dyn(kindyn)
     assert joint_tracking_task.initialize(param_handler=joint_tracking_param_handler)
     joint_tracking_var_handler = blf.system.VariablesHandler()
     assert joint_tracking_var_handler.add_variable("robotVelocity", 38) is True  # robot velocity size = 32 (joints) + 6 (base)
@@ -320,7 +291,7 @@ def test_qp_inverse_kinematics():
     assert joint_tracking_task.set_set_point(joint_position=np.add(joint_values,joint_values_delta))
 
     # Add joint tracking task as soft constraint
-    assert qp_ik.add_task(task=joint_tracking_task, task_name="joint_tracking_task", priority=1, weight=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    assert qp_ik.add_task(task=joint_tracking_task, task_name="joint_tracking_task", priority=1, weight=[1.0]*kindyn.getNrOfDegreesOfFreedom())
 
     # Check that all the tasks have been added
     task_names = qp_ik.get_task_names()
