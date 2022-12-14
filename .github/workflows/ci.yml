@@ -14,7 +14,7 @@ env:
   vcpkg_robotology_TAG: v0.10.1
   YCM_TAG: v0.14.2
   YARP_TAG: v3.7.0
-  iDynTree_TAG: v5.2.1
+  iDynTree_TAG: v8.0.0
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
@@ -340,7 +340,9 @@ jobs:
         git checkout ${iDynTree_TAG}
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DIDYNTREE_USES_PYTHON:BOOL=ON \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
