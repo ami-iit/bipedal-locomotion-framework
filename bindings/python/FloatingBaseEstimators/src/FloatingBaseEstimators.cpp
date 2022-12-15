@@ -11,10 +11,10 @@
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/ModelComputationsHelper.h>
 #include <BipedalLocomotion/Math/Constants.h>
 
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
+#include <BipedalLocomotion/bindings/type_caster/swig.h>
 
 namespace BipedalLocomotion
 {
@@ -133,8 +133,18 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
             "initialize",
             [](FloatingBaseEstimator& impl,
                std::shared_ptr<IParametersHandler> handler,
-               std::shared_ptr<iDynTree::KinDynComputations> kinDyn) -> bool {
-                return impl.initialize(handler, kinDyn);
+               py::object& obj) -> bool {
+                std::shared_ptr<iDynTree::KinDynComputations>* kinDynPtr
+                    = pybind11::detail::swig_wrapped_pointer_to_pybind<
+                        std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+                if (kinDynPtr == nullptr)
+                {
+                    throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                  "an iDynTree::KinDynComputations object.");
+                }
+
+                return impl.initialize(handler, *kinDynPtr);
             },
             py::arg("handler"),
             py::arg("kindyn"));
