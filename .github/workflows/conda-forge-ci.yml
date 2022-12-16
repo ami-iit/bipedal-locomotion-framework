@@ -26,7 +26,7 @@ jobs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         mamba-version: "*"
-        channels: conda-forge,robotology,robostack-humble
+        channels: conda-forge,robostack-staging
         channel-priority: true
 
     - name: Dependencies
