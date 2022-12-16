@@ -101,7 +101,7 @@ jobs:
       run: |
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
+        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json numpy
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
