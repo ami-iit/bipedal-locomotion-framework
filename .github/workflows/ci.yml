@@ -516,10 +516,11 @@ jobs:
         echo "Default interpreter: $(which python)"
         python3 -c 'import sys; print(sys.prefix)'
 
-    - name: Extend the pythonpath [Ubuntu]
+    - name: Extend the pythonpath and LD_LIBRARY_PATH [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
         echo "PYTHONPATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${GITHUB_WORKSPACE}/install/deps/lib" >> $GITHUB_ENV
 
     # ===================
     # CMAKE-BASED PROJECT
