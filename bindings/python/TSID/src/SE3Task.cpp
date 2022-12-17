@@ -13,7 +13,9 @@
 #include <BipedalLocomotion/TSID/SE3Task.h>
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/SE3Task.h>
+#include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -27,10 +29,14 @@ void CreateSE3Task(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
 
-    py::class_<SE3Task, std::shared_ptr<SE3Task>, TSIDLinearTask,
-	       BipedalLocomotion::System::ITaskControllerManager>(module, "SE3Task")
+    py::class_<SE3Task,
+               std::shared_ptr<SE3Task>, //
+               TSIDLinearTask,
+               BipedalLocomotion::System::ITaskControllerManager>(module, "SE3Task")
         .def(py::init())
-        .def("set_kin_dyn", &SE3Task::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<SE3Task>,
+             py::arg("kin_dyn"))
         .def("set_set_point",
              &SE3Task::setSetPoint,
              py::arg("I_H_F"),

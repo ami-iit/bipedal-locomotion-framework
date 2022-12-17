@@ -11,7 +11,10 @@
 
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/TSID/JointTrackingTask.h>
+
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/JointTrackingTask.h>
+#include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -29,7 +32,9 @@ void CreateJointTrackingTask(pybind11::module& module)
         module,
         "JointTrackingTask")
         .def(py::init())
-        .def("set_kin_dyn", &JointTrackingTask::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<JointTrackingTask>,
+             py::arg("kin_dyn"))
         .def("set_set_point",
              py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(&JointTrackingTask::setSetPoint),
              py::arg("joint_position"))

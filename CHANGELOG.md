@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - YARP devices are now enabled by default if YARP is found (https://github.com/ami-iit/bipedal-locomotion-framework/pull/576).
+- Restructure the python bindings to support _official_ `iDynTree` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/578)
+- Remove _unofficial_ `iDynTree` bindings based on pybind11  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/578)
 
 ### Fix
 - Fix compatibility with YARP 3.8 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/577).

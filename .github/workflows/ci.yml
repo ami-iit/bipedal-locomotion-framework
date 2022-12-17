@@ -14,7 +14,7 @@ env:
   vcpkg_robotology_TAG: v0.10.1
   YCM_TAG: v0.14.2
   YARP_TAG: v3.7.0
-  iDynTree_TAG: v5.2.1
+  iDynTree_TAG: v8.0.0
   Catch2_TAG: v2.13.4
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
@@ -101,17 +101,22 @@ jobs:
       run: |
 
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
+        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 \
+                     libmatio spdlog librealsense nlohmann-json numpy assimp
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
 
         sudo apt-get update
-        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
-                             libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
+        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev \
+                             libboost-system-dev libboost-filesystem-dev libboost-thread-dev \
+                             liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev \
+                             qtmultimedia5-dev libxml2-dev liburdfdom-dev libtinyxml-dev \
+                             liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy \
+                             python3-setuptools  libspdlog-dev  libopencv-dev libpcl-dev \
+                             python3-pybind11 nlohmann-json3-dev libassimp-dev
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
         sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
@@ -340,7 +345,10 @@ jobs:
         git checkout ${iDynTree_TAG}
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DIDYNTREE_USES_PYTHON:BOOL=ON \
+              -DIDYNTREE_USES_ASSIMP:BOOL=ON \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
@@ -508,10 +516,11 @@ jobs:
         echo "Default interpreter: $(which python)"
         python3 -c 'import sys; print(sys.prefix)'
 
-    - name: Extend the pythonpath [Ubuntu]
+    - name: Extend the pythonpath and LD_LIBRARY_PATH [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
         echo "PYTHONPATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${GITHUB_WORKSPACE}/install/deps/lib" >> $GITHUB_ENV
 
     # ===================
     # CMAKE-BASED PROJECT

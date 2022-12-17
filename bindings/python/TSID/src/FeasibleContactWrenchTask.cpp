@@ -11,7 +11,10 @@
 
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/TSID/FeasibleContactWrenchTask.h>
+
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/FeasibleContactWrenchTask.h>
+#include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -29,7 +32,9 @@ void CreateFeasibleContactWrenchTask(pybind11::module& module)
                std::shared_ptr<FeasibleContactWrenchTask>, //
                TSIDLinearTask>(module, "FeasibleContactWrenchTask")
         .def(py::init())
-        .def("set_kin_dyn", &FeasibleContactWrenchTask::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<FeasibleContactWrenchTask>,
+             py::arg("kin_dyn"))
         .def("set_contact_active",
              &FeasibleContactWrenchTask::setContactActive,
              py::arg("is_active"));

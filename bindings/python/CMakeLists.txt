@@ -2,6 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
+add_subdirectory(type_caster)
 add_subdirectory(System)
 add_subdirectory(ParametersHandler)
 add_subdirectory(Contacts)

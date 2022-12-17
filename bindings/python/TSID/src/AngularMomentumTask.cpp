@@ -11,7 +11,9 @@
 
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/TSID/AngularMomentumTask.h>
+
 #include <BipedalLocomotion/bindings/TSID/AngularMomentumTask.h>
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -25,9 +27,13 @@ void CreateAngularMomentumTask(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
 
-    py::class_<AngularMomentumTask, std::shared_ptr<AngularMomentumTask>, TSIDLinearTask>(module, "AngularMomentumTask")
+    py::class_<AngularMomentumTask,
+               std::shared_ptr<AngularMomentumTask>, //
+               TSIDLinearTask>(module, "AngularMomentumTask")
         .def(py::init())
-        .def("set_kin_dyn", &AngularMomentumTask::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<AngularMomentumTask>,
+             py::arg("kin_dyn"))
         .def("set_set_point",
              &AngularMomentumTask::setSetPoint,
              py::arg("angular_momentum"),

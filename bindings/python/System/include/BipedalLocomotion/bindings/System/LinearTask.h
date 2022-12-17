@@ -11,6 +11,9 @@
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/System/LinearTask.h>
+#include <BipedalLocomotion/bindings/type_caster/swig.h>
+
+#include <iDynTree/KinDynComputations.h>
 
 namespace BipedalLocomotion
 {
@@ -61,6 +64,26 @@ public:
         PYBIND11_OVERLOAD_PURE_NAME(bool, LinearTaskBase, "is_valid", isValid);
     }
 };
+
+template <class LinearTask> bool setKinDyn(LinearTask& task, ::pybind11::object& obj)
+{
+    static_assert(std::is_base_of<BipedalLocomotion::System::LinearTask, LinearTask>::value,
+                  "This function can be called only to set a KinDynComputations object to a linear "
+                  "task.");
+
+    std::shared_ptr<iDynTree::KinDynComputations>* cls
+        = pybind11::detail::swig_wrapped_pointer_to_pybind<
+            std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+    if (cls == nullptr)
+    {
+        throw ::pybind11::value_error("Invalid input for the function. Please provide an "
+                                      "iDynTree::KinDynComputations object.");
+    }
+
+    return task.setKinDyn(*cls);
+};
+
 
 void CreateLinearTask(pybind11::module& module);
 
