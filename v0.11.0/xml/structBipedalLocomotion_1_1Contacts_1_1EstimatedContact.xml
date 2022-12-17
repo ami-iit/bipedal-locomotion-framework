@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Contacts::EstimatedContact</compoundname>
+    <basecompoundref refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::ContactBase</basecompoundref>
+    <includes local="no">BipedalLocomotion/Contacts/Contact.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a454271171d5b7d911061307453ced4ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::EstimatedContact::switchTime</definition>
+        <argsstring></argsstring>
+        <name>switchTime</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Instant at which the contact state was toggled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="97" column="12" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a691f44a43415196508166f400204e2a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::EstimatedContact::isActive</definition>
+        <argsstring></argsstring>
+        <name>isActive</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Current state of contact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="102" column="10" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a3832fd0df9212568ff2344a7399b96c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Contacts::EstimatedContact::lastUpdateTime</definition>
+        <argsstring></argsstring>
+        <name>lastUpdateTime</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Time at which the contact details were last updated This field helps in forgetting contacts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="108" column="12" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a542b6128b92bc937f22d97dd2d562e42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, double &gt;</type>
+        <definition>std::pair&lt;bool, double&gt; BipedalLocomotion::Contacts::EstimatedContact::getContactDetails</definition>
+        <argsstring>() const</argsstring>
+        <name>getContactDetails</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="110" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2f06ceb232d603e3ecfacbe5937721c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::Contacts::EstimatedContact::setContactStateStamped</definition>
+        <argsstring>(const std::pair&lt; bool, double &gt; &amp;pair)</argsstring>
+        <name>setContactStateStamped</name>
+        <param>
+          <type>const std::pair&lt; bool, double &gt; &amp;</type>
+          <declname>pair</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="112" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Definition of an Estimated Contact structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BipedalLocomotion::Contacts::EstimatedContact</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::Contacts::ContactBase</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::Contacts::EstimatedContact</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::Contacts::ContactBase</label>
+        <link refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::string</label>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="91" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="92" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a542b6128b92bc937f22d97dd2d562e42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>getContactDetails</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>index</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a691f44a43415196508166f400204e2a0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>isActive</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a3832fd0df9212568ff2344a7399b96c3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>lastUpdateTime</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>name</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1aff58e7de425dabd599c896b6090fe861" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>pose</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2f06ceb232d603e3ecfacbe5937721c5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>setContactStateStamped</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a454271171d5b7d911061307453ced4ad" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>switchTime</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1ac6477ddb8311dc0739d0c2a1022c073f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::EstimatedContact</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
