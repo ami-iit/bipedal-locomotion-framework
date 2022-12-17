@@ -85,7 +85,7 @@
 <para>Struct defining a contact phase. </para>
     </briefdescription>
     <detaileddescription>
-<para>Each phase is characterized by a set of contacts which remain active for the entirety of the phase. <simplesect kind="note"><para>Mathematically speaking the interval of the phase is defined as following <formula id="79">\[ I = [t_b \; t_e) \]</formula> where <formula id="80">$t_b$</formula> is the <ref refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1a7261731022f5517cf714e54b42ac27e8" kindref="member">ContactPhase::beginTime</ref> and <formula id="81">$t_e$</formula> is the <ref refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1aafd854a74ed1fc5507bce1df3b61d459" kindref="member">ContactPhase::endTime</ref>. The end time is not included in the phase. </para>
+<para>Each phase is characterized by a set of contacts which remain active for the entirety of the phase. <simplesect kind="note"><para>Mathematically speaking the interval of the phase is defined as following <formula id="106">\[ I = [t_b \; t_e) \]</formula> where <formula id="107">$t_b$</formula> is the <ref refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1a7261731022f5517cf714e54b42ac27e8" kindref="member">ContactPhase::beginTime</ref> and <formula id="108">$t_e$</formula> is the <ref refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1aafd854a74ed1fc5507bce1df3b61d459" kindref="member">ContactPhase::endTime</ref>. The end time is not included in the phase. </para>
 </simplesect>
 </para>
     </detaileddescription>
