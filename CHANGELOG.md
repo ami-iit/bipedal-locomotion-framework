@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.11.0] - 2022-12-17
 ### Added
 - Log the status of the system in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/571)
 - Add the `ROS2` implementation for Clock class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/575)
@@ -303,7 +303,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.0...master
+[0.11.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.7.0...v0.8.0
