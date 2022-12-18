@@ -26,7 +26,7 @@ env:
   tomlplusplus_TAG: v2.5.0
   icub_models_TAG: v1.23.3
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
-  telemetry_TAG: v0.5.1
+  telemetry_TAG: v1.2.0
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
