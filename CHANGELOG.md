@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+
+### Changed
+
+### Fix
+
 ## [0.11.1] - 2022-12-19
 ### Fix
 - Fix the compilation of the `YarpRobotLoggerDevice` in `Windows` and `macOS` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/580)
@@ -307,6 +314,7 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.1...master
 [0.11.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.9.0...v0.10.0
