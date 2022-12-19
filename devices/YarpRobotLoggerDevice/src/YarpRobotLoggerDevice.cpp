@@ -554,10 +554,21 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         if (ok)
         {
-            for (auto& [cameraName, writer] : m_videoWriters)
+            // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
+            // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
+            // declared from structured binding.
+            // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
+            // If a lambda-expression [...] captures a structured binding (explicitly or
+            // implicitly), the program is ill-formed.
+            // you can find further information here:
+            // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
+            // Note if one day we will support c++20 we can use structured binding see
+            // https://en.cppreference.com/w/cpp/language/structured_binding
+            for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
             {
                 // start a separate the thread for each camera
-                writer.videoThread = std::thread([&] { this->recordVideo(cameraName, writer); });
+                iter->second.videoThread
+                    = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
             }
         }
     }

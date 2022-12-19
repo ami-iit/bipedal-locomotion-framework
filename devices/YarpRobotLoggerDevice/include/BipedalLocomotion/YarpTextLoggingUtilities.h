@@ -7,6 +7,7 @@
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_YARP_TEXT_LOGGING_UTILITIES_H
 
 #include <string>
+#include <cstdint>
 
 #include <yarp/os/Bottle.h>
 
@@ -29,7 +30,7 @@ struct TextLoggingEntry
     std::string cmd;
     std::string args;
     int pid{0};
-    long thread_id{0};
+    std::int64_t thread_id{0};
     std::string component;
     std::string id;
     double systemtime{0.0};

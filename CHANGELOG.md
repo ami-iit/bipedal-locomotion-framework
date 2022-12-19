@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 
 ### Fix
+- Fix the compilation of the `YarpRobotLoggerDevice` in `Windows` and `macOS` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/580)
 
 ## [0.11.0] - 2022-12-17
 ### Added
