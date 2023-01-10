@@ -204,7 +204,10 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                     m_usePositionExogenousFeedback);
     }
 
-    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription + ".";
+    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription
+      + ". Use exogenous feedback position:" + boolToString(m_usePositionExogenousFeedback)
+      + ". Use exogenous feedback orientation:" + boolToString(m_useOrientationExogenousFeedback)
+      + ".";
 
     // initialize the feedback of the controller
     m_R3Controller.setState(manif::SE3d::Translation::Zero());
