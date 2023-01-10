@@ -8,6 +8,23 @@ All notable changes to this project are documented in this file.
 
 ### Fix
 
+## [0.11.1] - 2022-12-19
+### Fix
+- Fix the compilation of the `YarpRobotLoggerDevice` in `Windows` and `macOS` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/580)
+
+## [0.11.0] - 2022-12-17
+### Added
+- Log the status of the system in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/571)
+- Add the `ROS2` implementation for Clock class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/575)
+
+### Changed
+- YARP devices are now enabled by default if YARP is found (https://github.com/ami-iit/bipedal-locomotion-framework/pull/576).
+- Restructure the python bindings to support _official_ `iDynTree` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/578)
+- Remove _unofficial_ `iDynTree` bindings based on pybind11  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/578)
+
+### Fix
+- Fix compatibility with YARP 3.8 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/577).
+
 ## [0.10.0] - 2022-09-23
 ### Added
 - Add the possibility to set the exogenous feedback for the `IK::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/567)
@@ -297,7 +314,9 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.1...master
+[0.11.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.0...v0.11.1
+[0.11.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.7.0...v0.8.0

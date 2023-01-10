@@ -10,6 +10,8 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/TSID/CoMTask.h>
+
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/CoMTask.h>
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
@@ -27,7 +29,9 @@ void CreateCoMTask(pybind11::module& module)
 
     py::class_<CoMTask, std::shared_ptr<CoMTask>, TSIDLinearTask>(module, "CoMTask")
         .def(py::init())
-        .def("set_kin_dyn", &CoMTask::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<CoMTask>,
+             py::arg("kin_dyn"))
         .def("set_set_point",
              &CoMTask::setSetPoint,
              py::arg("position"),

@@ -9,9 +9,12 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/TSID/BaseDynamicsTask.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
+
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/BaseDynamicsTask.h>
+#include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -29,7 +32,9 @@ void CreateBaseDynamicsTask(pybind11::module& module)
                std::shared_ptr<BaseDynamicsTask>, //
                TSIDLinearTask>(module, "BaseDynamicsTask")
         .def(py::init())
-        .def("set_kin_dyn", &BaseDynamicsTask::setKinDyn, py::arg("kin_dyn"));
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<BaseDynamicsTask>,
+             py::arg("kin_dyn"));
 }
 
 } // namespace TSID

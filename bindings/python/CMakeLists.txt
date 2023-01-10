@@ -2,6 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
+add_subdirectory(type_caster)
 add_subdirectory(System)
 add_subdirectory(ParametersHandler)
 add_subdirectory(Contacts)
@@ -31,6 +32,13 @@ else ()
   set(FRAMEWORK_COMPILE_BINDINGS_YarpSystem OFF)
 endif()
 mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_YarpSystem)
+
+if (FRAMEWORK_COMPILE_System AND FRAMEWORK_COMPILE_RosImplementation)
+  set(FRAMEWORK_COMPILE_BINDINGS_RosSystem ON)
+else ()
+  set(FRAMEWORK_COMPILE_BINDINGS_RosSystem OFF)
+endif()
+mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_RosSystem)
 
 configure_file_with_cmakeif(${CMAKE_CURRENT_SOURCE_DIR}/bipedal_locomotion_framework.cpp.in
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp

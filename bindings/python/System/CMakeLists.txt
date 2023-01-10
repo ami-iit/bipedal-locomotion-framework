@@ -25,4 +25,16 @@ if(FRAMEWORK_COMPILE_System)
 
   endif()
 
+  if(FRAMEWORK_COMPILE_RosImplementation)
+
+    add_bipedal_locomotion_python_module(
+      NAME  SystemRosImplementationBindings
+      SOURCES src/RosClock.cpp src/RosModule.cpp
+      HEADERS ${H_PREFIX}/RosClock.h ${H_PREFIX}/RosModule.h
+      LINK_LIBRARIES BipedalLocomotion::SystemRosImplementation
+      )
+
+  endif()
+
+
 endif()

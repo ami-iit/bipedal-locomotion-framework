@@ -14,6 +14,7 @@
 #include <BipedalLocomotion/System/ITaskControllerManager.h>
 
 #include <BipedalLocomotion/bindings/IK/R3Task.h>
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 
 #include <manif/manif.h>
 
@@ -34,7 +35,9 @@ void CreateR3Task(pybind11::module& module)
                IKLinearTask,
                BipedalLocomotion::System::ITaskControllerManager>(module, "R3Task")
         .def(py::init())
-        .def("set_kin_dyn", &R3Task::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<R3Task>,
+             py::arg("kin_dyn"))
         .def("set_set_point",
              &R3Task::setSetPoint,
              py::arg("I_p_F"),

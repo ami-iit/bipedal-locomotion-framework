@@ -33,6 +33,7 @@ function(add_bipedal_yarp_device)
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
+  set(private_link_libraries ${${prefix}_PRIVATE_LINK_LIBRARIES})
 
   set(YARP_FORCE_DYNAMIC_PLUGINS ON)
   # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
@@ -40,13 +41,16 @@ function(add_bipedal_yarp_device)
 
   yarp_prepare_plugin(${name} CATEGORY device
                               TYPE ${type}
-                              INCLUDE ${public_headers})
+                              INCLUDE ${public_headers}
+                              OPTION ENABLE_${name}
+                              DEFAULT ON)
 
   if(NOT SKIP_${name})
 
     yarp_add_plugin(${name} ${sources} ${public_headers})
 
     target_link_libraries(${name} PUBLIC ${public_link_libraries})
+    target_link_libraries(${name} PRIVATE ${private_link_libraries})
     target_compile_features(${name} PUBLIC cxx_std_17)
 
     # Specify include directories for both compilation and installation process.

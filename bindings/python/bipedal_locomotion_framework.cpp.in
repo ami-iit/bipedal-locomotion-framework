@@ -29,6 +29,10 @@
 #include <BipedalLocomotion/bindings/System/YarpModule.h>
 @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
 
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+#include <BipedalLocomotion/bindings/System/RosModule.h>
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+
 @cmakeif FRAMEWORK_COMPILE_Contact
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Contact
@@ -103,6 +107,10 @@ PYBIND11_MODULE(bindings, m)
     @cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
     bindings::System::CreateYarpModule(systemModule);
     @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+    bindings::System::CreateRosModule(systemModule);
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module contactsModule = m.def_submodule("contacts");

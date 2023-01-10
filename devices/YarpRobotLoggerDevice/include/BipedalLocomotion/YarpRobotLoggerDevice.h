@@ -18,7 +18,7 @@
 #include <opencv2/videoio.hpp>
 
 #include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/Wrapper.h>
+#include <yarp/dev/IMultipleWrapper.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
@@ -135,6 +135,7 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
     std::vector<std::string> m_textLoggingSubnames;
+    std::vector<std::string> m_codeStatusCmdPrefixes;
 
     robometry::BufferManager m_bufferManager;
 
@@ -152,8 +153,8 @@ private:
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
 
-    bool saveVideo(const std::string& fileName,
-                   const robometry::SaveCallbackSaveMethod& method);
+    bool saveCallback(const std::string& fileName,
+                      const robometry::SaveCallbackSaveMethod& method);
 };
 
 } // namespace BipedalLocomotion

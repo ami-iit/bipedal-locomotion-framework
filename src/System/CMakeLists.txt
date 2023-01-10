@@ -22,7 +22,7 @@ if(FRAMEWORK_COMPILE_System)
                            src/StdClock.cpp src/Clock.cpp src/QuitHandler.cpp src/Barrier.cpp
                            src/ConstantWeightProvider.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
-    SUBDIRECTORIES         tests YarpImplementation
+    SUBDIRECTORIES         tests YarpImplementation RosImplementation
     )
 
 endif()

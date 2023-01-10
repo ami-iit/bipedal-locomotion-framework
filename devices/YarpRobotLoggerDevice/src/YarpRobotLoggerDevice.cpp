@@ -5,10 +5,14 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstdio>
 #include <cstdlib>
+#include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <memory>
 #include <mutex>
+#include <sstream>
 #include <string>
 #include <tuple>
 
@@ -19,11 +23,10 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/TextLogging/LoggerBuilder.h>
 #include <BipedalLocomotion/TextLogging/YarpLogger.h>
-#include <BipedalLocomotion/YarpUtilities/Helper.h>
-#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
-
 #include <BipedalLocomotion/YarpRobotLoggerDevice.h>
 #include <BipedalLocomotion/YarpTextLoggingUtilities.h>
+#include <BipedalLocomotion/YarpUtilities/Helper.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
@@ -32,9 +35,7 @@
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
 
-#include <cstdio>
-#include <fstream>
-#include <iostream>
+#include <process.hpp>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -117,6 +118,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     {
         log()->info("{} Unable to get the 'text_logging_subnames' parameter for the telemetry. All "
                     "the ports related to the text logging will be considered.",
+                    logPrefix);
+    }
+
+    if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+    {
+        log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will be "
+                    "added to commands.",
                     logPrefix);
     }
 
@@ -592,25 +600,33 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                              cameraInfo->second.second));
         }
 
-        // if there is at least one camera we set the callback
-        if (m_rgbCamerasList.size() != 0)
-        {
-            ok = ok
-                 && m_bufferManager.setSaveCallback(
-                     [this](const std::string& filePrefix,
-                            const robometry::SaveCallbackSaveMethod& method)
-                         -> bool { return this->saveVideo(filePrefix, method); });
-        }
-
         if (ok)
         {
-            for (auto& [cameraName, writer] : m_videoWriters)
+            // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
+            // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
+            // declared from structured binding.
+            // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
+            // If a lambda-expression [...] captures a structured binding (explicitly or
+            // implicitly), the program is ill-formed.
+            // you can find further information here:
+            // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
+            // Note if one day we will support c++20 we can use structured binding see
+            // https://en.cppreference.com/w/cpp/language/structured_binding
+            for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
             {
                 // start a separate the thread for each camera
-                writer.videoThread = std::thread([&] { this->recordVideo(cameraName, writer); });
+                iter->second.videoThread
+                    = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
             }
         }
     }
+
+    ok = ok
+         && m_bufferManager.setSaveCallback(
+             [this](const std::string& filePrefix,
+                    const robometry::SaveCallbackSaveMethod& method) -> bool {
+                 return this->saveCallback(filePrefix, method);
+             });
 
     if (ok)
     {
@@ -1042,10 +1058,31 @@ void YarpRobotLoggerDevice::run()
     }
 }
 
-bool YarpRobotLoggerDevice::saveVideo(
+bool YarpRobotLoggerDevice::saveCallback(
     const std::string& fileName,
     const robometry::SaveCallbackSaveMethod& method)
 {
+    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
+        std::stringstream processStream, stream;
+
+        // run the process
+        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
+            processStream << std::string(bytes, n);
+        });
+
+        // if the process status is ok we can save the output
+        auto exitStatus = process.get_exit_status();
+        if (exitStatus == 0)
+        {
+            stream << "### " << head << std::endl;
+            stream << "```" << std::endl;
+            stream << processStream.str() << std::endl;
+            stream << "```" << std::endl;
+        }
+        return stream.str();
+    };
+
+    // save the video if there is any
     for (const auto& camera : m_rgbCamerasList)
     {
         const std::string temp = fileName + "_" + camera + ".mp4";
@@ -1069,6 +1106,32 @@ bool YarpRobotLoggerDevice::saveVideo(
                                                              cameraInfo->second.second));
         }
     }
+
+    // save the status of the code
+    std::ofstream file(fileName + ".md");
+    file << "# " << fileName << std::endl;
+    file << "File containing all the installed software required to replicate the experiment.  "
+         << std::endl;
+
+    if (m_codeStatusCmdPrefixes.empty())
+    {
+        file << codeStatus("bash "
+                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                           "ROBOTOLOGY");
+        file << codeStatus("apt list --installed", "APT");
+    } else
+    {
+        for (const auto& prefix : m_codeStatusCmdPrefixes)
+        {
+            file << "## `" << prefix << "`" << std::endl;
+            file << codeStatus(prefix
+                                   + " \"bash ${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh\"",
+                               "ROBOTOLOGY");
+            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
+        }
+    }
+
+    file.close();
 
     return true;
 }

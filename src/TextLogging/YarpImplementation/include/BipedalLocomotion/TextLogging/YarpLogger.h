@@ -72,7 +72,7 @@ using YarpSink_mt = YarpSink<std::mutex>;
 
 
 /**
- * YarpLoggetFactory implements the factory you should use to enable the sink using yaro.
+ * YarpLoggerFactory implements the factory you should use to enable the sink using yaro.
  * The YARP logger can be easily used as follows
  * \code{.cpp}
  * #include <BipedalLocomotion/TextLogging/Logger.h>

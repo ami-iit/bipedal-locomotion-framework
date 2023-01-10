@@ -11,7 +11,9 @@
 
 #include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/IK/AngularMomentumTask.h>
+
 #include <BipedalLocomotion/bindings/IK/AngularMomentumTask.h>
+#include <BipedalLocomotion/bindings/System/LinearTask.h>
 
 namespace BipedalLocomotion
 {
@@ -29,7 +31,9 @@ void CreateAngularMomentumTask(pybind11::module& module)
                std::shared_ptr<AngularMomentumTask>,
                IKLinearTask>(module, "AngularMomentumTask")
         .def(py::init())
-        .def("set_kin_dyn", &AngularMomentumTask::setKinDyn, py::arg("kin_dyn"))
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<AngularMomentumTask>,
+             py::arg("kin_dyn"))
         .def("set_set_point", &AngularMomentumTask::setSetPoint, py::arg("angular_momentum"));
 }
 
