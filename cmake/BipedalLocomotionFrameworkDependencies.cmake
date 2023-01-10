@@ -78,9 +78,9 @@ find_package(nlohmann_json 3.7.3 QUIET)
 checkandset_dependency(nlohmann_json MINIMUM_VERSION 3.7.3)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
-find_package(tomlplusplus 2.4.0 QUIET)
-checkandset_dependency(tomlplusplus MINIMUM_VERSION 2.4.0)
-dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
+find_package(tomlplusplus 3.0.1 QUIET)
+checkandset_dependency(tomlplusplus MINIMUM_VERSION 3.0.1)
+dependency_classifier(tomlplusplus MINIMUM_VERSION 3.0.1 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
 find_package(robometry 1.1.0 QUIET)
 checkandset_dependency(robometry MINIMUM_VERSION 1.1.0)
