@@ -662,11 +662,23 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     const auto lookForExogenousSignalPeriod = std::chrono::duration<double>(1);
     m_lookForNewExogenousSignalIsRunning = true;
 
+    auto connectToExogeneous = [](auto& signals) -> void {
+        for (auto& [name, signal] : signals)
+        {
+            if (!signal.connected && yarp::os::Network::exists(name))
+            {
+                std::lock_guard<std::mutex> lock(signal.mutex);
+                signal.connected = signal.connect();
+            }
+        }
+    };
+
     while (m_lookForNewExogenousSignalIsRunning)
     {
         // detect if a clock has been reset
         oldTime = time;
         time = BipedalLocomotion::clock().now();
+
         // if the current time is lower than old time, the timer has been reset.
         if ((time - oldTime).count() < 1e-12)
         {
@@ -674,48 +686,9 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         }
         wakeUpTime += lookForExogenousSignalPeriod;
 
-        bool allPortsConnected = true;
-        for (const auto& [name, signal] : m_vectorsCollectionSignals)
-        {
-            allPortsConnected = allPortsConnected && signal.connected;
-        }
-        for (const auto& [name, signal] : m_vectorSignals)
-        {
-            allPortsConnected = allPortsConnected && signal.connected;
-        }
-
-        if (!allPortsConnected)
-        {
-            // check for new messages
-            yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
-            for (const auto& port : yarpPorts)
-            {
-                // check if the port has not be already connected if exits, its resposive
-                auto vectorsCollectionSignal = m_vectorsCollectionSignals.find(port.name);
-                if (vectorsCollectionSignal != m_vectorsCollectionSignals.end())
-                {
-                    if (!vectorsCollectionSignal->second.connected
-                        && yarp::os::Network::exists(port.name))
-                    {
-                        std::lock_guard<std::mutex> lock(vectorsCollectionSignal->second.mutex);
-                        vectorsCollectionSignal->second.connected
-                            = vectorsCollectionSignal->second.connect();
-                    }
-                } else
-                {
-                    // check if the port has not be already connected if exits, its resposive
-                    auto vectorSignal = m_vectorSignals.find(port.name);
-                    if (vectorSignal != m_vectorSignals.end())
-                    {
-                        if (!vectorSignal->second.connected && yarp::os::Network::exists(port.name))
-                        {
-                            std::lock_guard<std::mutex> lock(vectorSignal->second.mutex);
-                            vectorSignal->second.connected = vectorSignal->second.connect();
-                        }
-                    }
-                }
-            }
-        }
+        // try to connect to the exogenous signals
+        connectToExogeneous(m_vectorsCollectionSignals);
+        connectToExogeneous(m_vectorSignals);
 
         // release the CPU
         BipedalLocomotion::clock().yield();
