@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 
 ### Changed
+- Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
 
 ### Fix
 
