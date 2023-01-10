@@ -587,8 +587,11 @@ struct YarpSensorBridge::Impl
         if (nrSensors != sensorList.size())
         {
             log()->error("{} Expecting the same number of MAS sensors attached to the Bridge as "
-                         "many mentioned in the initialization step.",
-                         logPrefix);
+                         "many mentioned in the initialization step. Number of MAS sensor in the interface: {}. "
+                         "Number of sensor in itialization: {}.",
+                         logPrefix,
+                         nrSensors,
+                         sensorList.size());
             return false;
         }
 
@@ -893,6 +896,7 @@ struct YarpSensorBridge::Impl
                                                  metaData.sensorsList.IMUsList,
                                                  interfaceType))
             {
+                log()->error("{} Unable to attach the imus as generic or analog sensors.", logPrefix);
                 return false;
             }
         }
@@ -905,6 +909,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.linearAccelerometersList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the accelerometer as MAS.", logPrefix);
                 return false;
             }
         }
@@ -917,6 +922,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.gyroscopesList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the gyros as MAS.", logPrefix);
                 return false;
             }
         }
@@ -929,6 +935,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.orientationSensorsList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the orientation as MAS.", logPrefix);
                 return false;
             }
         }
@@ -941,6 +948,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.magnetometersList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the magnetoemeters as MAS.", logPrefix);
                 return false;
             }
         }
