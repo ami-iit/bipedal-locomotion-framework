@@ -89,10 +89,19 @@ class YarpLoggerFactory final : public LoggerFactory
 {
 public:
     /**
+     * Construct a new YarpLoggerFactory object
+     * @param name the name of the logger which will be used inside the formatted messages
+     */
+    YarpLoggerFactory(const std::string_view& name = "blf") : m_name{name} {}
+
+    /**
      * Create the YARPLogger as a singleton
      * @return the pointer to TextLogging::Logger that streams the output using YARP
      */
     TextLogging::Logger* const createLogger() final;
+
+private:
+    const std::string m_name; /** The name of the logger */
 };
 
 } // namespace TextLogging

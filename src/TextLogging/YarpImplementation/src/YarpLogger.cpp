@@ -18,18 +18,18 @@ inline std::shared_ptr<TextLogging::Logger> YarpSink_mt(const std::string& logge
     return Factory::template create<TextLogging::sinks::YarpSink_mt>(loggerName);
 }
 
-std::shared_ptr<TextLogging::Logger> _createLogger()
+std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
 {
-    auto logger = spdlog::get("blf");
+    auto logger = spdlog::get(name);
 
     // if the logger called blf already exist. If it does not exist it is created.
     if (logger == nullptr)
     {
         // spdlog already handle the logger as singleton create the logger called blf
-        auto console = YarpSink_mt("blf");
+        auto console = YarpSink_mt(name);
 
         // get the logger
-        logger = spdlog::get("blf");
+        logger = spdlog::get(name);
 
         // if the project is compiled in debug the level of spdlog is set in debug
 #ifdef NDEBUG
@@ -47,7 +47,7 @@ std::shared_ptr<TextLogging::Logger> _createLogger()
 TextLogging::Logger* const TextLogging::YarpLoggerFactory::createLogger()
 {
     // Since the oobject is static the memory is not deallocated
-    static std::shared_ptr<TextLogging::Logger> logger(_createLogger());
+    static std::shared_ptr<TextLogging::Logger> logger(_createLogger(m_name));
 
     // the logger exist because loggerCreation is called.
     return logger.get();

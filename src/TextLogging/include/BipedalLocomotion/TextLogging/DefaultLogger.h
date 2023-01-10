@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_TEXT_LOGGING_DEFAULT_LOGGER_FACTORY_H
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <string_view>
 
 namespace BipedalLocomotion
 {
@@ -19,10 +20,19 @@ class DefaultLoggerFactory final : public LoggerFactory
 {
 public:
     /**
+     * Construct a new DefaultLoggerFactory object
+     * @param name the name of the logger which will be used inside the formatted messages
+     */
+    DefaultLoggerFactory(const std::string_view& name = "blf") : m_name{name}{}
+
+    /**
      * Create the std clock as a singleton
      * @return the reference to a System::StdClock
      */
     Logger* const createLogger() final;
+
+private:
+    const std::string m_name; /** The name of the logger */
 };
 
 } // namespace TextLogging
