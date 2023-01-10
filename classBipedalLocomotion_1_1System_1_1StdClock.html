@@ -78,13 +78,13 @@
             </li>
           </ul>
         </nav>
-<p>The clock can be easily used as follows</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/System/Clock.h&gt;</span><span class="cp"></span>
+<p>The clock can be easily used as follows</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/System/Clock.h&gt;</span>
 
 
-<span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">clock</span><span class="p">().</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
-<span class="n">foo</span><span class="p">();</span><span class="w"></span>
-<span class="k">auto</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">clock</span><span class="p">().</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
-<span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">milli</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">;</span><span class="w"></span></pre>
+<span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">clock</span><span class="p">().</span><span class="n">now</span><span class="p">();</span>
+<span class="n">foo</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">clock</span><span class="p">().</span><span class="n">now</span><span class="p">();</span>
+<span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">milli</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">;</span></pre>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">

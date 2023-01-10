@@ -6,6 +6,7 @@
     <includes local="no">string</includes>
     <includes local="no">yarp/dev/PolyDriver.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includes local="no">yarp/dev/PolyDriverList.h</includes>
     <incdepgraph>
       <node id="1">
         <label>BipedalLocomotion/RobotInterface/YarpHelper.h</label>
@@ -17,6 +18,8 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -37,6 +40,9 @@
       </node>
       <node id="6">
         <label>vector</label>
+      </node>
+      <node id="7">
+        <label>yarp/dev/PolyDriverList.h</label>
       </node>
       <node id="2">
         <label>memory</label>
@@ -107,7 +113,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="64" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="64" declcolumn="22"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="65" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="65" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="YarpHelper_8h_1a63b15535972c13dedb0459a66321432b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PolyDriverDescriptor</type>
@@ -172,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="80" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="80" declcolumn="22"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="81" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="81" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="YarpHelper_8h_1a4929526a47c0815e98b10ae7fbd44c2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PolyDriverDescriptor</type>
@@ -255,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="99" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="99" declcolumn="22"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="100" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="100" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="YarpHelper_8h_1a3428753b80de7ab5cd7b5a38f1feba18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PolyDriverDescriptor</type>
@@ -332,7 +338,185 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="117" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="117" declcolumn="22"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="118" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="118" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="YarpHelper_8h_1abc32625d98993ca36028defbabe9dc62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PolyDriverDescriptor</type>
+        <definition>PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsRemapper</definition>
+        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler, const std::vector&lt; PolyDriverDescriptor &gt; &amp;polydriverList)</argsstring>
+        <name>constructMultipleAnalogSensorsRemapper</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; PolyDriverDescriptor &gt; &amp;</type>
+          <declname>polydriverList</declname>
+        </param>
+        <briefdescription>
+<para>Helper function that can be used to build a <computeroutput>MultipleAnalogSensorsRemapper</computeroutput> device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a parameter handler interface. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>polydriverList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a list of the polydriver that will be attached to the multiple analog sensor remapper </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The following parameters are taken into consideration <table rows="7" cols="4"><row>
+<entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_gyroscopes_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the gyroscopes (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_linear_accelerometers_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the accelerometers (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_magnetometers_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the magnetometers (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>orientation_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the orientation sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>six_axis_force_torque_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the FT sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>temperature_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the temperature sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
+</entry></row>
+</table>
+</para>
+</simplesect>
+<simplesect kind="note"><para>The <computeroutput>MultipleAnalogSensorsRemapper</computeroutput> device is implement in <ulink url="https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html">yarp</ulink>. </para>
+</simplesect>
+<simplesect kind="return"><para>A <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref>. In case of error an invalid <computeroutput><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></computeroutput> is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="137" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="137" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="YarpHelper_8h_1ad992949f2120fc211c0af9d296631ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PolyDriverDescriptor</type>
+        <definition>PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogSensorsRemapper</definition>
+        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler, const yarp::dev::PolyDriverList &amp;polydriverList)</argsstring>
+        <name>constructMultipleAnalogSensorsRemapper</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>polydriverList</declname>
+        </param>
+        <briefdescription>
+<para>Helper function that can be used to build a <computeroutput>MultipleAnalogSensorsRemapper</computeroutput> device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a parameter handler interface. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>polydriverList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a list of the polydriver that will be attached to the multiple analog sensor remapper. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The following parameters are taken into consideration <table rows="7" cols="4"><row>
+<entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_gyroscopes_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the gyroscopes (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_linear_accelerometers_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the accelerometers (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>three_axis_magnetometers_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the magnetometers (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>orientation_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the orientation sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>six_axis_force_torque_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the FT sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>temperature_sensors_names</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the temperature sensors (Default empty vector)   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
+</entry></row>
+</table>
+</para>
+</simplesect>
+<simplesect kind="note"><para>The <computeroutput>MultipleAnalogSensorsRemapper</computeroutput> device is implement in <ulink url="https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html">yarp</ulink>. </para>
+</simplesect>
+<simplesect kind="return"><para>A <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref>. In case of error an invalid <computeroutput><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></computeroutput> is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="157" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="157" declcolumn="22"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

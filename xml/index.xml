@@ -2133,6 +2133,8 @@
     <member refid="YarpHelper_8h_1a63b15535972c13dedb0459a66321432b" kind="function"><name>constructGenericSensorClient</name></member>
     <member refid="YarpHelper_8h_1a4929526a47c0815e98b10ae7fbd44c2d" kind="function"><name>constructMultipleAnalogSensorsClient</name></member>
     <member refid="YarpHelper_8h_1a3428753b80de7ab5cd7b5a38f1feba18" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1abc32625d98993ca36028defbabe9dc62" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1ad992949f2120fc211c0af9d296631ec5" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1SimplifiedModelControllers" kind="namespace"><name>BipedalLocomotion::SimplifiedModelControllers</name>
     <member refid="CoMZMPController_8h_1aea0587a8a1455adf243098d002c87811" kind="typedef"><name>CoMZMPControllerOutput</name></member>
@@ -2396,6 +2398,8 @@
     <member refid="YarpHelper_8h_1a63b15535972c13dedb0459a66321432b" kind="function"><name>constructGenericSensorClient</name></member>
     <member refid="YarpHelper_8h_1a4929526a47c0815e98b10ae7fbd44c2d" kind="function"><name>constructMultipleAnalogSensorsClient</name></member>
     <member refid="YarpHelper_8h_1a3428753b80de7ab5cd7b5a38f1feba18" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1abc32625d98993ca36028defbabe9dc62" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1ad992949f2120fc211c0af9d296631ec5" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
   </compound>
   <compound refid="YarpRobotControl_8h" kind="file"><name>YarpRobotControl.h</name>
   </compound>

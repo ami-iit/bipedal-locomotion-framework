@@ -78,14 +78,14 @@
             </li>
           </ul>
         </nav>
-<p>The YARP logger can be easily used as follows</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/Logger.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/YarpLogger.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/LoggerBuilder.h&gt;</span><span class="cp"></span>
+<p>The YARP logger can be easily used as follows</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/Logger.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/YarpLogger.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/TextLogging/LoggerBuilder.h&gt;</span>
 
 <span class="c1">// Change the logger</span>
-<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">LoggerBuilder</span><span class="o">::</span><span class="n">setFactory</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">YarpLoggerFactory</span><span class="o">&gt;</span><span class="p">()));</span><span class="w"></span>
+<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">LoggerBuilder</span><span class="o">::</span><span class="n">setFactory</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">TextLogging</span><span class="o">::</span><span class="n">YarpLoggerFactory</span><span class="o">&gt;</span><span class="p">()));</span>
 
-<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">log</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;My info&quot;</span><span class="p">);</span><span class="w"></span></pre>
+<span class="n">BipedalLocomotion</span><span class="o">::</span><span class="n">log</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;My info&quot;</span><span class="p">);</span></pre>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">

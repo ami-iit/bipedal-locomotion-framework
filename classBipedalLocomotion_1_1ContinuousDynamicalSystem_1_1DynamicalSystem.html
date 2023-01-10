@@ -107,34 +107,34 @@ $\dot{x}=f(x, u, t)$
 <use x='57.800004' y='0' xlink:href='#eq1-g0-116'/>
 <use x='62.027164' y='0' xlink:href='#eq1-g1-41'/>
 </g>
-</svg>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <a href="traits_8h.html#a0163896a87affbf02ec432fba8bb6f09" class="m-doc">BLF_<wbr />DEFINE_<wbr />CONTINUOUS_<wbr />DYNAMICAL_<wbr />SYSTEM_<wbr />INTERAL_<wbr />STRUCTURE()</a> For instance</p><pre class="m-code"><span class="k">namespace</span><span class="w"> </span><span class="nn">BipedalLocomotion</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="k">namespace</span><span class="w"> </span><span class="nn">ContinuousDynamicalSystem</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+</svg>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <a href="traits_8h.html#a0163896a87affbf02ec432fba8bb6f09" class="m-doc">BLF_<wbr />DEFINE_<wbr />CONTINUOUS_<wbr />DYNAMICAL_<wbr />SYSTEM_<wbr />INTERAL_<wbr />STRUCTURE()</a> For instance</p><pre class="m-code"><span class="k">namespace</span><span class="w"> </span><span class="nn">BipedalLocomotion</span>
+<span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">ContinuousDynamicalSystem</span>
+<span class="p">{</span>
 <span class="c1">// forward declaration</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>
 <span class="c1">// Here we define the internal structure of the Foo. Notice that the number of types contained in</span>
 <span class="c1">// the FooStateType must be equal to the number of FooStateDerivetiveType (This is required by the integrator class)</span>
 
-<span class="k">using</span><span class="w"> </span><span class="n">FooStateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span><span class="w"></span>
-<span class="k">using</span><span class="w"> </span><span class="n">FooStateDerivativeType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span><span class="w"></span>
-<span class="k">using</span><span class="w"> </span><span class="n">FooInputType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span><span class="w"></span>
-<span class="n">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</span><span class="p">(</span><span class="n">Foo</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">FooStateType</span><span class="p">),</span><span class="w"></span>
-<span class="w">                                                              </span><span class="p">(</span><span class="n">FooStateDerivativeType</span><span class="p">),</span><span class="w"></span>
-<span class="w">                                                              </span><span class="p">(</span><span class="n">FooInputType</span><span class="p">))</span><span class="w"></span>
-<span class="k">namespace</span><span class="w"> </span><span class="nn">BipedalLocomotion</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="k">namespace</span><span class="w"> </span><span class="nn">ContinuousDynamicalSystem</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">FooStateType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">FooStateDerivativeType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">FooInputType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2d</span><span class="p">;</span>
+<span class="n">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</span><span class="p">(</span><span class="n">Foo</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">FooStateType</span><span class="p">),</span>
+<span class="w">                                                              </span><span class="p">(</span><span class="n">FooStateDerivativeType</span><span class="p">),</span>
+<span class="w">                                                              </span><span class="p">(</span><span class="n">FooInputType</span><span class="p">))</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">BipedalLocomotion</span>
+<span class="p">{</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">ContinuousDynamicalSystem</span>
+<span class="p">{</span>
 <span class="c1">// class definition</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">DynamicalSystem</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span></pre>
+<span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">DynamicalSystem</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="p">...</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span></pre>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">

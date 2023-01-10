@@ -64,34 +64,34 @@
         <h1>
           🐍 Python bindings
         </h1>
-<p><a name="md__home_runner_work_bipedal_locomotion_framework_bipedal_locomotion_framework_docs_pages_python_additional_info"></a></p><section id="autotoc_md0"><h2><a href="#autotoc_md0">Introduction</a></h2><p><strong>bipedal-locomotion-framework</strong> provides also python bindings. You can easily use them by importing <code>bipedal-locomotion-framework</code> in a python interpreter as follows</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span></pre><p>Once you have import it you can check the content of the bindings using <code>help(blf)</code>. We tried to implement a 1-to-1 mapping between the c++ structure and the python one, this means that every python submodule is associated to the equivalent c++ submodule. For instance <code>blf.tsid</code> represents the python bindings of <code>BipedalLocomotion::TSID</code> component.</p><p>The python bindings has been designed to be compliant to the <a href="https://www.python.org/dev/peps/pep-0008/">PEP-8</a>. This means that:</p><ol><li><strong>function</strong> and the <strong>variables</strong> are lowercase words separated by underscore (<code>snake_case</code>)</li><li>The <strong>class</strong> names starts with a capital letter (<code>CammelCase</code>)</li><li>The <strong>modules</strong> are lowercase words separated by underscore (<code>snake_case</code>)</li></ol><p>To give an example, the following code shows how to retrieve a parameter from a <code>toml</code> configuration file in c++ and in python</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/ParametersHandler/TomlImplementation.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<p><a name="md__home_runner_work_bipedal_locomotion_framework_bipedal_locomotion_framework_docs_pages_python_additional_info"></a></p><section id="autotoc_md0"><h2><a href="#autotoc_md0">Introduction</a></h2><p><strong>bipedal-locomotion-framework</strong> provides also python bindings. You can easily use them by importing <code>bipedal-locomotion-framework</code> in a python interpreter as follows</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span></pre><p>Once you have import it you can check the content of the bindings using <code>help(blf)</code>. We tried to implement a 1-to-1 mapping between the c++ structure and the python one, this means that every python submodule is associated to the equivalent c++ submodule. For instance <code>blf.tsid</code> represents the python bindings of <code>BipedalLocomotion::TSID</code> component.</p><p>The python bindings has been designed to be compliant to the <a href="https://www.python.org/dev/peps/pep-0008/">PEP-8</a>. This means that:</p><ol><li><strong>function</strong> and the <strong>variables</strong> are lowercase words separated by underscore (<code>snake_case</code>)</li><li>The <strong>class</strong> names starts with a capital letter (<code>CammelCase</code>)</li><li>The <strong>modules</strong> are lowercase words separated by underscore (<code>snake_case</code>)</li></ol><p>To give an example, the following code shows how to retrieve a parameter from a <code>toml</code> configuration file in c++ and in python</p><pre class="m-code"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;BipedalLocomotion/ParametersHandler/TomlImplementation.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">namespace</span><span class="w"> </span><span class="nn">blf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">::</span><span class="nn">BipedalLocomotion</span><span class="p">;</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">namespace</span><span class="w"> </span><span class="nn">blf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">::</span><span class="nn">BipedalLocomotion</span><span class="p">;</span>
 
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">parameterFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./config.toml&quot;</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">param</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">paramHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">blf</span><span class="o">::</span><span class="n">ParametersHandler</span><span class="o">::</span><span class="n">TomlImplementation</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">paramHandler</span><span class="o">-&gt;</span><span class="n">setFromFile</span><span class="p">(</span><span class="n">parameterFile</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">paramHandler</span><span class="o">-&gt;</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span></pre><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">parameterFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./config.toml&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">param</span><span class="p">;</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">paramHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">blf</span><span class="o">::</span><span class="n">ParametersHandler</span><span class="o">::</span><span class="n">TomlImplementation</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">paramHandler</span><span class="o">-&gt;</span><span class="n">setFromFile</span><span class="p">(</span><span class="n">parameterFile</span><span class="p">);</span>
+<span class="w">    </span><span class="n">paramHandler</span><span class="o">-&gt;</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span></pre><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
 
 
 <span class="n">parameter_file</span> <span class="o">=</span> <span class="s1">&#39;./config.toml&#39;</span>
 <span class="n">param_handler</span> <span class="o">=</span> <span class="n">blf</span><span class="o">.</span><span class="n">parameters_handler</span><span class="o">.</span><span class="n">TomlParametersHandler</span><span class="p">()</span>
 <span class="k">assert</span> <span class="n">param_handler</span><span class="o">.</span><span class="n">set_from_file</span><span class="p">(</span><span class="n">parameter_file</span><span class="p">)</span>
 
-<span class="n">vector</span> <span class="o">=</span> <span class="n">param_handler</span><span class="o">.</span><span class="n">get_vector_of_int</span><span class="p">(</span><span class="s1">&#39;vector&#39;</span><span class="p">)</span></pre><pre class="m-code"><span class="c1"># config.toml file</span><span class="w"></span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">param_handler</span><span class="o">.</span><span class="n">get_vector_of_int</span><span class="p">(</span><span class="s1">&#39;vector&#39;</span><span class="p">)</span></pre><pre class="m-code"><span class="c1"># config.toml file</span>
 
-<span class="na">vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[1, 2, 3, 4, 5]</span><span class="w"></span></pre></section><section id="autotoc_md1"><h2><a href="#autotoc_md1">Some utilities</a></h2><section id="autotoc_md2"><h3><a href="#autotoc_md2">Create a custom TSID or IK task directly in Python</a></h3><p>If you are a <code>python</code> user and you want create a inverse kinematics (IK) or a task based inverse dynamics (TSID) tasks, you do not need to write a <code>C++</code> code. Indeed it is possible to write a class that inherits from <code>TSIDLinearTask</code> or <code>IKLinearTask</code> and pass it to <code>tsid</code> or <code>ik</code> solvers. The following snippet can be used as starting point to build a custom TSID task, a similar approach can be used to define a custom IK task</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
+<span class="na">vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[1, 2, 3, 4, 5]</span></pre></section><section id="autotoc_md1"><h2><a href="#autotoc_md1">Some utilities</a></h2><section id="autotoc_md2"><h3><a href="#autotoc_md2">Create a custom TSID or IK task directly in Python</a></h3><p>If you are a <code>python</code> user and you want create a inverse kinematics (IK) or a task based inverse dynamics (TSID) tasks, you do not need to write a <code>C++</code> code. Indeed it is possible to write a class that inherits from <code>TSIDLinearTask</code> or <code>IKLinearTask</code> and pass it to <code>tsid</code> or <code>ik</code> solvers. The following snippet can be used as starting point to build a custom TSID task, a similar approach can be used to define a custom IK task</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.bindings</span> <span class="k">as</span> <span class="nn">blf</span>
 
 
 <span class="k">class</span> <span class="nc">CustomTSIDTask</span><span class="p">(</span><span class="n">blf</span><span class="o">.</span><span class="n">tsid</span><span class="o">.</span><span class="n">TSIDLinearTask</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; CustomTSIDTask represents a custom task for the tsid solver.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; CustomTSIDTask represents a custom task for the tsid solver.</span>
 
 <span class="sd">    The class must define the following functions:</span>
 <span class="sd">    __init__(self): the constructor</span>
@@ -148,35 +148,35 @@
 
 <span class="n">kindyn_descriptor</span> <span class="o">=</span> <span class="n">blf</span><span class="o">.</span><span class="n">floating_base_estimators</span><span class="o">.</span><span class="n">construct_kindyncomputations_descriptor</span><span class="p">(</span><span class="n">kindyn_handler</span><span class="p">)</span>
 
-<span class="n">solver</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">variables_handler</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">create_ik</span><span class="p">(</span><span class="n">kindyn</span><span class="o">=</span><span class="n">kindyn_descriptor</span><span class="p">,</span> <span class="n">param_handler</span><span class="o">=</span><span class="n">ik_handler</span><span class="p">)</span></pre><p>An example of the configuration file is</p><pre class="m-code"><span class="na">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[&quot;COM_TASK&quot;, &quot;LF_TASK&quot;]</span><span class="w"></span>
+<span class="n">solver</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">variables_handler</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">create_ik</span><span class="p">(</span><span class="n">kindyn</span><span class="o">=</span><span class="n">kindyn_descriptor</span><span class="p">,</span> <span class="n">param_handler</span><span class="o">=</span><span class="n">ik_handler</span><span class="p">)</span></pre><p>An example of the configuration file is</p><pre class="m-code"><span class="na">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[&quot;COM_TASK&quot;, &quot;LF_TASK&quot;]</span>
 
-<span class="k">[IK]</span><span class="w"></span>
-<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span><span class="w"></span>
+<span class="k">[IK]</span>
+<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span>
 
-<span class="k">[VARIABLES]</span><span class="w"></span>
-<span class="na">variables_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[&quot;robot_velocity&quot;]</span><span class="w"></span>
-<span class="na">variables_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[29]</span><span class="w"></span>
+<span class="k">[VARIABLES]</span>
+<span class="na">variables_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[&quot;robot_velocity&quot;]</span>
+<span class="na">variables_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[29]</span>
 
-<span class="k">[COM_TASK]</span><span class="w"></span>
-<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com&quot;</span><span class="w"></span>
-<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CoMTask&quot;</span><span class="w"></span>
-<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span><span class="w"></span>
-<span class="na">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[10.0, 10.0, 10.0]</span><span class="w"></span>
+<span class="k">[COM_TASK]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com&quot;</span>
+<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CoMTask&quot;</span>
+<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+<span class="na">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[10.0, 10.0, 10.0]</span>
 
-<span class="c1"># The following parameters are required by the specific task</span><span class="w"></span>
-<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span><span class="w"></span>
-<span class="na">kp_linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span><span class="w"></span>
+<span class="c1"># The following parameters are required by the specific task</span>
+<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span>
+<span class="na">kp_linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span>
 
-<span class="k">[LF_TASK]</span><span class="w"></span>
-<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;left_foot&quot;</span><span class="w"></span>
-<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SE3Task&quot;</span><span class="w"></span>
-<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span><span class="w"></span>
+<span class="k">[LF_TASK]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;left_foot&quot;</span>
+<span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SE3Task&quot;</span>
+<span class="na">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
 
-<span class="c1"># The following parameters are required by the specific task</span><span class="w"></span>
-<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span><span class="w"></span>
-<span class="na">frame_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;left_sole_link&quot;</span><span class="w"></span>
-<span class="na">kp_linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span><span class="w"></span>
-<span class="na">kp_angular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span><span class="w"></span></pre><p>You can find further details calling</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="c1"># The following parameters are required by the specific task</span>
+<span class="na">robot_velocity_variable_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;robot_velocity&quot;</span>
+<span class="na">frame_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;left_sole_link&quot;</span>
+<span class="na">kp_linear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span>
+<span class="na">kp_angular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.0</span></pre><p>You can find further details calling</p><pre class="m-code"><span class="kn">import</span> <span class="nn">bipedal_locomotion_framework.utils</span> <span class="k">as</span> <span class="nn">utils</span>
 
 
 <span class="n">help</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">create_tsid</span><span class="p">)</span>

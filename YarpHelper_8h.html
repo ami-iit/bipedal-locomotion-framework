@@ -115,6 +115,16 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a3428753b80de7ab5cd7b5a38f1feba18" class="m-doc">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; PolyDriverDescriptor</span>
             </dt>
             <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#abc32625d98993ca36028defbabe9dc62" class="m-doc">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const std::vector&lt;PolyDriverDescriptor&gt;&amp; polydriverList) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad992949f2120fc211c0af9d296631ec5" class="m-doc">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const yarp::dev::PolyDriverList&amp; polydriverList) -&gt; PolyDriverDescriptor</span>
+            </dt>
+            <dd>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</dd>
           </dl>
         </section>
         <section>
@@ -204,6 +214,64 @@
                 <tr>
                   <td style="width: 1%">handler</td>
                   <td>pointer to a parameter handler interface.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>. In case of error an invalid <code><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></code> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are taken into consideration</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>three_axis_gyroscopes_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the gyroscopes (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_linear_accelerometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the accelerometers (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_magnetometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the magnetometers (Default empty vector)</td><td>No</td></tr><tr><td><code>orientation_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the orientation sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>six_axis_force_torque_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the FT sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>temperature_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the temperature sensors (Default empty vector)</td><td>No</td></tr></tbody></table><p>The <code>MultipleAnalogSensorsRemapper</code> device is implement in <a href="https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html">yarp</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="abc32625d98993ca36028defbabe9dc62"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abc32625d98993ca36028defbabe9dc62" class="m-doc-self">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const std::vector&lt;PolyDriverDescriptor&gt;&amp; polydriverList)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+                <tr>
+                  <td>polydriverList</td>
+                  <td>a list of the polydriver that will be attached to the multiple analog sensor remapper</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A <a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a>. In case of error an invalid <code><a href="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor.html" class="m-doc">PolyDriverDescriptor</a></code> is returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are taken into consideration</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>three_axis_gyroscopes_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the gyroscopes (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_linear_accelerometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the accelerometers (Default empty vector)</td><td>No</td></tr><tr><td><code>three_axis_magnetometers_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the magnetometers (Default empty vector)</td><td>No</td></tr><tr><td><code>orientation_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the orientation sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>six_axis_force_torque_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the FT sensors (Default empty vector)</td><td>No</td></tr><tr><td><code>temperature_sensors_names</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the temperature sensors (Default empty vector)</td><td>No</td></tr></tbody></table><p>The <code>MultipleAnalogSensorsRemapper</code> device is implement in <a href="https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html">yarp</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad992949f2120fc211c0af9d296631ec5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">PolyDriverDescriptor </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad992949f2120fc211c0af9d296631ec5" class="m-doc-self">constructMultipleAnalogSensorsRemapper</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const yarp::dev::PolyDriverList&amp; polydriverList)</span></span>
+            </h3>
+            <p>Helper function that can be used to build a <code>MultipleAnalogSensorsRemapper</code> device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to a parameter handler interface.</td>
+                </tr>
+                <tr>
+                  <td>polydriverList</td>
+                  <td>a list of the polydriver that will be attached to the multiple analog sensor remapper.</td>
                 </tr>
               </tbody>
               <tfoot>

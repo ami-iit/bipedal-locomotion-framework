@@ -97,18 +97,18 @@ $t=t_i$
 <use x='19.97347' y='0' xlink:href='#eq1-g1-116'/>
 <use x='24.200629' y='1.793263' xlink:href='#eq1-g0-105'/>
 </g>
-</svg>, you should call <code><a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html#a48faffe128483c4226b8dcfb56e98587" class="m-doc">FixedFootDetector::<wbr />getFixedFoot</a></code> before calling advance. The following snippet can be used as a reference:</p><pre class="m-code"><span class="n">FixedFootDetector</span><span class="w"> </span><span class="n">detector</span><span class="p">;</span><span class="w"></span>
+</svg>, you should call <code><a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html#a48faffe128483c4226b8dcfb56e98587" class="m-doc">FixedFootDetector::<wbr />getFixedFoot</a></code> before calling advance. The following snippet can be used as a reference:</p><pre class="m-code"><span class="n">FixedFootDetector</span><span class="w"> </span><span class="n">detector</span><span class="p">;</span>
 
 <span class="c1">// initialize the detector</span>
-<span class="n">detector</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">paramsHandler</span><span class="p">);</span><span class="w"></span>
-<span class="n">detector</span><span class="p">.</span><span class="n">setContactPhaseList</span><span class="p">(</span><span class="n">contactPhaseList</span><span class="p">);</span><span class="w"></span>
+<span class="n">detector</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">paramsHandler</span><span class="p">);</span>
+<span class="n">detector</span><span class="p">.</span><span class="n">setContactPhaseList</span><span class="p">(</span><span class="n">contactPhaseList</span><span class="p">);</span>
 
 <span class="c1">// get the fixed frame at initial time instant (t = t_i)</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">fixedFoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="p">.</span><span class="n">getFixedFoot</span><span class="p">();</span><span class="w"></span>
+<span class="k">auto</span><span class="w"> </span><span class="n">fixedFoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="p">.</span><span class="n">getFixedFoot</span><span class="p">();</span>
 
 <span class="c1">// get the fixed frame at initial time + sampling time instant (t = t_i + dt)</span>
-<span class="n">detector</span><span class="p">.</span><span class="n">advance</span><span class="p">();</span><span class="w"></span>
-<span class="k">auto</span><span class="w"> </span><span class="n">fixedFoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="p">.</span><span class="n">getFixedFoot</span><span class="p">();</span><span class="w"></span></pre></aside>
+<span class="n">detector</span><span class="p">.</span><span class="n">advance</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">fixedFoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="p">.</span><span class="n">getFixedFoot</span><span class="p">();</span></pre></aside>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">

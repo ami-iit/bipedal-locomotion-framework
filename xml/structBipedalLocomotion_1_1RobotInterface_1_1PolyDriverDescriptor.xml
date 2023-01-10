@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="32" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="32" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="33" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="33" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a606f5f10f90b91288f922dd3206c74ef" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; yarp::dev::PolyDriver &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="33" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="33" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="34" column="21" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="34" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="38" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="39" column="5"/>
       </memberdef>
       <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="43" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="44" column="5"/>
       </memberdef>
       <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="49" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="50" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -133,7 +133,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="31" bodyend="50"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="31" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpHelper.h" bodystart="32" bodyend="51"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>isValid</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ab97d9fa94d06f4f5c53e8fd2b9243eba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::PolyDriverDescriptor</scope><name>key</name></member>
