@@ -99,7 +99,17 @@ jobs:
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
       run: |
-
+        # Temporary workaround for https://github.com/actions/setup-python/issues/577
+        rm -f /usr/local/bin/2to3
+        rm -f /usr/local/bin/idle3
+        rm -f /usr/local/bin/pydoc3
+        rm -f /usr/local/bin/python3
+        rm -f /usr/local/bin/python3-config
+        rm -f /usr/local/bin/2to3-3.11
+        rm -f /usr/local/bin/idle3.11
+        rm -f /usr/local/bin/pydoc3.11
+        rm -f /usr/local/bin/python3.11
+        rm -f /usr/local/bin/python3.11-config
         brew update
         brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 \
                      libmatio spdlog librealsense nlohmann-json numpy assimp
