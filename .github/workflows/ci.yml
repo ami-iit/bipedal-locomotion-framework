@@ -23,7 +23,7 @@ env:
   LieGroupControllers_TAG: v0.1.1
   osqp_TAG: v0.6.2
   OsqpEigen_TAG: v0.7.0
-  tomlplusplus_TAG: v2.5.0
+  tomlplusplus_TAG: v3.0.1
   icub_models_TAG: v1.23.3
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
   telemetry_TAG: v1.2.0
