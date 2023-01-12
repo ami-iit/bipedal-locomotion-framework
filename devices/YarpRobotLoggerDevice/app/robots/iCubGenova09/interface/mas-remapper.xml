@@ -32,9 +32,7 @@
       <elem name="left_foot_ft_client">left_foot_ft_client</elem>
       <elem name="right_upper_leg_ft_client">right_upper_leg_ft_client</elem>
       <elem name="right_foot_ft_client">right_foot_ft_client</elem>
-
       <elem name="head_imu_acc">head_imu_acc</elem>
-
       <elem name="left_arm_imu_client">left_arm_imu_client</elem>
       <elem name="right_arm_imu_client">right_arm_imu_client</elem>
       <elem name="left_upper_leg_imu_client">left_upper_leg_imu_client</elem>
