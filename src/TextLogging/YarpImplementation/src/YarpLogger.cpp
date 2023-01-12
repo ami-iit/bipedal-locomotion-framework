@@ -44,7 +44,10 @@ std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
     return logger;
 }
 
-TextLogging::YarpLoggerFactory::YarpLoggerFactory(const std::string_view& name) : m_name{name} {}
+TextLogging::YarpLoggerFactory::YarpLoggerFactory(const std::string_view& name)
+    : m_name{name}
+{
+}
 
 TextLogging::Logger* const TextLogging::YarpLoggerFactory::createLogger()
 {

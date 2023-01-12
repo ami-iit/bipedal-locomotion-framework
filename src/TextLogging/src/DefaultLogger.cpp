@@ -39,7 +39,10 @@ std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
     return logger;
 }
 
-TextLogging::DefaultLoggerFactory::DefaultLoggerFactory(const std::string_view& name) : m_name(name) {}
+TextLogging::DefaultLoggerFactory::DefaultLoggerFactory(const std::string_view& name)
+    : m_name(name)
+{
+}
 
 TextLogging::Logger* const TextLogging::DefaultLoggerFactory::createLogger()
 {
