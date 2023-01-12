@@ -3,11 +3,16 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add the possibility to attach all the multiple analog sensor clients  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
+- The YarpRobotLogger will now automatically connect to the exogenous signal port if available (https://github.com/ami-iit/bipedal-locomotion-framework/pull/570/)
+- 🤖 [iCubGenova09] Add the left and right hands skin (raw and filtered) data acquisition (https://github.com/ami-iit/bipedal-locomotion-framework/pull/570/)
+- Add informative prints `YarpSensorBridge::Impl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ### Fix
+- Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 
 ## [0.11.1] - 2022-12-19
 ### Fix
