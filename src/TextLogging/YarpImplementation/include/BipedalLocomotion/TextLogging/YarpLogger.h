@@ -92,7 +92,7 @@ public:
      * Construct a new YarpLoggerFactory object
      * @param name the name of the logger which will be used inside the formatted messages
      */
-    YarpLoggerFactory(const std::string_view& name = "blf") : m_name{name} {}
+    YarpLoggerFactory(const std::string_view& name = "blf");
 
     /**
      * Create the YARPLogger as a singleton

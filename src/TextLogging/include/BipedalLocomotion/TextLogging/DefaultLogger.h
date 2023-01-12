@@ -23,7 +23,7 @@ public:
      * Construct a new DefaultLoggerFactory object
      * @param name the name of the logger which will be used inside the formatted messages
      */
-    DefaultLoggerFactory(const std::string_view& name = "blf") : m_name{name}{}
+    DefaultLoggerFactory(const std::string_view& name = "blf");
 
     /**
      * Create the std clock as a singleton
