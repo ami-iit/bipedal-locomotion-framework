@@ -18,10 +18,10 @@ namespace Estimators
  * InvariantEKFBaseEstimator class implements the Contact Aided Invariant EKF algorithm,
  * developed by Ross Hartley, Maani Ghaffari, Ryan M. Eustice, Jessy W. Grizzle
  * in the research article,
- * "Contact-Aided Invariant Extended Kalman Filtering for Robot State Estimation" arXiv:1904.09251 [cs.RO]
- * Please cite this paper, if using this implementation as well.
- * Link to the paper (https://arxiv.org/abs/1904.09251).
- * For the original version of the filter implementation, please see https://github.com/RossHartley/invariant-ekf.
+ * "Contact-Aided Invariant Extended Kalman Filtering for Robot State Estimation" arXiv:1904.09251
+ * [cs.RO] Please cite this paper, if using this implementation as well. Link to the paper
+ * (https://arxiv.org/abs/1904.09251). For the original version of the filter implementation, please
+ * see https://github.com/RossHartley/invariant-ekf.
  *
  * This implementation is a reduced version of the algorithm
  * used to estimate only the bipedal feet poses along with the base pose and IMU biases.
@@ -32,14 +32,14 @@ namespace Estimators
  *    - SensorsStdDev group
  *    - InitialStates group
  *    - PriorsStdDev group
- * (For details on these parameter configuration groups, plese see the documentation of FloatingBaseEstimator class)
+ * (For details on these parameter configuration groups, plese see the documentation of
+ * FloatingBaseEstimator class)
  * - set the measurments
  *    - IMU measurements (accelerometer and gyroscope)
  *    - Kinematic measurements (joint positions and velocities)
  *    - Feet contact states (left foot contact state and right foot contact state)
  * - advance the filter to run the computation step
  * - get estimator outputs
- *
  */
 class InvariantEKFBaseEstimator : public FloatingBaseEstimator
 {
@@ -101,7 +101,8 @@ protected:
     * @param[in] handler configure the custom parameters for the estimator
     * @return bool
     */
-    virtual bool customInitialization(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
+    virtual bool customInitialization(
+        std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) override;
 
     /**
     * Propagate the states through the prediction model, if there exists any (eg. a strap-down IMU model)

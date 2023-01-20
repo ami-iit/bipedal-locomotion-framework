@@ -8,7 +8,9 @@
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <iDynTree/Model/Indices.h>
 #include <iDynTree/Model/Model.h>
+#include <string_view>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::Estimators;
@@ -206,30 +208,35 @@ bool FloatingBaseEstimator::ModelComputations::setKinDynObject(
 bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::string& baseLink,
                                                                  const std::string& imuFrame)
 {
+    constexpr auto logPrefix = "[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU]";
+
     m_baseLinkIdx = m_kindyn->model().getFrameIndex(baseLink);
     if (m_baseLinkIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-                     "Specified base link not available in the loaded URDF Model.");
+        log()->error("{} Specified base link not available in the loaded URDF Model.", logPrefix);
         return false;
     }
 
     m_baseImuIdx = m_kindyn->model().getFrameIndex(imuFrame);
     if (m_baseImuIdx == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-                     "Specified IMU frame not available in the loaded URDF Model.");
+        log()->error("{} Specified IMU frame not available in the loaded URDF Model.", logPrefix);
         return false;
     }
 
     if (m_baseLinkIdx != m_kindyn->model().getFrameLink(m_baseImuIdx))
     {
-        log()->error("[FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU] "
-                     "Specified IMU not rigidly attached to the base link. Please specify a base "
-                     "link colocated IMU.");
+        log()->error("{} Specified IMU not rigidly attached to the base link. Please specify a "
+                     "base link colocated IMU.",
+                     logPrefix);
         return false;
     }
 
+    // if the base link is different from the one set in the kindyncomputations object the new model
+    // is set
+    // TODO (giulio): please store the kindyncomputations object within the estimator. This may
+    // cause issue in case controller swiches the base for some reason. (i.e., in the
+    // walking-controller)
     if (m_kindyn->model().getDefaultBaseLink() != m_baseLinkIdx)
     {
         auto model = m_kindyn->model();
@@ -246,32 +253,36 @@ bool FloatingBaseEstimator::ModelComputations::setBaseLinkAndIMU(const std::stri
 bool FloatingBaseEstimator::ModelComputations::setFeetContactFrames(
     const std::string& lFootContactFrame, const std::string& rFootContactFrame)
 {
-    m_lFootContactIdx = m_kindyn->model().getFrameIndex(lFootContactFrame);
-    if (m_lFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] "
-                     "Specified left foot contact frame not available in the loaded URDF Model.");
-        return false;
-    }
+    constexpr auto logPrefix = "[FloatingBaseEstimator::ModelComputations::setFeetContactFrames]";
 
-    m_rFootContactIdx = m_kindyn->model().getFrameIndex(rFootContactFrame);
-    if (m_rFootContactIdx == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("[FloatingBaseEstimator::ModelComputations::setFeetContactFrames] "
-                     "Specified right foot contact frame not available in the loaded URDF Model.");
-        return false;
-    }
+    auto setContactFrame = [this, logPrefix](const std::string& contactFrame,
+                                             std::string& contactFrameInModelComputations,
+                                             iDynTree::FrameIndex& frameIndex) -> bool {
+        iDynTree::FrameIndex index = this->m_kindyn->model().getFrameIndex(contactFrame);
+        if (index == iDynTree::FRAME_INVALID_INDEX)
+        {
+            log()->error("{} Frame named {} is not available in the loaded URDF Model.",
+                         logPrefix,
+                         contactFrame);
+            return false;
+        }
 
-    m_lFootContactFrame = lFootContactFrame;
-    m_rFootContactFrame = rFootContactFrame;
+        frameIndex = index;
+        contactFrameInModelComputations = contactFrame;
+
+        return true;
+    };
+
+    setContactFrame(lFootContactFrame, m_lFootContactFrame, m_lFootContactIdx);
+    setContactFrame(rFootContactFrame, m_rFootContactFrame, m_rFootContactIdx);
 
     return true;
 }
 
-bool FloatingBaseEstimator::ModelComputations::isModelInfoLoaded()
+bool FloatingBaseEstimator::ModelComputations::isModelInfoLoaded() const
 {
-    bool loaded = (m_baseLinkIdx != iDynTree::FRAME_INVALID_INDEX)
-                  && (m_baseImuIdx != iDynTree::FRAME_INVALID_INDEX);
+    const bool loaded = (m_baseLinkIdx != iDynTree::FRAME_INVALID_INDEX)
+                        && (m_baseImuIdx != iDynTree::FRAME_INVALID_INDEX);
 
     return loaded;
 }
@@ -319,6 +330,8 @@ bool FloatingBaseEstimator::ModelComputations::getIMU_H_feet(
         log()->error("[FloatingBaseEstimator::ModelComputations::getIMU_H_feet] "
                      "Failed setting joint positions.");
     }
+
+    // convert the transform into a manif objects
     IMU_H_l_foot
         = Conversions::toManifPose(m_kindyn->getRelativeTransform(m_baseImuIdx, m_lFootContactIdx));
     IMU_H_r_foot
@@ -360,8 +373,8 @@ bool FloatingBaseEstimator::setKinematics(const Eigen::VectorXd& encoders,
     if ((encoders.size() != encoderSpeeds.size())
         || (encoders.size() != modelComputations().nrJoints()))
     {
-        log()->warn("[FloatingBaseEstimator::setKinematics] "
-                    "kinematic measurements size mismatch.");
+        log()->error("[FloatingBaseEstimator::setKinematics] "
+                     "kinematic measurements size mismatch.");
         return false;
     }
 
@@ -431,11 +444,12 @@ const FloatingBaseEstimators::Output& FloatingBaseEstimator::getOutput() const
 bool FloatingBaseEstimator::setupModelParams(
     std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[FloatingBaseEstimator::setupModelParams]";
+
     auto handle = handler.lock();
     if (handle == nullptr)
     {
-        log()->error("[FloatingBaseEstimator::setupModelParams] "
-                     "The parameter handler has expired. Please check its scope.");
+        log()->error("{} The parameter handler has expired. Please check its scope.", logPrefix);
         return false;
     }
 
@@ -443,17 +457,16 @@ bool FloatingBaseEstimator::setupModelParams(
     std::string baseLink, imu;
     if (!handle->getParameter("base_link", baseLink))
     {
-        log()->error("[FloatingBaseEstimator::setupModelParams] "
-                     "The parameter handler could not find \" base_link \" in the configuration "
-                     "file.");
+        log()->error("{} The parameter handler could not find \"base_link\" in the param handler.",
+                     logPrefix);
         return false;
     }
 
     if (!handle->getParameter("base_link_imu", imu))
     {
-        log()->error("[FloatingBaseEstimator::setupModelParams] "
-                     "The parameter handler could not find \" base_link_imu \" in the "
-                     "configuration file.");
+        log()->error("{} The parameter handler could not find \"base_link_imu\" in the param "
+                     "handler.",
+                     logPrefix);
         return false;
     }
 
@@ -461,17 +474,17 @@ bool FloatingBaseEstimator::setupModelParams(
     std::string lfContact, rfContact;
     if (!handle->getParameter("left_foot_contact_frame", lfContact))
     {
-        log()->error("[FloatingBaseEstimator::setupModelParams] "
-                     "The parameter handler could not find \" left_foot_contact_frame \" in the "
-                     "configuration file.");
+        log()->error("{} The parameter handler could not find \"left_foot_contact_frame\" in the "
+                     "param handler.",
+                     logPrefix);
         return false;
     }
 
     if (!handle->getParameter("right_foot_contact_frame", rfContact))
     {
-        log()->error("[FloatingBaseEstimator::setupModelParams] "
-                     "The parameter handler could not find \" right_foot_contact_frame \" in the "
-                     "configuration file.");
+        log()->error("{} The parameter handler could not find \"right_foot_contact_frame\" in the "
+                     "param handler.",
+                     logPrefix);
         return false;
     }
 
@@ -1104,3 +1117,8 @@ bool FloatingBaseEstimator::resetEstimator(const FloatingBaseEstimators::Interna
     m_state = newState;
     return true;
 }
+
+bool FloatingBaseEstimator::isOutputValid() const
+{
+    return (m_estimatorState == State::Running);
+};
