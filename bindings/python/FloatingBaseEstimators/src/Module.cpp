@@ -8,6 +8,7 @@
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/FloatingBaseEstimators.h>
+#include <BipedalLocomotion/bindings/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/LeggedOdometry.h>
 
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
@@ -24,6 +25,7 @@ void CreateModule(pybind11::module& module)
 
     CreateFloatingBaseEstimator(module);
     CreateLeggedOdometry(module);
+    CreateInvariantEKFBaseEstimator(module);
 }
 } // namespace FloatingBaseEstimators
 } // namespace bindings
