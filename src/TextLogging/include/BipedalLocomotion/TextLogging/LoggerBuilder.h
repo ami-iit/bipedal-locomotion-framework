@@ -49,7 +49,7 @@ public:
      */
     static bool setFactory(std::shared_ptr<LoggerFactory> factory);
 
-    friend Logger* const ::BipedalLocomotion::log();
+    friend std::shared_ptr<Logger> const ::BipedalLocomotion::log();
 };
 
 }; // namespace TextLogging

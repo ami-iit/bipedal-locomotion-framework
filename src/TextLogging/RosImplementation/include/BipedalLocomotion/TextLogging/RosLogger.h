@@ -30,7 +30,7 @@ namespace sinks
 template <typename Mutex> class RosSink : public spdlog::sinks::base_sink<Mutex>
 {
 public:
-    RosSink(rclcpp::Logger&& rosLogger)
+    RosSink(const rclcpp::Logger& rosLogger)
         : m_rosLogger(rosLogger)
     {
     }
@@ -102,13 +102,20 @@ public:
     RosLoggerFactory(const std::string_view& name = "blf");
 
     /**
+     * Construct a new RosLoggerFactory object
+     * @param name the name of the logger which will be used inside the formatted messages
+     */
+    RosLoggerFactory(const rclcpp::Logger& logger);
+
+    /**
      * Create the ROSLogger as a singleton
      * @return the pointer to TextLogging::Logger that streams the output using ROS
      */
-    TextLogging::Logger* const createLogger() final;
+    std::shared_ptr<TextLogging::Logger> const createLogger() final;
 
 private:
     const std::string m_name; /** The name of the logger */
+    const rclcpp::Logger m_rosLogger; /** Associated ros logger */
 };
 
 } // namespace TextLogging

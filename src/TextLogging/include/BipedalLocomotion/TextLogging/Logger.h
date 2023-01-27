@@ -41,7 +41,7 @@ namespace BipedalLocomotion
 /**
  * Get an the instance of the log
  */
-TextLogging::Logger* const log();
+std::shared_ptr<TextLogging::Logger> const log();
 
 } // namespace BipedalLocomotion
 
@@ -82,7 +82,7 @@ public:
     /**
      * Create a Logger
      */
-    virtual Logger* const createLogger() = 0;
+    virtual std::shared_ptr<Logger> const createLogger() = 0;
 };
 
 } // namespace TextLogging

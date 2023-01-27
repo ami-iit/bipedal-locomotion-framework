@@ -11,7 +11,7 @@
 namespace BipedalLocomotion
 {
 
-TextLogging::Logger* const log()
+std::shared_ptr<TextLogging::Logger> const log()
 {
     // m_factory is always initialized.
     assert(BipedalLocomotion::TextLogging::LoggerBuilder::m_factory);

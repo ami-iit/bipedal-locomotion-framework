@@ -44,12 +44,12 @@ TextLogging::DefaultLoggerFactory::DefaultLoggerFactory(const std::string_view& 
 {
 }
 
-TextLogging::Logger* const TextLogging::DefaultLoggerFactory::createLogger()
+std::shared_ptr<TextLogging::Logger> const TextLogging::DefaultLoggerFactory::createLogger()
 {
     // Since the oobject is static the memory is not deallocated
     static std::shared_ptr<TextLogging::Logger> logger(_createLogger(m_name));
 
     // the logger exist because loggerCreation is called.
-    return logger.get();
+    return logger;
 }
 } // namespace BipedalLocomotion

@@ -29,7 +29,7 @@ public:
      * Create the std clock as a singleton
      * @return the reference to a System::StdClock
      */
-    Logger* const createLogger() final;
+    std::shared_ptr<Logger> const createLogger() final;
 
 private:
     const std::string m_name; /** The name of the logger */

@@ -15,13 +15,13 @@ namespace BipedalLocomotion
 {
 
 template <typename Factory = spdlog::synchronous_factory>
-inline std::shared_ptr<TextLogging::Logger> RosSink_mt(const std::string& loggerName)
+inline std::shared_ptr<TextLogging::Logger> RosSink_mt(const std::string& loggerName, const rclcpp::Logger& rosLogger)
 {
-    rclcpp::Logger logger =  rclcpp::get_logger(loggerName);
-    return Factory::template create<TextLogging::sinks::RosSink_mt>(loggerName, std::move(logger));
+    return Factory::template create<TextLogging::sinks::RosSink_mt>(loggerName, rosLogger);
 }
 
-std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
+std::shared_ptr<TextLogging::Logger>
+_createLogger(const std::string& name, const rclcpp::Logger& rosLogger)
 {
     auto logger = spdlog::get(name);
 
@@ -29,7 +29,7 @@ std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
     if (logger == nullptr)
     {
         // spdlog already handle the logger as singleton create the logger called blf
-        auto console = RosSink_mt(name);
+        auto console = RosSink_mt(name, rosLogger);
 
         // get the logger
         logger = spdlog::get(name);
@@ -49,16 +49,23 @@ std::shared_ptr<TextLogging::Logger> _createLogger(const std::string& name)
 
 TextLogging::RosLoggerFactory::RosLoggerFactory(const std::string_view& name)
     : m_name{name}
+    , m_rosLogger{rclcpp::get_logger(name.data())}
 {
 }
 
-TextLogging::Logger* const TextLogging::RosLoggerFactory::createLogger()
+TextLogging::RosLoggerFactory::RosLoggerFactory(const rclcpp::Logger& logger)
+    : m_name{logger.get_name()}
+    , m_rosLogger{logger}
+{
+}
+
+std::shared_ptr<TextLogging::Logger> const TextLogging::RosLoggerFactory::createLogger()
 {
     // Since the oobject is static the memory is not deallocated
-    static std::shared_ptr<TextLogging::Logger> logger(_createLogger(m_name));
+    static std::shared_ptr<TextLogging::Logger> logger(_createLogger(m_name, m_rosLogger));
 
     // the logger exist because loggerCreation is called.
-    return logger.get();
+    return logger;
 }
 
 } // namespace BipedalLocomotion
