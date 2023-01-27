@@ -15,4 +15,9 @@ namespace BipedalLocomotion::bindings::TextLogging
 void CreateTextLogging(pybind11::module& module);
 } // namespace BipedalLocomotion::bindings::TextLogging
 
+namespace BipedalLocomotion::bindings
+{
+void CreateLogger(pybind11::module& module);
+}
+
 #endif // BIPEDAL_LOCOMOTION_BINDINGS_TEXT_LOGGING_H

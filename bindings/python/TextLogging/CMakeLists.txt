@@ -15,3 +15,13 @@ add_bipedal_locomotion_python_module(
   LINK_LIBRARIES
   BipedalLocomotion::TextLogging
   )
+
+if(FRAMEWORK_COMPILE_RosImplementation)
+
+  add_bipedal_locomotion_python_module(
+    NAME  TextLoggingRosImplementation
+    SOURCES src/RosLogger.cpp src/RosModule.cpp
+    HEADERS ${H_PREFIX}/RosLogger.h ${H_PREFIX}/RosModule.h
+    LINK_LIBRARIES BipedalLocomotion::TextLoggingRosImplementation)
+
+endif()
