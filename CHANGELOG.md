@@ -13,7 +13,7 @@ All notable changes to this project are documented in this file.
 
 ### Fix
 - Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
-- Fix compatibility with OpenCV 4.7.0 ()
+- Fix compatibility with OpenCV 4.7.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/589)
 
 ## [0.11.1] - 2022-12-19
 ### Fix
