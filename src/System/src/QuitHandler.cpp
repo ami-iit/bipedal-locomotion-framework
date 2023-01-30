@@ -43,7 +43,7 @@ void my_handler(int sig)
     customHandlerLambda();
 }
 
-#ifdef WIN32
+#ifdef _WIN32
 
 #include <windows.h>
 
@@ -67,7 +67,7 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 
 void handleQuitSignals(std::function<void()> customHandler)
 {
-#ifdef WIN32
+#ifdef _WIN32
     SetConsoleCtrlHandler(CtrlHandler, TRUE);
 #else
     struct sigaction action;
