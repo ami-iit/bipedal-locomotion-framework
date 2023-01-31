@@ -1,0 +1,40 @@
+tasks = ["EE_TASK", "JOINT_REGULARIZATION_TASK", "BASE_TASK"]
+verbosity = false
+
+[IK]
+robot_velocity_variable_name = "robot_velocity"
+
+[VARIABLES]
+variables_name = ["robot_velocity"]
+variables_size = [13]
+
+[EE_TASK]
+name = "end_effector"
+type = "SE3Task"
+priority = 0
+
+# The following parameters are required by the specific task
+robot_velocity_variable_name = "robot_velocity"
+frame_name = "iiwa_link_ee"
+kp_linear = 10.0
+kp_angular = 10.0
+
+[BASE_TASK]
+name = "base"
+type = "SE3Task"
+priority = 0
+
+# The following parameters are required by the specific task
+robot_velocity_variable_name = "robot_velocity"
+frame_name = "base"
+kp_linear = 0.0
+kp_angular = 0.0
+
+[JOINT_REGULARIZATION_TASK]
+name = "joint_regularization_task"
+type = "JointTrackingTask"
+weight = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+priority = 1
+
+robot_velocity_variable_name = "robot_velocity"
+kp = [1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0]

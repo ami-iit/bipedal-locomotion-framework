@@ -9,10 +9,11 @@ import os
 
 if __name__ == "__main__":
 
-    dict_file = {':book: documentation' : 'docs/**/*',
-                 ':computer: utilities' : 'utilities/**/*',
-                 ':snake: bindings' : 'bindings/**/*',
-                 ':building_construction: GitHub action' : '.github/**/*'}
+    dict_file = {':book: documentation': 'docs/**/*',
+                 ':computer: utilities': 'utilities/**/*',
+                 ':snake: bindings': 'bindings/**/*',
+                 ':building_construction: GitHub action': '.github/**/*',
+                 ':school: Examples': 'examples/**/*'}
 
     src_dir = '../src'
     for file in os.listdir(src_dir):
@@ -20,7 +21,5 @@ if __name__ == "__main__":
         if os.path.isdir(d):
             dict_file[":hammer: component: " + os.path.basename(d)] = "src/" + os.path.basename(d) + "/**/*"
 
-
     with open(r'../.github/labeler.yml', 'w') as file:
         yaml.dump(dict_file, file, default_flow_style=False)
-
