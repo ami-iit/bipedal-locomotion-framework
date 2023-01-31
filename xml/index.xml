@@ -481,6 +481,8 @@
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1ae5e574675177054804adc189c3dfc8aa" kind="variable"><name>omegaDot</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::DefaultLoggerFactory</name>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a0e9167015c2b1757c62f2eeb40e77bf8" kind="function"><name>DefaultLoggerFactory</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1aa7b2c4de2fe26374e0f88461b11e006b" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</name>
@@ -1968,6 +1970,8 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a229f0efd055b386c23fb4f3d16ba56eb" kind="function"><name>~YarpImplementation</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::YarpLoggerFactory</name>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a19b8820fe3cecbd34fded4854413e06b" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a988e800388e62f0501f292dcdcc67fd6" kind="function"><name>YarpLoggerFactory</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1aba1299855fe13af7a310e008f88c4a4d" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" kind="class"><name>BipedalLocomotion::RobotInterface::YarpRobotControl</name>
@@ -2112,8 +2116,8 @@
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
-    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
     <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Perception" kind="namespace"><name>BipedalLocomotion::Perception</name>
   </compound>

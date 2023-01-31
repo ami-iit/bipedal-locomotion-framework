@@ -2107,8 +2107,8 @@
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
-    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
     <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Perception" kind="namespace"><name>BipedalLocomotion::Perception</name>
   </compound>

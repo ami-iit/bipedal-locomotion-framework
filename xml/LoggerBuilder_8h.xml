@@ -11,12 +11,17 @@
         <link refid="DefaultLogger_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>spdlog/fmt/ostr.h</label>
       </node>
       <node id="6">
         <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
       </node>
       <node id="4">
         <label>BipedalLocomotion/TextLogging/Logger.h</label>

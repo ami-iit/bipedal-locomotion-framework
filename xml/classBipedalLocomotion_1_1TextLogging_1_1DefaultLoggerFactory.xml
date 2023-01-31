@@ -3,7 +3,51 @@
   <compounddef id="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kind="class" language="C++" prot="public" final="yes">
     <compoundname>BipedalLocomotion::TextLogging::DefaultLoggerFactory</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public" virt="non-virtual">BipedalLocomotion::TextLogging::LoggerFactory</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string BipedalLocomotion::TextLogging::DefaultLoggerFactory::m_name</definition>
+        <argsstring></argsstring>
+        <name>m_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="35" column="23" bodyfile="BipedalLocomotion/TextLogging/DefaultLogger.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a0e9167015c2b1757c62f2eeb40e77bf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::TextLogging::DefaultLoggerFactory::DefaultLoggerFactory</definition>
+        <argsstring>(const std::string_view &amp;name=&quot;blf&quot;)</argsstring>
+        <name>DefaultLoggerFactory</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;blf&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kindref="compound">DefaultLoggerFactory</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the logger which will be used inside the formatted messages </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="26" column="5"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1aa7b2c4de2fe26374e0f88461b11e006b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>Logger *const</type>
         <definition>Logger* const BipedalLocomotion::TextLogging::DefaultLoggerFactory::createLogger</definition>
@@ -20,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="25" column="18"/>
+        <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="32" column="18"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -51,9 +95,11 @@
         <link refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="18" column="1" bodyfile="BipedalLocomotion/TextLogging/DefaultLogger.h" bodystart="19" bodyend="26"/>
+    <location file="BipedalLocomotion/TextLogging/DefaultLogger.h" line="19" column="1" bodyfile="BipedalLocomotion/TextLogging/DefaultLogger.h" bodystart="20" bodyend="36"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1aa7b2c4de2fe26374e0f88461b11e006b" prot="public" virt="virtual"><scope>BipedalLocomotion::TextLogging::DefaultLoggerFactory</scope><name>createLogger</name></member>
+      <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a0e9167015c2b1757c62f2eeb40e77bf8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::DefaultLoggerFactory</scope><name>DefaultLoggerFactory</name></member>
+      <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::DefaultLoggerFactory</scope><name>m_name</name></member>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1ac43836e327df2a153d5cddee9a0ed278" prot="public" virt="virtual"><scope>BipedalLocomotion::TextLogging::DefaultLoggerFactory</scope><name>~LoggerFactory</name></member>
     </listofallmembers>
   </compounddef>

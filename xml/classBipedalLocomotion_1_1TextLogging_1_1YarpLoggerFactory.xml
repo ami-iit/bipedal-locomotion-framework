@@ -4,7 +4,51 @@
     <compoundname>BipedalLocomotion::TextLogging::YarpLoggerFactory</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public" virt="non-virtual">BipedalLocomotion::TextLogging::LoggerFactory</basecompoundref>
     <includes local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a19b8820fe3cecbd34fded4854413e06b" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string BipedalLocomotion::TextLogging::YarpLoggerFactory::m_name</definition>
+        <argsstring></argsstring>
+        <name>m_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="104" column="23" bodyfile="BipedalLocomotion/TextLogging/YarpLogger.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a988e800388e62f0501f292dcdcc67fd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::TextLogging::YarpLoggerFactory::YarpLoggerFactory</definition>
+        <argsstring>(const std::string_view &amp;name=&quot;blf&quot;)</argsstring>
+        <name>YarpLoggerFactory</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;blf&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" kindref="compound">YarpLoggerFactory</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the logger which will be used inside the formatted messages </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="95" column="5"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1aba1299855fe13af7a310e008f88c4a4d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>TextLogging::Logger *const</type>
         <definition>TextLogging::Logger* const BipedalLocomotion::TextLogging::YarpLoggerFactory::createLogger</definition>
@@ -21,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="95" column="31"/>
+        <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="101" column="31"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -62,9 +106,11 @@
         <link refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="88" column="1" bodyfile="BipedalLocomotion/TextLogging/YarpLogger.h" bodystart="89" bodyend="96"/>
+    <location file="BipedalLocomotion/TextLogging/YarpLogger.h" line="88" column="1" bodyfile="BipedalLocomotion/TextLogging/YarpLogger.h" bodystart="89" bodyend="105"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1aba1299855fe13af7a310e008f88c4a4d" prot="public" virt="virtual"><scope>BipedalLocomotion::TextLogging::YarpLoggerFactory</scope><name>createLogger</name></member>
+      <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a19b8820fe3cecbd34fded4854413e06b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::YarpLoggerFactory</scope><name>m_name</name></member>
+      <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a988e800388e62f0501f292dcdcc67fd6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::YarpLoggerFactory</scope><name>YarpLoggerFactory</name></member>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1ac43836e327df2a153d5cddee9a0ed278" prot="public" virt="virtual"><scope>BipedalLocomotion::TextLogging::YarpLoggerFactory</scope><name>~LoggerFactory</name></member>
     </listofallmembers>
   </compounddef>
