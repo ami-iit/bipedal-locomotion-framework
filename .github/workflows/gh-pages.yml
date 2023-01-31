@@ -13,7 +13,8 @@ jobs:
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          mamba-version: "*"
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
           channels: conda-forge
           channel-priority: true
 
