@@ -19,4 +19,5 @@
 ':hammer: component: TSID': src/TSID/**/*
 ':hammer: component: TextLogging': src/TextLogging/**/*
 ':hammer: component: YarpUtilities': src/YarpUtilities/**/*
+':school: Examples': examples/**/*
 ':snake: bindings': bindings/**/*
