@@ -9,7 +9,7 @@ The tutorial requires the following python package installed.
 - [`iDynTree`](https://github.com/robotology/idyntree) for visualization and to execute dynamics algorithms;
 - [`manifpy`](https://github.com/artivis/manif) that is in charge handle rotation matrices and homogeneous transformations.
 
-If you installed `bipedal-locomotion-framework` with the [`robotology-superbuild`](https://github.com/robotology/robotology-superbuild) you should have all the dependencies already satisfied except for `robot_descriptions` that you can easily install with `pip` as 
+If you installed `bipedal-locomotion-framework` with the [`robotology-superbuild`](https://github.com/robotology/robotology-superbuild) you should have all the dependencies already satisfied except for `robot_descriptions` that you can easily install with `pip` as
 ```console
 pip install robot_descriptions
 ```
