@@ -49,13 +49,13 @@ TextLogging::YarpLoggerFactory::YarpLoggerFactory(const std::string_view& name)
 {
 }
 
-TextLogging::Logger* const TextLogging::YarpLoggerFactory::createLogger()
+std::shared_ptr<TextLogging::Logger> const TextLogging::YarpLoggerFactory::createLogger()
 {
     // Since the oobject is static the memory is not deallocated
     static std::shared_ptr<TextLogging::Logger> logger(_createLogger(m_name));
 
     // the logger exist because loggerCreation is called.
-    return logger.get();
+    return logger;
 }
 
 } // namespace BipedalLocomotion

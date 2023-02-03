@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Add the possibility to attach all the multiple analog sensor clients  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 - Add a tutorial for the inverse kinematics  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/596)
+- Implement the ROS2 sink for the `TextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/587)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)

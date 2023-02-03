@@ -9,4 +9,4 @@ add_bipedal_locomotion_library(
                          include/BipedalLocomotion/TextLogging/DefaultLogger.h
   SOURCES                src/Logger.cpp src/LoggerBuilder.cpp src/DefaultLogger.cpp
   PUBLIC_LINK_LIBRARIES  spdlog::spdlog Eigen3::Eigen
-  SUBDIRECTORIES         YarpImplementation)
+  SUBDIRECTORIES         YarpImplementation RosImplementation)

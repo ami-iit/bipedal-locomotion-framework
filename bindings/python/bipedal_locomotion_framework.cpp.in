@@ -11,6 +11,11 @@
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
 #include <BipedalLocomotion/bindings/TextLogging/Module.h>
+#include <BipedalLocomotion/bindings/TextLogging/TextLogging.h>
+
+@cmakeif FRAMEWORK_USE_rclcpp
+#include <BipedalLocomotion/bindings/TextLogging/RosModule.h>
+@endcmakeif FRAMEWORK_USE_rclcpp
 
 @cmakeif FRAMEWORK_COMPILE_YarpImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
@@ -81,8 +86,13 @@ PYBIND11_MODULE(bindings, m)
 
     m.doc() = "BipedalLocomotionFramework bindings";
 
-    py::module textLoggingModule = m.def_submodule("logging");
+    py::module textLoggingModule = m.def_submodule("text_logging");
     bindings::TextLogging::CreateModule(textLoggingModule);
+    bindings::CreateLogger(m);
+
+    @cmakeif FRAMEWORK_USE_rclcpp
+    bindings::TextLogging::CreateRosModule(textLoggingModule);
+    @endcmakeif FRAMEWORK_USE_rclcpp
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);

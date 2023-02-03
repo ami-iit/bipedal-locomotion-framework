@@ -98,7 +98,7 @@ public:
      * Create the YARPLogger as a singleton
      * @return the pointer to TextLogging::Logger that streams the output using YARP
      */
-    TextLogging::Logger* const createLogger() final;
+    std::shared_ptr<TextLogging::Logger> const createLogger() final;
 
 private:
     const std::string m_name; /** The name of the logger */
