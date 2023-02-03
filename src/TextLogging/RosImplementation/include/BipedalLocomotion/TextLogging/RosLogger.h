@@ -1,7 +1,7 @@
 /**
  * @file RosLogger.h
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -17,7 +17,7 @@
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/logging.hpp>
 
 namespace BipedalLocomotion
 {
@@ -77,9 +77,8 @@ protected:
 using RosSink_mt = RosSink<std::mutex>;
 } // namespace sinks
 
-
 /**
- * RosLoggerFactory implements the factory you should use to enable the sink using yaro.
+ * RosLoggerFactory implements the factory you should use to enable the sink using ros.
  * The ROS logger can be easily used as follows
  * \code{.cpp}
  * #include <BipedalLocomotion/TextLogging/Logger.h>

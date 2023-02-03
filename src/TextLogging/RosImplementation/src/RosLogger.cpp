@@ -1,7 +1,7 @@
 /**
  * @file RosLogger.cpp
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -9,13 +9,14 @@
 
 #include <BipedalLocomotion/TextLogging/RosLogger.h>
 
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/logging.hpp>
 
 namespace BipedalLocomotion
 {
 
 template <typename Factory = spdlog::synchronous_factory>
-inline std::shared_ptr<TextLogging::Logger> RosSink_mt(const std::string& loggerName, const rclcpp::Logger& rosLogger)
+inline std::shared_ptr<TextLogging::Logger>
+RosSink_mt(const std::string& loggerName, const rclcpp::Logger& rosLogger)
 {
     return Factory::template create<TextLogging::sinks::RosSink_mt>(loggerName, rosLogger);
 }
@@ -42,7 +43,7 @@ _createLogger(const std::string& name, const rclcpp::Logger& rosLogger)
 #endif // NDEBUG
 
         // set the custom pattern
-        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [thread: %t] [%n] %v");
+        logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [thread: %t] %v");
     }
     return logger;
 }
