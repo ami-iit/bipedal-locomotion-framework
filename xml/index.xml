@@ -483,7 +483,7 @@
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::DefaultLoggerFactory</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" kind="variable"><name>m_name</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a0e9167015c2b1757c62f2eeb40e77bf8" kind="function"><name>DefaultLoggerFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1aa7b2c4de2fe26374e0f88461b11e006b" kind="function"><name>createLogger</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1afdbf582fc9d4fea9e2b3303681d5488a" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kind="typedef"><name>State</name></member>
@@ -1084,11 +1084,11 @@
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder" kind="class"><name>BipedalLocomotion::TextLogging::LoggerBuilder</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a1d6ee23c6232b5712fc20fd7d1c65f46" kind="variable"><name>m_factory</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a85a6d1708d66ce941073b49fb2399f47" kind="function"><name>setFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a51300df159e3dad575d854ecd19b077c" kind="friend"><name>BipedalLocomotion::log</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a087d7df64ead087ba19d2fa1e7287f90" kind="friend"><name>BipedalLocomotion::log</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::LoggerFactory</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1ac43836e327df2a153d5cddee9a0ed278" kind="function"><name>~LoggerFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1a8ba0ec17ebd6f59358bc04409fed2299" kind="function"><name>createLogger</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory_1a2f3d127104cc6b38d54ba8e46a126af3" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1a71fbc272beb1c338054b79dbb92cf735" kind="variable"><name>accelerometer</name></member>
@@ -1364,6 +1364,13 @@
     <member refid="classBipedalLocomotion_1_1System_1_1RosClockFactory_1a5058a691c0bd4426721be89b4ac3a840" kind="function"><name>RosClockFactory</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1RosClockFactory_1abab3c57917aa81c4377587dc562d6e92" kind="function"><name>createClock</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::RosLoggerFactory</name>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory_1ace19b5ee489e5bc004448f4ff2a34c2e" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory_1abbdb4b4bb238383a3eed2f3ee2404238" kind="variable"><name>m_rosLogger</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory_1afbb5dcb953e8716647378f2b5788f208" kind="function"><name>RosLoggerFactory</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory_1ac97fc2af46a47adbc01de6f1f1211336" kind="function"><name>RosLoggerFactory</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory_1a3f62c9cc2a0206e505f76c3e898fa905" kind="function"><name>createLogger</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher" kind="class"><name>BipedalLocomotion::YarpUtilities::RosPublisher</name>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a3e242dc2c4c04e94639a6ea79d91284a" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1acbc0c0b65043bac152ba4a9aed75a14c" kind="function"><name>RosPublisher</name></member>
@@ -1383,6 +1390,12 @@
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a659a350fef218f88ce8012073d7a1f18" kind="function"><name>RosPublisher</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a0d8f6c9c085f6c8a6bfbc896645bc753" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher_1a111407193a2f97dfc741d22dfb217b3f" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink" kind="class"><name>BipedalLocomotion::TextLogging::sinks::RosSink</name>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1acdaf7d9290a0e224557690dda48482f0" kind="variable"><name>m_rosLogger</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1af6d94396862c2878f92932e8772b7411" kind="function"><name>RosSink</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1a5b63c482f26f6e4ba77f2626f33b2eba" kind="function"><name>sink_it_</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1a8f2b619d9c6908966c6ddfbdcd77159d" kind="function"><name>flush_</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" kind="class"><name>BipedalLocomotion::Contacts::SchmittTriggerDetector</name>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1aba3a015baeb0ae1f981477be8a69f225" kind="variable"><name>m_pimpl</name></member>
@@ -1972,7 +1985,7 @@
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::YarpLoggerFactory</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a19b8820fe3cecbd34fded4854413e06b" kind="variable"><name>m_name</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1a988e800388e62f0501f292dcdcc67fd6" kind="function"><name>YarpLoggerFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1aba1299855fe13af7a310e008f88c4a4d" kind="function"><name>createLogger</name></member>
+    <member refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory_1af18ddfdaaf7608ca32866caf2a9b0eb4" kind="function"><name>createLogger</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl" kind="class"><name>BipedalLocomotion::RobotInterface::YarpRobotControl</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1afafcb9039f5ae8deaac0d3ca95258dd1" kind="variable"><name>m_pimpl</name></member>
@@ -2052,7 +2065,7 @@
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
-    <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kind="function"><name>log</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1AutoDiff" kind="namespace"><name>BipedalLocomotion::AutoDiff</name>
   </compound>
@@ -2162,6 +2175,7 @@
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
   </compound>
@@ -2470,10 +2484,13 @@
     <member refid="Logger_8h_1acfed58204165b9a8456eed896669dc56a278d01e5af56273bae1bb99a98b370cd" kind="enumvalue"><name>Critical</name></member>
     <member refid="Logger_8h_1acfed58204165b9a8456eed896669dc56ad15305d7a4e34e02489c74a5ef542f36" kind="enumvalue"><name>Off</name></member>
     <member refid="Logger_8h_1a0cadd5e174b4505db4519f1bad65030d" kind="typedef"><name>Logger</name></member>
-    <member refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kind="function"><name>log</name></member>
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
   <compound refid="LoggerBuilder_8h" kind="file"><name>LoggerBuilder.h</name>
+  </compound>
+  <compound refid="RosLogger_8h" kind="file"><name>RosLogger.h</name>
+    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
   </compound>
   <compound refid="YarpLogger_8h" kind="file"><name>YarpLogger.h</name>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
@@ -2515,53 +2532,55 @@
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_2b480c6fc79e0b0cdd168fd50c1d5baf" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
   </compound>
+  <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
   <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_2b480c6fc79e0b0cdd168fd50c1d5baf" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_236a1b57464bafc12d3e7f870739eeda" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_531c7abd5b4eafc7c353b939b0a8a2d6" kind="dir"><name>BipedalLocomotion/Perception/Capture</name>
   </compound>
@@ -2593,9 +2612,9 @@
   </compound>
   <compound refid="dir_ef3b2545113449f8f25e623a543d64e3" kind="dir"><name>/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/pages</name>
   </compound>
-  <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
-  </compound>
   <compound refid="dir_5de36add22bf70f2482142ec548a1759" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
+  </compound>
+  <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
@@ -2616,6 +2635,8 @@
   <compound refid="dir_149d75d1ca0d14fb80db86def7c6665a" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
   <compound refid="dir_08ae5806f2f967acb676f6f7b56a4c93" kind="dir"><name>BipedalLocomotion/TextLogging</name>
+  </compound>
+  <compound refid="dir_430d51ba36f1bbe4dd609d65a9e246bd" kind="dir"><name>BipedalLocomotion/TextLogging</name>
   </compound>
   <compound refid="dir_243c1a0ecbb90c80ab66ea5f2e4da99e" kind="dir"><name>BipedalLocomotion/TextLogging</name>
   </compound>

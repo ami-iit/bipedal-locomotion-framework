@@ -54,9 +54,9 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
-      <memberdef kind="friend" id="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a51300df159e3dad575d854ecd19b077c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>Logger *const</type>
-        <definition>Logger*const BipedalLocomotion::log</definition>
+      <memberdef kind="friend" id="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a087d7df64ead087ba19d2fa1e7287f90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; Logger &gt;const</type>
+        <definition>std::shared_ptr&lt;Logger&gt;const BipedalLocomotion::log</definition>
         <argsstring>()</argsstring>
         <name>BipedalLocomotion::log</name>
         <briefdescription>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/LoggerBuilder.h" line="52" column="19"/>
+        <location file="BipedalLocomotion/TextLogging/LoggerBuilder.h" line="52" column="28"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -79,12 +79,12 @@
 <codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Change<sp/>the<sp/>logger</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><ref refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a85a6d1708d66ce941073b49fb2399f47" kindref="member">BipedalLocomotion::TextLogging::LoggerBuilder::setFactory</ref>(std::make_shared&lt;BipedalLocomotion::TextLogging::YarpLoggerFactory&gt;());</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><ref refid="namespaceBipedalLocomotion_1a7340b06607c930de22a649e862b5244d" kindref="member">BipedalLocomotion::log</ref>()-&gt;info(</highlight><highlight class="stringliteral">&quot;My<sp/>info&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kindref="member">BipedalLocomotion::log</ref>()-&gt;info(</highlight><highlight class="stringliteral">&quot;My<sp/>info&quot;</highlight><highlight class="normal">);</highlight></codeline>
 </programlisting> </para>
     </detaileddescription>
     <location file="BipedalLocomotion/TextLogging/LoggerBuilder.h" line="36" column="1" bodyfile="BipedalLocomotion/TextLogging/LoggerBuilder.h" bodystart="37" bodyend="53"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a51300df159e3dad575d854ecd19b077c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::LoggerBuilder</scope><name>BipedalLocomotion::log</name></member>
+      <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a087d7df64ead087ba19d2fa1e7287f90" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::LoggerBuilder</scope><name>BipedalLocomotion::log</name></member>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a1d6ee23c6232b5712fc20fd7d1c65f46" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::LoggerBuilder</scope><name>m_factory</name></member>
       <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a85a6d1708d66ce941073b49fb2399f47" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TextLogging::LoggerBuilder</scope><name>setFactory</name></member>
     </listofallmembers>
