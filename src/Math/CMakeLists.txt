@@ -10,10 +10,11 @@ if(FRAMEWORK_COMPILE_Math)
     NAME                  Math
     PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h
                           ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/ContactWrenchCone.h
-                          ${H_PREFIX}/Wrench.h
+                          ${H_PREFIX}/Wrench.h ${H_PREFIX}/SchmittTrigger.h
     SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp src/ContactWrenchCone.cpp
+                          src/SchmittTrigger.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler
-                          BipedalLocomotion::TextLogging MANIF::manif
+                          BipedalLocomotion::TextLogging BipedalLocomotion::System MANIF::manif
     SUBDIRECTORIES        tests)
 
 endif()
