@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to attach all the multiple analog sensor clients  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 - Add a tutorial for the inverse kinematics  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/596)
 - Implement the ROS2 sink for the `TextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/587)
+- Implement the `QPFixedBaseInverseKinematics` in the `IK` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/599)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
@@ -13,6 +14,7 @@ All notable changes to this project are documented in this file.
 - 🤖 [iCubGenova09] Add the left and right hands skin (raw and filtered) data acquisition (https://github.com/ami-iit/bipedal-locomotion-framework/pull/570/)
 - Add informative prints `YarpSensorBridge::Impl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 - The minimum version of iDynTree now supported is iDynTree 4.3.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/588).
+- Allow using the `iDynTree swig` bindings in `QPFixedBaseTSID` for the kindyncomputation object (https://github.com/ami-iit/bipedal-locomotion-framework/pull/599)
 
 ### Fix
 - Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
