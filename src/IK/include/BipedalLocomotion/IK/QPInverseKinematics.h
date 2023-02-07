@@ -36,6 +36,23 @@ namespace IK
  * A possible usage of the IK can be found in "Romualdi et al. A Benchmarking of DCM Based
  * Architectures for Position and Velocity Controlled Walking of Humanoid Robots"
  * https://doi.org/10.1109/HUMANOIDS.2018.8625025
+ * Here you can find an example of the QPInverseKinematics class used as velocity controller or IK
+ * @subsection vc Velocity Control
+ * Here you can find an example of the QPFixedBaseInverseKinematics interface used as
+ * a velocity controller.
+ * <br/>
+ * <img
+ * src="https://user-images.githubusercontent.com/16744101/142453785-9e6f2b5e-dc82-417a-a5e3-bc8c61865d0b.png"
+ * alt="VelocityControl" width="1500">
+ * @subsection ik Inverse Kinematics
+ * If you want to use IntegrationBasedInverseKinematics as IK you need to integrate the output
+ * velocity. System::FloatingBaseSystemKinematics and System::Integrator classes can be used
+ * to integrate the output of the IK taking into account the geometrical structure of the
+ * configuration space (\f$ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n\f$)
+ * <br/>
+ * <img
+ * src="https://user-images.githubusercontent.com/16744101/142453860-6bba2a7a-26af-48da-b04e-114314c6f67c.png"
+ * alt="InverseKinematics" width="1500">
  */
 class QPInverseKinematics : public IntegrationBasedIK
 {
@@ -140,7 +157,7 @@ public:
      * | `robot_velocity_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the generalized robot velocity |    Yes    |
      * |           `verbosity`          |  `bool`  |                         Verbosity of the solver. Default value `false`                         |     No    |
      * Where the generalized robot velocity is a vector containing the base spatialvelocity
-     (expressed in mixed representation) and the joint velocities.
+     * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
