@@ -37,3 +37,9 @@ add_bipedal_test(
   SOURCES QPInverseKinematicsTest.cpp
   LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
         BipedalLocomotion::ContinuousDynamicalSystem)
+
+add_bipedal_test(
+  NAME QPFixedBaseInverseKinematics
+  SOURCES QPFixedBaseInverseKinematicsTest.cpp
+  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
+        BipedalLocomotion::ContinuousDynamicalSystem)
