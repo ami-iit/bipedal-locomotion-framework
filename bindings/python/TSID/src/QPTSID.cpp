@@ -1,5 +1,5 @@
 /**
- * @file QPInverseKinematics.cpp
+ * @file QPTSID.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/TSID/QPTSID.h>
 
 #include <BipedalLocomotion/bindings/TSID/QPTSID.h>
+#include <BipedalLocomotion/bindings/type_caster/swig.h>
 
 namespace BipedalLocomotion
 {
@@ -37,7 +38,22 @@ void CreateQPFixedBaseTSID(pybind11::module& module)
 
     py::class_<QPFixedBaseTSID, QPTSID>(module, "QPFixedBaseTSID")
         .def(py::init())
-        .def("set_kin_dyn", &QPFixedBaseTSID::setKinDyn, py::arg("kin_dyn"));
+        .def(
+            "set_kin_dyn",
+            [](QPFixedBaseTSID& impl, ::pybind11::object& obj) -> bool {
+                std::shared_ptr<iDynTree::KinDynComputations>* cls
+                    = pybind11::detail::swig_wrapped_pointer_to_pybind<
+                        std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+                if (cls == nullptr)
+                {
+                    throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                  "an iDynTree::KinDynComputations object.");
+                }
+
+                return impl.setKinDyn(*cls);
+            },
+            py::arg("kin_dyn"));
 }
 
 } // namespace TSID
