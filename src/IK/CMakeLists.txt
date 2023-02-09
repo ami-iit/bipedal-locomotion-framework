@@ -9,9 +9,9 @@ if(FRAMEWORK_COMPILE_IK)
   add_bipedal_locomotion_library(
     NAME                   IK
     PUBLIC_HEADERS         ${H_PREFIX}/R3Task.h ${H_PREFIX}/SE3Task.h ${H_PREFIX}/SO3Task.h ${H_PREFIX}/JointTrackingTask.h ${H_PREFIX}/CoMTask.h ${H_PREFIX}/IntegrationBasedIK.h
-                           ${H_PREFIX}/AngularMomentumTask.h ${H_PREFIX}/QPFixedBaseInverseKinematics.h
+                           ${H_PREFIX}/AngularMomentumTask.h ${H_PREFIX}/JointLimitsTask.h ${H_PREFIX}/QPFixedBaseInverseKinematics.h
                            ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/IKLinearTask.h
-    SOURCES                src/R3Task.cpp src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp
+    SOURCES                src/R3Task.cpp src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp src/JointLimitsTask.cpp
                            src/QPInverseKinematics.cpp src/QPFixedBaseInverseKinematics.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::ParametersHandler BipedalLocomotion::System
