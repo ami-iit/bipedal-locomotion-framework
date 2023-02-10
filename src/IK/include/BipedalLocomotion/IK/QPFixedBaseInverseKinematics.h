@@ -36,13 +36,13 @@ namespace IK
  * external wrench acting on only the base link.
  * Here you can find an example of the QPFixedBaseInverseKinematics class used as velocity
  * controller or IK
- * @subsection vc Velocity Control
+ * @subsection qp_fixed_vc Velocity Control
  * Here you can find an example of the QPFixedBaseInverseKinematics interface used as
  * a velocity controller.
  * <br/>
  * <img src="https://user-images.githubusercontent.com/16744101/142453785-9e6f2b5e-dc82-417a-a5e3-bc8c61865d0b.png" alt="VelocityControl" width="1500">
- * @subsection ik Inverse Kinematics
- * If you want to use IntegrationBasedInverseKinematics as IK you need to integrate the output
+ * @subsection qp_fixed_ik Inverse Kinematics
+ * If you want to use QPFixedBaseInverseKinematics as IK you need to integrate the output
  * velocity. System::FloatingBaseSystemKinematics and System::Integrator classes can be used
  * to integrate the output of the IK taking into account the geometrical structure of the
  * configuration space (\f$ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n\f$)
