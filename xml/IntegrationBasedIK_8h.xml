@@ -6,6 +6,7 @@
     <includes local="no">manif/SE3.h</includes>
     <includes refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includes>
     <includes refid="ILinearTaskSolver_8h" local="no">BipedalLocomotion/System/ILinearTaskSolver.h</includes>
+    <includedby refid="QPFixedBaseInverseKinematics_8h" local="no">BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</includedby>
     <includedby refid="QPInverseKinematics_8h" local="no">BipedalLocomotion/IK/QPInverseKinematics.h</includedby>
     <incdepgraph>
       <node id="19">
@@ -152,13 +153,21 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
+        <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
+        <link refid="QPFixedBaseInverseKinematics_8h"/>
+      </node>
+      <node id="3">
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
         <link refid="IntegrationBasedIK_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

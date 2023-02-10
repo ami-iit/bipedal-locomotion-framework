@@ -475,6 +475,12 @@
         <childnode refid="13" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="15">
+        <label>BipedalLocomotion::IK::QPFixedBaseInverseKinematics</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="2">
         <label>BipedalLocomotion::System::Source&lt; _State &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>

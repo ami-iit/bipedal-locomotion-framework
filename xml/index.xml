@@ -1214,6 +1214,13 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1a9484152aba265f038d1fc28956098f42" kind="function"><name>PolyDriverDescriptor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor_1ac258a71fad512c12474ca5f168bd880d" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics" kind="class"><name>BipedalLocomotion::IK::QPFixedBaseInverseKinematics</name>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1a6f35902103d8adf4e220e41d0d78a4df" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1a13a6aa95419b21a38032d8ed10d85b0b" kind="function"><name>QPFixedBaseInverseKinematics</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1a4433d5a3e4b17a8970f697a17b5c2fda" kind="function"><name>~QPFixedBaseInverseKinematics</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1a6905bd4a457f7e5e7f7337340999e261" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1ac0f6f7be93f3959311aa3c10eb723524" kind="function"><name>setKinDyn</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID" kind="class"><name>BipedalLocomotion::TSID::QPFixedBaseTSID</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afe34535ba7f72e8f8a8951eb7f57a48a" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1a45b6c66204b18531b9a120079fa2dcf5" kind="function"><name>QPFixedBaseTSID</name></member>
@@ -2335,6 +2342,8 @@
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
+  </compound>
+  <compound refid="QPFixedBaseInverseKinematics_8h" kind="file"><name>QPFixedBaseInverseKinematics.h</name>
   </compound>
   <compound refid="QPInverseKinematics_8h" kind="file"><name>QPInverseKinematics.h</name>
   </compound>
