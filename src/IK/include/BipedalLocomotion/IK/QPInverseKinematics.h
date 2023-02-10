@@ -41,18 +41,14 @@ namespace IK
  * Here you can find an example of the QPFixedBaseInverseKinematics interface used as
  * a velocity controller.
  * <br/>
- * <img
- * src="https://user-images.githubusercontent.com/16744101/142453785-9e6f2b5e-dc82-417a-a5e3-bc8c61865d0b.png"
- * alt="VelocityControl" width="1500">
+ * <img src="https://user-images.githubusercontent.com/16744101/142453785-9e6f2b5e-dc82-417a-a5e3-bc8c61865d0b.png" alt="VelocityControl" width="1500">
  * @subsection ik Inverse Kinematics
  * If you want to use IntegrationBasedInverseKinematics as IK you need to integrate the output
  * velocity. System::FloatingBaseSystemKinematics and System::Integrator classes can be used
  * to integrate the output of the IK taking into account the geometrical structure of the
  * configuration space (\f$ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n\f$)
  * <br/>
- * <img
- * src="https://user-images.githubusercontent.com/16744101/142453860-6bba2a7a-26af-48da-b04e-114314c6f67c.png"
- * alt="InverseKinematics" width="1500">
+ * <img src="https://user-images.githubusercontent.com/16744101/142453860-6bba2a7a-26af-48da-b04e-114314c6f67c.png" alt="InverseKinematics" width="1500">
  */
 class QPInverseKinematics : public IntegrationBasedIK
 {
