@@ -26,10 +26,20 @@ endif()
 if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
   set(H_PREFIX include/BipedalLocomotion/RobotDynamicsEstimator)
   add_bipedal_locomotion_library(
-    NAME                   RobotDynamicsEstimator
-    SOURCES                src/SubModel.cpp
-    SUBDIRECTORIES         tests/RobotDynamicsEstimator
-    PUBLIC_HEADERS         ${H_PREFIX}/SubModel.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model Eigen3::Eigen iDynTree::idyntree-modelio
+    NAME                    RobotDynamicsEstimator
+    SOURCES                 src/SubModel.cpp
+                            src/SubModelKinDynWrapper.cpp
+    SUBDIRECTORIES          tests/RobotDynamicsEstimator
+    PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h
+                            ${H_PREFIX}/SubModelKinDynWrapper.h
+    PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler
+                            BipedalLocomotion::TextLogging
+                            BipedalLocomotion::ManifConversions
+                            iDynTree::idyntree-high-level
+                            iDynTree::idyntree-core
+                            iDynTree::idyntree-model
+                            iDynTree::idyntree-modelio
+                            Eigen3::Eigen
+                            MANIF::manif
 )
 endif()

@@ -170,7 +170,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_RobotDynamicsEstimator
   "Compile RobotDynamicsEstimator libraries?" ON
-  "" OFF)
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
