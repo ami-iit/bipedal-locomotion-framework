@@ -27,19 +27,14 @@ if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
   set(H_PREFIX include/BipedalLocomotion/RobotDynamicsEstimator)
   add_bipedal_locomotion_library(
     NAME                    RobotDynamicsEstimator
-    SOURCES                 src/SubModel.cpp
-                            src/SubModelKinDynWrapper.cpp
+    SOURCES                 src/SubModel.cpp src/SubModelKinDynWrapper.cpp src/Dynamics.cpp src/ZeroVelocityDynamics.cpp src/FrictionTorqueStateDynamics.cpp
+                            src/JointVelocityStateDynamics.cpp src/UkfState.cpp src/SubModelDynamics.cpp
     SUBDIRECTORIES          tests/RobotDynamicsEstimator
-    PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h
-                            ${H_PREFIX}/SubModelKinDynWrapper.h
-    PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler
-                            BipedalLocomotion::TextLogging
-                            BipedalLocomotion::ManifConversions
-                            iDynTree::idyntree-high-level
-                            iDynTree::idyntree-core
-                            iDynTree::idyntree-model
-                            iDynTree::idyntree-modelio
-                            Eigen3::Eigen
-                            MANIF::manif
-)
+    PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h ${H_PREFIX}/SubModelKinDynWrapper.h ${H_PREFIX}/Dynamics.h ${H_PREFIX}/ZeroVelocityDynamics.h
+                            ${H_PREFIX}/FrictionTorqueStateDynamics.h ${H_PREFIX}/JointVelocityStateDynamics.h
+                            ${H_PREFIX}/UkfState.h ${H_PREFIX}/SubModelDynamics.h
+    PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler MANIF::manif BipedalLocomotion::System BipedalLocomotion::Math iDynTree::idyntree-high-level
+                            iDynTree::idyntree-core iDynTree::idyntree-model iDynTree::idyntree-modelio Eigen3::Eigen MANIF::manif BayesFilters::BayesFilters
+    PRIVATE_LINK_LIBRARIES  BipedalLocomotion::TextLogging BipedalLocomotion::ManifConversions
+                            )
 endif()

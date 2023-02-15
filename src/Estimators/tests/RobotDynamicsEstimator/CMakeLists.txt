@@ -23,6 +23,42 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            MANIF::manif
                            )
 
+    add_bipedal_test(NAME ZeroVelocityDynamics
+                     SOURCES ZeroVelocityDynamicsTest.cpp
+                     LINKS BipedalLocomotion::RobotDynamicsEstimator
+                           BipedalLocomotion::ParametersHandler
+                           BipedalLocomotion::ParametersHandlerYarpImplementation
+                           icub-models::icub-models
+                           Eigen3::Eigen
+                           )
+
+    add_bipedal_test(NAME FrictionTorqueStateDynamics
+                     SOURCES FrictionTorqueStateDynamicsTest.cpp
+                     LINKS BipedalLocomotion::RobotDynamicsEstimator
+                           BipedalLocomotion::ParametersHandler
+                           BipedalLocomotion::ParametersHandlerYarpImplementation
+                           BipedalLocomotion::System
+                           icub-models::icub-models
+                           Eigen3::Eigen
+                           )
+
+    add_bipedal_test(NAME JointVelocityStateDynamics
+                     SOURCES JointVelocityStateDynamicsTest.cpp
+                     LINKS BipedalLocomotion::RobotDynamicsEstimator
+                           BipedalLocomotion::ParametersHandler
+                           BipedalLocomotion::ParametersHandlerYarpImplementation
+                           BipedalLocomotion::System
+                           icub-models::icub-models
+                           Eigen3::Eigen
+                           MANIF::manif
+                           )
+
+    add_bipedal_test(NAME     UkfState
+                     SOURCES  UkfStateTest.cpp
+                     LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
+                              icub-models::icub-models
+                     )
+
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
