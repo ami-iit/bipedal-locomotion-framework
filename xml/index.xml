@@ -662,6 +662,13 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" kind="variable"><name>m_computationalBufferState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" kind="function"><name>addArea</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</name>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386d" kind="enum"><name>Direction</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386da3289297424e01eda5b788c083bbf3147" kind="enumvalue"><name>Positive</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386daffb9356ff2b7da85c75c92fa7ea03b8b" kind="enumvalue"><name>Negative</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386da4b7d504abac49ba24b4df86c129d3cbc" kind="enumvalue"><name>NotSpecified</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a7593449baa647417680c7302749593b1" kind="variable"><name>forceDirection</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge" kind="class"><name>BipedalLocomotion::RobotInterface::ICameraBridge</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aaa69e3706400eaaa4292e2b57e81baf7" kind="typedef"><name>shared_ptr</name></member>
@@ -1498,6 +1505,10 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c" kind="function"><name>setTaskControllerMode</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243" kind="function"><name>getTaskControllerMode</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</name>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a08e2ce535c0ece8ff1ddbb27a1611192" kind="variable"><name>name</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a8a43d5c50a2942822bcb31852c8b56dd" kind="variable"><name>frame</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kind="struct"><name>BipedalLocomotion::RobotInterface::SensorBridgeMetaData</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData_1a31e3d77b006c0af05953dd8c6b0f4b71" kind="variable"><name>sensorsList</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData_1af28510fbc98c0a4b425c83a6f91c4e13" kind="variable"><name>bridgeOptions</name></member>
@@ -1691,6 +1702,41 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a7f3459d34a0688a57a1280b2f17ddc45" kind="function"><name>clear</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a37fa6ff92195856b511126c08a326760" kind="function"><name>clone</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1ab6e5d0501d5bf2a92ceb2ed46e7ab03b" kind="function"><name>~StdImplementation</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ad77beb1b5c9bd0cbb8215e099ce993a5" kind="variable"><name>m_model</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1acf3049575bfe0fe01fabc39dfb723c27" kind="variable"><name>m_jointListMapping</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aa0b3411471dce7877d144e638664e93e" kind="variable"><name>m_ftList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4a7691da5c3466c12e1365598d6aba79" kind="variable"><name>m_accelerometerList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4bdde544b61b9185f3372f9326720993" kind="variable"><name>m_gyroscopeList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a0e3206156ba3c65b8fc1ef079ede036b" kind="variable"><name>m_externalContactList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a631b7dd2a01d2b749f8d1b1e427b1a2d" kind="friend"><name>SubModelCreator</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a16545efe66c509e286b1639b606f6dec" kind="function"><name>getModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead9415962e3ff1d3baf8cb891b95ad5" kind="function"><name>getJointMapping</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a2a71e231bb39a442455b6a95b3b8848c" kind="function"><name>getFTList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a46972e7860abcfecf813e2e39b0dfbfe" kind="function"><name>getAccelerometerList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7ca478d2c18afbb8b0bebda6bdc310eb" kind="function"><name>getGyroscopeList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a94610f026cd8fa5b0ae69057c145f594" kind="function"><name>getExternalContactList</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a595b523f377029b5f07ccd2d9f7ae3ca" kind="variable"><name>m_model</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4f8c62da3f591fa866d0d440fbd6405f" kind="variable"><name>m_sensorList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a29e7abbf2606612b6510ae21c587a3ae" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a7feb7a16d53a832c7f16f46479bc6ded" kind="variable"><name>m_subModelList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a38838648d6f81600071d4a513cebfb8d" kind="function"><name>splitModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afb68758496733e5ff03950355592d837" kind="function"><name>populateSubModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a8912f2e6fc03626aeb25b331f0564192" kind="function"><name>attachFTsToSubModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a469a86cd406441c0b1bc9a326ab8ca38" kind="function"><name>attachAccelerometersToSubModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a9c2d669f828ba24845abe2d8fde3c155" kind="function"><name>attachGyroscopesToSubModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4c48aa4c2e008137d3e2a1bfeaef4a72" kind="function"><name>attachExternalContactsToSubModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" kind="function"><name>createJointMapping</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab10f482488f803781a5368a047ad3d62" kind="function"><name>createSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73828f2a439573513bf7954926b4d233" kind="function"><name>createSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ac35290a23c6d1e328bc33a7a47bd72aa" kind="function"><name>setModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a597c1f2bdeac50756a14310850bb5b41" kind="function"><name>setSensorList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73a29919131da15e0ce5d98160b3de62" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1adc775628561c65af1c0267f9abd03eca" kind="function"><name>getSubModelList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab7647e9a3165857e29d4fe923d214ade" kind="function"><name>getSubModel</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" kind="class"><name>BipedalLocomotion::Planners::SwingFootPlanner</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a05f9acf196e6eb3d2065f348d168c54c" kind="variable"><name>m_state</name></member>
@@ -2124,6 +2170,8 @@
   <compound refid="namespaceBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators" kind="namespace"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators</name>
     <member refid="FloatingBaseEstimatorParams_8h_1a0278244abffd2414273812bafbda7395" kind="typedef"><name>PoseCovariance</name></member>
   </compound>
+  <compound refid="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator" kind="namespace"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator</name>
+  </compound>
   <compound refid="namespaceBipedalLocomotion_1_1GenericContainer" kind="namespace"><name>BipedalLocomotion::GenericContainer</name>
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
@@ -2321,6 +2369,8 @@
   <compound refid="InvariantEKFBaseEstimator_8h" kind="file"><name>InvariantEKFBaseEstimator.h</name>
   </compound>
   <compound refid="LeggedOdometry_8h" kind="file"><name>LeggedOdometry.h</name>
+  </compound>
+  <compound refid="SubModel_8h" kind="file"><name>SubModel.h</name>
   </compound>
   <compound refid="TemplateHelpers_8h" kind="file"><name>TemplateHelpers.h</name>
   </compound>
@@ -2541,55 +2591,55 @@
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
   </compound>
+  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
   <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_236a1b57464bafc12d3e7f870739eeda" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_2b480c6fc79e0b0cdd168fd50c1d5baf" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_236a1b57464bafc12d3e7f870739eeda" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
+  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
   <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_531c7abd5b4eafc7c353b939b0a8a2d6" kind="dir"><name>BipedalLocomotion/Perception/Capture</name>
   </compound>
@@ -2630,6 +2680,8 @@
   <compound refid="dir_224cc52f73d01a88baf301b7a814488c" kind="dir"><name>BipedalLocomotion/Perception</name>
   </compound>
   <compound refid="dir_9a2340c01aedb0f76560dc44ac9c4ec3" kind="dir"><name>BipedalLocomotion/Planners</name>
+  </compound>
+  <compound refid="dir_6a823490c0e56385acb143e0d237a93f" kind="dir"><name>BipedalLocomotion/RobotDynamicsEstimator</name>
   </compound>
   <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>

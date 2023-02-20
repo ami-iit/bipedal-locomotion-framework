@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/ directory | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,30 +62,61 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          BipedalLocomotion<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators.html">Estimators</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator.html">RobotDynamicsEstimator</a>::<wbr/></span>FT <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SubModel_8h.html">&lt;BipedalLocomotion/RobotDynamicsEstimator/SubModel.h&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p><a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a> describes the force/torque sensors of the submodels.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#subdirs">Directories</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="subdirs">
-          <h2><a href="#subdirs">Directories</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>directory <a href="dir_ee07514d2807e20bc45d06fa42085a9b.html" class="m-doc">Estimators</a>/</dt>
-            <dd><span></span></dd>
-            <dt>directory <a href="dir_eb2aee06d54bf141ab9a7f577cd1a1c7.html" class="m-doc">FloatingBaseEstimators</a>/</dt>
-            <dd><span></span></dd>
-            <dt>directory <a href="dir_6a823490c0e56385acb143e0d237a93f.html" class="m-doc">RobotDynamicsEstimator</a>/</dt>
-            <dd><span></span></dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> describes the generic sensors of the submodels.</dd>
           </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a href="#a568d87a86281c6cebfc0a4327b8e386d" class="m-doc">Direction</a>: int { </span><span class="m-doc-wrap"><a href="#a568d87a86281c6cebfc0a4327b8e386da3289297424e01eda5b788c083bbf3147" class="m-doc">Positive</a> = 1,
+              <a href="#a568d87a86281c6cebfc0a4327b8e386daffb9356ff2b7da85c75c92fa7ea03b8b" class="m-doc">Negative</a> = -1,
+              <a href="#a568d87a86281c6cebfc0a4327b8e386da4b7d504abac49ba24b4df86c129d3cbc" class="m-doc">NotSpecified</a> = 0 }</span>
+            </dt>
+            <dd>Direction can assume values: 1 if the system is applying the force on the sub-model.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a7593449baa647417680c7302749593b1">
+              <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html#a568d87a86281c6cebfc0a4327b8e386d" class="m-doc">Direction</a> <a href="#a7593449baa647417680c7302749593b1" class="m-doc-self">forceDirection</a>
+            </dt>
+            <dd>Force direction depending on which side of the sensor is considered (+1 or -1)</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Enum documentation</h2>
+          <section class="m-doc-details" id="a568d87a86281c6cebfc0a4327b8e386d"><div>
+            <h3>
+              enum class BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />FT::<wbr /><a href="#a568d87a86281c6cebfc0a4327b8e386d" class="m-doc-self">Direction</a>: int
+            </h3>
+            <p>Direction can assume values: 1 if the system is applying the force on the sub-model.</p>
+<p>-1 if the sub-model is applying the force on the system. 0 if the direction is not specified.</p>
+          </div></section>
         </section>
       </div>
     </div>

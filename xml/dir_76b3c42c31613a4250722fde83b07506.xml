@@ -4,6 +4,7 @@
     <compoundname>BipedalLocomotion</compoundname>
     <innerdir refid="dir_ee07514d2807e20bc45d06fa42085a9b">BipedalLocomotion/Estimators</innerdir>
     <innerdir refid="dir_eb2aee06d54bf141ab9a7f577cd1a1c7">BipedalLocomotion/FloatingBaseEstimators</innerdir>
+    <innerdir refid="dir_6a823490c0e56385acb143e0d237a93f">BipedalLocomotion/RobotDynamicsEstimator</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
