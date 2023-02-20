@@ -16,6 +16,7 @@ All notable changes to this project are documented in this file.
 - Add informative prints `YarpSensorBridge::Impl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 - The minimum version of iDynTree now supported is iDynTree 4.3.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/588).
 - Allow using the `iDynTree swig` bindings in `QPFixedBaseTSID` for the kindyncomputation object (https://github.com/ami-iit/bipedal-locomotion-framework/pull/599)
+- Add the possibility to customize the video codec in the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/607)
 
 ### Fix
 - Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
