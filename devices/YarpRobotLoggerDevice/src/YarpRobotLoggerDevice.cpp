@@ -147,9 +147,9 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
             const auto& rgbCameras = m_cameraBridge->getMetaData().sensorsList.rgbCamerasList;
             if (rgbFPS.size() != rgbCameras.size())
             {
-                log()->error("[YarpRobotLoggerDevice::open] Mismatch between the number of cameras "
-                             "and the vector containg the FPS. Number of cameras: {}. Size of the "
-                             "FPS vector {}.",
+                log()->error("{} Mismatch between the number of cameras and the vector containg "
+                             "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
+                             logPrefix,
                              rgbCameras.size(),
                              rgbFPS.size());
                 return false;
@@ -159,8 +159,9 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
             {
                 if (rgbFPS[i] <= 0)
                 {
-                    log()->error("[YarpRobotLoggerDevice::open] The FPS associated to the camera "
-                                 "{} is negative or equal to zero.",
+                    log()->error("{} The FPS associated to the camera {} is negative or equal to "
+                                 "zero.",
+                                 logPrefix,
                                  i);
                     return false;
                 }
@@ -168,16 +169,35 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                 // get the desired fps for each camera
                 m_videoWriters[rgbCameras[i]].fps = rgbFPS[i];
             }
+
+            if (!params->getParameter("video_codec_code", m_videoCodecCode))
+            {
+                constexpr auto fourccCodecUrl = "https://abcavi.kibi.ru/fourcc.php";
+                log()->info("{} The parameter 'video_codec_code' is not provided. The default one "
+                            "will be used {}. You can find the list of supported parameters at: "
+                            "{}.",
+                            logPrefix,
+                            m_videoCodecCode,
+                            fourccCodecUrl);
+            } else if (m_videoCodecCode.size() != 4)
+            {
+                constexpr auto fourccCodecUrl = "https://abcavi.kibi.ru/fourcc.php";
+                log()->error("{} The parameter 'video_codec_code' must be a string with 4 "
+                             "characters. You can find the list of supported parameters at: {}.",
+                             logPrefix,
+                             fourccCodecUrl);
+                return false;
+            }
         }
 
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
         {
-            log()->warn("[YarpRobotLoggerDevice::open] The logger does not support rgbd cameras.");
+            log()->warn("{} The logger does not support rgbd cameras.", logPrefix);
         }
 
     } else
     {
-        log()->info("[YarpRobotLoggerDevice::open] The video will not be recorded");
+        log()->info("{} The video will not be recorded", logPrefix);
     }
 
     if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
@@ -594,7 +614,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
             m_videoWriters[camera].writer
                 = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
-                                                    cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
+                                                    cv::VideoWriter::fourcc(m_videoCodecCode.at(0),
+                                                                            m_videoCodecCode.at(1),
+                                                                            m_videoCodecCode.at(2),
+                                                                            m_videoCodecCode.at(3)),
                                                     m_videoWriters[camera].fps,
                                                     cv::Size(cameraInfo->second.first,
                                                              cameraInfo->second.second));
@@ -1073,7 +1096,10 @@ bool YarpRobotLoggerDevice::saveCallback(
                 = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);
             m_videoWriters[camera].writer
                 = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
-                                                    cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
+                                                    cv::VideoWriter::fourcc(m_videoCodecCode.at(0),
+                                                                            m_videoCodecCode.at(1),
+                                                                            m_videoCodecCode.at(2),
+                                                                            m_videoCodecCode.at(3)),
                                                     m_videoWriters[camera].fps,
                                                     cv::Size(cameraInfo->second.first,
                                                              cameraInfo->second.second));
