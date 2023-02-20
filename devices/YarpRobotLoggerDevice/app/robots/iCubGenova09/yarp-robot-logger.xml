@@ -7,6 +7,7 @@ BSD-3-Clause license. -->
   <param name="robot">icub</param>
   <param name="sampling_period_in_s">0.01</param>
   <param name="rgb_cameras_fps">(30)</param>
+  <param name="video_codec_code">mp4v</param>
   <param name="port_prefix">/yarp-robot-logger</param>
   <param name="text_logging_subnames">("icub-head/yarprobotinterface")</param>
   <param name="code_status_cmd_prefixes">("ssh icub@10.0.0.2" "ssh icub@10.0.0.150")</param>
