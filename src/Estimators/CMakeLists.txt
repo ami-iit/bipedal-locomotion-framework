@@ -22,3 +22,14 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model BipedalLocomotion::System Eigen3::Eigen BipedalLocomotion::Contacts iDynTree::idyntree-modelio BipedalLocomotion::TextLogging
     PRIVATE_LINK_LIBRARIES MANIF::manif)
 endif()
+
+if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
+  set(H_PREFIX include/BipedalLocomotion/RobotDynamicsEstimator)
+  add_bipedal_locomotion_library(
+    NAME                   RobotDynamicsEstimator
+    SOURCES                src/SubModel.cpp
+    SUBDIRECTORIES         tests/RobotDynamicsEstimator
+    PUBLIC_HEADERS         ${H_PREFIX}/SubModel.h
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging iDynTree::idyntree-high-level iDynTree::idyntree-core iDynTree::idyntree-model Eigen3::Eigen iDynTree::idyntree-modelio
+)
+endif()

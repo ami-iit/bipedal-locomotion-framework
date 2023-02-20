@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Implement the ROS2 sink for the `TextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/587)
 - Implement the `QPFixedBaseInverseKinematics` in the `IK` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/599)
 - 🤖 [ergoCubSN000] Add configuration files for the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/600)
+- Add functions to split a model in a set of submodels in the Estimator component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/604)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
