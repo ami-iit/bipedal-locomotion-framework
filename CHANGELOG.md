@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Implement the python bindings for the iDynTree to manif conversions (https://github.com/ami-iit/bipedal-locomotion-framework/pull/610)
 - Implement `blf-balancing-position-control` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/611)
 - Implement the python bindings for `YarpTextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/611)
+- Add SubModelKinDynWrapper class to handle the `KinDynComputation` object of a sub-model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/605)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
