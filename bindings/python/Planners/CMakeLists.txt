@@ -11,14 +11,14 @@ if(FRAMEWORK_COMPILE_Planners AND FRAMEWORK_COMPILE_Unicycle)
     SOURCES
     src/DCMPlanner.cpp
     src/TimeVaryingDCMPlanner.cpp
-    src/QuinticSpline.cpp
+    src/Spline.cpp
     src/SwingFootPlanner.cpp
     src/UnicyclePlanner.cpp
     src/Module.cpp
     HEADERS
     ${H_PREFIX}/DCMPlanner.h
     ${H_PREFIX}/TimeVaryingDCMPlanner.h
-    ${H_PREFIX}/QuinticSpline.h
+    ${H_PREFIX}/Spline.h
     ${H_PREFIX}/SwingFootPlanner.h
     ${H_PREFIX}/UnicyclePlanner.h
     ${H_PREFIX}/Module.h

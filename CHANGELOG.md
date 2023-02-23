@@ -9,6 +9,8 @@ All notable changes to this project are documented in this file.
 - Implement the `QPFixedBaseInverseKinematics` in the `IK` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/599)
 - 🤖 [ergoCubSN000] Add configuration files for the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/600)
 - Add functions to split a model in a set of submodels in the Estimator component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/604)
+- Add the possibity to call the advanceable capabilities of the `QuinticSpline` from the python (https://github.com/ami-iit/bipedal-locomotion-framework/pull/609)
+- Implement the `CubicSpline` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/609)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
