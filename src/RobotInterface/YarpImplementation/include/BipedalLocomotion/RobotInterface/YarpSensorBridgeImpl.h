@@ -977,51 +977,74 @@ struct YarpSensorBridge::Impl
         // expects only one remotecontrolboard device attached to it, if found break!
         // if there multiple remote control boards, then  use a remapper to create a single
         // remotecontrolboard
-        bool ok{true};
+        bool okJointsSensor = !metaData.bridgeOptions.isJointSensorsEnabled;
+        bool okPWM = !metaData.bridgeOptions.isPWMControlEnabled;
+        bool okMotorsSensor = !metaData.bridgeOptions.isMotorSensorsEnabled;
+        bool okPID = !metaData.bridgeOptions.isPIDsEnabled;
+
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
-            if (metaData.bridgeOptions.isJointSensorsEnabled)
+            yarp::dev::PolyDriver* poly = devList[devIdx]->poly;
+
+            if (!okJointsSensor && metaData.bridgeOptions.isJointSensorsEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.axis);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.encoders);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.torques);
+                okJointsSensor = poly->view(controlBoardRemapperInterfaces.axis);
+                okJointsSensor = okJointsSensor
+                                 && poly->view(controlBoardRemapperInterfaces.encoders);
+                okJointsSensor = okJointsSensor
+                                 && poly->view(controlBoardRemapperInterfaces.torques);
             }
-            if (metaData.bridgeOptions.isPWMControlEnabled)
+            if (!okPWM && metaData.bridgeOptions.isPWMControlEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);
+                okPWM = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);
             }
-            if (metaData.bridgeOptions.isMotorSensorsEnabled)
+            if (!okMotorsSensor && metaData.bridgeOptions.isMotorSensorsEnabled)
             {
-                ok = ok
-                     && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motorEncoders);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
+                okMotorsSensor
+                    = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motorEncoders);
+                okMotorsSensor
+                    = okMotorsSensor
+                      && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
             }
-            if (metaData.bridgeOptions.isPIDsEnabled)
+            if (!okPID && metaData.bridgeOptions.isPIDsEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
+                okPID = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
             }
 
-            if (ok)
+            if (okPID && okJointsSensor && okMotorsSensor && okPWM)
             {
-                break;
+                if (!compareControlBoardJointsList())
+                {
+                    log()->error("{} Could not attach to remapped control board interface.",
+                                 logPrefix);
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        if (!ok)
-        {
-            log()->error("{} Could not find a remapped remote control board with the desired "
-                         "interfaces",
-                         logPrefix);
-            return false;
-        }
+        auto getSensorStatus = [](bool isRequired, bool isFound) -> const char* {
+            if (isRequired)
+            {
+                return isFound ? "required and found" : "required but not found";
+            }
+            return "not required";
+        };
 
-        if (!compareControlBoardJointsList())
-        {
-            log()->error("{} Could not attach to remapped control board interface.", logPrefix);
-            return false;
-        }
+        log()->error("{} Could not find a remapped remote control board with the desired "
+                     "interfaces. Here the status of the interfaces. "
+                     "Joint sensors: {}, "
+                     "Motor sensors: {}, ",
+                     "PID sensors: {}, ",
+                     "PWM sensors: {}.",
+                     logPrefix,
+                     getSensorStatus(metaData.bridgeOptions.isJointSensorsEnabled, okJointsSensor),
+                     getSensorStatus(metaData.bridgeOptions.isMotorSensorsEnabled, okMotorsSensor),
+                     getSensorStatus(metaData.bridgeOptions.isPIDsEnabled, okPID),
+                     getSensorStatus(metaData.bridgeOptions.isPWMControlEnabled, okPWM));
 
-        return true;
+        return false;
     }
 
     /**
