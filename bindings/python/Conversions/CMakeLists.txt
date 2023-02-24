@@ -10,6 +10,7 @@ if(FRAMEWORK_COMPILE_ManifConversions)
     NAME ManifConversionsBindings
     SOURCES src/ManifConversions.cpp src/Module.cpp
     HEADERS ${H_PREFIX}/ManifConversions.h ${H_PREFIX}/Module.h
-    LINK_LIBRARIES BipedalLocomotion::ManifConversions)
+    LINK_LIBRARIES BipedalLocomotion::ManifConversions
+    TESTS tests/test_manif_conversions.py)
 
 endif()
