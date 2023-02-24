@@ -10,7 +10,11 @@
 
 #include <Eigen/Dense>
 
+#include <iDynTree/Core/Rotation.h>
+#include <iDynTree/Core/Transform.h>
+
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/bindings/type_caster/swig.h>
 
 namespace BipedalLocomotion
 {
@@ -18,6 +22,34 @@ namespace bindings
 {
 namespace Conversions
 {
+
+manif::SE3d toManifPose(::pybind11::object& obj)
+{
+    const iDynTree::Transform* const cls
+        = pybind11::detail::swig_wrapped_pointer_to_pybind<iDynTree::Transform>(obj);
+
+    if (cls == nullptr)
+    {
+        throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                      "an iDynTree::Transform object.");
+    }
+
+    return BipedalLocomotion::Conversions::toManifPose(*cls);
+}
+
+manif::SO3d toManifRot(::pybind11::object& obj)
+{
+    const iDynTree::Rotation* const cls
+        = pybind11::detail::swig_wrapped_pointer_to_pybind<iDynTree::Rotation>(obj);
+
+    if (cls == nullptr)
+    {
+        throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                      "an iDynTree::Rotation object.");
+    }
+
+    return BipedalLocomotion::Conversions::toManifRot(*cls);
+}
 
 void CreateManifConversions(pybind11::module& module)
 {
@@ -30,9 +62,17 @@ void CreateManifConversions(pybind11::module& module)
                  &::BipedalLocomotion::Conversions::toManifPose<double>),
              py::arg("rotation"),
              py::arg("translation"))
+        .def("to_manif_pose",
+             py::overload_cast<::pybind11::object&>(
+                 &::BipedalLocomotion::bindings::Conversions::toManifPose),
+             py::arg("transform"))
         .def("to_manif_rot",
              py::overload_cast<const Eigen::Matrix<double, 3, 3>&>(
                  &::BipedalLocomotion::Conversions::toManifRot<double>),
+             py::arg("rotation"))
+        .def("to_manif_rot",
+             py::overload_cast<::pybind11::object&>(
+                 &::BipedalLocomotion::bindings::Conversions::toManifRot),
              py::arg("rotation"));
 }
 
