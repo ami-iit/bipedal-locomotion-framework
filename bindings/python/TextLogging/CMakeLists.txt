@@ -25,3 +25,14 @@ if(FRAMEWORK_COMPILE_RosImplementation)
     LINK_LIBRARIES BipedalLocomotion::TextLoggingRosImplementation)
 
 endif()
+
+
+if(FRAMEWORK_COMPILE_YarpImplementation)
+
+  add_bipedal_locomotion_python_module(
+    NAME  TextLoggingYarpImplementation
+    SOURCES src/YarpLogger.cpp src/YarpModule.cpp
+    HEADERS ${H_PREFIX}/YarpLogger.h ${H_PREFIX}/YarpModule.h
+    LINK_LIBRARIES BipedalLocomotion::TextLoggingYarpImplementation)
+
+endif()

@@ -18,6 +18,10 @@
 @endcmakeif FRAMEWORK_USE_rclcpp
 
 @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+#include <BipedalLocomotion/bindings/TextLogging/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+
+@cmakeif FRAMEWORK_COMPILE_YarpImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
 @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
 
@@ -93,6 +97,10 @@ PYBIND11_MODULE(bindings, m)
     @cmakeif FRAMEWORK_USE_rclcpp
     bindings::TextLogging::CreateRosModule(textLoggingModule);
     @endcmakeif FRAMEWORK_USE_rclcpp
+
+    @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+    bindings::TextLogging::CreateYarpModule(textLoggingModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
