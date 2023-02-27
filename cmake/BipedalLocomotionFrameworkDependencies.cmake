@@ -232,6 +232,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
   "Compile calibration-delta-updater application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_BalancingPositionControlApplication
+  "Compile balancing-position-control application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_IK" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
   "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_robometry" OFF)
