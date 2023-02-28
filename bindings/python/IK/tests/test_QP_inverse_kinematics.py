@@ -170,6 +170,29 @@ def test_joint_tracking_task():
     joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
+def test_joint_limits_task():
+
+    # create KinDynComputationsDescriptor
+    joints_list, kindyn = get_kindyn()
+
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
+    # Set the parameters
+    joint_limits_param_handler = blf.parameters_handler.StdParametersHandler()
+    joint_limits_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+    joint_limits_param_handler.set_parameter_vector_float(name="klim",value=[0.5]*kindyn.getNrOfDegreesOfFreedom())
+    joint_limits_param_handler.set_parameter_bool(name="use_model_limits",value=False)
+    joint_limits_param_handler.set_parameter_vector_float(name="upper_limits",value=np.array(joint_values) + 0.01)
+    joint_limits_param_handler.set_parameter_vector_float(name="lower_limits",value=np.array(joint_values) - 0.01)
+    joint_limits_param_handler.set_parameter_float(name="sampling_time",value=0.01)
+
+    # Initialize the task
+    joint_limits_task = blf.ik.JointLimitsTask()
+    assert joint_limits_task.set_kin_dyn(kindyn)
+    assert joint_limits_task.initialize(param_handler=joint_limits_param_handler)
+    joint_limits_var_handler = blf.system.VariablesHandler()
+    assert joint_limits_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
+    assert joint_limits_task.set_variables_handler(variables_handler=joint_limits_var_handler)
+
 def test_angular_momentum_task():
 
     # create KinDynComputationsDescriptor
