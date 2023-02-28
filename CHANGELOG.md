@@ -12,6 +12,8 @@ All notable changes to this project are documented in this file.
 - Add the possibity to call the advanceable capabilities of the `QuinticSpline` from the python (https://github.com/ami-iit/bipedal-locomotion-framework/pull/609)
 - Implement the `CubicSpline` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/609)
 - Implement the python bindings for the iDynTree to manif conversions (https://github.com/ami-iit/bipedal-locomotion-framework/pull/610)
+- Implement `blf-balancing-position-control` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/611)
+- Implement the python bindings for `YarpTextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/611)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
