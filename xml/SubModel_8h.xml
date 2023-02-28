@@ -9,6 +9,7 @@
     <includes local="no">iDynTree/Model/Model.h</includes>
     <includes local="no">iDynTree/ModelIO/ModelLoader.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includedby refid="SubModelKinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</label>
@@ -57,6 +58,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</label>
+        <link refid="SubModel_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</label>
+        <link refid="SubModelKinDynWrapper_8h"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>

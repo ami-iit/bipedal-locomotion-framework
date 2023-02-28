@@ -6,6 +6,7 @@
     <includes local="no">iDynTree/Core/Transform.h</includes>
     <includes local="no">iDynTree/Core/Twist.h</includes>
     <includes local="no">manif/manif.h</includes>
+    <includedby refid="SubModelKinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</includedby>
     <incdepgraph>
       <node id="2">
         <label>iDynTree/Core/EigenHelpers.h</label>
@@ -32,6 +33,18 @@
         <label>iDynTree/Core/Transform.h</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</label>
+        <link refid="SubModelKinDynWrapper_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
+        <link refid="ManifConversions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Conversions">BipedalLocomotion::Conversions</innernamespace>
       <sectiondef kind="func">
