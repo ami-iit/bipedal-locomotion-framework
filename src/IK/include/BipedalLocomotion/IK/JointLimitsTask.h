@@ -30,7 +30,7 @@ namespace IK
  * where \f$0_6\f$ and \f$I_n\f$ are the zero and the identity matrix. \f$\dot{s} _{-}\f$ and
  * \f$\dot{s} _{+}\f$ are chosen such that robot stays within its mechanical range of motion.
  * Following [(Kanoun, 2011)](https://ieeexplore.ieee.org/document/6301071), we set
- * \f$\dot{s}__{-}\f$ and \f$\dot{s}_{+}\f$ as follows
+ * \f$\dot{s}_{-}\f$ and \f$\dot{s}_{+}\f$ as follows
  * \f[
  * \dot{s}_{-} = k_{\text{lim}} \frac{s_{-} - s}{dt} \quad \dot{s}_{+} = k_{\text{lim}} \frac{s_{+} - s}{dt}
  * \f]
