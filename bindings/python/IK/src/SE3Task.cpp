@@ -37,9 +37,6 @@ void CreateSE3Task(pybind11::module& module)
                IKLinearTask,
                BipedalLocomotion::System::ITaskControllerManager>(module, "SE3Task")
         .def(py::init())
-        .def("set_kin_dyn",
-             BipedalLocomotion::bindings::System::setKinDyn<SE3Task>,
-             py::arg("kin_dyn"))
         .def("set_set_point",
              &SE3Task::setSetPoint,
              py::arg("I_H_F"),

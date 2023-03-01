@@ -31,9 +31,6 @@ void CreateSO3Task(pybind11::module& module)
 
     py::class_<SO3Task, std::shared_ptr<SO3Task>, IKLinearTask>(module, "SO3Task")
         .def(py::init())
-        .def("set_kin_dyn",
-             BipedalLocomotion::bindings::System::setKinDyn<SO3Task>,
-             py::arg("kin_dyn"))
         .def("set_set_point",
              &SO3Task::setSetPoint,
              py::arg("I_R_F"),

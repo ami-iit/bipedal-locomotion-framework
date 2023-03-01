@@ -30,10 +30,7 @@ void CreateJointLimitsTask(pybind11::module& module)
     py::class_<JointLimitsTask, std::shared_ptr<JointLimitsTask>, IKLinearTask>( //
         module,
         "JointLimitsTask")
-        .def(py::init())
-        .def("set_kin_dyn",
-             BipedalLocomotion::bindings::System::setKinDyn<JointLimitsTask>,
-             py::arg("kin_dyn"));
+        .def(py::init());
 }
 
 } // namespace IK

@@ -157,6 +157,11 @@ def create_ik(kindyn: idyn.KinDynComputations,
         a tuple containing the solver, a dictionary of the tasks and the variables handler
     """
 
+    import warnings
+    warnings.warn("The function is deprecated. It will be removed in the next release. "
+                  "Please use bipedalLocomotion.ik.QPInverseKinematics.build() instead.",
+                  DeprecationWarning)
+
     solver = blf.ik.QPInverseKinematics()
     tasks = dict()
     variables_handler = blf.system.VariablesHandler()

@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <iDynTree/KinDynComputations.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -31,7 +32,10 @@ void CreateIKLinearTask(pybind11::module& module)
                ::BipedalLocomotion::System::LinearTask,
                ::BipedalLocomotion::bindings::System::LinearTaskTrampoline<IKLinearTask>,
                std::shared_ptr<IKLinearTask>>(module, "IKLinearTask")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<IKLinearTask>,
+             py::arg("kin_dyn"));
 }
 
 } // namespace IK

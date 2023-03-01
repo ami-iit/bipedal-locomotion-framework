@@ -11,7 +11,9 @@
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h>
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Source.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/bindings/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/bindings/type_caster/swig.h>
@@ -27,9 +29,31 @@ void CreateQPInverseKinematics(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::IK;
+    using namespace BipedalLocomotion::ParametersHandler;
+    using namespace BipedalLocomotion::System;
 
     py::class_<QPInverseKinematics, IntegrationBasedIK>(module, "QPInverseKinematics")
-        .def(py::init());
+        .def(py::init())
+        .def_static(
+            "build",
+            [](std::shared_ptr<const IParametersHandler> handler, py::object& obj)
+                -> std::pair<VariablesHandler, std::unique_ptr<QPInverseKinematics>> {
+
+                // get the kindyn computation object from the swig binsings
+                std::shared_ptr<iDynTree::KinDynComputations>* cls
+                    = py::detail::swig_wrapped_pointer_to_pybind<
+                        std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+                if (cls == nullptr)
+                {
+                    throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                  "an iDynTree::KinDynComputations object.");
+                }
+
+                return QPInverseKinematics::build(handler, *cls);
+            },
+            py::arg("param_handler"),
+            py::arg("kin_dyn"));
 
     py::class_<QPFixedBaseInverseKinematics, QPInverseKinematics>(module,
                                                                   "QPFixedBaseInverseKinematics")

@@ -29,9 +29,6 @@ void CreateCoMTask(pybind11::module& module)
 
     py::class_<CoMTask, std::shared_ptr<CoMTask>, IKLinearTask>(module, "CoMTask")
         .def(py::init())
-        .def("set_kin_dyn",
-             BipedalLocomotion::bindings::System::setKinDyn<CoMTask>,
-             py::arg("kin_dyn"))
         .def("set_set_point", &CoMTask::setSetPoint, py::arg("position"), py::arg("velocity"));
 }
 
