@@ -8,10 +8,14 @@
 #include <cstddef>
 #include <memory>
 
+#include <iDynTree/KinDynComputations.h>
+
 #include <OsqpEigen/OsqpEigen.h>
 
+#include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/System/ConstantWeightProvider.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/System/WeightProvider.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -605,4 +609,130 @@ std::string QPInverseKinematics::toString() const
 Eigen::Ref<const Eigen::VectorXd> QPInverseKinematics::getRawSolution() const
 {
     return m_pimpl->solver.getSolution();
+}
+
+std::pair<BipedalLocomotion::System::VariablesHandler, std::unique_ptr<QPInverseKinematics>>
+QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                           std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    constexpr auto logPrefix = "[QPInverseKinematics::build]";
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", logPrefix);
+        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+    }
+
+    std::unique_ptr<QPInverseKinematics> solver = std::make_unique<QPInverseKinematics>();
+
+    if (!solver->initialize(ptr->getGroup("IK")))
+    {
+        log()->error("{} Unable to initialize the IK solver.", logPrefix);
+        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+    }
+
+    BipedalLocomotion::System::VariablesHandler variableHandler;
+    if (!variableHandler.addVariable(solver->m_pimpl->robotVelocityVariable.name,
+                                     kinDyn->getNrOfDegreesOfFreedom() + 6))
+    {
+        log()->error("{} Unable to add the variable named '{}'.",
+                     logPrefix,
+                     solver->m_pimpl->robotVelocityVariable.name);
+        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+    }
+
+    std::vector<std::string> tasks;
+    if (!ptr->getParameter("tasks", tasks))
+    {
+        log()->error("{} Unable to find the parameter 'tasks'.", logPrefix);
+        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+    }
+
+    for (const auto& taskGroupName : tasks)
+    {
+        auto taskGroupTmp = ptr->getGroup(taskGroupName).lock();
+        if (taskGroupTmp == nullptr)
+        {
+            log()->error("{} Unable to find the group named '{}'.", logPrefix, taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        // add robot_velocity_variable_name parameter since it is required by all the tasks
+        auto taskGroup = taskGroupTmp->clone();
+        taskGroup->setParameter("robot_velocity_variable_name",
+                                solver->m_pimpl->robotVelocityVariable.name);
+
+        // create an instance of the task
+        std::string taskType;
+        if (!taskGroup->getParameter("type", taskType))
+        {
+            log()->error("{} Unable to find the parameter 'type' in the group named '{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        std::shared_ptr<IKLinearTask> taskInstance = IKLinearTaskFactory::createInstance(taskType);
+        if (taskInstance == nullptr)
+        {
+            log()->error("{} The task type '{}' has not been registered.", logPrefix, taskType);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        if (!taskInstance->setKinDyn(kinDyn))
+        {
+            log()->error("{} Unable to set the kinDynComputations object for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        int priority{0};
+        if (!taskGroup->getParameter("priority", priority))
+        {
+            log()->error("{} Unable to get the parameter 'priority' for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        Eigen::VectorXd weight;
+        if (priority == 1)
+        {
+            if (!taskGroup->getParameter("weight", weight))
+            {
+                log()->error("{} Unable to get the parameter 'weight' for the task in the group "
+                             "'{}'.",
+                             logPrefix,
+                             taskGroupName);
+                return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            }
+        }
+
+        if (!taskInstance->initialize(taskGroup))
+        {
+            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+
+        // the weight is considered only if priority is equal to 1
+        if (!solver->addTask(taskInstance, taskGroupName, priority, weight))
+        {
+            log()->error("{} Unable to add the task named '{}' in the solver.",
+                         logPrefix,
+                         taskGroupName);
+            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        }
+    }
+
+    if (!solver->finalize(variableHandler))
+    {
+        log()->error("{} Unable to finalize the solver.", logPrefix);
+        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+    }
+
+    return std::make_pair(std::move(variableHandler), std::move(solver));
 }

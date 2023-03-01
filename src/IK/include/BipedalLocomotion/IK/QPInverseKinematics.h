@@ -18,6 +18,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/System/ILinearTaskSolver.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
 
 namespace BipedalLocomotion
 {
@@ -146,17 +147,97 @@ public:
 
     /**
      * Initialize the inverse kinematics algorithm.
-     * @param handler pointer to the IParametersHandler interface.g
+     * @param handler pointer to the IParametersHandler interface.
      * @note the following parameters are required by the class
      * |         Parameter Name         |   Type   |                                           Description                                          | Mandatory |
      * |:------------------------------:|:--------:|:----------------------------------------------------------------------------------------------:|:---------:|
      * | `robot_velocity_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the generalized robot velocity |    Yes    |
      * |           `verbosity`          |  `bool`  |                         Verbosity of the solver. Default value `false`                         |     No    |
-     * Where the generalized robot velocity is a vector containing the base spatialvelocity
+     * Where the generalized robot velocity is a vector containing the base spatial velocity
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+
+    /**
+     * Build the inverse kinematics solver
+     * @param kinDyn a pointer to an iDynTree::KinDynComputations object that will be shared among
+     * all the tasks.
+     * @param handler pointer to the IParametersHandler interface.
+     * @note the following parameters are required by the class
+     * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
+     * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |           |           `tasks`              | `vector<string>`|         Vector containing the list of the tasks considered in the IK.                          |    Yes    |
+     * |   `IK`    | `robot_velocity_variable_name` |     `string`    | Name of the variable contained in `VariablesHandler` describing the generalized robot velocity |    Yes    |
+     * |   `IK`    |           `verbosity`          |      `bool`     |                         Verbosity of the solver. Default value `false`                         |     No    |
+     * Where the generalized robot velocity is a vector containing the base spatialvelocity
+     * (expressed in mixed representation) and the joint velocities.
+     * For **each** task listed in the parameter `tasks` the user must specified all the parameters
+     * required by the task itself but `robot_velocity_variable_name` since is already specified in
+     * the `IK` group. Moreover the following parameters are required for each task.
+     * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
+     * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |`TASK_NAME`|             `type`             |     `string`    |   String representing the type of the task. The string should match the name of the C++ class. |    Yes    |
+     * |`TASK_NAME`|           `priority`           |       `int`     | Priority associated to the task.  (Check QPInverseKinematics::addTask for further information) |    Yes    |
+     * |`TASK_NAME`|            `weight`            | `vector<double>`|        Weight associated to the task. It is required only if the task is low priority          |     No    |
+     * `TASK_NAME` is a placeholder for the name of the task contained in the `tasks` list.
+     * @note The following `ini` file presents an example of the configuration that can be used to
+     * build the IK
+     * ~~~~~{.ini}
+     * tasks                           ("COM_TASK", "RIGHT_FOOT_TASK", "LEFT_FOOT_TASK", "TORSO_TASK", "JOINT_REGULARIZATION_TASK")
+     *
+     * [IK]
+     * robot_velocity_variable_name    robot_velocity
+     *
+     * [COM_TASK]
+     * type                            CoMTask
+     * kp_linear                       2.0
+     * mask                            (true, true, true)
+     * priority                        0
+     *
+     * [RIGHT_FOOT_TASK]
+     * type                            SE3Task
+     * frame_name                      r_sole
+     * kp_linear                       7.0
+     * kp_angular                      5.0
+     * priority                        0
+     *
+     * [LEFT_FOOT_TASK]
+     * type                            SE3Task
+     * frame_name                      l_sole
+     * kp_linear                       7.0
+     * kp_angular                      5.0
+     * priority                        0
+     *
+     * [TORSO_TASK]
+     * type                            SO3Task
+     * frame_name                      chest
+     * kp_angular                      5.0
+     * priority                        1
+     * weight                          (5.0, 5.0, 5.0)
+     *
+     * [JOINT_REGULARIZATION_TASK]
+     * type                            JointTrackingTask
+     * kp                              (5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
+     * priority                        1
+     * weight                          (1.0, 1.0, 1.0,
+     *                                  2.0, 2.0, 2.0, 2.0,
+     *                                  2.0, 2.0, 2.0, 2.0,
+     *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+     *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+     * ~~~~~
+     * @return a pair containing the variable handler and a std::unique_ptr to the inverse
+     * kinematics. In case of issues, an empty BipedalLocomotion::System::VariablesHandler
+     * and an invalid pointer will be returned.
+     */
+    static std::pair<BipedalLocomotion::System::VariablesHandler,
+                     std::unique_ptr<QPInverseKinematics>>
+    build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+          std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 
     /**
      * Get a vector containing the name of the tasks.

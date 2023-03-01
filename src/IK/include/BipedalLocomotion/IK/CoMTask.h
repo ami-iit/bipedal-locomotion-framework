@@ -91,7 +91,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -138,6 +138,8 @@ public:
      */
     bool isValid() const override;
 };
+
+BLF_REGISTER_IK_TASK(CoMTask);
 
 } // namespace IK
 } // namespace BipedalLocomotion

@@ -78,7 +78,6 @@ bool JointLimitsTask::setVariablesHandler(const System::VariablesHandler& variab
         return false;
     }
 
-
     if (!variablesHandler.getVariable(m_robotVelocityVariableName, robotVelocityVariable))
     {
         log()->error("{} Error while retrieving the robot velocity variable.", errorPrefix);
