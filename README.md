@@ -76,7 +76,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 You can easily the library with [`conda`](https://anaconda.org/robotology/bipedal-locomotion-framework) using the following command
 
 ```sh
-conda install -c robotology bipedal-locomotion-framework
+conda install -c conda-forge bipedal-locomotion-framework
 ```
 
 `conda` will automatically install all the required dipendencies.
