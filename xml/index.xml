@@ -986,6 +986,25 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac7ae4baae1066e6c4884aa4320a9b94a" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac45bb45963eaa7df6a3d8603ec6975f3" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask" kind="class"><name>BipedalLocomotion::IK::JointLimitsTask</name>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acdd79cc35b1e8e01b4eaafb664863c47" kind="variable"><name>m_klim</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a7f351034153c229533a34ff30a0e9680" kind="variable"><name>m_jointPosition</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ad4a7ce8c40982e36b72196919e49bc93" kind="variable"><name>m_upperLimits</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a1fbaaa73df7e3316cb86b3f1292e552c" kind="variable"><name>m_lowerLimits</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a06979bf85dc07e67b5d9ef15eeb42781" kind="variable"><name>m_isLimitConsideredForAllJoints</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2409e3d2baa0fc08d0292654418836e0" kind="variable"><name>m_samplingTime</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1afb32151b82fdf936caa25cd3ca3f2977" kind="variable"><name>m_robotVelocityVariableName</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a7600bf450540141ae62f78f15f074148" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acd36d02800c203816aee150f76b1916f" kind="variable"><name>m_isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a20b4df85e26dab2d6817acc3ea885abd" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2ebd40a746d3ac2a7c5eda88a71f49eb" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a4832e7c3b8bbb1f8b3f812dbc1e142b0" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ae5ed3211d5be44aca3d7081b2f165de0" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a86d252fae9dda5d1946f86b6983d4aee" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a92feff9d91edcc478f2d7d4d1dc4dde4" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a4547a4d8019070b1ab4f1faf00428290" kind="function"><name>type</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a9c7386237ce898446a3afd611f76239b" kind="function"><name>isValid</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" kind="class"><name>BipedalLocomotion::IK::JointTrackingTask</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a39c6761997fa4a81c61ef60fe1fcf6a7" kind="variable"><name>m_kp</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1ab58712fc693d4ae7411a04d922d71d6f" kind="variable"><name>m_jointPosition</name></member>
@@ -2432,6 +2451,8 @@
   <compound refid="IKLinearTask_8h" kind="file"><name>IKLinearTask.h</name>
   </compound>
   <compound refid="IntegrationBasedIK_8h" kind="file"><name>IntegrationBasedIK.h</name>
+  </compound>
+  <compound refid="JointLimitsTask_8h" kind="file"><name>JointLimitsTask.h</name>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
   </compound>
