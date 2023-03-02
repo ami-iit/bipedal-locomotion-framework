@@ -19,6 +19,20 @@
       <node id="5">
         <label>string</label>
       </node>
+      <node id="13">
+        <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
+        <link refid="ILinearTaskFactory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="10">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
         <link refid="VariablesHandler_8h"/>
@@ -52,11 +66,14 @@
       <node id="6">
         <label>Eigen/Dense</label>
       </node>
-      <node id="13">
+      <node id="16">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="9">
         <label>vector</label>
+      </node>
+      <node id="15">
+        <label>utility</label>
       </node>
       <node id="11">
         <label>cstddef</label>
@@ -71,8 +88,11 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
+      </node>
+      <node id="14">
+        <label>type_traits</label>
       </node>
       <node id="7">
         <label>iDynTree/Core/MatrixView.h</label>
@@ -82,6 +102,10 @@
         <link refid="IKLinearTask_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>memory</label>
@@ -90,6 +114,24 @@
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public">BipedalLocomotion::IK::AngularMomentumTask</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h_1acf6bb56155419a081bfeba070c718f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
+        <argsstring>(AngularMomentumTask)</argsstring>
+        <name>BLF_REGISTER_IK_TASK</name>
+        <param>
+          <type>AngularMomentumTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="125" column="1" declfile="BipedalLocomotion/IK/AngularMomentumTask.h" declline="125" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

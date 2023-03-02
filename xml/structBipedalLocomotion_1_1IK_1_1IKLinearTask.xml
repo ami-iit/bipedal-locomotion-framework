@@ -23,7 +23,44 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/IKLinearTask.h" line="23" column="13"/>
+        <location file="BipedalLocomotion/IK/IKLinearTask.h" line="33" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::IK::IKLinearTask::setKinDyn</definition>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <name>setKinDyn</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a5547bc6b5727fbec9947d6d4ede197b9">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2d8c474f9fd61b45fb96473caad89d7a">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a37f0c2c72f2f8a5f8217247e21c3ed7a">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a9d265e17235b7193f14cd77587c613b0">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a28526430bdb36d243366def63a199c1a">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a54f52ee7b2330ddb22d55701725643f3">setKinDyn</reimplementedby>
+        <param>
+          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+          <declname>kinDyn</declname>
+        </param>
+        <briefdescription>
+<para>Set the kinDynComputations object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kinDyn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a kinDynComputations object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/IKLinearTask.h" line="40" column="18"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -108,7 +145,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/IKLinearTask.h" line="21" column="1" bodyfile="BipedalLocomotion/IK/IKLinearTask.h" bodystart="22" bodyend="24"/>
+    <location file="BipedalLocomotion/IK/IKLinearTask.h" line="31" column="1" bodyfile="BipedalLocomotion/IK/IKLinearTask.h" bodystart="32" bodyend="41"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>getB</name></member>
@@ -119,6 +156,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1aa95f6768b7cd98aab6727e2eb729a308" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>m_A</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>m_b</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>m_description</name></member>
+      <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a898c2f93e48aeeb41e29d17c17b95437" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a34621cd88c6d60909f09e95226f2cd67" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::IKLinearTask</scope><name>subA</name></member>

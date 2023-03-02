@@ -30,13 +30,27 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="6">
         <label>string</label>
+      </node>
+      <node id="14">
+        <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
+        <link refid="ILinearTaskFactory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="11">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
@@ -71,20 +85,26 @@
       <node id="7">
         <label>Eigen/Dense</label>
       </node>
-      <node id="14">
+      <node id="17">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="10">
         <label>vector</label>
       </node>
-      <node id="15">
+      <node id="18">
         <label>LieGroupControllers/ProportionalController.h</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
       </node>
       <node id="12">
         <label>cstddef</label>
       </node>
       <node id="13">
         <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
       </node>
       <node id="8">
         <label>iDynTree/Core/MatrixView.h</label>
@@ -94,6 +114,10 @@
         <link refid="IKLinearTask_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>memory</label>
@@ -102,6 +126,24 @@
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1SO3Task" prot="public">BipedalLocomotion::IK::SO3Task</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
+        <argsstring>(SO3Task)</argsstring>
+        <name>BLF_REGISTER_IK_TASK</name>
+        <param>
+          <type>SO3Task</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="136" column="1" declfile="BipedalLocomotion/IK/SO3Task.h" declline="136" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

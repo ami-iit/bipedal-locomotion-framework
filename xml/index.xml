@@ -40,7 +40,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2b6f7b2b28942fce6ec572d2b6ff2a33" kind="variable"><name>m_angularVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a78886d9ffcb02bc7ac0ee5921dfd3d14" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0d554820cfaf291fa05a18309d7e9219" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1acd7beb7a44d070ac21fac5fc17e8aa8b" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2a854f6c6ba7a7795a272cc77b6c21fa" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a7b318269698acb82846c5d913530f11e" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a1c076d716aafc77e1a4eadf69406177c" kind="function"><name>setSetPoint</name></member>
@@ -168,7 +168,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9b6bac87c5de018c913d5a41047b09e0" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a8945afdb561e7767d53c4cd6eb52cac0" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a844e3b75ead48402cd2f3de84b9dfcf6" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a891dc057a2e01ebae6ad6423941b727e" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a5547bc6b5727fbec9947d6d4ede197b9" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4c561605260cbec8a8b485f32977acc7" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a9832f6dbb6371acca37faedfbafd720a" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a5d1ff22f7b77dcbb05b48e2893a0b6e8" kind="function"><name>setSetPoint</name></member>
@@ -694,6 +694,15 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" kind="struct"><name>BipedalLocomotion::IK::IKLinearTask</name>
     <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1ae1ea36d22880e1068c77661eef76ecf0" kind="function"><name>~IKLinearTask</name></member>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf" kind="function"><name>setKinDyn</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory" kind="class"><name>BipedalLocomotion::System::ILinearTaskFactory</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac31b71caf69d0dc844fab730b8fcb9c1" kind="typedef"><name>Task</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" kind="typedef"><name>TaskCreator</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1aae1699fcee5ac0fad185e98b4892ccd3" kind="function"><name>getMapFactory</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a7a65c17407585dcbefbf101e238c2d4a" kind="function"><name>registerCreator</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac6a3e13a37cc9fe2e740c81d0972d028" kind="function"><name>createInstance</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1afa8bb56af00c75aac6099c657b8dfd23" kind="function"><name>~ILinearTaskFactory</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kind="class"><name>BipedalLocomotion::System::ILinearTaskSolver</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a6d1cc19ae482b87b3f5dadefa1eb4e7b" kind="typedef"><name>Task</name></member>
@@ -998,7 +1007,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acd36d02800c203816aee150f76b1916f" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a20b4df85e26dab2d6817acc3ea885abd" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2ebd40a746d3ac2a7c5eda88a71f49eb" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a4832e7c3b8bbb1f8b3f812dbc1e142b0" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2d8c474f9fd61b45fb96473caad89d7a" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ae5ed3211d5be44aca3d7081b2f165de0" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a86d252fae9dda5d1946f86b6983d4aee" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a92feff9d91edcc478f2d7d4d1dc4dde4" kind="function"><name>size</name></member>
@@ -1016,7 +1025,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a7e329f62a51ea05f09359d6ea6fc43d2" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a0d1fa97842040afc6ca64ef4feebfd63" kind="variable"><name>m_kinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a2efd9d5826a308b97292365094847122" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a69bfce9f74098bec01ad4d164ec3b46e" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a37f0c2c72f2f8a5f8217247e21c3ed7a" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1af494bf7f30549f2255ea9a288b8b9c3c" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a31be6e087b7f52e424e011204ea80f92" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a1ec379f264875c8c4e438173b6b02fc6" kind="function"><name>setSetPoint</name></member>
@@ -1273,6 +1282,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b" kind="function"><name>toString</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a0db3848338591bfe39376b7c4d7aefb9" kind="function"><name>getRawSolution</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5bf7b778dcd93e86a863e685545cc1cf" kind="function"><name>build</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kind="class"><name>BipedalLocomotion::TSID::QPTSID</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" kind="variable"><name>m_pimpl</name></member>
@@ -1322,7 +1332,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ade054c239fc85b4182190d130e1fe986" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac6e439e70ee38cc800d47807a1290e6a" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a9065a46928ee7ec60fe3b055bb1f21c1" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a12b8a750226296e8916321a750704f9e" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a9d265e17235b7193f14cd77587c613b0" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a395ee1f5ebb026eea86fae3c3d242c53" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ac9ebcf4706ef54983b04032045c53c79" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1R3Task_1ab0d3c080ddbab6de316637824b45c65e" kind="function"><name>setSetPoint</name></member>
@@ -1489,7 +1499,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a17236a753fd06ae3c3565e64276eb159" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a111007e03803ce3c9672b9d7ffdab3a1" kind="variable"><name>m_linearVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ac675bbc1f3e31acc2dc32a0744835332" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a28526430bdb36d243366def63a199c1a" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a12b1efcb5a2001dd18d8c3676c242dd6" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab989b002a5acb6c9dc73e1c2e78e72cc" kind="function"><name>setSetPoint</name></member>
@@ -1622,7 +1632,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1af09e162ff981331e70bd4f32f7d94df6" kind="variable"><name>m_angularVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a711c13be4925514ddd0a2828a04f76a4" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa2de5b6178b6738b6effd7cc0adc7c8e" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a54f52ee7b2330ddb22d55701725643f3" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" kind="function"><name>setVariablesHandler</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a4fe68df9a3cd0a8f290b8c7080cbcbe6" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aea8a99e6d0f7070dbc282ccc33f9c778" kind="function"><name>setSetPoint</name></member>
@@ -2237,6 +2247,14 @@
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1IK" kind="namespace"><name>BipedalLocomotion::IK</name>
+    <member refid="IKLinearTask_8h_1a8c62c5d64e69c728eecbee447e1e6ae5" kind="typedef"><name>IKLinearTaskFactory</name></member>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h_1acf6bb56155419a081bfeba070c718f93" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h_1a9c21e3a141322c92512a73d9d4abf926" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="JointLimitsTask_8h_1ade53115ca185227c77634f864e25cc4e" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h_1afa7d7132d613ba9111df5226c147e409" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h_1a0ff0374b8057bb71f111ff308153c60c" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Math" kind="namespace"><name>BipedalLocomotion::Math</name>
     <member refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kind="typedef"><name>Wrenchd</name></member>
@@ -2441,20 +2459,26 @@
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h_1acf6bb56155419a081bfeba070c718f93" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h_1a9c21e3a141322c92512a73d9d4abf926" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
   </compound>
   <compound refid="IKLinearTask_8h" kind="file"><name>IKLinearTask.h</name>
+    <member refid="IKLinearTask_8h_1a867144d010859d7a47536fa4ffacc6b3" kind="define"><name>BLF_REGISTER_IK_TASK</name></member>
+    <member refid="IKLinearTask_8h_1a8c62c5d64e69c728eecbee447e1e6ae5" kind="typedef"><name>IKLinearTaskFactory</name></member>
   </compound>
   <compound refid="IntegrationBasedIK_8h" kind="file"><name>IntegrationBasedIK.h</name>
   </compound>
   <compound refid="JointLimitsTask_8h" kind="file"><name>JointLimitsTask.h</name>
+    <member refid="JointLimitsTask_8h_1ade53115ca185227c77634f864e25cc4e" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h_1afa7d7132d613ba9111df5226c147e409" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
   </compound>
@@ -2463,12 +2487,15 @@
   <compound refid="QPInverseKinematics_8h" kind="file"><name>QPInverseKinematics.h</name>
   </compound>
   <compound refid="R3Task_8h" kind="file"><name>R3Task.h</name>
+    <member refid="R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h_1a0ff0374b8057bb71f111ff308153c60c" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
   </compound>
   <compound refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
   </compound>
@@ -2565,6 +2592,9 @@
   <compound refid="ConstantWeightProvider_8h" kind="file"><name>ConstantWeightProvider.h</name>
   </compound>
   <compound refid="IClock_8h" kind="file"><name>IClock.h</name>
+  </compound>
+  <compound refid="ILinearTaskFactory_8h" kind="file"><name>ILinearTaskFactory.h</name>
+    <member refid="ILinearTaskFactory_8h_1a930b412601a098bc0f036f6edd6f9821" kind="define"><name>BLF_REGISTER_TASK</name></member>
   </compound>
   <compound refid="ILinearTaskSolver_8h" kind="file"><name>ILinearTaskSolver.h</name>
     <member refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kind="typedef"><name>WeightProviderPort</name></member>

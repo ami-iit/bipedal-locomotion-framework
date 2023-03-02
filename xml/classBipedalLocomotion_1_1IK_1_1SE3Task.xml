@@ -349,11 +349,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/IK/SE3Task.h" line="110" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SE3Task_1a28526430bdb36d243366def63a199c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SE3Task::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -774,7 +775,7 @@
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1acc2816c94486fded5e2d2e6ef9217754" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setFeedback</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a49755652de333b58d4b22941e7dd4692" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setFeedback</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a4ada663cfe5778dee91038fb465dbb8e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setFeedback</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a892e2be4055240abfc1c5db7b507af9b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a28526430bdb36d243366def63a199c1a" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ab989b002a5acb6c9dc73e1c2e78e72cc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1addf14e2fba07f8e77681416e9f06753e" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setTaskControllerMode</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1ad80b2978d634b831b7680efa13d5007e" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SE3Task</scope><name>setVariablesHandler</name></member>

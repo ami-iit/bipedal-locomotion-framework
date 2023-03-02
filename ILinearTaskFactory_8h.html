@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::IK::IKLinearTask struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion/System/ILinearTaskFactory.h file | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,108 +62,75 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1IK.html">IK</a>::<wbr/></span>IKLinearTask <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IKLinearTask_8h.html">&lt;BipedalLocomotion/IK/IKLinearTask.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="dir_851e45f592bcaa6147ca4dae8a337a6d.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_1a41e7752d0b8c023e1d3ecf18af98b7.html">System</a>/</span>ILinearTaskFactory.h <span class="m-thin">file</span>
         </h1>
-        <p><a href="structBipedalLocomotion_1_1IK_1_1IKLinearTask.html" class="m-doc">IKLinearTask</a> specializes a LinearTask in the case of Inverse Kinematics.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#base-classes">Base classes</a></li>
-                <li><a href="#derived-classes">Derived classes</a></li>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#define-members">Defines</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="base-classes">
-          <h2><a href="#base-classes">Base classes</a></h2>
+<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
-            <dt>
-              class <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">BipedalLocomotion::System::LinearTask</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1System_1_1LinearTask.html" class="m-doc">LinearTask</a> describes a Linear Task element.</dd>
-          </dl>
-        </section>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask.html" class="m-doc">AngularMomentumTask</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask.html" class="m-doc">AngularMomentumTask</a> is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1CoMTask.html" class="m-doc">CoMTask</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1SE3Task.html" class="m-doc">SE3Task</a> is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1JointLimitsTask.html" class="m-doc">JointLimitsTask</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1JointLimitsTask.html" class="m-doc">JointLimitsTask</a> is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1JointTrackingTask.html" class="m-doc">JointTrackingTask</a>
-            </dt>
-            <dd>JointsTrackingTask is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1R3Task.html" class="m-doc">R3Task</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1R3Task.html" class="m-doc">R3Task</a> is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1SE3Task.html" class="m-doc">SE3Task</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1SE3Task.html" class="m-doc">SE3Task</a> is a concrete implementation of the Task.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1IK_1_1SO3Task.html" class="m-doc">SO3Task</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1IK_1_1SO3Task.html" class="m-doc">SO3Task</a> is a concrete implementation of the IK::Task.</dd>
-          </dl>
-        </section>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
-          <dl class="m-doc">
-            <dt id="ae1ea36d22880e1068c77661eef76ecf0">
-              <span class="m-doc-wrap-bumper"><a href="#ae1ea36d22880e1068c77661eef76ecf0" class="m-doc-self">~IKLinearTask</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
+            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
+            <dd></dd>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1System.html" class="m-doc">BipedalLocomotion::System</a></dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acbafe7a440ba7e7fbd0d174dc994accf" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+              <div class="m-doc-template">template&lt;typename _Task&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory.html" class="m-doc">BipedalLocomotion::System::ILinearTaskFactory</a>
             </dt>
-            <dd>Set the kinDynComputations object.</dd>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory.html" class="m-doc">ILinearTaskFactory</a> implements the factory design patter for constructing a linear task given its type.</dd>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a href="#a930b412601a098bc0f036f6edd6f9821" class="m-doc">BLF_REGISTER_TASK</a>(</span><span class="m-doc-wrap">_type,
+              _baseType)</span>
+            </dt>
+            <dd>BLF_REGISTER_TASK is a macro that can be used to register a task given a baseType.</dd>
           </dl>
         </section>
         <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="acbafe7a440ba7e7fbd0d174dc994accf"><div>
+          <h2>Define documentation</h2>
+          <section class="m-doc-details" id="a930b412601a098bc0f036f6edd6f9821"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />IK::<wbr />IKLinearTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acbafe7a440ba7e7fbd0d174dc994accf" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) <span class="m-label m-warning">virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">#define <a href="#a930b412601a098bc0f036f6edd6f9821" class="m-doc-self">BLF_REGISTER_TASK</a>(</span><span class="m-doc-wrap">_type,
+              _baseType)</span>
             </h3>
-            <p>Set the kinDynComputations object.</p>
+            <p>BLF_REGISTER_TASK is a macro that can be used to register a task given a baseType.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">kinDyn</td>
-                  <td>pointer to a kinDynComputations object.</td>
+                  <td style="width: 1%">_type</td>
+                  <td>the type of the task</td>
+                </tr>
+                <tr>
+                  <td>_baseType</td>
+                  <td>the base type from which the _task inherits.</td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
             </table>
+<p>The key of the task will be the stringified version of the Task C++ Type</p>
           </div></section>
         </section>
       </div>

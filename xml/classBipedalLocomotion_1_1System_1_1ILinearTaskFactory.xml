@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::System::ILinearTaskFactory</compoundname>
+    <includes local="no">BipedalLocomotion/System/ILinearTaskFactory.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename _Task</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac31b71caf69d0dc844fab730b8fcb9c1" prot="public" static="no">
+        <type>_Task</type>
+        <definition>using BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::Task =  _Task</definition>
+        <argsstring></argsstring>
+        <name>Task</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="50" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" prot="public" static="no">
+        <type>typename std::add_pointer&lt; std::shared_ptr&lt; Task &gt;()&gt;::type</type>
+        <definition>using BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::TaskCreator =  typename std::add_pointer&lt;std::shared_ptr&lt;Task&gt;()&gt;::type</definition>
+        <argsstring></argsstring>
+        <name>TaskCreator</name>
+        <briefdescription>
+<para>Pointer to the task builder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="51" column="5" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1aae1699fcee5ac0fad185e98b4892ccd3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" kindref="member">TaskCreator</ref> &gt; &amp;</type>
+        <definition>static std::unordered_map&lt;std::string, TaskCreator&gt;&amp; BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::getMapFactory</definition>
+        <argsstring>()</argsstring>
+        <name>getMapFactory</name>
+        <briefdescription>
+<para>Get the map containing a map of idKey and the associated TaskCreator function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>an unordered_map of idKey and pointer to create the task </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="60" column="31" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="60" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a7a65c17407585dcbefbf101e238c2d4a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::registerCreator</definition>
+        <argsstring>(std::string idKey, TaskCreator classCreator)</argsstring>
+        <name>registerCreator</name>
+        <param>
+          <type>std::string</type>
+          <declname>idKey</declname>
+        </param>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" kindref="member">TaskCreator</ref></type>
+          <declname>classCreator</declname>
+        </param>
+        <briefdescription>
+<para>Add a creator for a given task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>idKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the string representing the type of the task. i.e., the stringify version of the class type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>classCreator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to the function that creates a given task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the idKey </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="74" column="24" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac6a3e13a37cc9fe2e740c81d0972d028" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; Task &gt;</type>
+        <definition>static std::shared_ptr&lt;Task&gt; BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::createInstance</definition>
+        <argsstring>(const std::string &amp;idKey)</argsstring>
+        <name>createInstance</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>idKey</declname>
+        </param>
+        <briefdescription>
+<para>Create an instance of a Task given its id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>idKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the string representing the type of the task. i.e., the stringify version of the class type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a pointer to the Task. In case of issues, the pointer will be a nullptr. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="86" column="28" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="86" bodyend="100"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1afa8bb56af00c75aac6099c657b8dfd23" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::System::ILinearTaskFactory&lt; _Task &gt;::~ILinearTaskFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILinearTaskFactory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="102" column="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory" kindref="compound">ILinearTaskFactory</ref> implements the factory design patter for constructing a linear task given its type. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="43" column="12" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="44" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac6a3e13a37cc9fe2e740c81d0972d028" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>createInstance</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1aae1699fcee5ac0fad185e98b4892ccd3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>getMapFactory</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a7a65c17407585dcbefbf101e238c2d4a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>registerCreator</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac31b71caf69d0dc844fab730b8fcb9c1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>Task</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>TaskCreator</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1afa8bb56af00c75aac6099c657b8dfd23" prot="public" virt="virtual"><scope>BipedalLocomotion::System::ILinearTaskFactory</scope><name>~ILinearTaskFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

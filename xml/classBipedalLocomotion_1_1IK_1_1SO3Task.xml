@@ -196,11 +196,12 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </inbodydescription>
         <location file="BipedalLocomotion/IK/SO3Task.h" line="79" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a54f52ee7b2330ddb22d55701725643f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::SO3Task::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -450,7 +451,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afa816d936f7ccdaca62824b0aac8dde0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_robotVelocityVariable</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a64a67a82f38f7239cf6282c9aec93ce9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_SO3Controller</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a711c13be4925514ddd0a2828a04f76a4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_spatialVelocitySize</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ad07df5bcf99938570bd4136888ddf198" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a54f52ee7b2330ddb22d55701725643f3" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aea8a99e6d0f7070dbc282ccc33f9c778" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ae144756720b28fa084e87ad0f70c14df" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>size</name></member>

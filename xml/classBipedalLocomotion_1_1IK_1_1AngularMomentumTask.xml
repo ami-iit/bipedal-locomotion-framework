@@ -191,11 +191,12 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </inbodydescription>
         <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="71" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1acd7beb7a44d070ac21fac5fc17e8aa8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::IK::AngularMomentumTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -432,7 +433,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a07b0580e9032bfcd45d92c14be36db3a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_mask</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2ce4d8535c571c6874b3d37497e2848b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_robotVelocityVariable</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a78886d9ffcb02bc7ac0ee5921dfd3d14" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_spatialVelocitySize</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1acd7beb7a44d070ac21fac5fc17e8aa8b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a1c076d716aafc77e1a4eadf69406177c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2a854f6c6ba7a7795a272cc77b6c21fa" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1affc1f83bf94e354fbc926195935d1b9d" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>size</name></member>
