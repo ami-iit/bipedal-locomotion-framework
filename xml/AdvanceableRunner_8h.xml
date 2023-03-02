@@ -15,7 +15,7 @@
     <includes local="no">thread</includes>
     <includes local="no">type_traits</includes>
     <incdepgraph>
-      <node id="23">
+      <node id="15">
         <label>atomic</label>
       </node>
       <node id="1">
@@ -29,11 +29,11 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -41,7 +41,7 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -56,7 +56,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="19">
         <label>BipedalLocomotion/System/SharedResource.h</label>
         <link refid="SharedResource_8h"/>
         <childnode refid="3" relation="include">
@@ -83,23 +83,25 @@
       <node id="14">
         <label>BipedalLocomotion/System/Clock.h</label>
         <link refid="Clock_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="20">
-        <label>spdlog/fmt/ostr.h</label>
-      </node>
-      <node id="15">
-        <label>BipedalLocomotion/System/IClock.h</label>
-        <link refid="IClock_8h"/>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="21">
+        <label>spdlog/fmt/ostr.h</label>
+      </node>
+      <node id="16">
+        <label>BipedalLocomotion/System/IClock.h</label>
+        <link refid="IClock_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
         <label>spdlog/spdlog.h</label>
       </node>
       <node id="11">
@@ -115,14 +117,14 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="20">
         <label>BipedalLocomotion/TextLogging/Logger.h</label>
         <link refid="Logger_8h"/>
-        <childnode refid="20" relation="include">
-        </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="24">
@@ -141,15 +143,15 @@
       <node id="13">
         <label>mutex</label>
       </node>
-      <node id="16">
+      <node id="17">
         <label>chrono</label>
       </node>
-      <node id="17">
+      <node id="18">
         <label>BipedalLocomotion/System/StdClock.h</label>
         <link refid="StdClock_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -159,7 +161,7 @@
         <label>BipedalLocomotion/System/InputPort.h</label>
         <link refid="InputPort_8h"/>
       </node>
-      <node id="22">
+      <node id="23">
         <label>type_traits</label>
       </node>
       <node id="3">
