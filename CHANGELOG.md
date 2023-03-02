@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Add the support of `std::chrono` in The text logging (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to retrieve and set duration from the `IParametersHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to update the contact list in the swing foot trajectory planner (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
+- Implement state dynamic models needed to define an UKF process model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/615)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
@@ -26,7 +27,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
-- Fix `QPTSIF` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/634)
+- Fix `QPTSID` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/634)
 
 ## [0.12.0] - 2023-03-07
 ### Added
