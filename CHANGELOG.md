@@ -30,6 +30,7 @@ All notable changes to this project are documented in this file.
 - Return an invalid `PolyDriverDescriptor` if `description` is not found in `constructMultipleAnalogSensorsRemapper()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/569)
 - Fix compatibility with OpenCV 4.7.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/589)
 - Fix `attachRemappedRemoteControlBoard` in `YarpSensorBridge` when the `RemoteControlBoard` is not the first polydriver in the polydriverlist (https://github.com/ami-iit/bipedal-locomotion-framework/pull/608)
+- Fix race condition in System::ClockBuilder (https://github.com/ami-iit/bipedal-locomotion-framework/pull/618)
 
 ## [0.11.1] - 2022-12-19
 ### Fix
