@@ -12,7 +12,7 @@ if(FRAMEWORK_COMPILE_IK)
                            ${H_PREFIX}/AngularMomentumTask.h ${H_PREFIX}/JointLimitsTask.h ${H_PREFIX}/QPFixedBaseInverseKinematics.h
                            ${H_PREFIX}/QPInverseKinematics.h ${H_PREFIX}/IKLinearTask.h
     SOURCES                src/R3Task.cpp src/SE3Task.cpp src/SO3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp src/JointLimitsTask.cpp
-                           src/QPInverseKinematics.cpp src/QPFixedBaseInverseKinematics.cpp
+                           src/QPInverseKinematics.cpp src/QPFixedBaseInverseKinematics.cpp src/IKLinearTask.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::ParametersHandler BipedalLocomotion::System
                            LieGroupControllers::LieGroupControllers

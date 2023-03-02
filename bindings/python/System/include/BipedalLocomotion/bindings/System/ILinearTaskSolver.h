@@ -85,6 +85,19 @@ void CreateILinearTaskSolver(pybind11::module& module, const std::string& python
             py::arg("task_name"))
         .def("get_task_names",
              &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::getTaskNames)
+        .def(
+            "get_task",
+            [](const ::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>& impl,
+               const std::string& name) -> std::shared_ptr<_Task> {
+                auto task = impl.getTask(name).lock();
+                if (task == nullptr)
+                {
+                    const std::string msg = "Failed to get the task named '" + name + "'.";
+                    throw py::value_error(msg);
+                }
+                return task;
+            },
+            py::arg("name"))
         .def("finalize",
              &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::finalize,
              py::arg("handler"))
