@@ -37,7 +37,7 @@ void CreateQPInverseKinematics(pybind11::module& module)
         .def_static(
             "build",
             [](std::shared_ptr<const IParametersHandler> handler, py::object& obj)
-                -> std::pair<VariablesHandler, std::unique_ptr<QPInverseKinematics>> {
+                -> IntegrationBasedIKProblem {
 
                 // get the kindyn computation object from the swig binsings
                 std::shared_ptr<iDynTree::KinDynComputations>* cls
