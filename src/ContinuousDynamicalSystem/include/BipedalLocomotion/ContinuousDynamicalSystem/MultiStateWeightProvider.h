@@ -91,6 +91,9 @@ private:
                                                                    the provider */
     FirstOrderSmoother m_smoother; /**< Smoother required to perform the weight scheduling */
 };
+
+BLF_REGISTER_WEIGHT_PROVIDER(MultiStateWeightProvider);
+
 } // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion
 

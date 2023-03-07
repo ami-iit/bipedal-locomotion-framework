@@ -8,11 +8,16 @@
 #ifndef BIPEDAL_LOCOMOTION_IK_INTEGRATION_BASE_IK_H
 #define BIPEDAL_LOCOMOTION_IK_INTEGRATION_BASE_IK_H
 
+#include <unordered_map>
+#include <type_traits>
+
 #include <Eigen/Dense>
 #include <manif/SE3.h>
 
 #include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/System/ILinearTaskSolver.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 
 namespace BipedalLocomotion
 {
@@ -63,7 +68,78 @@ public:
      */
     virtual ~IntegrationBasedIK() = default;
 };
+
+/**
+ * IntegrationBasedIKProblem store all the ingredients to run an modfy at runtime an
+ * Integration based inverse kinematics problem.
+ */
+struct IntegrationBasedIKProblem
+{
+    System::VariablesHandler variablesHandler; /**< Container of the variables considered by the IK
+                                                * problem
+                                                */
+    /** Map containing the weight associated to each task stored considering the task name */
+    std::unordered_map<std::string, std::shared_ptr<System::WeightProvider>> weights;
+    std::unique_ptr<IntegrationBasedIK> ik; /**< Pointer to the IK solver */
+
+    /**
+     * Check if the problem is valid.
+     * @return true if the problem is valid.
+     */
+    [[nodiscard]] bool isValid() const;
+
+    /**
+     * Get the element of the problem from a given index.
+     * @tparam index a positive number from 0 to 2.
+     * @note 0 is associated to the variablesHandler, 1 to the weights and 2 to the ik. Thanks to
+     * this method the IntegrationBasedIKProblem behaves as a tuple. I.e., the
+     * [`std::tie()`](https://en.cppreference.com/w/cpp/utility/tuple/tie) or
+     * [Structured binding declaration](https://en.cppreference.com/w/cpp/language/structured_binding)
+     * are supported by IntegrationBasedIKProblem.
+     * @note the implementation of this method was taken from
+     * https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
+     */
+    template <std::size_t index> std::tuple_element_t<index, IntegrationBasedIKProblem>& get()
+    {
+        if constexpr (index == 0)
+        {
+            return variablesHandler;
+        }
+        if constexpr (index == 1)
+        {
+            return weights;
+        }
+        if constexpr (index == 2)
+        {
+            return ik;
+        }
+    }
+};
+
 } // namespace IK
 } // namespace BipedalLocomotion
+
+namespace std
+{
+
+// The following methods are required to make ::BipedalLocomotion::IK::IntegrationBasedIKProblem
+// behaving as a tuple. Please check here:
+// https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
+template <>
+struct tuple_size<::BipedalLocomotion::IK::IntegrationBasedIKProblem> : integral_constant<size_t, 3>
+{
+};
+
+template <size_t Index>
+struct tuple_element<Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem>
+    : tuple_element<
+          Index,
+          tuple<::BipedalLocomotion::System::VariablesHandler,
+                unordered_map<string, shared_ptr<::BipedalLocomotion::System::WeightProvider>>,
+                unique_ptr<::BipedalLocomotion::IK::IntegrationBasedIK>>>
+{
+};
+
+} // namespace std
 
 #endif // BIPEDAL_LOCOMOTION_IK_INTEGRATION_BASE_INVERSE_KINEMATICS_H
