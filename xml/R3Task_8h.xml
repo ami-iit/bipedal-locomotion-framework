@@ -9,7 +9,7 @@
     <includes local="no">iDynTree/KinDynComputations.h</includes>
     <includes local="no">LieGroupControllers/ProportionalController.h</includes>
     <incdepgraph>
-      <node id="17">
+      <node id="18">
         <label>BipedalLocomotion/System/ITaskControllerManager.h</label>
         <link refid="ITaskControllerManager_8h"/>
       </node>
@@ -35,11 +35,11 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -52,6 +52,8 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -86,16 +88,30 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
+      <node id="16">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>Eigen/Dense</label>
       </node>
-      <node id="16">
+      <node id="17">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="9">
         <label>vector</label>
       </node>
-      <node id="18">
+      <node id="19">
         <label>LieGroupControllers/ProportionalController.h</label>
       </node>
       <node id="15">
@@ -120,7 +136,7 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="2">

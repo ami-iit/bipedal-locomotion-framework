@@ -1,0 +1,1696 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</compoundname>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperInterfaces</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperMeasures</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1affb6f61e8c5fd651c2b443d86e298f01" prot="public" static="no">
+        <type>std::pair&lt; yarp::sig::Vector, double &gt;</type>
+        <definition>using BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::StampedYARPVector =  std::pair&lt;yarp::sig::Vector, double&gt;</definition>
+        <argsstring></argsstring>
+        <name>StampedYARPVector</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="55" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab45e080a337f6cf66ed8da8bad101d4b" prot="public" static="no">
+        <type>std::pair&lt; yarp::sig::Image, double &gt;</type>
+        <definition>using BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::StampedYARPImage =  std::pair&lt;yarp::sig::Image, double&gt;</definition>
+        <argsstring></argsstring>
+        <name>StampedYARPImage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="56" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a1670ba59d4dd962196014b0f7cb3f80e" prot="public" static="no">
+        <type>bool(YarpSensorBridge::Impl::*)(std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;, <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;)</type>
+        <definition>using BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::SubConfigLoader =  bool (YarpSensorBridge::Impl::*)( std::weak_ptr&lt;const BipedalLocomotion::ParametersHandler::IParametersHandler&gt;, SensorBridgeMetaData&amp;)</definition>
+        <argsstring></argsstring>
+        <name>SubConfigLoader</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="189" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3458b4ceee2731654e92e3e83637a5aa" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces" kindref="compound">ControlBoardRemapperInterfaces</ref></type>
+        <definition>ControlBoardRemapperInterfaces BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::controlBoardRemapperInterfaces</definition>
+        <argsstring></argsstring>
+        <name>controlBoardRemapperInterfaces</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="72" column="36" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a24bbe6faa3d3ba7e9f460623c6c840d0" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface" kindref="compound">WholeBodyMASInertialsInterface</ref></type>
+        <definition>WholeBodyMASInertialsInterface BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyMASInertialsInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyMASInertialsInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="85" column="36" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adb7402419e404672a51e88b9e1cd82a4" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" kindref="compound">WholeBodyMASForceTorquesInterface</ref></type>
+        <definition>WholeBodyMASForceTorquesInterface BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyMASForceTorquesInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyMASForceTorquesInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="100" column="39" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a33b4e67df75711e8fcef386f638f92d1" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface" kindref="compound">WholeBodyTemperatureSensorsInterface</ref></type>
+        <definition>WholeBodyTemperatureSensorsInterface BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyTemperatureSensorsInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyTemperatureSensorsInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="101" column="42" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a368b7e691b1b97efeab70991b08d53ba" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kindref="compound">MASSensorIndexMaps</ref></type>
+        <definition>MASSensorIndexMaps BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::masSensorIndexMaps</definition>
+        <argsstring></argsstring>
+        <name>masSensorIndexMaps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="113" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a38999672bf88950164c018940dc333fa" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures" kindref="compound">ControlBoardRemapperMeasures</ref></type>
+        <definition>ControlBoardRemapperMeasures BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::controlBoardRemapperMeasures</definition>
+        <argsstring></argsstring>
+        <name>controlBoardRemapperMeasures</name>
+        <briefdescription>
+<para>map of IMU sensors attached through generic sensor interfaces </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="149" column="34" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1add7f72bc98131e7143128a4e402a5c83" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, yarp::dev::IGenericSensor * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyAnalogIMUInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyAnalogIMUInterface</name>
+        <briefdescription>
+<para>map of cartesian wrench streams attached through generic sensor interfaces </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="152" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8fcc3495e3ca8243257a707503c3f83d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, yarp::dev::IGenericSensor * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyCartesianWrenchInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyCartesianWrenchInterface</name>
+        <briefdescription>
+<para>map of six axis force torque sensors attached through analog sensor interfaces </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="155" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5999d83428894f606cc716db736b815f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, yarp::dev::IAnalogSensor * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, yarp::dev::IAnalogSensor*&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyAnalogSixAxisFTSensorsInterface</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyAnalogSixAxisFTSensorsInterface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="159" column="9" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4e11c913cf23a04e1df20057e89427f4" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, StampedYARPVector &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyIMUMeasures</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyIMUMeasures</name>
+        <briefdescription>
+<para>&lt; map holding analog IMU sensor measurements </para>
+        </briefdescription>
+        <detaileddescription>
+<para>map holding six axis force torque measures </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="162" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a146b0f13d791bbabb8f534d585968b4c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, StampedYARPVector &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyFTMeasures</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyFTMeasures</name>
+        <briefdescription>
+<para>map holding three axis inertial sensor measures </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="165" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af591902e04acb12f6fe233009b08c615" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, StampedYARPVector &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyInertialMeasures</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyInertialMeasures</name>
+        <briefdescription>
+<para>map holding cartesian wrench measures </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="168" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae823a598bcdd7c2d564809113917bbc8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, StampedYARPVector &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyCartesianWrenchMeasures</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyCartesianWrenchMeasures</name>
+        <briefdescription>
+<para>map holding temperature measures </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="171" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a582321138c98369836422c8bfc6751f7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, StampedYARPVector &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::wholeBodyTemperatureMeasures</definition>
+        <argsstring></argsstring>
+        <name>wholeBodyTemperatureMeasures</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="174" column="24" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aec19fa9be3de7df28e3f98f55e984e34" prot="public" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::nrChannelsInYARPGenericIMUSensor</definition>
+        <argsstring></argsstring>
+        <name>nrChannelsInYARPGenericIMUSensor</name>
+        <initializer>{12}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="176" column="15" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab3105b232abcf38f738f0b1c6d96cffa" prot="public" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::nrChannelsInYARPGenericCartesianWrench</definition>
+        <argsstring></argsstring>
+        <name>nrChannelsInYARPGenericCartesianWrench</name>
+        <initializer>{6}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="177" column="15" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a15cda4d7b2907a8489fdad15b6bf0527" prot="public" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::nrChannelsInYARPAnalogSixAxisFTSensor</definition>
+        <argsstring></argsstring>
+        <name>nrChannelsInYARPAnalogSixAxisFTSensor</name>
+        <initializer>{6}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="178" column="15" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a6c1876b48914af81c30ff6e0f5a7734b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::failedSensorReads</definition>
+        <argsstring></argsstring>
+        <name>failedSensorReads</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="180" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0d4ec42cac457a091742b5541d7ddf14" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref></type>
+        <definition>SensorBridgeMetaData BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::metaData</definition>
+        <argsstring></argsstring>
+        <name>metaData</name>
+        <briefdescription>
+<para>struct holding meta data </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="181" column="26" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0866086ca3ae804487ae3c11d5416d69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::bridgeInitialized</definition>
+        <argsstring></argsstring>
+        <name>bridgeInitialized</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>flag set to true if the bridge is successfully initialized </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="182" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a202ee276fabf30890f4eacdc94e10aa5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::driversAttached</definition>
+        <argsstring></argsstring>
+        <name>driversAttached</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>flag set to true if the bridge is successfully attached to required device drivers </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="184" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9792148229e6b49ad4b2d99b94a89f17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkForNAN</definition>
+        <argsstring></argsstring>
+        <name>checkForNAN</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>flag to enable search for NANs in the incoming measurement buffers </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="186" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae40e9ebd2e149185271355e5ce76b24b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::getIndexFromVector</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;vec, const std::string &amp;query, int &amp;index)</argsstring>
+        <name>getIndexFromVector</name>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Utility function to get index from vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="196" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="196" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a266435aaa791e3992a2f0b18535cabbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::nanExistsInVec</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; vec, std::string_view logPrefix, const std::string &amp;sensorName)</argsstring>
+        <name>nanExistsInVec</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>logPrefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <briefdescription>
+<para>Utility function to check for nan in vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="213" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="213" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af68ef017244a7f0ff4758be6d2f85838" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::subConfigLoader</definition>
+        <argsstring>(const std::string &amp;enableStreamString, const std::string &amp;streamGroupString, const SubConfigLoader loader, std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData, bool &amp;enableStreamFlag)</argsstring>
+        <name>subConfigLoader</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>enableStreamString</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>streamGroupString</declname>
+        </param>
+        <param>
+          <type>const SubConfigLoader</type>
+          <declname>loader</declname>
+        </param>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>enableStreamFlag</declname>
+        </param>
+        <briefdescription>
+<para>Checks is a stream is enabled in configuration and loads the relevant stream group from configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="231" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="231" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab2dcbc22a81f48ca968649a88aa498a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::configureRemoteControlBoardRemapper</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData)</argsstring>
+        <name>configureRemoteControlBoardRemapper</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <briefdescription>
+<para>Configure remote control board remapper meta data Related to kinematics and other joint/motor relevant quantities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="268" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="268" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a24c8f87723e0e7097755432e9960734f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::configureInertialSensors</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData)</argsstring>
+        <name>configureInertialSensors</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <briefdescription>
+<para>Configure inertial sensors meta data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="312" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="312" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1add1fafb6a5211ec36615eb30a09585de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::configureSixAxisForceTorqueSensors</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData)</argsstring>
+        <name>configureSixAxisForceTorqueSensors</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <briefdescription>
+<para>Configure six axis force torque sensors meta data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="354" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="354" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a608e3d497f64f9ba08101b81016f21ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::configureCartesianWrenches</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData)</argsstring>
+        <name>configureCartesianWrenches</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <briefdescription>
+<para>Configure cartesian wrenches meta data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="381" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="381" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a61a1cbc1acff82301f4d6966ca1a1ce2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::configureTemperatureSensors</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, SensorBridgeMetaData &amp;metaData)</argsstring>
+        <name>configureTemperatureSensors</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" kindref="compound">SensorBridgeMetaData</ref> &amp;</type>
+          <declname>metaData</declname>
+        </param>
+        <briefdescription>
+<para>Configure temperature sensors meta data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="407" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="407" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3b2d10014cc5407a3b55f04698f02208" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename SensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachGenericOrAnalogSensor</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList, const std::string &amp;sensorName, const int &amp;nrChannelsInSensor, std::unordered_map&lt; std::string, SensorType * &gt; &amp;sensorMap)</argsstring>
+        <name>attachGenericOrAnalogSensor</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>nrChannelsInSensor</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, SensorType * &gt; &amp;</type>
+          <declname>sensorMap</declname>
+        </param>
+        <briefdescription>
+<para>Attach device with IGenericSensor or IAnalogSensor interfaces Important assumptions here,. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Any generic sensor with 12 channels is a IMU sensor</para>
+</listitem><listitem><para>Any generic sensor with 6 channels is a cartesian wrench sensor</para>
+</listitem><listitem><para>Any analog sensor with 6 channels is a six axis force torque sensor </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="436" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="436" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5f3f7403f9008c35f2475972141b2c78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename SensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachAllGenericOrAnalogSensors</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList, std::unordered_map&lt; std::string, SensorType * &gt; &amp;sensorMap, const int &amp;nrChannelsInSensor, const std::vector&lt; std::string &gt; &amp;sensorList, std::string_view interfaceType)</argsstring>
+        <name>attachAllGenericOrAnalogSensors</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, SensorType * &gt; &amp;</type>
+          <declname>sensorMap</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>nrChannelsInSensor</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sensorList</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>interfaceType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="487" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="487" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adf4d0b28af08b6e17444d36afd3749e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachAndCheckMASSensors</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList, MASSensorType *&amp;sensorInterface, const std::vector&lt; std::string &gt; &amp;sensorList, const std::string_view interfaceName)</argsstring>
+        <name>attachAndCheckMASSensors</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <param>
+          <type>MASSensorType *&amp;</type>
+          <declname>sensorInterface</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sensorList</declname>
+        </param>
+        <param>
+          <type>const std::string_view</type>
+          <declname>interfaceName</declname>
+        </param>
+        <briefdescription>
+<para>Attach Remapped Multiple Analog Sensor Interfaces and check available sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="521" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="521" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af8b8ef85cd2d9787c7ed7581fa17d700" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachRemappedMASSensor</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList, MASSensorType *&amp;masSensorInterface)</argsstring>
+        <name>attachRemappedMASSensor</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <param>
+          <type>MASSensorType *&amp;</type>
+          <declname>masSensorInterface</declname>
+        </param>
+        <briefdescription>
+<para>Attach Remapped Multiple Analog Sensor Interfaces Looks for a specific MAS Sensor interface in the attached MAS Remapper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="548" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="548" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4b4afc019fd78a05c6e14e8d55ad2b0e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkAttachedMASSensors</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList, MASSensorType *&amp;sensorInterface, const std::vector&lt; std::string &gt; &amp;sensorList)</argsstring>
+        <name>checkAttachedMASSensors</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <param>
+          <type>MASSensorType *&amp;</type>
+          <declname>sensorInterface</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sensorList</declname>
+        </param>
+        <briefdescription>
+<para>Check if all the desired MAS sensors are availabled in the attached MAS interface. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="580" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="580" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af65be9001db4db26ab6b5f44c67d9ebb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::getNumberOfMASSensors</definition>
+        <argsstring>(MASSensorType *&amp;sensorInterface)</argsstring>
+        <name>getNumberOfMASSensors</name>
+        <param>
+          <type>MASSensorType *&amp;</type>
+          <declname>sensorInterface</declname>
+        </param>
+        <briefdescription>
+<para>Get number of MAS Sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="657" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="657" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8058a10b782c3809a4ec759542b960e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::getMASSensorName</definition>
+        <argsstring>(MASSensorType *&amp;sensorInterface, const std::size_t &amp;sensIdx, std::string &amp;sensorName)</argsstring>
+        <name>getMASSensorName</name>
+        <param>
+          <type>MASSensorType *&amp;</type>
+          <declname>sensorInterface</declname>
+        </param>
+        <param>
+          <type>const std::size_t &amp;</type>
+          <declname>sensIdx</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <briefdescription>
+<para>Get name of MAS Sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="692" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="692" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8f32ca5ff7055bc6340ebf937fd26371" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::getAllSensorsInMASInterface</definition>
+        <argsstring>(MASSensorType *sensorInterface)</argsstring>
+        <name>getAllSensorsInMASInterface</name>
+        <param>
+          <type>MASSensorType *</type>
+          <declname>sensorInterface</declname>
+        </param>
+        <briefdescription>
+<para>Get all sensor names in a MAS Inerface. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="728" column="17" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="728" bodyend="793"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa364d5e0808a88adb5990188a772b24b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename SensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkSensor</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, SensorType * &gt; &amp;sensorMap, const std::string &amp;sensorName)</argsstring>
+        <name>checkSensor</name>
+        <param>
+          <type>const std::unordered_map&lt; std::string, SensorType * &gt; &amp;</type>
+          <declname>sensorMap</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <briefdescription>
+<para>Check if sensor is available in the relevant sensor map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="799" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="799" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a65d7097f2ad3b41707ea97fe46509a85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename YARPDataType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkValidSensorMeasure</definition>
+        <argsstring>(std::string_view logPrefix, const std::unordered_map&lt; std::string, YARPDataType &gt; &amp;sensorMap, const std::string &amp;sensorName)</argsstring>
+        <name>checkValidSensorMeasure</name>
+        <param>
+          <type>std::string_view</type>
+          <declname>logPrefix</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, YARPDataType &gt; &amp;</type>
+          <declname>sensorMap</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <briefdescription>
+<para>Check if sensor is available in the relevant sensor measurement map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="814" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="814" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a30d2088aa0e66fb413c561f8c08feb98" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkValid</definition>
+        <argsstring>(const std::string_view methodName)</argsstring>
+        <name>checkValid</name>
+        <param>
+          <type>const std::string_view</type>
+          <declname>methodName</declname>
+        </param>
+        <briefdescription>
+<para>Check if the bridge is successfully initialized and attached to required device drivers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="835" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="835" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aabf6c61436ed4f912c606f3818766cee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ControlBoardInterface</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::checkControlBoardSensor</definition>
+        <argsstring>(const std::string logPrefix, ControlBoardInterface *interface, const bool &amp;streamConfig, Eigen::Ref&lt; const Eigen::VectorXd &gt; measureBuffer)</argsstring>
+        <name>checkControlBoardSensor</name>
+        <param>
+          <type>const std::string</type>
+          <declname>logPrefix</declname>
+        </param>
+        <param>
+          <type>ControlBoardInterface *</type>
+          <declname>interface</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>streamConfig</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>measureBuffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="847" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="847" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2e4b18fccd7384fac60a967ffb74bf4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachAllInertials</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList)</argsstring>
+        <name>attachAllInertials</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <briefdescription>
+<para>Attach generic IMU sensor types and MAS inertials. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="885" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="885" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a1acf90173fd12a89f642fc288bc87946" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachRemappedRemoteControlBoard</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList)</argsstring>
+        <name>attachRemappedRemoteControlBoard</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <briefdescription>
+<para>Attach a remapped control board and check the availability of desired interface Further, resize joint data buffers and check if the control board joints list and the desired joints list match Also, maintain a remapping index buffer for adapting to arbitrary joint list serializations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="965" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="965" bodyend="1048"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a77ef4bc9f2b8602e32b697356149fca6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::resetControlBoardBuffers</definition>
+        <argsstring>()</argsstring>
+        <name>resetControlBoardBuffers</name>
+        <briefdescription>
+<para>resize and set control board buffers to zero </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1053" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1053" bodyend="1136"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a70958c115107f220d4d6ad5538a00cda" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::compareControlBoardJointsList</definition>
+        <argsstring>()</argsstring>
+        <name>compareControlBoardJointsList</name>
+        <briefdescription>
+<para>check and match control board joints with the sensorbridge joints list </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1141" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1141" bodyend="1209"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2998f82b666aa2a06a7e352948965dab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachAllSixAxisForceTorqueSensors</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList)</argsstring>
+        <name>attachAllSixAxisForceTorqueSensors</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1211" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1211" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8a4a9b68a8e05b4885d3f6ccd0cb06b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachAllTemperatureSensors</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList)</argsstring>
+        <name>attachAllTemperatureSensors</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1271" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1271" bodyend="1291"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa8f34bfd335827bcc8101263c7d03b56" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::attachCartesianWrenchInterface</definition>
+        <argsstring>(const yarp::dev::PolyDriverList &amp;devList)</argsstring>
+        <name>attachCartesianWrenchInterface</name>
+        <param>
+          <type>const yarp::dev::PolyDriverList &amp;</type>
+          <declname>devList</declname>
+        </param>
+        <briefdescription>
+<para>Attach to cartesian wrench interface. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1296" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1296" bodyend="1319"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3a882f8cdc12216473a706327db2fea2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::deg2rad</definition>
+        <argsstring>(double deg)</argsstring>
+        <name>deg2rad</name>
+        <param>
+          <type>double</type>
+          <declname>deg</declname>
+        </param>
+        <briefdescription>
+<para>utility function </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1324" column="19" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1324" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ac660b2cd4be78ce657eb97f7854e29e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename SensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAnalogOrGenericSensor</definition>
+        <argsstring>(const std::string &amp;sensorName, const int &amp;nrChannelsInYARPSensor, std::unordered_map&lt; std::string, SensorType * &gt; &amp;interfaceMap, std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;measurementMap, bool checkForNan=false)</argsstring>
+        <name>readAnalogOrGenericSensor</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>nrChannelsInYARPSensor</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, SensorType * &gt; &amp;</type>
+          <declname>interfaceMap</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;</type>
+          <declname>measurementMap</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read generic or analog sensor stream and update internal measurement buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1334" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1334" bodyend="1398"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a992caac13c61cf02db7ecea0eea7171c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readMASSensor</definition>
+        <argsstring>(MASSensorType *interface, const std::string &amp;sensorName, const std::unordered_map&lt; std::string, std::size_t &gt; &amp;sensorIdxMap, std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;measurementMap, bool checkForNan=false)</argsstring>
+        <name>readMASSensor</name>
+        <param>
+          <type>MASSensorType *</type>
+          <declname>interface</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sensorName</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::size_t &gt; &amp;</type>
+          <declname>sensorIdxMap</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;</type>
+          <declname>measurementMap</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1401" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1401" bodyend="1484"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a849f6076aaf1ed72a02234cc63f35b4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MASSensorType</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASSensors</definition>
+        <argsstring>(MASSensorType *interface, std::unordered_map&lt; std::string, std::size_t &gt; sensIdxMap, std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;measurementMap, std::vector&lt; std::string &gt; &amp;failedSensorReads, bool checkForNan=false)</argsstring>
+        <name>readAllMASSensors</name>
+        <param>
+          <type>MASSensorType *</type>
+          <declname>interface</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+          <declname>sensIdxMap</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, StampedYARPVector &gt; &amp;</type>
+          <declname>measurementMap</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1487" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1487" bodyend="1509"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab21dc032893cf0ad554211a9c1a5d51d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readControlBoardInterface</definition>
+        <argsstring>(bool checkForNan=false)</argsstring>
+        <name>readControlBoardInterface</name>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read control board remapper interfaces. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1514" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1514" bodyend="1534"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a559050923864e6c3b958e05c6bbea5f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllJointSensors</definition>
+        <argsstring>(bool checkForNan=false)</argsstring>
+        <name>readAllJointSensors</name>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read joint sensors measurements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1539" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1539" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad4b1e5b50d0da2141fe44e93da941e19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMotorSensors</definition>
+        <argsstring>(bool checkForNan=false)</argsstring>
+        <name>readAllMotorSensors</name>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read motor sensors measurements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1638" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1638" bodyend="1730"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad72bcad393af9a6a373faecbd37bb548" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMotorPWMs</definition>
+        <argsstring>(bool checkForNan=false)</argsstring>
+        <name>readAllMotorPWMs</name>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read motor encoders measurements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1735" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1735" bodyend="1772"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4409c543182d5bb405ef005c6ceeb7a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllPIDs</definition>
+        <argsstring>(bool checkForNan=false)</argsstring>
+        <name>readAllPIDs</name>
+        <param>
+          <type>bool</type>
+          <declname>checkForNan</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Read pid references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1777" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1777" bodyend="1826"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1acddbd04b6cb2df2b75005e62786baa9a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllIMUs</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllIMUs</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1828" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1828" bodyend="1856"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a816e32aeabd4d463336adbcf125254df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllCartesianWrenches</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllCartesianWrenches</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1858" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1858" bodyend="1887"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5058da8da784edc580c5624b659849ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASLinearAccelerometers</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASLinearAccelerometers</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1889" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1889" bodyend="1902"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9ca81ae007e1f4aa5dcc7fe3317c0536" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASGyroscopes</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASGyroscopes</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1904" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1904" bodyend="1917"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a294cd716ab56034d55a4909f05657191" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASOrientationSensors</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASOrientationSensors</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1919" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1919" bodyend="1932"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2b3c9d5dff3e0dc13ca55bb3d1ecb8c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASMagnetometers</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASMagnetometers</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1934" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1934" bodyend="1947"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a056ed2622f5d5cf4d3529c05bd114318" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASSixAxisForceTorqueSensors</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASSixAxisForceTorqueSensors</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1949" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1949" bodyend="1962"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a359a8fb3a0eb18d896aa6ffc1deceefc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllAnalogSixAxisForceTorqueSensors</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllAnalogSixAxisForceTorqueSensors</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1964" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1964" bodyend="1993"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a7f56fd56fde786b07326dedf2932d3db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllMASTemperatures</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedSensorReads)</argsstring>
+        <name>readAllMASTemperatures</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedSensorReads</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="1995" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="1995" bodyend="2008"/>
+      </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad9596982c7236d76378db18a1f78c85e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::readAllSensors</definition>
+        <argsstring>(std::vector&lt; std::string &gt; &amp;failedReadAllSensors)</argsstring>
+        <name>readAllSensors</name>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failedReadAllSensors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="2010" column="10" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="2010" bodyend="2084"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>wholeBodyCartesianWrenchMeasures</edgelabel>
+          <edgelabel>wholeBodyFTMeasures</edgelabel>
+          <edgelabel>wholeBodyIMUMeasures</edgelabel>
+          <edgelabel>wholeBodyInertialMeasures</edgelabel>
+          <edgelabel>wholeBodyTemperatureMeasures</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>wholeBodyMASForceTorquesInterface</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>wholeBodyAnalogIMUInterface</edgelabel>
+          <edgelabel>wholeBodyCartesianWrenchInterface</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>wholeBodyTemperatureSensorsInterface</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>controlBoardRemapperMeasures</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>wholeBodyMASInertialsInterface</edgelabel>
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>controlBoardRemapperInterfaces</edgelabel>
+        </childnode>
+        <childnode refid="14" relation="usage">
+          <edgelabel>masSensorIndexMaps</edgelabel>
+        </childnode>
+        <childnode refid="16" relation="usage">
+          <edgelabel>metaData</edgelabel>
+        </childnode>
+        <childnode refid="18" relation="usage">
+          <edgelabel>failedSensorReads</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>wholeBodyAnalogSixAxisFTSensorsInterface</edgelabel>
+        </childnode>
+      </node>
+      <node id="21">
+        <label>std::unordered_map&lt; std::string, yarp::dev::IAnalogSensor * &gt;</label>
+        <childnode refid="3" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="template-instance">
+          <edgelabel>&lt; std::string, yarp::dev::IAnalogSensor * &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>K</label>
+      </node>
+      <node id="7">
+        <label>T</label>
+      </node>
+      <node id="19">
+        <label>std::vector&lt; T &gt;</label>
+        <childnode refid="7" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface"/>
+      </node>
+      <node id="5">
+        <label>std::unordered_map&lt; K, T &gt;</label>
+        <childnode refid="6" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperInterfaces</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces"/>
+      </node>
+      <node id="2">
+        <label>std::unordered_map&lt; std::string, StampedYARPVector &gt;</label>
+        <childnode refid="3" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="template-instance">
+          <edgelabel>&lt; std::string, StampedYARPVector &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="20">
+        <label>BipedalLocomotion::RobotInterface::SensorBridgeOptions</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions"/>
+      </node>
+      <node id="17">
+        <label>BipedalLocomotion::RobotInterface::SensorLists</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists"/>
+        <childnode refid="18" relation="usage">
+          <edgelabel>IMUsList</edgelabel>
+          <edgelabel>cartesianWrenchesList</edgelabel>
+          <edgelabel>gyroscopesList</edgelabel>
+          <edgelabel>jointsList</edgelabel>
+          <edgelabel>linearAccelerometersList</edgelabel>
+          <edgelabel>magnetometersList</edgelabel>
+          <edgelabel>orientationSensorsList</edgelabel>
+          <edgelabel>sixAxisForceTorqueSensorsList</edgelabel>
+          <edgelabel>temperatureSensorsList</edgelabel>
+          <edgelabel>threeAxisForceTorqueSensorsList</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="15">
+        <label>std::unordered_map&lt; std::string, std::size_t &gt;</label>
+        <childnode refid="3" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="template-instance">
+          <edgelabel>&lt; std::string, std::size_t &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="18">
+        <label>std::vector&lt; std::string &gt;</label>
+        <childnode refid="3" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="19" relation="template-instance">
+          <edgelabel>&lt; std::string &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>std::unordered_map&lt; std::string, yarp::dev::IGenericSensor * &gt;</label>
+        <childnode refid="3" relation="usage">
+          <edgelabel>keys</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="template-instance">
+          <edgelabel>&lt; std::string, yarp::dev::IGenericSensor * &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="16">
+        <label>BipedalLocomotion::RobotInterface::SensorBridgeMetaData</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData"/>
+        <childnode refid="17" relation="usage">
+          <edgelabel>sensorsList</edgelabel>
+        </childnode>
+        <childnode refid="20" relation="usage">
+          <edgelabel>bridgeOptions</edgelabel>
+        </childnode>
+      </node>
+      <node id="14">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps"/>
+        <childnode refid="15" relation="usage">
+          <edgelabel>accelerometer</edgelabel>
+          <edgelabel>gyroscopes</edgelabel>
+          <edgelabel>magnetometers</edgelabel>
+          <edgelabel>orientationSensors</edgelabel>
+          <edgelabel>sixAxisFTSensors</edgelabel>
+          <edgelabel>temperatureSensors</edgelabel>
+        </childnode>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface"/>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface"/>
+      </node>
+      <node id="11">
+        <label>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperMeasures</label>
+        <link refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures"/>
+      </node>
+      <node id="3">
+        <label>std::string</label>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="53" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="54" bodyend="2085"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5f3f7403f9008c35f2475972141b2c78" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachAllGenericOrAnalogSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2e4b18fccd7384fac60a967ffb74bf4b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachAllInertials</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2998f82b666aa2a06a7e352948965dab" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachAllSixAxisForceTorqueSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8a4a9b68a8e05b4885d3f6ccd0cb06b0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachAllTemperatureSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adf4d0b28af08b6e17444d36afd3749e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachAndCheckMASSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa8f34bfd335827bcc8101263c7d03b56" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachCartesianWrenchInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3b2d10014cc5407a3b55f04698f02208" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachGenericOrAnalogSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af8b8ef85cd2d9787c7ed7581fa17d700" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachRemappedMASSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a1acf90173fd12a89f642fc288bc87946" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>attachRemappedRemoteControlBoard</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0866086ca3ae804487ae3c11d5416d69" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>bridgeInitialized</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4b4afc019fd78a05c6e14e8d55ad2b0e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkAttachedMASSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aabf6c61436ed4f912c606f3818766cee" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkControlBoardSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9792148229e6b49ad4b2d99b94a89f17" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkForNAN</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa364d5e0808a88adb5990188a772b24b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a30d2088aa0e66fb413c561f8c08feb98" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkValid</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a65d7097f2ad3b41707ea97fe46509a85" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>checkValidSensorMeasure</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a70958c115107f220d4d6ad5538a00cda" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>compareControlBoardJointsList</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a608e3d497f64f9ba08101b81016f21ef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>configureCartesianWrenches</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a24c8f87723e0e7097755432e9960734f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>configureInertialSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab2dcbc22a81f48ca968649a88aa498a5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>configureRemoteControlBoardRemapper</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1add1fafb6a5211ec36615eb30a09585de" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>configureSixAxisForceTorqueSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a61a1cbc1acff82301f4d6966ca1a1ce2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>configureTemperatureSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3458b4ceee2731654e92e3e83637a5aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>controlBoardRemapperInterfaces</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a38999672bf88950164c018940dc333fa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>controlBoardRemapperMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3a882f8cdc12216473a706327db2fea2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>deg2rad</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a202ee276fabf30890f4eacdc94e10aa5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>driversAttached</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a6c1876b48914af81c30ff6e0f5a7734b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>failedSensorReads</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8f32ca5ff7055bc6340ebf937fd26371" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>getAllSensorsInMASInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae40e9ebd2e149185271355e5ce76b24b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>getIndexFromVector</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8058a10b782c3809a4ec759542b960e4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>getMASSensorName</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af65be9001db4db26ab6b5f44c67d9ebb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>getNumberOfMASSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a368b7e691b1b97efeab70991b08d53ba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>masSensorIndexMaps</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0d4ec42cac457a091742b5541d7ddf14" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>metaData</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a266435aaa791e3992a2f0b18535cabbd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>nanExistsInVec</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a15cda4d7b2907a8489fdad15b6bf0527" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>nrChannelsInYARPAnalogSixAxisFTSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab3105b232abcf38f738f0b1c6d96cffa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>nrChannelsInYARPGenericCartesianWrench</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aec19fa9be3de7df28e3f98f55e984e34" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>nrChannelsInYARPGenericIMUSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a359a8fb3a0eb18d896aa6ffc1deceefc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllAnalogSixAxisForceTorqueSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a816e32aeabd4d463336adbcf125254df" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllCartesianWrenches</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1acddbd04b6cb2df2b75005e62786baa9a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllIMUs</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a559050923864e6c3b958e05c6bbea5f0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllJointSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9ca81ae007e1f4aa5dcc7fe3317c0536" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASGyroscopes</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5058da8da784edc580c5624b659849ff" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASLinearAccelerometers</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a2b3c9d5dff3e0dc13ca55bb3d1ecb8c2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASMagnetometers</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a294cd716ab56034d55a4909f05657191" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASOrientationSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a849f6076aaf1ed72a02234cc63f35b4f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a056ed2622f5d5cf4d3529c05bd114318" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASSixAxisForceTorqueSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a7f56fd56fde786b07326dedf2932d3db" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMASTemperatures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad72bcad393af9a6a373faecbd37bb548" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMotorPWMs</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad4b1e5b50d0da2141fe44e93da941e19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllMotorSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4409c543182d5bb405ef005c6ceeb7a4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllPIDs</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad9596982c7236d76378db18a1f78c85e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAllSensors</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ac660b2cd4be78ce657eb97f7854e29e1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readAnalogOrGenericSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab21dc032893cf0ad554211a9c1a5d51d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readControlBoardInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a992caac13c61cf02db7ecea0eea7171c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>readMASSensor</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a77ef4bc9f2b8602e32b697356149fca6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>resetControlBoardBuffers</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab45e080a337f6cf66ed8da8bad101d4b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>StampedYARPImage</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1affb6f61e8c5fd651c2b443d86e298f01" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>StampedYARPVector</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a1670ba59d4dd962196014b0f7cb3f80e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>SubConfigLoader</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af68ef017244a7f0ff4758be6d2f85838" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>subConfigLoader</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1add7f72bc98131e7143128a4e402a5c83" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyAnalogIMUInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5999d83428894f606cc716db736b815f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyAnalogSixAxisFTSensorsInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8fcc3495e3ca8243257a707503c3f83d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyCartesianWrenchInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae823a598bcdd7c2d564809113917bbc8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyCartesianWrenchMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a146b0f13d791bbabb8f534d585968b4c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyFTMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4e11c913cf23a04e1df20057e89427f4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyIMUMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af591902e04acb12f6fe233009b08c615" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyInertialMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adb7402419e404672a51e88b9e1cd82a4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyMASForceTorquesInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a24bbe6faa3d3ba7e9f460623c6c840d0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyMASInertialsInterface</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a582321138c98369836422c8bfc6751f7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyTemperatureMeasures</name></member>
+      <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a33b4e67df75711e8fcef386f638f92d1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</scope><name>wholeBodyTemperatureSensorsInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

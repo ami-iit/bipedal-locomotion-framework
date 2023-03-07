@@ -35,9 +35,8 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.9.0/index.html">v0.9.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
               </ol>
             </li>
@@ -135,8 +134,8 @@ $ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n$
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a href="#a5bf7b778dcd93e86a863e685545cc1cf" class="m-doc">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
-              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; std::pair&lt;<a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />VariablesHandler</a>, std::unique_ptr&lt;<a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a>&gt;&gt;</span>
+              <span class="m-doc-wrap-bumper">static auto <a href="#a7583c2fe82491dd339c3ad02a0b95d87" class="m-doc">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html" class="m-doc">IntegrationBasedIKProblem</a></span>
             </dt>
             <dd>Build the inverse kinematics solver.</dd>
           </dl>
@@ -225,9 +224,9 @@ $ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a5bf7b778dcd93e86a863e685545cc1cf"><div>
+          <section class="m-doc-details" id="a7583c2fe82491dd339c3ad02a0b95d87"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">static std::pair&lt;<a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />VariablesHandler</a>, std::unique_ptr&lt;<a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html" class="m-doc">QPInverseKinematics</a>&gt;&gt; BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5bf7b778dcd93e86a863e685545cc1cf" class="m-doc-self">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              <span class="m-doc-wrap-bumper">static <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html" class="m-doc">IntegrationBasedIKProblem</a> BipedalLocomotion::<wbr />IK::<wbr />QPInverseKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7583c2fe82491dd339c3ad02a0b95d87" class="m-doc-self">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
               std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn)</span></span>
             </h3>
             <p>Build the inverse kinematics solver.</p>
@@ -248,12 +247,11 @@ $ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n$
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>a pair containing the variable handler and a std::unique_ptr to the inverse kinematics. In case of issues, an empty <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />VariablesHandler</a> and an invalid pointer will be returned.</td>
+                  <td>an <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html" class="m-doc">IntegrationBasedIKProblem</a>. In case of issues an invalid <a href="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html" class="m-doc">IntegrationBasedIKProblem</a> will be returned.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td></td><td><code>tasks</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the list of the tasks considered in the IK.</td><td>Yes</td></tr><tr><td><code>IK</code></td><td><code>robot_velocity_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the generalized robot velocity</td><td>Yes</td></tr><tr><td><code>IK</code></td><td><code>verbosity</code></td><td><code>bool</code></td><td>Verbosity of the solver. Default value <code>false</code></td><td>No</td></tr></tbody></table><p>Where the generalized robot velocity is a vector containing the base spatialvelocity (expressed in mixed representation) and the joint velocities. For <strong>each</strong> task listed in the parameter <code>tasks</code> the user must specified all the parameters required by the task itself but <code>robot_velocity_variable_name</code> since is already specified in the <code>IK</code> group. Moreover the following parameters are required for each task.</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>TASK_NAME</code></td><td><code>type</code></td><td><code>string</code></td><td>String representing the type of the task. The string should match the name of the C++ class.</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>priority</code></td><td><code>int</code></td><td>Priority associated to the task. (Check <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a7666e60ae056992a39f56eddd1134d75" class="m-doc">QPInverseKinematics::<wbr />addTask</a> for further information)</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>weight</code></td><td><code>vector&lt;double&gt;</code></td><td>Weight associated to the task. It is required only if the task is low priority</td><td>No</td></tr></tbody></table>
-<p><code>TASK_NAME</code> is a placeholder for the name of the task contained in the <code>tasks</code> list.</p><p>The following <code>ini</code> file presents an example of the configuration that can be used to build the IK</p><pre class="m-code"><span class="na">tasks                           (&quot;COM_TASK&quot;, &quot;RIGHT_FOOT_TASK&quot;, &quot;LEFT_FOOT_TASK&quot;, &quot;TORSO_TASK&quot;, &quot;JOINT_REGULARIZATION_TASK&quot;)</span>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td></td><td><code>tasks</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the list of the tasks considered in the IK.</td><td>Yes</td></tr><tr><td><code>IK</code></td><td><code>robot_velocity_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the generalized robot velocity</td><td>Yes</td></tr><tr><td><code>IK</code></td><td><code>verbosity</code></td><td><code>bool</code></td><td>Verbosity of the solver. Default value <code>false</code></td><td>No</td></tr></tbody></table><p>Where the generalized robot velocity is a vector containing the base spatialvelocity (expressed in mixed representation) and the joint velocities. For <strong>each</strong> task listed in the parameter <code>tasks</code> the user must specify all the parameters required by the task itself but <code>robot_velocity_variable_name</code> since is already specified in the <code>IK</code> group. Moreover the following parameters are required for each task.</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>TASK_NAME</code></td><td><code>type</code></td><td><code>string</code></td><td>String representing the type of the task. The string should match the name of the C++ class.</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>priority</code></td><td><code>int</code></td><td>Priority associated to the task. (Check <a href="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics.html#a7666e60ae056992a39f56eddd1134d75" class="m-doc">QPInverseKinematics::<wbr />addTask</a> for further information)</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>weight_provider_type</code></td><td><code>string</code></td><td>String representing the type of the weight provider. The string should match the name of the C++ class. It is required only if the task is low priority. The default value in case of low priority task (<code>priority = 1</code>) is <code>ConstantWeightProvider</code></td><td>No</td></tr></tbody></table><p>Given the weight type specified by <code>weight_provider_type</code>, the user must specify all the parameters required by the provider in the <code>TASK_NAME</code> group handler <code>TASK_NAME</code> is a placeholder for the name of the task contained in the <code>tasks</code> list.</p><p>The following <code>ini</code> file presents an example of the configuration that can be used to build the IK</p><pre class="m-code"><span class="na">tasks                           (&quot;COM_TASK&quot;, &quot;RIGHT_FOOT_TASK&quot;, &quot;LEFT_FOOT_TASK&quot;, &quot;TORSO_TASK&quot;, &quot;JOINT_REGULARIZATION_TASK&quot;)</span>
 
 <span class="k">[IK]</span>
 <span class="na">robot_velocity_variable_name    robot_velocity</span>
@@ -278,12 +276,6 @@ $ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n$
 <span class="na">kp_angular                      5.0</span>
 <span class="na">priority                        0</span>
 
-<span class="k">[TORSO_TASK]</span>
-<span class="na">type                            SO3Task</span>
-<span class="na">frame_name                      chest</span>
-<span class="na">kp_angular                      5.0</span>
-<span class="na">priority                        1</span>
-<span class="na">weight                          (5.0, 5.0, 5.0)</span>
 
 <span class="k">[JOINT_REGULARIZATION_TASK]</span>
 <span class="na">type                            JointTrackingTask</span>
@@ -293,11 +285,30 @@ $ \mathbb{R}^3 \times SO(3) \times \mathbb{R}^n$
 <span class="w">                                 </span><span class="na">5.0, 5.0, 5.0, 5.0, 5.0, 5.0,</span>
 <span class="w">                                 </span><span class="na">5.0, 5.0, 5.0, 5.0, 5.0, 5.0)</span>
 <span class="na">priority                        1</span>
+<span class="na">weight_provider_type            ConstantWeightProvider</span>
 <span class="na">weight                          (1.0, 1.0, 1.0,</span>
 <span class="w">                                 </span><span class="na">2.0, 2.0, 2.0, 2.0,</span>
 <span class="w">                                 </span><span class="na">2.0, 2.0, 2.0, 2.0,</span>
 <span class="w">                                 </span><span class="na">1.0, 1.0, 1.0, 1.0, 1.0, 1.0,</span>
-<span class="w">                                 </span><span class="na">1.0, 1.0, 1.0, 1.0, 1.0, 1.0)</span></pre></aside>
+<span class="w">                                 </span><span class="na">1.0, 1.0, 1.0, 1.0, 1.0, 1.0)</span>
+
+<span class="k">[include TORSO_TASK &quot;./tasks/torso.ini&quot;]</span></pre><p>Where the file <code>./tasks/torso.ini</code> contains the definition of a low priority task whose weight is a <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider.html" class="m-doc">BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />MultiStateWeightProvider</a>. Since <code>MultiStateWeightProvider</code> requires the definition of subgroups, an additional file is suggested as explained in: <a href="https://github.com/robotology/yarp/discussions/2563">https:/<wbr />/<wbr />github.com/<wbr />robotology/<wbr />yarp/<wbr />discussions/<wbr />2563</a></p><pre class="m-code"><span class="na">type                            SO3Task</span>
+<span class="na">frame_name                      chest</span>
+<span class="na">kp_angular                      5.0</span>
+
+<span class="na">weight_provider_type            MultiStateWeightProvider</span>
+
+<span class="na">states                          (&quot;STANCE&quot;, &quot;WALKING&quot;)</span>
+<span class="na">sampling_time                   0.01</span>
+<span class="na">settling_time                   3.0</span>
+
+<span class="k">[STANCE]</span>
+<span class="na">name                            stance</span>
+<span class="na">weight                          (0.1, 0.1, 0.1)</span>
+
+<span class="k">[WALKING]</span>
+<span class="na">name                            walking</span>
+<span class="na">weight                          (5.0, 5.0, 5.0)</span></pre></aside>
           </div></section>
           <section class="m-doc-details" id="a7666e60ae056992a39f56eddd1134d75"><div>
             <h3>

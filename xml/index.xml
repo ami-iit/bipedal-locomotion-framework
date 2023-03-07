@@ -504,6 +504,14 @@
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a542b6128b92bc937f22d97dd2d562e42" kind="function"><name>getContactDetails</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2f06ceb232d603e3ecfacbe5937721c5" kind="function"><name>setContactStateStamped</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1System_1_1Factory" kind="class"><name>BipedalLocomotion::System::Factory</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1a6fd551f4a7f28a211b34c75d4fadb57b" kind="typedef"><name>Type</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1a2af7b75f1e39e5715bfc65896a104470" kind="typedef"><name>Builder</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1a6e78b5b5517f899fdcf47260d6728b32" kind="function"><name>getMapFactory</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1aca1550eb8f6ee9d23a120e32c11ca85a" kind="function"><name>registerBuilder</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1ab2232067f34d75dc60f7765be196e029" kind="function"><name>createInstance</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Factory_1a6ded584afee20f14d7b9cba0f1be87c1" kind="function"><name>~Factory</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask" kind="class"><name>BipedalLocomotion::TSID::FeasibleContactWrenchTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a55394eaec7cc24a61b993730f148449d" kind="variable"><name>m_contactWrench</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a51331644e405fc919b9d1005826765e0" kind="variable"><name>m_cone</name></member>
@@ -697,11 +705,8 @@
     <member refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask_1acbafe7a440ba7e7fbd0d174dc994accf" kind="function"><name>setKinDyn</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory" kind="class"><name>BipedalLocomotion::System::ILinearTaskFactory</name>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac31b71caf69d0dc844fab730b8fcb9c1" kind="typedef"><name>Task</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a9bda52124cffd20c9ae7f41a610bb2d3" kind="typedef"><name>TaskCreator</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1aae1699fcee5ac0fad185e98b4892ccd3" kind="function"><name>getMapFactory</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1a7a65c17407585dcbefbf101e238c2d4a" kind="function"><name>registerCreator</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1ac6a3e13a37cc9fe2e740c81d0972d028" kind="function"><name>createInstance</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1aa6c24410fc45ba93ced8ed5dbaa5b417" kind="typedef"><name>Task</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1afbe0b3dea975845a4cf33a8327eaf83c" kind="typedef"><name>TaskBuilder</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory_1afa8bb56af00c75aac6099c657b8dfd23" kind="function"><name>~ILinearTaskFactory</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kind="class"><name>BipedalLocomotion::System::ILinearTaskSolver</name>
@@ -804,6 +809,13 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" kind="class"><name>BipedalLocomotion::IK::IntegrationBasedIK</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK_1af7a521cfc81b2f7d2e0c881858133478" kind="function"><name>~IntegrationBasedIK</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem" kind="struct"><name>BipedalLocomotion::IK::IntegrationBasedIKProblem</name>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_1a6517a30f6bfb8c25d48380aa3a5169a1" kind="variable"><name>variablesHandler</name></member>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_1a3b42a3be24e1c44991c9e72ff4d16329" kind="variable"><name>weights</name></member>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_1a7900d8a104a011e8bff7bd80f4286353" kind="variable"><name>ik</name></member>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_1a720e24be9b344a34b69505d44561482f" kind="function"><name>isValid</name></member>
+    <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_1ab33183bc16d823a48e87025b3c416885" kind="function"><name>get</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState" kind="struct"><name>BipedalLocomotion::IK::IntegrationBasedIKState</name>
     <member refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState_1ad2e5b5c2b0d08e0963d18df8fad36d5f" kind="variable"><name>jointVelocity</name></member>
@@ -1282,7 +1294,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7fd5fd750763109e53b5369fd5517e86" kind="function"><name>getTask</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a516929da79680d1df8fe34d85dac5c3b" kind="function"><name>toString</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a0db3848338591bfe39376b7c4d7aefb9" kind="function"><name>getRawSolution</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a5bf7b778dcd93e86a863e685545cc1cf" kind="function"><name>build</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7583c2fe82491dd339c3ad02a0b95d87" kind="function"><name>build</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kind="class"><name>BipedalLocomotion::TSID::QPTSID</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1adcd0eebc10d67fc9d188bc99abed7f7b" kind="variable"><name>m_pimpl</name></member>
@@ -1897,6 +1909,10 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1a4ceb073d81987f718c5f29784e199bbd" kind="variable"><name>jointTorques</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1aff5d8065eea618abc03017e1b629cdb5" kind="variable"><name>contactWrenches</name></member>
   </compound>
+  <compound refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct"><name>std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</name>
+  </compound>
+  <compound refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct"><name>std::tuple_size&lt;::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</name>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
@@ -2027,6 +2043,9 @@
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1a7a2101a9a20acfdb75a2b01e2701fb6c" kind="function"><name>toEigen</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1WeightProvider" kind="struct"><name>BipedalLocomotion::System::WeightProvider</name>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory" kind="class"><name>BipedalLocomotion::System::WeightProviderFactory</name>
+    <member refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory_1a05326770e9b43202046c5e89c2a01091" kind="function"><name>~WeightProviderFactory</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface_1a571aab909fc2b837e6662118bff517ca" kind="variable"><name>sixAxisFTSensors</name></member>
@@ -2208,6 +2227,7 @@
     <member refid="ContactListJsonParser_8h_1a9cdffabdd4841b37271e56376ba4d079" kind="function"><name>contactListMapToJson</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem</name>
+    <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal</name>
   </compound>
@@ -2293,6 +2313,7 @@
   <compound refid="namespaceBipedalLocomotion_1_1System" kind="namespace"><name>BipedalLocomotion::System</name>
     <member refid="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" kind="typedef"><name>EmptySignal</name></member>
     <member refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kind="typedef"><name>WeightProviderPort</name></member>
+    <member refid="ConstantWeightProvider_8h_1a790f80c1db0aa7224d93e58782328881" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
     <member refid="QuitHandler_8h_1a2e69b33ec2397a9c294c5d5ebbe79e3c" kind="function"><name>handleQuitSignals</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging" kind="namespace"><name>BipedalLocomotion::TextLogging</name>
@@ -2406,6 +2427,7 @@
     <member refid="LinearTimeInvariantSystem_8h_1a65e67fed4641f8d1a11ce7a01e0197ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="MultiStateWeightProvider_8h" kind="file"><name>MultiStateWeightProvider.h</name>
+    <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
   </compound>
   <compound refid="CommonConversions_8h" kind="file"><name>CommonConversions.h</name>
     <member refid="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" kind="function"><name>toEigenPose</name></member>
@@ -2590,6 +2612,9 @@
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
   <compound refid="ConstantWeightProvider_8h" kind="file"><name>ConstantWeightProvider.h</name>
+    <member refid="ConstantWeightProvider_8h_1a790f80c1db0aa7224d93e58782328881" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
+  </compound>
+  <compound refid="Factory_8h" kind="file"><name>Factory.h</name>
   </compound>
   <compound refid="IClock_8h" kind="file"><name>IClock.h</name>
   </compound>
@@ -2621,6 +2646,7 @@
   <compound refid="VariablesHandler_8h" kind="file"><name>VariablesHandler.h</name>
   </compound>
   <compound refid="WeightProvider_8h" kind="file"><name>WeightProvider.h</name>
+    <member refid="WeightProvider_8h_1ac1fbcff3a1db62edd2fa6aca03ff6614" kind="define"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
   </compound>
   <compound refid="RosClock_8h" kind="file"><name>RosClock.h</name>
   </compound>

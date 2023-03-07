@@ -53,7 +53,7 @@
       <node id="17">
         <label>cmath</label>
       </node>
-      <node id="27">
+      <node id="29">
         <label>BipedalLocomotion/System/Source.h</label>
         <link refid="Source_8h"/>
         <childnode refid="22" relation="include">
@@ -83,6 +83,20 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</label>
         <link refid="traits_8h"/>
         <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -130,6 +144,9 @@
       </node>
       <node id="8">
         <label>vector</label>
+      </node>
+      <node id="28">
+        <label>utility</label>
       </node>
       <node id="25">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -194,6 +211,8 @@
         <link refid="WeightProvider_8h"/>
         <childnode refid="27" relation="include">
         </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>memory</label>
@@ -202,6 +221,24 @@
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::ContinuousDynamicalSystem::BLF_REGISTER_WEIGHT_PROVIDER</definition>
+        <argsstring>(MultiStateWeightProvider)</argsstring>
+        <name>BLF_REGISTER_WEIGHT_PROVIDER</name>
+        <param>
+          <type>MultiStateWeightProvider</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h" line="95" column="1" declfile="BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h" declline="95" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -7,7 +7,7 @@
     <includes refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includes>
     <includes local="no">LieGroupControllers/ProportionalDerivativeController.h</includes>
     <incdepgraph>
-      <node id="17">
+      <node id="18">
         <label>LieGroupControllers/ProportionalDerivativeController.h</label>
       </node>
       <node id="9">
@@ -33,6 +33,8 @@
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -67,6 +69,20 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
+      <node id="17">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
       <node id="7">
         <label>Eigen/Dense</label>
       </node>
@@ -94,7 +110,7 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="15">

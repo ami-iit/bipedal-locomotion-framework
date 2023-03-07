@@ -35,9 +35,8 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.8.0/index.html">v0.8.0</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.9.0/index.html">v0.9.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
               </ol>
             </li>
@@ -73,38 +72,34 @@
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-types">Public types</a></li>
-                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
               </ul>
             </li>
           </ul>
         </nav>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename _Type&gt;</div>
+              class <a href="classBipedalLocomotion_1_1System_1_1Factory.html" class="m-doc">Factory&lt;_Task&gt;</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1System_1_1Factory.html" class="m-doc">Factory</a> implements the factory design patter for constructing a an object of a given Type given its id.</dd>
+          </dl>
+        </section>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="ac31b71caf69d0dc844fab730b8fcb9c1">
-              using <a href="#ac31b71caf69d0dc844fab730b8fcb9c1" class="m-doc-self">Task</a> = _Task
+            <dt id="aa6c24410fc45ba93ced8ed5dbaa5b417">
+              using <a href="#aa6c24410fc45ba93ced8ed5dbaa5b417" class="m-doc-self">Task</a> = typename <a href="classBipedalLocomotion_1_1System_1_1Factory.html" class="m-doc">Factory</a>&lt;_Task&gt;::Type
             </dt>
             <dd><span></span></dd>
-            <dt id="a9bda52124cffd20c9ae7f41a610bb2d3">
-              using <a href="#a9bda52124cffd20c9ae7f41a610bb2d3" class="m-doc-self">TaskCreator</a> = typename std::add_pointer&lt;std::shared_ptr&lt;Task&gt;()&gt;::type
+            <dt id="afbe0b3dea975845a4cf33a8327eaf83c">
+              using <a href="#afbe0b3dea975845a4cf33a8327eaf83c" class="m-doc-self">TaskBuilder</a> = typename <a href="classBipedalLocomotion_1_1System_1_1Factory.html" class="m-doc">Factory</a>&lt;_Task&gt;::<a href="classBipedalLocomotion_1_1System_1_1Factory.html#a2af7b75f1e39e5715bfc65896a104470" class="m-doc">Builder</a>
             </dt>
-            <dd>Pointer to the task builder.</dd>
-          </dl>
-        </section>
-        <section id="pub-static-methods">
-          <h2><a href="#pub-static-methods">Public static functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">static auto <a href="#a7a65c17407585dcbefbf101e238c2d4a" class="m-doc">registerCreator</a>(</span><span class="m-doc-wrap">std::string idKey,
-              <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory.html#a9bda52124cffd20c9ae7f41a610bb2d3" class="m-doc">TaskCreator</a> classCreator) -&gt; std::string</span>
-            </dt>
-            <dd>Add a creator for a given task.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">static auto <a href="#ac6a3e13a37cc9fe2e740c81d0972d028" class="m-doc">createInstance</a>(</span><span class="m-doc-wrap">const std::string&amp; idKey) -&gt; std::shared_ptr&lt;Task&gt;</span>
-            </dt>
-            <dd>Create an instance of a Task given its id.</dd>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -115,66 +110,6 @@
             </dt>
             <dd><span></span></dd>
           </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a7a65c17407585dcbefbf101e238c2d4a"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename _Task&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">static std::string BipedalLocomotion::<wbr />System::<wbr />ILinearTaskFactory&lt;_Task&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7a65c17407585dcbefbf101e238c2d4a" class="m-doc-self">registerCreator</a>(</span><span class="m-doc-wrap">std::string idKey,
-              <a href="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory.html#a9bda52124cffd20c9ae7f41a610bb2d3" class="m-doc">TaskCreator</a> classCreator)</span></span>
-            </h3>
-            <p>Add a creator for a given task.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">idKey</td>
-                  <td>the string representing the type of the task. i.e., the stringify version of the class type</td>
-                </tr>
-                <tr>
-                  <td>classCreator</td>
-                  <td>pointer to the function that creates a given task.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>the idKey</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ac6a3e13a37cc9fe2e740c81d0972d028"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename _Task&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">static std::shared_ptr&lt;Task&gt; BipedalLocomotion::<wbr />System::<wbr />ILinearTaskFactory&lt;_Task&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac6a3e13a37cc9fe2e740c81d0972d028" class="m-doc-self">createInstance</a>(</span><span class="m-doc-wrap">const std::string&amp; idKey)</span></span>
-            </h3>
-            <p>Create an instance of a Task given its id.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">idKey</td>
-                  <td>the string representing the type of the task. i.e., the stringify version of the class type</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>a pointer to the Task. In case of issues, the pointer will be a nullptr.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

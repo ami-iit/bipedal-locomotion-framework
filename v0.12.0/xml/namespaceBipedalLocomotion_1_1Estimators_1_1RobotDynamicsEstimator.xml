@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator" kind="namespace" language="C++">
+    <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator</compoundname>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

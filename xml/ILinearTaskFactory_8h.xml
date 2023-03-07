@@ -6,17 +6,18 @@
     <includes local="no">string</includes>
     <includes local="no">type_traits</includes>
     <includes local="no">utility</includes>
+    <includes refid="Factory_8h" local="no">BipedalLocomotion/System/Factory.h</includes>
     <includes refid="LinearTask_8h" local="no">BipedalLocomotion/System/LinearTask.h</includes>
     <includedby refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includedby>
     <incdepgraph>
-      <node id="9">
+      <node id="11">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -35,56 +36,72 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
         <link refid="VariablesHandler_8h"/>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion/System/LinearTask.h</label>
         <link refid="LinearTask_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
-      <node id="7">
+      <node id="6">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>Eigen/Dense</label>
       </node>
-      <node id="10">
+      <node id="12">
         <label>vector</label>
       </node>
       <node id="5">
         <label>utility</label>
       </node>
-      <node id="12">
+      <node id="14">
         <label>cstddef</label>
       </node>
-      <node id="13">
+      <node id="7">
         <label>unordered_map</label>
       </node>
       <node id="4">
         <label>type_traits</label>
       </node>
-      <node id="8">
+      <node id="10">
         <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="2">
@@ -173,14 +190,14 @@
         <name>BLF_REGISTER_TASK</name>
         <param><defname>_type</defname></param>
         <param><defname>_baseType</defname></param>
-        <initializer>    static std::shared_ptr&lt;_baseType&gt; _type##FactoryCreator() \
+        <initializer>    static std::shared_ptr&lt;_baseType&gt; _type##FactoryBuilder() \
     {                                                         \
         return std::make_shared&lt;_type&gt;();                     \
     };                                                        \
                                                               \
-    static std::string _type##CreatorAutoRegHook              \
+    static std::string _type##BuilderAutoRegHook              \
         = ::<ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory" kindref="compound">BipedalLocomotion::System::ILinearTaskFactory</ref>&lt;    \
-            _baseType&gt;::registerCreator(#_type, _type##FactoryCreator);</initializer>
+            _baseType&gt;::registerBuilder(#_type, _type##FactoryBuilder);</initializer>
         <briefdescription>
 <para>BLF_REGISTER_TASK is a macro that can be used to register a task given a baseType. </para>
         </briefdescription>
@@ -206,7 +223,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="24" column="9" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="24" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/ILinearTaskFactory.h" line="25" column="9" bodyfile="BipedalLocomotion/System/ILinearTaskFactory.h" bodystart="25" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

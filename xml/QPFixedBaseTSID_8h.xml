@@ -81,7 +81,7 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
       <node id="18">
@@ -138,10 +138,24 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="29">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
       <node id="13">
         <label>Eigen/Dense</label>
       </node>
-      <node id="29">
+      <node id="31">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="3">
@@ -175,6 +189,9 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
+      </node>
+      <node id="30">
+        <label>utility</label>
       </node>
       <node id="22">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -217,6 +234,8 @@
       <node id="28">
         <label>BipedalLocomotion/System/WeightProvider.h</label>
         <link refid="WeightProvider_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
         <childnode refid="23" relation="include">
         </childnode>
       </node>

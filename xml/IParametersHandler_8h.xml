@@ -351,6 +351,8 @@
       <node id="69">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
         <link refid="VariablesHandler_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
@@ -581,6 +583,8 @@
       <node id="46">
         <label>BipedalLocomotion/System/WeightProvider.h</label>
         <link refid="WeightProvider_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
         <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="47" relation="include">
