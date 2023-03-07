@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="IWeightProvider_8h" kind="file" language="C++">
+    <compoundname>IWeightProvider.h</compoundname>
+    <includes local="no">Eigen/Dense</includes>
+    <includedby refid="QPInverseKinematics_8h" local="no">BipedalLocomotion/IK/QPInverseKinematics.h</includedby>
+    <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
+    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
+    <includedby refid="ILinearTaskSolver_8h" local="yes">BipedalLocomotion/System/ILinearTaskSolver.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/System/IWeightProvider.h</label>
+        <link refid="IWeightProvider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
+        <link refid="QPInverseKinematics_8h"/>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
+        <link refid="ILinearTaskSolver_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
+        <link refid="ConstantWeightProvider_8h"/>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
+        <link refid="QPFixedBaseTSID_8h"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/TSID/QPTSID.h</label>
+        <link refid="QPTSID_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/System/IWeightProvider.h</label>
+        <link refid="IWeightProvider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
+        <link refid="TaskSpaceInverseDynamics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
+        <link refid="IntegrationBasedIK_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1IWeightProvider" prot="public">BipedalLocomotion::System::IWeightProvider</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Giulio Romualdi </para>
+</simplesect>
+<simplesect kind="copyright"><para>2022 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/System/IWeightProvider.h"/>
+  </compounddef>
+</doxygen>
