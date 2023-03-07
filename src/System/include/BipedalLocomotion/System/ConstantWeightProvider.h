@@ -68,6 +68,9 @@ public:
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 };
+
+BLF_REGISTER_WEIGHT_PROVIDER(ConstantWeightProvider);
+
 } // namespace System
 } // namespace BipedalLocomotion
 

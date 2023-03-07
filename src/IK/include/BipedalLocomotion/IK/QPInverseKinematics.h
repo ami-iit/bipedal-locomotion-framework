@@ -172,14 +172,16 @@ public:
      * |   `IK`    |           `verbosity`          |      `bool`     |                         Verbosity of the solver. Default value `false`                         |     No    |
      * Where the generalized robot velocity is a vector containing the base spatialvelocity
      * (expressed in mixed representation) and the joint velocities.
-     * For **each** task listed in the parameter `tasks` the user must specified all the parameters
+     * For **each** task listed in the parameter `tasks` the user must specify all the parameters
      * required by the task itself but `robot_velocity_variable_name` since is already specified in
      * the `IK` group. Moreover the following parameters are required for each task.
      * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
      * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
      * |`TASK_NAME`|             `type`             |     `string`    |   String representing the type of the task. The string should match the name of the C++ class. |    Yes    |
      * |`TASK_NAME`|           `priority`           |       `int`     | Priority associated to the task.  (Check QPInverseKinematics::addTask for further information) |    Yes    |
-     * |`TASK_NAME`|            `weight`            | `vector<double>`|        Weight associated to the task. It is required only if the task is low priority          |     No    |
+     * |`TASK_NAME`|     `weight_provider_type`     |     `string`    |  String representing the type of the weight provider. The string should match the name of the C++ class. It is required only if the task is low priority. The default value in case of low priority task (`priority = 1`) is `ConstantWeightProvider`            |     No    |
+     * Given the weight type specified by `weight_provider_type`, the user must specify all the
+     * parameters required by the provider in the `TASK_NAME` group handler
      * `TASK_NAME` is a placeholder for the name of the task contained in the `tasks` list.
      * @note The following `ini` file presents an example of the configuration that can be used to
      * build the IK
@@ -209,12 +211,6 @@ public:
      * kp_angular                      5.0
      * priority                        0
      *
-     * [TORSO_TASK]
-     * type                            SO3Task
-     * frame_name                      chest
-     * kp_angular                      5.0
-     * priority                        1
-     * weight                          (5.0, 5.0, 5.0)
      *
      * [JOINT_REGULARIZATION_TASK]
      * type                            JointTrackingTask
@@ -224,18 +220,42 @@ public:
      *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0,
      *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
      * priority                        1
+     * weight_provider_type            ConstantWeightProvider
      * weight                          (1.0, 1.0, 1.0,
      *                                  2.0, 2.0, 2.0, 2.0,
      *                                  2.0, 2.0, 2.0, 2.0,
      *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
      *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+     *
+     * [include TORSO_TASK "./tasks/torso.ini"]
      * ~~~~~
-     * @return a pair containing the variable handler and a std::unique_ptr to the inverse
-     * kinematics. In case of issues, an empty BipedalLocomotion::System::VariablesHandler
-     * and an invalid pointer will be returned.
+     * Where the file `./tasks/torso.ini` contains the definition of a low priority task whose
+     * weight is a BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider.
+     * Since `MultiStateWeightProvider` requires the definition of subgroups, an additional file is
+     * suggested as explained in: https://github.com/robotology/yarp/discussions/2563
+     * ~~~~~{.ini}
+     * type                            SO3Task
+     * frame_name                      chest
+     * kp_angular                      5.0
+     *
+     * weight_provider_type            MultiStateWeightProvider
+     *
+     * states                          ("STANCE", "WALKING")
+     * sampling_time                   0.01
+     * settling_time                   3.0
+     *
+     * [STANCE]
+     * name                            stance
+     * weight                          (0.1, 0.1, 0.1)
+     *
+     * [WALKING]
+     * name                            walking
+     * weight                          (5.0, 5.0, 5.0)
+     * ~~~~~
+     * @return an IntegrationBasedIKProblem. In case of issues an invalid IntegrationBasedIKProblem
+     * will be returned.
      */
-    static std::pair<BipedalLocomotion::System::VariablesHandler,
-                     std::unique_ptr<QPInverseKinematics>>
+    static IntegrationBasedIKProblem
     build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
           std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 

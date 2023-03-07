@@ -507,7 +507,7 @@ TEST_CASE("QP-IK [With builder]")
                                                        jointLimitDelta));
 
     // automatic build the IK from parameter handler
-    auto [variablesHandler, ik] = QPInverseKinematics::build(parameterHandler, kinDyn);
+    auto [variablesHandler, weights, ik] = QPInverseKinematics::build(parameterHandler, kinDyn);
     REQUIRE_FALSE(ik == nullptr);
 
 
@@ -556,6 +556,13 @@ TEST_CASE("QP-IK [With builder]")
         system.dynamics->setControlInput({baseVelocity, jointVelocity});
         system.integrator->integrate(0, dT);
     }
+
+    auto weightProvider
+        = std::dynamic_pointer_cast<const BipedalLocomotion::System::ConstantWeightProvider>(
+            ik->getTaskWeightProvider("REGULARIZATION_TASK").lock());
+
+
+    REQUIRE(weightProvider != nullptr);
 
     // check the CoM position
     REQUIRE(desiredSetPoints.CoMPosition.isApprox(toEigen(kinDyn->getCenterOfMassPosition()),

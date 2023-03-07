@@ -13,6 +13,7 @@
 #include <OsqpEigen/OsqpEigen.h>
 
 #include <BipedalLocomotion/IK/IKLinearTask.h>
+#include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/System/ConstantWeightProvider.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
@@ -611,7 +612,7 @@ Eigen::Ref<const Eigen::VectorXd> QPInverseKinematics::getRawSolution() const
     return m_pimpl->solver.getSolution();
 }
 
-std::pair<BipedalLocomotion::System::VariablesHandler, std::unique_ptr<QPInverseKinematics>>
+IntegrationBasedIKProblem
 QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                            std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
@@ -621,32 +622,33 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
     if (ptr == nullptr)
     {
         log()->error("{} Invalid parameter handler.", logPrefix);
-        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        return IntegrationBasedIKProblem();
     }
 
     std::unique_ptr<QPInverseKinematics> solver = std::make_unique<QPInverseKinematics>();
+    std::unordered_map<std::string, std::shared_ptr<System::WeightProvider>> weights;
 
     if (!solver->initialize(ptr->getGroup("IK")))
     {
         log()->error("{} Unable to initialize the IK solver.", logPrefix);
-        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        return IntegrationBasedIKProblem();
     }
 
-    BipedalLocomotion::System::VariablesHandler variableHandler;
-    if (!variableHandler.addVariable(solver->m_pimpl->robotVelocityVariable.name,
+    BipedalLocomotion::System::VariablesHandler variablesHandler;
+    if (!variablesHandler.addVariable(solver->m_pimpl->robotVelocityVariable.name,
                                      kinDyn->getNrOfDegreesOfFreedom() + 6))
     {
         log()->error("{} Unable to add the variable named '{}'.",
                      logPrefix,
                      solver->m_pimpl->robotVelocityVariable.name);
-        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        return IntegrationBasedIKProblem();
     }
 
     std::vector<std::string> tasks;
     if (!ptr->getParameter("tasks", tasks))
     {
         log()->error("{} Unable to find the parameter 'tasks'.", logPrefix);
-        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        return IntegrationBasedIKProblem();
     }
 
     for (const auto& taskGroupName : tasks)
@@ -655,7 +657,7 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
         if (taskGroupTmp == nullptr)
         {
             log()->error("{} Unable to find the group named '{}'.", logPrefix, taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            return IntegrationBasedIKProblem();
         }
 
         // add robot_velocity_variable_name parameter since it is required by all the tasks
@@ -670,14 +672,14 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
             log()->error("{} Unable to find the parameter 'type' in the group named '{}'.",
                          logPrefix,
                          taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            return IntegrationBasedIKProblem();
         }
 
         std::shared_ptr<IKLinearTask> taskInstance = IKLinearTaskFactory::createInstance(taskType);
         if (taskInstance == nullptr)
         {
             log()->error("{} The task type '{}' has not been registered.", logPrefix, taskType);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            return IntegrationBasedIKProblem();
         }
 
         if (!taskInstance->setKinDyn(kinDyn))
@@ -686,7 +688,13 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
                          "'{}'.",
                          logPrefix,
                          taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            return IntegrationBasedIKProblem();
+        }
+
+        if (!taskInstance->initialize(taskGroup))
+        {
+            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
+            return IntegrationBasedIKProblem();
         }
 
         int priority{0};
@@ -696,43 +704,85 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
                          "'{}'.",
                          logPrefix,
                          taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+            return IntegrationBasedIKProblem();
         }
 
-        Eigen::VectorXd weight;
+        if (priority != 0 && priority != 1)
+        {
+            log()->error("{} Invalid priority provided for the task named '{}'. For the time being "
+                         "we support only priority equal to 0 or 1.",
+                         logPrefix,
+                         taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
         if (priority == 1)
         {
-            if (!taskGroup->getParameter("weight", weight))
+            std::string weightProviderType = "ConstantWeightProvider";
+            if (!taskGroup->getParameter("weight_provider_type", weightProviderType))
             {
-                log()->error("{} Unable to get the parameter 'weight' for the task in the group "
+                log()->warn("{} Unable to get the parameter 'weight_provider_type' for the task "
+                            "in the group "
+                            "'{}'. The default one will be used. Default: '{}'.",
+                            logPrefix,
+                            taskGroupName,
+                            weightProviderType);
+            }
+
+            auto weightProvider = BipedalLocomotion::System::WeightProviderFactory::createInstance(
+                weightProviderType);
+
+            if (weightProvider == nullptr)
+            {
+                log()->error("{} The weight provider '{}' has not been registered.",
+                             logPrefix,
+                             weightProviderType);
+                return IntegrationBasedIKProblem();
+            }
+
+            if (!weightProvider->initialize(taskGroup))
+            {
+                log()->error("{} Unable to initialize the weight provider for the task in the "
+                             "group "
                              "'{}'.",
                              logPrefix,
                              taskGroupName);
-                return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+                return IntegrationBasedIKProblem();
+            }
+
+            // the weight is considered only if priority is equal to 1
+            if (!solver->addTask(taskInstance, taskGroupName, priority, weightProvider))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return IntegrationBasedIKProblem();
+            }
+
+            weights[taskGroupName] = weightProvider;
+
+        } else
+        {
+            if (!solver->addTask(taskInstance, taskGroupName, priority))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return IntegrationBasedIKProblem();
             }
         }
-
-        if (!taskInstance->initialize(taskGroup))
-        {
-            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
-        }
-
-        // the weight is considered only if priority is equal to 1
-        if (!solver->addTask(taskInstance, taskGroupName, priority, weight))
-        {
-            log()->error("{} Unable to add the task named '{}' in the solver.",
-                         logPrefix,
-                         taskGroupName);
-            return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
-        }
     }
 
-    if (!solver->finalize(variableHandler))
+    if (!solver->finalize(variablesHandler))
     {
         log()->error("{} Unable to finalize the solver.", logPrefix);
-        return std::make_pair(BipedalLocomotion::System::VariablesHandler(), nullptr);
+        return IntegrationBasedIKProblem();
     }
 
-    return std::make_pair(std::move(variableHandler), std::move(solver));
+    IntegrationBasedIKProblem problem;
+    problem.ik = std::move(solver);
+    problem.variablesHandler = std::move(variablesHandler);
+    problem.weights = std::move(weights);
+
+    return problem;
 }
