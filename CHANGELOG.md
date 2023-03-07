@@ -16,7 +16,7 @@ All notable changes to this project are documented in this file.
 - Implement the python bindings for `YarpTextLogging` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/611)
 - Add SubModelKinDynWrapper class to handle the `KinDynComputation` object of a sub-model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/605)
 - Implement the `JointLimitsTask` for the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/603)
-- Add the possibility to programmatically build an IK problem from a configuration file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/614)
+- Add the possibility to programmatically build an IK problem from a configuration file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/614, https://github.com/ami-iit/bipedal-locomotion-framework/pull/619)
 
 ### Changed
 - Ask for `toml++ v3.0.1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/581)
