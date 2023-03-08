@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_6a823490c0e56385acb143e0d237a93f" kind="dir">
+    <compoundname>BipedalLocomotion/RobotDynamicsEstimator</compoundname>
+    <innerfile refid="SubModel_8h">SubModel.h</innerfile>
+    <innerfile refid="SubModelKinDynWrapper_8h">SubModelKinDynWrapper.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/"/>
+  </compounddef>
+</doxygen>
