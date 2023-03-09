@@ -4,8 +4,8 @@
     <compoundname>WeightProvider.h</compoundname>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
-    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <includedby refid="MultiStateWeightProvider_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</includedby>
+    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <incdepgraph>
       <node id="10">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -73,11 +73,11 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>
