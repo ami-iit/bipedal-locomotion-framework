@@ -625,6 +625,12 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
         return IntegrationBasedIKProblem();
     }
 
+    if (kinDyn == nullptr || !kinDyn->isValid())
+    {
+        log()->error("{} Invalid iDynTree::KinDynComputations object.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
     std::unique_ptr<QPInverseKinematics> solver = std::make_unique<QPInverseKinematics>();
     std::unordered_map<std::string, std::shared_ptr<System::WeightProvider>> weights;
 

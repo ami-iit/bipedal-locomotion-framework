@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
 
 ### Fixed
+- Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
 
 ## [0.12.0] - 2023-03-07
 ### Added
