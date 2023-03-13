@@ -18,8 +18,7 @@ In case you do want to run this tutorial without compiling `bipedal-locomotion-f
 ```console
 mamba create -n blf-ik-tutorial
 mamba activate blf-ik-tutorial
-mamba install -c conda-forge bipedal-locomotion-framework meshcat-python notebook
-pip install robot_descriptions
+mamba install -c conda-forge bipedal-locomotion-framework meshcat-python notebook robot_descriptions
 ```
 
 Then you can run the notebook by typing the following command in a terminal
