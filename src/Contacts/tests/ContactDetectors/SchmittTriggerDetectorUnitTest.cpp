@@ -1,18 +1,20 @@
 /**
  * @file SchmittTriggerDetectorUnitTest.cpp
- * @authors Prashanth Ramadoss
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @authors Prashanth Ramadoss, Giulio Romualdi
+ * @copyright 2020-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <catch2/catch.hpp>
 
+#include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
+#include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
+using namespace BipedalLocomotion::Math;
 
 TEST_CASE("Schmitt Trigger Detector")
 {
@@ -28,21 +30,21 @@ TEST_CASE("Schmitt Trigger Detector")
     parameterHandler->setParameter("contact_break_switch_times", std::vector<double>{0.2, 0.2});
 
     // mismatch in parameter size shoulc cause initialization failure
-    REQUIRE(detector.initialize(parameterHandler) == false);
+    REQUIRE_FALSE(detector.initialize(parameterHandler));
 
     // initialization should pass
     parameterHandler->setParameter("contact_break_switch_times", std::vector<double>{0.2});
-    REQUIRE(detector.initialize(parameterHandler) == true);
+    REQUIRE(detector.initialize(parameterHandler));
 
     // set all contacts to false
-    detector.resetContacts();
+    REQUIRE(detector.resetContacts());
 
     // rise signal
-    detector.setTimedTriggerInput("right", 0.1, 120);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.1, .rawValue = 120});
     detector.advance();
-    detector.setTimedTriggerInput("right", 0.2, 120);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.2, .rawValue = 120});
     detector.advance();
-    detector.setTimedTriggerInput("right", 0.3, 120);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.3, .rawValue = 120});
     detector.advance();
 
     // contact state should turn true
@@ -52,11 +54,11 @@ TEST_CASE("Schmitt Trigger Detector")
     REQUIRE(rightContact.switchTime == 0.3);
 
     // fall signal
-    detector.setTimedTriggerInput("right", 0.4, 7);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.4, .rawValue = 7});
     detector.advance();
-    detector.setTimedTriggerInput("right", 0.5, 7);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.5, .rawValue = 7});
     detector.advance();
-    detector.setTimedTriggerInput("right", 0.6, 7);
+    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.6, .rawValue = 7});
     detector.advance();
 
     // contact state should turn false
@@ -66,18 +68,20 @@ TEST_CASE("Schmitt Trigger Detector")
 
     // add a new contact
     EstimatedContact newContact;
-    SchmittTriggerParams params;
+    SchmittTrigger::Params params;
     params.offThreshold = 10;
     params.onThreshold = 100;
     params.switchOffAfter = 0.2;
     params.switchOnAfter = 0.2;
 
-    detector.addContact("left", false, params, 0.6);
+    detector.addContact("left",
+                        SchmittTriggerState{.state = false, .switchTime = 0.6, .edgeTime = 0.6},
+                        params);
     auto contacts = detector.getOutput();
     REQUIRE(contacts.size() == 2);
 
     // test multiple measurement updates
-    std::unordered_map<std::string, SchmittTriggerInput > timedForces;
+    std::unordered_map<std::string, SchmittTriggerInput> timedForces;
     timedForces["right"] = {0.7, 120};
     timedForces["left"] = {0.7, 120};
     detector.setTimedTriggerInputs(timedForces);

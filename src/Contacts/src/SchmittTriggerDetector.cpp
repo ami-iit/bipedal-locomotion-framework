@@ -1,245 +1,261 @@
 /**
  * @file SchmittTriggerDetector.cpp
- * @authors Prashanth Ramadoss
- * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @authors Prashanth Ramadoss, Giulio Romualdi
+ * @copyright 2020-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
+#include <BipedalLocomotion/Contacts/Contact.h>
+#include <BipedalLocomotion/Math/SchmittTrigger.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
-using namespace BipedalLocomotion::ParametersHandler;
+namespace blf = BipedalLocomotion;
 using namespace BipedalLocomotion::Contacts;
+using namespace BipedalLocomotion::ParametersHandler;
 
-class SchmittTriggerDetector::Impl
+struct SchmittTriggerDetector::Impl
 {
-public:
-
-    std::unordered_map<std::string, std::pair<SchmittTriggerParams, SchmittTriggerUnit> > manager; /**< Container for Params-SchmittTrigger pairs of contacts */
-    std::unordered_map<std::string, SchmittTriggerInput > triggerInputMeasure; /**< Container for Timestamp-TriggerInputMeasure pairs of contacts */
+    /** Container for SchmittTrigger for each contact */
+    std::unordered_map<std::string, blf::Math::SchmittTrigger> manager;
 
     /**
      * Utility function to check if contact exists
      */
-    bool contactExists(const std::string& contactName);
-
-    /**
-     * Utility function to load vector parameters
-     */
-    template<typename Scalar>
-    bool setupParamV(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                     const std::string& param, std::vector<Scalar>& vec, const std::string& prefix)
+    [[nodiscard]] inline bool contactExists(const std::string& contactName) const
     {
-        auto handle = handler.lock();
-        if (handle == nullptr)
-        {
-            return false;
-        }
-
-        if (!handle->getParameter(param, GenericContainer::make_vector(vec, GenericContainer::VectorResizeMode::Resizable)))
-        {
-            std::cerr << prefix << "The parameter handler could not find \"" << param << "\" in the configuration file. This is a required parameter." << std::endl;
-            return false;
-        }
-        return true;
+        return manager.find(contactName) != manager.end();
     }
 };
 
-SchmittTriggerDetector::SchmittTriggerDetector() : m_pimpl(std::make_unique<Impl>())
+SchmittTriggerDetector::SchmittTriggerDetector()
+    : m_pimpl(std::make_unique<Impl>())
 {
     m_contactStates.clear();
     m_pimpl->manager.clear();
-    m_pimpl->triggerInputMeasure.clear();
 }
 
 SchmittTriggerDetector::~SchmittTriggerDetector() = default;
 
-bool SchmittTriggerDetector::customInitialization(std::weak_ptr<const IParametersHandler> handler)
+bool SchmittTriggerDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
-    std::string printPrefix{"[SchmittTriggerDetector::customInitialization] "};
-    auto handle = handler.lock();
-    if (handle == nullptr)
+    constexpr auto logPrefix = "[SchmittTriggerDetector::initialize]";
+
+    if (m_detectorState != State::NotInitialized)
     {
+        log()->error("{} The contact detector already seems to be initialized.", logPrefix);
         return false;
     }
+
+    auto ptr = handler.lock();
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler", logPrefix);
+        return false;
+    }
+
+    auto setupParam = [logPrefix, ptr](const std::string& param, auto& vector) -> bool {
+        if (!ptr->getParameter(param, vector))
+        {
+            log()->error("{} Unable to find the parameter named '{}'.", logPrefix, param);
+            return false;
+        }
+        return true;
+    };
 
     std::vector<std::string> contacts;
-    if (! m_pimpl->setupParamV(handler, "contacts", contacts, printPrefix))
-    {
-        return false;
-    }
+    bool ok = setupParam("contacts", contacts);
 
     std::vector<double> onThreshold;
-    if (! m_pimpl->setupParamV(handler, "contact_make_thresholds", onThreshold, printPrefix))
-    {
-        return false;
-    }
+    ok = ok && setupParam("contact_make_thresholds", onThreshold);
 
     std::vector<double> offThreshold;
-    if (! m_pimpl->setupParamV(handler, "contact_break_thresholds", offThreshold, printPrefix))
-    {
-        return false;
-    }
+    ok = ok && setupParam("contact_break_thresholds", offThreshold);
 
     std::vector<double> switchOnAfter;
-    if (! m_pimpl->setupParamV(handler, "contact_make_switch_times", switchOnAfter, printPrefix))
-    {
-        return false;
-    }
+    ok = ok && setupParam("contact_make_switch_times", switchOnAfter);
 
     std::vector<double> switchOffAfter;
-    if (! m_pimpl->setupParamV(handler, "contact_break_switch_times", switchOffAfter, printPrefix))
+    ok = ok && setupParam("contact_break_switch_times", switchOffAfter);
+
+    if ((contacts.size() != onThreshold.size()) || (contacts.size() != offThreshold.size())
+        || (contacts.size() != switchOnAfter.size()) || (contacts.size() != switchOffAfter.size()))
     {
+        log()->error("{} Configuration parameters size mismatch.", logPrefix);
         return false;
     }
 
-    if ( (contacts.size() != onThreshold.size()) || (contacts.size() != offThreshold.size()) ||
-        (contacts.size() != switchOnAfter.size()) || (contacts.size() != switchOffAfter.size()) )
-    {
-        std::cerr << printPrefix << "Configuration parameters size mismatch." << std::endl;
-        return false;
-    }
-
+    // initialize the smith trigger for each contact
     for (std::size_t idx = 0; idx < contacts.size(); idx++)
     {
-        const auto& name = contacts[idx];
-        SchmittTriggerParams params;
-        params.onThreshold = onThreshold[idx];
-        params.offThreshold = offThreshold[idx];
+        blf::Math::SchmittTrigger::Params params;
         params.switchOnAfter = switchOnAfter[idx];
         params.switchOffAfter = switchOffAfter[idx];
+        params.onThreshold = onThreshold[idx];
+        params.offThreshold = offThreshold[idx];
 
-        if (!addContact(name, false, params))
+        // set the initial state for the trigger
+        constexpr blf::Math::SchmittTriggerState initialState{.state = false,
+                                                              .switchTime = 0,
+                                                              .edgeTime = 0};
+        if (!this->addContact(contacts[idx], initialState, params))
         {
-            std::cerr << printPrefix << "Could not add Schmitt Trigger unit for specified contact." << std::endl;
+            log()->error("{} Could not add Schmitt Trigger unit for specified contact.", logPrefix);
             return false;
         }
     }
 
+    m_detectorState = State::Initialized;
+
     return true;
 }
 
-bool SchmittTriggerDetector::updateContactStates()
+bool SchmittTriggerDetector::advance()
 {
+    constexpr auto logPrefix = "[SchmittTriggerDetector::advance]";
+
+    if (m_detectorState == State::NotInitialized)
+    {
+        log()->error("{} Please initialize the contact detector before running advance.",
+                     logPrefix);
+        return false;
+    }
+
+    if (m_detectorState == State::Initialized)
+    {
+        m_detectorState = State::Running;
+    }
+
     for (auto& [contactName, schmittTrigger] : m_pimpl->manager)
     {
-        auto& contact = m_contactStates.at(contactName);
-        auto& detectorUnit =  m_pimpl->manager.at(contactName);
+        // advance the trigger and get the state
+        if(!schmittTrigger.advance())
+        {
+            log()->error("{} Unable to update the state of the Schmitt trigger cell for the "
+                         "contact named: '{}'.",
+                         logPrefix,
+                         contactName);
+            return false;
+        }
 
-        const auto& measure = m_pimpl->triggerInputMeasure.at(contactName);
-        detectorUnit.second.update(measure.time, measure.value);
-
-        contact.isActive = detectorUnit.second.getState(contact.switchTime);
+        // update the contact
+        const blf::Math::SchmittTriggerState& state = schmittTrigger.getOutput();
+        blf::Contacts::EstimatedContact& contact = m_contactStates.at(contactName);
+        contact.isActive = state.state;
+        contact.switchTime = state.switchTime;
     }
+
     return true;
 }
 
 bool SchmittTriggerDetector::setTimedTriggerInput(const std::string& contactName,
-                                                  const double& time,
-                                                  const double& triggerInput)
+                                                  const blf::Math::SchmittTriggerInput& input)
 {
-    std::string_view printPrefix = "[SchmittTriggerDetector::setTimedContactIntensity] ";
+    constexpr auto logPrefix = "[SchmittTriggerDetector::setTimedTriggerInput]";
     if (!m_pimpl->contactExists(contactName))
     {
-        std::cerr << printPrefix << "Contact does not exist. Cannot set measurement." << std::endl;
+        log()->error("{} Contact does not exist. Cannot set measurement", logPrefix);
         return false;
     }
 
-    m_pimpl->triggerInputMeasure.at(contactName).time = time;
-    m_pimpl->triggerInputMeasure.at(contactName).value = triggerInput;
-
-    return true;
+    return m_pimpl->manager.at(contactName).setInput(input);
 }
 
-bool SchmittTriggerDetector::setTimedTriggerInputs(const std::unordered_map<std::string, SchmittTriggerInput>& timedInputs)
+bool SchmittTriggerDetector::setTimedTriggerInputs(
+    const std::unordered_map<std::string, blf::Math::SchmittTriggerInput>& timedInputs)
 {
-    std::string_view printPrefix = "[SchmittTriggerDetector::setTimedContactIntensities] ";
-    std::vector<std::string> skippedUpdates;
-    for (auto& [contactName, measure] : timedInputs)
+    std::string_view logPrefix = "[SchmittTriggerDetector::setTimedTriggerInputs] ";
+
+    std::string skippedUpdatesFrames;
+    for (const auto& [contactName, measure] : timedInputs)
     {
         if (!m_pimpl->contactExists(contactName))
         {
-            skippedUpdates.emplace_back(contactName);
+            skippedUpdatesFrames += " " + contactName;
             continue;
         }
 
-        m_pimpl->triggerInputMeasure.at(contactName) = measure;
+        m_pimpl->manager.at(contactName).setInput(measure);
     }
 
-    if (skippedUpdates.size() > 0)
+    if (skippedUpdatesFrames.size())
     {
-        std::cerr << printPrefix << "Skipped setting measurements for contact that does not exist." << std::endl;
-        for (const auto& skipped : skippedUpdates)
-        {
-            std::cerr << " - " << skipped << std::endl;
-        }
+        log()->debug("{} Skipped setting measurements for contact that does not exist:{}.",
+                     logPrefix,
+                     skippedUpdatesFrames);
     }
 
     return true;
 }
 
 bool SchmittTriggerDetector::addContact(const std::string& contactName,
-                                        const bool& initialState,
-                                        const SchmittTriggerParams& params)
+                                        const blf::Math::SchmittTriggerState& initialState,
+                                        const blf::Math::SchmittTrigger::Params& params)
 {
-    double initialTime{0.0};
-    addContact(contactName, initialState, params, initialTime);
-    return true;
-}
+    constexpr auto logPrefix = "[SchmittTriggerDetector::addContact]";
 
-bool SchmittTriggerDetector::addContact(const std::string& contactName,
-                                        const bool& initialState,
-                                        const SchmittTriggerParams& params,
-                                        const double& time_now)
-{
-    std::string_view printPrefix = "[SchmittTriggerDetector::addContact] ";
     if (m_pimpl->contactExists(contactName))
     {
-        std::cerr << printPrefix << "Contact already exists." << std::endl;
+        log()->error("{} Contact already exists.", logPrefix);
         return false;
     }
 
     EstimatedContact newContact;
-    newContact.isActive = initialState;
+    newContact.isActive = initialState.state;
     newContact.name = contactName;
 
-    SchmittTriggerUnit schmittTrigger;
-    schmittTrigger.setParams(params);
-    schmittTrigger.setState(initialState, time_now);
+    blf::Math::SchmittTrigger schmittTrigger;
+    if (!schmittTrigger.initialize(params))
+    {
+        log()->error("{} Unable to initialize the trigger", logPrefix);
+        return false;
+    }
+    schmittTrigger.setState(initialState);
 
-    m_pimpl->manager[contactName] = std::make_pair(params, schmittTrigger);
-    m_pimpl->triggerInputMeasure[contactName] = SchmittTriggerInput();
-    m_contactStates[contactName] = newContact;
+    std::string triggerKey = contactName;
+    m_pimpl->manager.emplace(std::move(triggerKey), std::move(schmittTrigger));
+
+    std::string contactsKey = contactName;
+    m_contactStates.emplace(std::move(contactsKey), std::move(newContact));
+
     return true;
 }
 
 bool SchmittTriggerDetector::removeContact(const std::string& contactName)
 {
-    std::string_view printPrefix = "[SchmittTriggerDetector::removeContact] ";
+    constexpr auto logPrefix = "[SchmittTriggerDetector::removeContact]";
     if (!m_pimpl->contactExists(contactName))
     {
-        std::cerr << printPrefix << "Contact does not exist." << std::endl;
+        log()->error("{} The contact named '{}' does not exist", logPrefix, contactName);
         return false;
     }
 
     m_pimpl->manager.erase(contactName);
-    m_pimpl->triggerInputMeasure.erase(contactName);
     m_contactStates.erase(contactName);
     return true;
 }
 
 bool SchmittTriggerDetector::resetContact(const std::string& contactName,
-                                          const bool& state,
-                                          const SchmittTriggerParams& params)
+                                          const bool state,
+                                          const blf::Math::SchmittTrigger::Params& params)
 {
-    std::string_view printPrefix = "[SchmittTriggerDetector::resetContact] ";
+    constexpr auto logPrefix = "[SchmittTriggerDetector::resetContact]";
     if (!m_pimpl->contactExists(contactName))
     {
-        std::cerr << printPrefix << "Contact does not exist." << std::endl;
+        log()->error("{} The contact named '{}' does not exist", logPrefix, contactName);
         return false;
     }
 
-    m_pimpl->manager.at(contactName).first = params;
-    m_pimpl->triggerInputMeasure.at(contactName) = SchmittTriggerInput();
+    auto& trigger = m_pimpl->manager.at(contactName);
+    if (!trigger.initialize(params))
+    {
+        log()->error("{} Unable to initialize the trigger for the contact named '{}'.",
+                     logPrefix,
+                     contactName);
+        return false;
+    }
+    trigger.setState(blf::Math::SchmittTriggerState{.state = state});
     m_contactStates.at(contactName).isActive = state;
     m_contactStates.at(contactName).switchTime = 0.0;
 
@@ -248,116 +264,16 @@ bool SchmittTriggerDetector::resetContact(const std::string& contactName,
 
 bool SchmittTriggerDetector::resetState(const std::string& contactName, const bool& state)
 {
-    std::string_view printPrefix = "[SchmittTriggerDetector::resetContact] ";
+    constexpr auto logPrefix = "[SchmittTriggerDetector::resetContact]";
     if (!m_pimpl->contactExists(contactName))
     {
-        std::cerr << printPrefix << "Contact does not exist." << std::endl;
+        log()->error("{} The contact named '{}' does not exist", logPrefix, contactName);
         return false;
     }
 
-    m_pimpl->manager.at(contactName).second.setState(state);
+    m_pimpl->manager.at(contactName).setState(blf::Math::SchmittTriggerState{.state = state});
     m_contactStates.at(contactName).isActive = state;
     m_contactStates.at(contactName).switchTime = 0.0;
 
     return true;
-}
-
-
-bool SchmittTriggerDetector::Impl::contactExists(const std::string& contactName)
-{
-    if (manager.find(contactName) == manager.end())
-    {
-        return false;
-    }
-
-    return true;
-}
-
-//////////////////////////////////
-// Schmitt Trigger Unit methods///
-//////////////////////////////////
-
-void SchmittTriggerUnit::reset()
-{
-    timer = 0.;
-    previousTime = initialTime;
-    switchTime = initialTime;
-    state = false;
-}
-
-void SchmittTriggerUnit::setParams(const SchmittTriggerParams& paramsIn)
-{
-    params = paramsIn;
-}
-
-void SchmittTriggerUnit::setState(const bool& stateIn)
-{
-    state = stateIn;
-}
-
-void SchmittTriggerUnit::setState(const bool& stateIn, const double& initiaTimeIn)
-{
-    state = stateIn;
-    initialTime = initiaTimeIn;
-    reset();
-}
-
-bool SchmittTriggerUnit::getState()
-{
-    return state;
-}
-
-bool SchmittTriggerUnit::getState(double& switchTimeIn)
-{
-    switchTimeIn = switchTime;
-    return state;
-}
-
-SchmittTriggerParams SchmittTriggerUnit::getParams()
-{
-    return params;
-}
-
-void SchmittTriggerUnit::update(const double& currentTime, const double& rawValue)
-{
-    if (previousTime == initialTime)
-    {
-        (currentTime > initialTime) ? previousTime = initialTime : previousTime = currentTime;
-    }
-
-    if (!state)
-    {
-        // Check for transition from false to true - if valid over a timeframe, then switch
-        if (rawValue >= params.onThreshold)
-        {
-            (timer >= params.switchOnAfter) ?  state = true : timer += (currentTime - previousTime);
-            if (state)
-            {
-                switchTime = currentTime;
-                timer = 0;
-            }
-        }
-        else
-        {
-            timer = 0;
-        }
-    }
-    else
-    {
-        // check for transition from true to false - if valid over a timeframe, then switch
-        if (rawValue <= params.offThreshold)
-        {
-            (timer >= params.switchOffAfter) ? state = false : timer += (currentTime - previousTime);
-            if (!state)
-            {
-                switchTime = currentTime;
-                timer = 0;
-            }
-        }
-        else
-        {
-            timer = 0;
-        }
-    }
-    previousTime = currentTime;
 }
