@@ -111,10 +111,13 @@ public:
      * It returns the contact phase with the highest begin time lower than time.
      * If no contacts phase has a begin time lower than time, it returns an iterator to the end.
      * @param time The present time.
+     * @param tolerance positive parameter used for the comparison of two time instants. Given two
+     * instants if the error between the two is lower than the tolerance, the time instants are
+     * considered equal. Default value 0.
      * @return an iterator to the last phase having an activation time lower than time.
      * If no phase satisfies this condition, it returns a pointer to the end.
      */
-    const_iterator getPresentPhase(double time) const;
+    const_iterator getPresentPhase(double time, double tolerance = 0) const;
 
     /**
      * @brief A reference to the lists stored in this class.
