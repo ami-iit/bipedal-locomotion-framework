@@ -10,14 +10,21 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <limits>
 #include <memory>
 
 using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FixedFootDetector::customInitialization(std::weak_ptr<const IParametersHandler> handler)
+bool FixedFootDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FixedFootDetector::customInitialization]";
+
+    if (m_detectorState != State::NotInitialized)
+    {
+        log()->error("{} The contact detector already seems to be initialized.", logPrefix);
+        return false;
+    }
 
     auto ptr = handler.lock();
     if (ptr == nullptr)
@@ -28,45 +35,54 @@ bool FixedFootDetector::customInitialization(std::weak_ptr<const IParametersHand
 
     if (!ptr->getParameter("sampling_time", m_dT))
     {
-        log()->error("{} Unable to find the sampling time.", logPrefix);
+        log()->error("{} Unable to find the 'sampling_time' parameter.", logPrefix);
         return false;
     }
 
     if (m_dT <= 0)
     {
-        log()->error("{} The sampling time must be a strictly positive number.", logPrefix);
+        log()->error("{} The parameter 'sampling_time' must be a strictly positive number.",
+                     logPrefix);
         return false;
     }
+
+    m_detectorState = State::Initialized;
 
     return true;
 }
 
 bool FixedFootDetector::updateFixedFoot()
 {
-    assert(m_currentTime >= m_contactPhaselist.firstPhase()->beginTime
-           && "[FixedFootDetector::updateFixedFoot] The current time must be greater than "
-              "equal the first contact phase. If you read this assert there is a bug in the code");
+    constexpr auto logPrefix = "[FixedFootDetector::updateFixedFoot]";
 
     // search the phase associated to the current time
-    auto phase = std::find_if(m_contactPhaselist.cbegin(),
-                              m_contactPhaselist.cend(),
-                              [&](const auto& phase) -> bool {
-                                  return phase.beginTime <= m_currentTime
-                                      && m_currentTime <= phase.endTime;
-                              });
+    constexpr auto tolerance = std::numeric_limits<double>::min();
+    auto phase = m_contactPhaselist.getPresentPhase(m_currentTime, tolerance);
 
-    // take the last phase if not found
-    if (phase == m_contactPhaselist.cend())
-        phase = m_contactPhaselist.lastPhase();
+    if(phase == m_contactPhaselist.end())
+    {
+        log()->error("{} No phase has the begin time lower than the specified time.", logPrefix);
+        return false;
+    }
+
+    if (phase->activeContacts.size() > 2)
+    {
+        log()->error("{} The base detector can be used only for bipedal locomotion and it cannot "
+                     "handle more than two actives contacts.",
+                     logPrefix);
+        return false;
+    }
 
     // if the robot is in single support only one contact is enabled
     if (phase->activeContacts.size() == 1)
     {
         // get the enabled contact
         const auto it = phase->activeContacts.cbegin();
-        assert(m_contactStates.find(it->first) != m_contactStates.end()
-               && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. This "
-                  "should not be possible. If you read this assert there is a bug in the code");
+        if (m_contactStates.find(it->first) == m_contactStates.end())
+        {
+            log()->error("{} Unable to find the contact.", logPrefix);
+            return false;
+        }
 
         // update the contacts
         for (auto& [name, contact] : m_contactStates)
@@ -82,86 +98,114 @@ bool FixedFootDetector::updateFixedFoot()
                 contact.pose = it->second->pose;
             }
         }
-    } else if (phase->activeContacts.size() == 2)
+
+        return true;
+    }
+
+    // the active contacts are 2
+    if (phase->activeContacts.size() != 2)
     {
-        // Notice that here we do not analyze the case in which the phase is different from
-        // firstPhase. Indeed in this case we should not update the contact states dictionary. (The
-        // content of the dictionary is the one of the previous single support phase)
+        log()->error("{} This class supports only the bipedal robots where at list one foot is in "
+                     "contact with the ground. This means that the maximum number of active "
+                     "contact must be equal to 1 or 2. In the current phase the number of active "
+                     "contacts is equal to {}.",
+                     logPrefix,
+                     phase->activeContacts.size());
+        return false;
+    }
 
-        // if the current phase is the first and there are at least 2 phases the active contact will
-        // be the one that is going to be active in the next phase.
-        if (phase == m_contactPhaselist.firstPhase())
+    // Notice that here we do not analyze the case in which the phase is different from
+    // firstPhase. Indeed in this case we should not update the contact states dictionary. (The
+    // content of the dictionary is the one of the previous single support phase)
+    if (phase != m_contactPhaselist.firstPhase())
+    {
+        return true;
+    }
+
+    // if the current phase is the first and there are at least 2 phases the active contact will be
+    // the one that is going to be active in the next phase.
+    if (m_contactPhaselist.size() > 1)
+    {
+        const auto nextPhase = std::next(phase);
+        const auto it = nextPhase->activeContacts.cbegin();
+
+        assert(m_contactStates.find(it->first) != m_contactStates.end()
+               && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
+                  "This should not be possible. If you read this assert there is a bug in "
+                  "the code");
+
+        // update the contacts
+        for (auto& [name, contact] : m_contactStates)
         {
-            if (m_contactPhaselist.size() > 1)
+            contact.lastUpdateTime = m_currentTime;
+            contact.switchTime = phase->beginTime;
+            if (name != it->first)
             {
-                const auto nextPhase = std::next(phase);
-                const auto it = nextPhase->activeContacts.cbegin();
-
-                assert(m_contactStates.find(it->first) != m_contactStates.end()
-                       && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
-                          "This should not be possible. If you read this assert there is a bug in "
-                          "the code");
-
-                // update the contacts
-                for (auto& [name, contact] : m_contactStates)
-                {
-                    contact.lastUpdateTime = m_currentTime;
-                    contact.switchTime = phase->beginTime;
-                    if (name != it->first)
-                    {
-                        contact.isActive = true;
-                        contact.pose = phase->activeContacts.find(name)->second->pose;
-                    } else
-                    {
-                        contact.isActive = false;
-                    }
-                }
-            } else // contactPhaselist.size() == 1
+                contact.isActive = true;
+                contact.pose = phase->activeContacts.find(name)->second->pose;
+            } else
             {
-                // there is only one contact phase and this phase is a double support phase.
-                // Here we take the first contact as active contact.
-                auto contact = phase->activeContacts.cbegin();
-
-                assert(m_contactStates.find(contact->first) != m_contactStates.end()
-                       && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
-                          "This should not be possible. If you read this assert there is a bug in "
-                          "the code");
-
-                m_contactStates[contact->first].lastUpdateTime = m_currentTime;
-                m_contactStates[contact->first].switchTime = phase->beginTime;
-                m_contactStates[contact->first].isActive = true;
-                m_contactStates[contact->first].pose = contact->second->pose;
-
-                std::advance(contact, 1);
-
-                assert(m_contactStates.find(contact->first) != m_contactStates.end()
-                       && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
-                          "This should not be possible. If you read this assert there is a bug in "
-                          "the code");
-
-                m_contactStates[contact->first].lastUpdateTime = m_currentTime;
-                m_contactStates[contact->first].switchTime = phase->beginTime;
-                m_contactStates[contact->first].isActive = false;
+                contact.isActive = false;
             }
         }
-    } else
+    } else // contactPhaselist.size() == 1
     {
-        log()->error("[FixedFootDetector::updateFixedFoot] The base detector can be used only "
-                     "for bipedal locomotion and it cannot handle more than two actives contacts.");
-        return false;
+        // there is only one contact phase and this phase is a double support phase.
+        // Here we take the first contact as active contact.
+        auto contact = phase->activeContacts.cbegin();
+
+        assert(m_contactStates.find(contact->first) != m_contactStates.end()
+               && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
+                  "This should not be possible. If you read this assert there is a bug in "
+                  "the code");
+
+        m_contactStates[contact->first].lastUpdateTime = m_currentTime;
+        m_contactStates[contact->first].switchTime = phase->beginTime;
+        m_contactStates[contact->first].isActive = true;
+        m_contactStates[contact->first].pose = contact->second->pose;
+
+        std::advance(contact, 1);
+
+        assert(m_contactStates.find(contact->first) != m_contactStates.end()
+               && "[FixedFootDetector::updateFixedFoot] Unable to find the contact. "
+                  "This should not be possible. If you read this assert there is a bug in "
+                  "the code");
+
+        m_contactStates[contact->first].lastUpdateTime = m_currentTime;
+        m_contactStates[contact->first].switchTime = phase->beginTime;
+        m_contactStates[contact->first].isActive = false;
     }
 
     return true;
 }
 
-bool FixedFootDetector::updateContactStates()
+bool FixedFootDetector::advance()
 {
-    // advance the time
+    constexpr auto logPrefix = "[FixedFootDetector::advance]";
+
+    if (m_detectorState == State::NotInitialized)
+    {
+        log()->error("{} Please initialize the contact detector before running advance.",
+                     logPrefix);
+        return false;
+    }
+
+    if (m_detectorState == State::Initialized)
+    {
+        m_detectorState = State::Running;
+    }
+
+    if (!this->updateFixedFoot())
+    {
+        return false;
+    }
+
+    // if everything went well advance the time
     m_currentTime += m_dT;
-    return this->updateFixedFoot();
+    return true;
 }
 
-bool FixedFootDetector::setContactPhaseList(const ContactPhaseList& phaseList)
+void FixedFootDetector::setContactPhaseList(const ContactPhaseList& phaseList)
 {
     m_contactPhaselist = phaseList;
 
@@ -198,12 +242,11 @@ bool FixedFootDetector::setContactPhaseList(const ContactPhaseList& phaseList)
         m_contactStates[contact].name = contact;
         m_contactStates[contact].index = phaseList.lists().find(contact)->second.cbegin()->index;
     }
+}
 
-    // set the initial time
-    m_currentTime = phaseList.firstPhase()->beginTime;
-
-    // update the fixed foot
-    return this->updateFixedFoot();
+void FixedFootDetector::resetTime(const double &time)
+{
+    m_currentTime = time;
 }
 
 const EstimatedContact& FixedFootDetector::getFixedFoot() const
@@ -214,7 +257,9 @@ const EstimatedContact& FixedFootDetector::getFixedFoot() const
     for (const auto& [key, contact] : m_contactStates)
     {
         if (contact.isActive)
+        {
             return contact;
+        }
     }
 
     log()->error("{} Unable to find the fixed foot. This should never happen.", logPrefix);

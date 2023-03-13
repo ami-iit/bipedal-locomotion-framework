@@ -1,7 +1,7 @@
 /**
  * @file FixedFootDetectorUnitTest.cpp
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -141,11 +141,14 @@ TEST_CASE("Fixed Foot Detector")
     REQUIRE(detector.initialize(handler));
 
     const auto phaseList = createContactList();
-    double currentTime = phaseList.firstPhase()->beginTime;
     detector.setContactPhaseList(phaseList);
 
-    for (; currentTime < horizon;)
+    for (double currentTime = phaseList.firstPhase()->beginTime; currentTime < horizon;
+         currentTime += dT)
     {
+        // advance is used to advance the time stored in the detector and to evaluate the outputs
+        REQUIRE(detector.advance());
+
         auto state = getFixedFootState(currentTime, phaseList.lists());
 
         REQUIRE(detector.getOutput().find("right_foot")->second.isActive
@@ -163,10 +166,5 @@ TEST_CASE("Fixed Foot Detector")
             // Error this should never happen
             REQUIRE(false);
         }
-
-        // advance is used to advance the time stored in the detector
-        REQUIRE(detector.advance());
-
-        currentTime += dT;
     }
 }
