@@ -234,6 +234,22 @@ bool RDE::SubModelKinDynWrapper::inverseDynamics(Eigen::Ref<Eigen::VectorXd> mot
                                                  Eigen::Ref<Eigen::VectorXd> baseAcceleration,
                                                  Eigen::Ref<Eigen::VectorXd> jointAcceleration)
 {
+    constexpr auto logPrefix = "[SubModelKinDynWrapper::inverseDynamics]";
+
+    if (m_subModel.getModel().getNrOfDOFs() == 0)
+    {
+        blf::log()->error("{} Inverse dynamics is not defined for sub-models with zero degrees of freedom.",
+                          logPrefix);
+        return false;
+    }
+
+    if (motorTorqueAfterGearbox.size() == 0 || frictionTorques.size() == 0 || tauExt.size() == 0 || baseAcceleration.size() == 0)
+    {
+        blf::log()->error("{} Wrong size of input parameters.",
+                          logPrefix);
+        return false;
+    }
+
     m_FTranspose = m_massMatrix.block(6, 0, m_numOfJoints, 6);
     m_H = m_massMatrix.block(6, 6, m_numOfJoints, m_numOfJoints);
 

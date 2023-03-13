@@ -118,9 +118,8 @@ TEST_CASE("SubModelKinDynWrapper")
 
     // List of joints and fts to load the model
     RDE::SubModelCreator subModelCreator;
-    subModelCreator.setModel(mdlLdr.model());
+    subModelCreator.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
     REQUIRE(subModelCreator.setKinDyn(kinDyn));
-    subModelCreator.setSensorList(mdlLdr.sensors());
 
     REQUIRE(subModelCreator.createSubModels(originalHandler));
 

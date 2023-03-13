@@ -18,10 +18,15 @@
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 
 namespace blf = BipedalLocomotion;
-namespace blfEstim = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
+namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
-bool blfEstim::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameList,
-                                           std::vector<iDynTree::Model>& idynSubModels)
+bool RDE::SubModel::isValid() const
+{
+    return (m_model.getNrOfLinks() > 0);
+}
+
+bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameList,
+                                      std::vector<iDynTree::Model>& idynSubModels)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::RobotDynamicsEstimator::SubModelCreator::"
                                "splitModel]";
@@ -65,10 +70,10 @@ bool blfEstim::SubModelCreator::splitModel(const std::vector<std::string>& ftFra
     return true;
 }
 
-std::vector<blfEstim::FT>
-blfEstim::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
+std::vector<RDE::FT>
+RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
 {
-    std::vector<blfEstim::FT> ftList;
+    std::vector<RDE::FT> ftList;
 
     for (int ftIdx = 0; ftIdx < this->m_sensorList.getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE);
          ftIdx++)
@@ -79,27 +84,27 @@ blfEstim::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
         // add the ft frame to the model as additional frame and save
         // information on force directiona and parent link
         iDynTree::SixAxisForceTorqueSensor* sensorFTFromModel
-            = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
-                this->m_sensorList.getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, ftIdx));
+                = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
+                    this->m_sensorList.getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, ftIdx));
         std::string ftName = sensorFTFromModel->getName();
 
         // Get link the link on which the measure force is applied.
         std::string linkAppliedWrenchName
-            = this->m_model.getLinkName(sensorFTFromModel->getAppliedWrenchLink());
+                = this->m_model.getLinkName(sensorFTFromModel->getAppliedWrenchLink());
 
-        if (idynSubModel.getFrameIndex(ftName) >= 0)
+        if (idynSubModel.isFrameNameUsed(ftName))
         {
-            blfEstim::FT ft;
+            RDE::FT ft;
             ft.name = ftName;
             ft.frame = ftName;
 
             // Retrieve force direction
             if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
             {
-                ft.forceDirection = blfEstim::FT::Direction::Positive;
+                ft.forceDirection = RDE::FT::Direction::Positive;
             } else
             {
-                ft.forceDirection = blfEstim::FT::Direction::Negative;
+                ft.forceDirection = RDE::FT::Direction::Negative;
             }
 
             ftList.push_back(ft);
@@ -114,39 +119,39 @@ blfEstim::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 if (idynSubModel.isLinkNameUsed(firstLink))
                 {
                     idynSubModel
-                        .addAdditionalFrameToLink(firstLink,
-                                                  ftName,
-                                                  this->m_kinDyn
+                            .addAdditionalFrameToLink(firstLink,
+                                                      ftName,
+                                                      this->m_kinDyn
                                                       ->getRelativeTransform(this->m_kinDyn->model()
-                                                                                 .getLinkIndex(
-                                                                                     firstLink),
+                                                                             .getLinkIndex(
+                                                                                 firstLink),
                                                                              this->m_kinDyn->model()
-                                                                                 .getFrameIndex(
-                                                                                     ftName)));
+                                                                             .getFrameIndex(
+                                                                                 ftName)));
                 } else
                 {
                     idynSubModel
-                        .addAdditionalFrameToLink(secondLink,
-                                                  ftName,
-                                                  this->m_kinDyn
+                            .addAdditionalFrameToLink(secondLink,
+                                                      ftName,
+                                                      this->m_kinDyn
                                                       ->getRelativeTransform(this->m_kinDyn->model()
-                                                                                 .getLinkIndex(
-                                                                                     secondLink),
+                                                                             .getLinkIndex(
+                                                                                 secondLink),
                                                                              this->m_kinDyn->model()
-                                                                                 .getFrameIndex(
-                                                                                     ftName)));
+                                                                             .getFrameIndex(
+                                                                                 ftName)));
                 }
 
-                blfEstim::FT ft;
+                RDE::FT ft;
                 ft.name = ftName;
                 ft.frame = ftName;
 
                 if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
                 {
-                    ft.forceDirection = blfEstim::FT::Direction::Positive;
+                    ft.forceDirection = RDE::FT::Direction::Positive;
                 } else
                 {
-                    ft.forceDirection = blfEstim::FT::Direction::Negative;
+                    ft.forceDirection = RDE::FT::Direction::Negative;
                 }
 
                 ftList.push_back(std::move(ft));
@@ -157,16 +162,16 @@ blfEstim::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
     return ftList;
 }
 
-std::vector<blfEstim::Sensor> blfEstim::SubModelCreator::attachAccelerometersToSubModel(
-    const std::vector<blfEstim::Sensor>& accListFromConfig, const iDynTree::Model& subModel)
+std::vector<RDE::Sensor> RDE::SubModelCreator::attachAccelerometersToSubModel(
+        const std::vector<RDE::Sensor>& accListFromConfig, const iDynTree::Model& subModel)
 {
-    std::vector<blfEstim::Sensor> accList;
+    std::vector<RDE::Sensor> accList;
 
     for (int idx = 0; idx < accListFromConfig.size(); idx++)
     {
         if (subModel.isFrameNameUsed(accListFromConfig[idx].frame))
         {
-            blfEstim::Sensor acc;
+            RDE::Sensor acc;
             acc.name = accListFromConfig[idx].name;
             acc.frame = accListFromConfig[idx].frame;
             accList.push_back(std::move(acc));
@@ -176,16 +181,16 @@ std::vector<blfEstim::Sensor> blfEstim::SubModelCreator::attachAccelerometersToS
     return accList;
 }
 
-std::vector<blfEstim::Sensor> blfEstim::SubModelCreator::attachGyroscopesToSubModel(
-    const std::vector<blfEstim::Sensor>& gyroListFromConfig, const iDynTree::Model& subModel)
+std::vector<RDE::Sensor> RDE::SubModelCreator::attachGyroscopesToSubModel(
+        const std::vector<RDE::Sensor>& gyroListFromConfig, const iDynTree::Model& subModel)
 {
-    std::vector<blfEstim::Sensor> gyroList;
+    std::vector<RDE::Sensor> gyroList;
 
     for (int idx = 0; idx < gyroListFromConfig.size(); idx++)
     {
         if (subModel.isFrameNameUsed(gyroListFromConfig[idx].frame))
         {
-            blfEstim::Sensor gyro;
+            RDE::Sensor gyro;
             gyro.name = gyroListFromConfig[idx].name;
             gyro.frame = gyroListFromConfig[idx].frame;
             gyroList.push_back(std::move(gyro));
@@ -195,8 +200,8 @@ std::vector<blfEstim::Sensor> blfEstim::SubModelCreator::attachGyroscopesToSubMo
     return gyroList;
 }
 
-std::vector<std::string> blfEstim::SubModelCreator::attachExternalContactsToSubModel(
-    const std::vector<std::string>& contactsFromConfig, const iDynTree::Model& subModel)
+std::vector<std::string> RDE::SubModelCreator::attachExternalContactsToSubModel(
+        const std::vector<std::string>& contactsFromConfig, const iDynTree::Model& subModel)
 {
     std::vector<std::string> contactList;
 
@@ -211,49 +216,52 @@ std::vector<std::string> blfEstim::SubModelCreator::attachExternalContactsToSubM
     return contactList;
 }
 
-std::vector<int> blfEstim::SubModelCreator::createJointMapping(const iDynTree::Model& subModel)
+std::vector<int> RDE::SubModelCreator::createJointMapping(const iDynTree::Model& subModel)
 {
     std::vector<int> jointListMapping;
 
     for (int idx = 0; idx < subModel.getNrOfJoints(); idx++)
     {
-        jointListMapping.push_back(this->m_model.getJointIndex(subModel.getJointName(idx)));
+        if (subModel.getJoint(idx)->getNrOfDOFs() > 0)
+        {
+            jointListMapping.push_back(this->m_model.getJointIndex(subModel.getJointName(idx)));
+        }
     }
 
     return jointListMapping;
 }
 
-blfEstim::SubModel
-blfEstim::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
-                                            const std::vector<blfEstim::Sensor>& accList,
-                                            const std::vector<blfEstim::Sensor>& gyroList,
-                                            const std::vector<std::string>& externalContacts)
+RDE::SubModel
+RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
+                                       const std::vector<RDE::Sensor>& accList,
+                                       const std::vector<RDE::Sensor>& gyroList,
+                                       const std::vector<std::string>& externalContacts)
 {
-    blfEstim::SubModel subModel;
+    RDE::SubModel subModel;
 
-    subModel.m_ftList = blfEstim::SubModelCreator::attachFTsToSubModel(idynSubModel);
+    subModel.m_ftList = RDE::SubModelCreator::attachFTsToSubModel(idynSubModel);
 
     subModel.m_model = idynSubModel.copy();
 
     subModel.m_accelerometerList
-        = blfEstim::SubModelCreator::attachAccelerometersToSubModel(accList, idynSubModel);
+            = RDE::SubModelCreator::attachAccelerometersToSubModel(accList, idynSubModel);
 
     subModel.m_gyroscopeList
-        = blfEstim::SubModelCreator::attachGyroscopesToSubModel(gyroList, idynSubModel);
+            = RDE::SubModelCreator::attachGyroscopesToSubModel(gyroList, idynSubModel);
 
     subModel.m_externalContactList
-        = blfEstim::SubModelCreator::attachExternalContactsToSubModel(externalContacts,
-                                                                      idynSubModel);
+            = RDE::SubModelCreator::attachExternalContactsToSubModel(externalContacts,
+                                                                     idynSubModel);
 
-    subModel.m_jointListMapping = blfEstim::SubModelCreator::createJointMapping(idynSubModel);
+    subModel.m_jointListMapping = RDE::SubModelCreator::createJointMapping(idynSubModel);
 
     return subModel;
 }
 
-bool blfEstim::SubModelCreator::createSubModels(const std::vector<blfEstim::Sensor>& ftSensorList,
-                                                const std::vector<blfEstim::Sensor>& accList,
-                                                const std::vector<blfEstim::Sensor>& gyroList,
-                                                const std::vector<std::string>& externalContacts)
+bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::Sensor>& ftSensorList,
+                                           const std::vector<RDE::Sensor>& accList,
+                                           const std::vector<RDE::Sensor>& gyroList,
+                                           const std::vector<std::string>& externalContacts)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::RobotDynamicsEstimator::SubModelCreator::"
                                "getSubModels]";
@@ -272,19 +280,30 @@ bool blfEstim::SubModelCreator::createSubModels(const std::vector<blfEstim::Sens
         return false;
     }
 
-    for (int idxSubModel = 0; idxSubModel < idynSubModels.size(); idxSubModel++)
+    if (idynSubModels.size() == 0)
     {
         this->m_subModelList.emplace_back(
-            blfEstim::SubModelCreator::populateSubModel(idynSubModels[idxSubModel],
-                                                        accList,
-                                                        gyroList,
-                                                        externalContacts));
+                    RDE::SubModelCreator::populateSubModel(this->m_model,
+                                                           accList,
+                                                           gyroList,
+                                                           externalContacts));
+    }
+    else
+    {
+        for (int idxSubModel = 0; idxSubModel < idynSubModels.size(); idxSubModel++)
+        {
+            this->m_subModelList.emplace_back(
+                        RDE::SubModelCreator::populateSubModel(idynSubModels[idxSubModel],
+                                                               accList,
+                                                               gyroList,
+                                                               externalContacts));
+        }
     }
 
     return true;
 }
 
-bool blfEstim::SubModelCreator::createSubModels(
+bool RDE::SubModelCreator::createSubModels(
     std::weak_ptr<const blf::ParametersHandler::IParametersHandler> parameterHandler)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::RobotDynamicsEstimator::"
@@ -347,10 +366,10 @@ bool blfEstim::SubModelCreator::createSubModels(
     std::vector<std::string> ftNames, ftFrames;
     bool ok = populateSensorParameters("FT", ftNames, ftFrames);
 
-    std::vector<blfEstim::Sensor> ftList;
+    std::vector<RDE::Sensor> ftList;
     for (auto idx = 0; idx < ftNames.size(); idx++)
     {
-        blfEstim::Sensor ft;
+        RDE::Sensor ft;
         ft.name = ftNames[idx];
         ft.frame = ftFrames[idx];
         ftList.push_back(std::move(ft));
@@ -359,10 +378,10 @@ bool blfEstim::SubModelCreator::createSubModels(
     std::vector<std::string> accNames, accFrames;
     ok = ok && populateSensorParameters("ACCELEROMETER", accNames, accFrames);
 
-    std::vector<blfEstim::Sensor> accList;
+    std::vector<RDE::Sensor> accList;
     for (auto idx = 0; idx < accNames.size(); idx++)
     {
-        blfEstim::Sensor acc;
+        RDE::Sensor acc;
         acc.name = accNames[idx];
         acc.frame = accFrames[idx];
         accList.push_back(std::move(acc));
@@ -371,27 +390,29 @@ bool blfEstim::SubModelCreator::createSubModels(
     std::vector<std::string> gyroNames, gyroFrames;
     ok = ok && populateSensorParameters("GYROSCOPE", gyroNames, gyroFrames);
 
-    std::vector<blfEstim::Sensor> gyroList;
+    std::vector<RDE::Sensor> gyroList;
     for (auto idx = 0; idx < gyroNames.size(); idx++)
     {
-        blfEstim::Sensor gyro;
+        RDE::Sensor gyro;
         gyro.name = gyroNames[idx];
         gyro.frame = gyroFrames[idx];
         gyroList.push_back(std::move(gyro));
     }
 
     ok = ok
-         && blfEstim::SubModelCreator::createSubModels(ftList, accList, gyroList, extContactFrames);
+         && RDE::SubModelCreator::createSubModels(ftList, accList, gyroList, extContactFrames);
 
     return ok;
 }
 
-void blfEstim::SubModelCreator::setModel(const iDynTree::Model& model)
+void RDE::SubModelCreator::setModelAndSensors(const iDynTree::Model& model, const iDynTree::SensorsList& sensors)
 {
-    this->m_model = model;
+    m_model = model;
+
+    m_sensorList = sensors;
 }
 
-bool blfEstim::SubModelCreator::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+bool RDE::SubModelCreator::setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     if ((kinDyn == nullptr) || (!kinDyn->isValid()))
     {
@@ -404,47 +425,87 @@ bool blfEstim::SubModelCreator::setKinDyn(std::shared_ptr<iDynTree::KinDynComput
     return true;
 }
 
-void blfEstim::SubModelCreator::setSensorList(const iDynTree::SensorsList& sensorList)
+std::size_t RDE::SubModelCreator::getNrOfSubModels() const
 {
-    this->m_sensorList = sensorList;
+    return this->m_subModelList.size();
 }
 
-const std::vector<blfEstim::SubModel>& blfEstim::SubModelCreator::getSubModelList() const
+const std::vector<RDE::SubModel>& RDE::SubModelCreator::getSubModelList() const
 {
     return this->m_subModelList;
 }
 
-const blfEstim::SubModel& blfEstim::SubModelCreator::getSubModel(int index) const
+const RDE::SubModel& RDE::SubModelCreator::getSubModel(int index) const
 {
     return this->m_subModelList.at(index);
 }
 
-const iDynTree::Model& blfEstim::SubModel::getModel() const
+const iDynTree::Model& RDE::SubModel::getModel() const
 {
     return this->m_model;
 }
 
-const std::vector<int>& blfEstim::SubModel::getJointMapping() const
+const std::vector<int>& RDE::SubModel::getJointMapping() const
 {
     return this->m_jointListMapping;
 }
 
-const std::vector<blfEstim::FT>& blfEstim::SubModel::getFTList() const
+const std::vector<RDE::FT>& RDE::SubModel::getFTList() const
 {
     return this->m_ftList;
 }
 
-const std::vector<blfEstim::Sensor>& blfEstim::SubModel::getAccelerometerList() const
+const std::vector<RDE::Sensor>& RDE::SubModel::getAccelerometerList() const
 {
     return this->m_accelerometerList;
 }
 
-const std::vector<blfEstim::Sensor>& blfEstim::SubModel::getGyroscopeList() const
+const std::vector<RDE::Sensor>& RDE::SubModel::getGyroscopeList() const
 {
     return this->m_gyroscopeList;
 }
 
-const std::vector<std::string>& blfEstim::SubModel::getExternalContactList() const
+const std::vector<std::string>& RDE::SubModel::getExternalContactList() const
 {
     return this->m_externalContactList;
+}
+
+std::size_t RDE::SubModel::getNrOfFTSensor() const
+{
+    return m_ftList.size();
+}
+
+std::size_t RDE::SubModel::getNrOfAccelerometer() const
+{
+    return m_accelerometerList.size();
+}
+
+std::size_t RDE::SubModel::getNrOfGyroscope() const
+{
+    return m_gyroscopeList.size();
+}
+
+std::size_t RDE::SubModel::getNrOfExternalContact() const
+{
+    return m_externalContactList.size();
+}
+
+const RDE::FT& RDE::SubModel::getFTSensor(const int index) const
+{
+    return m_ftList.at(index);
+}
+
+const RDE::Sensor& RDE::SubModel::getAccelerometer(const int index) const
+{
+    return m_accelerometerList.at(index);
+}
+
+const RDE::Sensor& RDE::SubModel::getGyroscope(const int index) const
+{
+    return m_gyroscopeList.at(index);
+}
+
+const std::string& RDE::SubModel::getExternalContact(const int index) const
+{
+    return m_externalContactList.at(index);
 }
