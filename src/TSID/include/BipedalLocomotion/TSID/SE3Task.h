@@ -159,6 +159,8 @@ public:
     Mode getTaskControllerMode() const override;
 };
 
+BLF_REGISTER_TSID_TASK(SE3Task);
+
 } // namespace TSID
 } // namespace BipedalLocomotion
 

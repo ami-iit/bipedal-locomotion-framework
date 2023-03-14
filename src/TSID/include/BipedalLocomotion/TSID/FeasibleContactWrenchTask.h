@@ -119,6 +119,8 @@ public:
     bool isValid() const override;
 };
 
+BLF_REGISTER_TSID_TASK(FeasibleContactWrenchTask);
+
 } // namespace TSID
 } // namespace BipedalLocomotion
 

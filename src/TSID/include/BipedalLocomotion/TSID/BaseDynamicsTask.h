@@ -130,6 +130,8 @@ public:
     bool isValid() const override;
 };
 
+BLF_REGISTER_TSID_TASK(BaseDynamicsTask);
+
 } // namespace TSID
 } // namespace BipedalLocomotion
 
