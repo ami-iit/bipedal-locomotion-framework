@@ -1752,12 +1752,21 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4bdde544b61b9185f3372f9326720993" kind="variable"><name>m_gyroscopeList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a0e3206156ba3c65b8fc1ef079ede036b" kind="variable"><name>m_externalContactList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a631b7dd2a01d2b749f8d1b1e427b1a2d" kind="friend"><name>SubModelCreator</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead0e458da931e51b0bb0fc55399f235" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a16545efe66c509e286b1639b606f6dec" kind="function"><name>getModel</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead9415962e3ff1d3baf8cb891b95ad5" kind="function"><name>getJointMapping</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a2a71e231bb39a442455b6a95b3b8848c" kind="function"><name>getFTList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a46972e7860abcfecf813e2e39b0dfbfe" kind="function"><name>getAccelerometerList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7ca478d2c18afbb8b0bebda6bdc310eb" kind="function"><name>getGyroscopeList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a94610f026cd8fa5b0ae69057c145f594" kind="function"><name>getExternalContactList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae55c8a6dc07fd3ea5c2e4989c62f16d5" kind="function"><name>getNrOfFTSensor</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7f4e3ce93704646cdb8fb64aa3d20778" kind="function"><name>getNrOfAccelerometer</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae0a76dc6a0ceb46f9074eb42de449bc3" kind="function"><name>getNrOfGyroscope</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ab800e1de48dfa3e279bda5d7007516bb" kind="function"><name>getNrOfExternalContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a96fc51a0eb44951bc5c78094a6fcd074" kind="function"><name>getFTSensor</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aee1808a83fdd95fdf405bc79303ba4dd" kind="function"><name>getAccelerometer</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aca94dfe65c5c6da4b09e364f0d2c1b87" kind="function"><name>getGyroscope</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a86c3ef09affb0e03dbfe232f388b0fd2" kind="function"><name>getExternalContact</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a595b523f377029b5f07ccd2d9f7ae3ca" kind="variable"><name>m_model</name></member>
@@ -1773,9 +1782,9 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" kind="function"><name>createJointMapping</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab10f482488f803781a5368a047ad3d62" kind="function"><name>createSubModels</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73828f2a439573513bf7954926b4d233" kind="function"><name>createSubModels</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ac35290a23c6d1e328bc33a7a47bd72aa" kind="function"><name>setModel</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a597c1f2bdeac50756a14310850bb5b41" kind="function"><name>setSensorList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afab781b0d7011b64fb7b19bd88c60431" kind="function"><name>setModelAndSensors</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73a29919131da15e0ce5d98160b3de62" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1abaaa04118553c52cbb448dd19972cf22" kind="function"><name>getNrOfSubModels</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1adc775628561c65af1c0267f9abd03eca" kind="function"><name>getSubModelList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab7647e9a3165857e29d4fe923d214ade" kind="function"><name>getSubModel</name></member>
   </compound>

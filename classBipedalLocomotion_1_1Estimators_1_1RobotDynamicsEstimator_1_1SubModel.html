@@ -80,33 +80,83 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aead0e458da931e51b0bb0fc55399f235" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool</span>
+            </dt>
+            <dd>Determines the validity of the object.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a16545efe66c509e286b1639b606f6dec" class="m-doc">getModel</a>(</span><span class="m-doc-wrap">) const -&gt; const iDynTree::Model&amp;</span>
             </dt>
             <dd>Getters.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#aead9415962e3ff1d3baf8cb891b95ad5" class="m-doc">getJointMapping</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;int&gt;&amp;</span>
             </dt>
-            <dd>Access jointListMapping.</dd>
+            <dd>Access the <code>std::vectot&lt;int&gt;</code> list.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a2a71e231bb39a442455b6a95b3b8848c" class="m-doc">getFTList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;&amp;</span>
             </dt>
-            <dd>Access ftList.</dd>
+            <dd>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;</code> list.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a46972e7860abcfecf813e2e39b0dfbfe" class="m-doc">getAccelerometerList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp;</span>
             </dt>
-            <dd>Access accelerometerList.</dd>
+            <dd>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;</code> list of acceletometer sensors.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a7ca478d2c18afbb8b0bebda6bdc310eb" class="m-doc">getGyroscopeList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp;</span>
             </dt>
-            <dd>Access gyroscopeList.</dd>
+            <dd>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;</code> list of gyroscope sensors.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a94610f026cd8fa5b0ae69057c145f594" class="m-doc">getExternalContactList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;std::string&gt;&amp;</span>
             </dt>
-            <dd>Access externalContactList.</dd>
+            <dd>Access the <code>std::vector&lt;std::string&gt;</code> list of frame names.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae55c8a6dc07fd3ea5c2e4989c62f16d5" class="m-doc">getNrOfFTSensor</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t</span>
+            </dt>
+            <dd>access the length of force/torque sensor list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7f4e3ce93704646cdb8fb64aa3d20778" class="m-doc">getNrOfAccelerometer</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t</span>
+            </dt>
+            <dd>access the length of accelerometer list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae0a76dc6a0ceb46f9074eb42de449bc3" class="m-doc">getNrOfGyroscope</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t</span>
+            </dt>
+            <dd>access the length of gyroscope list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab800e1de48dfa3e279bda5d7007516bb" class="m-doc">getNrOfExternalContact</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t</span>
+            </dt>
+            <dd>access the length of the contact frame list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a96fc51a0eb44951bc5c78094a6fcd074" class="m-doc">getFTSensor</a>(</span><span class="m-doc-wrap">const int index) const -&gt; const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&amp;</span>
+            </dt>
+            <dd>Access an element of the force/torque sensor list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aee1808a83fdd95fdf405bc79303ba4dd" class="m-doc">getAccelerometer</a>(</span><span class="m-doc-wrap">const int index) const -&gt; const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&amp;</span>
+            </dt>
+            <dd>Access an element of the accelerometer list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aca94dfe65c5c6da4b09e364f0d2c1b87" class="m-doc">getGyroscope</a>(</span><span class="m-doc-wrap">const int index) const -&gt; const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&amp;</span>
+            </dt>
+            <dd>Access an element of the gyroscope list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a86c3ef09affb0e03dbfe232f388b0fd2" class="m-doc">getExternalContact</a>(</span><span class="m-doc-wrap">const int index) const -&gt; const std::string&amp;</span>
+            </dt>
+            <dd>access an element of the contact frame list.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aead0e458da931e51b0bb0fc55399f235"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aead0e458da931e51b0bb0fc55399f235" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Determines the validity of the object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if the object is valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="a16545efe66c509e286b1639b606f6dec"><div>
             <h3>
               <span class="m-doc-wrap-bumper">const iDynTree::Model&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a16545efe66c509e286b1639b606f6dec" class="m-doc-self">getModel</a>(</span><span class="m-doc-wrap">) const</span></span>
@@ -120,13 +170,13 @@
                 </tr>
               </tfoot>
             </table>
-<p>Access model.</p>
+<p>Get the <code>iDynTree::Model</code> instance.</p><aside class="m-note m-info"><h4>Note</h4><p>The actual implementation of the Model is currently stored in an <code>iDynTree::Model</code></p></aside>
           </div></section>
           <section class="m-doc-details" id="aead9415962e3ff1d3baf8cb891b95ad5"><div>
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;int&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aead9415962e3ff1d3baf8cb891b95ad5" class="m-doc-self">getJointMapping</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Access jointListMapping.</p>
+            <p>Access the <code>std::vectot&lt;int&gt;</code> list.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -140,7 +190,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2a71e231bb39a442455b6a95b3b8848c" class="m-doc-self">getFTList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Access ftList.</p>
+            <p>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;</code> list.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -154,7 +204,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a46972e7860abcfecf813e2e39b0dfbfe" class="m-doc-self">getAccelerometerList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Access accelerometerList.</p>
+            <p>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;</code> list of acceletometer sensors.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -168,7 +218,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7ca478d2c18afbb8b0bebda6bdc310eb" class="m-doc-self">getGyroscopeList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Access gyroscopeList.</p>
+            <p>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;</code> list of gyroscope sensors.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -182,12 +232,124 @@
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;std::string&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a94610f026cd8fa5b0ae69057c145f594" class="m-doc-self">getExternalContactList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Access externalContactList.</p>
+            <p>Access the <code>std::vector&lt;std::string&gt;</code> list of frame names.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>a list of strings describing frame names of the external contacts for the sub-model.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae55c8a6dc07fd3ea5c2e4989c62f16d5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae55c8a6dc07fd3ea5c2e4989c62f16d5" class="m-doc-self">getNrOfFTSensor</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>access the length of force/torque sensor list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the number of force/torque sensors in the sub-model.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a7f4e3ce93704646cdb8fb64aa3d20778"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7f4e3ce93704646cdb8fb64aa3d20778" class="m-doc-self">getNrOfAccelerometer</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>access the length of accelerometer list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the number of accelerometer sensors in the sub-model.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae0a76dc6a0ceb46f9074eb42de449bc3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae0a76dc6a0ceb46f9074eb42de449bc3" class="m-doc-self">getNrOfGyroscope</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>access the length of gyroscope list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the number of gyroscope sensors in the sub-model.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ab800e1de48dfa3e279bda5d7007516bb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab800e1de48dfa3e279bda5d7007516bb" class="m-doc-self">getNrOfExternalContact</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>access the length of the contact frame list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the number of gyroscope sensors in the sub-model.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a96fc51a0eb44951bc5c78094a6fcd074"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a96fc51a0eb44951bc5c78094a6fcd074" class="m-doc-self">getFTSensor</a>(</span><span class="m-doc-wrap">const int index) const</span></span>
+            </h3>
+            <p>Access an element of the force/torque sensor list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td><a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a> object associated with the specified index.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aee1808a83fdd95fdf405bc79303ba4dd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aee1808a83fdd95fdf405bc79303ba4dd" class="m-doc-self">getAccelerometer</a>(</span><span class="m-doc-wrap">const int index) const</span></span>
+            </h3>
+            <p>Access an element of the accelerometer list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> object corresponding to the accelerometer associated with the specified index.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aca94dfe65c5c6da4b09e364f0d2c1b87"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aca94dfe65c5c6da4b09e364f0d2c1b87" class="m-doc-self">getGyroscope</a>(</span><span class="m-doc-wrap">const int index) const</span></span>
+            </h3>
+            <p>Access an element of the gyroscope list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> object corresponding to the gyroscope associated with the specified index.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a86c3ef09affb0e03dbfe232f388b0fd2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const std::string&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a86c3ef09affb0e03dbfe232f388b0fd2" class="m-doc-self">getExternalContact</a>(</span><span class="m-doc-wrap">const int index) const</span></span>
+            </h3>
+            <p>access an element of the contact frame list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a string corresponding to the external contact frame associated with the specified index.</td>
                 </tr>
               </tfoot>
             </table>

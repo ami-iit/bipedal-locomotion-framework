@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="127" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="127" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="182" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="182" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4f8c62da3f591fa866d0d440fbd6405f" prot="private" static="no" mutable="no">
         <type>iDynTree::SensorsList</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="128" column="27" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="128" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="183" column="27" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="183" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a29e7abbf2606612b6510ae21c587a3ae" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="129" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="129" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="184" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="184" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a7feb7a16d53a832c7f16f46479bc6ded" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt;</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="131" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="131" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="186" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="186" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="141" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="196" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afb68758496733e5ff03950355592d837" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref></type>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="153" column="14"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="208" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a8912f2e6fc03626aeb25b331f0564192" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> &gt;</type>
@@ -198,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="165" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="220" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a469a86cd406441c0b1bc9a326ab8ca38" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="175" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="230" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a9c2d669f828ba24845abe2d8fde3c155" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
@@ -282,7 +282,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="186" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="241" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4c48aa4c2e008137d3e2a1bfeaef4a72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -324,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="197" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="252" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; int &gt;</type>
@@ -354,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="207" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="262" column="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -422,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="219" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="274" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73828f2a439573513bf7954926b4d233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -452,27 +452,39 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="231" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="286" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ac35290a23c6d1e328bc33a7a47bd72aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afab781b0d7011b64fb7b19bd88c60431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::setModel</definition>
-        <argsstring>(const iDynTree::Model &amp;model)</argsstring>
-        <name>setModel</name>
+        <definition>void BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::setModelAndSensors</definition>
+        <argsstring>(const iDynTree::Model &amp;model, const iDynTree::SensorsList &amp;sensors)</argsstring>
+        <name>setModelAndSensors</name>
         <param>
           <type>const iDynTree::Model &amp;</type>
           <declname>model</declname>
+        </param>
+        <param>
+          <type>const iDynTree::SensorsList &amp;</type>
+          <declname>sensors</declname>
         </param>
         <briefdescription>
 <para>Setter. </para>
         </briefdescription>
         <detaileddescription>
-<para>Set model <parameterlist kind="param"><parameteritem>
+<para>Set model which is an instance of <computeroutput>iDynTree::ModelLoader</computeroutput> and the sensor list which is an instance of <computeroutput>iDynTree::SensorList</computeroutput> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>model</parametername>
+<parametername>modelLoader</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>is an iDynTree Model object </para>
+<para>is an iDynTree ModelLoader object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sensors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is an iDynTree SensorList object </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -480,35 +492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="242" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a597c1f2bdeac50756a14310850bb5b41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::setSensorList</definition>
-        <argsstring>(const iDynTree::SensorsList &amp;sensorList)</argsstring>
-        <name>setSensorList</name>
-        <param>
-          <type>const iDynTree::SensorsList &amp;</type>
-          <declname>sensorList</declname>
-        </param>
-        <briefdescription>
-<para>Set sensorList. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>sensorList</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is an iDynTree SensorsList object containing the list of Sensors (gyroscopes, accelerometers, force/torque sensors) in the model </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="249" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="298" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73a29919131da15e0ce5d98160b3de62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -538,7 +522,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="257" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="306" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1abaaa04118553c52cbb448dd19972cf22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::getNrOfSubModels</definition>
+        <argsstring>() const</argsstring>
+        <name>getNrOfSubModels</name>
+        <briefdescription>
+<para>Getter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>access the length of the list std::vector&lt;SubModel&gt;. <simplesect kind="return"><para>the number of sub-models composing the model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="316" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1adc775628561c65af1c0267f9abd03eca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
@@ -546,16 +547,16 @@
         <argsstring>() const</argsstring>
         <name>getSubModelList</name>
         <briefdescription>
-<para>Getter. </para>
+<para>get the <computeroutput>std::vector&lt;<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref>&gt;</computeroutput> list. </para>
         </briefdescription>
         <detaileddescription>
-<para>get subModelList <simplesect kind="return"><para>the list of <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> objects. </para>
+<para><simplesect kind="return"><para>the list of <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> objects. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="267" column="23"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="322" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab7647e9a3165857e29d4fe923d214ade" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &amp;</type>
@@ -567,7 +568,7 @@
           <declname>index</declname>
         </param>
         <briefdescription>
-<para>get subModel </para>
+<para>get a <computeroutput><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref></computeroutput> instance of the list of <computeroutput><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref></computeroutput>. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> at the position index. </para>
@@ -576,7 +577,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="273" column="20"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="328" column="20"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -584,7 +585,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="125" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="126" bodyend="274"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="180" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="181" bodyend="329"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a469a86cd406441c0b1bc9a326ab8ca38" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachAccelerometersToSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4c48aa4c2e008137d3e2a1bfeaef4a72" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachExternalContactsToSubModel</name></member>
@@ -593,6 +594,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>createJointMapping</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab10f482488f803781a5368a047ad3d62" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>createSubModels</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73828f2a439573513bf7954926b4d233" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>createSubModels</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1abaaa04118553c52cbb448dd19972cf22" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>getNrOfSubModels</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab7647e9a3165857e29d4fe923d214ade" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>getSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1adc775628561c65af1c0267f9abd03eca" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>getSubModelList</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a29e7abbf2606612b6510ae21c587a3ae" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>m_kinDyn</name></member>
@@ -601,8 +603,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a7feb7a16d53a832c7f16f46479bc6ded" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>m_subModelList</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afb68758496733e5ff03950355592d837" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>populateSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73a29919131da15e0ce5d98160b3de62" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>setKinDyn</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ac35290a23c6d1e328bc33a7a47bd72aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>setModel</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a597c1f2bdeac50756a14310850bb5b41" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>setSensorList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afab781b0d7011b64fb7b19bd88c60431" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>setModelAndSensors</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a38838648d6f81600071d4a513cebfb8d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>splitModel</name></member>
     </listofallmembers>
   </compounddef>

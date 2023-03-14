@@ -91,25 +91,26 @@
             </dt>
             <dd>createSubModels splits the model in <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a> objects cutting the model at the force/torque sensors specified by the parameterHandler.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#ac35290a23c6d1e328bc33a7a47bd72aa" class="m-doc">setModel</a>(</span><span class="m-doc-wrap">const iDynTree::Model&amp; model)</span>
+              <span class="m-doc-wrap-bumper">void <a href="#afab781b0d7011b64fb7b19bd88c60431" class="m-doc">setModelAndSensors</a>(</span><span class="m-doc-wrap">const iDynTree::Model&amp; model,
+              const iDynTree::SensorsList&amp; sensors)</span>
             </dt>
             <dd>Setter.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a597c1f2bdeac50756a14310850bb5b41" class="m-doc">setSensorList</a>(</span><span class="m-doc-wrap">const iDynTree::SensorsList&amp; sensorList)</span>
-            </dt>
-            <dd>Set sensorList.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a73a29919131da15e0ce5d98160b3de62" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool</span>
             </dt>
             <dd>set kinDyn</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#adc775628561c65af1c0267f9abd03eca" class="m-doc">getSubModelList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#abaaa04118553c52cbb448dd19972cf22" class="m-doc">getNrOfSubModels</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t</span>
             </dt>
             <dd>Getter.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#adc775628561c65af1c0267f9abd03eca" class="m-doc">getSubModelList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&gt;&amp;</span>
+            </dt>
+            <dd>get the <code>std::vector&lt;<a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&gt;</code> list.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ab7647e9a3165857e29d4fe923d214ade" class="m-doc">getSubModel</a>(</span><span class="m-doc-wrap">int index) const -&gt; const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp;</span>
             </dt>
-            <dd>get subModel</dd>
+            <dd>get a <code><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a></code> instance of the list of <code><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a></code>.</dd>
           </dl>
         </section>
         <section>
@@ -175,9 +176,10 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ac35290a23c6d1e328bc33a7a47bd72aa"><div>
+          <section class="m-doc-details" id="afab781b0d7011b64fb7b19bd88c60431"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac35290a23c6d1e328bc33a7a47bd72aa" class="m-doc-self">setModel</a>(</span><span class="m-doc-wrap">const iDynTree::Model&amp; model)</span></span>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afab781b0d7011b64fb7b19bd88c60431" class="m-doc-self">setModelAndSensors</a>(</span><span class="m-doc-wrap">const iDynTree::Model&amp; model,
+              const iDynTree::SensorsList&amp; sensors)</span></span>
             </h3>
             <p>Setter.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -187,28 +189,15 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">model</td>
-                  <td>is an iDynTree Model object</td>
+                  <td></td>
                 </tr>
-              </tbody>
-            </table>
-<p>Set model</p>
-          </div></section>
-          <section class="m-doc-details" id="a597c1f2bdeac50756a14310850bb5b41"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a597c1f2bdeac50756a14310850bb5b41" class="m-doc-self">setSensorList</a>(</span><span class="m-doc-wrap">const iDynTree::SensorsList&amp; sensorList)</span></span>
-            </h3>
-            <p>Set sensorList.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
                 <tr>
-                  <td style="width: 1%">sensorList</td>
-                  <td>is an iDynTree SensorsList object containing the list of Sensors (gyroscopes, accelerometers, force/torque sensors) in the model</td>
+                  <td>sensors</td>
+                  <td>is an iDynTree SensorList object</td>
                 </tr>
               </tbody>
             </table>
+<p>Set model which is an instance of <code>iDynTree::ModelLoader</code> and the sensor list which is an instance of <code>iDynTree::SensorList</code></p>
           </div></section>
           <section class="m-doc-details" id="a73a29919131da15e0ce5d98160b3de62"><div>
             <h3>
@@ -233,11 +222,26 @@
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="abaaa04118553c52cbb448dd19972cf22"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abaaa04118553c52cbb448dd19972cf22" class="m-doc-self">getNrOfSubModels</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Getter.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the number of sub-models composing the model</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>access the length of the list std::vector&lt;SubModel&gt;.</p>
+          </div></section>
           <section class="m-doc-details" id="adc775628561c65af1c0267f9abd03eca"><div>
             <h3>
               <span class="m-doc-wrap-bumper">const std::vector&lt;<a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adc775628561c65af1c0267f9abd03eca" class="m-doc-self">getSubModelList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
-            <p>Getter.</p>
+            <p>get the <code>std::vector&lt;<a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&gt;</code> list.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -246,13 +250,12 @@
                 </tr>
               </tfoot>
             </table>
-<p>get subModelList</p>
           </div></section>
           <section class="m-doc-details" id="ab7647e9a3165857e29d4fe923d214ade"><div>
             <h3>
               <span class="m-doc-wrap-bumper">const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab7647e9a3165857e29d4fe923d214ade" class="m-doc-self">getSubModel</a>(</span><span class="m-doc-wrap">int index) const</span></span>
             </h3>
-            <p>get subModel</p>
+            <p>get a <code><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a></code> instance of the list of <code><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a></code>.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
