@@ -26,9 +26,9 @@ void CreateSchmittTrigger(pybind11::module& module)
 
     py::class_<SchmittTriggerState>(module, "SchmittTriggerState")
         .def(py::init([](bool state, double switchTime, double edgeTime) -> SchmittTriggerState {
-                 return SchmittTriggerState{.state = std::move(state),
-                                            .switchTime = std::move(switchTime),
-                                            .edgeTime = std::move(edgeTime)};
+                 return SchmittTriggerState{std::move(state),
+                                            std::move(switchTime),
+                                            std::move(edgeTime)};
              }),
              py::arg("state") = false,
              py::arg("switch_time") = 0.0,
@@ -39,8 +39,7 @@ void CreateSchmittTrigger(pybind11::module& module)
 
     py::class_<SchmittTriggerInput>(module, "SchmittTriggerInput")
         .def(py::init([](double time, double rawValue) -> SchmittTriggerInput {
-                 return SchmittTriggerInput{.time = std::move(time),
-                                            .rawValue = std::move(rawValue)};
+                 return SchmittTriggerInput{std::move(time), std::move(rawValue)};
              }),
              py::arg("time") = 0.0,
              py::arg("raw_value") = 0.0)
@@ -62,12 +61,13 @@ void CreateSchmittTrigger(pybind11::module& module)
                          double switchOnAfter,
                          double switchOffAfter,
                          double timeComparisonThreshold) -> SchmittTrigger::Params {
-                 return SchmittTrigger::Params{.onThreshold = std::move(onThreshold),
-                                               .offThreshold = std::move(offThreshold),
-                                               .switchOnAfter = std::move(switchOnAfter),
-                                               .switchOffAfter = std::move(switchOffAfter),
-                                               .timeComparisonThreshold
-                                               = std::move(timeComparisonThreshold)};
+                 SchmittTrigger::Params params;
+                 params.onThreshold = std::move(onThreshold);
+                 params.offThreshold = std::move(offThreshold);
+                 params.switchOnAfter = std::move(switchOnAfter);
+                 params.switchOffAfter = std::move(switchOffAfter);
+                 params.timeComparisonThreshold = std::move(timeComparisonThreshold);
+                 return params;
              }),
              py::arg("on_threshold") = 0.0,
              py::arg("off_threshold") = 0.0,
