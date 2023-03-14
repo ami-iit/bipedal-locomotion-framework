@@ -44,6 +44,9 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
     py::class_<TaskSpaceInverseDynamics, //
                ::BipedalLocomotion::System::ILinearTaskSolver<TSIDLinearTask, TSIDState>> //
         (module, "TaskSpaceInverseDynamics");
+
+    BipedalLocomotion::bindings::System::CreateLinearTaskSolverProblem<TaskSpaceInverseDynamics> //
+        (module, "TaskSpaceInverseDynamicsProblem");
 }
 
 } // namespace TSID

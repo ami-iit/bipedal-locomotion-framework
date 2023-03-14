@@ -31,7 +31,10 @@ void CreateTSIDLinearTask(pybind11::module& module)
                ::BipedalLocomotion::System::LinearTask,
                ::BipedalLocomotion::bindings::System::LinearTaskTrampoline<TSIDLinearTask>,
                std::shared_ptr<TSIDLinearTask>>(module, "TSIDLinearTask")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def("set_kin_dyn",
+             BipedalLocomotion::bindings::System::setKinDyn<TSIDLinearTask>,
+             py::arg("kin_dyn"));
 }
 
 } // namespace TSID
