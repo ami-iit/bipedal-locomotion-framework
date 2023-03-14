@@ -40,11 +40,11 @@ TEST_CASE("Schmitt Trigger Detector")
     REQUIRE(detector.resetContacts());
 
     // rise signal
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.1, .rawValue = 120});
+    detector.setTimedTriggerInput("right", {0.1 ,120});
     detector.advance();
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.2, .rawValue = 120});
+    detector.setTimedTriggerInput("right", {0.2, 120});
     detector.advance();
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.3, .rawValue = 120});
+    detector.setTimedTriggerInput("right", {0.3, 120});
     detector.advance();
 
     // contact state should turn true
@@ -54,11 +54,11 @@ TEST_CASE("Schmitt Trigger Detector")
     REQUIRE(rightContact.switchTime == 0.3);
 
     // fall signal
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.4, .rawValue = 7});
+    detector.setTimedTriggerInput("right", {0.4, 7});
     detector.advance();
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.5, .rawValue = 7});
+    detector.setTimedTriggerInput("right", {0.5, 7});
     detector.advance();
-    detector.setTimedTriggerInput("right", SchmittTriggerInput{.time = 0.6, .rawValue = 7});
+    detector.setTimedTriggerInput("right", {0.6, 7});
     detector.advance();
 
     // contact state should turn false
@@ -74,9 +74,7 @@ TEST_CASE("Schmitt Trigger Detector")
     params.switchOffAfter = 0.2;
     params.switchOnAfter = 0.2;
 
-    detector.addContact("left",
-                        SchmittTriggerState{.state = false, .switchTime = 0.6, .edgeTime = 0.6},
-                        params);
+    detector.addContact("left", {false, 0.6, 0.6}, params);
     auto contacts = detector.getOutput();
     REQUIRE(contacts.size() == 2);
 

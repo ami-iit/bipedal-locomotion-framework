@@ -96,9 +96,7 @@ bool SchmittTriggerDetector::initialize(std::weak_ptr<const IParametersHandler> 
         params.offThreshold = offThreshold[idx];
 
         // set the initial state for the trigger
-        constexpr blf::Math::SchmittTriggerState initialState{.state = false,
-                                                              .switchTime = 0,
-                                                              .edgeTime = 0};
+        constexpr blf::Math::SchmittTriggerState initialState{false, 0, 0};
         if (!this->addContact(contacts[idx], initialState, params))
         {
             log()->error("{} Could not add Schmitt Trigger unit for specified contact.", logPrefix);
@@ -255,7 +253,9 @@ bool SchmittTriggerDetector::resetContact(const std::string& contactName,
                      contactName);
         return false;
     }
-    trigger.setState(blf::Math::SchmittTriggerState{.state = state});
+    blf::Math::SchmittTriggerState triggerState;
+    triggerState.state = state;
+    trigger.setState(triggerState);
     m_contactStates.at(contactName).isActive = state;
     m_contactStates.at(contactName).switchTime = 0.0;
 
@@ -271,7 +271,9 @@ bool SchmittTriggerDetector::resetState(const std::string& contactName, const bo
         return false;
     }
 
-    m_pimpl->manager.at(contactName).setState(blf::Math::SchmittTriggerState{.state = state});
+    blf::Math::SchmittTriggerState triggerState;
+    triggerState.state = state;
+    m_pimpl->manager.at(contactName).setState(triggerState);
     m_contactStates.at(contactName).isActive = state;
     m_contactStates.at(contactName).switchTime = 0.0;
 
