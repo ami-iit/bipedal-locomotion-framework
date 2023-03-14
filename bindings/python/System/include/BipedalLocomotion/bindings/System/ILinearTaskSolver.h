@@ -117,6 +117,44 @@ void CreateILinearTaskSolver(pybind11::module& module, const std::string& python
              &::BipedalLocomotion::System::ILinearTaskSolver<_Task, _State>::getRawSolution);
 }
 
+template <class _Solver>
+void CreateLinearTaskSolverProblem(pybind11::module& module, const std::string& pythonClassName)
+{
+    namespace py = ::pybind11;
+    using namespace BipedalLocomotion::System;
+
+    py::class_<LinearTaskSolverProblem<_Solver>>(module, pythonClassName.c_str())
+        .def_readwrite("variables_handler", &LinearTaskSolverProblem<_Solver>::variablesHandler)
+        .def_readwrite("weights", &LinearTaskSolverProblem<_Solver>::weights)
+        .def_property_readonly(
+            "solver",
+            [](const LinearTaskSolverProblem<_Solver>& impl) { return impl.solver.get(); },
+            py::return_value_policy::reference_internal)
+        .def("__getitem__",
+             [](LinearTaskSolverProblem<_Solver>& impl, int index) -> py::object {
+                 if (index == 0)
+                 {
+                     return py::cast(impl.variablesHandler);
+                 }
+                 if (index == 1)
+                 {
+                     return py::cast(impl.weights);
+                 }
+                 if (index == 2)
+                 {
+                     // in this case the onwership of the object is taken py python.
+                     // Python will call the destructor and delete operator when the object’s
+                     // reference count reaches zero. Undefined behavior ensues when the C++ side
+                     // does the same, or when the data was not dynamically allocated. (This will
+                     // not happen since the reasle is called)
+                     return py::cast(impl.solver.release(), py::return_value_policy::take_ownership);
+                 }
+
+                 throw pybind11::index_error();
+             })
+        .def("is_valid", &LinearTaskSolverProblem<_Solver>::isValid);
+}
+
 } // namespace System
 } // namespace bindings
 } // namespace BipedalLocomotion

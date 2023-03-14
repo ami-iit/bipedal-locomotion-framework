@@ -510,7 +510,6 @@ TEST_CASE("QP-IK [With builder]")
     auto [variablesHandler, weights, ik] = QPInverseKinematics::build(parameterHandler, kinDyn);
     REQUIRE_FALSE(ik == nullptr);
 
-
     auto se3Task = std::dynamic_pointer_cast<SE3Task>(ik->getTask("SE3_TASK").lock());
     REQUIRE_FALSE(se3Task == nullptr);
     REQUIRE(se3Task->setSetPoint(desiredSetPoints.endEffectorPose, manif::SE3d::Tangent::Zero()));
