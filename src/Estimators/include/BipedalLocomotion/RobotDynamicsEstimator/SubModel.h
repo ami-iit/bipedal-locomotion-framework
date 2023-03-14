@@ -74,45 +74,100 @@ class SubModel
 
 public:
     /**
+     * Determines the validity of the object.
+     * @return True if the object is valid, false otherwise.
+     */
+    bool isValid() const;
+
+    /**
      * Getters
      */
 
     /**
-     * @brief Access model.
+     * @brief Get the `iDynTree::Model` instance.
+     * @note The actual implementation of the Model is currently stored in an `iDynTree::Model`
      * @return The model of the SubModel.
      */
     const iDynTree::Model& getModel() const;
 
     /**
-     * @brief Access jointListMapping.
+     * @brief Access the `std::vectot<int>` list.
      * @return the mapping between the joint indeces in the sub-model and the joint indeces in the
      * full-model.
      */
     const std::vector<int>& getJointMapping() const;
 
     /**
-     * @brief Access ftList.
+     * @brief Access the `std::vector<FT>` list.
      * @return the list of FT objects which is the list of force/torque sensors.
      */
     const std::vector<FT>& getFTList() const;
 
     /**
-     * @brief Access accelerometerList.
+     * @brief Access the `std::vector<Sensor>` list of acceletometer sensors.
      * @return a list of Sensor objects describing the accelerometers contained in the sub-model.
      */
     const std::vector<Sensor>& getAccelerometerList() const;
 
     /**
-     * @brief Access gyroscopeList.
+     * @brief Access the `std::vector<Sensor>` list of gyroscope sensors.
      * @return a list of Sensor objects describing the gyroscope contained in the sub-model.
      */
     const std::vector<Sensor>& getGyroscopeList() const;
 
     /**
-     * @brief Access externalContactList.
+     * @brief Access the `std::vector<std::string>` list of frame names.
      * @return a list of strings describing frame names of the external contacts for the sub-model.
      */
     const std::vector<std::string>& getExternalContactList() const;
+
+    /**
+     * @brief access the length of force/torque sensor list.
+     * @return the number of force/torque sensors in the sub-model.
+     */
+    std::size_t getNrOfFTSensor() const;
+
+    /**
+     * @brief access the length of accelerometer list.
+     * @return the number of accelerometer sensors in the sub-model.
+     */
+    std::size_t getNrOfAccelerometer() const;
+
+    /**
+     * @brief access the length of gyroscope list.
+     * @return the number of gyroscope sensors in the sub-model.
+     */
+    std::size_t getNrOfGyroscope() const;
+
+    /**
+     * @brief access the length of the contact frame list.
+     * @return the number of gyroscope sensors in the sub-model.
+     */
+    std::size_t getNrOfExternalContact() const;
+
+    /**
+     * @brief Access an element of the force/torque sensor list.
+     * @return FT object associated with the specified index.
+     */
+    const FT& getFTSensor(const int index) const;
+
+    /**
+     * @brief Access an element of the accelerometer list.
+     * @return a Sensor object corresponding to the accelerometer associated with the specified index.
+     */
+    const Sensor& getAccelerometer(const int index) const;
+
+    /**
+     * @brief Access an element of the gyroscope list.
+     * @return a Sensor object corresponding to the gyroscope associated with the specified index.
+     */
+    const Sensor& getGyroscope(const int index) const;
+
+    /**
+     * @brief access an element of the contact frame list.
+     * @return a string corresponding to the external contact frame associated with the specified index.
+     */
+    const std::string& getExternalContact(const int index) const;
 
     friend class SubModelCreator;
 };
@@ -229,24 +284,18 @@ public:
      */
     bool
     createSubModels(std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                        parameterHandler);
+                    parameterHandler);
 
     /**
      * Setter
      */
 
     /**
-     * @brief Set model
-     * @param model is an iDynTree Model object
+     * @brief Set model which is an instance of `iDynTree::ModelLoader` and the sensor list which is an instance of `iDynTree::SensorList`
+     * @param modelLoader is an iDynTree ModelLoader object
+     * @param sensors is an iDynTree SensorList object
      */
-    void setModel(const iDynTree::Model& model);
-
-    /**
-     * @brief Set sensorList
-     * @param sensorList is an iDynTree SensorsList object containing the list of Sensors
-     * (gyroscopes, accelerometers, force/torque sensors) in the model
-     */
-    void setSensorList(const iDynTree::SensorsList& sensorList);
+    void setModelAndSensors(const iDynTree::Model& model, const iDynTree::SensorsList& sensors);
 
     /**
      * @brief set kinDyn
@@ -261,13 +310,19 @@ public:
      */
 
     /**
-     * @brief get subModelList
+     * @brief access the length of the list std::vector<SubModel>.
+     * @return the number of sub-models composing the model
+     */
+    std::size_t getNrOfSubModels() const;
+
+    /**
+     * @brief get the `std::vector<SubModel>` list.
      * @return the list of SubModel objects.
      */
     const std::vector<SubModel>& getSubModelList() const;
 
     /**
-     * @brief get subModel
+     * @brief get a `SubModel` instance of the list of `SubModel`.
      * @return the SubModel at the position index.
      */
     const SubModel& getSubModel(int index) const;

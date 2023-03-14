@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
+- Handle case where no FT sensors are specified to split the model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/625)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)

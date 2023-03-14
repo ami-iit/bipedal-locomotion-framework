@@ -73,10 +73,25 @@ TEST_CASE("SubModel Creation")
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
 
-    RDE::SubModelCreator subModelCreator;
-    subModelCreator.setModel(mdlLdr.model());
-    REQUIRE(subModelCreator.setKinDyn(kinDyn));
-    subModelCreator.setSensorList(mdlLdr.sensors());
+    // Case with FT, the model will be splitted
+    RDE::SubModelCreator subModelCreatorWithFT;
+    subModelCreatorWithFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
+    REQUIRE(subModelCreatorWithFT.setKinDyn(kinDyn));
+    REQUIRE(subModelCreatorWithFT.createSubModels(originalHandler));
 
-    REQUIRE(subModelCreator.createSubModels(originalHandler));
+    REQUIRE(subModelCreatorWithFT.getNrOfSubModels() == (1 + mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE)));
+
+    // Case without FT, the model is not splitted and the only sub-model is the full model
+    RDE::SubModelCreator subModelCreatorWithoutFT;
+    subModelCreatorWithoutFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
+    REQUIRE(subModelCreatorWithoutFT.setKinDyn(kinDyn));
+    auto groupFT = parameterHandler->getGroup("FT").lock()->clone();
+    groupFT->clear();
+    std::vector<std::string> emptyVector;
+    groupFT->setParameter("names", emptyVector);
+    groupFT->setParameter("frames", emptyVector);
+    parameterHandler->setGroup("FT", groupFT);
+    REQUIRE(subModelCreatorWithoutFT.createSubModels(parameterHandler));
+
+    REQUIRE(subModelCreatorWithoutFT.getNrOfSubModels() == 1);
 }
