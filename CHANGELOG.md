@@ -4,10 +4,15 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Implement the `DiscreteGeometryContact` in Contacts component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/626)
+- Implement the `SchmittTrigger` in component `Math` and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/624)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
 - Handle case where no FT sensors are specified to split the model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/625)
+- General restructure of the `ContactDetector`and the derived classes (`SchmittTriggerDetector` and `FixedFootDetector`) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/624)
+  Thanks to this refactory the `FixedFootDetector` usage becomes similar to the others `advanceable`.
+  Indeed now `FixedFootDetector::advace()` considers the input set by the user and provides the corresponding output.
+  ⚠️  Even if this modification do not break the API the user may notice some strange behavior if `advance` was called after getting the output of the detector.
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
