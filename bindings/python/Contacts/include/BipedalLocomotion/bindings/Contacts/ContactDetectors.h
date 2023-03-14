@@ -1,7 +1,7 @@
 /**
  * @file ContactDetectors.h
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -18,7 +18,6 @@ namespace Contacts
 {
 
 void CreateContactDetector(pybind11::module& module);
-void CreateSchmittTriggerUnit(pybind11::module& module);
 void CreateSchmittTriggerDetector(pybind11::module& module);
 void CreateFixedFootDetector(pybind11::module& module);
 

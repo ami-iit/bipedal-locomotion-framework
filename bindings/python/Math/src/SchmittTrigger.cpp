@@ -25,13 +25,25 @@ void CreateSchmittTrigger(pybind11::module& module)
     namespace py = ::pybind11;
 
     py::class_<SchmittTriggerState>(module, "SchmittTriggerState")
-        .def(py::init<>())
+        .def(py::init([](bool state, double switchTime, double edgeTime) -> SchmittTriggerState {
+                 return SchmittTriggerState{.state = std::move(state),
+                                            .switchTime = std::move(switchTime),
+                                            .edgeTime = std::move(edgeTime)};
+             }),
+             py::arg("state") = false,
+             py::arg("switch_time") = 0.0,
+             py::arg("edge_time") = 0.0)
         .def_readwrite("state", &SchmittTriggerState::state)
         .def_readwrite("switch_time", &SchmittTriggerState::switchTime)
         .def_readwrite("edge_time", &SchmittTriggerState::edgeTime);
 
     py::class_<SchmittTriggerInput>(module, "SchmittTriggerInput")
-        .def(py::init<>())
+        .def(py::init([](double time, double rawValue) -> SchmittTriggerInput {
+                 return SchmittTriggerInput{.time = std::move(time),
+                                            .rawValue = std::move(rawValue)};
+             }),
+             py::arg("time") = 0.0,
+             py::arg("raw_value") = 0.0)
         .def_readwrite("time", &SchmittTriggerInput::time)
         .def_readwrite("raw_value", &SchmittTriggerInput::rawValue);
 
@@ -40,17 +52,34 @@ void CreateSchmittTrigger(pybind11::module& module)
         BipedalLocomotion::Math::SchmittTriggerState>(module, "SchmittTrigger");
 
     py::class_<SchmittTrigger,
-               BipedalLocomotion::System::Advanceable<SchmittTriggerInput, //
-                                                      SchmittTriggerState>>
+               ::BipedalLocomotion::System::Advanceable<SchmittTriggerInput, //
+                                                        SchmittTriggerState>>
         schmittTrigger(module, "SchmittTrigger");
 
     py::class_<SchmittTrigger::Params>(schmittTrigger, "Params")
-        .def(py::init())
+        .def(py::init([](double onThreshold,
+                         double offThreshold,
+                         double switchOnAfter,
+                         double switchOffAfter,
+                         double timeComparisonThreshold) -> SchmittTrigger::Params {
+                 return SchmittTrigger::Params{.onThreshold = std::move(onThreshold),
+                                               .offThreshold = std::move(offThreshold),
+                                               .switchOnAfter = std::move(switchOnAfter),
+                                               .switchOffAfter = std::move(switchOffAfter),
+                                               .timeComparisonThreshold
+                                               = std::move(timeComparisonThreshold)};
+             }),
+             py::arg("on_threshold") = 0.0,
+             py::arg("off_threshold") = 0.0,
+             py::arg("switch_on_after") = 0.0,
+             py::arg("switch_off_after") = 0.0,
+             py::arg("time_comparison_threshold") = std::numeric_limits<double>::epsilon())
         .def_readwrite("on_threshold", &SchmittTrigger::Params::onThreshold)
         .def_readwrite("off_threshold", &SchmittTrigger::Params::offThreshold)
         .def_readwrite("switch_on_after", &SchmittTrigger::Params::switchOnAfter)
         .def_readwrite("switch_off_after", &SchmittTrigger::Params::switchOffAfter)
-        .def_readwrite("time_comparison_threshold", &SchmittTrigger::Params::timeComparisonThreshold);
+        .def_readwrite("time_comparison_threshold",
+                       &SchmittTrigger::Params::timeComparisonThreshold);
 
     schmittTrigger.def(py::init())
         .def("set_state", &SchmittTrigger::setState, py::arg("state"))

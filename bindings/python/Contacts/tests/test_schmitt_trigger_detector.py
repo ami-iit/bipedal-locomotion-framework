@@ -22,11 +22,14 @@ def test_schmitt_trigger_detector():
     assert(detector.reset_contacts())
 
     # rise signal
-    assert(detector.set_timed_trigger_input("right", 0.1, 120.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.1, raw_value=120.0)))
     assert(detector.advance())
-    assert(detector.set_timed_trigger_input("right", 0.2, 120.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.2, raw_value=120.0)))
     assert(detector.advance())
-    assert(detector.set_timed_trigger_input("right", 0.3, 120.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.3, raw_value=120.0)))
     assert(detector.advance())
 
     # contact state should turn true
@@ -35,11 +38,14 @@ def test_schmitt_trigger_detector():
     assert(right_contact.switch_time == 0.3)
 
     # fall signal
-    assert(detector.set_timed_trigger_input("right", 0.4, 7.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.4, raw_value=7.0)))
     assert(detector.advance())
-    assert(detector.set_timed_trigger_input("right", 0.5, 7.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.5, raw_value=7.0)))
     assert(detector.advance())
-    assert(detector.set_timed_trigger_input("right", 0.6, 7.0))
+    assert(detector.set_timed_trigger_input("right",
+                                            blf.math.SchmittTriggerInput(time=0.6, raw_value=7.0)))
     assert(detector.advance())
 
     # contact state should turn false
@@ -48,23 +54,22 @@ def test_schmitt_trigger_detector():
     assert(right_contact.switch_time == 0.6)
 
     # add a new contact
-    params = blf.contacts.SchmittTriggerParams()
-    params.off_threshold = 10
-    params.on_threshold = 100
-    params.switch_off_after = 0.2
-    params.switch_on_after = 0.2
-    detector.add_contact("left", False, params, 0.6)
+    params = blf.math.SchmittTrigger.Params(off_threshold=10, on_threshold=100,
+                                            switch_off_after=0.2, switch_on_after=0.2)
+    detector.add_contact("left",
+                         blf.math.SchmittTriggerState(state=False, switch_time=0.6, edge_time=0.6),
+                         params)
     contacts = detector.get_output()
     assert(len(contacts) == 2)
     assert(contacts["right"].is_active == False)
 
     # test multiple measurement updates
-    right_input = blf.contacts.SchmittTriggerInput()
+    right_input = blf.math.SchmittTriggerInput()
     right_input.time = 0.7
-    right_input.value = 120
-    left_input = blf.contacts.SchmittTriggerInput()
+    right_input.raw_value = 120
+    left_input = blf.math.SchmittTriggerInput()
     left_input.time = 0.7
-    left_input.value = 120
+    left_input.raw_value = 120
     timed_inputs = {"right":right_input, "left":left_input}
     assert(detector.set_timed_trigger_inputs(timed_inputs))
 
