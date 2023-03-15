@@ -79,6 +79,11 @@ bool SchmittTriggerDetector::initialize(std::weak_ptr<const IParametersHandler> 
     std::vector<double> switchOffAfter;
     ok = ok && setupParam("contact_break_switch_times", switchOffAfter);
 
+    if (!ok)
+    {
+        return false;
+    }
+
     if ((contacts.size() != onThreshold.size()) || (contacts.size() != offThreshold.size())
         || (contacts.size() != switchOnAfter.size()) || (contacts.size() != switchOffAfter.size()))
     {
