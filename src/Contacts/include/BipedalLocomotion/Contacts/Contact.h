@@ -8,11 +8,13 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 #define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 
-#include <BipedalLocomotion/Math/Wrench.h>
+#include <string>
+#include <vector>
 
+#include <Eigen/Dense>
 #include <manif/SE3.h>
 
-#include <string>
+#include <BipedalLocomotion/Math/Wrench.h>
 
 namespace BipedalLocomotion
 {
@@ -121,6 +123,25 @@ struct ContactWrench : public ContactBase
 };
 
 using EstimatedLandmark = EstimatedContact;
+
+/**
+ * @brief Definition of a corner
+ */
+struct Corner
+{
+    Eigen::Vector3d position; /**< Position of the corner with respect to the main frame associated
+                                 to the contact. */
+    Eigen::Vector3d force; /**< Pure force applied to the contact corner. */
+};
+
+/**
+ * @brief DiscreteGeometryContact is a contact which is represented by a set of corners that
+ * exchanges a pure force whith the enviroment.
+ */
+struct DiscreteGeometryContact : public ContactBase
+{
+    std::vector<Corner> corners; /**< List of corners associated to the Contact. */
+};
 
 } // namespace Contacts
 } // namespace BipedalLocomotion

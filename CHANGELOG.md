@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Implement the `DiscreteGeometryContact` in Contacts component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/626)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
