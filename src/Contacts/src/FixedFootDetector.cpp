@@ -56,8 +56,7 @@ bool FixedFootDetector::updateFixedFoot()
     constexpr auto logPrefix = "[FixedFootDetector::updateFixedFoot]";
 
     // search the phase associated to the current time
-    constexpr auto tolerance = std::numeric_limits<double>::min();
-    auto phase = m_contactPhaselist.getPresentPhase(m_currentTime, tolerance);
+    auto phase = m_contactPhaselist.getPresentPhase(m_currentTime);
 
     if(phase == m_contactPhaselist.end())
     {

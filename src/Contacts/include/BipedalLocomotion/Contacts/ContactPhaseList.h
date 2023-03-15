@@ -113,11 +113,12 @@ public:
      * @param time The present time.
      * @param tolerance positive parameter used for the comparison of two time instants. Given two
      * instants if the error between the two is lower than the tolerance, the time instants are
-     * considered equal. Default value 0.
+     * considered equal. Default value
+     * [`std::numeric_limits<double>::min()`](https://en.cppreference.com/w/cpp/types/numeric_limits/min).
      * @return an iterator to the last phase having an activation time lower than time.
      * If no phase satisfies this condition, it returns a pointer to the end.
      */
-    const_iterator getPresentPhase(double time, double tolerance = 0) const;
+    const_iterator getPresentPhase(double time, double tolerance = std::numeric_limits<double>::min()) const;
 
     /**
      * @brief A reference to the lists stored in this class.
