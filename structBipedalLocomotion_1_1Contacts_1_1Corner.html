@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/Contacts/Contact.h file | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Contacts::Corner struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,105 +61,33 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_3f05e5bb63a57bd72eccc7af5274c138.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_16fec6c370e9d5c39f9aa413b0bfb552.html">Contacts</a>/</span>Contact.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Contacts.html">Contacts</a>::<wbr/></span>Corner <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Contact_8h.html">&lt;BipedalLocomotion/Contacts/Contact.h&gt;</a></div>
         </h1>
+        <p>Definition of a corner.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
-                <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>Authors</h4><p>Stefano Dafarra, Prashanth Ramadoss, Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
-            <dd></dd>
-            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Contacts.html" class="m-doc">BipedalLocomotion::Contacts</a></dt>
-            <dd><span></span></dd>
+            <dt id="a46ebdedac032aeba1e6e78dda932f361">
+              Eigen::Vector3d <a href="#a46ebdedac032aeba1e6e78dda932f361" class="m-doc-self">position</a>
+            </dt>
+            <dd>Position of the corner with respect to the main frame associated to the contact.</dd>
+            <dt id="a9f6b6e585ccd87c5b5138445367ed2ea">
+              Eigen::Vector3d <a href="#a9f6b6e585ccd87c5b5138445367ed2ea" class="m-doc-self">force</a>
+            </dt>
+            <dd>Pure force applied to the contact corner.</dd>
           </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1ContactBase.html" class="m-doc">BipedalLocomotion::Contacts::ContactBase</a>
-            </dt>
-            <dd>Definition of the type of contact base class.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">BipedalLocomotion::Contacts::PlannedContact</a>
-            </dt>
-            <dd>Definition of a Planned Contact structure.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">BipedalLocomotion::Contacts::EstimatedContact</a>
-            </dt>
-            <dd>Definition of an Estimated Contact structure.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1ContactWrench.html" class="m-doc">BipedalLocomotion::Contacts::ContactWrench</a>
-            </dt>
-            <dd>Definition of an <a href="structBipedalLocomotion_1_1Contacts_1_1ContactWrench.html" class="m-doc">ContactWrench</a> structure.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1Corner.html" class="m-doc">BipedalLocomotion::Contacts::Corner</a>
-            </dt>
-            <dd>Definition of a corner.</dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1Contacts_1_1DiscreteGeometryContact.html" class="m-doc">BipedalLocomotion::Contacts::DiscreteGeometryContact</a>
-            </dt>
-            <dd><a href="structBipedalLocomotion_1_1Contacts_1_1DiscreteGeometryContact.html" class="m-doc">DiscreteGeometryContact</a> is a contact which is represented by a set of corners that exchanges a pure force whith the enviroment.</dd>
-          </dl>
-        </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">enum class <a href="#a34ae1b101a919e7e1b42ddf2193c51b0" class="m-doc">ContactType</a> { </span><span class="m-doc-wrap"><a href="#a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" class="m-doc">FULL</a>,
-              <a href="#a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" class="m-doc">POINT</a> }</span>
-            </dt>
-            <dd>Definition of the type of contact.</dd>
-          </dl>
-        </section>
-        <section id="typedef-members">
-          <h2><a href="#typedef-members">Typedefs</a></h2>
-          <dl class="m-doc">
-            <dt id="ad2d4f7afefeb8c02566b8498aea79042">
-              using <a href="#ad2d4f7afefeb8c02566b8498aea79042" class="m-doc-self">EstimatedLandmark</a> = EstimatedContact
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="a34ae1b101a919e7e1b42ddf2193c51b0"><div>
-            <h3>
-              enum class <a href="#a34ae1b101a919e7e1b42ddf2193c51b0" class="m-doc-self">ContactType</a>
-            </h3>
-            <p>Definition of the type of contact.</p>
-            <table class="m-table m-fullwidth m-flat m-doc">
-              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><a href="#a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1" class="m-doc-self" id="a34ae1b101a919e7e1b42ddf2193c51b0aba7de5bc6888294e5884b024a4c894f1">FULL</a></td>
-                  <td>
-                  <p>The contact impose a full pose constraint.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82" class="m-doc-self" id="a34ae1b101a919e7e1b42ddf2193c51b0aaebdbcb765394d25d6a604589a890f82">POINT</a></td>
-                  <td>
-                  <p>The contact impose a position constraint.</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

@@ -14,7 +14,7 @@
     <includedby refid="ContactPhase_8h" local="no">BipedalLocomotion/Contacts/ContactPhase.h</includedby>
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
     <incdepgraph>
-      <node id="9">
+      <node id="10">
         <label>functional</label>
       </node>
       <node id="1">
@@ -22,18 +22,18 @@
         <link refid="ContactList_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>manif/manif.h</label>
       </node>
       <node id="2">
@@ -41,37 +41,44 @@
         <link refid="Contact_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>manif/SE3.h</label>
-      </node>
-      <node id="7">
-        <label>string</label>
-      </node>
-      <node id="4">
-        <label>Eigen/Dense</label>
-      </node>
-      <node id="3">
-        <label>BipedalLocomotion/Math/Wrench.h</label>
-        <link refid="Wrench_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="11">
-        <label>unordered_map</label>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="6">
+        <label>manif/SE3.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/Math/Wrench.h</label>
+        <link refid="Wrench_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
         <label>manif/SO3.h</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>set</label>
       </node>
     </incdepgraph>

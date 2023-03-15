@@ -448,6 +448,10 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper_1a4766ad4374ab2f8166e0da45c369d5ff" kind="function"><name>getB</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper_1a6e074f7a65e5a4f21abc308cad879254" kind="function"><name>doesPointBelongToConvexHull</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Contacts_1_1Corner" kind="struct"><name>BipedalLocomotion::Contacts::Corner</name>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1Corner_1a46ebdedac032aeba1e6e78dda932f361" kind="variable"><name>position</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1Corner_1a9f6b6e585ccd87c5b5138445367ed2ea" kind="variable"><name>force</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline" kind="class"><name>BipedalLocomotion::Planners::CubicSpline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" kind="function"><name>CubicSpline</name></member>
@@ -484,6 +488,9 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" kind="variable"><name>m_name</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a0e9167015c2b1757c62f2eeb40e77bf8" kind="function"><name>DefaultLoggerFactory</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1afdbf582fc9d4fea9e2b3303681d5488a" kind="function"><name>createLogger</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Contacts_1_1DiscreteGeometryContact" kind="struct"><name>BipedalLocomotion::Contacts::DiscreteGeometryContact</name>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1DiscreteGeometryContact_1aa16f0ebf51edb00c865a810e6df3328c" kind="variable"><name>corners</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kind="typedef"><name>State</name></member>
