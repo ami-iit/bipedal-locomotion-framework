@@ -10,6 +10,7 @@
 
 #include <memory>
 
+#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -63,7 +64,7 @@ public:
         /** Threshold used for the comparison of two time instant. Given two time instants if the
          * error between the two is lower than the threshold, the time instants are considered
          * equal. */
-        double timeComparisonThreshold{std::numeric_limits<double>::epsilon()};
+        double timeComparisonThreshold{BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance};
     };
 
     /**
