@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <manif/impl/se3/SE3.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -124,11 +125,15 @@ void CreateFloatingBaseEstimator(pybind11::module& module)
         .def("reset_estimator",
              py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
-        .def("reset_estimator",
-             py::overload_cast<const Eigen::Quaterniond&, const Eigen::Vector3d&>(
-                 &FloatingBaseEstimator::resetEstimator),
-             py::arg("new_base_orientation"),
-             py::arg("new_base_position"))
+        .def(
+            "reset_estimator",
+            [](FloatingBaseEstimator& impl,
+               const manif::SO3d& newBaseOrientation,
+               const Eigen::Vector3d& newBasePosition) -> bool {
+                return impl.resetEstimator(newBaseOrientation.quat(), newBasePosition);
+            },
+            py::arg("new_base_orientation"),
+            py::arg("new_base_position"))
         .def(
             "initialize",
             [](FloatingBaseEstimator& impl,

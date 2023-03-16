@@ -8,14 +8,14 @@
 #ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
 #define BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
 
-#include <BipedalLocomotion/System/Source.h>
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
+#include <memory>
+
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/Source.h>
 
 #include <iDynTree/KinDynComputations.h>
-#include <iostream>
-#include <memory>
 
 namespace BipedalLocomotion
 {
@@ -33,7 +33,8 @@ class FloatingBaseEstimator : public BipedalLocomotion::System::Source<FloatingB
 {
 public:
     FloatingBaseEstimator();
-    virtual ~FloatingBaseEstimator() { };
+    virtual ~FloatingBaseEstimator() = default;
+
     /**
     *  iDynTree based model-specific computations class
     *  This is class is used in a required configuration step for the estimator
@@ -61,26 +62,29 @@ public:
         bool setBaseLinkAndIMU(const std::string& baseLinkFrame, const std::string& imuFrame);
 
         /**
-        * Set the feet contact frames, expected to be in contact with the environment
-        * @param[in] lFootContactFrame left foot contact frame
-        * @param[in] rFootContactFrame right foot contact frame
-        * @return True in case of success, false otherwise.
-        */
-        bool setFeetContactFrames(const std::string& lFootContactFrame, const std::string& rFootContactFrame);
+         * Set the feet contact frames, expected to be in contact with the environment
+         * @param[in] lFootContactFrame left foot contact frame
+         * @param[in] rFootContactFrame right foot contact frame
+         * @return True in case of success, false otherwise.
+         */
+        bool setFeetContactFrames(const std::string& lFootContactFrame,
+                                  const std::string& rFootContactFrame);
 
         /**
         * Check if model is configured with the required information
         * @return True in case of success, false otherwise.
         */
-        bool isModelInfoLoaded();
+        bool isModelInfoLoaded() const;
 
         /**
-        * Get relative pose between IMU and the feet
-        * @param[in] encoders joint positions through encoder measurements
-        * @param[out] IMU_H_l_foot pose of the left foot contact frame with respect to the IMU frame
-        * @param[out] IMU_H_r_foot pose of the right foot contact frame with respect to the IMU frame
-        * @return True in case of success, false otherwise.
-        */
+         * Get relative pose between IMU and the feet
+         * @param[in] encoders joint positions through encoder measurements
+         * @param[out] IMU_H_l_foot pose of the left foot contact frame with respect to the IMU
+         * frame
+         * @param[out] IMU_H_r_foot pose of the right foot contact frame with respect to the IMU
+         * frame
+         * @return True in case of success, false otherwise.
+         */
         bool getIMU_H_feet(Eigen::Ref<const Eigen::VectorXd> encoders,
                            manif::SE3d& IMU_H_l_foot,
                            manif::SE3d& IMU_H_r_foot);
@@ -101,21 +105,23 @@ public:
                            Eigen::Ref<Eigen::MatrixXd> J_IMURF);
 
         /**
-        * Get the base link pose and velocity from the estimated IMU pose and velocity
-        * @note the input and output velocities are both specified in mixed-velocity representation
-        * @param[in] A_H_IMU pose of the IMU in the world
-        * @param[in] v_IMU mixed-trivialized velocity of the IMU in the world
-        * @param[out] A_H_B pose of the base link in the world
-        * @param[out] v_B mixed-trivialized velocity of the base link in the world
-        * @return True in case of success, false otherwise.
-        */
-        bool getBaseStateFromIMUState(const manif::SE3d& A_H_IMU, Eigen::Ref<const Eigen::Matrix<double, 6, 1> > v_IMU,
-                                      manif::SE3d& A_H_B, Eigen::Ref<Eigen::Matrix<double, 6, 1> > v_B);
+         * Get the base link pose and velocity from the estimated IMU pose and velocity
+         * @note the input and output velocities are both specified in mixed-velocity representation
+         * @param[in] A_H_IMU pose of the IMU in the world
+         * @param[in] v_IMU mixed-trivialized velocity of the IMU in the world
+         * @param[out] A_H_B pose of the base link in the world
+         * @param[out] v_B mixed-trivialized velocity of the base link in the world
+         * @return True in case of success, false otherwise.
+         */
+        bool getBaseStateFromIMUState(const manif::SE3d& A_H_IMU,
+                                      Eigen::Ref<const Eigen::Matrix<double, 6, 1>> v_IMU,
+                                      manif::SE3d& A_H_B,
+                                      Eigen::Ref<Eigen::Matrix<double, 6, 1>> v_B);
 
         /**
          * Getters
          */
-        const int& nrJoints() const { return m_nrJoints; }
+        const int nrJoints() const { return m_nrJoints; }
         const std::string& baseLink() const { return m_baseLink; }
         const iDynTree::FrameIndex& baseLinkIdx() const { return m_baseLinkIdx; }
         const iDynTree::FrameIndex& baseIMUIdx() const { return m_baseImuIdx; }
@@ -128,13 +134,25 @@ public:
 
     private:
         std::string m_baseLink{""}; /**< name of the floating base link*/
-        std::string m_baseImuFrame{""}; /**< name of the IMU frame rigidly attached to the floating base link*/
-        std::string m_lFootContactFrame{""}; /**< name of the left foot contact frame expected to be in contact with the environment*/
-        std::string m_rFootContactFrame{""}; /**< name of the right foot contact frame expected to be in contact with the environment*/
-        iDynTree::FrameIndex m_baseLinkIdx{iDynTree::FRAME_INVALID_INDEX}; /**< base link's frame index in the loaded model*/
-        iDynTree::FrameIndex m_baseImuIdx{iDynTree::FRAME_INVALID_INDEX}; /**< IMU index in the loaded model*/
-        iDynTree::FrameIndex m_lFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Left foot contact frame index in the loaded model*/
-        iDynTree::FrameIndex m_rFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Right foot contact freame index in the loaded model*/
+        std::string m_baseImuFrame{""}; /**< name of the IMU frame rigidly attached to the floating
+                                           base link*/
+        std::string m_lFootContactFrame{""}; /**< name of the left foot contact frame expected to be
+                                                in contact with the environment*/
+        std::string m_rFootContactFrame{""}; /**< name of the right foot contact frame expected to
+                                                be in contact with the environment*/
+        iDynTree::FrameIndex m_baseLinkIdx{iDynTree::FRAME_INVALID_INDEX}; /**< base link's frame
+                                                                              index in the loaded
+                                                                              model*/
+        iDynTree::FrameIndex m_baseImuIdx{iDynTree::FRAME_INVALID_INDEX}; /**< IMU index in the
+                                                                             loaded model*/
+        iDynTree::FrameIndex m_lFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Left foot
+                                                                                  contact frame
+                                                                                  index in the
+                                                                                  loaded model*/
+        iDynTree::FrameIndex m_rFootContactIdx{iDynTree::FRAME_INVALID_INDEX}; /**< Right foot
+                                                                                  contact freame
+                                                                                  index in the
+                                                                                  loaded model*/
 
         std::shared_ptr<iDynTree::KinDynComputations> m_kindyn{nullptr}; /**< KinDynComputations object to do the model specific computations */
         manif::SE3d m_base_H_imu; /**< Rigid body transform of IMU frame with respect to the base link frame */
@@ -160,13 +178,14 @@ public:
     bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
                     std::shared_ptr<iDynTree::KinDynComputations> kindyn);
 
-
     /**
-    * Configure generic parameters, calling this overloaded method assumes model information is not going to be used.
-    * @param[in] handler configure the generic parameters for the estimator
-    * @return True in case of success, false otherwise.
-    */
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+     * Configure generic parameters, calling this overloaded method assumes model information is not
+     * going to be used.
+     * @param[in] handler configure the generic parameters for the estimator
+     * @return True in case of success, false otherwise.
+     */
+    bool
+    initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
     /**
     * Set the polled IMU measurement
@@ -199,14 +218,14 @@ public:
                           double timeNow = 0.);
 
     /**
-    * Set kinematic measurements
-    * @note it is assumed that the order of the joints loaded in the model and the order of the measurements in these vectors match
-    * @param[in] encoders joint positions measured through encoders
-    * @param[in] encoderSpeeds joint velocities measured through encoders
-    * @return True in case of success, false otherwise.
-    */
-    bool setKinematics(const Eigen::VectorXd& encoders,
-                       const Eigen::VectorXd& encoderSpeeds);
+     * Set kinematic measurements
+     * @note it is assumed that the order of the joints loaded in the model and the order of the
+     * measurements in these vectors match
+     * @param[in] encoders joint positions measured through encoders
+     * @param[in] encoderSpeeds joint velocities measured through encoders
+     * @return True in case of success, false otherwise.
+     */
+    bool setKinematics(const Eigen::VectorXd& encoders, const Eigen::VectorXd& encoderSpeeds);
 
     /**
      * Set the relative pose of a landmark relative to the base link
@@ -243,28 +262,29 @@ public:
      * @param[in] newBasePosition base link position
      * @return True in case of success, false otherwise.
      *
-     * * @note reset and advance estimator to get updated estimator output
+     * @note reset and advance estimator to get updated estimator output
      */
     virtual bool resetEstimator(const Eigen::Quaterniond& newBaseOrientation,
                                 const Eigen::Vector3d& newBasePosition);
 
     /**
-    * Get estimator outputs
-    * @return A struct containing he estimated internal states of the estiamtor and the associated covariance matrix
-    */
-    virtual const FloatingBaseEstimators::Output& getOutput() const final;
+     * Get estimator outputs
+     * @return A struct containing he estimated internal states of the estiamtor and the associated
+     * covariance matrix
+     */
+    const FloatingBaseEstimators::Output& getOutput() const final;
 
     /**
     * Determines the validity of the object retrieved with get()
     * @return True in case of success, false otherwise.
     */
-    virtual bool isOutputValid() const final { return (m_estimatorState == State::Running); };
+    bool isOutputValid() const final;
 
     /**
-    * Get ModelComputations object by reference
-    * @return ModelComputations object providing information between considered model related quantities in the estimator
-    * like the base link, IMU, feet contact frames.
-    */
+     * Get ModelComputations object by reference
+     * @return ModelComputations object providing information between considered model related
+     * quantities in the estimator like the base link, IMU, feet contact frames.
+     */
     ModelComputations& modelComputations();
 
 protected:
@@ -427,7 +447,6 @@ private:
     */
     bool setupModelParams(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
 
-
     /**
      * Setup parameter vector
      * @param[in] param parameter name
@@ -436,11 +455,12 @@ private:
      * @param[out] vec parameter vector
      * @return True in case of success, false otherwise.
      */
-    bool setupFixedVectorParamPrivate(const std::string& param, const std::string& prefix,
-                                      std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
-                                      std::vector<double>& vec);
+    bool setupFixedVectorParamPrivate(
+        const std::string& param,
+        const std::string& prefix,
+        std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+        std::vector<double>& vec);
 };
-
 
 } // namespace Estimators
 } // namespace BipedalLocomotion

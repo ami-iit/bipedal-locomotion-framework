@@ -8,13 +8,14 @@
 #ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_IO_H
 #define BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_IO_H
 
+#include <map>
+
 #include <Eigen/Dense>
+
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/Contacts/Contact.h>
-#include <manif/manif.h>
-#include <map>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 
 namespace BipedalLocomotion
 {
@@ -25,28 +26,36 @@ namespace FloatingBaseEstimators
 
 /**
 * @brief Struct holding the elements of the state representation
-*
 */
 struct InternalState
 {
-    Eigen::Quaterniond imuOrientation; /**< Orientation of the base link IMU in the inertial frame (as a quaternion w,x,y,z) */
-    Eigen::Vector3d imuPosition;   /**< Position of the base link IMU in the inertial frame */
-    Eigen::Vector3d imuLinearVelocity; /**< linear part of the mixed-velocity representation of the IMU with respect to the inertial frame */
-    Eigen::Quaterniond lContactFrameOrientation; /**< Orientation of the left foot contact frame in the inertial frame (as a quaternion w,x,y,z) */
-    Eigen::Vector3d lContactFramePosition; /**< Position of the left foot contact frame in the inertial frame */
-    Eigen::Quaterniond rContactFrameOrientation; /**< Orientation of the right foot contact frame in the inertial frame (as a quaternion w,x,y,z) */
-    Eigen::Vector3d rContactFramePosition; /**< Position of the right foot contact frame in the inertial frame*/
+    Eigen::Quaterniond imuOrientation; /**< Orientation of the base link IMU in the inertial frame
+                                          (as a quaternion w,x,y,z) */
+    Eigen::Vector3d imuPosition; /**< Position of the base link IMU in the inertial frame */
+    Eigen::Vector3d imuLinearVelocity; /**< linear part of the mixed-velocity representation of the
+                                          IMU with respect to the inertial frame */
+    Eigen::Quaterniond lContactFrameOrientation; /**< Orientation of the left foot contact frame in
+                                                    the inertial frame (as a quaternion w,x,y,z) */
+    Eigen::Vector3d lContactFramePosition; /**< Position of the left foot contact frame in the
+                                              inertial frame */
+    Eigen::Quaterniond rContactFrameOrientation; /**< Orientation of the right foot contact frame in
+                                                    the inertial frame (as a quaternion w,x,y,z) */
+    Eigen::Vector3d rContactFramePosition; /**< Position of the right foot contact frame in the
+                                              inertial frame*/
     Eigen::Vector3d accelerometerBias; /**< Bias of the accelerometer expressed in the IMU frame */
     Eigen::Vector3d gyroscopeBias; /**< Bias of the gyroscope expressed in the IMU frame */
 
-    Eigen::Vector3d imuAngularVelocity; /**< angular velocity of the IMU with respect to the inertial frame expressed in inertial frame, typically unused for strap-down IMU based EKF implementations*/
-    std::map<int, BipedalLocomotion::Contacts::EstimatedContact> supportFrameData; /**< estimated contacts */
-    std::map<int, BipedalLocomotion::Contacts::EstimatedLandmark> landmarkData; /**< estimated landmarks */
+    Eigen::Vector3d imuAngularVelocity; /**< angular velocity of the IMU with respect to the
+                                           inertial frame expressed in inertial frame, typically
+                                           unused for strap-down IMU based EKF implementations*/
+    std::map<int, BipedalLocomotion::Contacts::EstimatedContact> supportFrameData; /**< estimated
+                                                                                      contacts */
+    std::map<int, BipedalLocomotion::Contacts::EstimatedLandmark> landmarkData; /**< estimated
+                                                                                   landmarks */
 };
 
 /**
 * @brief Struct holding the elements of the estimator output
-*
 */
 struct Output
 {
@@ -54,12 +63,12 @@ struct Output
     StateStdDev stateStdDev; /**< Current state covariance matrix */
 
     manif::SE3d basePose; /**< Estimated base link pose */
-    Eigen::Matrix<double, 6, 1> baseTwist; /**< Estimate base link velocity in mixed-velocity representation */
+    Eigen::Matrix<double, 6, 1> baseTwist; /**< Estimate base link velocity in mixed-velocity
+                                              representation */
 };
 
 /**
 * @brief Struct holding the elements of the measurements data
-*
 */
 struct Measurements
 {
