@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <chrono>
 #include <limits>
 #include <memory>
 
@@ -39,7 +40,8 @@ bool FixedFootDetector::initialize(std::weak_ptr<const IParametersHandler> handl
         return false;
     }
 
-    if (m_dT <= 0)
+    // This should never happen
+    if (m_dT <= std::chrono::nanoseconds::zero())
     {
         log()->error("{} The parameter 'sampling_time' must be a strictly positive number.",
                      logPrefix);
@@ -243,7 +245,7 @@ void FixedFootDetector::setContactPhaseList(const ContactPhaseList& phaseList)
     }
 }
 
-void FixedFootDetector::resetTime(const double &time)
+void FixedFootDetector::resetTime(const std::chrono::nanoseconds &time)
 {
     m_currentTime = time;
 }

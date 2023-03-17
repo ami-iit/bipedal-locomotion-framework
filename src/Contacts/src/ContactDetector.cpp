@@ -7,6 +7,7 @@
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
@@ -15,7 +16,7 @@ bool ContactDetector::resetContacts()
 {
     for (auto& [name, contact] : m_contactStates)
     {
-        contact.switchTime = 0.0;
+        contact.switchTime = std::chrono::nanoseconds::zero();
         contact.isActive = false;
     }
     return true;
