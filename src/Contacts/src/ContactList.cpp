@@ -67,7 +67,7 @@ bool ContactList::addContact(const PlannedContact &newContact)
         {
             log()->error("{} The new contact (activationTime: {} deactivationTime: {}) is not "
                          "compatible with an element already present in the list (activationTime: "
-                         "{} deactivationTime: {}).",
+                         "{}, deactivationTime: {}.).",
                          errorPrefix,
                          newContact.activationTime,
                          newContact.deactivationTime,
@@ -79,7 +79,9 @@ bool ContactList::addContact(const PlannedContact &newContact)
     return true;
 }
 
-bool ContactList::addContact(const manif::SE3d &newTransform, double activationTime, double deactivationTime)
+bool ContactList::addContact(const manif::SE3d& newTransform,
+                             const std::chrono::nanoseconds& activationTime,
+                             const std::chrono::nanoseconds& deactivationTime)
 {
     PlannedContact newContact;
     newContact.pose = newTransform;
@@ -89,7 +91,7 @@ bool ContactList::addContact(const manif::SE3d &newTransform, double activationT
     newContact.index = m_defaultIndex;
     newContact.type = m_defaultContactType;
 
-    return addContact(newContact);
+    return this->addContact(newContact);
 }
 
 ContactList::const_iterator ContactList::erase(const_iterator iterator)
@@ -208,21 +210,28 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
     return true;
 }
 
-ContactList::const_iterator ContactList::getPresentContact(double time) const
+ContactList::const_iterator
+ContactList::getPresentContact(const std::chrono::nanoseconds& time) const
 {
-    // With the reverse iterator we find the last step such that the activation time is smaller that time
-    ContactList::const_reverse_iterator presentReverse = std::find_if(rbegin(), rend(),
-                                                        [time](const PlannedContact & a) -> bool { return a.activationTime <= time; });
+    // With the reverse iterator we find the last step such that the activation time is smaller
+    // equal than time
+    ContactList::const_reverse_iterator presentReverse
+        = std::find_if(rbegin(), rend(), [time](const PlannedContact& a) -> bool {
+              return a.activationTime <= time;
+          });
+
     if (presentReverse == rend())
     {
         // No contact has activation time lower than the specified time.
         return end();
     }
 
-    return --(presentReverse.base()); //This is to convert a reverse iterator to a forward iterator. The -- is because base() returns a forward iterator to the next element.
+    return --(presentReverse.base()); // This is to convert a reverse iterator to a forward
+                                      // iterator. The -- is because base() returns a forward
+                                      // iterator to the next element.
 }
 
-bool ContactList::keepOnlyPresentContact(double time)
+bool ContactList::keepOnlyPresentContact(const std::chrono::nanoseconds& time)
 {
     ContactList::const_iterator dropPoint = getPresentContact(time);
 

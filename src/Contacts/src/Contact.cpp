@@ -6,6 +6,7 @@
  */
 
 #include <BipedalLocomotion/Contacts/Contact.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::Contacts;
 
@@ -22,12 +23,12 @@ bool PlannedContact::operator==(const PlannedContact& other) const
     return eq;
 }
 
-std::pair<bool, double> EstimatedContact::getContactDetails() const
+std::pair<bool, std::chrono::nanoseconds> EstimatedContact::getContactDetails() const
 {
     return std::make_pair(isActive, switchTime);
 }
 
-void EstimatedContact::setContactStateStamped(const std::pair<bool, double>& pair)
+void EstimatedContact::setContactStateStamped(const std::pair<bool, std::chrono::nanoseconds>& pair)
 {
     isActive = pair.first;
     switchTime = pair.second;

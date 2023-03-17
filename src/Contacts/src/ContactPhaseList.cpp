@@ -34,8 +34,8 @@ void ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
-    std::map<double, std::unordered_map<std::string, ContactList::const_iterator>> activations,
-        deactivations;
+    std::map<std::chrono::nanoseconds, std::unordered_map<std::string, ContactList::const_iterator>>
+        activations, deactivations;
 
     for (ContactListMap::iterator list = m_contactLists.begin(); list != m_contactLists.end();
          ++list)
@@ -140,16 +140,14 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList>& contac
     return true;
 }
 
-ContactPhaseList::const_iterator ContactPhaseList::getPresentPhase(
-    double time,
-    double tolerance /*= BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance*/) const
+ContactPhaseList::const_iterator
+ContactPhaseList::getPresentPhase(const std::chrono::nanoseconds& time) const
 {
     // With the reverse iterator we find the last phase such that the begin time is smaller that
     // time
-    auto presentReverse
-        = std::find_if(rbegin(), rend(), [time, tolerance](const ContactPhase& a) -> bool {
-              return a.beginTime <= time + tolerance;
-          });
+    auto presentReverse = std::find_if(rbegin(), rend(), [time](const ContactPhase& a) -> bool {
+        return a.beginTime <= time;
+    });
 
     if (presentReverse == rend())
     {

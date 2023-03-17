@@ -8,8 +8,11 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 #define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 
+#include <cmath>
+#include <ratio>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include <Eigen/Dense>
 #include <manif/SE3.h>
@@ -71,12 +74,12 @@ struct PlannedContact : ContactBase
     /**
      * Instant from which the contact can be considered active.
      */
-    double activationTime{0.0};
+    std::chrono::nanoseconds activationTime{std::chrono::nanoseconds::zero()};
 
     /**
      * Instant after which the contact is no more active.
      */
-    double deactivationTime{0.0};
+    std::chrono::nanoseconds deactivationTime{std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The equality operator.
@@ -96,7 +99,7 @@ struct EstimatedContact : ContactBase
     /**
      * Instant at which the contact state was toggled.
      */
-    double switchTime{0.0};
+    std::chrono::nanoseconds switchTime{std::chrono::nanoseconds::zero()};
 
     /**
      * Current state of contact
@@ -107,11 +110,11 @@ struct EstimatedContact : ContactBase
      * Time at which the contact details were last updated
      * This field helps in forgetting contacts
      */
-    double lastUpdateTime{0.0};
+    std::chrono::nanoseconds lastUpdateTime{std::chrono::nanoseconds::zero()};
 
-    std::pair<bool, double> getContactDetails() const;
+    std::pair<bool, std::chrono::nanoseconds> getContactDetails() const;
 
-    void setContactStateStamped(const std::pair<bool, double>& pair);
+    void setContactStateStamped(const std::pair<bool, std::chrono::nanoseconds>& pair);
 };
 
 /**
