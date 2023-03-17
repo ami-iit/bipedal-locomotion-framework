@@ -5,12 +5,13 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include "BipedalLocomotion/Planners/UnicyclePlanner.h"
-#include "BipedalLocomotion/TextLogging/Logger.h"
+#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <FootPrint.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
+#include <chrono>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <manif/SE3.h>
@@ -516,9 +517,9 @@ bool Planners::UnicyclePlanner::advance()
         // Create the inital step
         m_pImpl->left->addStep(toiDynTree(contact->pose.translation()),
                                euler[2],
-                               contact->activationTime);
+                               std::chrono::duration<double>(contact->activationTime).count());
 
-        const double impactTime = contact->activationTime;
+        const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
         initTime = impactTime > initTime ? impactTime : initTime;
     }
 
@@ -537,9 +538,9 @@ bool Planners::UnicyclePlanner::advance()
         // Create the inital step
         m_pImpl->right->addStep(toiDynTree(contact->pose.translation()),
                                 euler[2],
-                                contact->activationTime);
+                                std::chrono::duration<double>(contact->activationTime).count());
 
-        const double impactTime = contact->activationTime;
+        const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
         initTime = impactTime > initTime ? impactTime : initTime;
     }
 
@@ -599,9 +600,11 @@ bool Planners::UnicyclePlanner::advance()
 
         for (const auto& step : steps)
         {
+            using namespace std::chrono_literals;
             auto contact = Contacts::PlannedContact();
             contact.name = step.footName;
-            contact.activationTime = step.impactTime;
+            contact.activationTime
+                = std::chrono::duration_cast<std::chrono::nanoseconds>(step.impactTime * 1s);
             contact.deactivationTime = contact.activationTime;
             contacts.push_back(contact);
         }
@@ -627,13 +630,16 @@ bool Planners::UnicyclePlanner::advance()
             // During lift, store the time in the active contact and get the new contact
             if (lastState == 1 && thisState == 0)
             {
-                contact.deactivationTime = contact.activationTime + activeTime;
+                using namespace std::chrono_literals;
+                contact.deactivationTime
+                    = contact.activationTime
+                      + std::chrono::duration_cast<std::chrono::nanoseconds>(activeTime * 1s);
                 contactIdx++;
             }
         }
 
         // The deactivation time of the last contact has not yet been processed
-        contacts.back().deactivationTime = std::numeric_limits<float>().max();
+        contacts.back().deactivationTime = std::chrono::nanoseconds::max();
 
         return contacts;
     };
