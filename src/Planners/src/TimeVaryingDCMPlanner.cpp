@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::Contacts;
@@ -109,7 +110,7 @@ struct TimeVaryingDCMPlanner::Impl
         unsigned long solverVerbosity{1}; /**< Verbosity of ipopt */
         std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
 
-        double plannerSamplingTime; /**< Sampling time of the planner in seconds */
+        std::chrono::nanoseconds plannerSamplingTime; /**< Sampling time of the planner in seconds */
         std::vector<Eigen::Vector3d> footCorners; /**< Position of the corner of the foot
                                                     expressed in a frame placed in the center of the
                                                     foot. The X axis points forward and the z
@@ -162,8 +163,12 @@ struct TimeVaryingDCMPlanner::Impl
         casadi::MX omegaDot = casadi::MX::sym("omega_dot");
 
         casadi::MX rhs = casadi::MX::vertcat(
-            {dcm + (omega - omegaDot / omega) * (dcm - vrp) * optiSettings.plannerSamplingTime,
-             omega + omegaDot * optiSettings.plannerSamplingTime});
+            {dcm
+                 + (omega - omegaDot / omega) * (dcm - vrp)
+                       * std::chrono::duration<double>(optiSettings.plannerSamplingTime).count(),
+             omega
+                 + omegaDot
+                       * std::chrono::duration<double>(optiSettings.plannerSamplingTime).count()});
 
         return casadi::Function("DCMDynamics", {state, vrp, omegaDot}, {rhs});
     }
@@ -379,7 +384,7 @@ struct TimeVaryingDCMPlanner::Impl
         for (std::size_t k = 0; k < this->optiVariables.vrp.columns(); k++)
         {
             // if the
-            if(k * this->optiSettings.plannerSamplingTime > contactPhaseListIt->endTime)
+            if (k * this->optiSettings.plannerSamplingTime > contactPhaseListIt->endTime)
             {
                 std::advance(contactPhaseListIt, 1);
                 feetAreInSamePlane = computeConstraintElementsECMP(*contactPhaseListIt,
@@ -412,7 +417,7 @@ struct TimeVaryingDCMPlanner::Impl
                                   const DCMPlannerState& initialState)
     {
         std::vector<Eigen::VectorXd> dcmKnots;
-        std::vector<double> timeKnots;
+        std::vector<std::chrono::nanoseconds> timeKnots;
 
         // first point
         timeKnots.push_back(contactPhaseList.cbegin()->beginTime);
@@ -477,11 +482,10 @@ struct TimeVaryingDCMPlanner::Impl
 
         for (int i = 0; i < this->optiVariables.dcm.columns(); i++)
         {
-            const double currentTime = i * this->optiSettings.plannerSamplingTime;
-            if (!dcmRef.evaluatePoint(currentTime,
-                                     initialValueDCMEigenMap.col(i),
-                                     velocity,
-                                     acceleration))
+            if (!dcmRef.evaluatePoint(i * this->optiSettings.plannerSamplingTime,
+                                      initialValueDCMEigenMap.col(i),
+                                      velocity,
+                                      acceleration))
             {
                 log()->error("[TimeVaryingDCMPlanner::Impl::computeDCMRegularization] Unable to "
                              "evaluate the dcm reference trajectory.");
@@ -730,8 +734,8 @@ bool TimeVaryingDCMPlanner::computeTrajectory()
     // clear the solver and the solution computed
     m_pimpl->clear();
 
-    const double& initialTrajectoryTime = m_contactPhaseList.cbegin()->beginTime;
-    const double& endTrajectoryTime = m_contactPhaseList.lastPhase()->endTime;
+    const auto& initialTrajectoryTime = m_contactPhaseList.cbegin()->beginTime;
+    const auto& endTrajectoryTime = m_contactPhaseList.lastPhase()->endTime;
 
     m_pimpl->numberOfTrajectorySamples = std::ceil((endTrajectoryTime - initialTrajectoryTime)
                                                    / m_pimpl->optiSettings.plannerSamplingTime);
