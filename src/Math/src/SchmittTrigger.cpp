@@ -7,6 +7,7 @@
 
 #include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::Math;
 
@@ -37,14 +38,6 @@ bool SchmittTrigger::initialize(std::weak_ptr<const ParametersHandler::IParamete
     ok = ok && populateparameter("switch_on_after", params.switchOnAfter);
     ok = ok && populateparameter("switch_off_after", params.switchOffAfter);
 
-    if (ok && !ptr->getParameter("time_comparison_threshold", params.timeComparisonThreshold))
-    {
-        log()->warn("{} The parameter 'time_comparison_threshold' is not found. The default one "
-                    "will be used. Default: {} seconds.",
-                    logPrefix,
-                    params.timeComparisonThreshold);
-    }
-
     return ok && this->initialize(params);
 }
 
@@ -59,12 +52,6 @@ bool SchmittTrigger::initialize(const Params& params)
         return false;
     }
 
-    if (params.switchOnAfter < 0 || params.switchOffAfter < 0)
-    {
-        log()->error("{} The time thresholds must be positive numbers", logPrefix);
-        return false;
-    }
-
     m_params = params;
 
     return true;
@@ -72,37 +59,33 @@ bool SchmittTrigger::initialize(const Params& params)
 
 bool SchmittTrigger::advance()
 {
-
-    auto robustEqual = [this](double a, double b) -> bool {
-        return (std::abs(a - b) <= this->m_params.timeComparisonThreshold);
-    };
-
     // if the trigger is not active
     if (!m_state.state)
     {
         // the state is inactive this means that we can reset the fallingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_fallingEdgeTimeInstant = -1;
+        m_fallingDetected = false;
 
         // check if the input is higher of the threshold
         if (m_input.rawValue >= m_params.onThreshold)
         {
             // We detected a rising edge
-            if (m_risingEdgeTimeInstant < 0)
+            if (!m_risingDetected)
             {
                 m_risingEdgeTimeInstant = m_input.time;
+                m_risingDetected = true;
             }
 
             // integrate the timer
             m_timer = m_input.time - m_risingEdgeTimeInstant;
 
             // if the timer is greater than a threshold is time to switch
-            if (m_timer > m_params.switchOnAfter || robustEqual(m_timer, m_params.switchOnAfter))
+            if (m_timer >= m_params.switchOnAfter)
             {
                 m_state.state = true;
                 m_state.switchTime = m_input.time;
                 m_state.edgeTime = m_risingEdgeTimeInstant;
-                m_timer = 0;
+                m_timer = std::chrono::nanoseconds::zero();
             }
         }
     } else
@@ -110,15 +93,16 @@ bool SchmittTrigger::advance()
 
         // the state is inactive this means that we can reset the risingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_risingEdgeTimeInstant = -1;
+        m_risingDetected = false;
 
         // check if the input is lower of the threshold
         if (m_input.rawValue <= m_params.offThreshold)
         {
             // We detected a falling edge
-            if (m_fallingEdgeTimeInstant < 0)
+            if (!m_fallingDetected)
             {
                 m_fallingEdgeTimeInstant = m_input.time;
+                m_fallingDetected = true;
             }
 
             // here a small delta is added to the timer
@@ -126,12 +110,12 @@ bool SchmittTrigger::advance()
 
             // if the value is lower the threshold for more than switchOffAfter seconds is time to
             // switch!
-            if (m_timer > m_params.switchOffAfter || robustEqual(m_timer, m_params.switchOffAfter))
+            if (m_timer >= m_params.switchOffAfter)
             {
                 m_state.state = false;
                 m_state.switchTime = m_input.time;
                 m_state.edgeTime = m_fallingEdgeTimeInstant;
-                m_timer = 0;
+                m_timer = std::chrono::nanoseconds::zero();
             }
         }
     }
@@ -154,7 +138,7 @@ void SchmittTrigger::setState(const SchmittTriggerState& state)
     m_state = state;
 
     // when the state is reset the timer is reset as well
-    m_timer = 0;
+    m_timer = std::chrono::nanoseconds::zero();
 }
 
 const SchmittTriggerState& SchmittTrigger::getOutput() const
