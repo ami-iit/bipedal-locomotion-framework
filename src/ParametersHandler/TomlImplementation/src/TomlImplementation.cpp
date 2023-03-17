@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <string>
 
 #include <BipedalLocomotion/ParametersHandler/TomlImplementation.h>
@@ -48,6 +49,12 @@ bool TomlImplementation::getParameter(const std::string& parameterName, bool& pa
 }
 
 bool TomlImplementation::getParameter(const std::string& parameterName,
+                                      std::chrono::nanoseconds& parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
+bool TomlImplementation::getParameter(const std::string& parameterName,
                                       GenericContainer::Vector<int>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
@@ -67,6 +74,13 @@ bool TomlImplementation::getParameter(const std::string& parameterName,
 
 bool TomlImplementation::getParameter(const std::string& parameterName,
                                       std::vector<bool>& parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
+bool TomlImplementation::getParameter(
+    const std::string& parameterName,
+    GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -98,10 +112,17 @@ void TomlImplementation::setParameter(const std::string& parameterName, const bo
 }
 
 void TomlImplementation::setParameter(const std::string& parameterName,
+                                      const std::chrono::nanoseconds& parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
+void TomlImplementation::setParameter(const std::string& parameterName,
                                       const GenericContainer::Vector<const int>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
+
 void TomlImplementation::setParameter(const std::string& parameterName,
                                       const GenericContainer::Vector<const double>::Ref parameter)
 {
@@ -117,6 +138,13 @@ void TomlImplementation::setParameter(
 
 void TomlImplementation::setParameter(const std::string& parameterName,
                                       const std::vector<bool>& parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
+void TomlImplementation::setParameter(
+    const std::string& parameterName,
+    const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
