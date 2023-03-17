@@ -9,26 +9,35 @@
 #define BIPEDAL_LOCOMOTION_PLANNERS_SO3_PLANNER_TPP
 
 #include <iostream>
+#include <chrono>
 
 #include <manif/SO3.h>
 
 #include <BipedalLocomotion/Planners/SO3Planner.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 namespace BipedalLocomotion
 {
 namespace Planners
 {
 
+template <class Rep, class Period>
+constexpr double durationToSeconds(const std::chrono::duration<Rep, Period>& d)
+{
+    return std::chrono::duration<double>(d).count();
+}
+
 template <LieGroupTrivialization trivialization>
 bool SO3Planner<trivialization>::setRotations(const manif::SO3d& initialRotation,
                                               const manif::SO3d& finalRotation,
-                                              const double& duration)
+                                              const std::chrono::nanoseconds& duration)
 {
-    if (duration <= 0)
+
+    constexpr auto logPrefix = "[SO3Planner::setRotation]";
+
+    if (duration <= std::chrono::nanoseconds::zero())
     {
-        std::cerr << "[SO3Planner::setRotation] The trajectory duration must be a strictly "
-                     "positive number."
-                  << std::endl;
+        log()->error("{} The trajectory duration must be a strictly positive number.", logPrefix);
         return false;
     }
 
@@ -45,7 +54,7 @@ bool SO3Planner<trivialization>::setRotations(const manif::SO3d& initialRotation
     }
 
     // reset the advance current time
-    m_advanceCurrentTime = 0;
+    m_advanceCurrentTime = std::chrono::nanoseconds::zero();
 
     // reset the state
     m_state.rotation = m_initialRotation;
@@ -57,20 +66,22 @@ bool SO3Planner<trivialization>::setRotations(const manif::SO3d& initialRotation
 
 template <LieGroupTrivialization trivialization>
 template <class Derived>
-bool SO3Planner<trivialization>::evaluatePoint(const double& time,
+bool SO3Planner<trivialization>::evaluatePoint(const std::chrono::nanoseconds& time,
                                                manif::SO3d& rotation,
                                                manif::SO3TangentBase<Derived>& velocity,
                                                manif::SO3TangentBase<Derived>& acceleration) const
 {
-    if (time < 0 || time > m_T)
+    constexpr auto logPrefix = "[SO3Planner::evaluatePoint]";
+    if (time < std::chrono::nanoseconds::zero() || time > m_T)
     {
-        std ::cerr << "[SO3Planner::evaluatePoint] The time has to be a real positive number "
-                      "between 0 and "
-                   << m_T << "." << std::endl;
+        log()->error("{} The time has to be a real positive number between 0 and {}.",
+                     logPrefix,
+                     m_T);
         return false;
     }
 
-    const double& t = time;
+    const double t = durationToSeconds(time);
+    const double T = durationToSeconds(m_T);
     // Compute the displacement in the tangent space
     // - displacement_tangent = log(finalRotation * initialRotation.inverse()) * s(t) (in case of
     //                                                                                 Right
@@ -80,9 +91,10 @@ bool SO3Planner<trivialization>::evaluatePoint(const double& time,
     //                                                                                 Trivialization)
     // You can find the computation of s in "Modern Robotics: Mechanics, Planning, and Control"
     // (Chapter 9.2)
-    const double s = 10 * std::pow(t / m_T, 3)
-                     - 15 * std::pow(t / m_T, 4)
-                     + 6 * std::pow(t / m_T, 5);
+    // TODO (Giulio) avoid to use t / T you may use std::chrono::ratio
+    const double s = 10 * std::pow(t / T, 3)
+                     - 15 * std::pow(t / T, 4)
+                     + 6 * std::pow(t / T, 5);
     const manif::SO3d::Tangent displacementTangent = m_distance * s;
 
     if constexpr (trivialization == LieGroupTrivialization::Right)
@@ -100,38 +112,38 @@ bool SO3Planner<trivialization>::evaluatePoint(const double& time,
     // trivialization)
     // You can find the computation of sDot in "Modern Robotics: Mechanics, Planning, and Control"
     // (Chapter 9.2)
-    const double sDot = 10 * 3 * std::pow(t, 2) / std::pow(m_T, 3)
-                        - 15 * 4 * std::pow(t, 3) / std::pow(m_T, 4)
-                        + 6 * 5 * std::pow(t, 4) / std::pow(m_T, 5);
+    const double sDot = 10 * 3 * std::pow(t, 2) / std::pow(T, 3)
+                        - 15 * 4 * std::pow(t, 3) / std::pow(T, 4)
+                        + 6 * 5 * std::pow(t, 4) / std::pow(T, 5);
     velocity = m_distance * sDot;
 
     // compute acceleration (it is expressed in body / inertial frame accordingly to the chosen
     // trivialization)
     // You can find the computation of sDdot in "Modern Robotics: Mechanics,
     // Planning, and Control" (Chapter 9.2)
-    const double sDdot = 10 * 3 * 2 * t / std::pow(m_T, 3)
-                         - 15 * 4 * 3 * std::pow(t, 2) / std::pow(m_T, 4)
-                         + 6 * 5 * 4 * std::pow(t, 3) / std::pow(m_T, 5);
+    const double sDdot = 10 * 3 * 2 * t / std::pow(T, 3)
+                         - 15 * 4 * 3 * std::pow(t, 2) / std::pow(T, 4)
+                         + 6 * 5 * 4 * std::pow(t, 3) / std::pow(T, 5);
     acceleration = m_distance * sDdot;
 
     return true;
 }
 
 template <LieGroupTrivialization trivialization>
-bool SO3Planner<trivialization>::evaluatePoint(const double& time,
+bool SO3Planner<trivialization>::evaluatePoint(const std::chrono::nanoseconds& time,
                                                SO3PlannerState& state) const
 {
     return this->evaluatePoint(time, state.rotation, state.velocity, state.acceleration);
 }
 
 template <LieGroupTrivialization trivialization>
-bool SO3Planner<trivialization>::setAdvanceTimeStep(const double& dt)
+bool SO3Planner<trivialization>::setAdvanceTimeStep(const std::chrono::nanoseconds& dt)
 {
-    if (dt <= 0)
+    constexpr auto logPrefix = "[SO3Planner::setAdvanceTimeStep]";
+    if (dt <= std::chrono::nanoseconds::zero())
     {
-        std::cerr << "[SO3Planner::setAdvanceTimeStep] The time step of the advance time has "
-                     "to be a strictly positive number."
-                  << std::endl;
+        log()->error("{} The time step of the advance time has to be a strictly positive number.",
+                     logPrefix);
         return false;
     }
 
@@ -144,16 +156,17 @@ template <LieGroupTrivialization trivialization>
 bool SO3Planner<trivialization>::isOutputValid() const
 {
     // if the time step is different from zero
-    return (m_advanceTimeStep != 0.0);
+    return (m_advanceTimeStep != std::chrono::nanoseconds::zero());
 }
 
 template <LieGroupTrivialization trivialization> bool SO3Planner<trivialization>::advance()
 {
+    constexpr auto logPrefix = "[SO3Planner::advance]";
     if (!this->isOutputValid())
     {
-        std::cerr << "[SO3Planner::advance] The advance capabilities cannot be used. Did you "
-                     "set the advance time step?"
-                  << std::endl;
+        log()->error("{} The advance capabilities cannot be used. Did you set the advance time "
+                     "step?",
+                     logPrefix);
         return false;
     }
 
