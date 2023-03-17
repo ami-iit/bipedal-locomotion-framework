@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <string>
 
 #include <BipedalLocomotion/GenericContainer/Vector.h>
@@ -33,6 +34,13 @@ void StdImplementation::setParameter(
     return setParameterPrivate(parameterName, parameter);
 }
 
+void StdImplementation::setParameter(
+        const std::string& parameterName,
+        const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
 bool StdImplementation::getParameter(const std::string& parameterName,
                                      GenericContainer::Vector<int>::Ref parameter) const
 {
@@ -47,6 +55,13 @@ bool StdImplementation::getParameter(const std::string& parameterName,
 
 bool StdImplementation::getParameter(const std::string& parameterName,
                                      GenericContainer::Vector<std::string>::Ref parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
+bool StdImplementation::getParameter(
+    const std::string& parameterName,
+    GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -67,6 +82,12 @@ bool StdImplementation::getParameter(const std::string& parameterName, std::stri
 }
 
 bool StdImplementation::getParameter(const std::string& parameterName, bool& parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
+bool StdImplementation::getParameter(const std::string& parameterName,
+                                     std::chrono::nanoseconds& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -98,6 +119,12 @@ void StdImplementation::setParameter(const std::string& parameterName, const std
 }
 
 void StdImplementation::setParameter(const std::string& parameterName, const bool& parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
+void StdImplementation::setParameter(const std::string& parameterName,
+                                     const std::chrono::nanoseconds& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
