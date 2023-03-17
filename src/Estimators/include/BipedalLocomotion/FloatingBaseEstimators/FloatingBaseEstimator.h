@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
 
+#include <chrono>
 #include <iDynTree/KinDynComputations.h>
 #include <iostream>
 #include <memory>
@@ -195,8 +196,8 @@ public:
     */
     bool setContactStatus(const std::string& name,
                           const bool& contactStatus,
-                          const double& switchTime,
-                          double timeNow = 0.);
+                          const std::chrono::nanoseconds& switchTime,
+                          const std::chrono::nanoseconds& = std::chrono::nanoseconds::zero());
 
     /**
     * Set kinematic measurements
@@ -220,7 +221,7 @@ public:
     bool setLandmarkRelativePose(const int& landmarkID,
                                  const Eigen::Quaterniond& quat,
                                  const Eigen::Vector3d& pos,
-                                 const double& timeNow);
+                                 const std::chrono::nanoseconds& timeNow);
 
     /**
     * Compute one step of the estimator
