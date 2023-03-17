@@ -6,6 +6,7 @@
  */
 
 // std
+#include <chrono>
 #include <memory>
 
 // Catch2
@@ -32,7 +33,8 @@ TEST_CASE("Get parameters")
        John = "Smith"
        "Fibonacci Numbers" = [1, 1, 2, 3, 5, 8, 13, 21]
        flag = true
-       flags = [true, false, false, true, true, true])"sv;
+       flags = [true, false, false, true, true, true]
+       time = 13:34:43.014532)"sv;
 
     toml::table tbl = toml::parse(some_toml);
 
@@ -59,6 +61,36 @@ TEST_CASE("Get parameters")
         REQUIRE(parameterHandler->getParameter("flag", element));
         REQUIRE(element == true);
     }
+
+    SECTION("Get std::chrono::nanoseconds")
+    {
+        std::chrono::nanoseconds element;
+        REQUIRE(parameterHandler->getParameter("time", element));
+        const toml::time tomlTime = tbl.get("time")->value<toml::time>().value();
+        REQUIRE(tomlTime.hour == std::chrono::duration_cast<std::chrono::hours>(element).count());
+        REQUIRE(tomlTime.minute
+                == std::chrono::duration_cast<std::chrono::minutes>(element % std::chrono::hours(1))
+                       .count());
+        REQUIRE(
+            tomlTime.second
+            == std::chrono::duration_cast<std::chrono::seconds>(element % std::chrono::minutes(1))
+                   .count());
+        REQUIRE(tomlTime.nanosecond
+                == std::chrono::duration_cast<std::chrono::nanoseconds>(element
+                                                                        % std::chrono::seconds(1))
+                       .count());
+    }
+
+    SECTION("Set std::chrono::nanoseconds")
+    {
+        using namespace std::chrono_literals;
+        std::chrono::nanoseconds element = 1h + 23min + 21s + 100ms;
+        std::chrono::nanoseconds retrievedElement;
+        parameterHandler->setParameter("time", element);
+        REQUIRE(parameterHandler->getParameter("time", retrievedElement));
+        REQUIRE(element == retrievedElement);
+    }
+
 
     SECTION("Get String")
     {
