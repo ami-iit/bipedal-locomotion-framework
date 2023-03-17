@@ -7,9 +7,11 @@
 
 #include <Eigen/Dense>
 
+#include <chrono>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/chrono.h>
 
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/CubicSpline.h>
@@ -47,7 +49,7 @@ void CreateSpline(pybind11::module& module)
              py::arg("velocity"),
              py::arg("acceleration"))
         .def("evaluate_point",
-             py::overload_cast<const double&,
+             py::overload_cast<const std::chrono::nanoseconds&,
                                Eigen::Ref<Eigen::VectorXd>,
                                Eigen::Ref<Eigen::VectorXd>,
                                Eigen::Ref<Eigen::VectorXd>>(&Spline::evaluatePoint),

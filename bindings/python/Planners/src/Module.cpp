@@ -1,5 +1,5 @@
 /**
- * @file ParametersHandler.cpp
+ * @file Module.cpp
  * @authors Giulio Romualdi, Diego Ferigo
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -12,7 +12,6 @@
 #include <BipedalLocomotion/bindings/Planners/Spline.h>
 #include <BipedalLocomotion/bindings/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/bindings/Planners/TimeVaryingDCMPlanner.h>
-#include <BipedalLocomotion/bindings/Planners/UnicyclePlanner.h>
 
 namespace BipedalLocomotion
 {
@@ -30,7 +29,6 @@ void CreateModule(pybind11::module& module)
     CreateDCMPlanner(module);
     CreateTimeVaryingDCMPlanner(module);
     CreateSwingFootPlanner(module);
-    CreateUnicyclePlanner(module);
 }
 } // namespace Planners
 } // namespace bindings

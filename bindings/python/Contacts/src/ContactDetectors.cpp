@@ -8,6 +8,7 @@
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/chrono.h>
 
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 #include <BipedalLocomotion/ContactDetectors/FixedFootDetector.h>
