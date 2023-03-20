@@ -18,6 +18,12 @@ namespace Math
  * acceleration of an object in a vacuum near the surface of the Earth.
  */
 constexpr double StandardAccelerationOfGravitation = 9.80665;
+
+/**
+ * The Absolute tolerance used to consider two double equal.
+ */
+constexpr double AbsoluteEqualityDoubleTolerance = 1e-8;
+
 } // namespace Math
 } // namespace BipedalLocomotion
 

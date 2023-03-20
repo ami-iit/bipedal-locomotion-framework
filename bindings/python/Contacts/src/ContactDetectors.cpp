@@ -1,7 +1,7 @@
 /**
  * @file ContactDetectors.cpp
  * @authors Prashanth Ramadoss
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/ContactDetectors/ContactDetector.h>
 #include <BipedalLocomotion/ContactDetectors/FixedFootDetector.h>
 #include <BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h>
+#include <BipedalLocomotion/Math/SchmittTrigger.h>
 
 #include <BipedalLocomotion/bindings/Contacts/ContactDetectors.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
@@ -35,51 +36,11 @@ void CreateContactDetector(pybind11::module& module)
     py::class_<ContactDetector, Source<EstimatedContactList>>(module, "ContactDetector");
 }
 
-void CreateSchmittTriggerUnit(pybind11::module& module)
-{
-    namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Contacts;
-
-    py::class_<SchmittTriggerInput>(module, "SchmittTriggerInput")
-        .def(py::init())
-        .def_readwrite("time", &SchmittTriggerInput::time)
-        .def_readwrite("value", &SchmittTriggerInput::value);
-
-    py::class_<SchmittTriggerParams>(module, "SchmittTriggerParams")
-        .def(py::init())
-        .def_readwrite("on_threshold", &SchmittTriggerParams::onThreshold)
-        .def_readwrite("off_threshold", &SchmittTriggerParams::offThreshold)
-        .def_readwrite("switch_on_after", &SchmittTriggerParams::switchOnAfter)
-        .def_readwrite("switch_off_after", &SchmittTriggerParams::switchOffAfter);
-
-    py::class_<SchmittTriggerUnit>(module, "SchmittTriggerUnit")
-        .def(py::init())
-        .def("set_state",
-             py::overload_cast<const bool&>(&SchmittTriggerUnit::setState),
-             py::arg("state"))
-        .def("set_state",
-             py::overload_cast<const bool&, const double&>(&SchmittTriggerUnit::setState),
-             py::arg("state"),
-             py::arg("time_now"))
-        .def("set_params", &SchmittTriggerUnit::setParams, py::arg("params"))
-        .def("update", &SchmittTriggerUnit::update, py::arg("current_time"), py::arg("raw_value"))
-        .def("reset", &SchmittTriggerUnit::reset)
-        .def("get_state", py::overload_cast<>(&SchmittTriggerUnit::getState))
-        .def("get_state_and_switch_time",
-             [](SchmittTriggerUnit& impl) {
-                 double switchTime;
-                 bool ok = impl.getState(switchTime);
-                 return std::make_tuple(ok, switchTime);
-             })
-        .def("get_params", &SchmittTriggerUnit::getParams);
-}
-
 void CreateSchmittTriggerDetector(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
-    using namespace BipedalLocomotion::System;
-    using namespace BipedalLocomotion::ParametersHandler;
+    using namespace BipedalLocomotion::Math;
 
     py::class_<SchmittTriggerDetector, ContactDetector>(module, "SchmittTriggerDetector")
         .def(py::init())
@@ -88,28 +49,20 @@ void CreateSchmittTriggerDetector(pybind11::module& module)
              py::overload_cast<const std::string&>(&SchmittTriggerDetector::get, py::const_),
              py::arg("contact_name"))
         .def("set_timed_trigger_input",
-             &SchmittTriggerDetector::setTimedTriggerInput,
+             py::overload_cast<const std::string&, const SchmittTriggerInput&>(
+                 &SchmittTriggerDetector::setTimedTriggerInput),
              py::arg("contact_name"),
-             py::arg("time"),
-             py::arg("trigger_input"))
+             py::arg("input"))
         .def("set_timed_trigger_inputs",
-             &SchmittTriggerDetector::setTimedTriggerInputs,
+             py::overload_cast<const std::unordered_map<std::string, //
+                                                        Math::SchmittTriggerInput>&>(
+                 &SchmittTriggerDetector::setTimedTriggerInputs),
              py::arg("timed_inputs"))
         .def("add_contact",
-             py::overload_cast<const std::string&, const bool&, const SchmittTriggerParams&>(
-                 &SchmittTriggerDetector::addContact),
+             &SchmittTriggerDetector::addContact,
              py::arg("contact_name"),
              py::arg("initial_state"),
              py::arg("params"))
-        .def("add_contact",
-             py::overload_cast<const std::string&,
-                               const bool&,
-                               const SchmittTriggerParams&,
-                               const double&>(&SchmittTriggerDetector::addContact),
-             py::arg("contact_name"),
-             py::arg("initial_state"),
-             py::arg("params"),
-             py::arg("time_now"))
         .def("reset_state",
              &SchmittTriggerDetector::resetState,
              py::arg("contact_name"),
@@ -126,15 +79,14 @@ void CreateFixedFootDetector(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
-    using namespace BipedalLocomotion::System;
-    using namespace BipedalLocomotion::ParametersHandler;
 
     py::class_<FixedFootDetector, ContactDetector>(module, "FixedFootDetector")
         .def(py::init())
         .def("get_fixed_foot", &FixedFootDetector::getFixedFoot)
         .def("set_contact_phase_list",
              &FixedFootDetector::setContactPhaseList,
-             py::arg("phase_list"));
+             py::arg("phase_list"))
+        .def("reset_time", &FixedFootDetector::resetTime, py::arg("time"));
 }
 
 } // namespace Contacts

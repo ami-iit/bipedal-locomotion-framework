@@ -1,7 +1,7 @@
 /**
  * @file FixedFootDetectorUnitTest.cpp
  * @authors Giulio Romualdi
- * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2021-2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -33,35 +33,35 @@ FixedFootState getFixedFootState(double t, const ContactListMap& listMap)
     state.leftFoot.pose = listMap.find("left_foot")->second.getPresentContact(t)->pose;
     state.rightFoot.pose = listMap.find("right_foot")->second.getPresentContact(t)->pose;
 
-    if (t <= 1)
+    if (t < 1)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t <= 3)
+    } else if (t < 3)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t <= 5)
+    } else if (t < 5)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t <= 7)
+    } else if (t < 7)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t <= 9)
+    } else if (t < 9)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t <= 11)
+    } else if (t < 11)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t <= 13)
+    } else if (t < 13)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t <= 15)
+    } else if (t < 15)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
@@ -141,15 +141,17 @@ TEST_CASE("Fixed Foot Detector")
     REQUIRE(detector.initialize(handler));
 
     const auto phaseList = createContactList();
-    double currentTime = phaseList.firstPhase()->beginTime;
     detector.setContactPhaseList(phaseList);
 
-    for (; currentTime < horizon;)
+    for (int i = 0; i < horizon / dT; i++)
     {
+        // advance is used to advance the time stored in the detector and to evaluate the outputs
+        REQUIRE(detector.advance());
+
+        const double currentTime = phaseList.firstPhase()->beginTime + i * dT;
         auto state = getFixedFootState(currentTime, phaseList.lists());
 
-        REQUIRE(detector.getOutput().find("right_foot")->second.isActive
-                == state.rightFoot.isActive);
+        REQUIRE(detector.getOutput().find("right_foot")->second.isActive == state.rightFoot.isActive);
         REQUIRE(detector.getOutput().find("left_foot")->second.isActive == state.leftFoot.isActive);
 
         if (state.leftFoot.isActive)
@@ -163,10 +165,5 @@ TEST_CASE("Fixed Foot Detector")
             // Error this should never happen
             REQUIRE(false);
         }
-
-        // advance is used to advance the time stored in the detector
-        REQUIRE(detector.advance());
-
-        currentTime += dT;
     }
 }

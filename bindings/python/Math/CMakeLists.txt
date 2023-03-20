@@ -6,7 +6,7 @@ set(H_PREFIX include/BipedalLocomotion/bindings/Math)
 
 add_bipedal_locomotion_python_module(
   NAME MathBindings
-  SOURCES src/Constants.cpp src/Module.cpp
-  HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/Module.h
+  SOURCES src/Constants.cpp src/SchmittTrigger.cpp src/Module.cpp
+  HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/SchmittTrigger.h ${H_PREFIX}/Module.h
   LINK_LIBRARIES BipedalLocomotion::Math
   )
