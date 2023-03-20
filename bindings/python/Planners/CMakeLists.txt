@@ -27,7 +27,7 @@ if(FRAMEWORK_COMPILE_Planners)
     TESTS
     tests/test_quintic_spline.py
     tests/test_swing_foot_planner.py
-    tests/test_time_verying_dcm_planner.py
+    tests/test_time_varying_dcm_planner.py
     )
 
 endif()
