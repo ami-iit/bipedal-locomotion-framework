@@ -39,7 +39,7 @@ public:
     ~SchmittTriggerDetector();
 
     /**
-    * Initialize the SchmittTriggerDetector witn a parameters handler.
+    * Initialize the SchmittTriggerDetector with a parameters handler.
     * @param[in] handler configure the custom parameters for the detector.
     * @note The following parameters are required
     * |        Parameter Name        |       Type       |                                                                                             Description                                                                                             | Mandatory |

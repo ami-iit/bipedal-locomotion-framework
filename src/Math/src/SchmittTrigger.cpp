@@ -80,7 +80,7 @@ bool SchmittTrigger::advance()
     // if the trigger is not active
     if (!m_state.state)
     {
-        // the state is deactivate this means that we can reset the fallingEdgeTimeInstant. We can
+        // the state is inactive this means that we can reset the fallingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
         m_fallingEdgeTimeInstant = -1;
 
@@ -108,7 +108,7 @@ bool SchmittTrigger::advance()
     } else
     {
 
-        // the state is deactivate this means that we can reset the risingEdgeTimeInstant. We can
+        // the state is inactive this means that we can reset the risingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
         m_risingEdgeTimeInstant = -1;
 
