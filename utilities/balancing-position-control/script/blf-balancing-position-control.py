@@ -21,6 +21,7 @@ sys.path.extend([str(Path(__file__).parent.resolve() / ".." / "share" / "Bipedal
 from balancing_position_control.wbc import WBC
 from balancing_position_control.zmp import evaluate_local_zmp, evaluate_global_zmp
 
+from datetime import timedelta
 
 def build_remote_control_board_driver(param_handler: blf.parameters_handler.IParametersHandler, local_prefix: str):
     param_handler.set_parameter_string("local_prefix", local_prefix)
@@ -38,6 +39,8 @@ def build_contact_wrenches_driver(params_contact_wrenches: blf.parameters_handle
     contact_wrenches_drivers = dict()
     contact_wrenches_names = dict()
     contact_wrenches_names["left_foot"] = []
+    contact_wrenches_names["right_foot"] = []
+
     for wrench_name in params_contact_wrenches.get_parameter_vector_string("left_contact_wrenches_group"):
         contact_wrenches_drivers[wrench_name] = build_contact_wrench_driver(
             params_contact_wrenches.get_group(wrench_name), local_prefix)
@@ -74,12 +77,12 @@ def get_base_frame(base_frame: str, kindyn: idyn.KinDynComputations):
     return base_frame_name, kindyn.getRelativeTransform(frame_base_index, link_base_index)
 
 
-def create_new_spline(knots_positions, motion_duration, dt):
+def create_new_spline(knots_positions, motion_duration: timedelta, dt: timedelta):
     com_spline = blf.planners.QuinticSpline()
     com_spline.set_initial_conditions([0, 0, 0], [0, 0, 0])
     com_spline.set_final_conditions([0, 0, 0], [0, 0, 0])
     com_spline.set_advance_time_step(dt)
-    com_spline.set_knots(knots_positions, [0, motion_duration])
+    com_spline.set_knots(knots_positions, [timedelta(seconds=0), motion_duration])
     return com_spline
 
 
@@ -94,9 +97,7 @@ def main():
 
     contact_force_threshold = param_handler.get_parameter_float("contact_force_threshold")
 
-    dt = param_handler.get_parameter_float("dt")
-    # convert the period in milliseconds
-    period = datetime.timedelta(milliseconds=dt * 1000)
+    dt = param_handler.get_parameter_datetime("dt")
 
     kindyn = build_kin_dyn(param_handler=param_handler)
     kindyn_with_measured = build_kin_dyn(param_handler=param_handler)
@@ -162,8 +163,8 @@ def main():
     com_knots_delta_x = param_handler.get_parameter_vector_float("com_knots_delta_x")
     com_knots_delta_y = param_handler.get_parameter_vector_float("com_knots_delta_y")
     com_knots_delta_z = param_handler.get_parameter_vector_float("com_knots_delta_z")
-    motion_duration = param_handler.get_parameter_float("motion_duration")
-    motion_timeout = param_handler.get_parameter_float("motion_timeout")
+    motion_duration = param_handler.get_parameter_datetime("motion_duration")
+    motion_timeout = param_handler.get_parameter_datetime("motion_timeout")
 
     spline = create_new_spline(
         [initial_com_position + np.array([com_knots_delta_x[0], com_knots_delta_y[0], com_knots_delta_z[0]]),
@@ -194,7 +195,7 @@ def main():
         assert ik.solver.is_output_valid()
 
         # integrate the system
-        desired_joint_positions += ik.solver.get_output().joint_velocity * dt
+        desired_joint_positions += ik.solver.get_output().joint_velocity * dt.total_seconds()
 
         # send the joint pose
         assert robot_control.set_references(desired_joint_positions,
@@ -255,8 +256,8 @@ def main():
 
         toc = blf.clock().now()
         delta_time = toc - tic
-        if delta_time < period:
-            blf.clock().sleep_for(period - delta_time)
+        if delta_time < dt:
+            blf.clock().sleep_for(dt - delta_time)
 
     port.close()
 
