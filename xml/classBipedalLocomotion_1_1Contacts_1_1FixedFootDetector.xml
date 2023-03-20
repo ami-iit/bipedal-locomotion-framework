@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="66" column="22" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="66" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="69" column="22" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1abc67248060b923b21a476ac0c83afb79" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="67" column="12" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="70" column="12" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a27b53afd200b832d4bcb4722f39939fb" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="68" column="12" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="68" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="71" column="12" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a6f45fb20015fbb29dd48392a84932993" prot="private" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">EstimatedContact</ref></type>
@@ -61,16 +61,35 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="69" column="22" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="69" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="72" column="22" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1acae539041db3bf7ddc2de9693d6a4012" prot="private" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::customInitialization</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler) final</argsstring>
-        <name>customInitialization</name>
-        <reimplements refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad1abbcb2664c44fbc2b5274b3317089a">customInitialization</reimplements>
+        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::updateFixedFoot</definition>
+        <argsstring>()</argsstring>
+        <name>updateFixedFoot</name>
+        <briefdescription>
+<para>Update the fixed foot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true in case of success/false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="78" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a9f0d68679f2398e6f00496176d8b7124" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::initialize</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler) override</argsstring>
+        <name>initialize</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>
@@ -109,14 +128,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="80" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="91" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ce837a6dcc21ac37faba2a162f6f677" prot="private" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::updateContactStates</definition>
-        <argsstring>() final</argsstring>
-        <name>updateContactStates</name>
-        <reimplements refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1aa14726515b605a427ef50a37ac7e7646">updateContactStates</reimplements>
+        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::advance</definition>
+        <argsstring>() override</argsstring>
+        <name>advance</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2">advance</reimplements>
         <briefdescription>
 <para>Update the contact state. </para>
         </briefdescription>
@@ -127,30 +146,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="87" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="97" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::updateFixedFoot</definition>
-        <argsstring>()</argsstring>
-        <name>updateFixedFoot</name>
-        <briefdescription>
-<para>Update the fixed foot. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>true in case of success/false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="93" column="10"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4a4433c8d78cfa699ff2fd3cfadd686e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::FixedFootDetector::setContactPhaseList</definition>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1ac31610106e9493942579d844d6b45e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::Contacts::FixedFootDetector::setContactPhaseList</definition>
         <argsstring>(const ContactPhaseList &amp;phaseList)</argsstring>
         <name>setContactPhaseList</name>
         <param>
@@ -174,7 +174,35 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="101" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="103" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a89bd900b3a955833db99a37f600159e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::Contacts::FixedFootDetector::resetTime</definition>
+        <argsstring>(const double &amp;time)</argsstring>
+        <name>resetTime</name>
+        <param>
+          <type>const double &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Reset the time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the time in seconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="109" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">EstimatedContact</ref> &amp;</type>
@@ -191,7 +219,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="107" column="28"/>
+        <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="115" column="28"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -207,17 +235,20 @@
 <codeline><highlight class="normal">L<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|</highlight></codeline>
 <codeline><highlight class="normal">R<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|</highlight></codeline>
 <codeline><highlight class="normal">stance<sp/>foot<sp/><sp/>|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|</highlight></codeline>
-</programlisting> <simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" kindref="compound">FixedFootDetector</ref> class can handle only bipedal locomotion. I.e. the <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" kindref="compound">ContactPhaseList</ref> passed to <ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4a4433c8d78cfa699ff2fd3cfadd686e" kindref="member">FixedFootDetector::setContactPhaseList</ref> must contain only single support and double phases. </para>
+</programlisting> <simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" kindref="compound">FixedFootDetector</ref> class can handle only bipedal locomotion. I.e. the <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" kindref="compound">ContactPhaseList</ref> passed to <ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1ac31610106e9493942579d844d6b45e76" kindref="member">FixedFootDetector::setContactPhaseList</ref> must contain only single support and double phases. </para>
 </simplesect>
 <simplesect kind="warning"><para>The presented logic may not fit in a real scenario. Indeed the class implements an approach completely based on the desired footsteps and it does not consider the current state of the robot. We suggest to use <ref refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" kindref="compound">Contacts::SchmittTriggerDetector</ref> class if you want consider the force acting on the robot. </para>
 </simplesect>
-<simplesect kind="note"><para>Given the current implementation of the class, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" kindref="member">ContactDetector::advance</ref></computeroutput> only to <computeroutput>advance</computeroutput> the current time stored within the class. If you want to get the fixed foot at the initial time <formula id="103">$t=t_i$</formula>, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kindref="member">FixedFootDetector::getFixedFoot</ref></computeroutput> before calling advance. The following snippet can be used as a reference: <programlisting filename=".cpp"><codeline><highlight class="normal">FixedFootDetector<sp/>detector;</highlight></codeline>
+<simplesect kind="note"><para>Given the current implementation of the class, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" kindref="member">ContactDetector::advance</ref></computeroutput> only to <computeroutput>advance</computeroutput> the current time stored within the class. If you want to get the fixed foot at the initial time <formula id="103">$t=t_i$</formula>, you should call <computeroutput><ref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kindref="member">FixedFootDetector::getFixedFoot</ref></computeroutput> before calling advance. The following snippet can be used as a reference: <programlisting filename=".cpp"><codeline><highlight class="normal">FixedFootDetector<sp/>detector;</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>initialize<sp/>the<sp/>detector</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">detector.initialize(paramsHandler);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">detector.resetTime(contactPhaseList.firstPhase()-&gt;beginTime);</highlight></codeline>
 <codeline><highlight class="normal">detector.setContactPhaseList(contactPhaseList);</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>get<sp/>the<sp/>fixed<sp/>frame<sp/>at<sp/>initial<sp/>time<sp/>instant<sp/>(t<sp/>=<sp/>t_i)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">detector.advance();</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fixedFoot<sp/>=<sp/>detector.getFixedFoot();</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>get<sp/>the<sp/>fixed<sp/>frame<sp/>at<sp/>initial<sp/>time<sp/>+<sp/>sampling<sp/>time<sp/>instant<sp/>(t<sp/>=<sp/>t_i<sp/>+<sp/>dt)</highlight><highlight class="normal"></highlight></codeline>
@@ -390,16 +421,15 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="64" column="1" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="65" bodyend="108"/>
+    <location file="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" line="67" column="1" bodyfile="BipedalLocomotion/ContactDetectors/FixedFootDetector.h" bodystart="68" bodyend="116"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1acae539041db3bf7ddc2de9693d6a4012" prot="private" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>getFixedFoot</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>getOutput</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a9f0d68679f2398e6f00496176d8b7124" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a268884e697deca78b8d25350152f9a1e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>m_contactPhaselist</name></member>
@@ -410,11 +440,11 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a6f45fb20015fbb29dd48392a84932993" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>m_dummyContact</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a11bf662e6ea3ac76dcc4767172bf6adb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>resetContacts</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4a4433c8d78cfa699ff2fd3cfadd686e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>setContactPhaseList</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a89bd900b3a955833db99a37f600159e6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>resetTime</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1ac31610106e9493942579d844d6b45e76" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>setContactPhaseList</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a2d43086e84e475eaec9adeb9575dea84" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>State</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ce837a6dcc21ac37faba2a162f6f677" prot="private" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>updateContactStates</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>updateFixedFoot</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::FixedFootDetector</scope><name>~ContactDetector</name></member>

@@ -74,7 +74,6 @@
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pro-methods">Protected functions</a></li>
               </ul>
             </li>
           </ul>
@@ -91,40 +90,36 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a18818e068e8f5b9d95bf6a224625a270">
-              <span class="m-doc-wrap-bumper"><a href="#a18818e068e8f5b9d95bf6a224625a270" class="m-doc-self">SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#a18818e068e8f5b9d95bf6a224625a270" class="m-doc">SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a36c544fc955734a77ddf3c3e3bd65c77">
-              <span class="m-doc-wrap-bumper"><a href="#a36c544fc955734a77ddf3c3e3bd65c77" class="m-doc-self">~SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span>
+            <dd>Constructor.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#a36c544fc955734a77ddf3c3e3bd65c77" class="m-doc">~SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Destructor.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa9f1d7867940713092f7aeede5ecb1a9" class="m-doc">setTimedTriggerInput</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const double&amp; time,
-              const double&amp; triggerInput) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a12c749a6558f999fbcdafab99f0110d8" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Initialize the <a href="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector.html" class="m-doc">SchmittTriggerDetector</a> with a parameters handler.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aba31e8003654784ba231d90e897ce6e5" class="m-doc">setTimedTriggerInput</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput.html" class="m-doc">Math::<wbr />SchmittTriggerInput</a>&amp; input) -&gt; bool</span>
             </dt>
             <dd>Set trigger input and time stamp for an existing SchmittTrigger unit.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2648af69b21c9f2d39d1a8a2170cb492" class="m-doc">setTimedTriggerInputs</a>(</span><span class="m-doc-wrap">const std::unordered_map&lt;std::string, <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput.html" class="m-doc">SchmittTriggerInput</a>&gt;&amp; timedInputs) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac921d42d02d88a68fab7952cfc4e3d62" class="m-doc">setTimedTriggerInputs</a>(</span><span class="m-doc-wrap">const std::unordered_map&lt;std::string, <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput.html" class="m-doc">Math::<wbr />SchmittTriggerInput</a>&gt;&amp; timedInputs) -&gt; bool</span>
             </dt>
             <dd>Set trigger input and time stamp for existing units.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae29b106af8304ad0c79783ca9e1747e0" class="m-doc">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; initialState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params) -&gt; bool</span>
-            </dt>
-            <dd>Add a contact whose contact state need to be tracked.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af1102b14a5ffdd9f0cd97912ccd9fde5" class="m-doc">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; initialState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params,
-              const double&amp; time_now) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#abf5851f9bc76e39bf03d974d5895a273" class="m-doc">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTriggerState</a>&amp; initialState,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr />Params</a>&amp; params) -&gt; bool</span>
             </dt>
             <dd>Add a contact whose contact state need to be tracked.</dd>
             <dt>
@@ -133,37 +128,65 @@
             </dt>
             <dd>Reset a contact&#x27;s state.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a126a216cb35f5ba117e2080c15db23d3" class="m-doc">resetContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; state,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5fb1195af7ba13fa0984320acf556917" class="m-doc">resetContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const bool state,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr />Params</a>&amp; params) -&gt; bool</span>
             </dt>
             <dd>Reset a contact&#x27;s parameters.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#af0ebc3d9afa278e871be41e3c9be9896" class="m-doc">removeContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName) -&gt; bool</span>
             </dt>
             <dd>Remove contact from the Detector.</dd>
-          </dl>
-        </section>
-        <section id="pro-methods">
-          <h2><a href="#pro-methods">Protected functions</a></h2>
-          <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7a89fda43f5015ec24919151c3b005cc" class="m-doc">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1cf53a6d4a1bc4b6dd682e1c2fef8c69" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
-            <dd>These custom parameter specifications should be specified by the derived class.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1dd183cbfb911095b53efbccdc4cd38f" class="m-doc">updateContactStates</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Update contact states based on thresholding of contact normal forces and timing parameters.</dd>
+            <dd>Compute one step of the detector.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="aa9f1d7867940713092f7aeede5ecb1a9"><div>
+          <section class="m-doc-details" id="a18818e068e8f5b9d95bf6a224625a270"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa9f1d7867940713092f7aeede5ecb1a9" class="m-doc-self">setTimedTriggerInput</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const double&amp; time,
-              const double&amp; triggerInput)</span></span>
+              <span class="m-doc-wrap-bumper"> BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a18818e068e8f5b9d95bf6a224625a270" class="m-doc-self">SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>Constructor.</p>
+<p>It is required by the pimpl idiom.</p>
+          </div></section>
+          <section class="m-doc-details" id="a36c544fc955734a77ddf3c3e3bd65c77"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a36c544fc955734a77ddf3c3e3bd65c77" class="m-doc-self">~SchmittTriggerDetector</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>Destructor.</p>
+<p>It is required by the pimpl idiom.</p>
+          </div></section>
+          <section class="m-doc-details" id="a12c749a6558f999fbcdafab99f0110d8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a12c749a6558f999fbcdafab99f0110d8" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Initialize the <a href="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector.html" class="m-doc">SchmittTriggerDetector</a> with a parameters handler.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>configure the custom parameters for the detector.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are required</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>contacts</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the contact. The name can be used to retrieve the current status of a contact with <code><a href="classBipedalLocomotion_1_1Contacts_1_1ContactDetector.html#ad8e16e2a8a352a6fe6c99dbbf6270080" class="m-doc">ContactDetector::<wbr />get</a></code>.</td><td>Yes</td></tr><tr><td><code>contact_make_thresholds</code></td><td><code>vector&lt;double&gt;</code></td><td>Vector containing High-value thresholds to initiate an ON state switch after switchOnAfter time-units. For each contact specified in <code>contacts</code> the user needs to specify an element of the vector.</td><td>Yes</td></tr><tr><td><code>contact_break_thresholds</code></td><td><code>vector&lt;double&gt;</code></td><td>Vector containing Low-value thresholds to initiate an ON state switch after switchOnAfter time-units. For each contact specified in <code>contacts</code> the user needs to specify an element of the vector.</td><td>Yes</td></tr><tr><td><code>contact_make_switch_times</code></td><td><code>vector&lt;double&gt;</code></td><td>Time units to wait for before switching to <code>contact</code> state from <code>no-contact</code> state. For each contact specified in <code>contacts</code> the user needs to specify an element of the vector.</td><td>Yes</td></tr><tr><td><code>contact_break_switch_times</code></td><td><code>vector&lt;double&gt;</code></td><td>Time units to wait for before switching to <code>no-contact</code> state from <code>contact</code> state. For each contact specified in <code>contacts</code> the user needs to specify an element of the vector.</td><td>Yes</td></tr></tbody></table></aside>
+          </div></section>
+          <section class="m-doc-details" id="aba31e8003654784ba231d90e897ce6e5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aba31e8003654784ba231d90e897ce6e5" class="m-doc-self">setTimedTriggerInput</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput.html" class="m-doc">Math::<wbr />SchmittTriggerInput</a>&amp; input)</span></span>
             </h3>
             <p>Set trigger input and time stamp for an existing SchmittTrigger unit.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -176,12 +199,8 @@
                   <td>name of the contact</td>
                 </tr>
                 <tr>
-                  <td>time&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>time of measurement</td>
-                </tr>
-                <tr>
-                  <td>triggerInput</td>
-                  <td></td>
+                  <td>input&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>the imput of the trigger containing the contact force and the time instant</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -192,9 +211,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2648af69b21c9f2d39d1a8a2170cb492"><div>
+          <section class="m-doc-details" id="ac921d42d02d88a68fab7952cfc4e3d62"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2648af69b21c9f2d39d1a8a2170cb492" class="m-doc-self">setTimedTriggerInputs</a>(</span><span class="m-doc-wrap">const std::unordered_map&lt;std::string, <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput.html" class="m-doc">SchmittTriggerInput</a>&gt;&amp; timedInputs)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac921d42d02d88a68fab7952cfc4e3d62" class="m-doc-self">setTimedTriggerInputs</a>(</span><span class="m-doc-wrap">const std::unordered_map&lt;std::string, <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput.html" class="m-doc">Math::<wbr />SchmittTriggerInput</a>&gt;&amp; timedInputs)</span></span>
             </h3>
             <p>Set trigger input and time stamp for existing units.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -216,11 +235,11 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>any unit names in the input container that does not already exist will be ignored</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ae29b106af8304ad0c79783ca9e1747e0"><div>
+          <section class="m-doc-details" id="abf5851f9bc76e39bf03d974d5895a273"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae29b106af8304ad0c79783ca9e1747e0" class="m-doc-self">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; initialState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abf5851f9bc76e39bf03d974d5895a273" class="m-doc-self">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTriggerState</a>&amp; initialState,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr />Params</a>&amp; params)</span></span>
             </h3>
             <p>Add a contact whose contact state need to be tracked.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -239,45 +258,6 @@
                 <tr>
                   <td>params&nbsp;<span class="m-label m-flat m-info">in</span></td>
                   <td>Schmitt Trigger parameters</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>this method does not reset the state and parameters if the contact already exists</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="af1102b14a5ffdd9f0cd97912ccd9fde5"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af1102b14a5ffdd9f0cd97912ccd9fde5" class="m-doc-self">addContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; initialState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params,
-              const double&amp; time_now)</span></span>
-            </h3>
-            <p>Add a contact whose contact state need to be tracked.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">contactName&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>name of the contact</td>
-                </tr>
-                <tr>
-                  <td>initialState&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>initial contact state</td>
-                </tr>
-                <tr>
-                  <td>params&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>Schmitt Trigger parameters</td>
-                </tr>
-                <tr>
-                  <td>time_now&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>current time instant to initialize the Schmitt trigger timers</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -317,11 +297,11 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a126a216cb35f5ba117e2080c15db23d3"><div>
+          <section class="m-doc-details" id="a5fb1195af7ba13fa0984320acf556917"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a126a216cb35f5ba117e2080c15db23d3" class="m-doc-self">resetContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
-              const bool&amp; state,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams.html" class="m-doc">SchmittTriggerParams</a>&amp; params)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5fb1195af7ba13fa0984320acf556917" class="m-doc-self">resetContact</a>(</span><span class="m-doc-wrap">const std::string&amp; contactName,
+              const bool state,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params.html" class="m-doc">BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr />Params</a>&amp; params)</span></span>
             </h3>
             <p>Reset a contact&#x27;s parameters.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -373,34 +353,11 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a7a89fda43f5015ec24919151c3b005cc"><div>
+          <section class="m-doc-details" id="a1cf53a6d4a1bc4b6dd682e1c2fef8c69"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7a89fda43f5015ec24919151c3b005cc" class="m-doc-self">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span> <span class="m-label m-warning">protected</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1cf53a6d4a1bc4b6dd682e1c2fef8c69" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
             </h3>
-            <p>These custom parameter specifications should be specified by the derived class.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>configure the custom parameters for the detector</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a1dd183cbfb911095b53efbccdc4cd38f"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1dd183cbfb911095b53efbccdc4cd38f" class="m-doc-self">updateContactStates</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>Update contact states based on thresholding of contact normal forces and timing parameters.</p>
+            <p>Compute one step of the detector.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -409,6 +366,7 @@
                 </tr>
               </tfoot>
             </table>
+<p>This method uses all the inputs and evaluate the contact status considering the Schmitt trigger output.</p>
           </div></section>
         </section>
       </div>

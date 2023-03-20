@@ -248,15 +248,11 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af9644dfa23468dd4c37532600c491810" kind="variable"><name>m_detectorState</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" kind="variable"><name>m_contactStates</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" kind="function"><name>~ContactDetector</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a11bf662e6ea3ac76dcc4767172bf6adb" kind="function"><name>resetContacts</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" kind="function"><name>get</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" kind="function"><name>get</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad1abbcb2664c44fbc2b5274b3317089a" kind="function"><name>customInitialization</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1aa14726515b605a427ef50a37ac7e7646" kind="function"><name>updateContactStates</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1ContactList" kind="class"><name>BipedalLocomotion::Contacts::ContactList</name>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ab38a18dc96aec031256776d03d381c21" kind="typedef"><name>const_iterator</name></member>
@@ -336,7 +332,7 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ab304c552436d9dcd7a4fdd54276e6248" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a33083dbf15170a9c48e3a97459caa978" kind="function"><name>setLists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6176b67dc70fec29ab5cc742d1a060cb" kind="function"><name>setLists</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a321a56e42cf64ccab4c192998dfcc5c3" kind="function"><name>getPresentPhase</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a40e33b611c3135ce2817d897f4c9d3ea" kind="function"><name>getPresentPhase</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" kind="function"><name>lists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" kind="function"><name>begin</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" kind="function"><name>cbegin</name></member>
@@ -574,10 +570,11 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1abc67248060b923b21a476ac0c83afb79" kind="variable"><name>m_currentTime</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a27b53afd200b832d4bcb4722f39939fb" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a6f45fb20015fbb29dd48392a84932993" kind="variable"><name>m_dummyContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1acae539041db3bf7ddc2de9693d6a4012" kind="function"><name>customInitialization</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ce837a6dcc21ac37faba2a162f6f677" kind="function"><name>updateContactStates</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" kind="function"><name>updateFixedFoot</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4a4433c8d78cfa699ff2fd3cfadd686e" kind="function"><name>setContactPhaseList</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a9f0d68679f2398e6f00496176d8b7124" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1ac31610106e9493942579d844d6b45e76" kind="function"><name>setContactPhaseList</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a89bd900b3a955833db99a37f600159e6" kind="function"><name>resetTime</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kind="function"><name>getFixedFoot</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</name>
@@ -1224,6 +1221,13 @@
     <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a" kind="function"><name>isOutputValid</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params" kind="struct"><name>BipedalLocomotion::Math::SchmittTrigger::Params</name>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a632d9d4d4eaedfb969c6dc9d42848a7d" kind="variable"><name>onThreshold</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" kind="variable"><name>offThreshold</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a4d872163402bfb705fb474af6203ecc6" kind="variable"><name>switchOnAfter</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a43f78324f7022af34191e10317f5127b" kind="variable"><name>switchOffAfter</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a9e2d20a98a46370d5d5cb53d2595bec4" kind="variable"><name>timeComparisonThreshold</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData" kind="struct"><name>BipedalLocomotion::RobotInterface::PCLBridgeMetaData</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData_1a82396711aeecd07721acf9962cb33975" kind="variable"><name>pclDevList</name></member>
   </compound>
@@ -1459,45 +1463,42 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1a5b63c482f26f6e4ba77f2626f33b2eba" kind="function"><name>sink_it_</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1a8f2b619d9c6908966c6ddfbdcd77159d" kind="function"><name>flush_</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger" kind="class"><name>BipedalLocomotion::Math::SchmittTrigger</name>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abdfedef770360e9cfb5834ffb228eb69" kind="variable"><name>m_input</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa6199c770e68dfbb3a672d9ed45bd6f1" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a59743be60af2802202cfe7ff8b5c576c" kind="variable"><name>m_params</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4e79aa872e247d47185f800fb3f82c92" kind="variable"><name>m_timer</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abda3c01a61339ef6f5c6c931b24232a4" kind="variable"><name>m_risingEdgeTimeInstant</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a9900146df17719271e7224eab0c5f8be" kind="variable"><name>m_fallingEdgeTimeInstant</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1acb2f276e248cadb9d2d51c24ff57dcc9" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a24e1ed4970b0e45ccf2a95bb51a25991" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf24d81aa71d1e55750529cdcf824d8d" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa2a4f2527741ee1e5d6e2b147b9751cc" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a901267089c772b97bd7e3ac64de586f2" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1ae692d745e0ec26632774af963e551784" kind="function"><name>setInput</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" kind="class"><name>BipedalLocomotion::Contacts::SchmittTriggerDetector</name>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1aba3a015baeb0ae1f981477be8a69f225" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a18818e068e8f5b9d95bf6a224625a270" kind="function"><name>SchmittTriggerDetector</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a36c544fc955734a77ddf3c3e3bd65c77" kind="function"><name>~SchmittTriggerDetector</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1aa9f1d7867940713092f7aeede5ecb1a9" kind="function"><name>setTimedTriggerInput</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a2648af69b21c9f2d39d1a8a2170cb492" kind="function"><name>setTimedTriggerInputs</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1ae29b106af8304ad0c79783ca9e1747e0" kind="function"><name>addContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1af1102b14a5ffdd9f0cd97912ccd9fde5" kind="function"><name>addContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a12c749a6558f999fbcdafab99f0110d8" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1aba31e8003654784ba231d90e897ce6e5" kind="function"><name>setTimedTriggerInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1ac921d42d02d88a68fab7952cfc4e3d62" kind="function"><name>setTimedTriggerInputs</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1abf5851f9bc76e39bf03d974d5895a273" kind="function"><name>addContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1af358db9fa986a86ebafab00660150709" kind="function"><name>resetState</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a126a216cb35f5ba117e2080c15db23d3" kind="function"><name>resetContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a5fb1195af7ba13fa0984320acf556917" kind="function"><name>resetContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1af0ebc3d9afa278e871be41e3c9be9896" kind="function"><name>removeContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a7a89fda43f5015ec24919151c3b005cc" kind="function"><name>customInitialization</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1dd183cbfb911095b53efbccdc4cd38f" kind="function"><name>updateContactStates</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1cf53a6d4a1bc4b6dd682e1c2fef8c69" kind="function"><name>advance</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput" kind="struct"><name>BipedalLocomotion::Contacts::SchmittTriggerInput</name>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput_1a88c7aa64028788ca0ec1cb4ef811099a" kind="variable"><name>time</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput_1a5d8013414ec0e24de467bbbfad95a9bb" kind="variable"><name>value</name></member>
+  <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerInput</name>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a0a68393f5534c23644557a3af947a38c" kind="variable"><name>time</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a01413b0d02d236c18c66d50d6a7d2d01" kind="variable"><name>rawValue</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams" kind="struct"><name>BipedalLocomotion::Contacts::SchmittTriggerParams</name>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ab2d483cffbb26efcb7ef462a351e8981" kind="variable"><name>onThreshold</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aa731ffad66d108e7eccf5dcd365cb529" kind="variable"><name>offThreshold</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1aec16c5c85177725cd7484776d3627f5b" kind="variable"><name>switchOnAfter</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams_1ad0238e97815914b24427c5af00bcd0a7" kind="variable"><name>switchOffAfter</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit" kind="class"><name>BipedalLocomotion::Contacts::SchmittTriggerUnit</name>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a6298dacc4e7c1c8c3be227ca55985778" kind="variable"><name>params</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a053d40f68596535d613a8666af4ca49a" kind="variable"><name>state</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a26a38cdd667c37a90b64bac1b3821a1d" kind="variable"><name>switchTime</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a9ebcce3adceb5abe4672492ef4853ad9" kind="variable"><name>previousTime</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1aeb1ccd9f5918203f41c384b2ca8f9cb6" kind="variable"><name>timer</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a3a738cc629cae9bd77aca5aed1647aea" kind="variable"><name>initialTime</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a018915a83253b10c34c63ca52d7e610e" kind="function"><name>setState</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a78e4965dc63c0e5386e614b0bdfa1481" kind="function"><name>setState</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a5357a21225dfa3ea77e18eb48383bea9" kind="function"><name>setParams</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1af5c00625a6d7c344b93f2dea6e3b730f" kind="function"><name>update</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a0f026855b8617d6850d66645d8844607" kind="function"><name>reset</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1aace2cd564d9e2f365c115c157c9ba974" kind="function"><name>getState</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1ae0239f5b196240baaa78aea0317cf0a5" kind="function"><name>getState</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit_1a77a8b78d00a4dafc9f9c0c4aa4edfe0b" kind="function"><name>getParams</name></member>
+  <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerState</name>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a49e7f1cea101cf7a4257ce9732a32c3b" kind="variable"><name>state</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1ae5222dd9164c482ec78bbb3bc9216d9f" kind="variable"><name>switchTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a52dbd0abc94c174cc74caf8cc22caaac" kind="variable"><name>edgeTime</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kind="class"><name>BipedalLocomotion::IK::SE3Task</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a3bf3e747f32c05b7b7539066cfdd8096" kind="typedef"><name>Mode</name></member>
@@ -2295,6 +2296,7 @@
   <compound refid="namespaceBipedalLocomotion_1_1Math" kind="namespace"><name>BipedalLocomotion::Math</name>
     <member refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kind="typedef"><name>Wrenchd</name></member>
     <member refid="Constants_8h_1a8dc72d6e2ec8af58271cf20db8ec00b3" kind="variable"><name>StandardAccelerationOfGravitation</name></member>
+    <member refid="Constants_8h_1ae61a7ae0cd848f41a7f2d9dfa1e84000" kind="variable"><name>AbsoluteEqualityDoubleTolerance</name></member>
     <member refid="Wrench_8h_1ab4a25ba86637fb8d91b30827c776d934" kind="function"><name>operator*</name></member>
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
   </compound>
@@ -2516,10 +2518,13 @@
   </compound>
   <compound refid="Constants_8h" kind="file"><name>Constants.h</name>
     <member refid="Constants_8h_1a8dc72d6e2ec8af58271cf20db8ec00b3" kind="variable"><name>StandardAccelerationOfGravitation</name></member>
+    <member refid="Constants_8h_1ae61a7ae0cd848f41a7f2d9dfa1e84000" kind="variable"><name>AbsoluteEqualityDoubleTolerance</name></member>
   </compound>
   <compound refid="ContactWrenchCone_8h" kind="file"><name>ContactWrenchCone.h</name>
   </compound>
   <compound refid="LinearizedFrictionCone_8h" kind="file"><name>LinearizedFrictionCone.h</name>
+  </compound>
+  <compound refid="SchmittTrigger_8h" kind="file"><name>SchmittTrigger.h</name>
   </compound>
   <compound refid="Wrench_8h" kind="file"><name>Wrench.h</name>
     <member refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kind="typedef"><name>Wrenchd</name></member>

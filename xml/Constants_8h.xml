@@ -4,6 +4,8 @@
     <compoundname>Constants.h</compoundname>
     <includedby refid="FixedBaseDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</includedby>
     <includedby refid="FloatingBaseDynamicsWithCompliantContacts_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</includedby>
+    <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
+    <includedby refid="SchmittTrigger_8h" local="no">BipedalLocomotion/Math/SchmittTrigger.h</includedby>
     <invincdepgraph>
       <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
@@ -19,6 +21,18 @@
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
+        <link refid="SchmittTriggerDetector_8h"/>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion/Math/SchmittTrigger.h</label>
+        <link refid="SchmittTrigger_8h"/>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -39,6 +53,21 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/Math/Constants.h" line="20" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Constants_8h_1ae61a7ae0cd848f41a7f2d9dfa1e84000" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance</definition>
+        <argsstring></argsstring>
+        <name>AbsoluteEqualityDoubleTolerance</name>
+        <initializer>= 1e-8</initializer>
+        <briefdescription>
+<para>The Absolute tolerance used to consider two double equal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/Constants.h" line="25" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="25" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

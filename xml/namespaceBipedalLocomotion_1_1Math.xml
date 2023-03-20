@@ -5,6 +5,9 @@
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1CARE" prot="public">BipedalLocomotion::Math::CARE</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone" prot="public">BipedalLocomotion::Math::ContactWrenchCone</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" prot="public">BipedalLocomotion::Math::LinearizedFrictionCone</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" prot="public">BipedalLocomotion::Math::SchmittTriggerState</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Math::SchmittTriggerInput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger" prot="public">BipedalLocomotion::Math::SchmittTrigger</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1Wrench" prot="public">BipedalLocomotion::Math::Wrench</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" prot="public" static="no">
@@ -37,6 +40,21 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/Math/Constants.h" line="20" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Constants_8h_1ae61a7ae0cd848f41a7f2d9dfa1e84000" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance</definition>
+        <argsstring></argsstring>
+        <name>AbsoluteEqualityDoubleTolerance</name>
+        <initializer>= 1e-8</initializer>
+        <briefdescription>
+<para>The Absolute tolerance used to consider two double equal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/Constants.h" line="25" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="25" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">

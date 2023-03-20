@@ -73,7 +73,6 @@
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pri-methods">Private functions</a></li>
               </ul>
             </li>
           </ul>
@@ -81,7 +80,7 @@
 <p>The logic used to find the fixed foot is the follow:</p><ul><li>In the single support phase the fixed foot is the stance foot</li><li>In the double support phase the fixed foot is the foot in switch off phase, where switch off is the transition phase between stance and swing.</li></ul><p>The aforementioned logic is described by the following diagram</p><pre class="m-code">time         0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
 L            |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|
 R            |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
-stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|</pre><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html" class="m-doc">FixedFootDetector</a> class can handle only bipedal locomotion. I.e. the <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a> passed to <a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html#a4a4433c8d78cfa699ff2fd3cfadd686e" class="m-doc">FixedFootDetector::<wbr />setContactPhaseList</a> must contain only single support and double phases.</p><p>The presented logic may not fit in a real scenario. Indeed the class implements an approach completely based on the desired footsteps and it does not consider the current state of the robot. We suggest to use <a href="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector.html" class="m-doc">Contacts::<wbr />SchmittTriggerDetector</a> class if you want consider the force acting on the robot.</p></aside><aside class="m-note m-info"><h4>Note</h4><p>Given the current implementation of the class, you should call <code><a href="classBipedalLocomotion_1_1Contacts_1_1ContactDetector.html#a8600d27b4fd25ef5a19642c90da16008" class="m-doc">ContactDetector::<wbr />advance</a></code> only to <code>advance</code> the current time stored within the class. If you want to get the fixed foot at the initial time <svg class="m-math" style="width: 2.821em; height: 0.953em; vertical-align: -0.187em;" viewBox="0 -7.353395 27.083769 9.146658">
+stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|</pre><aside class="m-note m-danger"><h4>Warning</h4><p>The <a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html" class="m-doc">FixedFootDetector</a> class can handle only bipedal locomotion. I.e. the <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a> passed to <a href="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector.html#ac31610106e9493942579d844d6b45e76" class="m-doc">FixedFootDetector::<wbr />setContactPhaseList</a> must contain only single support and double phases.</p><p>The presented logic may not fit in a real scenario. Indeed the class implements an approach completely based on the desired footsteps and it does not consider the current state of the robot. We suggest to use <a href="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector.html" class="m-doc">Contacts::<wbr />SchmittTriggerDetector</a> class if you want consider the force acting on the robot.</p></aside><aside class="m-note m-info"><h4>Note</h4><p>Given the current implementation of the class, you should call <code><a href="classBipedalLocomotion_1_1System_1_1Advanceable.html#a67107e46e831d93f572558b541aab6d2" class="m-doc">ContactDetector::<wbr />advance</a></code> only to <code>advance</code> the current time stored within the class. If you want to get the fixed foot at the initial time <svg class="m-math" style="width: 2.821em; height: 0.953em; vertical-align: -0.187em;" viewBox="0 -7.353395 27.083769 9.146658">
 <title>
 $t=t_i$
 </title>
@@ -100,9 +99,12 @@ $t=t_i$
 
 <span class="c1">// initialize the detector</span>
 <span class="n">detector</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">paramsHandler</span><span class="p">);</span>
+
+<span class="n">detector</span><span class="p">.</span><span class="n">resetTime</span><span class="p">(</span><span class="n">contactPhaseList</span><span class="p">.</span><span class="n">firstPhase</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">beginTime</span><span class="p">);</span>
 <span class="n">detector</span><span class="p">.</span><span class="n">setContactPhaseList</span><span class="p">(</span><span class="n">contactPhaseList</span><span class="p">);</span>
 
 <span class="c1">// get the fixed frame at initial time instant (t = t_i)</span>
+<span class="n">detector</span><span class="p">.</span><span class="n">advance</span><span class="p">();</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">fixedFoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detector</span><span class="p">.</span><span class="n">getFixedFoot</span><span class="p">();</span>
 
 <span class="c1">// get the fixed frame at initial time + sampling time instant (t = t_i + dt)</span>
@@ -121,64 +123,32 @@ $t=t_i$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4a4433c8d78cfa699ff2fd3cfadd686e" class="m-doc">setContactPhaseList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&amp; phaseList) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9f0d68679f2398e6f00496176d8b7124" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Initialize the detector.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a04055b32348e7487046e29bfbd0e8894" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Update the contact state.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#ac31610106e9493942579d844d6b45e76" class="m-doc">setContactPhaseList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&amp; phaseList)</span>
             </dt>
             <dd>Set the contact phase list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a89bd900b3a955833db99a37f600159e6" class="m-doc">resetTime</a>(</span><span class="m-doc-wrap">const double&amp; time)</span>
+            </dt>
+            <dd>Reset the time.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a48faffe128483c4226b8dcfb56e98587" class="m-doc">getFixedFoot</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">EstimatedContact</a>&amp;</span>
             </dt>
             <dd>Get the fixed foot.</dd>
           </dl>
         </section>
-        <section id="pri-methods">
-          <h2><a href="#pri-methods">Private functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acae539041db3bf7ddc2de9693d6a4012" class="m-doc">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Initialize the detector.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4ce837a6dcc21ac37faba2a162f6f677" class="m-doc">updateContactStates</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Update the contact state.</dd>
-          </dl>
-        </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a4a4433c8d78cfa699ff2fd3cfadd686e"><div>
+          <section class="m-doc-details" id="a9f0d68679f2398e6f00496176d8b7124"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4a4433c8d78cfa699ff2fd3cfadd686e" class="m-doc-self">setContactPhaseList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&amp; phaseList)</span></span>
-            </h3>
-            <p>Set the contact phase list.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">phaseList</td>
-                  <td>a contact phase list</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a48faffe128483c4226b8dcfb56e98587"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">EstimatedContact</a>&amp; BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a48faffe128483c4226b8dcfb56e98587" class="m-doc-self">getFixedFoot</a>(</span><span class="m-doc-wrap">) const</span></span>
-            </h3>
-            <p>Get the fixed foot.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>the fixed foot.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="acae539041db3bf7ddc2de9693d6a4012"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acae539041db3bf7ddc2de9693d6a4012" class="m-doc-self">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">final</span> <span class="m-label m-danger">private</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9f0d68679f2398e6f00496176d8b7124" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Initialize the detector.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -200,9 +170,9 @@ $t=t_i$
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling time of the detector is seconds</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
-          <section class="m-doc-details" id="a4ce837a6dcc21ac37faba2a162f6f677"><div>
+          <section class="m-doc-details" id="a04055b32348e7487046e29bfbd0e8894"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4ce837a6dcc21ac37faba2a162f6f677" class="m-doc-self">updateContactStates</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span> <span class="m-label m-danger">private</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a04055b32348e7487046e29bfbd0e8894" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Update the contact state.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -214,6 +184,54 @@ $t=t_i$
               </tfoot>
             </table>
 <p>This function advance the current time stored in the class.</p>
+          </div></section>
+          <section class="m-doc-details" id="ac31610106e9493942579d844d6b45e76"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac31610106e9493942579d844d6b45e76" class="m-doc-self">setContactPhaseList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">ContactPhaseList</a>&amp; phaseList)</span></span>
+            </h3>
+            <p>Set the contact phase list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">phaseList</td>
+                  <td>a contact phase list</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a89bd900b3a955833db99a37f600159e6"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a89bd900b3a955833db99a37f600159e6" class="m-doc-self">resetTime</a>(</span><span class="m-doc-wrap">const double&amp; time)</span></span>
+            </h3>
+            <p>Reset the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>the time in seconds</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a48faffe128483c4226b8dcfb56e98587"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">EstimatedContact</a>&amp; BipedalLocomotion::<wbr />Contacts::<wbr />FixedFootDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a48faffe128483c4226b8dcfb56e98587" class="m-doc-self">getFixedFoot</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the fixed foot.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the fixed foot.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
         </section>
       </div>

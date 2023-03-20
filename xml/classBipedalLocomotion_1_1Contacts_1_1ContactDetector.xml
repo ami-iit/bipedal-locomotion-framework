@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
-  <compounddef id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector" kind="class" language="C++" prot="public" abstract="yes">
+  <compounddef id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::Contacts::ContactDetector</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; EstimatedContactList &gt;</basecompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" prot="public" virt="non-virtual">BipedalLocomotion::Contacts::FixedFootDetector</derivedcompoundref>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="95" column="5" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="96" bodyend="101"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="66" column="5" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="67" bodyend="72"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="103" column="11" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="103" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="74" column="11" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" prot="protected" static="no" mutable="no">
         <type>EstimatedContactList</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="104" column="26" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="104" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="75" column="26" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -86,55 +86,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="27" column="13"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::ContactDetector::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler) override</argsstring>
-        <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77">initialize</reimplements>
-        <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
-          <declname>handler</declname>
-        </param>
-        <briefdescription>
-<para>Configure generic parameters. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handler</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>configure the generic parameters for the estimator </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>True in case of success, false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="34" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
-        <type>bool</type>
-        <definition>bool BipedalLocomotion::Contacts::ContactDetector::advance</definition>
-        <argsstring>() final</argsstring>
-        <name>advance</name>
-        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2">advance</reimplements>
-        <briefdescription>
-<para>Compute one step of the detector The derived class must implement its own methods for setting measurements and update states to be called within the <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" kindref="member">advance()</ref> method. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True in case of success, false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="42" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -152,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="48" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="33" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const EstimatedContactList &amp;</type>
@@ -170,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="54" column="32"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="39" column="32"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a11bf662e6ea3ac76dcc4767172bf6adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -187,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="60" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="45" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -229,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="68" column="10"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="53" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref></type>
@@ -259,60 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="75" column="32"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="protected-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad1abbcb2664c44fbc2b5274b3317089a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::Contacts::ContactDetector::customInitialization</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler)</argsstring>
-        <name>customInitialization</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1acae539041db3bf7ddc2de9693d6a4012">customInitialization</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a7a89fda43f5015ec24919151c3b005cc">customInitialization</reimplementedby>
-        <param>
-          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
-          <declname>handler</declname>
-        </param>
-        <briefdescription>
-<para>These custom parameter specifications should be specified by the derived class. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handler</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>configure the custom parameters for the estimator </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>True if success, false otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="84" column="5"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1aa14726515b605a427ef50a37ac7e7646" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool BipedalLocomotion::Contacts::ContactDetector::updateContactStates</definition>
-        <argsstring>()=0</argsstring>
-        <name>updateContactStates</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ce837a6dcc21ac37faba2a162f6f677">updateContactStates</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1dd183cbfb911095b53efbccdc4cd38f">updateContactStates</reimplementedby>
-        <briefdescription>
-<para>The derived class must implement the contact detection technique to update the contact states. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if success, false otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="90" column="18"/>
+        <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="60" column="32"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -482,15 +380,14 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="24" column="1" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="25" bodyend="105"/>
+    <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="24" column="1" bodyfile="BipedalLocomotion/ContactDetectors/ContactDetector.h" bodystart="25" bodyend="76"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a8600d27b4fd25ef5a19642c90da16008" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad1abbcb2664c44fbc2b5274b3317089a" prot="protected" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>customInitialization</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1ad8e16e2a8a352a6fe6c99dbbf6270080" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a9d0a9f236c81d8fe59c50f2f7db33128" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1af11bae01dd074ff9e2d4ebdfcc7edd88" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>getOutput</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a489846dc2acb563a641e4098d5bc8457" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1add50895455a7713e665da0c93b027c12" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a028ec4c9e7bbf0fce3fd8c5e94f72a4c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>m_contactStates</name></member>
@@ -500,7 +397,6 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a2d43086e84e475eaec9adeb9575dea84" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>State</name></member>
-      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1aa14726515b605a427ef50a37ac7e7646" prot="protected" virt="pure-virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>updateContactStates</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector_1a586343d41d78cc88ea919e3600266fd3" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~ContactDetector</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Contacts::ContactDetector</scope><name>~InputPort</name></member>

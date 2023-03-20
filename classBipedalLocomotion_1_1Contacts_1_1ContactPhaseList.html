@@ -133,7 +133,8 @@
             </dt>
             <dd>Set the input lists.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a321a56e42cf64ccab4c192998dfcc5c3" class="m-doc">getPresentPhase</a>(</span><span class="m-doc-wrap">double time) const -&gt; <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a40e33b611c3135ce2817d897f4c9d3ea" class="m-doc">getPresentPhase</a>(</span><span class="m-doc-wrap">double time,
+              double tolerance = BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance) const -&gt; <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a></span>
             </dt>
             <dd>Get the phase given the time.</dd>
             <dt>
@@ -313,9 +314,10 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a321a56e42cf64ccab4c192998dfcc5c3"><div>
+          <section class="m-doc-details" id="a40e33b611c3135ce2817d897f4c9d3ea"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a> BipedalLocomotion::<wbr />Contacts::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a321a56e42cf64ccab4c192998dfcc5c3" class="m-doc-self">getPresentPhase</a>(</span><span class="m-doc-wrap">double time) const</span></span>
+              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html#a1c8c80ad2e16c659a230db8fe3d33b29" class="m-doc">const_<wbr />iterator</a> BipedalLocomotion::<wbr />Contacts::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a40e33b611c3135ce2817d897f4c9d3ea" class="m-doc-self">getPresentPhase</a>(</span><span class="m-doc-wrap">double time,
+              double tolerance = BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance) const</span></span>
             </h3>
             <p>Get the phase given the time.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -326,6 +328,10 @@
                 <tr>
                   <td style="width: 1%">time</td>
                   <td>The present time.</td>
+                </tr>
+                <tr>
+                  <td>tolerance</td>
+                  <td>positive parameter used for the comparison of two time instants. Given two instants if the error between the two is lower than the tolerance, the time instants are considered equal. Default value BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance</td>
                 </tr>
               </tbody>
               <tfoot>

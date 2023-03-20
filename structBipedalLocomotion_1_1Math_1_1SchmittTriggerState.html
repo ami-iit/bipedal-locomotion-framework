@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::Contacts::SchmittTriggerParams struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Math::SchmittTriggerState struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,10 +61,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Contacts.html">Contacts</a>::<wbr/></span>SchmittTriggerParams <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SchmittTriggerDetector_8h.html">&lt;BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Math.html">Math</a>::<wbr/></span>SchmittTriggerState <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SchmittTrigger_8h.html">&lt;BipedalLocomotion/Math/SchmittTrigger.h&gt;</a></div>
         </h1>
-        <p>Struct holding switching parameters for the Schmitt Trigger.</p>
+        <p><a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a> contains the internal state of the trigger,.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -79,40 +79,19 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="ab2d483cffbb26efcb7ef462a351e8981">
-              double <a href="#ab2d483cffbb26efcb7ef462a351e8981" class="m-doc-self">onThreshold</a>
+            <dt id="a49e7f1cea101cf7a4257ce9732a32c3b">
+              bool <a href="#a49e7f1cea101cf7a4257ce9732a32c3b" class="m-doc-self">state</a>
             </dt>
-            <dd>high value threshold to initiate an ON state switch after switchOnAfter time-units</dd>
-            <dt id="aa731ffad66d108e7eccf5dcd365cb529">
-              double <a href="#aa731ffad66d108e7eccf5dcd365cb529" class="m-doc-self">offThreshold</a>
+            <dd>current state</dd>
+            <dt id="ae5222dd9164c482ec78bbb3bc9216d9f">
+              double <a href="#ae5222dd9164c482ec78bbb3bc9216d9f" class="m-doc-self">switchTime</a>
             </dt>
-            <dd>low value threshold to initiate an OFF state switch after switchOffAfter time-units</dd>
-            <dt>
-              double <a href="#aec16c5c85177725cd7484776d3627f5b" class="m-doc">switchOnAfter</a>
+            <dd>time instant at which the state was toggled in seconds</dd>
+            <dt id="a52dbd0abc94c174cc74caf8cc22caaac">
+              double <a href="#a52dbd0abc94c174cc74caf8cc22caaac" class="m-doc-self">edgeTime</a>
             </dt>
-            <dd>time units to wait for before switching to ON state from OFF state.</dd>
-            <dt>
-              double <a href="#ad0238e97815914b24427c5af00bcd0a7" class="m-doc">switchOffAfter</a>
-            </dt>
-            <dd>time units to wait for before switching to OFF state from ON state.</dd>
+            <dd>Time instant at which the raw value transited from low to high of from high to low in seconds.</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="aec16c5c85177725cd7484776d3627f5b"><div>
-            <h3>
-              double BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerParams::<wbr /><a href="#aec16c5c85177725cd7484776d3627f5b" class="m-doc-self">switchOnAfter</a>
-            </h3>
-            <p>time units to wait for before switching to ON state from OFF state.</p>
-<p>Ensure it&#x27;s greater than sampling time.</p>
-          </div></section>
-          <section class="m-doc-details" id="ad0238e97815914b24427c5af00bcd0a7"><div>
-            <h3>
-              double BipedalLocomotion::<wbr />Contacts::<wbr />SchmittTriggerParams::<wbr /><a href="#ad0238e97815914b24427c5af00bcd0a7" class="m-doc-self">switchOffAfter</a>
-            </h3>
-            <p>time units to wait for before switching to OFF state from ON state.</p>
-<p>Ensure it&#x27;s greater than sampling time.</p>
-          </div></section>
         </section>
       </div>
     </div>

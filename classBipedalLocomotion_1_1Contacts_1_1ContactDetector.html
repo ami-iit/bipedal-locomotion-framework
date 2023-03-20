@@ -76,7 +76,6 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pro-types">Protected types</a></li>
-                <li><a href="#pro-methods">Protected functions</a></li>
                 <li><a href="#pro-attribs">Protected variables</a></li>
               </ul>
             </li>
@@ -118,14 +117,6 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a489846dc2acb563a641e4098d5bc8457" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
-            </dt>
-            <dd>Configure generic parameters.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8600d27b4fd25ef5a19642c90da16008" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
-            </dt>
-            <dd>Compute one step of the detector The derived class must implement its own methods for setting measurements and update states to be called within the <a href="classBipedalLocomotion_1_1Contacts_1_1ContactDetector.html#a8600d27b4fd25ef5a19642c90da16008" class="m-doc">advance()</a> method.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#add50895455a7713e665da0c93b027c12" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Determines the validity of the object retrieved with <a href="classBipedalLocomotion_1_1Contacts_1_1ContactDetector.html#ad8e16e2a8a352a6fe6c99dbbf6270080" class="m-doc">get()</a></dd>
@@ -157,19 +148,6 @@
               <a href="#a2d43086e84e475eaec9adeb9575dea84a5bda814c4aedb126839228f1a3d92f09" class="m-doc">Running</a> }</span>
             </dt>
             <dd>Enumerator used to determine the running state of the estimator.</dd>
-          </dl>
-        </section>
-        <section id="pro-methods">
-          <h2><a href="#pro-methods">Protected functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad1abbcb2664c44fbc2b5274b3317089a" class="m-doc">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd>These custom parameter specifications should be specified by the derived class.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa14726515b605a427ef50a37ac7e7646" class="m-doc">updateContactStates</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>The derived class must implement the contact detection technique to update the contact states.</dd>
           </dl>
         </section>
         <section id="pro-attribs">
@@ -219,43 +197,6 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a489846dc2acb563a641e4098d5bc8457"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a489846dc2acb563a641e4098d5bc8457" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">override</span></span></span>
-            </h3>
-            <p>Configure generic parameters.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>configure the generic parameters for the estimator</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a8600d27b4fd25ef5a19642c90da16008"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8600d27b4fd25ef5a19642c90da16008" class="m-doc-self">advance</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
-            </h3>
-            <p>Compute one step of the detector The derived class must implement its own methods for setting measurements and update states to be called within the <a href="classBipedalLocomotion_1_1Contacts_1_1ContactDetector.html#a8600d27b4fd25ef5a19642c90da16008" class="m-doc">advance()</a> method.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True in case of success, false otherwise.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="add50895455a7713e665da0c93b027c12"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#add50895455a7713e665da0c93b027c12" class="m-doc-self">isOutputValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">final</span></span></span>
@@ -345,43 +286,6 @@
                 <tr>
                   <th>Returns</th>
                   <td>contact state if contact exists, a dummy contact otherwise</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="ad1abbcb2664c44fbc2b5274b3317089a"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad1abbcb2664c44fbc2b5274b3317089a" class="m-doc-self">customInitialization</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">virtual</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>These custom parameter specifications should be specified by the derived class.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>configure the custom parameters for the estimator</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True if success, false otherwise</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="aa14726515b605a427ef50a37ac7e7646"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactDetector::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa14726515b605a427ef50a37ac7e7646" class="m-doc-self">updateContactStates</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">pure virtual</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>The derived class must implement the contact detection technique to update the contact states.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>True if success, false otherwise</td>
                 </tr>
               </tfoot>
             </table>

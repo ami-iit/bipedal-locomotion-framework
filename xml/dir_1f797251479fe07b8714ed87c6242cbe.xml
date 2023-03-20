@@ -6,6 +6,7 @@
     <innerfile refid="Constants_8h">Constants.h</innerfile>
     <innerfile refid="ContactWrenchCone_8h">ContactWrenchCone.h</innerfile>
     <innerfile refid="LinearizedFrictionCone_8h">LinearizedFrictionCone.h</innerfile>
+    <innerfile refid="SchmittTrigger_8h">SchmittTrigger.h</innerfile>
     <innerfile refid="Wrench_8h">Wrench.h</innerfile>
     <briefdescription>
     </briefdescription>

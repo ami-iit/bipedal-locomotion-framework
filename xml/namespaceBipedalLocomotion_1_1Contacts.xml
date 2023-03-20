@@ -5,9 +5,6 @@
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactDetector" prot="public">BipedalLocomotion::Contacts::ContactDetector</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" prot="public">BipedalLocomotion::Contacts::FixedFootDetector</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" prot="public">BipedalLocomotion::Contacts::SchmittTriggerDetector</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerParams" prot="public">BipedalLocomotion::Contacts::SchmittTriggerParams</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Contacts::SchmittTriggerInput</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerUnit" prot="public">BipedalLocomotion::Contacts::SchmittTriggerUnit</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" prot="public">BipedalLocomotion::Contacts::ContactBase</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" prot="public">BipedalLocomotion::Contacts::PlannedContact</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" prot="public">BipedalLocomotion::Contacts::EstimatedContact</innerclass>

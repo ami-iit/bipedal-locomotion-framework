@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Math::SchmittTrigger::Params</compoundname>
+    <includes local="no">BipedalLocomotion/Math/SchmittTrigger.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a632d9d4d4eaedfb969c6dc9d42848a7d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Math::SchmittTrigger::Params::onThreshold</definition>
+        <argsstring></argsstring>
+        <name>onThreshold</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>high value threshold to initiate an ON state switch after switchOnAfter time-units </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="55" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Math::SchmittTrigger::Params::offThreshold</definition>
+        <argsstring></argsstring>
+        <name>offThreshold</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>low value threshold to initiate an OFF state switch after switchOffAfter time-units </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="57" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a4d872163402bfb705fb474af6203ecc6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Math::SchmittTrigger::Params::switchOnAfter</definition>
+        <argsstring></argsstring>
+        <name>switchOnAfter</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>time units to wait for before switching to ON state from OFF state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ensure it&apos;s greater than sampling time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="59" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a43f78324f7022af34191e10317f5127b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Math::SchmittTrigger::Params::switchOffAfter</definition>
+        <argsstring></argsstring>
+        <name>switchOffAfter</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>time units to wait for before switching to OFF state from ON state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ensure it&apos;s greater than sampling time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="61" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a9e2d20a98a46370d5d5cb53d2595bec4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Math::SchmittTrigger::Params::timeComparisonThreshold</definition>
+        <argsstring></argsstring>
+        <name>timeComparisonThreshold</name>
+        <initializer>{BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance}</initializer>
+        <briefdescription>
+<para>Threshold used for the comparison of two time instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given two time instants if the error between the two is lower than the threshold, the time instants are considered equal. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="67" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Struct holding switching parameters for the Schmitt Trigger. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="53" column="5" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="54" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>offThreshold</name></member>
+      <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a632d9d4d4eaedfb969c6dc9d42848a7d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>onThreshold</name></member>
+      <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a43f78324f7022af34191e10317f5127b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>switchOffAfter</name></member>
+      <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a4d872163402bfb705fb474af6203ecc6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>switchOnAfter</name></member>
+      <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a9e2d20a98a46370d5d5cb53d2595bec4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>timeComparisonThreshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
