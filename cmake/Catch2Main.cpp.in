@@ -5,5 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#define CATCH_CONFIG_ENABLE_CHRONO_STRINGMAKER // this is not enabled by default as explained in
+                                               // https://github.com/catchorg/Catch2/issues/1039
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>

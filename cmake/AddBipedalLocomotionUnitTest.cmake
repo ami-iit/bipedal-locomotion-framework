@@ -52,7 +52,7 @@ function(add_bipedal_test)
           "${unit_test_files}")
 
       target_link_libraries(${targetname} PRIVATE CatchTestMain ${${prefix}_LINKS})
-      target_compile_definitions(${targetname} PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS)
+      target_compile_definitions(${targetname} PRIVATE CATCH_CONFIG_FAST_COMPILE CATCH_CONFIG_DISABLE_MATCHERS CATCH_CONFIG_ENABLE_CHRONO_STRINGMAKER)
       target_compile_features(${targetname} PUBLIC cxx_std_17)
       target_compile_definitions(${targetname} PRIVATE -D_USE_MATH_DEFINES)
 
