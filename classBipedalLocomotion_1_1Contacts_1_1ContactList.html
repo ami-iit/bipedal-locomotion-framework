@@ -123,9 +123,9 @@
             </dt>
             <dd>Add a new contact to the list.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a74dd5fac898c362635adff1b4fe2bf90" class="m-doc">addContact</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; newTransform,
-              double activationTime,
-              double deactivationTime) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a18ac03b2121f9a9a432914d3c329776b" class="m-doc">addContact</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; newTransform,
+              const std::chrono::nanoseconds&amp; activationTime,
+              const std::chrono::nanoseconds&amp; deactivationTime) -&gt; bool</span>
             </dt>
             <dd>Add a new contact to the list.</dd>
             <dt>
@@ -186,11 +186,11 @@
             </dt>
             <dd>Edit an existing contact.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af5ee9ee3799d245bcf4b95ada05bd137" class="m-doc">getPresentContact</a>(</span><span class="m-doc-wrap">double time) const -&gt; const_iterator</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad1a6136e4c7f01886a379dc359c6b5f1" class="m-doc">getPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
             </dt>
             <dd>Get the contact given the time.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a11626809b8bbbca9030087732afa27c2" class="m-doc">keepOnlyPresentContact</a>(</span><span class="m-doc-wrap">double time) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab44bbf63b56a9ddc25d70a69da354312" class="m-doc">keepOnlyPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) -&gt; bool</span>
             </dt>
             <dd>Clear all the steps, except the one returned by getPresentContact.</dd>
             <dt id="a56e370cad1add2f78dc27ec49d51b009">
@@ -299,16 +299,16 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>false if it was not possible to insert the contact. Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.</td>
+                  <td>false if it was not possible to insert the contact. Possible failures: the activation time is greater than the deactivation time, or the new contact overlaps with an existing contact.</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a74dd5fac898c362635adff1b4fe2bf90"><div>
+          <section class="m-doc-details" id="a18ac03b2121f9a9a432914d3c329776b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a74dd5fac898c362635adff1b4fe2bf90" class="m-doc-self">addContact</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; newTransform,
-              double activationTime,
-              double deactivationTime)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a18ac03b2121f9a9a432914d3c329776b" class="m-doc-self">addContact</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; newTransform,
+              const std::chrono::nanoseconds&amp; activationTime,
+              const std::chrono::nanoseconds&amp; deactivationTime)</span></span>
             </h3>
             <p>Add a new contact to the list.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -332,7 +332,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>false if it was not possible to insert the contact. Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.</td>
+                  <td>false if it was not possible to insert the contact. Possible failures: the activation time is greater than the deactivation time, or the new contact overlaps with an existing contact.</td>
                 </tr>
               </tfoot>
             </table>
@@ -455,9 +455,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="af5ee9ee3799d245bcf4b95ada05bd137"><div>
+          <section class="m-doc-details" id="ad1a6136e4c7f01886a379dc359c6b5f1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const_iterator BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af5ee9ee3799d245bcf4b95ada05bd137" class="m-doc-self">getPresentContact</a>(</span><span class="m-doc-wrap">double time) const</span></span>
+              <span class="m-doc-wrap-bumper">const_iterator BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad1a6136e4c7f01886a379dc359c6b5f1" class="m-doc-self">getPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const</span></span>
             </h3>
             <p>Get the contact given the time.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -479,9 +479,9 @@
             </table>
 <p>It returns the contact with the highest activation time lower than time. If no contacts have an activation time lower than time, it returns an iterator to the end. Notice that the contact may not be active, i.e. the deactivationTime may be lower than time.</p>
           </div></section>
-          <section class="m-doc-details" id="a11626809b8bbbca9030087732afa27c2"><div>
+          <section class="m-doc-details" id="ab44bbf63b56a9ddc25d70a69da354312"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a11626809b8bbbca9030087732afa27c2" class="m-doc-self">keepOnlyPresentContact</a>(</span><span class="m-doc-wrap">double time)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab44bbf63b56a9ddc25d70a69da354312" class="m-doc-self">keepOnlyPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time)</span></span>
             </h3>
             <p>Clear all the steps, except the one returned by getPresentContact.</p>
             <table class="m-table m-fullwidth m-flat">

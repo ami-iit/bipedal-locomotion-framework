@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="40" column="14"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="41" column="14"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -30,7 +30,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactList.h" line="38" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="39" bodyend="42"/>
+    <location file="BipedalLocomotion/Contacts/ContactList.h" line="39" column="5" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="40" bodyend="43"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactList_1_1ContactCompare_1ab5154786cb10b78ca76c4c73b2b98b0b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList::ContactCompare</scope><name>operator()</name></member>
     </listofallmembers>

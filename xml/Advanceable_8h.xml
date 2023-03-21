@@ -22,9 +22,9 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -39,22 +39,27 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>string</label>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
         <label>vector</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
       </node>
-      <node id="7">
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion/System/InputPort.h</label>
         <link refid="InputPort_8h"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>memory</label>
       </node>
     </incdepgraph>

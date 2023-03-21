@@ -4,7 +4,6 @@
     <compoundname>Constants.h</compoundname>
     <includedby refid="FixedBaseDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</includedby>
     <includedby refid="FloatingBaseDynamicsWithCompliantContacts_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</includedby>
-    <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
     <includedby refid="SchmittTrigger_8h" local="no">BipedalLocomotion/Math/SchmittTrigger.h</includedby>
     <invincdepgraph>
       <node id="2">

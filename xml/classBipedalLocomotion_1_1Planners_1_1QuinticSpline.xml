@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="31" column="21" bodyfile="BipedalLocomotion/Planners/QuinticSpline.h" bodystart="30" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="32" column="21" bodyfile="BipedalLocomotion/Planners/QuinticSpline.h" bodystart="31" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="37" column="5"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="38" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a9baf5f5d4cb3b31a87367fa06c8c28aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -50,16 +50,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="43" column="5"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="44" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aa0d30f220b34263ad6478c220d9453e8" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a239eb416aad7775dadb9c6ca85188759" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::QuinticSpline::setAdvanceTimeStep</definition>
-        <argsstring>(const double &amp;dt) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt) final</argsstring>
         <name>setAdvanceTimeStep</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a40f1241c9e553e8a4f33b62f9a9a32e3">setAdvanceTimeStep</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a248e4fa5abcb7d4530baa9bb8ca20a90">setAdvanceTimeStep</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>dt</declname>
         </param>
         <briefdescription>
@@ -83,20 +83,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="51" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="52" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a5911832330c2e084958f95abe4e82f2e" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a799e942684607bd6350e1af6a260d117" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::QuinticSpline::setKnots</definition>
-        <argsstring>(const std::vector&lt; Eigen::VectorXd &gt; &amp;position, const std::vector&lt; double &gt; &amp;time) final</argsstring>
+        <argsstring>(const std::vector&lt; Eigen::VectorXd &gt; &amp;position, const std::vector&lt; std::chrono::nanoseconds &gt; &amp;time) final</argsstring>
         <name>setKnots</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1af1b18d50995240b7bf3f14098a1e6b8b">setKnots</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ad7e193a8a3416130f9546f7dff47be41">setKnots</reimplements>
         <param>
           <type>const std::vector&lt; Eigen::VectorXd &gt; &amp;</type>
           <declname>position</declname>
         </param>
         <param>
-          <type>const std::vector&lt; double &gt; &amp;</type>
+          <type>const std::vector&lt; std::chrono::nanoseconds &gt; &amp;</type>
           <declname>time</declname>
         </param>
         <briefdescription>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="59" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="60" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a855f70765cc5897ab037dc5e32321336" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -169,7 +169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="68" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="69" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a2d51cc453148c20f5e614a24d981fd12" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -212,16 +212,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="77" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="78" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a231485a164f44b5c6e533b5e2b2bd38c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a00c17e2178d71fefbbe379e1566a9138" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::QuinticSpline::evaluatePoint</definition>
-        <argsstring>(const double &amp;t, Eigen::Ref&lt; Eigen::VectorXd &gt; position, Eigen::Ref&lt; Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; Eigen::VectorXd &gt; acceleration) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, Eigen::Ref&lt; Eigen::VectorXd &gt; position, Eigen::Ref&lt; Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; Eigen::VectorXd &gt; acceleration) final</argsstring>
         <name>evaluatePoint</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a9023fedffb5a53b2789ff1eccb794b2a">evaluatePoint</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1aabd0871236edf2d8db86a4fba7454e2a">evaluatePoint</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>t</declname>
         </param>
         <param>
@@ -279,16 +279,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="88" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="89" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ae32c2232d61cad9767f73de365795054" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ab6de236c8835ae9dea3ef09d0249a835" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::QuinticSpline::evaluatePoint</definition>
-        <argsstring>(const double &amp;t, SplineState &amp;state) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, SplineState &amp;state) final</argsstring>
         <name>evaluatePoint</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a6d6f6c042859aaa97738aafec74c6b8e">evaluatePoint</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1affa6da8e66f27c6f43bea9d9e694724b">evaluatePoint</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>t</declname>
         </param>
         <param>
@@ -322,7 +322,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="99" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="100" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a4c1563c14094002279156a834fa1bc8b" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kindref="compound">SplineState</ref> &amp;</type>
@@ -342,7 +342,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="107" column="23"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="108" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aade486dcd2cb26b789d0ef5fa8020b7a" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -362,7 +362,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="115" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="116" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -382,7 +382,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="124" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -502,12 +502,12 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="25" column="1" bodyfile="BipedalLocomotion/Planners/QuinticSpline.h" bodystart="26" bodyend="124"/>
+    <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="26" column="1" bodyfile="BipedalLocomotion/Planners/QuinticSpline.h" bodystart="27" bodyend="125"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a231485a164f44b5c6e533b5e2b2bd38c" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>evaluatePoint</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ae32c2232d61cad9767f73de365795054" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a00c17e2178d71fefbbe379e1566a9138" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ab6de236c8835ae9dea3ef09d0249a835" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a4c1563c14094002279156a834fa1bc8b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>Input</name></member>
@@ -515,12 +515,12 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a7c5da046de13a4c62daa918fe741dae3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>QuinticSpline</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aa0d30f220b34263ad6478c220d9453e8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setAdvanceTimeStep</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a239eb416aad7775dadb9c6ca85188759" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setAdvanceTimeStep</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a2d51cc453148c20f5e614a24d981fd12" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setFinalConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a855f70765cc5897ab037dc5e32321336" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a5911832330c2e084958f95abe4e82f2e" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setKnots</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a799e942684607bd6350e1af6a260d117" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>setKnots</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::QuinticSpline</scope><name>~OutputPort</name></member>

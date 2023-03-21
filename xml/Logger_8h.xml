@@ -5,6 +5,7 @@
     <includes local="no">spdlog/fmt/ostr.h</includes>
     <includes local="no">spdlog/spdlog.h</includes>
     <includes local="no">type_traits</includes>
+    <includes local="no">spdlog/fmt/bundled/chrono.h</includes>
     <includedby refid="YarpLogger_8h" local="no">BipedalLocomotion/TextLogging/YarpLogger.h</includedby>
     <includedby refid="RosLogger_8h" local="no">BipedalLocomotion/TextLogging/RosLogger.h</includedby>
     <includedby refid="DefaultLogger_8h" local="no">BipedalLocomotion/TextLogging/DefaultLogger.h</includedby>
@@ -15,6 +16,9 @@
     <includedby refid="PointCloudProcessor_8h" local="no">BipedalLocomotion/Perception/Features/PointCloudProcessor.h</includedby>
     <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <incdepgraph>
+      <node id="5">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
       <node id="2">
         <label>spdlog/fmt/ostr.h</label>
       </node>
@@ -29,6 +33,8 @@
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -180,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="52" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="53" bodyend="61"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="68" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="69" bodyend="77"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -195,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="35" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="35" bodyend="-1"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="51" column="1" bodyfile="BipedalLocomotion/TextLogging/Logger.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -211,7 +217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="44" column="23" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="44" declcolumn="23"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="60" column="23" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="60" declcolumn="23"/>
       </memberdef>
       <memberdef kind="function" id="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -239,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="68" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="68" declcolumn="6"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="84" column="6" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="84" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

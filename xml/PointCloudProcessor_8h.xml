@@ -12,16 +12,19 @@
     <includes local="no">pcl/segmentation/extract_clusters.h</includes>
     <includes local="no">pcl/common/transforms.h</includes>
     <incdepgraph>
-      <node id="11">
+      <node id="13">
         <label>pcl/point_types.h</label>
       </node>
-      <node id="16">
+      <node id="18">
         <label>pcl/common/transforms.h</label>
       </node>
-      <node id="15">
+      <node id="17">
         <label>pcl/segmentation/extract_clusters.h</label>
       </node>
-      <node id="10">
+      <node id="11">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
+      <node id="12">
         <label>pcl/point_cloud.h</label>
       </node>
       <node id="2">
@@ -33,8 +36,10 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>string</label>
       </node>
       <node id="1">
@@ -42,11 +47,7 @@
         <link refid="PointCloudProcessor_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -58,39 +59,48 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-      </node>
-      <node id="7">
-        <label>spdlog/fmt/ostr.h</label>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
       </node>
       <node id="8">
+        <label>spdlog/fmt/ostr.h</label>
+      </node>
+      <node id="9">
         <label>spdlog/spdlog.h</label>
       </node>
-      <node id="14">
+      <node id="16">
         <label>pcl/kdtree/kdtree.h</label>
       </node>
-      <node id="13">
+      <node id="15">
         <label>pcl/filters/statistical_outlier_removal.h</label>
       </node>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion/TextLogging/Logger.h</label>
         <link refid="Logger_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>vector</label>
       </node>
-      <node id="9">
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="10">
         <label>type_traits</label>
       </node>
-      <node id="3">
+      <node id="4">
         <label>memory</label>
       </node>
-      <node id="12">
+      <node id="14">
         <label>pcl/filters/voxel_grid.h</label>
       </node>
     </incdepgraph>

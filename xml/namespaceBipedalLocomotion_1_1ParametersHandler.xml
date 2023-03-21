@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="273" column="1" declfile="BipedalLocomotion/ParametersHandler/YarpImplementation.h" declline="273" declcolumn="1"/>
+        <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="317" column="1" declfile="BipedalLocomotion/ParametersHandler/YarpImplementation.h" declline="317" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -93,13 +93,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="270" column="1" declfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" declline="270" declcolumn="1"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="303" column="1" declfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" declline="303" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="25" column="1"/>
+    <location file="BipedalLocomotion/ParametersHandler/YarpImplementation.h" line="26" column="1"/>
   </compounddef>
 </doxygen>

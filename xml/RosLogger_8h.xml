@@ -13,6 +13,9 @@
       <node id="5">
         <label>spdlog/common.h</label>
       </node>
+      <node id="11">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
       <node id="1">
         <label>BipedalLocomotion/TextLogging/RosLogger.h</label>
         <link refid="RosLogger_8h"/>
@@ -28,10 +31,10 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>rclcpp/logging.hpp</label>
       </node>
       <node id="4">
@@ -51,6 +54,8 @@
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="3">

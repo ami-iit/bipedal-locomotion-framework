@@ -12,11 +12,13 @@
       <node id="6">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -35,17 +37,20 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>vector</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>TomlImplementation.tpp</label>
       </node>
       <node id="4">
         <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
       </node>
       <node id="2">
         <label>memory</label>
@@ -100,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="270" column="1" declfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" declline="270" declcolumn="1"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="303" column="1" declfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" declline="303" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

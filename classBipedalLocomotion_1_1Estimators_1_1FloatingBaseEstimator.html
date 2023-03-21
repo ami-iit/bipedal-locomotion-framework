@@ -152,10 +152,10 @@
             </dt>
             <dd>Set feet contact states.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a349f90524a834477ab51825f4be11f85" class="m-doc">setContactStatus</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
+              <span class="m-doc-wrap-bumper">auto <a href="#a83bfbba8171ebfc98b016c7449e7faf6" class="m-doc">setContactStatus</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
               const bool&amp; contactStatus,
-              const double&amp; switchTime,
-              double timeNow = 0.) -&gt; bool</span>
+              const std::chrono::nanoseconds&amp; switchTime,
+              const std::chrono::nanoseconds&amp; = std::chrono::nanoseconds::zero()) -&gt; bool</span>
             </dt>
             <dd>Set contact status.</dd>
             <dt>
@@ -164,10 +164,10 @@
             </dt>
             <dd>Set kinematic measurements.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a12d71bdc48916f3f5a275008417ef6b6" class="m-doc">setLandmarkRelativePose</a>(</span><span class="m-doc-wrap">const int&amp; landmarkID,
+              <span class="m-doc-wrap-bumper">auto <a href="#a1beebdcb036ccc21700690d291ac59e3" class="m-doc">setLandmarkRelativePose</a>(</span><span class="m-doc-wrap">const int&amp; landmarkID,
               const Eigen::Quaterniond&amp; quat,
               const Eigen::Vector3d&amp; pos,
-              const double&amp; timeNow) -&gt; bool</span>
+              const std::chrono::nanoseconds&amp; timeNow) -&gt; bool</span>
             </dt>
             <dd>Set the relative pose of a landmark relative to the base link.</dd>
             <dt>
@@ -466,12 +466,12 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a349f90524a834477ab51825f4be11f85"><div>
+          <section class="m-doc-details" id="a83bfbba8171ebfc98b016c7449e7faf6"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />FloatingBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a349f90524a834477ab51825f4be11f85" class="m-doc-self">setContactStatus</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />FloatingBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a83bfbba8171ebfc98b016c7449e7faf6" class="m-doc-self">setContactStatus</a>(</span><span class="m-doc-wrap">const std::string&amp; name,
               const bool&amp; contactStatus,
-              const double&amp; switchTime,
-              double timeNow = 0.)</span></span>
+              const std::chrono::nanoseconds&amp; switchTime,
+              const std::chrono::nanoseconds&amp; = std::chrono::nanoseconds::zero())</span></span>
             </h3>
             <p>Set contact status.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -490,10 +490,6 @@
                 <tr>
                   <td>switchTime&nbsp;<span class="m-label m-flat m-info">in</span></td>
                   <td>time of switching contact</td>
-                </tr>
-                <tr>
-                  <td>timeNow&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>current measurement update time</td>
                 </tr>
               </tbody>
             </table>
@@ -527,12 +523,12 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>it is assumed that the order of the joints loaded in the model and the order of the measurements in these vectors match</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a12d71bdc48916f3f5a275008417ef6b6"><div>
+          <section class="m-doc-details" id="a1beebdcb036ccc21700690d291ac59e3"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />FloatingBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a12d71bdc48916f3f5a275008417ef6b6" class="m-doc-self">setLandmarkRelativePose</a>(</span><span class="m-doc-wrap">const int&amp; landmarkID,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />FloatingBaseEstimator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1beebdcb036ccc21700690d291ac59e3" class="m-doc-self">setLandmarkRelativePose</a>(</span><span class="m-doc-wrap">const int&amp; landmarkID,
               const Eigen::Quaterniond&amp; quat,
               const Eigen::Vector3d&amp; pos,
-              const double&amp; timeNow)</span></span>
+              const std::chrono::nanoseconds&amp; timeNow)</span></span>
             </h3>
             <p>Set the relative pose of a landmark relative to the base link.</p>
             <table class="m-table m-fullwidth m-flat">

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="130" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="130" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="131" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="131" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1ae7a8f58d80059f86a07b7dfb05172f84" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="131" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="131" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="132" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a0c6638a619f958937a96e3d9f32f242f" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="132" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="132" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="133" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a0fcbe8146c9682b920120b4581e73f3e" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="133" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="133" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="134" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="134" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1ac769aa13a20a955667bf2cbf19e42e5b" prot="private" static="no" mutable="no">
         <type>iDynTree::FrameIndex</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="134" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="134" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="135" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="135" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1aa15b074fb23e083f8b85bec63f349b39" prot="private" static="no" mutable="no">
         <type>iDynTree::FrameIndex</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="135" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="135" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="136" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="136" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a13f9807a1d3f3baf485ca2ab008aff34" prot="private" static="no" mutable="no">
         <type>iDynTree::FrameIndex</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="136" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="136" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="137" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="137" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1aecc449ba041b0c2d7a5b903277f5465a" prot="private" static="no" mutable="no">
         <type>iDynTree::FrameIndex</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="137" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="137" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="138" column="30" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="138" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1af5acf1f8c0c71cf2afd0753db1a8a9b3" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="139" column="25" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="139" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="140" column="25" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="140" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a7152356d9b523ece63825c9c65e5f5ff" prot="private" static="no" mutable="no">
         <type>manif::SE3d</type>
@@ -151,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="140" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="140" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="141" column="21" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="141" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a260ec18bebc29e928f553c87cc2786e2" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="141" column="13" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="141" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="142" column="13" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1af92df78032c3b01d8dad0da50aa52b19" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -180,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="142" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="142" bodyend="-1"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="143" column="14" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="143" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -214,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="53" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="54" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a8e61fdc726c41c653650e515273ae646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -256,7 +256,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="61" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="62" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a1334cbf1d5ec94961687f77a10f96c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -298,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="69" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="70" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a1dbdf8e6d088917fbe9fd0ea268a9710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -315,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="75" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="76" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a1e8559ddaedd6b3b68a5df9dd4d91a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -369,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="84" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="85" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1afbe23c844f8544bb8949e4c1b9d2cde9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -447,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="97" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="98" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1ac0ee1b358d2931c999bd63749a027da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -515,7 +515,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="112" column="14"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="113" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a2e5103346f552ef420b1a1b3e9610f43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const int &amp;</type>
@@ -529,7 +529,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="118" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="118" bodyend="118"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="119" column="19" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="119" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a72b3af5424a42f7f0a55ac60310b9317" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -542,7 +542,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="119" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="119" bodyend="119"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="120" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="120" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a1bfcefc127d943c4e58ea87aac82b172" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const iDynTree::FrameIndex &amp;</type>
@@ -555,7 +555,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="120" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="120" bodyend="120"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="121" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="121" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1aa91795da92872317a4ddd39977a16ca4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const iDynTree::FrameIndex &amp;</type>
@@ -568,7 +568,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="121" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="121" bodyend="121"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="122" column="36" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="122" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1aaefe0dd6b0e313e41ee3441aea384326" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -581,7 +581,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="122" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="122" bodyend="122"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="123" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="123" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1ab99a21818c0776bc26069f4910873e1a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -594,7 +594,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="123" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="123" bodyend="123"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="124" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="124" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1add1a535f7f013d340f48869d541a4593" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -607,7 +607,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="124" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="124" bodyend="124"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="125" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="125" bodyend="125"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a136f89b4417f3a1d9ac783e83084469b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const manif::SE3d &amp;</type>
@@ -620,7 +620,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="125" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="125" bodyend="125"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="126" column="27" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="126" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a813709765f09c219bc9456fb3e505d40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>const bool &amp;</type>
@@ -633,7 +633,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="126" column="20" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="126" bodyend="126"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="127" column="20" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="127" bodyend="127"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a7189125d369002be7de07a5cef6e0d36" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
@@ -646,7 +646,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="127" column="25" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="127" bodyend="127"/>
+        <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="128" column="25" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="128" bodyend="128"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -654,7 +654,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="43" column="5" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="44" bodyend="143"/>
+    <location file="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" line="44" column="5" bodyfile="BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h" bodystart="45" bodyend="144"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1a136f89b4417f3a1d9ac783e83084469b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator::ModelComputations</scope><name>base_H_IMU</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1_1ModelComputations_1aa91795da92872317a4ddd39977a16ca4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::FloatingBaseEstimator::ModelComputations</scope><name>baseIMUIdx</name></member>

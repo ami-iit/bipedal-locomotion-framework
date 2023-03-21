@@ -434,7 +434,50 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="118" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="117" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a22bbed7969fa1f23ab948699683e0e3e" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::ParametersHandler::TomlImplementation::getParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, std::chrono::nanoseconds &amp;parameter) const final</argsstring>
+        <name>getParameter</name>
+        <reimplements refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a32cea1fc7fe065fbd6222b26a4e8e669">getParameter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>std::chrono::nanoseconds &amp;</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [std::chrono::nanoseconds]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="125" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a6a77664180a9e9d54ecd13ddc44844de" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -477,7 +520,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="126" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="133" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a58095752b261b5dc62b2bf438d9269d5" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -520,7 +563,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="134" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="141" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a945893028ec4c53aa0731026ee67cb1a" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -563,7 +606,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="142" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="149" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a9bbdb6fd83abc1eece7385c4dd1d39f0" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -606,7 +649,50 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="150" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="157" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a1e21fcc6b435e6f33f7cd063f7f0d755" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::ParametersHandler::TomlImplementation::getParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, GenericContainer::Vector&lt; std::chrono::nanoseconds &gt;::Ref parameter) const final</argsstring>
+        <name>getParameter</name>
+        <reimplements refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a9145dbaf1143a1a3da2f415e6c67894a">getParameter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">GenericContainer::Vector</ref>&lt; std::chrono::nanoseconds &gt;::Ref</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="166" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7b99e8520fcd89dfc002cd76e62283ca" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -647,7 +733,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="157" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="174" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ada5d517cd6712e7fdcade0f3d0de55c9" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -688,7 +774,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="164" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="181" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a099f42898ff8dbf795c7c75928065453" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -729,7 +815,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="171" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="188" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5b79540432064125097af70ca2f0718c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -772,7 +858,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="180" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="197" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ae1cf9094a7f84519bb19771b7cd29c52" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -813,7 +899,48 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="187" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="204" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a66aa74ef3f85f6cdb5f90176b96895fa" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::ParametersHandler::TomlImplementation::setParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, const std::chrono::nanoseconds &amp;parameter) final</argsstring>
+        <name>setParameter</name>
+        <reimplements refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aedd08b1aeedb09aff57a9dbb19dc88c1">setParameter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Set a parameter [std::chrono::nanoseconds]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="211" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a06aa8f03332037cc857472982daf8b21" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -854,7 +981,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="194" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="218" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af5d54035b958caa5850ca5bcd2ba2b47" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -895,7 +1022,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="201" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="225" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a3b23017dce6e3baffeba093ac2059c96" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -936,7 +1063,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="208" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="232" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1afd3e0f168562bbe9bb0d973975cd15ee" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -977,7 +1104,48 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="215" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="239" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af2fe0e0cc15abcbb0475a558718eae7c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::ParametersHandler::TomlImplementation::setParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, const GenericContainer::Vector&lt; const std::chrono::nanoseconds &gt;::Ref parameter) final</argsstring>
+        <name>setParameter</name>
+        <reimplements refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8446ca0f4e9028008b73ce6080615e64">setParameter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">GenericContainer::Vector</ref>&lt; const std::chrono::nanoseconds &gt;::Ref</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="246" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7967601e80d345c45915e2d8ca843088" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>weak_ptr</type>
@@ -1008,7 +1176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="223" column="14"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="256" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac0f5b19fdabc727f3baf3589c57f7d10" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1049,7 +1217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="230" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="263" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac79cb2e2193a73685e3197c2bf269e3d" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>std::string</type>
@@ -1067,7 +1235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="236" column="17"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="269" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a4623cca36f2a12cef8d48560746b383c" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -1085,7 +1253,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="242" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="275" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a454498de819a8547a721fb91d97332ca" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>void</type>
@@ -1100,7 +1268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="247" column="10"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="280" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a803b0534eba653136f5eef379b393065" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>shared_ptr</type>
@@ -1120,7 +1288,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="254" column="16"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="287" column="16"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a65d91dd7675d844644b3e2510dd33af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -1134,7 +1302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="259" column="5"/>
+        <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="292" column="5"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1166,7 +1334,7 @@
         <link refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="29" column="1" bodyfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" bodystart="30" bodyend="260"/>
+    <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="29" column="1" bodyfile="BipedalLocomotion/ParametersHandler/TomlImplementation.h" bodystart="30" bodyend="293"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a454498de819a8547a721fb91d97332ca" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>clear</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a803b0534eba653136f5eef379b393065" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>clone</name></member>
@@ -1176,10 +1344,12 @@
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a12d106023924ec3ae4599d5c1f57d52e" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7e96f4db775bfd6c6229cdfdbb705e9e" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ad2e89673adfcb9898f9ba76b3f6a4a89" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a22bbed7969fa1f23ab948699683e0e3e" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a6a77664180a9e9d54ecd13ddc44844de" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a58095752b261b5dc62b2bf438d9269d5" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a945893028ec4c53aa0731026ee67cb1a" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a9bbdb6fd83abc1eece7385c4dd1d39f0" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a1e21fcc6b435e6f33f7cd063f7f0d755" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a28261ed5290820c00cbd00ca7a95aa4c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>getParameterPrivate</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a4623cca36f2a12cef8d48560746b383c" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>isEmpty</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a855f1b3cc063980b3b7b5cb0790ca57d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>m_container</name></member>
@@ -1192,10 +1362,12 @@
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a099f42898ff8dbf795c7c75928065453" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5b79540432064125097af70ca2f0718c" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ae1cf9094a7f84519bb19771b7cd29c52" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a66aa74ef3f85f6cdb5f90176b96895fa" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a06aa8f03332037cc857472982daf8b21" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af5d54035b958caa5850ca5bcd2ba2b47" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a3b23017dce6e3baffeba093ac2059c96" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1afd3e0f168562bbe9bb0d973975cd15ee" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af2fe0e0cc15abcbb0475a558718eae7c" prot="public" virt="virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1aab6b245af25b1643f063df7e1cfe9884" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>setParameterPrivate</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8afda2b689337f31a090dabd24df53f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>shared_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a10741fc6e67b7132d01fe661b8fa9161" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::TomlImplementation</scope><name>TomlImplementation</name></member>

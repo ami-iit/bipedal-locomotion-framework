@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="IParametersHandler_8h" kind="file" language="C++">
     <compoundname>IParametersHandler.h</compoundname>
+    <includes local="no">chrono</includes>
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
@@ -57,14 +58,19 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>string</label>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
         <label>vector</label>
       </node>
       <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
         <label>memory</label>
       </node>
     </incdepgraph>

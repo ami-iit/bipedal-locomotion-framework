@@ -12,6 +12,8 @@
       <node id="9">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
@@ -19,10 +21,10 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>BipedalLocomotion/TSID/TSIDLinearTask.h</label>
         <link refid="TSIDLinearTask_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -39,9 +41,9 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -58,7 +60,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>BipedalLocomotion/System/LinearTask.h</label>
         <link refid="LinearTask_8h"/>
         <childnode refid="3" relation="include">
@@ -67,7 +69,7 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -77,7 +79,7 @@
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="2">
@@ -89,7 +91,10 @@
       <node id="8">
         <label>unordered_map</label>
       </node>
-      <node id="12">
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="13">
         <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="3">

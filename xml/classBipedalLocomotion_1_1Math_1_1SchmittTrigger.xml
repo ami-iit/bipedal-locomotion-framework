@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="126" column="25" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="126" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="129" column="25" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="129" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa6199c770e68dfbb3a672d9ed45bd6f1" prot="private" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kindref="compound">SchmittTriggerState</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="127" column="25" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="127" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="130" column="25" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="130" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a59743be60af2802202cfe7ff8b5c576c" prot="private" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params" kindref="compound">Params</ref></type>
@@ -46,14 +46,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="128" column="12" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="128" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="131" column="12" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="131" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4e79aa872e247d47185f800fb3f82c92" prot="private" static="no" mutable="no">
-        <type>double</type>
-        <definition>double BipedalLocomotion::Math::SchmittTrigger::m_timer</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a317cd327dc83b7051b57a81d35b69a2a" prot="private" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::Math::SchmittTrigger::m_timer</definition>
         <argsstring></argsstring>
         <name>m_timer</name>
-        <initializer>{0}</initializer>
+        <initializer>{std::chrono::nanoseconds::zero()}</initializer>
         <briefdescription>
 <para>Internal timer used by the switcher to understand if it is the time to switch. </para>
         </briefdescription>
@@ -61,14 +61,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="129" column="12" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="129" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="134" column="30" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="134" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abda3c01a61339ef6f5c6c931b24232a4" prot="private" static="no" mutable="no">
-        <type>double</type>
-        <definition>double BipedalLocomotion::Math::SchmittTrigger::m_risingEdgeTimeInstant</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a3451f2e30ed10dc900f525ed390c9584" prot="private" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::Math::SchmittTrigger::m_risingEdgeTimeInstant</definition>
         <argsstring></argsstring>
         <name>m_risingEdgeTimeInstant</name>
-        <initializer>{-1}</initializer>
         <briefdescription>
 <para>Internal quantity used to store the previous time. </para>
         </briefdescription>
@@ -76,14 +75,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="131" column="12" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="131" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="135" column="30" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="135" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a9900146df17719271e7224eab0c5f8be" prot="private" static="no" mutable="no">
-        <type>double</type>
-        <definition>double BipedalLocomotion::Math::SchmittTrigger::m_fallingEdgeTimeInstant</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a2ce6a9d3b8610e72a28b69309ffb9259" prot="private" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::Math::SchmittTrigger::m_fallingEdgeTimeInstant</definition>
         <argsstring></argsstring>
         <name>m_fallingEdgeTimeInstant</name>
-        <initializer>{-1}</initializer>
         <briefdescription>
 <para>Internal quantity used to store the previous time. </para>
         </briefdescription>
@@ -91,7 +89,35 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="132" column="12" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="132" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="137" column="30" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4d29272d77c8635aee99812ebea44ce4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Math::SchmittTrigger::m_risingDetected</definition>
+        <argsstring></argsstring>
+        <name>m_risingDetected</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="139" column="10" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a0d1376137928ff87f9d6b2c1c59c5ada" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Math::SchmittTrigger::m_fallingDetected</definition>
+        <argsstring></argsstring>
+        <name>m_fallingDetected</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="140" column="10" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="140" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -118,7 +144,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>The following parameters are required <table rows="6" cols="4"><row>
+<simplesect kind="note"><para>The following parameters are required <table rows="5" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
@@ -127,32 +153,26 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>on_threshold</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>High value threshold to initiate an ON state switch after switchOnAfter time-units   </para>
+</entry><entry thead="no" align='center'><para>High value threshold to initiate an ON state switch after switchOnAfter   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>off_threshold</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Low value threshold to initiate an OFF state switch after switchOffAfter time-units   </para>
+</entry><entry thead="no" align='center'><para>Low value threshold to initiate an OFF state switch after switchOffAfter   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>switch_on_after</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Time units to wait for before switching to ON state from OFF state. Ensure it&apos;s greater than sampling time.   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>chrono:nanoseconds</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Nano seconds to wait for before switching to ON state from OFF state. Ensure it&apos;s greater than sampling time.   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>switch_off_after</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Time units to wait for before switching to OFF state from ON state. Ensure it&apos;s greater than sampling time.   </para>
-</entry><entry thead="no" align='center'><para>Yes    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><computeroutput>time_comparison_threshold</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Threshold used for the comparison of two time instants. Given two time instants, if the error between the two is lower than the threshold, the time instants are considered equal. Default value <ulink url="https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon"><computeroutput>std::numeric_limits&lt;double&gt;::epsilon()</computeroutput></ulink>   </para>
-</entry><entry thead="no" align='center'><para>No   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>chrono:nanoseconds</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Nano seconds to wait for before switching to OFF state from ON state. Ensure it&apos;s greater than sampling time.   </para>
+</entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
 </para>
@@ -163,7 +183,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="83" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="86" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a24e1ed4970b0e45ccf2a95bb51a25991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -193,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="90" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="93" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf24d81aa71d1e55750529cdcf824d8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -223,7 +243,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="98" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="101" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -241,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="107" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa2a4f2527741ee1e5d6e2b147b9751cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -259,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="113" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a901267089c772b97bd7e3ac64de586f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kindref="compound">SchmittTriggerState</ref> &amp;</type>
@@ -277,7 +297,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="116" column="31"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="119" column="31"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1ae692d745e0ec26632774af963e551784" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -307,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="126" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -385,7 +405,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="46" column="1" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="48" bodyend="133"/>
+    <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="51" column="1" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="53" bodyend="141"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef" prot="public" virt="virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>close</name></member>
@@ -394,12 +414,14 @@
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a24e1ed4970b0e45ccf2a95bb51a25991" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa2a4f2527741ee1e5d6e2b147b9751cc" prot="public" virt="virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>isOutputValid</name></member>
-      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a9900146df17719271e7224eab0c5f8be" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_fallingEdgeTimeInstant</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a0d1376137928ff87f9d6b2c1c59c5ada" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_fallingDetected</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a2ce6a9d3b8610e72a28b69309ffb9259" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_fallingEdgeTimeInstant</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abdfedef770360e9cfb5834ffb228eb69" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_input</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a59743be60af2802202cfe7ff8b5c576c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_params</name></member>
-      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abda3c01a61339ef6f5c6c931b24232a4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_risingEdgeTimeInstant</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4d29272d77c8635aee99812ebea44ce4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_risingDetected</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a3451f2e30ed10dc900f525ed390c9584" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_risingEdgeTimeInstant</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa6199c770e68dfbb3a672d9ed45bd6f1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_state</name></member>
-      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4e79aa872e247d47185f800fb3f82c92" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_timer</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a317cd327dc83b7051b57a81d35b69a2a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>m_timer</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>Output</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1ae692d745e0ec26632774af963e551784" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;::"><scope>BipedalLocomotion::Math::SchmittTrigger</scope><name>setInput</name></member>

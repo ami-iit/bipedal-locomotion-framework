@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="31" column="21" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="30" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="32" column="21" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="31" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="37" column="5"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="38" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -50,16 +50,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="43" column="5"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="44" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1acbee3fa75198f035fe81ee91745c8799" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a6c988b07cd8c38cce071c07f2625ff9f" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::CubicSpline::setAdvanceTimeStep</definition>
-        <argsstring>(const double &amp;dt) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt) final</argsstring>
         <name>setAdvanceTimeStep</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a40f1241c9e553e8a4f33b62f9a9a32e3">setAdvanceTimeStep</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a248e4fa5abcb7d4530baa9bb8ca20a90">setAdvanceTimeStep</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>dt</declname>
         </param>
         <briefdescription>
@@ -83,20 +83,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="51" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="52" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1aacd3caaf95c23581662af37e630cb0da" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::CubicSpline::setKnots</definition>
-        <argsstring>(const std::vector&lt; Eigen::VectorXd &gt; &amp;position, const std::vector&lt; double &gt; &amp;time) final</argsstring>
+        <argsstring>(const std::vector&lt; Eigen::VectorXd &gt; &amp;position, const std::vector&lt; std::chrono::nanoseconds &gt; &amp;time) final</argsstring>
         <name>setKnots</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1af1b18d50995240b7bf3f14098a1e6b8b">setKnots</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ad7e193a8a3416130f9546f7dff47be41">setKnots</reimplements>
         <param>
           <type>const std::vector&lt; Eigen::VectorXd &gt; &amp;</type>
           <declname>position</declname>
         </param>
         <param>
-          <type>const std::vector&lt; double &gt; &amp;</type>
+          <type>const std::vector&lt; std::chrono::nanoseconds &gt; &amp;</type>
           <declname>time</declname>
         </param>
         <briefdescription>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="59" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="60" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -171,7 +171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="69" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="70" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="79" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="80" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -246,7 +246,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="87" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="88" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -276,16 +276,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="94" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="95" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9cef867a04d379368454f8a2313b2219" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::CubicSpline::evaluatePoint</definition>
-        <argsstring>(const double &amp;t, Eigen::Ref&lt; Eigen::VectorXd &gt; position, Eigen::Ref&lt; Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; Eigen::VectorXd &gt; acceleration) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, Eigen::Ref&lt; Eigen::VectorXd &gt; position, Eigen::Ref&lt; Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; Eigen::VectorXd &gt; acceleration) final</argsstring>
         <name>evaluatePoint</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a9023fedffb5a53b2789ff1eccb794b2a">evaluatePoint</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1aabd0871236edf2d8db86a4fba7454e2a">evaluatePoint</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>t</declname>
         </param>
         <param>
@@ -343,16 +343,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="105" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ab4dc6d518863a1ce552a92f3886aa783" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::CubicSpline::evaluatePoint</definition>
-        <argsstring>(const double &amp;t, SplineState &amp;state) final</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, SplineState &amp;state) final</argsstring>
         <name>evaluatePoint</name>
-        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a6d6f6c042859aaa97738aafec74c6b8e">evaluatePoint</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1affa6da8e66f27c6f43bea9d9e694724b">evaluatePoint</reimplements>
         <param>
-          <type>const double &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>t</declname>
         </param>
         <param>
@@ -386,7 +386,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="115" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="116" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kindref="compound">SplineState</ref> &amp;</type>
@@ -406,7 +406,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="123" column="23"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="124" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="131" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="132" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -446,7 +446,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="139" column="10"/>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="140" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -566,27 +566,27 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/CubicSpline.h" line="25" column="1" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="26" bodyend="140"/>
+    <location file="BipedalLocomotion/Planners/CubicSpline.h" line="26" column="1" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="27" bodyend="141"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>CubicSpline</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9cef867a04d379368454f8a2313b2219" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ab4dc6d518863a1ce552a92f3886aa783" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1acbee3fa75198f035fe81ee91745c8799" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setAdvanceTimeStep</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a6c988b07cd8c38cce071c07f2625ff9f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setAdvanceTimeStep</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setKnots</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1aacd3caaf95c23581662af37e630cb0da" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setKnots</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~CubicSpline</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~InputPort</name></member>

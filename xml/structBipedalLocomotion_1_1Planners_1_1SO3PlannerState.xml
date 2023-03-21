@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="35" column="17" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="35" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="36" column="17" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState_1a7d145d5e37b49510ef9934a3fd257b93" prot="public" static="no" mutable="no">
         <type>manif::SO3d::Tangent</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="36" column="26" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="36" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="37" column="26" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState_1a428cc167e6de72b3595b4e72eb0de440" prot="public" static="no" mutable="no">
         <type>manif::SO3d::Tangent</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="38" column="26" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="38" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="39" column="26" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -53,7 +53,7 @@
     <detaileddescription>
 <para>The velocity and the acceleration are expressed in inertial/body frame depending on the Trivialization used by the planner. </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="33" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="34" bodyend="40"/>
+    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="34" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="35" bodyend="41"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState_1a428cc167e6de72b3595b4e72eb0de440" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3PlannerState</scope><name>acceleration</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState_1a9e2007cd701dc3f9a61b62250937ff5b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3PlannerState</scope><name>rotation</name></member>

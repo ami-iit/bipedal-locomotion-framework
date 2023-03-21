@@ -34,6 +34,9 @@
       <node id="3">
         <label>manif/manif.h</label>
       </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/Contacts/Contact.h</label>
         <link refid="Contact_8h"/>
@@ -41,40 +44,52 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="12">
         <label>manif/SE3.h</label>
       </node>
-      <node id="7">
+      <node id="9">
         <label>string</label>
       </node>
       <node id="5">
         <label>map</label>
       </node>
+      <node id="8">
+        <label>ratio</label>
+      </node>
       <node id="2">
         <label>Eigen/Dense</label>
       </node>
-      <node id="8">
+      <node id="10">
         <label>vector</label>
       </node>
-      <node id="10">
+      <node id="13">
         <label>BipedalLocomotion/Math/Wrench.h</label>
         <link refid="Wrench_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="14">
         <label>manif/SO3.h</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
       </node>
     </incdepgraph>
     <invincdepgraph>

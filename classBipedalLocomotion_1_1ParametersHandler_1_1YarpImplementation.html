@@ -136,6 +136,11 @@
             </dt>
             <dd>Get a parameter [bool].</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af77eaebe3d7d1327da4da50dfe89b2f9" class="m-doc">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              std::chrono::nanoseconds&amp; parameter) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Get a parameter [std::chrono::nanoseconds].</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a0111773bdb6634bebefca77aee1470ba" class="m-doc">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
               std::vector&lt;bool&gt;&amp; parameter) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -155,6 +160,11 @@
               <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;std::string&gt;::Ref parameter) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Get a parameter [GenericContainer::Vector&lt;std::string&gt;].</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ade61fb20a94b484bcb19f24c5e5480e1" class="m-doc">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;std::chrono::nanoseconds&gt;::Ref parameter) const -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;].</dd>
             <dt>
               <span class="m-doc-wrap-bumper">void <a href="#a22c35bd2722d4ec538aab79cdfc99f56" class="m-doc">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
               const int&amp; parameter) <span class="m-label m-flat m-warning">final</span></span>
@@ -181,6 +191,11 @@
             </dt>
             <dd>Set a parameter [bool].</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a2e30951b1f38cc986178b2e8904e1190" class="m-doc">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              const std::chrono::nanoseconds&amp; parameter) <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Set a parameter [std::chrono::nanoseconds].</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">void <a href="#aa6ff4a24f07200238d7a1d6631338081" class="m-doc">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
               const std::vector&lt;bool&gt;&amp; parameter) <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -200,6 +215,11 @@
               const <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;const std::string&gt;::Ref parameter) <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set a parameter [GenericContainer::Vector&lt;std::string&gt;].</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a1b2bba2e0b0d02f9dd404af6f19969b5" class="m-doc">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              const <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;const std::chrono::nanoseconds&gt;::Ref parameter) <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;].</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a6b4468d8f7de872ec34ea500f3b9ba4c" class="m-doc">getGroup</a>(</span><span class="m-doc-wrap">const std::string&amp; name) const -&gt; weak_ptr <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -398,6 +418,34 @@
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="af77eaebe3d7d1327da4da50dfe89b2f9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af77eaebe3d7d1327da4da50dfe89b2f9" class="m-doc-self">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              std::chrono::nanoseconds&amp; parameter) const <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Get a parameter [std::chrono::nanoseconds].</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">parameterName</td>
+                  <td>name of the parameter</td>
+                </tr>
+                <tr>
+                  <td>parameter</td>
+                  <td>parameter</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="a0111773bdb6634bebefca77aee1470ba"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0111773bdb6634bebefca77aee1470ba" class="m-doc-self">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
@@ -488,6 +536,34 @@
               <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;std::string&gt;::Ref parameter) const <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Get a parameter [GenericContainer::Vector&lt;std::string&gt;].</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">parameterName</td>
+                  <td>name of the parameter</td>
+                </tr>
+                <tr>
+                  <td>parameter</td>
+                  <td>parameter</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ade61fb20a94b484bcb19f24c5e5480e1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ade61fb20a94b484bcb19f24c5e5480e1" class="m-doc-self">getParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;std::chrono::nanoseconds&gt;::Ref parameter) const <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;].</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -621,6 +697,28 @@
               </tbody>
             </table>
           </div></section>
+          <section class="m-doc-details" id="a2e30951b1f38cc986178b2e8904e1190"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2e30951b1f38cc986178b2e8904e1190" class="m-doc-self">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              const std::chrono::nanoseconds&amp; parameter) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Set a parameter [std::chrono::nanoseconds].</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">parameterName</td>
+                  <td>name of the parameter</td>
+                </tr>
+                <tr>
+                  <td>parameter</td>
+                  <td>parameter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="aa6ff4a24f07200238d7a1d6631338081"><div>
             <h3>
               <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa6ff4a24f07200238d7a1d6631338081" class="m-doc-self">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
@@ -693,6 +791,28 @@
               const <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;const std::string&gt;::Ref parameter) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set a parameter [GenericContainer::Vector&lt;std::string&gt;].</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">parameterName</td>
+                  <td>name of the parameter</td>
+                </tr>
+                <tr>
+                  <td>parameter</td>
+                  <td>parameter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a1b2bba2e0b0d02f9dd404af6f19969b5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />ParametersHandler::<wbr />YarpImplementation::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1b2bba2e0b0d02f9dd404af6f19969b5" class="m-doc-self">setParameter</a>(</span><span class="m-doc-wrap">const std::string&amp; parameterName,
+              const <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">GenericContainer::<wbr />Vector</a>&lt;const std::chrono::nanoseconds&gt;::Ref parameter) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;].</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>

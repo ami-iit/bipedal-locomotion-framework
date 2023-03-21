@@ -6,12 +6,15 @@
     <includes refid="DefaultLogger_8h" local="no">BipedalLocomotion/TextLogging/DefaultLogger.h</includes>
     <includes refid="Logger_8h" local="no">BipedalLocomotion/TextLogging/Logger.h</includes>
     <incdepgraph>
+      <node id="8">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/TextLogging/DefaultLogger.h</label>
         <link refid="DefaultLogger_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -20,7 +23,7 @@
       <node id="6">
         <label>spdlog/spdlog.h</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>string_view</label>
       </node>
       <node id="4">
@@ -31,6 +34,8 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="1">

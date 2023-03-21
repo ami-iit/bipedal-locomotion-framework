@@ -127,12 +127,12 @@ $\mathbb{R}^n$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a40f1241c9e553e8a4f33b62f9a9a32e3" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a248e4fa5abcb7d4530baa9bb8ca20a90" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Set the time step of the advance interface.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af1b18d50995240b7bf3f14098a1e6b8b" class="m-doc">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
-              const std::vector&lt;double&gt;&amp; time) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad7e193a8a3416130f9546f7dff47be41" class="m-doc">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
+              const std::vector&lt;std::chrono::nanoseconds&gt;&amp; time) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Set the knots of the spline.</dd>
             <dt>
@@ -146,14 +146,14 @@ $\mathbb{R}^n$
             </dt>
             <dd>Set the final condition of the spline.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9023fedffb5a53b2789ff1eccb794b2a" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">auto <a href="#aabd0871236edf2d8db86a4fba7454e2a" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t,
               Eigen::Ref&lt;Eigen::VectorXd&gt; position,
               Eigen::Ref&lt;Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;Eigen::VectorXd&gt; acceleration) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Evaluate the spline at a given point.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a6d6f6c042859aaa97738aafec74c6b8e" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">auto <a href="#affa6da8e66f27c6f43bea9d9e694724b" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t,
               <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; state) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Evaluate the spline at a given point.</dd>
@@ -161,9 +161,9 @@ $\mathbb{R}^n$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a40f1241c9e553e8a4f33b62f9a9a32e3"><div>
+          <section class="m-doc-details" id="a248e4fa5abcb7d4530baa9bb8ca20a90"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a40f1241c9e553e8a4f33b62f9a9a32e3" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a248e4fa5abcb7d4530baa9bb8ca20a90" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Set the time step of the advance interface.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -185,10 +185,10 @@ $\mathbb{R}^n$
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>if the the time step is not set the user cannot use the advance features.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="af1b18d50995240b7bf3f14098a1e6b8b"><div>
+          <section class="m-doc-details" id="ad7e193a8a3416130f9546f7dff47be41"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af1b18d50995240b7bf3f14098a1e6b8b" class="m-doc-self">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
-              const std::vector&lt;double&gt;&amp; time) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad7e193a8a3416130f9546f7dff47be41" class="m-doc-self">setKnots</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::VectorXd&gt;&amp; position,
+              const std::vector&lt;std::chrono::nanoseconds&gt;&amp; time) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Set the knots of the spline.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -269,9 +269,9 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9023fedffb5a53b2789ff1eccb794b2a"><div>
+          <section class="m-doc-details" id="aabd0871236edf2d8db86a4fba7454e2a"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9023fedffb5a53b2789ff1eccb794b2a" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aabd0871236edf2d8db86a4fba7454e2a" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t,
               Eigen::Ref&lt;Eigen::VectorXd&gt; position,
               Eigen::Ref&lt;Eigen::VectorXd&gt; velocity,
               Eigen::Ref&lt;Eigen::VectorXd&gt; acceleration) <span class="m-label m-warning">pure virtual</span></span></span>
@@ -307,9 +307,9 @@ $\mathbb{R}^n$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a6d6f6c042859aaa97738aafec74c6b8e"><div>
+          <section class="m-doc-details" id="affa6da8e66f27c6f43bea9d9e694724b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6d6f6c042859aaa97738aafec74c6b8e" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; t,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />Spline::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#affa6da8e66f27c6f43bea9d9e694724b" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t,
               <a href="structBipedalLocomotion_1_1Planners_1_1SplineState.html" class="m-doc">SplineState</a>&amp; state) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Evaluate the spline at a given point.</p>

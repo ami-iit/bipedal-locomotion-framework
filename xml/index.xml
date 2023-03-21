@@ -268,7 +268,7 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ac74016d057feec7c884aff7f4b726396" kind="function"><name>defaultIndex</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae46e41130807480653ec39dba6cd576e" kind="function"><name>defaultContactType</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae3ed40a1a38d8878bfc30ea6fbb7ae7e" kind="function"><name>addContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a74dd5fac898c362635adff1b4fe2bf90" kind="function"><name>addContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a18ac03b2121f9a9a432914d3c329776b" kind="function"><name>addContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a8a5b2fe4dc34c6241440ecbda2113336" kind="function"><name>erase</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9e8cda2df67a75c09a0bff7b8c265070" kind="function"><name>begin</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0dbf3384cf7cd47f383181642e8abe22" kind="function"><name>cbegin</name></member>
@@ -283,8 +283,8 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afd8a456aecdff7cad92a4a502117b0e5" kind="function"><name>firstContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a09ce629f873b5aa12cab37d563f71e4c" kind="function"><name>lastContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a84461637e0570046ef937728593f2d7c" kind="function"><name>editContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1af5ee9ee3799d245bcf4b95ada05bd137" kind="function"><name>getPresentContact</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a11626809b8bbbca9030087732afa27c2" kind="function"><name>keepOnlyPresentContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ad1a6136e4c7f01886a379dc359c6b5f1" kind="function"><name>getPresentContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ab44bbf63b56a9ddc25d70a69da354312" kind="function"><name>keepOnlyPresentContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a56e370cad1add2f78dc27ec49d51b009" kind="function"><name>clear</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a16ec57481a746a75d30e0c52f9a136c2" kind="function"><name>removeLastContact</name></member>
   </compound>
@@ -313,8 +313,8 @@
     <member refid="classBipedalLocomotion_1_1ContactModels_1_1ContactModel_1a5cf86bc458a5fe97a8d75414a894e730" kind="function"><name>setNullForceTransform</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase" kind="struct"><name>BipedalLocomotion::Contacts::ContactPhase</name>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1a7261731022f5517cf714e54b42ac27e8" kind="variable"><name>beginTime</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1aafd854a74ed1fc5507bce1df3b61d459" kind="variable"><name>endTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1a3fe51d74a527de43cb198d91e801652f" kind="variable"><name>beginTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1a979ff853067cbeb11a85188d6373c09c" kind="variable"><name>endTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1adfd2902578bc798418a6434829c0f979" kind="variable"><name>activeContacts</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase_1afca6b914a564cfcd1ba9372c6347642e" kind="function"><name>isListIncluded</name></member>
   </compound>
@@ -332,7 +332,7 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ab304c552436d9dcd7a4fdd54276e6248" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a33083dbf15170a9c48e3a97459caa978" kind="function"><name>setLists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6176b67dc70fec29ab5cc742d1a060cb" kind="function"><name>setLists</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a40e33b611c3135ce2817d897f4c9d3ea" kind="function"><name>getPresentPhase</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ae552581c9eb8499f36bf2e51965b7d3a" kind="function"><name>getPresentPhase</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" kind="function"><name>lists</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" kind="function"><name>begin</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" kind="function"><name>cbegin</name></member>
@@ -452,14 +452,14 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" kind="function"><name>CubicSpline</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" kind="function"><name>~CubicSpline</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1acbee3fa75198f035fe81ee91745c8799" kind="function"><name>setAdvanceTimeStep</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a2690aadc0eea0b3f48ea5037a7fc4bd1" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a6c988b07cd8c38cce071c07f2625ff9f" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1aacd3caaf95c23581662af37e630cb0da" kind="function"><name>setKnots</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" kind="function"><name>setFinalConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" kind="function"><name>setFinalConditions</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a837809322e9e6b336cc3b598f94bf278" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a63ab469c950c7f5f12f8fc5ae07248b9" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9cef867a04d379368454f8a2313b2219" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ab4dc6d518863a1ce552a92f3886aa783" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" kind="function"><name>advance</name></member>
@@ -501,11 +501,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a8060b3b647f60533e9b822e1164f1933" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kind="struct"><name>BipedalLocomotion::Contacts::EstimatedContact</name>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a454271171d5b7d911061307453ced4ad" kind="variable"><name>switchTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1afe72997e9101e4f602330ba825b7a46e" kind="variable"><name>switchTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a691f44a43415196508166f400204e2a0" kind="variable"><name>isActive</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a3832fd0df9212568ff2344a7399b96c3" kind="variable"><name>lastUpdateTime</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a542b6128b92bc937f22d97dd2d562e42" kind="function"><name>getContactDetails</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2f06ceb232d603e3ecfacbe5937721c5" kind="function"><name>setContactStateStamped</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a745e1e2436c499e43b93a38efd3a1d3a" kind="variable"><name>lastUpdateTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1a2873611182b38eea2d23bfdc900dac47" kind="function"><name>getContactDetails</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1ade125e0fbeaca4b42e6e8e057d480f0e" kind="function"><name>setContactStateStamped</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1Factory" kind="class"><name>BipedalLocomotion::System::Factory</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Factory_1a6fd551f4a7f28a211b34c75d4fadb57b" kind="typedef"><name>Type</name></member>
@@ -567,14 +567,14 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector" kind="class"><name>BipedalLocomotion::Contacts::FixedFootDetector</name>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a268884e697deca78b8d25350152f9a1e" kind="variable"><name>m_contactPhaselist</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1abc67248060b923b21a476ac0c83afb79" kind="variable"><name>m_currentTime</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a27b53afd200b832d4bcb4722f39939fb" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04ec9ee85b5388b7db5e26376b097e0f" kind="variable"><name>m_currentTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a4ee0971b86293dba8faa735371a0a156" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a6f45fb20015fbb29dd48392a84932993" kind="variable"><name>m_dummyContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a754f58e5432ac868156f9fb5ad0675b8" kind="function"><name>updateFixedFoot</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a9f0d68679f2398e6f00496176d8b7124" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1ac31610106e9493942579d844d6b45e76" kind="function"><name>setContactPhaseList</name></member>
-    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a89bd900b3a955833db99a37f600159e6" kind="function"><name>resetTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1addd4e165aafc7579cbf2510cc45ee275" kind="function"><name>resetTime</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a48faffe128483c4226b8dcfb56e98587" kind="function"><name>getFixedFoot</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</name>
@@ -636,9 +636,9 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a30b2e0f940d73c15239d4842f141a37e" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a2ccbfaf83d8eed0fe3b0b5ca46017ef4" kind="function"><name>setIMUMeasurement</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a776353b9fda2354f3f7eb0c80940ca49" kind="function"><name>setContacts</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a349f90524a834477ab51825f4be11f85" kind="function"><name>setContactStatus</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a83bfbba8171ebfc98b016c7449e7faf6" kind="function"><name>setContactStatus</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ad203e691ae8d7d8b41da86b2e081267b" kind="function"><name>setKinematics</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a12d71bdc48916f3f5a275008417ef6b6" kind="function"><name>setLandmarkRelativePose</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a1beebdcb036ccc21700690d291ac59e3" kind="function"><name>setLandmarkRelativePose</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8deaab0e4940165c59f15355d47ddc79" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1afaa96d18ba685b1cb5cb9a56f4d862cb" kind="function"><name>resetEstimator</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a3b6896ce5674651e673761bbce201154" kind="function"><name>resetEstimator</name></member>
@@ -871,19 +871,23 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a309b3e41c285bafc3abfdaa19107a94d" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6f70e7ff8d921ddd86b1d787dea31817" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a580f55f92e5113e5e956500a642c334f" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a32cea1fc7fe065fbd6222b26a4e8e669" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a4b5d92b170d471760070c9b19fcf2355" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ae2157684e9278364f16d491771db4de8" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a3f9f2f10327e8e1f090357ca49fa6149" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aaa35d7a32c43c5d75e48ad1228d1d335" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a9145dbaf1143a1a3da2f415e6c67894a" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6d237be21441ba4ad215955d1e59d78c" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1af3d26ff754203f7ea0c18026299279f5" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a676ff31c0f2a523d23115acb820fa8c4" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ac50bdd9d7c54d542979601502aa63724" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a31e93d8df853c8e714ea0f02b561692d" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aedd08b1aeedb09aff57a9dbb19dc88c1" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1adbf64417a4c269eea758e895545a05db" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a99835b09d78671d66f127bb3f2f11a8f" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6acc040bc256463c628af59033a59863" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ab1cb738f9b06bf45c5f0bb63c87b87eb" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8446ca0f4e9028008b73ce6080615e64" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8ca1254ab3f157396052b4df3cefc15d" kind="function"><name>getGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a78e1afbcb61323fa5d5a105466aa4a1b" kind="function"><name>setGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a22dd2d7f429a64092bba1e3bdbe29713" kind="function"><name>toString</name></member>
@@ -1224,9 +1228,8 @@
   <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params" kind="struct"><name>BipedalLocomotion::Math::SchmittTrigger::Params</name>
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a632d9d4d4eaedfb969c6dc9d42848a7d" kind="variable"><name>onThreshold</name></member>
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" kind="variable"><name>offThreshold</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a4d872163402bfb705fb474af6203ecc6" kind="variable"><name>switchOnAfter</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a43f78324f7022af34191e10317f5127b" kind="variable"><name>switchOffAfter</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a9e2d20a98a46370d5d5cb53d2595bec4" kind="variable"><name>timeComparisonThreshold</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a410fdb48943d710f91977557277d2dc8" kind="variable"><name>switchOnAfter</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a76121b2e559921393217055a4b6d1718" kind="variable"><name>switchOffAfter</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData" kind="struct"><name>BipedalLocomotion::RobotInterface::PCLBridgeMetaData</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1PCLBridgeMetaData_1a82396711aeecd07721acf9962cb33975" kind="variable"><name>pclDevList</name></member>
@@ -1243,8 +1246,8 @@
     <member refid="structBipedalLocomotion_1_1Perception_1_1Features_1_1PCLProcessorParameters_1a62305cc82722e0e094a56011d3a31664" kind="variable"><name>maxNrPointsInCluster</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact" kind="struct"><name>BipedalLocomotion::Contacts::PlannedContact</name>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a85317084b0bd2ad04acc692a00b17b5d" kind="variable"><name>activationTime</name></member>
-    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a9e30bd6e57482ca1e69eef08cfe9676e" kind="variable"><name>deactivationTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1aa589c04446c7d15276c447a94dad913f" kind="variable"><name>activationTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2ca83c6e9583c581057b4f46dfeda9a2" kind="variable"><name>deactivationTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1ad65cd0f8bb51507f321d5da8bdb575ce" kind="function"><name>operator==</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor" kind="class"><name>BipedalLocomotion::Perception::Features::PointCloudProcessor</name>
@@ -1330,12 +1333,12 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a72ec29aa17e68f08c9bb3de02c8ad941" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a7c5da046de13a4c62daa918fe741dae3" kind="function"><name>QuinticSpline</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a9baf5f5d4cb3b31a87367fa06c8c28aa" kind="function"><name>~QuinticSpline</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aa0d30f220b34263ad6478c220d9453e8" kind="function"><name>setAdvanceTimeStep</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a5911832330c2e084958f95abe4e82f2e" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a239eb416aad7775dadb9c6ca85188759" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a799e942684607bd6350e1af6a260d117" kind="function"><name>setKnots</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a855f70765cc5897ab037dc5e32321336" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a2d51cc453148c20f5e614a24d981fd12" kind="function"><name>setFinalConditions</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a231485a164f44b5c6e533b5e2b2bd38c" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ae32c2232d61cad9767f73de365795054" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a00c17e2178d71fefbbe379e1566a9138" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1ab6de236c8835ae9dea3ef09d0249a835" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1a4c1563c14094002279156a834fa1bc8b" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1aade486dcd2cb26b789d0ef5fa8020b7a" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19" kind="function"><name>advance</name></member>
@@ -1467,9 +1470,11 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abdfedef770360e9cfb5834ffb228eb69" kind="variable"><name>m_input</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa6199c770e68dfbb3a672d9ed45bd6f1" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a59743be60af2802202cfe7ff8b5c576c" kind="variable"><name>m_params</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4e79aa872e247d47185f800fb3f82c92" kind="variable"><name>m_timer</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abda3c01a61339ef6f5c6c931b24232a4" kind="variable"><name>m_risingEdgeTimeInstant</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a9900146df17719271e7224eab0c5f8be" kind="variable"><name>m_fallingEdgeTimeInstant</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a317cd327dc83b7051b57a81d35b69a2a" kind="variable"><name>m_timer</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a3451f2e30ed10dc900f525ed390c9584" kind="variable"><name>m_risingEdgeTimeInstant</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a2ce6a9d3b8610e72a28b69309ffb9259" kind="variable"><name>m_fallingEdgeTimeInstant</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4d29272d77c8635aee99812ebea44ce4" kind="variable"><name>m_risingDetected</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a0d1376137928ff87f9d6b2c1c59c5ada" kind="variable"><name>m_fallingDetected</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1acb2f276e248cadb9d2d51c24ff57dcc9" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a24e1ed4970b0e45ccf2a95bb51a25991" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf24d81aa71d1e55750529cdcf824d8d" kind="function"><name>setState</name></member>
@@ -1492,13 +1497,13 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1cf53a6d4a1bc4b6dd682e1c2fef8c69" kind="function"><name>advance</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerInput</name>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a0a68393f5534c23644557a3af947a38c" kind="variable"><name>time</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a8ae9aa3571fa83366a61aee39c900305" kind="variable"><name>time</name></member>
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a01413b0d02d236c18c66d50d6a7d2d01" kind="variable"><name>rawValue</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerState</name>
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a49e7f1cea101cf7a4257ce9732a32c3b" kind="variable"><name>state</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1ae5222dd9164c482ec78bbb3bc9216d9f" kind="variable"><name>switchTime</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a52dbd0abc94c174cc74caf8cc22caaac" kind="variable"><name>edgeTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a1f5b5343c93c88c1b2a689825533e2b0" kind="variable"><name>switchTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1aa2dd10ba67be3e735ee164fcac8dfc1f" kind="variable"><name>edgeTime</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kind="class"><name>BipedalLocomotion::IK::SE3Task</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a3bf3e747f32c05b7b7539066cfdd8096" kind="typedef"><name>Mode</name></member>
@@ -1624,14 +1629,14 @@
   <compound refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kind="class"><name>BipedalLocomotion::Planners::SO3Planner</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1aba756f69b09b277f3746676bfef082a2" kind="variable"><name>m_initialRotation</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ad00c3a50b465fc7045b17e300ae04ef4" kind="variable"><name>m_distance</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1aa498a2f189d04e34122ea3828aac5ce6" kind="variable"><name>m_T</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a5ef51213643433d595253e41da200857" kind="variable"><name>m_advanceTimeStep</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a5326326e2681d33a3c1fcedbfd49fd1b" kind="variable"><name>m_advanceCurrentTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a08c15998f131bd795737ada373ec845f" kind="variable"><name>m_T</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a2e4b58f74b2ff01d294c2d87cef11c89" kind="variable"><name>m_advanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1afe98fdac8adc8f054439a3a3b872e022" kind="variable"><name>m_advanceCurrentTime</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a621d5c6139af33f66a232c481f63a921" kind="variable"><name>m_state</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1af358a00e71710c53e561da3d5f5aef4b" kind="function"><name>setRotations</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a191a2766c856d6eba9cd3f065b9b2083" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab14b5cae69397ad18d8a034e4fdf70dc" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a0f2142a6c2bad513a6aeb5f5ff953c18" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a751ed13ee6ed5e64a8cdda33a3b86e57" kind="function"><name>setRotations</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a0291224a2506522545cb3e865ecbb74a" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab99ce32e60131666b7d6e680366fcd32" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a99076971e06978cd9c12c994bba78b76" kind="function"><name>setAdvanceTimeStep</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a9e1bc5e248e0f83cddae20277200ca12" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1acdf5026823d28b0bec14badad5617599" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a557793850f4ed78b59238328566f1c57" kind="function"><name>advance</name></member>
@@ -1685,12 +1690,12 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1Spline" kind="class"><name>BipedalLocomotion::Planners::Spline</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" kind="function"><name>~Spline</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a40f1241c9e553e8a4f33b62f9a9a32e3" kind="function"><name>setAdvanceTimeStep</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1af1b18d50995240b7bf3f14098a1e6b8b" kind="function"><name>setKnots</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a248e4fa5abcb7d4530baa9bb8ca20a90" kind="function"><name>setAdvanceTimeStep</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ad7e193a8a3416130f9546f7dff47be41" kind="function"><name>setKnots</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a2551f619b85dfd0f728e9b03cf789f8c" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a65f6e6d2c5294b562c9aa8e491acd1ef" kind="function"><name>setFinalConditions</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a9023fedffb5a53b2789ff1eccb794b2a" kind="function"><name>evaluatePoint</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a6d6f6c042859aaa97738aafec74c6b8e" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1aabd0871236edf2d8db86a4fba7454e2a" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1affa6da8e66f27c6f43bea9d9e694724b" kind="function"><name>evaluatePoint</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kind="struct"><name>BipedalLocomotion::Planners::SplineState</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1aa070f24d1636fd05fd15f1460f7d23d9" kind="variable"><name>position</name></member>
@@ -1731,19 +1736,23 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6bdcc4fcbe7d3ba85df91bd6953d08ed" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6fff9373e0c1e4655732b29b55cefee0" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1abf3da53b0e22b6bc966e0429ffddf050" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a197c7bf275b55ba2b0a79f5443f0ec56" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a0ab67dbbdc2750c18f1fe907f4b59a5f" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1afe6e81d64f37e1fe4fc47cd6deed1bb8" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a0ec6d7bf5d4b967da3d7952550e81585" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1add66ec6c371a21d84e0e965479a56012" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6f602667e5c3929dbfd8231717c6bc04" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a28f7f90b5a967a03559efffdb88dbf5c" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1ac4cfaab8b1deee996f4c78eeca6dc57b" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a30e08ad5b04bd51eb6911ea655d7c111" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a517b6a22ee166c60f09bda0b81d3b79b" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a3337d1d53551a453e82c1e3f41b89a90" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a2a53ec58219560ae51aeef6be4a4e06f" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a7abf3b2e68e819c6aba8c670c083d97b" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1ac6986781f6c43ed8a08b182e7b5cbaed" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6b9bf79b93199e68bce2083047870bed" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1af6e3479a2da7783fbc157601e8daec73" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6cdb52e049af728d2c820af987b23e1f" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1ac7d19a2945a765e3239598b007d45a32" kind="function"><name>getGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a4da25fef8c4a501ce481ed4b9aef54ad" kind="function"><name>setGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1aed41af1c7497f57b8a6aa798a2491916" kind="function"><name>toString</name></member>
@@ -1840,8 +1849,8 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" kind="class"><name>BipedalLocomotion::Planners::SwingFootPlanner</name>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a05f9acf196e6eb3d2065f348d168c54c" kind="variable"><name>m_state</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ae2c06b88b13044beaacee788659fb384" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1acc50291a370a2c14e7c2422a004ac8ab" kind="variable"><name>m_currentTrajectoryTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad357e7a7f386b5e07e28063956e6e032" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a06fddc2be729d1ef4795d12b4bb62eb0" kind="variable"><name>m_currentTrajectoryTime</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a11f2f1f64a11a1e80c1e37d8fda93e64" kind="variable"><name>m_contactList</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1abbe64bad1f881b30483dfe2c880a0465" kind="variable"><name>m_currentContactPtr</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" kind="variable"><name>m_SO3Planner</name></member>
@@ -1892,19 +1901,23 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a12d106023924ec3ae4599d5c1f57d52e" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7e96f4db775bfd6c6229cdfdbb705e9e" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ad2e89673adfcb9898f9ba76b3f6a4a89" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a22bbed7969fa1f23ab948699683e0e3e" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a6a77664180a9e9d54ecd13ddc44844de" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a58095752b261b5dc62b2bf438d9269d5" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a945893028ec4c53aa0731026ee67cb1a" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a9bbdb6fd83abc1eece7385c4dd1d39f0" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a1e21fcc6b435e6f33f7cd063f7f0d755" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7b99e8520fcd89dfc002cd76e62283ca" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ada5d517cd6712e7fdcade0f3d0de55c9" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a099f42898ff8dbf795c7c75928065453" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a5b79540432064125097af70ca2f0718c" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ae1cf9094a7f84519bb19771b7cd29c52" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a66aa74ef3f85f6cdb5f90176b96895fa" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a06aa8f03332037cc857472982daf8b21" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af5d54035b958caa5850ca5bcd2ba2b47" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a3b23017dce6e3baffeba093ac2059c96" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1afd3e0f168562bbe9bb0d973975cd15ee" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af2fe0e0cc15abcbb0475a558718eae7c" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a7967601e80d345c45915e2d8ca843088" kind="function"><name>getGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac0f5b19fdabc727f3baf3589c57f7d10" kind="function"><name>setGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1ac79cb2e2193a73685e3197c2bf269e3d" kind="function"><name>toString</name></member>
@@ -2113,6 +2126,8 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a34bf094bf03af5f0f66c91a498ad3cd3" kind="function"><name>getParameterPrivate</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a03a556f78a8d2be6b29d48782fbee600" kind="function"><name>setParameterPrivate</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a077b0a6389adc0aa2429ec12952fe6a0" kind="function"><name>clonePrivate</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a7def534d693b118883d3c60c251ea817" kind="function"><name>stringToDuration</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1af57c51e99b67e40d1eddfca418d9fae5" kind="function"><name>durationToString</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a2029a7fe24230683465d6ab99ef0d297" kind="function"><name>YarpImplementation</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ae5223e6348970d0c3c388ac46abe5857" kind="function"><name>YarpImplementation</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a60cf026ca1362f6762dca4abcc2b4ee6" kind="function"><name>set</name></member>
@@ -2121,19 +2136,23 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1aa5c5c9f4dbd352fbd5f9c17985accfb3" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ad76663f0dc1955660886542f3adfd173" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a77838487a5c87eb82d5d98cdb986641b" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1af77eaebe3d7d1327da4da50dfe89b2f9" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a0111773bdb6634bebefca77aee1470ba" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a8f3c85c02969f7f8db575cc24c22ebee" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a6a6b19fea7c698e4dbfe1bf47a88bac0" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a84e532092b9cc1f490cd69ceb1382ed4" kind="function"><name>getParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ade61fb20a94b484bcb19f24c5e5480e1" kind="function"><name>getParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a22c35bd2722d4ec538aab79cdfc99f56" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a047943c17ef15231efa10b486b40e4d1" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a6881d6a1f5fe38346354e9113903c28f" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ae17080381e2cdafb498e59c8848379c6" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a597bfc52821217fb8e94fa33867fc4db" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a2e30951b1f38cc986178b2e8904e1190" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1aa6ff4a24f07200238d7a1d6631338081" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1af544c00dc785e431af824e9b491a3ac3" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1aa6d600cbbe0fd72d7152179c4e055a10" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1aebc4c9d1fdec6de81711a2f62729c375" kind="function"><name>setParameter</name></member>
+    <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a1b2bba2e0b0d02f9dd404af6f19969b5" kind="function"><name>setParameter</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a6b4468d8f7de872ec34ea500f3b9ba4c" kind="function"><name>getGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1abc6ef5e9b41ab7238fdcc01b9393f7e0" kind="function"><name>setGroup</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1abb16748e8b91989125a9dc225d380bde" kind="function"><name>toString</name></member>

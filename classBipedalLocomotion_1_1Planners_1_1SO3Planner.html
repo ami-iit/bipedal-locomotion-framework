@@ -93,26 +93,26 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af358a00e71710c53e561da3d5f5aef4b" class="m-doc">setRotations</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; initialRotation,
+              <span class="m-doc-wrap-bumper">auto <a href="#a751ed13ee6ed5e64a8cdda33a3b86e57" class="m-doc">setRotations</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; initialRotation,
               const manif::SO3d&amp; finalRotation,
-              const double&amp; duration) -&gt; bool</span>
+              const std::chrono::nanoseconds&amp; duration) -&gt; bool</span>
             </dt>
             <dd>Set the rotation.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a191a2766c856d6eba9cd3f065b9b2083" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#a0291224a2506522545cb3e865ecbb74a" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState.html" class="m-doc">SO3PlannerState</a>&amp; state) const -&gt; bool</span>
             </dt>
             <dd>Get the trajectory at a given time.</dd>
             <dt>
               <div class="m-doc-template">template&lt;class Derived&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab14b5cae69397ad18d8a034e4fdf70dc" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#ab99ce32e60131666b7d6e680366fcd32" class="m-doc">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               manif::SO3d&amp; rotation,
               manif::SO3TangentBase&lt;Derived&gt;&amp; velocity,
               manif::SO3TangentBase&lt;Derived&gt;&amp; acceleration) const -&gt; bool</span>
             </dt>
             <dd>Get the trajectory at a given time.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0f2142a6c2bad513a6aeb5f5ff953c18" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a99076971e06978cd9c12c994bba78b76" class="m-doc">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) -&gt; bool</span>
             </dt>
             <dd>Set the time step of the advance interface.</dd>
             <dt>
@@ -131,14 +131,14 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="af358a00e71710c53e561da3d5f5aef4b"><div>
+          <section class="m-doc-details" id="a751ed13ee6ed5e64a8cdda33a3b86e57"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;<a href="SO3Planner_8h.html#ae114d1c1f94f336e09b0a6b8f9d4ffe7" class="m-doc">LieGroupTrivialization</a> trivialization&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af358a00e71710c53e561da3d5f5aef4b" class="m-doc-self">setRotations</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; initialRotation,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a751ed13ee6ed5e64a8cdda33a3b86e57" class="m-doc-self">setRotations</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; initialRotation,
               const manif::SO3d&amp; finalRotation,
-              const double&amp; duration)</span></span>
+              const std::chrono::nanoseconds&amp; duration)</span></span>
             </h3>
             <p>Set the rotation.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -199,12 +199,12 @@ ${}^{\mathcal{I}}R_{\mathcal{B}_T}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a191a2766c856d6eba9cd3f065b9b2083"><div>
+          <section class="m-doc-details" id="a0291224a2506522545cb3e865ecbb74a"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;<a href="SO3Planner_8h.html#ae114d1c1f94f336e09b0a6b8f9d4ffe7" class="m-doc">LieGroupTrivialization</a> trivialization&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a191a2766c856d6eba9cd3f065b9b2083" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0291224a2506522545cb3e865ecbb74a" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState.html" class="m-doc">SO3PlannerState</a>&amp; state) const</span></span>
             </h3>
             <p>Get the trajectory at a given time.</p>
@@ -230,13 +230,13 @@ ${}^{\mathcal{I}}R_{\mathcal{B}_T}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ab14b5cae69397ad18d8a034e4fdf70dc"><div>
+          <section class="m-doc-details" id="ab99ce32e60131666b7d6e680366fcd32"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;<a href="SO3Planner_8h.html#ae114d1c1f94f336e09b0a6b8f9d4ffe7" class="m-doc">LieGroupTrivialization</a> trivialization&gt;
                 template&lt;class Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab14b5cae69397ad18d8a034e4fdf70dc" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab99ce32e60131666b7d6e680366fcd32" class="m-doc-self">evaluatePoint</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               manif::SO3d&amp; rotation,
               manif::SO3TangentBase&lt;Derived&gt;&amp; velocity,
               manif::SO3TangentBase&lt;Derived&gt;&amp; acceleration) const</span></span>
@@ -286,12 +286,12 @@ ${}^{\mathcal{I}}R_{\mathcal{B}}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a0f2142a6c2bad513a6aeb5f5ff953c18"><div>
+          <section class="m-doc-details" id="a99076971e06978cd9c12c994bba78b76"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;<a href="SO3Planner_8h.html#ae114d1c1f94f336e09b0a6b8f9d4ffe7" class="m-doc">LieGroupTrivialization</a> trivialization&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0f2142a6c2bad513a6aeb5f5ff953c18" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const double&amp; dt)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SO3Planner&lt;trivialization&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a99076971e06978cd9c12c994bba78b76" class="m-doc-self">setAdvanceTimeStep</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt)</span></span>
             </h3>
             <p>Set the time step of the advance interface.</p>
             <table class="m-table m-fullwidth m-flat">

@@ -90,12 +90,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a542b6128b92bc937f22d97dd2d562e42">
-              <span class="m-doc-wrap-bumper">auto <a href="#a542b6128b92bc937f22d97dd2d562e42" class="m-doc-self">getContactDetails</a>(</span><span class="m-doc-wrap">) const -&gt; std::pair&lt;bool, double&gt;</span>
+            <dt id="a2873611182b38eea2d23bfdc900dac47">
+              <span class="m-doc-wrap-bumper">auto <a href="#a2873611182b38eea2d23bfdc900dac47" class="m-doc-self">getContactDetails</a>(</span><span class="m-doc-wrap">) const -&gt; std::pair&lt;bool, std::chrono::nanoseconds&gt;</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a2f06ceb232d603e3ecfacbe5937721c5">
-              <span class="m-doc-wrap-bumper">void <a href="#a2f06ceb232d603e3ecfacbe5937721c5" class="m-doc-self">setContactStateStamped</a>(</span><span class="m-doc-wrap">const std::pair&lt;bool, double&gt;&amp; pair)</span>
+            <dt id="ade125e0fbeaca4b42e6e8e057d480f0e">
+              <span class="m-doc-wrap-bumper">void <a href="#ade125e0fbeaca4b42e6e8e057d480f0e" class="m-doc-self">setContactStateStamped</a>(</span><span class="m-doc-wrap">const std::pair&lt;bool, std::chrono::nanoseconds&gt;&amp; pair)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -103,16 +103,16 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a454271171d5b7d911061307453ced4ad">
-              double <a href="#a454271171d5b7d911061307453ced4ad" class="m-doc-self">switchTime</a>
+            <dt id="afe72997e9101e4f602330ba825b7a46e">
+              std::chrono::nanoseconds <a href="#afe72997e9101e4f602330ba825b7a46e" class="m-doc-self">switchTime</a>
             </dt>
             <dd>Instant at which the contact state was toggled.</dd>
             <dt id="a691f44a43415196508166f400204e2a0">
               bool <a href="#a691f44a43415196508166f400204e2a0" class="m-doc-self">isActive</a>
             </dt>
             <dd>Current state of contact.</dd>
-            <dt id="a3832fd0df9212568ff2344a7399b96c3">
-              double <a href="#a3832fd0df9212568ff2344a7399b96c3" class="m-doc-self">lastUpdateTime</a>
+            <dt id="a745e1e2436c499e43b93a38efd3a1d3a">
+              std::chrono::nanoseconds <a href="#a745e1e2436c499e43b93a38efd3a1d3a" class="m-doc-self">lastUpdateTime</a>
             </dt>
             <dd>Time at which the contact details were last updated This field helps in forgetting contacts.</dd>
           </dl>

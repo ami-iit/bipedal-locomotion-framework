@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="29" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="29" bodyend="-1"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="30" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="30" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8afda2b689337f31a090dabd24df53f3" prot="public" static="no">
         <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">IParametersHandler</ref> &gt;</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="31" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="31" bodyend="-1"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="32" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="32" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a03eb908249dcb6c90bd61bdb55bd9aa7" prot="public" static="no">
         <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">IParametersHandler</ref> &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="33" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="33" bodyend="-1"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="34" column="5" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="34" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="41" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="42" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a309b3e41c285bafc3abfdaa19107a94d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="49" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="50" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6f70e7ff8d921ddd86b1d787dea31817" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -181,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="57" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="58" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a580f55f92e5113e5e956500a642c334f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -228,6 +228,51 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="66" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a32cea1fc7fe065fbd6222b26a4e8e669" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::ParametersHandler::IParametersHandler::getParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, std::chrono::nanoseconds &amp;parameter) const =0</argsstring>
+        <name>getParameter</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a197c7bf275b55ba2b0a79f5443f0ec56">getParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a22bbed7969fa1f23ab948699683e0e3e">getParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1af77eaebe3d7d1327da4da50dfe89b2f9">getParameter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>std::chrono::nanoseconds &amp;</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [int]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="74" column="18"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a4b5d92b170d471760070c9b19fcf2355" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::ParametersHandler::IParametersHandler::getParameter</definition>
@@ -271,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="74" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="82" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ae2157684e9278364f16d491771db4de8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -316,7 +361,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="83" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="91" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a3f9f2f10327e8e1f090357ca49fa6149" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -361,7 +406,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="92" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="100" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aaa35d7a32c43c5d75e48ad1228d1d335" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -406,7 +451,52 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="101" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="109" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a9145dbaf1143a1a3da2f415e6c67894a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::ParametersHandler::IParametersHandler::getParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, GenericContainer::Vector&lt; std::chrono::nanoseconds &gt;::Ref parameter) const =0</argsstring>
+        <name>getParameter</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6f602667e5c3929dbfd8231717c6bc04">getParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a1e21fcc6b435e6f33f7cd063f7f0d755">getParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1ade61fb20a94b484bcb19f24c5e5480e1">getParameter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">GenericContainer::Vector</ref>&lt; std::chrono::nanoseconds &gt;::Ref</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true/false in case of success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="118" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6d237be21441ba4ad215955d1e59d78c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -449,7 +539,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="109" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="126" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1af3d26ff754203f7ea0c18026299279f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -492,7 +582,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="116" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="133" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a676ff31c0f2a523d23115acb820fa8c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -535,7 +625,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="123" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="140" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ac50bdd9d7c54d542979601502aa63724" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -580,7 +670,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="132" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="149" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a31e93d8df853c8e714ea0f02b561692d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -623,7 +713,50 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="139" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="156" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aedd08b1aeedb09aff57a9dbb19dc88c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void BipedalLocomotion::ParametersHandler::IParametersHandler::setParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, const std::chrono::nanoseconds &amp;parameter)=0</argsstring>
+        <name>setParameter</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a2a53ec58219560ae51aeef6be4a4e06f">setParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1a66aa74ef3f85f6cdb5f90176b96895fa">setParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a2e30951b1f38cc986178b2e8904e1190">setParameter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Set a parameter [std::chrono::nanoseconds]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="163" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1adbf64417a4c269eea758e895545a05db" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -666,7 +799,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="146" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="171" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a99835b09d78671d66f127bb3f2f11a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -709,7 +842,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="154" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="179" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6acc040bc256463c628af59033a59863" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -752,7 +885,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="163" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="188" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ab1cb738f9b06bf45c5f0bb63c87b87eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -795,7 +928,50 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="172" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="197" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8446ca0f4e9028008b73ce6080615e64" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void BipedalLocomotion::ParametersHandler::IParametersHandler::setParameter</definition>
+        <argsstring>(const std::string &amp;parameterName, const GenericContainer::Vector&lt; const std::chrono::nanoseconds &gt;::Ref parameter)=0</argsstring>
+        <name>setParameter</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a6cdb52e049af728d2c820af987b23e1f">setParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1TomlImplementation_1af2fe0e0cc15abcbb0475a558718eae7c">setParameter</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ParametersHandler_1_1YarpImplementation_1a1b2bba2e0b0d02f9dd404af6f19969b5">setParameter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector" kindref="compound">GenericContainer::Vector</ref>&lt; const std::chrono::nanoseconds &gt;::Ref</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Get a parameter [GenericContainer::Vector&lt;std::chrono::nanoseconds&gt;]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameterName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="207" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8ca1254ab3f157396052b4df3cefc15d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>weak_ptr</type>
@@ -830,7 +1006,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="184" column="22"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="219" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a78e1afbcb61323fa5d5a105466aa4a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -877,7 +1053,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="194" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="229" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a22dd2d7f429a64092bba1e3bdbe29713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -899,7 +1075,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="202" column="25"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="237" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ab15662ad31c0c5c750a8c0d301bd7033" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -921,7 +1097,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="210" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="245" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a7b1cd95ec96c2ea547d4e1acf5f4c3bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -941,7 +1117,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="217" column="18"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="252" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ad77436eee28c16c2ac6218ee04ec88b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>shared_ptr</type>
@@ -963,7 +1139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="225" column="24"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="260" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ac2dde38cbb2c531e185a40144b1d98ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -977,7 +1153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="230" column="13"/>
+        <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="265" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1009,7 +1185,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="26" column="1" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="27" bodyend="231"/>
+    <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="27" column="1" bodyfile="BipedalLocomotion/ParametersHandler/IParametersHandler.h" bodystart="28" bodyend="266"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a7b1cd95ec96c2ea547d4e1acf5f4c3bd" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>clear</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ad77436eee28c16c2ac6218ee04ec88b5" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>clone</name></member>
@@ -1018,10 +1194,12 @@
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a309b3e41c285bafc3abfdaa19107a94d" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6f70e7ff8d921ddd86b1d787dea31817" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a580f55f92e5113e5e956500a642c334f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a32cea1fc7fe065fbd6222b26a4e8e669" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a4b5d92b170d471760070c9b19fcf2355" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ae2157684e9278364f16d491771db4de8" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a3f9f2f10327e8e1f090357ca49fa6149" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aaa35d7a32c43c5d75e48ad1228d1d335" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a9145dbaf1143a1a3da2f415e6c67894a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>getParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ab15662ad31c0c5c750a8c0d301bd7033" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>isEmpty</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a78e1afbcb61323fa5d5a105466aa4a1b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setGroup</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6d237be21441ba4ad215955d1e59d78c" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
@@ -1029,10 +1207,12 @@
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a676ff31c0f2a523d23115acb820fa8c4" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ac50bdd9d7c54d542979601502aa63724" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a31e93d8df853c8e714ea0f02b561692d" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1aedd08b1aeedb09aff57a9dbb19dc88c1" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1adbf64417a4c269eea758e895545a05db" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a99835b09d78671d66f127bb3f2f11a8f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a6acc040bc256463c628af59033a59863" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1ab1cb738f9b06bf45c5f0bb63c87b87eb" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
+      <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8446ca0f4e9028008b73ce6080615e64" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>setParameter</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a8afda2b689337f31a090dabd24df53f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>shared_ptr</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1a22dd2d7f429a64092bba1e3bdbe29713" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>toString</name></member>
       <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler_1af52e37b791362f025487212e52256c51" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ParametersHandler::IParametersHandler</scope><name>unique_ptr</name></member>
