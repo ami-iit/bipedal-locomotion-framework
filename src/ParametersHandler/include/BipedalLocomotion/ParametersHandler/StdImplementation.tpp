@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_STD_IMPLEMENTATION_TPP
 #define BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_STD_IMPLEMENTATION_TPP
 
+#include <chrono>
 #include <type_traits>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
@@ -30,7 +31,8 @@ bool StdImplementation::getParameterPrivate(const std::string& parameterName, T&
         return false;
     }
 
-    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    if constexpr (std::is_scalar<T>::value || is_string<T>::value
+                  || std::is_same<T, std::chrono::nanoseconds>::value)
     {
         try
         {
@@ -89,7 +91,9 @@ bool StdImplementation::getParameterPrivate(const std::string& parameterName, T&
         }
 
         for (std::size_t index = 0; index < parameter.size(); index++)
+        {
             parameter[index] = castedParameter[index];
+        }
     }
     return true;
 }
@@ -98,7 +102,8 @@ template <typename T>
 void StdImplementation::setParameterPrivate(const std::string& parameterName, const T& parameter)
 {
     // a scalar element and a strings is retrieved using getElementFromSearchable() function
-    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    if constexpr (std::is_scalar<T>::value || is_string<T>::value
+                  || std::is_same<T, std::chrono::nanoseconds>::value)
         m_map[parameterName] = parameter;
     else
     {

@@ -5,6 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
+#include <regex>
 #include <yarp/os/Bottle.h>
 
 #include <cassert>
@@ -14,6 +16,94 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
+
+bool YarpImplementation::stringToDuration(const std::string& string, std::chrono::nanoseconds& time)
+{
+    using namespace std::chrono_literals;
+
+    constexpr auto logPrefix = "[YarpImplementation::stringToDuration]";
+
+    // It matches a string of the type HH:MM:SS.xxxxxx with H, M, S, x a number from 0 to 9.
+    // In detail:
+    // [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}\b means:
+    // - Match a single character present in the list below [0-9]
+    //   - {2} matches the previous token exactly 2 times
+    //   - 0-9 matches a single character in the range between 0 and 9
+    // - : matches the character :
+    // - Match a single character present in the list below [0-9]
+    //   - {2} matches the previous token exactly 2 times
+    //   - 0-9 matches a single character in the range between 0 and 9
+    // - : matches the character :
+    // - Match a single character present in the list below [0-9]
+    //   - {2} matches the previous token exactly 2 times
+    //   - 0-9 matches a single character in the range between 0 and 9
+    // - \. matches the character .
+    // - Match a single character present in the list below [0-9]
+    //   - {6} matches the previous token exactly 6 times
+    //   - 0-9 matches a single character in the range between 0 and 9
+    // - \b assert position at a word boundary: (^\w|\w$|\W\w|\w\W)
+    //
+    // Please note that instead of having \. and \b we have \\. and \\b. Indeed the first \ is used
+    // as escape character for the string literal.
+    const std::regex expression("[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}\\b");
+    if (!std::regex_match(string, expression))
+    {
+        log()->debug("{} The parameter do not match the excepted expression. Expected: "
+                     "'HH:MM:SS.xxxxxx'. Get: {}.",
+                     logPrefix,
+                     string);
+        return false;
+    }
+
+    std::stringstream stringstream{string};
+    std::vector<std::string> strs;
+    std::string temp;
+    while (std::getline(stringstream, temp, ':'))
+    {
+        strs.push_back(temp);
+    }
+
+    // split the seconds and microseconds
+    std::stringstream stringstreamSeconds{strs[2]};
+    std::vector<std::string> strsSeconds;
+    while (std::getline(stringstreamSeconds, temp, '.'))
+    {
+        strsSeconds.push_back(temp);
+    }
+
+    time = stoi(strs[0]) * 1h + stoi(strs[1]) * 1min + stoi(strsSeconds[0]) * 1s
+           + stoi(strsSeconds[1]) * 1us;
+
+    return true;
+}
+
+std::string YarpImplementation::durationToString(const std::chrono::nanoseconds& parameter)
+{
+    using namespace std::chrono_literals;
+
+    constexpr std::size_t zeroPadding = 2;
+    constexpr std::size_t zeroPaddingMicroseconds = 6;
+
+    std::string hours = std::to_string(std::chrono::duration_cast<std::chrono::hours>(parameter).count());
+    std::string minutes = std::to_string(
+        std::chrono::duration_cast<std::chrono::minutes>(parameter % 1h).count());
+    std::string seconds = std::to_string(
+        std::chrono::duration_cast<std::chrono::seconds>(parameter % 1min).count());
+    std::string microseconds = std::to_string(
+        std::chrono::duration_cast<std::chrono::microseconds>(parameter % 1s).count());
+    // apply the zero padding
+    std::string timeString = std::string(zeroPadding - std::min(zeroPadding, hours.length()), '0') + hours + ":";
+    // apply the zero padding
+    timeString += std::string(zeroPadding - std::min(zeroPadding, minutes.length()), '0') + minutes + ":";
+    // apply the zero padding
+    timeString += std::string(zeroPadding - std::min(zeroPadding, seconds.length()), '0') + seconds + ".";
+    // apply the zero padding
+    timeString += std::string(zeroPaddingMicroseconds
+                                  - std::min(zeroPaddingMicroseconds, microseconds.length()),
+                              '0') + microseconds;
+
+    return timeString;
+}
 
 template <>
 void YarpImplementation::setParameterPrivate<std::vector<bool>>(const std::string& parameterName,
@@ -66,6 +156,32 @@ bool YarpImplementation::getParameter(const std::string& parameterName, bool& pa
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
+                                      std::chrono::nanoseconds& parameter) const
+{
+    constexpr auto logPrefix = "[YarpImplementation::getParameter]";
+
+    // we support two types of formatting.
+    // - The RFC 3339  specification, i.e., HH:MM:SS:xxxxxx
+    // - A double. In this case we assume that the time is stored as seconds
+    double doubleParam;
+    if (getParameterPrivate(parameterName, doubleParam))
+    {
+        parameter = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::duration<double>(doubleParam));
+        return true;
+    }
+
+
+    std::string stringParam;
+    if (getParameterPrivate(parameterName, stringParam))
+    {
+        return this->stringToDuration(stringParam, parameter);
+    }
+
+    return false;
+}
+
+bool YarpImplementation::getParameter(const std::string& parameterName,
                                       GenericContainer::Vector<int>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
@@ -81,6 +197,66 @@ bool YarpImplementation::getParameter(const std::string& parameterName,
                                       GenericContainer::Vector<std::string>::Ref parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
+}
+
+bool YarpImplementation::getParameter(
+    const std::string& parameterName,
+    GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const
+{
+    constexpr auto logPrefix = "[YarpImplementation::getParameter]";
+
+    auto convertVectorParamToVectorChrono
+        = [logPrefix, &parameter, &parameterName](const auto& tempVector,
+                                                  const auto& conversionFunction) -> bool {
+        if (parameter.size() != tempVector.size())
+        {
+            if (!parameter.resizeVector(tempVector.size()))
+            {
+                log()->debug("{} Unable to resize the vector associated to the parameter named "
+                             "'{}'.",
+                             logPrefix,
+                             parameterName);
+                return false;
+            }
+        }
+
+        for (std::size_t i = 0; i < tempVector.size(); i++)
+        {
+            if (!conversionFunction(tempVector[i], parameter[i]))
+            {
+                log()->debug("{} Convert the element number '{}' of the parameter named {}.",
+                             logPrefix,
+                             i,
+                             parameterName);
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    // try to convert the vector of double in a vector of chrono
+    std::vector<double> doubleParam;
+    if (this->getParameter(parameterName, doubleParam))
+    {
+        return convertVectorParamToVectorChrono(doubleParam,
+                                                [](const double& tempParam,
+                                                   std::chrono::nanoseconds& element) -> bool {
+                                                    element = std::chrono::duration_cast<
+                                                        std::chrono::nanoseconds>(
+                                                        std::chrono::duration<double>(tempParam));
+                                                    return true;
+                                                });
+    }
+
+    // try to convert the vector of string in a vector of chrono
+    std::vector<std::string> stringParam;
+    if (this->getParameter(parameterName, stringParam))
+    {
+        return convertVectorParamToVectorChrono(stringParam, &this->stringToDuration);
+    }
+
+    return false;
 }
 
 bool YarpImplementation::getParameter(const std::string& parameterName,
@@ -116,6 +292,12 @@ void YarpImplementation::setParameter(const std::string& parameterName, const bo
 }
 
 void YarpImplementation::setParameter(const std::string& parameterName,
+                                      const std::chrono::nanoseconds& parameter)
+{
+    return setParameterPrivate(parameterName, this->durationToString(parameter));
+}
+
+void YarpImplementation::setParameter(const std::string& parameterName,
                                       const GenericContainer::Vector<const int>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
@@ -129,6 +311,18 @@ void YarpImplementation::setParameter(const std::string& parameterName,
                                       const GenericContainer::Vector<const std::string>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
+}
+
+void YarpImplementation::setParameter(
+    const std::string& parameterName,
+    const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter)
+{
+    std::vector<std::string> temp;
+    for (const auto& time : parameter)
+    {
+        temp.push_back(this->durationToString(time));
+    }
+    return this->setParameter(parameterName, temp);
 }
 
 void YarpImplementation::setParameter(const std::string& parameterName,

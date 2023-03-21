@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <chrono>
 
 namespace blf = BipedalLocomotion;
 using namespace BipedalLocomotion::Contacts;
@@ -73,10 +74,10 @@ bool SchmittTriggerDetector::initialize(std::weak_ptr<const IParametersHandler> 
     std::vector<double> offThreshold;
     ok = ok && setupParam("contact_break_thresholds", offThreshold);
 
-    std::vector<double> switchOnAfter;
+    std::vector<std::chrono::nanoseconds> switchOnAfter;
     ok = ok && setupParam("contact_make_switch_times", switchOnAfter);
 
-    std::vector<double> switchOffAfter;
+    std::vector<std::chrono::nanoseconds> switchOffAfter;
     ok = ok && setupParam("contact_break_switch_times", switchOffAfter);
 
     if (!ok)
@@ -101,7 +102,9 @@ bool SchmittTriggerDetector::initialize(std::weak_ptr<const IParametersHandler> 
         params.offThreshold = offThreshold[idx];
 
         // set the initial state for the trigger
-        constexpr blf::Math::SchmittTriggerState initialState{false, 0, 0};
+        constexpr blf::Math::SchmittTriggerState initialState{false,
+                                                              std::chrono::nanoseconds::zero(),
+                                                              std::chrono::nanoseconds::zero()};
         if (!this->addContact(contacts[idx], initialState, params))
         {
             log()->error("{} Could not add Schmitt Trigger unit for specified contact.", logPrefix);
@@ -262,7 +265,7 @@ bool SchmittTriggerDetector::resetContact(const std::string& contactName,
     triggerState.state = state;
     trigger.setState(triggerState);
     m_contactStates.at(contactName).isActive = state;
-    m_contactStates.at(contactName).switchTime = 0.0;
+    m_contactStates.at(contactName).switchTime = std::chrono::nanoseconds::zero();
 
     return true;
 }
@@ -280,7 +283,7 @@ bool SchmittTriggerDetector::resetState(const std::string& contactName, const bo
     triggerState.state = state;
     m_pimpl->manager.at(contactName).setState(triggerState);
     m_contactStates.at(contactName).isActive = state;
-    m_contactStates.at(contactName).switchTime = 0.0;
+    m_contactStates.at(contactName).switchTime = std::chrono::nanoseconds::zero();
 
     return true;
 }

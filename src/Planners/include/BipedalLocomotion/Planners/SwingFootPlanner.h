@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_SWING_FOOT_PLANNER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_SWING_FOOT_PLANNER_H
 
+#include <chrono>
 #include <memory>
 
 #include <manif/manif.h>
@@ -43,8 +44,11 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
 {
     SwingFootPlannerState m_state; /**< State of the planner */
 
-    double m_dT{0.0}; /**< Sampling time of the planner in seconds*/
-    double m_currentTrajectoryTime{0.0}; /**< Current time of the planner in seconds */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Sampling time of the
+                                                                        planner */
+
+    /** Current time of the planner in seconds */
+    std::chrono::nanoseconds m_currentTrajectoryTime{std::chrono::nanoseconds::zero()};
 
     Contacts::ContactList m_contactList; /**< List of the contacts */
     Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal

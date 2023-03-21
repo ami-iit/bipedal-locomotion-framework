@@ -10,6 +10,8 @@
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
+
+#include <chrono>
 #include <unordered_map>
 #include <string>
 
@@ -33,12 +35,12 @@ struct ContactPhase
     /**
      * @brief The phase initial time.
      **/
-    double beginTime {0.0};
+    std::chrono::nanoseconds beginTime {std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The phase end time.
      **/
-    double endTime {0.0};
+    std::chrono::nanoseconds endTime {std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The set of contacts active during the phase.

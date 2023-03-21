@@ -5,9 +5,12 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
+
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/chrono.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
@@ -44,6 +47,11 @@ void CreateIParameterHandler(pybind11::module& module)
                  &IParametersHandler::setParameter),
              py::arg("name"),
              py::arg("value"))
+        .def("set_parameter_datetime",
+             py::overload_cast<const std::string&, const std::chrono::nanoseconds&>(
+                 &IParametersHandler::setParameter),
+             py::arg("name"),
+             py::arg("value"))
         .def("set_parameter_string",
              py::overload_cast<const std::string&, const std::string&>(
                  &IParametersHandler::setParameter),
@@ -73,6 +81,13 @@ void CreateIParameterHandler(pybind11::module& module)
             [](IParametersHandler& impl,
                const std::string& name,
                const std::vector<std::string>& vec) { impl.setParameter(name, vec); },
+            py::arg("name"),
+            py::arg("value"))
+        .def(
+            "set_parameter_vector_datetime",
+            [](IParametersHandler& impl,
+               const std::string& name,
+               const std::vector<std::chrono::nanoseconds>& vec) { impl.setParameter(name, vec); },
             py::arg("name"),
             py::arg("value"))
         .def("set_group", &IParametersHandler::setGroup, py::arg("name"), py::arg("new_group"))
@@ -105,6 +120,19 @@ void CreateIParameterHandler(pybind11::module& module)
             "get_parameter_int",
             [](const IParametersHandler& impl, const std::string& name) -> int {
                 int ret;
+
+                if (!impl.getParameter(name, ret))
+                {
+                    throw py::value_error("Failed to find a parameter that matches the type");
+                }
+
+                return ret;
+            },
+            py::arg("name"))
+        .def(
+            "get_parameter_datetime",
+            [](const IParametersHandler& impl, const std::string& name) -> std::chrono::nanoseconds {
+                std::chrono::nanoseconds ret;
 
                 if (!impl.getParameter(name, ret))
                 {
@@ -180,6 +208,18 @@ void CreateIParameterHandler(pybind11::module& module)
             "get_parameter_vector_string",
             [](const IParametersHandler& impl, const std::string& name) {
                 if (std::vector<std::string> ret; !impl.getParameter(name, ret))
+                {
+                    throw py::value_error("Failed to find a parameter that matches the type");
+                } else
+                {
+                    return ret;
+                }
+            },
+            py::arg("name"))
+        .def(
+            "get_parameter_vector_datetime",
+            [](const IParametersHandler& impl, const std::string& name) {
+                if (std::vector<std::chrono::nanoseconds> ret; !impl.getParameter(name, ret))
                 {
                     throw py::value_error("Failed to find a parameter that matches the type");
                 } else

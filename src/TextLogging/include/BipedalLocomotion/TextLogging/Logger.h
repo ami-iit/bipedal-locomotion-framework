@@ -27,6 +27,22 @@ struct fmt::formatter<Eigen::Transpose<_Derived>> : ostream_formatter
 };
 #endif
 
+// spdlog/fmt/chrono.h has been introduced in spdlog v1.8.0
+#if (defined(SPDLOG_VERSION) && SPDLOG_VERSION >= 10800)
+#include <spdlog/fmt/chrono.h>
+#else // <--- The following lines copies the content of spdlog/fmt/chrono.h
+#if !defined(SPDLOG_FMT_EXTERNAL)
+#ifdef SPDLOG_HEADER_ONLY
+#ifndef FMT_HEADER_ONLY
+#define FMT_HEADER_ONLY
+#endif
+#endif
+#include <spdlog/fmt/bundled/chrono.h>
+#else
+#include <fmt/chrono.h>
+#endif
+#endif
+
 namespace BipedalLocomotion
 {
 namespace TextLogging

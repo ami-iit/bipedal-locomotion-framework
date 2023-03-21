@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <fstream>
 
 #include <nlohmann/json.hpp>
@@ -67,8 +68,10 @@ ContactListMap contactListMapFromJson(const std::string& filename)
 
                 tempContact.pose.quat(Eigen::Map<const manif::SO3d>(quaternion.data()));
                 tempContact.pose.translation(Eigen::Map<const Eigen::Vector3d>(position.data()));
-                tempContact.activationTime = contact.at("activation_time");
-                tempContact.deactivationTime = contact.at("deactivation_time");
+                tempContact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::duration<double>(contact.at("activation_time")));
+                tempContact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::duration<double>(contact.at("deactivation_time")));
                 tempContact.name = contact.at("name");
                 tempContact.index = contact.at("index");
             } catch (const nlohmann::json::out_of_range& exception)
@@ -117,8 +120,10 @@ bool contactListMapToJson(const ContactListMap& map, const std::string& filename
         {
             jsonContact["name"] = contact.name;
             jsonContact["index"] = contact.index;
-            jsonContact["activation_time"] = contact.activationTime;
-            jsonContact["deactivation_time"] = contact.deactivationTime;
+            jsonContact["activation_time"]
+                = std::chrono::duration<double>(contact.activationTime).count();
+            jsonContact["deactivation_time"]
+                = std::chrono::duration<double>(contact.deactivationTime).count();
 
             // copy the position
             for (int i = 0; i < 3; i++)

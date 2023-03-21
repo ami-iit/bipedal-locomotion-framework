@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_STD_IMPLEMENTATION_H
 
 #include <any>
+#include <chrono>
 #include <string>
 #include <unordered_map>
 
@@ -99,8 +100,15 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-
     bool getParameter(const std::string& parameterName, bool& parameter) const final;
+
+    /**
+     * Get a parameter [std::chrono::nanoseconds]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, std::chrono::nanoseconds& parameter) const final;
 
     /**
      * Get a parameter [std::vector<bool>]
@@ -133,6 +141,15 @@ public:
      * @return true/false in case of success/failure
      */
     bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>::Ref parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::chrono::nanoseconds>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName,
+                      GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const final;
 
     /**
      * Set a parameter [int]
@@ -172,6 +189,14 @@ public:
     void setParameter(const std::string& parameterName, const bool& parameter) final;
 
     /**
+     * Set a parameter [std::chrono::nanoseconds]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, //
+                      const std::chrono::nanoseconds& parameter) final;
+
+    /**
      * Set a parameter [std::vector<bool>]
      * @param parameterName name of the parameter
      * @param parameter parameter
@@ -183,21 +208,33 @@ public:
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const int>::Ref parameter) final;
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const int>::Ref parameter) final;
 
     /**
      * Set a parameter [GenericContainer::Vector<double>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const double>::Ref parameter) final;
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const double>::Ref parameter) final;
 
     /**
      * Set a parameter [GenericContainer::Vector<std::string>]
      * @param parameterName name of the parameter
      * @param parameter parameter
      */
-    void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>::Ref parameter) final;
+    void setParameter(const std::string& parameterName,
+                      const GenericContainer::Vector<const std::string>::Ref parameter) final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::chrono::nanoseconds>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(
+        const std::string& parameterName,
+        const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter) final;
 
     /**
      * Get a Group from the handler.

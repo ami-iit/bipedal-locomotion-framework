@@ -50,6 +50,10 @@
 #include <BipedalLocomotion/bindings/Planners/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Planners
 
+@cmakeif FRAMEWORK_COMPILE_Unicycle
+#include <BipedalLocomotion/bindings/Planners/UnicycleModule.h>
+@endcmakeif FRAMEWORK_COMPILE_Unicycle
+
 @cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
@@ -139,6 +143,10 @@ PYBIND11_MODULE(bindings, m)
     py::module plannersModule = m.def_submodule("planners");
     bindings::Planners::CreateModule(plannersModule);
     @endcmakeif FRAMEWORK_COMPILE_Planners
+
+    @cmakeif FRAMEWORK_COMPILE_Unicycle
+    bindings::Planners::CreateUnicycleModule(plannersModule);
+    @endcmakeif FRAMEWORK_COMPILE_Unicycle
 
     @cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
     py::module robotInterfaceModule = m.def_submodule("robot_interface");

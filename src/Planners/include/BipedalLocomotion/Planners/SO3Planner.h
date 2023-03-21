@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_SO3_PLANNER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_SO3_PLANNER_H
 
+#include <chrono>
 #include <manif/SO3.h>
 
 #include <BipedalLocomotion/System/Source.h>
@@ -61,10 +62,14 @@ class SO3Planner : public System::Source<SO3PlannerState>
      * depends on the chosen Trivialization */
     manif::SO3d::Tangent m_distance{manif::SO3d::Tangent::Zero()};
 
-    double m_T{1.0}; /**< Trajectory duration in seconds */
+    std::chrono::nanoseconds m_T{std::chrono::nanoseconds::zero()}; /**< Trajectory duration in
+                                                                       seconds */
 
-    double m_advanceTimeStep{0.0}; /**< Time step of the advance interface. */
-    double m_advanceCurrentTime{0.0}; /**< Current time of the advance object. */
+    /** Time step of the advance interface. */
+    std::chrono::nanoseconds m_advanceTimeStep{std::chrono::nanoseconds::zero()};
+    /** Current time of the advance object. */
+    std::chrono::nanoseconds m_advanceCurrentTime{std::chrono::nanoseconds::zero()};
+
     SO3PlannerState m_state; /**< Current state of the planner. It is used by the advance
                                 capabilities. */
 
@@ -78,7 +83,7 @@ public:
      */
     bool setRotations(const manif::SO3d& initialRotation,
                       const manif::SO3d& finalRotation,
-                      const double& duration);
+                      const std::chrono::nanoseconds& duration);
 
     /**
      * Get the trajectory at a given time
@@ -86,7 +91,7 @@ public:
      * @param state state of the planner.
      * @return True in case of success/false otherwise.
      */
-    bool evaluatePoint(const double& time,
+    bool evaluatePoint(const std::chrono::nanoseconds& time,
                        SO3PlannerState& state) const;
 
     /**
@@ -100,7 +105,7 @@ public:
      * @return True in case of success/false otherwise.
      */
     template<class Derived>
-    bool evaluatePoint(const double& time,
+    bool evaluatePoint(const std::chrono::nanoseconds& time,
                        manif::SO3d& rotation,
                        manif::SO3TangentBase<Derived>& velocity,
                        manif::SO3TangentBase<Derived>& acceleration) const;
@@ -112,7 +117,7 @@ public:
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */
-    bool setAdvanceTimeStep(const double& dt);
+    bool setAdvanceTimeStep(const std::chrono::nanoseconds& dt);
 
     /**
      * Get the state of the system.

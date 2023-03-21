@@ -5,13 +5,20 @@ import bipedal_locomotion_framework.bindings as blf
 import numpy as np
 import icub_models
 import idyntree.swig as idyn
+from datetime import timedelta
+
+
+def timerange(initial_time, end_time, dt):
+    for n in range(int((end_time - initial_time) / dt)):
+        yield initial_time + dt * n
+
 
 def get_kindyn():
 
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
-                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
-                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
+                   "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",
+                   "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow",
                    "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
                    "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
 
@@ -36,7 +43,7 @@ def test_legged_odometry():
     assert kindyn.getNrOfDegreesOfFreedom() == len(joints_list)
 
     # Set the joint positions to random values
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
+    joint_values = [np.random.uniform(-0.5, 0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert kindyn.setJointPos(joint_values)
 
     # Set the robot state
@@ -92,7 +99,8 @@ def test_legged_odometry():
                          -0.5695, -0.3771, -0.0211])
     encoder_speeds = np.zeros_like(encoders)
 
-    for time in np.arange(start=0, step=dt, stop=10*dt):
+    for time in timerange(initial_time=timedelta(seconds=0), end_time=timedelta(seconds=10*dt), dt=timedelta(seconds=dt)):
+
         fixed_frame_idx = legged_odom.get_fixed_frame_index()
 
         # here we only fill measurement buffers

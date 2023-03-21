@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhase.h>
-#include <BipedalLocomotion/Math/Constants.h>
 
 #include <initializer_list>
 #include <vector>
@@ -112,14 +111,10 @@ public:
      * It returns the contact phase with the highest begin time lower than time.
      * If no contacts phase has a begin time lower than time, it returns an iterator to the end.
      * @param time The present time.
-     * @param tolerance positive parameter used for the comparison of two time instants. Given two
-     * instants if the error between the two is lower than the tolerance, the time instants are
-     * considered equal. Default value BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance
      * @return an iterator to the last phase having an activation time lower than time.
      * If no phase satisfies this condition, it returns a pointer to the end.
      */
-    const_iterator getPresentPhase(double time, //
-                                   double tolerance = BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance) const;
+    const_iterator getPresentPhase(const std::chrono::nanoseconds& time) const;
 
     /**
      * @brief A reference to the lists stored in this class.

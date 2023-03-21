@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/ContactDetectors/FixedFootDetector.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::Contacts;
@@ -22,46 +23,48 @@ struct FixedFootState
     EstimatedContact rightFoot;
 };
 
-FixedFootState getFixedFootState(double t, const ContactListMap& listMap)
+FixedFootState getFixedFootState(const std::chrono::nanoseconds& t, const ContactListMap& listMap)
 {
     // t            0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
     // L            |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|
     // R            |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
     // stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|
 
+    using namespace std::chrono_literals;
+
     FixedFootState state;
     state.leftFoot.pose = listMap.find("left_foot")->second.getPresentContact(t)->pose;
     state.rightFoot.pose = listMap.find("right_foot")->second.getPresentContact(t)->pose;
 
-    if (t < 1)
+    if (t < 1s)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t < 3)
+    } else if (t < 3s)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t < 5)
+    } else if (t < 5s)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t < 7)
+    } else if (t < 7s)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t < 9)
+    } else if (t < 9s)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t < 11)
+    } else if (t < 11s)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
-    } else if (t < 13)
+    } else if (t < 13s)
     {
         state.leftFoot.isActive = true;
         state.rightFoot.isActive = false;
-    } else if (t < 15)
+    } else if (t < 15s)
     {
         state.leftFoot.isActive = false;
         state.rightFoot.isActive = true;
@@ -82,49 +85,50 @@ ContactPhaseList createContactList()
     // stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|
 
     ContactListMap contactListMap;
+    using namespace std::chrono_literals;
 
     Eigen::Vector3d leftPosition = Eigen::Vector3d::Zero();
     manif::SE3d leftTransform(leftPosition, manif::SO3d::Identity());
-    contactListMap["left_foot"].addContact(leftTransform, 0.0, 1.0);
+    contactListMap["left_foot"].addContact(leftTransform, 0s, 1s);
 
     leftPosition(0) += 0.05;
     leftTransform.translation(leftPosition);
-    contactListMap["left_foot"].addContact(leftTransform, 2.0, 5.0);
+    contactListMap["left_foot"].addContact(leftTransform, 2s, 5s);
 
     leftPosition(0) += 0.1;
     leftTransform.translation(leftPosition);
-    contactListMap["left_foot"].addContact(leftTransform, 6.0, 9.0);
+    contactListMap["left_foot"].addContact(leftTransform, 6s, 9s);
 
     leftPosition(0) += 0.1;
     leftTransform.translation(leftPosition);
-    contactListMap["left_foot"].addContact(leftTransform, 10.0, 13.0);
+    contactListMap["left_foot"].addContact(leftTransform, 10s, 13s);
 
     leftPosition(0) += 0.1;
     leftTransform.translation(leftPosition);
-    contactListMap["left_foot"].addContact(leftTransform, 14.0, 17.0);
+    contactListMap["left_foot"].addContact(leftTransform, 14s, 17s);
 
     // right foot
     // first footstep
     Eigen::Vector3d rightPosition = Eigen::Vector3d::Zero();
     manif::SE3d rightTransform(rightPosition, manif::SO3d::Identity());
 
-    contactListMap["right_foot"].addContact(rightTransform, 0.0, 3.0);
+    contactListMap["right_foot"].addContact(rightTransform, 0s, 3s);
 
     rightPosition(0) += 0.1;
     rightTransform.translation(rightPosition);
-    contactListMap["right_foot"].addContact(rightTransform, 4.0, 7.0);
+    contactListMap["right_foot"].addContact(rightTransform, 4s, 7s);
 
     rightPosition(0) += 0.1;
     rightTransform.translation(rightPosition);
-    contactListMap["right_foot"].addContact(rightTransform, 8.0, 11.0);
+    contactListMap["right_foot"].addContact(rightTransform, 8s, 11s);
 
     rightPosition(0) += 0.1;
     rightTransform.translation(rightPosition);
-    contactListMap["right_foot"].addContact(rightTransform, 12.0, 15.0);
+    contactListMap["right_foot"].addContact(rightTransform, 12s, 15s);
 
     rightPosition(0) += 0.05;
     rightTransform.translation(rightPosition);
-    contactListMap["right_foot"].addContact(rightTransform, 16.0, 17.0);
+    contactListMap["right_foot"].addContact(rightTransform, 16s, 17s);
 
     ContactPhaseList phaseList;
     phaseList.setLists(contactListMap);
@@ -133,8 +137,9 @@ ContactPhaseList createContactList()
 
 TEST_CASE("Fixed Foot Detector")
 {
-    constexpr auto dT = 0.01;
-    constexpr auto horizon = 20.0;
+    using namespace std::chrono_literals;
+    constexpr std::chrono::nanoseconds dT = 10ms;
+    constexpr std::chrono::nanoseconds horizon = 20s;
     FixedFootDetector detector;
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("sampling_time", dT);
@@ -143,12 +148,11 @@ TEST_CASE("Fixed Foot Detector")
     const auto phaseList = createContactList();
     detector.setContactPhaseList(phaseList);
 
-    for (int i = 0; i < horizon / dT; i++)
+    for (std::chrono::nanoseconds currentTime = 0s; currentTime < horizon; currentTime += dT)
     {
         // advance is used to advance the time stored in the detector and to evaluate the outputs
         REQUIRE(detector.advance());
 
-        const double currentTime = phaseList.firstPhase()->beginTime + i * dT;
         auto state = getFixedFootState(currentTime, phaseList.lists());
 
         REQUIRE(detector.getOutput().find("right_foot")->second.isActive == state.rightFoot.isActive);

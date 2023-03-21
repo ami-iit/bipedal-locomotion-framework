@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
+#include <chrono>
 #include <memory>
 
 namespace BipedalLocomotion
@@ -67,8 +68,10 @@ namespace Contacts
 class FixedFootDetector : public ContactDetector
 {
     ContactPhaseList m_contactPhaselist; /**< List of the contacts */
-    double m_currentTime{0}; /**< Current time in seconds */
-    double m_dT{0}; /**< Fixed sampling time in seconds */
+    std::chrono::nanoseconds m_currentTime{std::chrono::nanoseconds::zero()}; /**< Current time in
+                                                                                 seconds */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Fixed sampling time in
+                                                                        seconds */
     EstimatedContact m_dummyContact; /**< A dummy esitmated contact */
 
     /**
@@ -83,9 +86,9 @@ public:
      * Initialize the detector.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |   Parameter Name  |    Type    |                Description                 | Mandatory |
-     * |:-----------------:|:----------:|:------------------------------------------:|:---------:|
-     * |  `sampling_time`  |  `double`  |  Sampling time of the detector is seconds  |    Yes    |
+     * |   Parameter Name  |           Type        |                Description                 | Mandatory |
+     * |:-----------------:|:---------------------:|:------------------------------------------:|:---------:|
+     * |  `sampling_time`  | `chrono::nanoseconds` |  Sampling time of the detector is seconds  |    Yes    |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
@@ -104,9 +107,9 @@ public:
 
     /**
      * Reset the time
-     * @param time the time in seconds
+     * @param time time
      */
-    void resetTime(const double& time);
+    void resetTime(const std::chrono::nanoseconds& time);
 
     /**
      * Get the fixed foot

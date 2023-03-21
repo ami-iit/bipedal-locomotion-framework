@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_UTILITIES_JOINT_POSITION_TRACKING_MODULE_H
 
 // std
+#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
@@ -29,7 +30,7 @@ namespace JointPositionTracking
 
 class Module : public yarp::os::RFModule
 {
-    double m_dT; /**< RFModule period. */
+    std::chrono::nanoseconds m_dT; /**< RFModule period. */
     std::string m_robot; /**< Robot name. */
 
     Eigen::VectorXd m_currentJointPos;
@@ -43,7 +44,7 @@ class Module : public yarp::os::RFModule
     std::vector<double>::const_iterator m_currentSetPoint;
 
     BipedalLocomotion::Planners::QuinticSpline m_spline;
-    std::vector<double> m_timeKnots;
+    std::vector<std::chrono::nanoseconds> m_timeKnots;
     std::vector<Eigen::VectorXd> m_trajectoryKnots;
 
     double m_initTrajectoryTime;

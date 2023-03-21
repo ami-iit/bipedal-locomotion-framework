@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <chrono>
 
 using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -75,7 +76,8 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
     }
 
     // check the parameters passed to the planner
-    const bool ok = (m_dT > 0) && ((m_footApexTime > 0) && (m_footApexTime < 1));
+    const bool ok = (m_dT > std::chrono::nanoseconds::zero())
+                    && ((m_footApexTime > 0) && (m_footApexTime < 1));
     if (!ok)
     {
         log()->error("{} The sampling time should be a positive number and the foot_apex_time must "
@@ -127,7 +129,7 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
 void SwingFootPlanner::setContactList(const ContactList& contactList)
 {
     // reset the time
-    m_currentTrajectoryTime = 0;
+    m_currentTrajectoryTime = std::chrono::nanoseconds::zero();
 
     m_contactList = contactList;
 
@@ -154,7 +156,7 @@ bool SwingFootPlanner::updateSE3Traj()
     constexpr auto logPrefix = "[SwingFootPlanner::updateSE3Traj]";
 
     // compute the trajectory at the current time
-    const double shiftedTime = m_currentTrajectoryTime - m_currentContactPtr->deactivationTime;
+    const auto shiftedTime = m_currentTrajectoryTime - m_currentContactPtr->deactivationTime;
 
     manif::SO3d rotation;
 
@@ -244,7 +246,7 @@ bool SwingFootPlanner::advance()
     {
         // create a new trajectory in SE(3)
         const auto nextContactPtr = std::next(m_currentContactPtr, 1);
-        const double T = nextContactPtr->activationTime - m_currentContactPtr->deactivationTime;
+        const auto T = nextContactPtr->activationTime - m_currentContactPtr->deactivationTime;
 
         if (!m_SO3Planner.setRotations(m_currentContactPtr->pose.asSO3(),
                                        nextContactPtr->pose.asSO3(),
@@ -269,8 +271,10 @@ bool SwingFootPlanner::advance()
                                                  / 2.0
                                              + m_stepHeight;
 
-        const double footHeightViaPointTime = m_footApexTime * T //
-                                              + m_currentContactPtr->deactivationTime;
+        // the cast is required since m_footApexTime is a floating point number between 0 and 1
+        const std::chrono::nanoseconds footHeightViaPointTime
+            = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                m_footApexTime * T + m_currentContactPtr->deactivationTime);
 
         if (!m_heightPlanner->setKnots({m_currentContactPtr->pose.translation().tail<1>(),
                                         Vector1d::Constant(footHeightViaPointPos),

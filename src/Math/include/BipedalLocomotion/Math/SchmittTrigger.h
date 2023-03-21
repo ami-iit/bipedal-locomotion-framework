@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_MATH_SCHMITT_TRIGGER_H
 #define BIPEDAL_LOCOMOTION_MATH_SCHMITT_TRIGGER_H
 
+#include <chrono>
 #include <memory>
 
 #include <BipedalLocomotion/Math/Constants.h>
@@ -25,9 +26,12 @@ namespace Math
 struct SchmittTriggerState
 {
     bool state{false}; /**< current state*/
-    double switchTime{0.0}; /**< time instant at which the state was toggled in seconds */
-    double edgeTime{0.0}; /**< Time instant at which the raw value transited from low to high of
-                             from high to low in seconds.*/
+
+    /** Time instant at which the state was toggled */
+    std::chrono::nanoseconds switchTime{std::chrono::nanoseconds::zero()};
+
+    /** Time instant at which the raw value transited from low to high of from high to low .*/
+    std::chrono::nanoseconds edgeTime{std::chrono::nanoseconds::zero()};
 };
 
 /**
@@ -35,7 +39,8 @@ struct SchmittTriggerState
  */
 struct SchmittTriggerInput
 {
-    double time{0.0}; /**< Current time instant in seconds */
+    /** Current time instant in seconds */
+    std::chrono::nanoseconds time{std::chrono::nanoseconds::zero()};
     double rawValue{0.0} ; /**< Raw value that should  */
 };
 
@@ -56,15 +61,14 @@ public:
                                     switchOnAfter time-units*/
         double offThreshold{0.0}; /**< low value threshold to initiate an OFF state switch after
                                      switchOffAfter time-units*/
-        double switchOnAfter{0.0}; /**< time units to wait for before switching to ON state from OFF
-                                      state. Ensure it's greater than sampling time. */
-        double switchOffAfter{0.0}; /**< time units to wait for before switching to OFF state from
-                                       ON state. Ensure it's greater than sampling time. */
 
-        /** Threshold used for the comparison of two time instant. Given two time instants if the
-         * error between the two is lower than the threshold, the time instants are considered
-         * equal. */
-        double timeComparisonThreshold{BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance};
+        /** Time to wait before switching to ON state from OFF state. Ensure it's greater than
+         * sampling time. */
+        std::chrono::nanoseconds switchOnAfter{std::chrono::nanoseconds::zero()};
+
+        /** Time to wait before switching to OFF state from ON state. Ensure it's greater than
+         * sampling time. */
+        std::chrono::nanoseconds switchOffAfter{std::chrono::nanoseconds::zero()};
     };
 
     /**
@@ -73,11 +77,10 @@ public:
      * @note The following parameters are required
      * |  Parameter Name  |   Type   |                                     Description                                     | Mandatory |
      * |:----------------:|:--------:|:-----------------------------------------------------------------------------------:|:---------:|
-     * |  `on_threshold`  | `double` | High value threshold to initiate an ON state switch after switchOnAfter time-units  |    Yes    |
-     * | `off_threshold`  | `double` | Low value threshold to initiate an OFF state switch after switchOffAfter time-units |    Yes    |
-     * | `switch_on_after`| `double` | Time units to wait for before switching to ON state from OFF state. Ensure it's greater than sampling time. |     Yes    |
-     * |`switch_off_after`| `double` | Time units to wait for before switching to OFF state from ON state. Ensure it's greater than sampling time. |     Yes    |
-     * | `time_comparison_threshold`| `double` | Threshold used for the comparison of two time instants. Given two time instants, if the error between the two is lower than the threshold, the time instants are considered equal. Default value [`std::numeric_limits<double>::epsilon()`](https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon) |     No    |
+     * |  `on_threshold`  | `double` |     High value threshold to initiate an ON state switch after switchOnAfter         |    Yes    |
+     * | `off_threshold`  | `double` |     Low value threshold to initiate an OFF state switch after switchOffAfter        |    Yes    |
+     * | `switch_on_after`| `chrono:nanoseconds` | Nano seconds to wait for before switching to ON state from OFF state. Ensure it's greater than sampling time. |     Yes    |
+     * |`switch_off_after`| `chrono:nanoseconds` | Nano seconds to wait for before switching to OFF state from ON state. Ensure it's greater than sampling time. |     Yes    |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
@@ -126,10 +129,15 @@ private:
     SchmittTriggerInput m_input; /**< Last input stored in the trigger */
     SchmittTriggerState m_state; /**< Current state stored in the trigger */
     Params m_params; /**< Set of switching parameters */
-    double m_timer{0}; /**< Internal timer used by the switcher to understand if it is the time to
-                          switch */
-    double m_risingEdgeTimeInstant{-1}; /**< Internal quantity used to store the previous time */
-    double m_fallingEdgeTimeInstant{-1}; /**< Internal quantity used to store the previous time */
+
+    /** Internal timer used by the switcher to understand if it is the time to switch */
+    std::chrono::nanoseconds m_timer{std::chrono::nanoseconds::zero()};
+    std::chrono::nanoseconds m_risingEdgeTimeInstant; /**< Internal quantity used to store the
+                                                         previous time */
+    std::chrono::nanoseconds m_fallingEdgeTimeInstant; /**< Internal quantity used to store the
+                                                          previous time */
+    bool m_risingDetected{false};
+    bool m_fallingDetected{false};
 };
 
 } // namespace Math

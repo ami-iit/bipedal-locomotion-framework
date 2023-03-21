@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -48,7 +49,7 @@ public:
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */
-    bool setAdvanceTimeStep(const double& dt) final;
+    bool setAdvanceTimeStep(const std::chrono::nanoseconds& dt) final;
 
     /**
      * Set the knots of the spline.
@@ -57,7 +58,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setKnots(const std::vector<Eigen::VectorXd>& position, //
-                  const std::vector<double>& time) final;
+                  const std::vector<std::chrono::nanoseconds>& time) final;
 
     /**
      * Set the initial condition of the spline
@@ -85,7 +86,7 @@ public:
      * @param acceleration acceleration at time t
      * @return True in case of success, false otherwise.
      */
-    bool evaluatePoint(const double& t,
+    bool evaluatePoint(const std::chrono::nanoseconds& t,
                        Eigen::Ref<Eigen::VectorXd> position,
                        Eigen::Ref<Eigen::VectorXd> velocity,
                        Eigen::Ref<Eigen::VectorXd> acceleration) final;
@@ -96,7 +97,7 @@ public:
      * @param state of the system
      * @return True in case of success, false otherwise.
      */
-    bool evaluatePoint(const double& t, SplineState& state) final;
+    bool evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state) final;
 
     /**
      * Get the state of the system.
