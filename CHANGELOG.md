@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 - Restructure the `FloatingBaseEstimator` component to handle time with `std::chrono::nanoseconds`(https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Update the `blf-position-tracking` to handle time with `std::chrono::nanoseconds` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Update the python bindings to consider the time with `std::chrono::nanoseconds` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
+- Robustify SubModelCreator and SubModelKinDynWrapper tests (https://github.com/ami-iit/bipedal-locomotion-framework/pull/631)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
