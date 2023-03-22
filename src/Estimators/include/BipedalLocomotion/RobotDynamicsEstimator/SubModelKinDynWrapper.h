@@ -56,6 +56,8 @@ class SubModelKinDynWrapper
     manif::SE3d::Tangent m_baseVelocity; /**< Velocity of the base of the sub-model */
     std::string m_baseFrame; /**< Name of the base frame of the sub-model */
 
+    std::shared_ptr<iDynTree::KinDynComputations> m_kinDynFullModel;
+
 protected:
     int m_numOfJoints; /**< Number of joints in the sub-model */
     Eigen::MatrixXd m_FTranspose; /**< It is the bottom-left block of the mass matrix, that is,
@@ -83,24 +85,30 @@ protected:
 
 public:
     /**
+     * @brief set kinDyn
+     * @param kinDyn is an iDynTree KinDynComputation object handling the kinematics and the
+     * dynamics of the model.
+     * @return a boolean value saying if the input pointer is valid
+     */
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+
+    /**
      * @brief initialize initializes the kindyncomputation object and resizes
      * all the variable not allocated yet.
      * @param subModel a struct of type SubModif el describing the subModel structure and model.
-     * @param kinDynFullModel is the KinDynComputation object associated to a model.
      * @return a boolean value saying if all the variables are initialized correctly.
      */
     bool
-    initialize(SubModel& subModel, std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel);
+    initialize(const SubModel& subModel);
 
     /**
-     * @brief updateKinDynState updates the state of the KinDynWrapper object.
-     * @param kinDynFullModel is the KinDynComputation object associated to a model.
+     * @brief updateInternalKinDynState updates the state of the KinDynWrapper object.
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool updateKinDynState(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel);
+    bool updateInternalKinDynState();
 
     /**
-     * @brief inverseDynamics computes the free floaing inverse dynamics
+     * @brief forwardDynamics computes the free floaing forward dynamics
      * @param motorTorqueAfterGearbox a vector of size number of joints containing the motor torques
      * times the gearbox ratio.
      * @param frictionTorques a vector of size number of joints containing the friction torques.
@@ -109,32 +117,29 @@ public:
      * @param baseAcceleration the sub-model base acceleration.
      * @return a boolean value
      */
-    bool inverseDynamics(Eigen::Ref<Eigen::VectorXd> motorTorqueAfterGearbox,
+    bool forwardDynamics(Eigen::Ref<Eigen::VectorXd> motorTorqueAfterGearbox,
                          Eigen::Ref<Eigen::VectorXd> frictionTorques,
                          Eigen::Ref<Eigen::VectorXd> tauExt,
                          Eigen::Ref<Eigen::VectorXd> baseAcceleration,
                          Eigen::Ref<Eigen::VectorXd> jointAcceleration);
 
     /**
-     * @brief getBaseAcceleration gets the acceleration of the sub-model base
-     * @param kinDynFullModel is the KinDynComputation object associated to a model.
+     * @brief getBaseAcceleration gets the acceleration of the sub-model base.
      * @param robotBaseAcceleration the acceleration of the robot base.
      * @param robotJointAcceleration the acceleration of the robot joints.
      * @param subModelBaseAcceleration the base acceleration of the sub-model.
      * @return a boolean value.
      */
-    bool getBaseAcceleration(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
-                             manif::SE3d::Tangent& robotBaseAcceleration,
+    bool getBaseAcceleration(manif::SE3d::Tangent& robotBaseAcceleration,
                              Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
                              manif::SE3d::Tangent& subModelBaseAcceleration);
 
     /**
-     * @brief getBaseVelocity gets the acceleration of the sub-model base
-     * @param kinDynFullModel is the KinDynComputation object associated to a model.
+     * @brief getBaseVelocity gets the acceleration of the sub-model base.
      * @return baseVelocity the the base velocity of the sub-model.
      */
     const manif::SE3d::Tangent&
-    getBaseVelocity(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel);
+    getBaseVelocity();
 
     /**
      * Getters

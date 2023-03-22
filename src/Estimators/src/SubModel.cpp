@@ -227,7 +227,6 @@ std::vector<int> RDE::SubModelCreator::createJointMapping(const iDynTree::Model&
             jointListMapping.push_back(this->m_model.getJointIndex(subModel.getJointName(idx)));
         }
     }
-
     return jointListMapping;
 }
 
