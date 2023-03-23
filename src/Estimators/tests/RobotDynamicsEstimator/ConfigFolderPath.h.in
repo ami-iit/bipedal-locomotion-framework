@@ -12,7 +12,7 @@
 
 inline std::string getConfigPath()
 {
-    return std::string(SOURCE_CONFIG_DIR) + "/model.ini";
+    return std::string(SOURCE_CONFIG_DIR) + "/config/config.ini";
 }
 
 #endif // CONFIG_FOLDERPATH_H_IN

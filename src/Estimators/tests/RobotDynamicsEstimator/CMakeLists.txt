@@ -17,6 +17,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            BipedalLocomotion::ParametersHandler
                            BipedalLocomotion::ParametersHandlerYarpImplementation
                            BipedalLocomotion::ManifConversions
+                           BipedalLocomotion::Math
                            icub-models::icub-models
                            Eigen3::Eigen
                            MANIF::manif

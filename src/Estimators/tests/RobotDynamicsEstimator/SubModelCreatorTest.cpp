@@ -5,7 +5,6 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <random>
 #include <string>
 // Catch2
 #include <catch2/catch.hpp>
@@ -35,7 +34,7 @@ TEST_CASE("SubModel Creation")
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 
     yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
-    rf.setDefaultConfigFile("model.ini");
+    rf.setDefaultConfigFile("/config/model.ini");
 
     std::vector<std::string> arguments = {" ", "--from ", getConfigPath()};
 
@@ -51,16 +50,19 @@ TEST_CASE("SubModel Creation")
     REQUIRE(parameterHandler->isEmpty());
     originalHandler->set(rf);
 
+    auto groupModel = parameterHandler->getGroup("MODEL").lock();
+    REQUIRE(groupModel != nullptr);
+
     // List of joints and fts to load the model
     std::vector<RDE::SubModel> subModelList;
 
     const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
 
     std::vector<std::string> jointList;
-    REQUIRE(parameterHandler->getParameter("joint_list", jointList));
+    REQUIRE(groupModel->getParameter("joint_list", jointList));
 
     std::vector<std::string> ftFramesList;
-    auto ftGroup = parameterHandler->getGroup("FT").lock();
+    auto ftGroup = groupModel->getGroup("FT").lock();
     REQUIRE(ftGroup->getParameter("frames", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
@@ -77,7 +79,7 @@ TEST_CASE("SubModel Creation")
     RDE::SubModelCreator subModelCreatorWithFT;
     subModelCreatorWithFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
     REQUIRE(subModelCreatorWithFT.setKinDyn(kinDyn));
-    REQUIRE(subModelCreatorWithFT.createSubModels(originalHandler));
+    REQUIRE(subModelCreatorWithFT.createSubModels(groupModel));
 
     REQUIRE(subModelCreatorWithFT.getNrOfSubModels() == (1 + mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE)));
 
@@ -85,13 +87,13 @@ TEST_CASE("SubModel Creation")
     RDE::SubModelCreator subModelCreatorWithoutFT;
     subModelCreatorWithoutFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
     REQUIRE(subModelCreatorWithoutFT.setKinDyn(kinDyn));
-    auto groupFT = parameterHandler->getGroup("FT").lock()->clone();
+    auto groupFT = groupModel->getGroup("FT").lock()->clone();
     groupFT->clear();
     std::vector<std::string> emptyVector;
     groupFT->setParameter("names", emptyVector);
     groupFT->setParameter("frames", emptyVector);
-    parameterHandler->setGroup("FT", groupFT);
-    REQUIRE(subModelCreatorWithoutFT.createSubModels(parameterHandler));
+    groupModel->setGroup("FT", groupFT);
+    REQUIRE(subModelCreatorWithoutFT.createSubModels(groupModel));
 
     REQUIRE(subModelCreatorWithoutFT.getNrOfSubModels() == 1);
 }
