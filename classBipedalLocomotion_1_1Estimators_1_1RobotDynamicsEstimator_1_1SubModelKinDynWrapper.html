@@ -83,33 +83,35 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1b0322672ae9235efce12a0a35551ad6" class="m-doc">initialize</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel,
-              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#af3fba7bfe078c323a783f3c69e645cd4" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool</span>
+            </dt>
+            <dd>set kinDyn</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab6db0ec05f01faf70a01c93a299de27f" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel) -&gt; bool</span>
             </dt>
             <dd>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a378a528211a6e550ae01fec88f49d1fa" class="m-doc">updateKinDynState</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9a7fdcfce7f381e8556f09fd38c3cf09" class="m-doc">updateInternalKinDynState</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
             </dt>
-            <dd>updateKinDynState updates the state of the KinDynWrapper object.</dd>
+            <dd>updateInternalKinDynState updates the state of the KinDynWrapper object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab58dd864f4db8f5ba75a02e78bae9ed1" class="m-doc">inverseDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
+              <span class="m-doc-wrap-bumper">auto <a href="#abb4f098caf9ada04ee1f2ea30dd15bbd" class="m-doc">forwardDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
               Eigen::Ref&lt;Eigen::VectorXd&gt; frictionTorques,
               Eigen::Ref&lt;Eigen::VectorXd&gt; tauExt,
               Eigen::Ref&lt;Eigen::VectorXd&gt; baseAcceleration,
               Eigen::Ref&lt;Eigen::VectorXd&gt; jointAcceleration) -&gt; bool</span>
             </dt>
-            <dd>inverseDynamics computes the free floaing inverse dynamics</dd>
+            <dd>forwardDynamics computes the free floaing forward dynamics</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acba83d91bad61f1de37333a040e53076" class="m-doc">getBaseAcceleration</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel,
-              manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              <span class="m-doc-wrap-bumper">auto <a href="#ae7cccc5fd696ab8637b87e846464bb0a" class="m-doc">getBaseAcceleration</a>(</span><span class="m-doc-wrap">manif::SE3d::Tangent&amp; robotBaseAcceleration,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
               manif::SE3d::Tangent&amp; subModelBaseAcceleration) -&gt; bool</span>
             </dt>
-            <dd>getBaseAcceleration gets the acceleration of the sub-model base</dd>
+            <dd>getBaseAcceleration gets the acceleration of the sub-model base.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#af9494940b5c6f4b3aa9247da78f5ceba" class="m-doc">getBaseVelocity</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel) -&gt; const manif::SE3d::Tangent&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac899bf2bc2d81f2cf4255d0ae8d1de06" class="m-doc">getBaseVelocity</a>(</span><span class="m-doc-wrap">) -&gt; const manif::SE3d::Tangent&amp;</span>
             </dt>
-            <dd>getBaseVelocity gets the acceleration of the sub-model base</dd>
+            <dd>getBaseVelocity gets the acceleration of the sub-model base.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a8e8c4f5e36f4e4430070eb23c8e2fb42" class="m-doc">getBaseFrameName</a>(</span><span class="m-doc-wrap">) const -&gt; const std::string&amp;</span>
             </dt>
@@ -216,10 +218,32 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a1b0322672ae9235efce12a0a35551ad6"><div>
+          <section class="m-doc-details" id="af3fba7bfe078c323a783f3c69e645cd4"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1b0322672ae9235efce12a0a35551ad6" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel,
-              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af3fba7bfe078c323a783f3c69e645cd4" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn)</span></span>
+            </h3>
+            <p>set kinDyn</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">kinDyn</td>
+                  <td>is an iDynTree KinDynComputation object handling the kinematics and the dynamics of the model.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a boolean value saying if the input pointer is valid</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ab6db0ec05f01faf70a01c93a299de27f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab6db0ec05f01faf70a01c93a299de27f" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel)</span></span>
             </h3>
             <p>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -231,10 +255,6 @@
                   <td style="width: 1%">subModel</td>
                   <td>a struct of type SubModif el describing the subModel structure and model.</td>
                 </tr>
-                <tr>
-                  <td>kinDynFullModel</td>
-                  <td>is the KinDynComputation object associated to a model.</td>
-                </tr>
               </tbody>
               <tfoot>
                 <tr>
@@ -244,38 +264,29 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a378a528211a6e550ae01fec88f49d1fa"><div>
+          <section class="m-doc-details" id="a9a7fdcfce7f381e8556f09fd38c3cf09"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a378a528211a6e550ae01fec88f49d1fa" class="m-doc-self">updateKinDynState</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9a7fdcfce7f381e8556f09fd38c3cf09" class="m-doc-self">updateInternalKinDynState</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
-            <p>updateKinDynState updates the state of the KinDynWrapper object.</p>
+            <p>updateInternalKinDynState updates the state of the KinDynWrapper object.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">kinDynFullModel</td>
-                  <td>is the KinDynComputation object associated to a model.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
                   <td>a boolean value saying if the subModelList has been created correctly.</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ab58dd864f4db8f5ba75a02e78bae9ed1"><div>
+          <section class="m-doc-details" id="abb4f098caf9ada04ee1f2ea30dd15bbd"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab58dd864f4db8f5ba75a02e78bae9ed1" class="m-doc-self">inverseDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abb4f098caf9ada04ee1f2ea30dd15bbd" class="m-doc-self">forwardDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
               Eigen::Ref&lt;Eigen::VectorXd&gt; frictionTorques,
               Eigen::Ref&lt;Eigen::VectorXd&gt; tauExt,
               Eigen::Ref&lt;Eigen::VectorXd&gt; baseAcceleration,
               Eigen::Ref&lt;Eigen::VectorXd&gt; jointAcceleration)</span></span>
             </h3>
-            <p>inverseDynamics computes the free floaing inverse dynamics</p>
+            <p>forwardDynamics computes the free floaing forward dynamics</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -310,25 +321,20 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="acba83d91bad61f1de37333a040e53076"><div>
+          <section class="m-doc-details" id="ae7cccc5fd696ab8637b87e846464bb0a"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acba83d91bad61f1de37333a040e53076" class="m-doc-self">getBaseAcceleration</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel,
-              manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae7cccc5fd696ab8637b87e846464bb0a" class="m-doc-self">getBaseAcceleration</a>(</span><span class="m-doc-wrap">manif::SE3d::Tangent&amp; robotBaseAcceleration,
               Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
               manif::SE3d::Tangent&amp; subModelBaseAcceleration)</span></span>
             </h3>
-            <p>getBaseAcceleration gets the acceleration of the sub-model base</p>
+            <p>getBaseAcceleration gets the acceleration of the sub-model base.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">kinDynFullModel</td>
-                  <td>is the KinDynComputation object associated to a model.</td>
-                </tr>
-                <tr>
-                  <td>robotBaseAcceleration</td>
+                  <td style="width: 1%">robotBaseAcceleration</td>
                   <td>the acceleration of the robot base.</td>
                 </tr>
                 <tr>
@@ -348,24 +354,15 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="af9494940b5c6f4b3aa9247da78f5ceba"><div>
+          <section class="m-doc-details" id="ac899bf2bc2d81f2cf4255d0ae8d1de06"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af9494940b5c6f4b3aa9247da78f5ceba" class="m-doc-self">getBaseVelocity</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDynFullModel)</span></span>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac899bf2bc2d81f2cf4255d0ae8d1de06" class="m-doc-self">getBaseVelocity</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
-            <p>getBaseVelocity gets the acceleration of the sub-model base</p>
+            <p>getBaseVelocity gets the acceleration of the sub-model base.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">kinDynFullModel</td>
-                  <td>is the KinDynComputation object associated to a model.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
                   <td>baseVelocity the the base velocity of the sub-model.</td>
                 </tr>
               </tfoot>

@@ -172,6 +172,19 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="57" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="57" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4106b75999c111122b82e35a5331f5b3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+        <definition>std::shared_ptr&lt;iDynTree::KinDynComputations&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::m_kinDynFullModel</definition>
+        <argsstring></argsstring>
+        <name>m_kinDynFullModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="59" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af5d50bef865206c8699d2c4255c6c4d7" prot="protected" static="no" mutable="no">
@@ -186,7 +199,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="60" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="60" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="62" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1abfc548a6ca8486e08aafdec5ace12959" prot="protected" static="no" mutable="no">
         <type>Eigen::MatrixXd</type>
@@ -200,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="61" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="61" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="63" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a88e3e44fd559c4d2299136a8d02d5d92" prot="protected" static="no" mutable="no">
         <type>Eigen::MatrixXd</type>
@@ -214,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="63" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="63" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="65" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ad6fb26e6c77d8ad8601753bf55f7b79c" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -228,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="65" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="65" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="67" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1adc22dbfdadba6aa8886b3a8adab43e81" prot="protected" static="no" mutable="no">
         <type>Eigen::MatrixXd</type>
@@ -242,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="66" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="66" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="68" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a86c26c612695b89dfaa122912d30875d" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -256,7 +269,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="67" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="69" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a44036883e6289de052ed6d32eb3f60d8" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -270,7 +283,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="68" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="68" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="70" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a492de5e9f48ce602eb0e5210af2ecc1b" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -284,7 +297,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="70" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="70" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="72" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ad9f8f332ffd289d9b2fd4567c365ae64" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -298,7 +311,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="71" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="71" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="73" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a32220c2a1661aeebdc8d30c2acee329b" prot="protected" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -312,7 +325,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="72" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="72" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="74" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a0229dfed1e721381fc57fd731872631d" prot="protected" static="no" mutable="no">
         <type>manif::SE3d</type>
@@ -326,7 +339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="73" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="73" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="75" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a6669659c18a4add83b46b8d46fbcbf99" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -340,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="74" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="74" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="76" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a5d50a38678b91a69c79b7e36e0cc6a1a" prot="protected" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -354,7 +367,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="75" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="75" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="77" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -370,22 +383,48 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="82" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="84" column="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a1b0322672ae9235efce12a0a35551ad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af3fba7bfe078c323a783f3c69e645cd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::initialize</definition>
-        <argsstring>(SubModel &amp;subModel, std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDynFullModel)</argsstring>
-        <name>initialize</name>
-        <param>
-          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &amp;</type>
-          <declname>subModel</declname>
-        </param>
+        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::setKinDyn</definition>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <name>setKinDyn</name>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
-          <declname>kinDynFullModel</declname>
+          <declname>kinDyn</declname>
+        </param>
+        <briefdescription>
+<para>set kinDyn </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kinDyn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is an iDynTree KinDynComputation object handling the kinematics and the dynamics of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a boolean value saying if the input pointer is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="93" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab6db0ec05f01faf70a01c93a299de27f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::initialize</definition>
+        <argsstring>(const SubModel &amp;subModel)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &amp;</type>
+          <declname>subModel</declname>
         </param>
         <briefdescription>
 <para>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet. </para>
@@ -399,14 +438,6 @@
 <para>a struct of type SubModif el describing the subModel structure and model. </para>
 </parameterdescription>
 </parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>kinDynFullModel</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is the KinDynComputation object associated to a model. </para>
-</parameterdescription>
-</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>a boolean value saying if all the variables are initialized correctly. </para>
 </simplesect>
@@ -414,43 +445,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="93" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="102" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a378a528211a6e550ae01fec88f49d1fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9a7fdcfce7f381e8556f09fd38c3cf09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::updateKinDynState</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDynFullModel)</argsstring>
-        <name>updateKinDynState</name>
-        <param>
-          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
-          <declname>kinDynFullModel</declname>
-        </param>
+        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::updateInternalKinDynState</definition>
+        <argsstring>()</argsstring>
+        <name>updateInternalKinDynState</name>
         <briefdescription>
-<para>updateKinDynState updates the state of the KinDynWrapper object. </para>
+<para>updateInternalKinDynState updates the state of the KinDynWrapper object. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>kinDynFullModel</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is the KinDynComputation object associated to a model. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>a boolean value saying if the subModelList has been created correctly. </para>
+<para><simplesect kind="return"><para>a boolean value saying if the subModelList has been created correctly. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="100" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="108" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab58dd864f4db8f5ba75a02e78bae9ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1abb4f098caf9ada04ee1f2ea30dd15bbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::inverseDynamics</definition>
+        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::forwardDynamics</definition>
         <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; motorTorqueAfterGearbox, Eigen::Ref&lt; Eigen::VectorXd &gt; frictionTorques, Eigen::Ref&lt; Eigen::VectorXd &gt; tauExt, Eigen::Ref&lt; Eigen::VectorXd &gt; baseAcceleration, Eigen::Ref&lt; Eigen::VectorXd &gt; jointAcceleration)</argsstring>
-        <name>inverseDynamics</name>
+        <name>forwardDynamics</name>
         <param>
           <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
           <declname>motorTorqueAfterGearbox</declname>
@@ -472,7 +490,7 @@
           <declname>jointAcceleration</declname>
         </param>
         <briefdescription>
-<para>inverseDynamics computes the free floaing inverse dynamics </para>
+<para>forwardDynamics computes the free floaing forward dynamics </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -514,17 +532,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="112" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="120" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1acba83d91bad61f1de37333a040e53076" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ae7cccc5fd696ab8637b87e846464bb0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::getBaseAcceleration</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDynFullModel, manif::SE3d::Tangent &amp;robotBaseAcceleration, Eigen::Ref&lt; const Eigen::VectorXd &gt; robotJointAcceleration, manif::SE3d::Tangent &amp;subModelBaseAcceleration)</argsstring>
+        <argsstring>(manif::SE3d::Tangent &amp;robotBaseAcceleration, Eigen::Ref&lt; const Eigen::VectorXd &gt; robotJointAcceleration, manif::SE3d::Tangent &amp;subModelBaseAcceleration)</argsstring>
         <name>getBaseAcceleration</name>
-        <param>
-          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
-          <declname>kinDynFullModel</declname>
-        </param>
         <param>
           <type>manif::SE3d::Tangent &amp;</type>
           <declname>robotBaseAcceleration</declname>
@@ -538,18 +552,10 @@
           <declname>subModelBaseAcceleration</declname>
         </param>
         <briefdescription>
-<para>getBaseAcceleration gets the acceleration of the sub-model base </para>
+<para>getBaseAcceleration gets the acceleration of the sub-model base. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>kinDynFullModel</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is the KinDynComputation object associated to a model. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
 <parameternamelist>
 <parametername>robotBaseAcceleration</parametername>
 </parameternamelist>
@@ -580,37 +586,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="126" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="133" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af9494940b5c6f4b3aa9247da78f5ceba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ac899bf2bc2d81f2cf4255d0ae8d1de06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const manif::SE3d::Tangent &amp;</type>
         <definition>const manif::SE3d::Tangent&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper::getBaseVelocity</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDynFullModel)</argsstring>
+        <argsstring>()</argsstring>
         <name>getBaseVelocity</name>
-        <param>
-          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
-          <declname>kinDynFullModel</declname>
-        </param>
         <briefdescription>
-<para>getBaseVelocity gets the acceleration of the sub-model base </para>
+<para>getBaseVelocity gets the acceleration of the sub-model base. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>kinDynFullModel</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>is the KinDynComputation object associated to a model. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>baseVelocity the the base velocity of the sub-model. </para>
+<para><simplesect kind="return"><para>baseVelocity the the base velocity of the sub-model. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="137" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="142" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a8e8c4f5e36f4e4430070eb23c8e2fb42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -627,7 +620,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="146" column="23"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="151" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9dc11c283de095a7b4d250a726cdd562" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
@@ -644,7 +637,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="151" column="22"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="156" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af7f5e7c2929e0803ca62e1a73d22be9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -661,7 +654,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="156" column="22"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="161" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4a8ba87bc2c0d8cc6aa1a80f2d45b296" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
@@ -691,7 +684,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="163" column="22"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="168" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4bd7931610cd1cb3ed6026aa612ccf38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
@@ -721,7 +714,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="171" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="176" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a43b7946d7abd9d660f157b660f95c85e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
@@ -751,7 +744,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="178" column="22"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="183" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a6d2cf9ac3d6fa2076a88c8a59d3be603" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::MatrixXd &gt;</type>
@@ -781,7 +774,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="186" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="191" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ae98bfff133995906513ab72e21313517" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -811,7 +804,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="194" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="199" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a2d8a900dc3403b539eb107174994011b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const manif::SO3d &amp;</type>
@@ -841,7 +834,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="201" column="23"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="206" column="23"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -850,21 +843,21 @@
     <detaileddescription>
 <para>The class is used to take updated the sub-model kinematics and dynamics </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="38" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="39" bodyend="202"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="38" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="39" bodyend="207"/>
     <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1abb4f098caf9ada04ee1f2ea30dd15bbd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>forwardDynamics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ae98bfff133995906513ab72e21313517" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getAccelerometerBiasAcceleration</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4bd7931610cd1cb3ed6026aa612ccf38" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getAccelerometerJacobian</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a2d8a900dc3403b539eb107174994011b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getAccelerometerRotation</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1acba83d91bad61f1de37333a040e53076" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getBaseAcceleration</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ae7cccc5fd696ab8637b87e846464bb0a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getBaseAcceleration</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a8e8c4f5e36f4e4430070eb23c8e2fb42" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getBaseFrameName</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af9494940b5c6f4b3aa9247da78f5ceba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getBaseVelocity</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ac899bf2bc2d81f2cf4255d0ae8d1de06" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getBaseVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a6d2cf9ac3d6fa2076a88c8a59d3be603" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getExtContactJacobian</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4a8ba87bc2c0d8cc6aa1a80f2d45b296" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getFTJacobian</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af7f5e7c2929e0803ca62e1a73d22be9e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getGeneralizedForces</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a43b7946d7abd9d660f157b660f95c85e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getGyroscopeJacobian</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9dc11c283de095a7b4d250a726cdd562" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>getMassMatrix</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a1b0322672ae9235efce12a0a35551ad6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab58dd864f4db8f5ba75a02e78bae9ed1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>inverseDynamics</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab6db0ec05f01faf70a01c93a299de27f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1aa9bef388578640ef7d82984733ecb1b1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_accRworldList</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1add713fbf10e54b1a3549f1cae37a9c7e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_baseFrame</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a3a0041fcf5520976ff40ae571b43840b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_baseVelocity</name></member>
@@ -882,6 +875,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a492de5e9f48ce602eb0e5210af2ecc1b" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_jointPositionModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ad9f8f332ffd289d9b2fd4567c365ae64" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_jointVelocityModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a90769363b072184a3c35f370ef241c03" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_kinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4106b75999c111122b82e35a5331f5b3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_kinDynFullModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1aaa0989197d28ea5ab1169845095768d6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_massMatrix</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af5d50bef865206c8699d2c4255c6c4d7" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_numOfJoints</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1adc22dbfdadba6aa8886b3a8adab43e81" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_pseudoInverseH</name></member>
@@ -890,8 +884,9 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a44036883e6289de052ed6d32eb3f60d8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_totalTorques</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a32220c2a1661aeebdc8d30c2acee329b" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_worldGravity</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a0229dfed1e721381fc57fd731872631d" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>m_worldTBase</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af3fba7bfe078c323a783f3c69e645cd4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a7a872ffbb51bfa6f9d2491088573265c" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>updateDynamicsVariableState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a378a528211a6e550ae01fec88f49d1fa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>updateKinDynState</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9a7fdcfce7f381e8556f09fd38c3cf09" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</scope><name>updateInternalKinDynState</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

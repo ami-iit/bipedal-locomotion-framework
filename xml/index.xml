@@ -1818,6 +1818,7 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1aa9bef388578640ef7d82984733ecb1b1" kind="variable"><name>m_accRworldList</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a3a0041fcf5520976ff40ae571b43840b" kind="variable"><name>m_baseVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1add713fbf10e54b1a3549f1cae37a9c7e" kind="variable"><name>m_baseFrame</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a4106b75999c111122b82e35a5331f5b3" kind="variable"><name>m_kinDynFullModel</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af5d50bef865206c8699d2c4255c6c4d7" kind="variable"><name>m_numOfJoints</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1abfc548a6ca8486e08aafdec5ace12959" kind="variable"><name>m_FTranspose</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a88e3e44fd559c4d2299136a8d02d5d92" kind="variable"><name>m_H</name></member>
@@ -1832,11 +1833,12 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a6669659c18a4add83b46b8d46fbcbf99" kind="variable"><name>m_qj</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a5d50a38678b91a69c79b7e36e0cc6a1a" kind="variable"><name>m_dqj</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a7a872ffbb51bfa6f9d2491088573265c" kind="function"><name>updateDynamicsVariableState</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a1b0322672ae9235efce12a0a35551ad6" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a378a528211a6e550ae01fec88f49d1fa" kind="function"><name>updateKinDynState</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab58dd864f4db8f5ba75a02e78bae9ed1" kind="function"><name>inverseDynamics</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1acba83d91bad61f1de37333a040e53076" kind="function"><name>getBaseAcceleration</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af9494940b5c6f4b3aa9247da78f5ceba" kind="function"><name>getBaseVelocity</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af3fba7bfe078c323a783f3c69e645cd4" kind="function"><name>setKinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ab6db0ec05f01faf70a01c93a299de27f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9a7fdcfce7f381e8556f09fd38c3cf09" kind="function"><name>updateInternalKinDynState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1abb4f098caf9ada04ee1f2ea30dd15bbd" kind="function"><name>forwardDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ae7cccc5fd696ab8637b87e846464bb0a" kind="function"><name>getBaseAcceleration</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1ac899bf2bc2d81f2cf4255d0ae8d1de06" kind="function"><name>getBaseVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a8e8c4f5e36f4e4430070eb23c8e2fb42" kind="function"><name>getBaseFrameName</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1a9dc11c283de095a7b4d250a726cdd562" kind="function"><name>getMassMatrix</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper_1af7f5e7c2929e0803ca62e1a73d22be9e" kind="function"><name>getGeneralizedForces</name></member>
