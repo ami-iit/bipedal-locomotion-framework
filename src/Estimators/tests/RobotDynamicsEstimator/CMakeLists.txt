@@ -53,8 +53,36 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            MANIF::manif
                            )
 
+    add_bipedal_test(NAME    AccelerometerMeasurementDynamics
+                     SOURCES AccelerometerMeasurementDynamicsTest.cpp
+                     LINKS   BipedalLocomotion::RobotDynamicsEstimator
+                             BipedalLocomotion::ParametersHandler
+                             BipedalLocomotion::ParametersHandlerYarpImplementation
+                             BipedalLocomotion::System
+                             icub-models::icub-models
+                             Eigen3::Eigen
+                             MANIF::manif
+                     )
+
+    add_bipedal_test(NAME GyroscopeMeasurementDynamics
+                  SOURCES GyroscopeMeasurementDynamicsTest.cpp
+                  LINKS   BipedalLocomotion::RobotDynamicsEstimator
+                          BipedalLocomotion::ParametersHandler
+                          BipedalLocomotion::ParametersHandlerYarpImplementation
+                          BipedalLocomotion::System
+                          icub-models::icub-models
+                          Eigen3::Eigen
+                          MANIF::manif
+                  )
+
     add_bipedal_test(NAME     UkfState
                      SOURCES  UkfStateTest.cpp
+                     LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
+                              icub-models::icub-models
+                     )
+
+    add_bipedal_test(NAME     UkfMeasurement
+                     SOURCES  UkfMeasurementTest.cpp
                      LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
                               icub-models::icub-models
                      )

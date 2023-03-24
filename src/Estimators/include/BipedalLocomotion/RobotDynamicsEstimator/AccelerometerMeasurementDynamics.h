@@ -1,15 +1,16 @@
 /**
- * @file ZeroVelocityDynamics.h
+ * @file AccelerometerMeasurementDynamics.h
  * @authors Ines Sorrentino
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_ZERO_VELOCITY_DYNAMICS_H
-#define BIPEDAL_LOCOMOTION_ESTIMATORS_ZERO_VELOCITY_DYNAMICS_H
+#ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_ACCELEROMETER_MEASUREMENT_DYNAMICS_H
+#define BIPEDAL_LOCOMOTION_ESTIMATORS_ACCELEROMETER_MEASUREMENT_DYNAMICS_H
 
 #include <memory>
 #include <BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/SubModelDynamics.h>
 
 namespace BipedalLocomotion
 {
@@ -19,33 +20,55 @@ namespace RobotDynamicsEstimator
 {
 
 /**
- * The ZeroVelocityDynamics class is a concrete implementation of the Dynamics.
- * Please use this element if you do not know the specific dynamics of a state variable.
- * The ZeroVelocityDynamics represents the following equation in the continuous time:
+ * The AccelerometerMeasurementDynamics class is a concrete implementation of the Dynamics.
+ * Please use this element if you want to use the model dynamics of an accelerometer defined,
+ * using the kinematics, as the time derivative of the frame linear velocity:
  * \f[
- * \dot{x} = 0
+ * v = J \nu
  * \f]
- * In the discrete time the following dynamics assigns the current state to the next state:
+ * The AccelerometerMeasurementDynamics represents the following equation in the continuous time:
  * \f[
- * x_{k+1} = x_{k}
+ * \dot{v}^{accelerometer} = \dot{J} \nu + J \dot{\nu} = \dot{J} \nu + J^{base} \dot{v}^{base} + J^{joints} \ddot{s}
  * \f]
+ * where the joint acceleration is given by the forward dynamics equation.
  */
 
-class ZeroVelocityDynamics : public Dynamics
+class AccelerometerMeasurementDynamics : public Dynamics
 {
-protected:
-    Eigen::VectorXd m_currentState; /**< Current state. */
     bool m_useBias{false}; /**< If true the dynamics depends on a bias additively. */
     Eigen::VectorXd m_bias; /**< The bias is initialized and used only if m_useBias is true. False if not specified. */
     std::string m_biasVariableName; /**< Name of the variable containing the bias in the variable handler. */
+    bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
+    double m_dT; /**< Sampling time. */
+    int m_nrOfSubDynamics; /**< Number of sub-dynamics which corresponds to the number of sub-models. */
+    std::vector<std::unique_ptr<SubModelDynamics>> m_subDynamics; /**< Vector of SubModelInversDynamics objects. */
+    Eigen::VectorXd m_jointVelocityFullModel; /**< Vector of joint velocities. */
+    Eigen::VectorXd m_motorTorqueFullModel; /**< Motor torque vector of full-model. */
+    Eigen::VectorXd m_frictionTorqueFullModel; /**< Friction torque vector of full-model. */
+    std::vector<Eigen::VectorXd> m_subModelJointAcc; /**< Updated joint acceleration of each sub-model. */
+    Eigen::VectorXd m_jointAccelerationFullModel; /**< Vector of joint accelerations. */
+    Eigen::Vector3d m_gravity; /**< Gravitational acceleration. */
+    std::vector<std::size_t> m_subModelsWithAcc; /**< List of indeces saying which sub-model in the m_subDynamics list containa the accelerometer. */
 
-    /**
-      * Controls whether the variable handler contains the variables on which the dynamics depend.
-      * @return True in case all the dependencies are contained in the variable handler, false otherwise.
-      */
-    bool checkStateVariableHandler() override;
+protected:
+    Eigen::VectorXd m_covSingleVar;
+    manif::SE3d::Tangent m_subModelBaseAcc;
+    Eigen::VectorXd m_JdotNu;
+    Eigen::VectorXd m_JvdotBase;
+    Eigen::VectorXd m_Jsdotdot;
+    Eigen::Vector3d m_accRg;
 
 public:
+    /*
+     * Constructor
+     */
+    AccelerometerMeasurementDynamics();
+
+    /*
+     * Destructor
+     */
+    virtual ~AccelerometerMeasurementDynamics();
+
     /**
      * Initialize the state dynamics.
      * @param paramHandler pointer to the parameters handler.
@@ -57,6 +80,7 @@ public:
      * |           `dynamic_model`          | `string` |               Type of dynamic model describing the state dynamics.                                      |    Yes    |
      * |             `elements`             | `vector` |  Vector of strings describing the list of sub variables composing the state associated to this dynamics.|    No     |
      * |             `use_bias`             |`boolean` |     Boolean saying if the dynamics depends on a bias. False if not specified.                           |    No     |
+     * |                `dT`                | `double` |                                Sampling time.                                                           |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
@@ -77,6 +101,12 @@ public:
     bool setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList) override;
 
     /**
+      * Controls whether the variable handler contains the variables on which the dynamics depend.
+      * @return True in case all the dependencies are contained in the variable handler, false otherwise.
+      */
+    bool checkStateVariableHandler() override;
+
+    /**
      * Update the content of the element.
      * @return True in case of success, false otherwise.
      */
@@ -94,12 +124,12 @@ public:
       */
       void setInput(const UKFInput & ukfInput) override;
 
-}; // class ZeroVelocityDynamics
+}; // class AccelerometerMeasurementDynamics
 
-BLF_REGISTER_DYNAMICS(ZeroVelocityDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics);
+BLF_REGISTER_DYNAMICS(AccelerometerMeasurementDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics);
 
 } // namespace RobotDynamicsEstimator
 } // namespace Estimators
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_ZERO_VELOCITY_DYNAMICS_H
+#endif // BIPEDAL_LOCOMOTION_ESTIMATORS_ACCELEROMETER_MEASUREMENT_DYNAMICS_H

@@ -103,7 +103,7 @@ protected:
     std::vector<std::string> m_elements = {}; /**< Elements composing the variable vector. */
     std::string m_dynamicModel;
     bool m_isInitialized{false}; /**< True if the dynamics has been initialized. */
-    System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables and the sizes in the ukf state/measurement vector. */
+    System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables and the sizes in the ukf state vector. */
     bool m_isStateVariableHandlerSet{false}; /**< True if setVariableHandler is called. */
     UKFInput m_ukfInput;
 

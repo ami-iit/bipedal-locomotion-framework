@@ -494,14 +494,99 @@ const RDE::FT& RDE::SubModel::getFTSensor(const int index) const
     return m_ftList.at(index);
 }
 
+const RDE::FT& RDE::SubModel::getFTSensor(const std::string name) const
+{
+    for (int ftIndex = 0; ftIndex < m_ftList.size(); ftIndex++)
+    {
+        if (m_ftList[ftIndex].name == name)
+        {
+            return m_ftList[ftIndex];
+        }
+    }
+
+    static const RDE::FT ft;
+
+    return ft;
+}
+
+bool RDE::SubModel::hasFTSensor(const std::string name) const
+{
+    for (int ftIndex = 0; ftIndex < m_ftList.size(); ftIndex++)
+    {
+        if (m_ftList[ftIndex].name == name)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const RDE::Sensor& RDE::SubModel::getAccelerometer(const int index) const
 {
     return m_accelerometerList.at(index);
 }
 
+const RDE::Sensor& RDE::SubModel::getAccelerometer(const std::string name) const
+{
+    for (int accIndex = 0; accIndex < m_accelerometerList.size(); accIndex++)
+    {
+        if (m_accelerometerList[accIndex].name == name)
+        {
+            return m_accelerometerList[accIndex];
+        }
+    }
+
+    static const RDE::Sensor acc;
+
+    return acc;
+}
+
+bool RDE::SubModel::hasAccelerometer(const std::string name) const
+{
+    std::cout << "Name --> " << name << std::endl;
+    for (int accIndex = 0; accIndex < m_accelerometerList.size(); accIndex++)
+    {
+        if (m_accelerometerList[accIndex].name == name)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const RDE::Sensor& RDE::SubModel::getGyroscope(const int index) const
 {
     return m_gyroscopeList.at(index);
+}
+
+const RDE::Sensor& RDE::SubModel::getGyroscope(const std::string name) const
+{
+    for (int gyroIndex = 0; gyroIndex < m_gyroscopeList.size(); gyroIndex++)
+    {
+        if (m_gyroscopeList[gyroIndex].name == name)
+        {
+            return m_gyroscopeList[gyroIndex];
+        }
+    }
+
+    static const RDE::Sensor gyro;
+
+    return gyro;
+}
+
+bool RDE::SubModel::hasGyroscope(const std::string name) const
+{
+    for (int gyroIndex = 0; gyroIndex < m_gyroscopeList.size(); gyroIndex++)
+    {
+        if (m_gyroscopeList[gyroIndex].name == name)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const std::string& RDE::SubModel::getExternalContact(const int index) const

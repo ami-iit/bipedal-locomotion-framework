@@ -147,24 +147,70 @@ public:
 
     /**
      * @brief Access an element of the force/torque sensor list.
+     * @param index is the index of the force/torque sensor in the submodel
      * @return FT object associated with the specified index.
      */
     const FT& getFTSensor(const int index) const;
 
     /**
+     * @brief Access an element of the force/torque sensor list.
+     * @param is the name of the force/torque sensor.
+     * @return FT object associated with the specified name.
+     */
+    const FT& getFTSensor(const std::string name) const;
+
+    /**
+     * @brief hasFTSensor check if the force/torque sensor is part of the sub-model
+     * @param name is the name of the ft sensor
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasFTSensor(const std::string name) const;
+
+    /**
      * @brief Access an element of the accelerometer list.
+     * @param index is the index of the accelerometer in the submodel
      * @return a Sensor object corresponding to the accelerometer associated with the specified index.
      */
     const Sensor& getAccelerometer(const int index) const;
 
     /**
+     * @brief Access an element of the accelerometer list.
+     * @param is the name of the accelerometer.
+     * @return a Sensor object corresponding to the accelerometer associated with the specified name.
+     */
+    const Sensor& getAccelerometer(const std::string name) const;
+
+    /**
+     * @brief hasAccelerometer check if the accelerometer is part of the sub-model
+     * @param name is the name of the accelerometer
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasAccelerometer(const std::string name) const;
+
+    /**
      * @brief Access an element of the gyroscope list.
+     * @param index is the index of the gyroscope in the submodel
      * @return a Sensor object corresponding to the gyroscope associated with the specified index.
      */
     const Sensor& getGyroscope(const int index) const;
 
     /**
+     * @brief Access an element of the gyroscope list.
+     * @param is the name of the gyroscoper.
+     * @return a Sensor object corresponding to the gyroscope associated with the specified name.
+     */
+    const Sensor& getGyroscope(const std::string name) const;
+
+    /**
+     * @brief hasAccelerometer check if the gyroscope is part of the sub-model
+     * @param name is the name of the gyroscope
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasGyroscope(const std::string name) const;
+
+    /**
      * @brief access an element of the contact frame list.
+     * @param index is the index of the external contact in the submodel.
      * @return a string corresponding to the external contact frame associated with the specified index.
      */
     const std::string& getExternalContact(const int index) const;

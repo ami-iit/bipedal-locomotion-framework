@@ -95,7 +95,7 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
     {
         if(!dynamics->finalize(handler))
         {
-            log()->error("{} Error while finalizing the dynamics names {}", logPrefix, name);
+            log()->error("{} Error while finalizing the dynamics named {}", logPrefix, name);
             return false;
         }
 
@@ -144,7 +144,7 @@ std::unique_ptr<RDE::UkfState> RDE::UkfState::build(std::weak_ptr<const Paramete
 
     if (!state->initialize(ptr))
     {
-        log()->error("{} Unable to initialize the RobotDynamicsEstimator.", logPrefix);
+        log()->error("{} Unable to initialize the state object of the ukf.", logPrefix);
         return nullptr;
     }
 

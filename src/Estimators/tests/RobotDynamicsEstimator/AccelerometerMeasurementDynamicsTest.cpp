@@ -1,5 +1,5 @@
-﻿/**
- * @file FrictionTorqueDynamicsTest.cpp
+/**
+ * @file AccelerometerMeasurementDynamics.cpp
  * @authors Ines Sorrentino
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -17,7 +17,7 @@
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/Math/Constants.h>
 
-#include <BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
 
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -93,48 +93,53 @@ TEST_CASE("Friction Torque Dynamics")
     // Create parameter handler
     auto parameterHandler = std::make_shared<StdImplementation>();
 
-    const std::string name = "tau_F";
-    Eigen::VectorXd covariance(6);
-    covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
-    const std::string model = "FrictionTorqueStateDynamics";
-    const std::vector<std::string> elements = {"r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll"};
-    Eigen::VectorXd k0(6);
-    k0 << 9.106, 5.03, 4.93, 12.88, 14.34, 1.12;
-    Eigen::VectorXd k1(6);
-    k1 << 200.0, 6.9, 200.0, 59.87, 200.0, 200.0;
-    Eigen::VectorXd k2(6);
-    k2 << 1.767, 5.64, 0.27, 2.0, 3.0, 0.0;
+    const std::string name = "r_leg_ft_acc";
+    Eigen::VectorXd covariance(3);
+    covariance << 2.3e-3, 1.9e-3, 3.1e-3;
+    const std::string model = "AccelerometerMeasurementDynamics";
+    const bool useBias = true;
+
     double dT = 0.01;
+
+    const std::vector<std::string> jointList = {"r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll"};
 
     parameterHandler->setParameter("name", name);
     parameterHandler->setParameter("covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
-    parameterHandler->setParameter("elements", elements);
-    parameterHandler->setParameter("friction_k0", k0);
-    parameterHandler->setParameter("friction_k1", k1);
-    parameterHandler->setParameter("friction_k2", k2);
     parameterHandler->setParameter("sampling_time", dT);
+    parameterHandler->setParameter("use_bias", useBias);
 
-    // Create variable handler
+    // Create state variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler variableHandler;
     REQUIRE(variableHandler.addVariable("ds", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_acc_bias", 3));
 
+    // Create model variable handler to load the robot model
     auto modelParamHandler = std::make_shared<StdImplementation>();
     auto emptyGroupNamesFrames = std::make_shared<StdImplementation>();
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
-    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
+
+    auto accGroup = std::make_shared<StdImplementation>();
+    std::vector<std::string> accNameList = {"r_leg_ft_acc"};
+    std::vector<std::string> accFrameList = {"r_leg_ft_sensor"};
+    accGroup->setParameter("names", accNameList);
+    accGroup->setParameter("frames", accFrameList);
+    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));
+
     auto emptyGroupFrames = std::make_shared<StdImplementation>();
     emptyGroupFrames->setParameter("frames", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupFrames));
-    modelParamHandler->setParameter("joint_list", elements);
 
+    modelParamHandler->setParameter("joint_list", jointList);
+
+    // Load model
     iDynTree::ModelLoader modelLoader;
     createModelLoader(modelParamHandler, modelLoader);
 
@@ -158,11 +163,10 @@ TEST_CASE("Friction Torque Dynamics")
         REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState());
     }
 
-    FrictionTorqueStateDynamics tau_F_dynamics;
-
-    REQUIRE(tau_F_dynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(tau_F_dynamics.initialize(parameterHandler));
-    REQUIRE(tau_F_dynamics.finalize(variableHandler));
+    AccelerometerMeasurementDynamics accDynamics;
+    REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
+    REQUIRE(accDynamics.initialize(parameterHandler));
+    REQUIRE(accDynamics.finalize(variableHandler));
 
     manif::SE3d::Tangent robotBaseAcceleration;
     robotBaseAcceleration.setZero();
@@ -178,12 +182,12 @@ TEST_CASE("Friction Torque Dynamics")
 
     kinDyn->inverseDynamics(iDynTree::make_span(robotBaseAcceleration.data(),
                                                 manif::SE3d::Tangent::DoF),
-                            robotJointAcceleration,
-                            extWrench,
-                            jointTorques);
+                                                robotJointAcceleration,
+                                                extWrench,
+                                                jointTorques);
 
     Eigen::VectorXd state;
-    state.resize(variableHandler.getVariable("tau_F").offset + variableHandler.getVariable("tau_F").size + 1);
+    state.resize(variableHandler.getNumberOfVariables());
     state.setZero();
 
     int offset = variableHandler.getVariable("tau_m").offset;
@@ -193,23 +197,33 @@ TEST_CASE("Friction Torque Dynamics")
         state[offset+jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
 
-    tau_F_dynamics.setState(state);
-    REQUIRE(tau_F_dynamics.update());
-    for (int idx = 0; idx < tau_F_dynamics.getUpdatedVariable().size(); idx++)
+    // Create an input for the ukf state
+    UKFInput input;
+
+    // Define joint positions
+    Eigen::VectorXd jointPos;
+    jointPos.resize(kinDyn->model().getNrOfDOFs());
+    jointPos.setZero();
+    input.robotJointPositions = jointPos;
+
+    // Define base pose
+    manif::SE3d basePose;
+    basePose.setIdentity();
+    input.robotBasePose = basePose;
+
+    // Define base velocity and acceleration
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+    input.robotBaseVelocity = baseVelocity;
+    input.robotBaseAcceleration = baseAcceleration;
+
+    accDynamics.setInput(input);
+    accDynamics.setState(state);
+
+    REQUIRE(accDynamics.update());
+    for (int idx = 0; idx < accDynamics.getUpdatedVariable().size(); idx++)
     {
-        REQUIRE(std::abs(tau_F_dynamics.getUpdatedVariable()(idx)) < 0.1);
+        REQUIRE(std::abs(accDynamics.getUpdatedVariable()(idx)) < 10);
     }
-
-    // Set random friction torque
-    Eigen::VectorXd currentStateTauF(covariance.size());
-    for (int index = 0; index < currentStateTauF.size(); index++)
-    {
-        currentStateTauF(index) = GENERATE(take(1, random(-30, 30)));
-    }
-
-    state.segment(variableHandler.getVariable("tau_F").offset, variableHandler.getVariable("tau_F").size) = currentStateTauF;
-
-    tau_F_dynamics.setState(state);
-
-    REQUIRE(tau_F_dynamics.update());
 }
