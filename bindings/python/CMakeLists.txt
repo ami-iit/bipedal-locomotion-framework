@@ -55,6 +55,7 @@ pybind11_add_module(pybind11_blf MODULE
   ${pybind_headers}
   )
 
+target_compile_features(pybind11_blf PUBLIC cxx_std_17)
 target_include_directories(pybind11_blf PUBLIC "$<BUILD_INTERFACE:${pybind_include_dirs}>")
 
 target_link_libraries(pybind11_blf PRIVATE
