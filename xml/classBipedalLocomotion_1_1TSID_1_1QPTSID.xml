@@ -392,7 +392,7 @@
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><computeroutput>robot_torque_variable_name</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>joint_torques_variable_name</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para>Name of the variable contained in <computeroutput>VariablesHandler</computeroutput> describing the robot torque   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
