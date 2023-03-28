@@ -140,7 +140,7 @@ public:
      * |            Parameter Name            |       Type       |                                             Description                                            | Mandatory |
      * |:------------------------------------:|:----------------:|:--------------------------------------------------------------------------------------------------:|:---------:|
      * |  `robot_acceleration_variable_name`  |     `string`     | Name of the variable contained in `VariablesHandler` describing the generalized robot acceleration |    Yes    |
-     * |    `robot_torque_variable_name`      |     `string`     |         Name of the variable contained in `VariablesHandler` describing the robot torque           |    Yes    |
+     * |    `joint_torques_variable_name`      |     `string`     |         Name of the variable contained in `VariablesHandler` describing the robot torque           |    Yes    |
      * |  `contact_wrench_variables_name`     | `vector<string>` |        List of the variables associated to the contact wrenches in the `VariablesHandler`          |    Yes    |
      * |             `verbosity`              |      `bool`      |                        Verbosity of the solver. Default value `false`                              |     No    |
      * Where the generalized robot acceleration is a vector containing the base acceleration
