@@ -88,6 +88,14 @@ struct PlannedContact : ContactBase
      * @return True if the contacts are the same, false otherwise.
      */
     bool operator==(const PlannedContact& other) const;
+
+    /**
+     * @brief Check if the contact is active at a give time instant
+     *
+     * @param t time instant at which we check if the contact is active.
+     * @return True if `activationTime <= t < deactivationTime`.
+     */
+    [[nodiscard]] bool isContactActive(const std::chrono::nanoseconds& t) const;
 };
 
 /**

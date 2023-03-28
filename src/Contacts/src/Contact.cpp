@@ -5,14 +5,14 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/Contacts/Contact.h>
 #include <chrono>
+
+#include <BipedalLocomotion/Contacts/Contact.h>
 
 using namespace BipedalLocomotion::Contacts;
 
 bool PlannedContact::operator==(const PlannedContact& other) const
 {
-
     bool eq = true;
     eq = eq && this->activationTime == other.activationTime;
     eq = eq && this->name == other.name;
@@ -21,6 +21,11 @@ bool PlannedContact::operator==(const PlannedContact& other) const
     eq = eq && this->activationTime == other.activationTime;
     eq = eq && this->deactivationTime == other.deactivationTime;
     return eq;
+}
+
+bool PlannedContact::isContactActive(const std::chrono::nanoseconds& t) const
+{
+    return (this->activationTime <= t) && (t < this->deactivationTime);
 }
 
 std::pair<bool, std::chrono::nanoseconds> EstimatedContact::getContactDetails() const
