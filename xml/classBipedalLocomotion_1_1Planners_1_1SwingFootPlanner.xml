@@ -151,6 +151,81 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="66" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="66" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1d6a413c91862243185d1bfdf4096788" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_footLandingVelocity</definition>
+        <argsstring></argsstring>
+        <name>m_footLandingVelocity</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Landing velocity in <formula id="52">$m/s$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="68" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab486c43987b20ca3950f19f242c662fa" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_footLandingAcceleration</definition>
+        <argsstring></argsstring>
+        <name>m_footLandingAcceleration</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Landing acceleration in <formula id="53">$m/s^2$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="69" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_footTakeOffVelocity</definition>
+        <argsstring></argsstring>
+        <name>m_footTakeOffVelocity</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Take off velocity in <formula id="52">$m/s$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="71" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad6fa5f331bffe3291d5c3a386f5de94f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_footTakeOffAcceleration</definition>
+        <argsstring></argsstring>
+        <name>m_footTakeOffAcceleration</name>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Take off acceleration in <formula id="53">$m/s^2$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="72" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SwingFootPlanner::m_isOutputValid</definition>
+        <argsstring></argsstring>
+        <name>m_isOutputValid</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if getOutput returns meaningful data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="74" column="10" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -168,7 +243,40 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="72" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="80" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1afc7e15b8510a654b61f7b18a73a73c74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SwingFootPlanner::createSE3Traj</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::Vector2d &gt; initialPlanarVelocity, Eigen::Ref&lt; const Eigen::Vector2d &gt; initialPlanarAcceleration, Eigen::Ref&lt; const Eigen::Matrix&lt; double, 1, 1 &gt;&gt; initialVerticalVelocity, Eigen::Ref&lt; const Eigen::Matrix&lt; double, 1, 1 &gt;&gt; initialVerticalAcceleration)</argsstring>
+        <name>createSE3Traj</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::Vector2d &gt;</type>
+          <declname>initialPlanarVelocity</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::Vector2d &gt;</type>
+          <declname>initialPlanarAcceleration</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::Matrix&lt; double, 1, 1 &gt;&gt;</type>
+          <declname>initialVerticalVelocity</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::Matrix&lt; double, 1, 1 &gt;&gt;</type>
+          <declname>initialVerticalAcceleration</declname>
+        </param>
+        <briefdescription>
+<para>Create a new SE3Trajectory considering the previous and next contact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True in case of success/false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="86" column="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -258,11 +366,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="91" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="108" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab0702a02ddf314accd88d2a143583ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void BipedalLocomotion::Planners::SwingFootPlanner::setContactList</definition>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SwingFootPlanner::setContactList</definition>
         <argsstring>(const Contacts::ContactList &amp;contactList)</argsstring>
         <name>setContactList</name>
         <param>
@@ -278,7 +386,47 @@
 <parametername>contactList</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>contains the list fora given contact </para>
+<para>contains the list for a given contact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>The contact list can be updated at run-time, i.e., when the planner is running. However the new contact list must satify a set of hypothesis. If the contact list stored in the class is empty, then it is the first time the contact list is added to the planner. In this case we accept all kinds of ContactList If the contact list is not empty, we check if it is possible to update the list. Given some limitations of the framework (mainly due to the SO3 trajectory generation) for the time being, we support only the two following cases:<itemizedlist>
+<listitem><para>Given the current time instant, both the stored and the new contact lists must have an active contact at the same pose.</para>
+</listitem><listitem><para>If the contact is not active (swing phase) the next contact must satisfy the following two hypothesis<orderedlist>
+<listitem><para>the orientation of the next contact must be the same as the orientation of the next contact in the contact list stored in the class.</para>
+</listitem><listitem><para>the impact time of the next contact must be the same as the one of the next contact in the contact list stored in the class. </para>
+</listitem></orderedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="130" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a72eb04436de799dbd282eb4e3cc30a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::Planners::SwingFootPlanner::setTime</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;time)</argsstring>
+        <name>setTime</name>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Reset the time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>internal time of the system. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -286,7 +434,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="97" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="136" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" kindref="compound">SwingFootPlannerState</ref> &amp;</type>
@@ -304,7 +452,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="103" column="34"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="142" column="34"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -322,7 +470,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="109" column="11"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="148" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -340,7 +488,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="115" column="11"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="154" column="11"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -449,10 +597,11 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="43" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="44" bodyend="116"/>
+    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="43" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="44" bodyend="155"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1afc7e15b8510a654b61f7b18a73a73c74" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>createSE3Traj</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aee5c47374eb365a445abf15300ecaea6" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Input</name></member>
@@ -462,15 +611,21 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a06fddc2be729d1ef4795d12b4bb62eb0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_currentTrajectoryTime</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad357e7a7f386b5e07e28063956e6e032" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_dT</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a5a169917029284c391fb12021e22bb6a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_footApexTime</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab486c43987b20ca3950f19f242c662fa" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_footLandingAcceleration</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1d6a413c91862243185d1bfdf4096788" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_footLandingVelocity</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad6fa5f331bffe3291d5c3a386f5de94f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_footTakeOffAcceleration</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_footTakeOffVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a45a257e2358aaa3bbe6c02a993d3ea85" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_heightPlanner</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a23846c39d1f958e505203548f3a4308e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_planarPlanner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_SO3Planner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a05f9acf196e6eb3d2065f348d168c54c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad22ed48af0c25891c140707a2308c350" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_stepHeight</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab0702a02ddf314accd88d2a143583ab3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setContactList</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setContactList</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a72eb04436de799dbd282eb4e3cc30a4a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>setTime</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>updateSE3Traj</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>~InputPort</name></member>

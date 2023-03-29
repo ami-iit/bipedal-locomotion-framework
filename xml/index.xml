@@ -1249,6 +1249,7 @@
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1aa589c04446c7d15276c447a94dad913f" kind="variable"><name>activationTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2ca83c6e9583c581057b4f46dfeda9a2" kind="variable"><name>deactivationTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1ad65cd0f8bb51507f321d5da8bdb575ce" kind="function"><name>operator==</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1af760613841d055a39784a2c0efeb3abc" kind="function"><name>isContactActive</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor" kind="class"><name>BipedalLocomotion::Perception::Features::PointCloudProcessor</name>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor_1a49e6f4bb4276ff8d5ba59ff5b384a606" kind="variable"><name>m_initialized</name></member>
@@ -1860,9 +1861,16 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a45a257e2358aaa3bbe6c02a993d3ea85" kind="variable"><name>m_heightPlanner</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad22ed48af0c25891c140707a2308c350" kind="variable"><name>m_stepHeight</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a5a169917029284c391fb12021e22bb6a" kind="variable"><name>m_footApexTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1d6a413c91862243185d1bfdf4096788" kind="variable"><name>m_footLandingVelocity</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab486c43987b20ca3950f19f242c662fa" kind="variable"><name>m_footLandingAcceleration</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" kind="variable"><name>m_footTakeOffVelocity</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad6fa5f331bffe3291d5c3a386f5de94f" kind="variable"><name>m_footTakeOffAcceleration</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" kind="variable"><name>m_isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" kind="function"><name>updateSE3Traj</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1afc7e15b8510a654b61f7b18a73a73c74" kind="function"><name>createSE3Traj</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aee5c47374eb365a445abf15300ecaea6" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab0702a02ddf314accd88d2a143583ab3" kind="function"><name>setContactList</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" kind="function"><name>setContactList</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a72eb04436de799dbd282eb4e3cc30a4a" kind="function"><name>setTime</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" kind="function"><name>advance</name></member>

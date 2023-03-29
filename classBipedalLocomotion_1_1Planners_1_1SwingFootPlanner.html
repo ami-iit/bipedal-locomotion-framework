@@ -96,9 +96,13 @@
             </dt>
             <dd>Initialize the planner.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#ab0702a02ddf314accd88d2a143583ab3" class="m-doc">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; contactList)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4082618eeb6a330eef5cdefd9a0a8705" class="m-doc">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; contactList) -&gt; bool</span>
             </dt>
             <dd>Set the contact list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a72eb04436de799dbd282eb4e3cc30a4a" class="m-doc">setTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time)</span>
+            </dt>
+            <dd>Reset the time.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a3495995d4e48df8f65648538f4b1ae88" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState.html" class="m-doc">SwingFootPlannerState</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -139,9 +143,9 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling time of the planner in seconds</td><td>Yes</td></tr><tr><td><code>step_height</code></td><td><code>double</code></td><td>Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 <code>step_height</code> is the maximum</td><td>Yes</td></tr><tr><td><code>foot_apex_time</code></td><td><code>double</code></td><td>Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down</td><td>Yes</td></tr><tr><td><code>foot_landing_velocity</code></td><td><code>double</code></td><td>Landing vertical velocity (default value 0.0)</td><td>No</td></tr><tr><td><code>foot_landing_acceleration</code></td><td><code>double</code></td><td>Landing vertical acceleration (default value 0.0)</td><td>No</td></tr><tr><td><code>foot_take_off_velocity</code></td><td><code>double</code></td><td>Take-off vertical velocity (default value 0.0)</td><td>No</td></tr><tr><td><code>foot_take_off_acceleration</code></td><td><code>double</code></td><td>Take-off vertical acceleration (default value 0.0)</td><td>No</td></tr><tr><td><code>interpolation_method</code></td><td><code>string</code></td><td>Define the interpolation method for the trajectory of the position. Accepted parameters: <code>min_acceleration</code>, <code>min_jerk</code> (default value <code>min_acceleration</code>)</td><td>No</td></tr></tbody></table></aside>
           </div></section>
-          <section class="m-doc-details" id="ab0702a02ddf314accd88d2a143583ab3"><div>
+          <section class="m-doc-details" id="a4082618eeb6a330eef5cdefd9a0a8705"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab0702a02ddf314accd88d2a143583ab3" class="m-doc-self">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; contactList)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4082618eeb6a330eef5cdefd9a0a8705" class="m-doc-self">setContactList</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; contactList)</span></span>
             </h3>
             <p>Set the contact list.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -151,7 +155,31 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">contactList</td>
-                  <td>contains the list fora given contact</td>
+                  <td>contains the list for a given contact.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>The contact list can be updated at run-time, i.e., when the planner is running. However the new contact list must satify a set of hypothesis. If the contact list stored in the class is empty, then it is the first time the contact list is added to the planner. In this case we accept all kinds of ContactList If the contact list is not empty, we check if it is possible to update the list. Given some limitations of the framework (mainly due to the SO3 trajectory generation) for the time being, we support only the two following cases:</p><ul><li>Given the current time instant, both the stored and the new contact lists must have an active contact at the same pose.</li><li>If the contact is not active (swing phase) the next contact must satisfy the following two hypothesis<ol><li>the orientation of the next contact must be the same as the orientation of the next contact in the contact list stored in the class.</li><li>the impact time of the next contact must be the same as the one of the next contact in the contact list stored in the class.</li></ol></li></ul></aside>
+          </div></section>
+          <section class="m-doc-details" id="a72eb04436de799dbd282eb4e3cc30a4a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Planners::<wbr />SwingFootPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a72eb04436de799dbd282eb4e3cc30a4a" class="m-doc-self">setTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time)</span></span>
+            </h3>
+            <p>Reset the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>internal time of the system.</td>
                 </tr>
               </tbody>
             </table>

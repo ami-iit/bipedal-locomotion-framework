@@ -94,6 +94,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#ad65cd0f8bb51507f321d5da8bdb575ce" class="m-doc">operator==</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Contacts_1_1PlannedContact.html" class="m-doc">PlannedContact</a>&amp; other) const -&gt; bool</span>
             </dt>
             <dd>The equality operator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af760613841d055a39784a2c0efeb3abc" class="m-doc">isContactActive</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t) const -&gt; bool</span>
+            </dt>
+            <dd>Check if the contact is active at a give time instant.</dd>
           </dl>
         </section>
         <section id="pub-attribs">
@@ -130,6 +134,29 @@
                 <tr>
                   <th>Returns</th>
                   <td>True if the contacts are the same, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af760613841d055a39784a2c0efeb3abc"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />PlannedContact::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af760613841d055a39784a2c0efeb3abc" class="m-doc-self">isContactActive</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t) const</span></span>
+            </h3>
+            <p>Check if the contact is active at a give time instant.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">t</td>
+                  <td>time instant at which we check if the contact is active.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True if <code>activationTime &lt;= t &lt; deactivationTime</code>.</td>
                 </tr>
               </tfoot>
             </table>

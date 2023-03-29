@@ -67,6 +67,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/Contact.h" line="90" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1af760613841d055a39784a2c0efeb3abc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::PlannedContact::isContactActive</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;t) const</argsstring>
+        <name>isContactActive</name>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Check if the contact is active at a give time instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>time instant at which we check if the contact is active. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if <computeroutput>activationTime &lt;= t &lt; deactivationTime</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="98" column="11"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Definition of a Planned Contact structure. </para>
@@ -108,11 +138,12 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="72" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="73" bodyend="91"/>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="72" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="73" bodyend="99"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1aa589c04446c7d15276c447a94dad913f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>activationTime</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2ca83c6e9583c581057b4f46dfeda9a2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>deactivationTime</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>index</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1af760613841d055a39784a2c0efeb3abc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>isContactActive</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>name</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1ad65cd0f8bb51507f321d5da8bdb575ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>operator==</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1aff58e7de425dabd599c896b6090fe861" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>pose</name></member>
