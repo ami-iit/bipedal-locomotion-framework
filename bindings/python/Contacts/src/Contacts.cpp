@@ -72,7 +72,8 @@ void CreateContact(pybind11::module& module)
         .def_readwrite("activation_time", &PlannedContact::activationTime)
         .def_readwrite("deactivation_time", &PlannedContact::deactivationTime)
         .def("__repr__", &toString)
-        .def("__eq__", &PlannedContact::operator==, py::is_operator());
+        .def("__eq__", &PlannedContact::operator==, py::is_operator())
+        .def("is_contact_active", &PlannedContact::isContactActive);
 
     py::class_<EstimatedContact, ContactBase>(module, "EstimatedContact")
         .def(py::init())

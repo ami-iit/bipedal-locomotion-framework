@@ -59,7 +59,8 @@ void CreateSwingFootPlanner(pybind11::module& module)
 
     py::class_<SwingFootPlanner, Source<SwingFootPlannerState>>(module, "SwingFootPlanner")
         .def(py::init())
-        .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"));
+        .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"))
+        .def("set_time", &SwingFootPlanner::setTime, py::arg("time"));
 }
 
 } // namespace Planners
