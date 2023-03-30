@@ -7,6 +7,11 @@ add_bipedal_test(
   SOURCES GenericContainerTest.cpp
   LINKS BipedalLocomotion::GenericContainer iDynTree::idyntree-core)
 
+add_bipedal_test(
+  NAME NamedTuple
+  SOURCES NamedTupleTest.cpp
+  LINKS BipedalLocomotion::GenericContainer)
+
 if (FRAMEWORK_HAS_YARP)
     add_bipedal_test(
       NAME GenericContainerPlusYarp
