@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to retrieve and set duration from the `IParametersHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to update the contact list in the swing foot trajectory planner (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
 - Implement state dynamic models needed to define an UKF process model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/615)
+- Implement measurement dynamic models needed to define an UKF measurement model (https://github.com/ami-iit/bipedal-locomotion-framework/pull/640)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
