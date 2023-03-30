@@ -27,6 +27,7 @@ All notable changes to this project are documented in this file.
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
 - Fix `QPTSIF` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/634)
+- Fix error messages in `QPTSID` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/639)
 
 ## [0.12.0] - 2023-03-07
 ### Added
