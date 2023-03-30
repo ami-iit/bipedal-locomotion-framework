@@ -377,7 +377,7 @@ bool QPTSID::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
     std::vector<std::string> wrenchVariableNames;
     if (!ptr->getParameter("contact_wrench_variables_name", wrenchVariableNames))
     {
-        log()->error("{} Error while retrieving the joint torques variable.", logPrefix);
+        log()->error("{} Error while retrieving the contact wrench variables.", logPrefix);
         return false;
     }
 
