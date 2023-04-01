@@ -7,7 +7,10 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+
+#include <Eigen/Dense>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
@@ -54,6 +57,8 @@ bool FirstOrderSmoother::initialize(
 
 bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
 {
+    using namespace BipedalLocomotion::GenericContainer::literals;
+
     constexpr auto logPrefix = "[FirstOrderSmoother::reset]";
     m_isInitialStateSet = false;
 
@@ -75,7 +80,8 @@ bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
         log()->error("{} Unable to set the linear system matrices.", logPrefix);
         return false;
     }
-    if (!m_linearSystem->setState(initialPoint))
+
+    if (!m_linearSystem->setState({initialPoint}))
     {
         log()->error("{} Unable to initialize the system.", logPrefix);
         return false;
@@ -120,7 +126,7 @@ bool FirstOrderSmoother::setInput(const Eigen::VectorXd& input)
         return false;
     }
 
-    return m_linearSystem->setControlInput(input);
+    return m_linearSystem->setControlInput({input});
 }
 
 const Eigen::VectorXd& FirstOrderSmoother::getOutput() const

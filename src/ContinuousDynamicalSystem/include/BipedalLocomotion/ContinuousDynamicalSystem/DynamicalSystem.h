@@ -12,6 +12,7 @@
 #include <tuple>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
@@ -75,24 +76,28 @@ public:
                                                                                    */
     using Input = typename internal::traits<_Derived>::Input; /**< Input type */
 
-    static_assert(is_specialization<State, std::tuple>::value,
-                  "Please define the internal structure of the dynamical system with "
-                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
+    static_assert(
+        (is_specialization<State, std::tuple>::value
+         || is_specialization<State, ::BipedalLocomotion::GenericContainer::named_tuple>::value),
+        "State must specialize std::tuple or ::BipedalLocomotion::GenericContainer::named_tuple");
 
-    static_assert(is_specialization<StateDerivative, std::tuple>::value,
-                  "Please define the internal structure of the dynamical system with "
-                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
+    static_assert((is_specialization<StateDerivative, std::tuple>::value
+                   || is_specialization<StateDerivative,
+                                        ::BipedalLocomotion::GenericContainer::named_tuple>::value),
+                  "StateDerivative must specialize std::tuple or "
+                  "::BipedalLocomotion::GenericContainer::named_tuple");
 
-    static_assert(is_specialization<Input, std::tuple>::value,
-                  "Please define the internal structure of the dynamical system with "
-                  "BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE() macro.");
+    static_assert(
+        (is_specialization<Input, std::tuple>::value
+         || is_specialization<Input, ::BipedalLocomotion::GenericContainer::named_tuple>::value),
+        "Input must specialize std::tuple or ::BipedalLocomotion::GenericContainer::named_tuple");
 
     /**
      * Initialize the Dynamical system.
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the state of the dynamical system.
@@ -132,7 +137,7 @@ public:
 
 template <class _Derived>
 bool DynamicalSystem<_Derived>::initialize(
-    std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     return this->derived().initialize(handler);
 }

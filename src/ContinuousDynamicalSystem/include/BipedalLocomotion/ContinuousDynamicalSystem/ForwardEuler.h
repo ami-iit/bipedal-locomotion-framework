@@ -14,6 +14,7 @@
 #include <iDynTree/Core/EigenHelpers.h>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 
 namespace BipedalLocomotion
 {
@@ -60,21 +61,22 @@ private:
     /** Temporary buffer usefully to avoid continuous memory allocation */
     State m_computationalBufferState;
 
-    template <std::size_t I = 0, typename... Tp, typename... Td>
-    inline typename std::enable_if<I == sizeof...(Tp), void>::type
-    addArea(const std::tuple<Tp...>& dx, const double& dT, std::tuple<Td...>& x)
+    template <std::size_t I = 0>
+    inline typename std::enable_if<I == std::tuple_size<State>::value, void>::type
+    addArea(const StateDerivative& dx, const double& dT, State& x)
     {
-        static_assert(sizeof...(Tp) == sizeof...(Td));
+        static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
     }
 
-    template <std::size_t I = 0, typename... Tp, typename... Td>
-    inline typename std::enable_if < I<sizeof...(Tp), void>::type
-    addArea(const std::tuple<Tp...>& dx, const double& dT, std::tuple<Td...>& x)
+    template <std::size_t I = 0>
+    inline typename std::enable_if<(I < std::tuple_size<State>::value), void>::type
+    addArea(const StateDerivative& dx, const double& dT, State& x)
     {
-        static_assert(sizeof...(Tp) == sizeof...(Td));
+        static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
 
         // the order matters since we assume that all the velocities are left trivialized.
-        std::get<I>(x) = (std::get<I>(dx) * dT) + std::get<I>(x);
+        using std::get;
+        get<I>(x) = (get<I>(dx) * dT) + get<I>(x);
         addArea<I + 1>(dx, dT, x);
     }
 

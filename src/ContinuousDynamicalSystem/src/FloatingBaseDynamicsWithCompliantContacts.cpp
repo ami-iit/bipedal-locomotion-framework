@@ -18,7 +18,8 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseDynamicsWithCompliantContacts::initialize(
+    std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::initialize]";
 
