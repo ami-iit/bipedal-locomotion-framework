@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file.
 - Add the support of `std::chrono` in The text logging (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to retrieve and set duration from the `IParametersHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to update the contact list in the swing foot trajectory planner (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
+- Implement `System::NamedTuple` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/642)
+- Implement `ContinuousDynamicalSystem::CentroidalDynamics` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/642)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
@@ -23,6 +25,7 @@ All notable changes to this project are documented in this file.
 - Update the python bindings to consider the time with `std::chrono::nanoseconds` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Robustify SubModelCreator and SubModelKinDynWrapper tests (https://github.com/ami-iit/bipedal-locomotion-framework/pull/631)
 - `SwingFootTrajectoryPlanner::advance()` must be called before getting the output (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
+- Update the already existing classes in `ContinuousDynamicalSystem`to be compatible with the `System::NamedTuple` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/642)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
