@@ -137,15 +137,6 @@ jobs:
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
 
-    # Workaround for https://github.com/ami-iit/bipedal-locomotion-framework/issues/636
-    - name: Cmake 3.25.3 [Ubuntu]
-      if: startsWith(matrix.os, 'ubuntu')
-      run: |
-        curl -sL https://github.com/Kitware/CMake/releases/download/v3.25.3/cmake-3.25.3-linux-x86_64.sh -o cmakeinstall.sh \
-        && chmod +x cmakeinstall.sh \
-        && sudo ./cmakeinstall.sh --prefix=/usr/local --exclude-subdir \
-        && rm cmakeinstall.sh
-
     - name: Cache Source-based Dependencies
       id: cache-source-deps
       uses: actions/cache@v3
