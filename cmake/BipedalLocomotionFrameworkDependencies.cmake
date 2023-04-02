@@ -5,6 +5,15 @@
 include(BipedalLocomotionFrameworkFindDependencies)
 include(BipedalLocomotionDependencyClassifier)
 
+# Workaround for issue that occurs with CMake 3.26.1 and pybind11 2.4.3
+# see https://github.com/ami-iit/bipedal-locomotion-framework/issues/636
+# This is done here as it needs to be done before any call (even transitive)
+# to find_package(pybind11)
+# It can be removed once pybind11 2.4.3 is not supported anymore
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
 ################################################################################
 ########################## Mandatory dependencies ##############################
 
