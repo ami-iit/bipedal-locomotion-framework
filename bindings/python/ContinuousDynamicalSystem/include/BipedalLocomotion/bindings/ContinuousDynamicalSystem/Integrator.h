@@ -63,7 +63,11 @@ void CreateIntegrator(pybind11::module& module, const std::string& name)
                     throw py::value_error("The Dynamical system is not valid.");
                 }
             })
-        .def("get_solution", &Integrator<_Derived>::getSolution)
+        .def("get_solution",
+             [](const Integrator<_Derived>& impl) ->
+             typename Integrator<_Derived>::State::underlying_tuple {
+                 return impl.getSolution().to_tuple();
+             })
         .def("integrate",
              &Integrator<_Derived>::integrate,
              py::arg("initial_time"),

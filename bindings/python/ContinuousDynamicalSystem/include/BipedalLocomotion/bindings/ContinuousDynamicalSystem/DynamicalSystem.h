@@ -36,18 +36,43 @@ void CreateDynamicalSystem(pybind11::module& module, const std::string& name)
                 return impl.initialize(handler);
             },
             py::arg("param_handler"))
-        .def("set_state", &_DynamicalSystem::setState, py::arg("state"))
-        .def("get_state", &_DynamicalSystem::getState)
+        .def(
+            "set_state",
+            [](_DynamicalSystem& impl,
+               const typename _DynamicalSystem::State::underlying_tuple& state) -> bool {
+                typename _DynamicalSystem::State tempState;
+                tempState = state;
+                return impl.setState(tempState);
+            },
+            py::arg("state"))
+        .def("get_state",
+             [](const _DynamicalSystem& impl) ->
+             typename _DynamicalSystem::State::underlying_tuple {
+                 return impl.getState().to_tuple();
+             })
         .def_property(
             "state",
-            &_DynamicalSystem::getState,
-            [](_DynamicalSystem& impl, const typename _DynamicalSystem::State& state) {
-                if (!impl.setState(state))
+            [](const _DynamicalSystem& impl) -> typename _DynamicalSystem::State::underlying_tuple {
+                return impl.getState().to_tuple();
+            },
+            [](_DynamicalSystem& impl,
+               const typename _DynamicalSystem::State::underlying_tuple& state) {
+                typename _DynamicalSystem::State tempState;
+                tempState = state;
+                if (!impl.setState(tempState))
                 {
                     throw py::value_error("Invalid state.");
                 };
             })
-        .def("set_control_input", &_DynamicalSystem::setControlInput, py::arg("control_input"));
+        .def(
+            "set_control_input",
+            [](_DynamicalSystem& impl,
+               const typename _DynamicalSystem::Input::underlying_tuple& input) -> bool {
+                typename _DynamicalSystem::Input tempInput;
+                tempInput = input;
+                return impl.setControlInput(tempInput);
+            },
+            py::arg("control_input"));
 }
 
 } // namespace ContinuousDynamicalSystem
