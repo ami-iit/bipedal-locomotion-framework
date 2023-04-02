@@ -37,14 +37,18 @@ add_bipedal_test(
   SOURCES AngularMomentumTaskTest.cpp
   LINKS BipedalLocomotion::IK)
 
-add_bipedal_test(
-  NAME QPInverseKinematics
-  SOURCES QPInverseKinematicsTest.cpp
-  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
-        BipedalLocomotion::ContinuousDynamicalSystem)
+if (FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
 
-add_bipedal_test(
-  NAME QPFixedBaseInverseKinematics
-  SOURCES QPFixedBaseInverseKinematicsTest.cpp
-  LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
-        BipedalLocomotion::ContinuousDynamicalSystem)
+  add_bipedal_test(
+    NAME QPInverseKinematics
+    SOURCES QPInverseKinematicsTest.cpp
+    LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
+    BipedalLocomotion::ContinuousDynamicalSystem)
+
+  add_bipedal_test(
+    NAME QPFixedBaseInverseKinematics
+    SOURCES QPFixedBaseInverseKinematicsTest.cpp
+    LINKS BipedalLocomotion::IK BipedalLocomotion::ManifConversions
+    BipedalLocomotion::ContinuousDynamicalSystem)
+
+endif()
