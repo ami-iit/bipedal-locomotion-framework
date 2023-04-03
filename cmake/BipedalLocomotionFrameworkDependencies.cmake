@@ -252,3 +252,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
 framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
   "Do you want to generate and compile the VectorsCollectionWrapper?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
+  "Do you want to generate and compile the ReducedModelControllers?" ON
+  "FRAMEWORK_USE_casadi;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Contact;FRAMEWORK_COMPILE_Math" OFF)
