@@ -544,7 +544,6 @@ const RDE::Sensor& RDE::SubModel::getAccelerometer(const std::string name) const
 
 bool RDE::SubModel::hasAccelerometer(const std::string name) const
 {
-    std::cout << "Name --> " << name << std::endl;
     for (int accIndex = 0; accIndex < m_accelerometerList.size(); accIndex++)
     {
         if (m_accelerometerList[accIndex].name == name)

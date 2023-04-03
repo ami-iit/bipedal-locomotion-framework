@@ -41,6 +41,13 @@ bool RDE::FrictionTorqueStateDynamics::initialize(std::weak_ptr<const Parameters
         return false;
     }
 
+    // Set the state initial covariance
+    if (!ptr->getParameter("initial_covariance", m_initialCovariances))
+    {
+        log()->error("{} Error while retrieving the initial_covariance variable.", errorPrefix);
+        return false;
+    }
+
     // Set the dynamic model type
     if (!ptr->getParameter("dynamic_model", m_dynamicModel))
     {
@@ -251,6 +258,8 @@ bool RDE::FrictionTorqueStateDynamics::checkStateVariableHandler()
     return true;
 }
 
+// TODO
+// Change the model
 bool RDE::FrictionTorqueStateDynamics::update()
 {
     constexpr auto errorPrefix = "[FrictionTorqueStateDynamics::update]";

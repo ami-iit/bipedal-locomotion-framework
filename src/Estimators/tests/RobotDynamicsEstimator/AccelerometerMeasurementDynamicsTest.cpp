@@ -160,7 +160,7 @@ TEST_CASE("Friction Torque Dynamics")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState());
+        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     AccelerometerMeasurementDynamics accDynamics;

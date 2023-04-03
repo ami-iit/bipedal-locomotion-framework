@@ -160,7 +160,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState());
+        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     GyroscopeMeasurementDynamics gyroDynamics;
@@ -196,6 +196,29 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     {
         state[offset+jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
+
+    // Create an input for the ukf state
+    UKFInput input;
+
+    // Define joint positions
+    Eigen::VectorXd jointPos;
+    jointPos.resize(kinDyn->model().getNrOfDOFs());
+    jointPos.setZero();
+    input.robotJointPositions = jointPos;
+
+    // Define base pose
+    manif::SE3d basePose;
+    basePose.setIdentity();
+    input.robotBasePose = basePose;
+
+    // Define base velocity and acceleration
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+    input.robotBaseVelocity = baseVelocity;
+    input.robotBaseAcceleration = baseAcceleration;
+
+    gyroDynamics.setInput(input);
 
     gyroDynamics.setState(state);
 

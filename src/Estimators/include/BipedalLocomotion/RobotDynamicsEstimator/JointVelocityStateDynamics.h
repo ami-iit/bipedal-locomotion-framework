@@ -73,6 +73,7 @@ public:
      * |:----------------------------------:|:--------:|:-------------------------------------------------------------------------------------------------------:|:---------:|
      * |               `name`               | `string` |   Name of the state contained in the `VariablesHandler` describing the state associated to this dynamics|    Yes    |
      * |            `covariance`            | `vector` |                                Process covariances                                                      |    Yes    |
+     * |         `initial_covariance`       | `vector` |                             Initial state covariances                                                   |    Yes    |
      * |           `dynamic_model`          | `string` |               Type of dynamic model describing the state dynamics.                                      |    Yes    |
      * |             `elements`             | `vector` |  Vector of strings describing the list of sub variables composing the state associated to this dynamics.|    No     |
      * |                `dT`                | `double` |                                Sampling time.                                                           |    Yes    |
@@ -111,7 +112,6 @@ public:
       * @param ukfInput reference to the UKFInput struct.
       */
       void setInput(const UKFInput & ukfInput) override;
-
 };
 
 BLF_REGISTER_DYNAMICS(JointVelocityStateDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics);

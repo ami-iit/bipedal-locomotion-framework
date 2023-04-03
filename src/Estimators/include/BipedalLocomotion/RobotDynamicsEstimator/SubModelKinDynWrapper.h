@@ -81,7 +81,7 @@ protected:
      * updateDynamicsVariableState updates the value of all the member variables containing
      * information about the robot kinematics and dynamics
      */
-    bool updateDynamicsVariableState();
+    bool updateDynamicsVariableState(bool isCorrectStep);
 
 public:
     /**
@@ -105,7 +105,7 @@ public:
      * @brief updateInternalKinDynState updates the state of the KinDynWrapper object.
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool updateInternalKinDynState();
+    bool updateInternalKinDynState(bool isCorrectStep);
 
     /**
      * @brief forwardDynamics computes the free floaing forward dynamics

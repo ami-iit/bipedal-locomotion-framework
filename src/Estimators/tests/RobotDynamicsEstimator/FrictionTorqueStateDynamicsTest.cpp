@@ -108,6 +108,7 @@ TEST_CASE("Friction Torque Dynamics")
 
     parameterHandler->setParameter("name", name);
     parameterHandler->setParameter("covariance", covariance);
+    parameterHandler->setParameter("initial_covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
     parameterHandler->setParameter("elements", elements);
     parameterHandler->setParameter("friction_k0", k0);
@@ -155,7 +156,7 @@ TEST_CASE("Friction Torque Dynamics")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState());
+        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     FrictionTorqueStateDynamics tau_F_dynamics;
@@ -208,6 +209,29 @@ TEST_CASE("Friction Torque Dynamics")
     }
 
     state.segment(variableHandler.getVariable("tau_F").offset, variableHandler.getVariable("tau_F").size) = currentStateTauF;
+
+    // Create an input for the ukf state
+    UKFInput input;
+
+    // Define joint positions
+    Eigen::VectorXd jointPos;
+    jointPos.resize(kinDyn->model().getNrOfDOFs());
+    jointPos.setZero();
+    input.robotJointPositions = jointPos;
+
+    // Define base pose
+    manif::SE3d basePose;
+    basePose.setIdentity();
+    input.robotBasePose = basePose;
+
+    // Define base velocity and acceleration
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+    input.robotBaseVelocity = baseVelocity;
+    input.robotBaseAcceleration = baseAcceleration;
+
+    tau_F_dynamics.setInput(input);
 
     tau_F_dynamics.setState(state);
 

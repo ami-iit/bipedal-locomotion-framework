@@ -58,7 +58,8 @@ IParametersHandler::shared_ptr loadParameterHandler()
 }
 
 void createModelLoader(IParametersHandler::shared_ptr group,
-                       iDynTree::ModelLoader& mdlLdr)
+                       iDynTree::ModelLoader& mdlLdr,
+                       bool useFT)
 {
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
@@ -68,13 +69,16 @@ void createModelLoader(IParametersHandler::shared_ptr group,
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
 
-    std::vector<std::string> ftFramesList;
-    auto ftGroup = group->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
-
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
-    jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
+
+    if (useFT)
+    {
+        std::vector<std::string> ftFramesList;
+        auto ftGroup = group->getGroup("FT").lock();
+        REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+        jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
+    }
 
     REQUIRE(mdlLdr.loadReducedModelFromFile(modelPath, jointsAndFTs));
 }
@@ -147,7 +151,7 @@ bool setStaticState(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
                                  iDynTree::make_span(gravity.data(), gravity.size()));
 }
 
-TEST_CASE("Joint Velocity Dynamics")
+TEST_CASE("Joint Velocity Dynamics Without FT")
 {
     // Create parameter handler
     auto parameterHandler = std::make_shared<StdImplementation>();
@@ -161,6 +165,129 @@ TEST_CASE("Joint Velocity Dynamics")
 
     parameterHandler->setParameter("name", name);
     parameterHandler->setParameter("covariance", covariance);
+    parameterHandler->setParameter("initial_covariance", covariance);
+    parameterHandler->setParameter("dynamic_model", model);
+    parameterHandler->setParameter("elements", elements);
+    parameterHandler->setParameter("sampling_time", dT);
+
+    // Create variable handler
+    constexpr size_t sizeVariable = 6;
+    VariablesHandler variableHandler;
+    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
+    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
+    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_acc_bias", 3));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft_acc_bias", 3));
+    REQUIRE(variableHandler.addVariable("r_foot_rear_ft_acc_bias", 3));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_gyro_bias", 3));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft_gyro_bias", 3));
+    REQUIRE(variableHandler.addVariable("r_foot_rear_ft_gyro_bias", 3));
+
+    auto handlerFromConfig = loadParameterHandler();
+
+    bool useFT = false;
+
+    iDynTree::ModelLoader modelLoader;
+    createModelLoader(handlerFromConfig, modelLoader, useFT);
+
+    auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    REQUIRE(kinDyn->loadRobotModel(modelLoader.model()));
+
+    REQUIRE(setStaticState(kinDyn));
+
+    SubModelCreator subModelCreatorWithFT;
+    createSubModels(modelLoader, kinDyn, handlerFromConfig, useFT, subModelCreatorWithFT);
+
+    std::vector<std::shared_ptr<SubModelKinDynWrapper>> kinDynWrapperListWithFT;
+    const auto & subModelListWithFT = subModelCreatorWithFT.getSubModelList();
+
+    for (int idx = 0; idx < subModelCreatorWithFT.getSubModelList().size(); idx++)
+    {
+        kinDynWrapperListWithFT.emplace_back(std::make_shared<SubModelKinDynWrapper>());
+        REQUIRE(kinDynWrapperListWithFT.at(idx)->setKinDyn(kinDyn));
+        REQUIRE(kinDynWrapperListWithFT.at(idx)->initialize(subModelListWithFT[idx]));
+        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateInternalKinDynState(true));
+    }
+
+    manif::SE3d::Tangent robotBaseAcceleration;
+    robotBaseAcceleration.setZero();
+
+    Eigen::VectorXd robotJointAcceleration(kinDyn->model().getNrOfDOFs());
+    robotJointAcceleration.setZero();
+
+    iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
+    extWrench.zero();
+
+    // Compute joint torques in static configuration from inverse dynamics on the full model
+    iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
+
+    kinDyn->inverseDynamics(iDynTree::make_span(robotBaseAcceleration.data(),
+                                                manif::SE3d::Tangent::DoF),
+                            robotJointAcceleration,
+                            extWrench,
+                            jointTorques);
+
+    JointVelocityStateDynamics ds;
+    model = "JointVelocityStateDynamics";
+    parameterHandler->setParameter("dynamic_model", model);
+    REQUIRE(ds.setSubModels(subModelListWithFT, kinDynWrapperListWithFT));
+    REQUIRE(ds.initialize(parameterHandler));
+    REQUIRE(ds.finalize(variableHandler));
+
+    Eigen::VectorXd state;
+    state.resize(variableHandler.getNumberOfVariables());
+    state.setZero();
+
+    int offset = variableHandler.getVariable("tau_m").offset;
+    int size = variableHandler.getVariable("tau_m").size;
+    for (int jointIndex = 0; jointIndex < size; jointIndex++)
+    {
+        state[offset+jointIndex] = jointTorques.jointTorques()[jointIndex];
+    }
+
+    // Create an input for the ukf state
+    UKFInput input;
+
+    // Define joint positions
+    Eigen::VectorXd jointPos;
+    jointPos.resize(kinDyn->model().getNrOfDOFs());
+    jointPos.setZero();
+    input.robotJointPositions = jointPos;
+
+    // Define base pose
+    manif::SE3d basePose;
+    basePose.setIdentity();
+    input.robotBasePose = basePose;
+
+    // Define base velocity and acceleration
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+    input.robotBaseVelocity = baseVelocity;
+    input.robotBaseAcceleration = baseAcceleration;
+
+    ds.setInput(input);
+
+    ds.setState(state);
+
+    REQUIRE(ds.update());
+}
+
+TEST_CASE("Joint Velocity Dynamics With FT")
+{
+    // Create parameter handler
+    auto parameterHandler = std::make_shared<StdImplementation>();
+
+    const std::string name = "ds";
+    Eigen::VectorXd covariance(6);
+    covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
+    std::string model = "JointVelocityStateDynamics";
+    const std::vector<std::string> elements = {"r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll"};
+    double dT = 0.01;
+
+    parameterHandler->setParameter("name", name);
+    parameterHandler->setParameter("covariance", covariance);
+    parameterHandler->setParameter("initial_covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
     parameterHandler->setParameter("elements", elements);
     parameterHandler->setParameter("sampling_time", dT);
@@ -187,7 +314,7 @@ TEST_CASE("Joint Velocity Dynamics")
     auto handlerFromConfig = loadParameterHandler();
 
     iDynTree::ModelLoader modelLoader;
-    createModelLoader(handlerFromConfig, modelLoader);
+    createModelLoader(handlerFromConfig, modelLoader, true);
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     REQUIRE(kinDyn->loadRobotModel(modelLoader.model()));
@@ -207,8 +334,26 @@ TEST_CASE("Joint Velocity Dynamics")
         kinDynWrapperListWithFT.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperListWithFT.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperListWithFT.at(idx)->initialize(subModelListWithFT[idx]));
-        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateInternalKinDynState());
+        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateInternalKinDynState(true));
     }
+
+    manif::SE3d::Tangent robotBaseAcceleration;
+    robotBaseAcceleration.setZero();
+
+    Eigen::VectorXd robotJointAcceleration(kinDyn->model().getNrOfDOFs());
+    robotJointAcceleration.setZero();
+
+    iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
+    extWrench.zero();
+
+    // Compute joint torques in static configuration from inverse dynamics on the full model
+    iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
+
+    kinDyn->inverseDynamics(iDynTree::make_span(robotBaseAcceleration.data(),
+                                                robotBaseAcceleration.coeffs().size()),
+                            robotJointAcceleration,
+                            extWrench,
+                            jointTorques);
 
     JointVelocityStateDynamics dsSplit;
     model = "JointVelocityStateDynamics";
@@ -218,46 +363,43 @@ TEST_CASE("Joint Velocity Dynamics")
     REQUIRE(dsSplit.finalize(variableHandler));
 
     Eigen::VectorXd state;
-    state.resize(variableHandler.getVariable("r_foot_rear_ft_gyro_bias").offset + variableHandler.getVariable("r_foot_rear_ft_gyro_bias").size + 1);
+    state.resize(variableHandler.getNumberOfVariables());
     state.setZero();
+
+    int offset = variableHandler.getVariable("tau_m").offset;
+    int size = variableHandler.getVariable("tau_m").size;
+    for (int jointIndex = 0; jointIndex < size; jointIndex++)
+    {
+        state[offset+jointIndex] = jointTorques.jointTorques()[jointIndex];
+    }
 
     auto massSecondSubModel = subModelListWithFT.at(1).getModel().getTotalMass();
     state(variableHandler.getVariable("r_leg_ft_sensor").offset+2) = massSecondSubModel * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
+    // Create an input for the ukf state
+    UKFInput input;
+
+    // Define joint positions
+    Eigen::VectorXd jointPos;
+    jointPos.resize(kinDyn->model().getNrOfDOFs());
+    jointPos.setZero();
+    input.robotJointPositions = jointPos;
+
+    // Define base pose
+    manif::SE3d basePose;
+    basePose.setIdentity();
+    input.robotBasePose = basePose;
+
+    // Define base velocity and acceleration
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+    input.robotBaseVelocity = baseVelocity;
+    input.robotBaseAcceleration = baseAcceleration;
+
+    dsSplit.setInput(input);
+
     dsSplit.setState(state);
 
     REQUIRE(dsSplit.update());
-
-    std::cout << "Updated state splitting the model" << std::endl;
-    std::cout << dsSplit.getUpdatedVariable() << std::endl;
-
-    useFT = false;
-
-    SubModelCreator subModelCreatorWithoutFT;
-    createSubModels(modelLoader, kinDyn, handlerFromConfig, useFT, subModelCreatorWithoutFT);
-
-    std::vector<std::shared_ptr<SubModelKinDynWrapper>> kinDynWrapperListWithoutFT;
-    const auto & subModelListWithoutFT = subModelCreatorWithoutFT.getSubModelList();
-
-    for (int idx = 0; idx < subModelCreatorWithoutFT.getSubModelList().size(); idx++)
-    {
-        kinDynWrapperListWithoutFT.emplace_back(std::make_shared<SubModelKinDynWrapper>());
-        REQUIRE(kinDynWrapperListWithoutFT.at(idx)->setKinDyn(kinDyn));
-        REQUIRE(kinDynWrapperListWithoutFT.at(idx)->initialize(subModelListWithoutFT[idx]));
-        REQUIRE(kinDynWrapperListWithoutFT.at(idx)->updateInternalKinDynState());
-    }
-
-        JointVelocityStateDynamics dsNotSplit;
-        model = "JointVelocityStateDynamics";
-        parameterHandler->setParameter("dynamic_model", model);
-        REQUIRE(dsNotSplit.setSubModels(subModelListWithoutFT, kinDynWrapperListWithoutFT));
-        REQUIRE(dsNotSplit.initialize(parameterHandler));
-        REQUIRE(dsNotSplit.finalize(variableHandler));
-
-        dsNotSplit.setState(state);
-
-        REQUIRE(dsNotSplit.update());
-
-        std::cout << "Updated state without splitting the model" << std::endl;
-        std::cout << dsNotSplit.getUpdatedVariable() << std::endl;
 }

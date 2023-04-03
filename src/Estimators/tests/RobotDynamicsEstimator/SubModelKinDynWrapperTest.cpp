@@ -219,7 +219,7 @@ TEST_CASE("SubModelKinDynWrapper")
 
         REQUIRE(kinDynSubModel.initialize(subModelList[idx]));
 
-        REQUIRE(kinDynSubModel.updateInternalKinDynState());
+        REQUIRE(kinDynSubModel.updateInternalKinDynState(true));
 
         int numberOfJoints = subModelList[idx].getModel().getNrOfDOFs();
 

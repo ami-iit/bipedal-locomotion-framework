@@ -116,7 +116,7 @@ bool RDE::SubModelKinDynWrapper::initialize(const RDE::SubModel& subModel)
     return true;
 }
 
-bool RDE::SubModelKinDynWrapper::updateInternalKinDynState()
+bool RDE::SubModelKinDynWrapper::updateInternalKinDynState(bool isCorrectStep)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
                                "updateKinDynState]";
@@ -148,10 +148,10 @@ bool RDE::SubModelKinDynWrapper::updateInternalKinDynState()
         return false;
     }
 
-    return updateDynamicsVariableState();
+    return updateDynamicsVariableState(isCorrectStep);
 }
 
-bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState()
+bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState(bool isCorrectStep)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
                                "updateDynamicsVariableState]";
@@ -185,45 +185,48 @@ bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState()
         }
     }
 
-    // Update accelerometer jacobians, dJnu, rotMatrix
-    for (int idx = 0; idx < m_subModel.getAccelerometerList().size(); idx++)
+    if (isCorrectStep)
     {
-        // Update jacobian
-        if (!m_kinDyn
-                .getFrameFreeFloatingJacobian(m_subModel.getAccelerometerList()[idx].frame,
-                                              m_jacAccList[m_subModel.getAccelerometerList()[idx]
-                                              .name]))
+        // Update accelerometer jacobians, dJnu, rotMatrix
+        for (int idx = 0; idx < m_subModel.getAccelerometerList().size(); idx++)
         {
-            blf::log()->error("{} Unable to get the compute the free floating jacobian of the "
-                              "frame {}.",
-                              logPrefix,
-                              m_subModel.getAccelerometerList()[idx].frame);
-            return false;
+            // Update jacobian
+            if (!m_kinDyn
+                    .getFrameFreeFloatingJacobian(m_subModel.getAccelerometerList()[idx].frame,
+                                                  m_jacAccList[m_subModel.getAccelerometerList()[idx]
+                                                  .name]))
+            {
+                blf::log()->error("{} Unable to get the compute the free floating jacobian of the "
+                                  "frame {}.",
+                                  logPrefix,
+                                  m_subModel.getAccelerometerList()[idx].frame);
+                return false;
+            }
+
+            // Update dJnu
+            m_dJnuList[m_subModel.getAccelerometerList()[idx].name] = iDynTree::toEigen(
+                        m_kinDyn.getFrameBiasAcc(m_subModel.getAccelerometerList()[idx].frame));
+
+            // Update rotMatrix
+            m_accRworldList[m_subModel.getAccelerometerList()[idx].name] = blf::Conversions::toManifRot(
+                        m_kinDyn.getWorldTransform(m_subModel.getAccelerometerList()[idx].frame)
+                        .getRotation()
+                        .inverse());
         }
 
-        // Update dJnu
-        m_dJnuList[m_subModel.getAccelerometerList()[idx].name] = iDynTree::toEigen(
-                    m_kinDyn.getFrameBiasAcc(m_subModel.getAccelerometerList()[idx].frame));
-
-        // Update rotMatrix
-        m_accRworldList[m_subModel.getAccelerometerList()[idx].name] = blf::Conversions::toManifRot(
-                    m_kinDyn.getWorldTransform(m_subModel.getAccelerometerList()[idx].frame)
-                    .getRotation()
-                    .inverse());
-    }
-
-    // Update gyroscope jacobians
-    for (int idx = 0; idx < m_subModel.getGyroscopeList().size(); idx++)
-    {
-        if (!m_kinDyn.getFrameFreeFloatingJacobian(m_subModel.getGyroscopeList()[idx].frame,
-                                                   m_jacGyroList[m_subModel.getGyroscopeList()[idx]
-                                                   .name]))
+        // Update gyroscope jacobians
+        for (int idx = 0; idx < m_subModel.getGyroscopeList().size(); idx++)
         {
-            blf::log()->error("{} Unable to get the compute the free floating jacobian of the "
-                              "frame {}.",
-                              logPrefix,
-                              m_subModel.getGyroscopeList()[idx].frame);
-            return false;
+            if (!m_kinDyn.getFrameFreeFloatingJacobian(m_subModel.getGyroscopeList()[idx].frame,
+                                                       m_jacGyroList[m_subModel.getGyroscopeList()[idx]
+                                                       .name]))
+            {
+                blf::log()->error("{} Unable to get the compute the free floating jacobian of the "
+                                  "frame {}.",
+                                  logPrefix,
+                                  m_subModel.getGyroscopeList()[idx].frame);
+                return false;
+            }
         }
     }
 
@@ -277,7 +280,7 @@ bool RDE::SubModelKinDynWrapper::forwardDynamics(Eigen::Ref<Eigen::VectorXd> mot
     m_FTBaseAcc = m_FTranspose * baseAcceleration;
 
     m_totalTorques
-            = motorTorqueAfterGearbox - frictionTorques - m_genBiasJointTorques + tauExt + m_FTBaseAcc;
+            = motorTorqueAfterGearbox - frictionTorques - m_genBiasJointTorques + tauExt - m_FTBaseAcc;
 
     jointAcceleration = m_pseudoInverseH * m_totalTorques;
 

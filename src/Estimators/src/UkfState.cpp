@@ -6,6 +6,7 @@
  */
 
 #include <map>
+#include <execution>
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/Math/Constants.h>
@@ -20,6 +21,8 @@
 using namespace BipedalLocomotion;
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
+using namespace std::chrono;
+
 struct RDE::UkfState::Impl
 {
     bool isInitialized{false};
@@ -28,6 +31,7 @@ struct RDE::UkfState::Impl
     Eigen::Vector3d gravity{0, 0, -Math::StandardAccelerationOfGravitation}; /**< Gravity vector. */
 
     Eigen::MatrixXd covarianceQ; /**< Covariance matrix. */
+    Eigen::MatrixXd initialCovariance; /**< Initial covariance matrix. */
     std::size_t stateSize; /**< Length of the state vector. */
     double dT; /**< Sampling time */
 
@@ -107,10 +111,17 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
     m_pimpl->covarianceQ.resize(m_pimpl->stateSize, m_pimpl->stateSize);
     m_pimpl->covarianceQ.setZero();
 
+    m_pimpl->initialCovariance.resize(m_pimpl->stateSize, m_pimpl->stateSize);
+    m_pimpl->initialCovariance.setZero();
+
     for (auto& [name, dynamics] : m_pimpl->dynamicsList)
     {
         m_pimpl->covarianceQ.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
                                    handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getCovariance().asDiagonal();
+
+        m_pimpl->initialCovariance.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
+                                   handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getInitialStateCovariance().asDiagonal();
+
     }
 
     m_pimpl->jointVelocityState.resize(m_pimpl->kinDynFullModel->model().getNrOfDOFs());
@@ -201,6 +212,11 @@ std::unique_ptr<RDE::UkfState> RDE::UkfState::build(std::weak_ptr<const Paramete
             log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
             return nullptr;
         }
+        if (!dynamicsGroup->getParameter("initial_covariance", covariances))
+        {
+            log()->error("{} Unable to find the parameter 'initial_covariance'.", logPrefix);
+            return nullptr;
+        }
         if (!dynamicsGroup->getParameter("elements", dynamicsElements))
         {
             log()->error("{} Unable to find the parameter 'elements'.", logPrefix);
@@ -250,11 +266,14 @@ Eigen::MatrixXd RDE::UkfState::getNoiseCovarianceMatrix()
     return m_pimpl->covarianceQ;
 }
 
-System::VariablesHandler RDE::UkfState::getStateVariableHandler()
+System::VariablesHandler& RDE::UkfState::getStateVariableHandler()
 {
     return m_pimpl->stateVariableHandler;
 }
 
+// TODO
+// Here the cur_state has size state_size x n_sigma_points
+// this means that the computation can be parallelized
 void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_states, Eigen::Ref<Eigen::MatrixXd> prop_states)
 {
     constexpr auto logPrefix = "[UkfState::propagate]";
@@ -275,45 +294,50 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
     // Get input of ukf from provider
     m_pimpl->ukfInput = m_pimpl->ukfInputProvider->getOutput();
 
-    m_pimpl->currentState = cur_states;
+    prop_states.resize(cur_states.rows(), cur_states.cols());
 
-    m_pimpl->jointVelocityState = m_pimpl->currentState.segment(m_pimpl->stateVariableHandler.getVariable("ds").offset,
-                                                                m_pimpl->stateVariableHandler.getVariable("ds").size);
-
-    // Update kindyn full model
-    m_pimpl->kinDynFullModel->setRobotState(m_pimpl->ukfInput.robotBasePose.transform(),
-                                            m_pimpl->ukfInput.robotJointPositions,
-                                            iDynTree::make_span(m_pimpl->ukfInput.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
-                                            m_pimpl->jointVelocityState,
-                                            m_pimpl->gravity);
-
-    // Update kindyn sub-models
-    for (int subModelIdx = 0; subModelIdx < m_pimpl->subModelList.size(); subModelIdx++)
+    for (int index = 0; index < cur_states.cols(); index++)
     {
-        m_pimpl->kinDynWrapperList[subModelIdx]->updateInternalKinDynState();
-    }
+        m_pimpl->currentState = cur_states.block(0, index, cur_states.rows(), 1);
 
-    // TODO
-    // This could be parallelized
+        m_pimpl->jointVelocityState = m_pimpl->currentState.segment(m_pimpl->stateVariableHandler.getVariable("ds").offset,
+                                                                    m_pimpl->stateVariableHandler.getVariable("ds").size);
 
-    // Update all the dynamics
-    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
-    {
-        dynamics->setState(m_pimpl->currentState);
+        // Update kindyn full model
+        m_pimpl->kinDynFullModel->setRobotState(m_pimpl->ukfInput.robotBasePose.transform(),
+                                                m_pimpl->ukfInput.robotJointPositions,
+                                                iDynTree::make_span(m_pimpl->ukfInput.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
+                                                m_pimpl->jointVelocityState,
+                                                m_pimpl->gravity);
 
-        dynamics->setInput(m_pimpl->ukfInput);
-
-        if (!dynamics->update())
+        // Update kindyn sub-models
+        for (int subModelIdx = 0; subModelIdx < m_pimpl->subModelList.size(); subModelIdx++)
         {
-            log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
-            throw std::runtime_error("Error");
+            m_pimpl->kinDynWrapperList[subModelIdx]->updateInternalKinDynState(false);
         }
 
-        m_pimpl->nextState.segment(m_pimpl->stateVariableHandler.getVariable(name).offset,
-                                   m_pimpl->stateVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
-    }
+        // TODO
+        // This could be parallelized
 
-    prop_states = m_pimpl->nextState;
+        // Update all the dynamics
+        for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+        {
+            dynamics->setState(m_pimpl->currentState);
+
+            dynamics->setInput(m_pimpl->ukfInput);
+
+            if (!dynamics->update())
+            {
+                log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
+                throw std::runtime_error("Error");
+            }
+
+            m_pimpl->nextState.segment(m_pimpl->stateVariableHandler.getVariable(name).offset,
+                                       m_pimpl->stateVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
+        }
+
+        prop_states.block(0, index, cur_states.rows(), 1) = m_pimpl->nextState;
+    }
 }
 
 bfl::VectorDescription RDE::UkfState::getStateDescription()
@@ -324,4 +348,9 @@ bfl::VectorDescription RDE::UkfState::getStateDescription()
 std::size_t RDE::UkfState::getStateSize()
 {
     return m_pimpl->stateSize;
+}
+
+Eigen::Ref<Eigen::MatrixXd> RDE::UkfState::getInitialStateCovarianceMatrix()
+{
+    return m_pimpl->initialCovariance;
 }

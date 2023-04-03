@@ -64,7 +64,7 @@ private:
 
 public:
     /**
-     * Get the inputes
+     * Get the input
      * @return A struct containing the inputs for the ukf
      */
     const UKFInput& getOutput() const override;
@@ -106,6 +106,7 @@ protected:
     System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables and the sizes in the ukf state vector. */
     bool m_isStateVariableHandlerSet{false}; /**< True if setVariableHandler is called. */
     UKFInput m_ukfInput;
+    Eigen::VectorXd m_initialCovariances; /**< Vector of initial covariances. */
 
     /**
       * Controls whether the variable handler contains the variables on which the dynamics depend.
@@ -173,6 +174,12 @@ public:
      * @return the vector of covariances.
      */
     Eigen::Ref<const Eigen::VectorXd> getCovariance();
+
+    /**
+     * @brief getInitialStateCovariance access the covariance `Eigen::VectorXd` associated to the initial state.
+     * @return the vector of covariances.
+     */
+    Eigen::Ref<const Eigen::VectorXd> getInitialStateCovariance();
 
     /**
      * Destructor.

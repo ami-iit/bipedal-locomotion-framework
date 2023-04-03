@@ -108,7 +108,7 @@ TEST_CASE("UkfMeasurement")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState());
+        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     // Build the UkfState
@@ -243,7 +243,7 @@ TEST_CASE("UkfMeasurement")
 
     REQUIRE(resultOk);
 
-    Eigen::VectorXd updatedMeasurement = bfl::any::any_cast<Eigen::VectorXd&&>(std::move(updatedMeasurementTmp));
+    Eigen::VectorXd updatedMeasurement = bfl::any::any_cast<Eigen::MatrixXd&&>(std::move(updatedMeasurementTmp));
 
     for (int idx = 0; idx < updatedMeasurement.size(); idx++)
     {

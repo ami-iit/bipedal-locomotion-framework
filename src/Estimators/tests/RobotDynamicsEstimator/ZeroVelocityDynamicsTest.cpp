@@ -33,6 +33,7 @@ TEST_CASE("Zero Velocity Dynamics")
 
     parameterHandler->setParameter("name", name0);
     parameterHandler->setParameter("covariance", covariance0);
+    parameterHandler->setParameter("initial_covariance", covariance0);
     parameterHandler->setParameter("dynamic_model", model0);
     parameterHandler->setParameter("sampling_time", 0.01);
 
@@ -81,6 +82,7 @@ TEST_CASE("Zero Velocity Dynamics")
     parameterHandler->clear();
     parameterHandler->setParameter("name", name1);
     parameterHandler->setParameter("covariance", covariance1);
+    parameterHandler->setParameter("initial_covariance", covariance1);
     parameterHandler->setParameter("dynamic_model", model1);
     parameterHandler->setParameter("sampling_time", 0.01);
     parameterHandler->setParameter("use_bias", useBias);

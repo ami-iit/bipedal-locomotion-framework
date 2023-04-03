@@ -20,8 +20,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            BipedalLocomotion::Math
                            icub-models::icub-models
                            Eigen3::Eigen
-                           MANIF::manif
-                           )
+                           MANIF::manif)
 
     add_bipedal_test(NAME ZeroVelocityDynamics
                      SOURCES ZeroVelocityDynamicsTest.cpp
@@ -29,8 +28,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            BipedalLocomotion::ParametersHandler
                            BipedalLocomotion::ParametersHandlerYarpImplementation
                            icub-models::icub-models
-                           Eigen3::Eigen
-                           )
+                           Eigen3::Eigen)
 
     add_bipedal_test(NAME FrictionTorqueStateDynamics
                      SOURCES FrictionTorqueStateDynamicsTest.cpp
@@ -39,8 +37,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            BipedalLocomotion::ParametersHandlerYarpImplementation
                            BipedalLocomotion::System
                            icub-models::icub-models
-                           Eigen3::Eigen
-                           )
+                           Eigen3::Eigen)
 
     add_bipedal_test(NAME JointVelocityStateDynamics
                      SOURCES JointVelocityStateDynamicsTest.cpp
@@ -50,8 +47,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                            BipedalLocomotion::System
                            icub-models::icub-models
                            Eigen3::Eigen
-                           MANIF::manif
-                           )
+                           MANIF::manif)
 
     add_bipedal_test(NAME    AccelerometerMeasurementDynamics
                      SOURCES AccelerometerMeasurementDynamicsTest.cpp
@@ -61,8 +57,7 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                              BipedalLocomotion::System
                              icub-models::icub-models
                              Eigen3::Eigen
-                             MANIF::manif
-                     )
+                             MANIF::manif)
 
     add_bipedal_test(NAME GyroscopeMeasurementDynamics
                   SOURCES GyroscopeMeasurementDynamicsTest.cpp
@@ -72,20 +67,22 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
                           BipedalLocomotion::System
                           icub-models::icub-models
                           Eigen3::Eigen
-                          MANIF::manif
-                  )
+                          MANIF::manif)
 
     add_bipedal_test(NAME     UkfState
                      SOURCES  UkfStateTest.cpp
                      LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
-                              icub-models::icub-models
-                     )
+                              icub-models::icub-models)
 
     add_bipedal_test(NAME     UkfMeasurement
                      SOURCES  UkfMeasurementTest.cpp
                      LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
-                              icub-models::icub-models
-                     )
+                              icub-models::icub-models)
+
+    add_bipedal_test(NAME     RobotDynamicsEstimator
+                     SOURCES  RobotDynamicsEstimatorTest.cpp
+                     LINKS    BipedalLocomotion::RobotDynamicsEstimator BipedalLocomotion::ManifConversions BipedalLocomotion::ParametersHandlerYarpImplementation
+                              icub-models::icub-models)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)

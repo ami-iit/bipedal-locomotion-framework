@@ -127,6 +127,13 @@ bool RDE::JointVelocityStateDynamics::initialize(std::weak_ptr<const ParametersH
         return false;
     }
 
+    // Set the state initial covariance
+    if (!ptr->getParameter("initial_covariance", m_initialCovariances))
+    {
+        log()->error("{} Error while retrieving the initial_covariance variable.", errorPrefix);
+        return false;
+    }
+
     // Set the dynamic model type
     if (!ptr->getParameter("dynamic_model", m_dynamicModel))
     {

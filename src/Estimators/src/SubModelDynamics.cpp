@@ -6,6 +6,8 @@
  */
 
 #include <map>
+#include <numeric>
+#include <execution>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModelDynamics.h>
 
@@ -105,15 +107,7 @@ void RDE::SubModelDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukf
     for (int idx = 0; idx < subModel.getModel().getNrOfDOFs(); idx++)
     {
         jointVelocity(idx) = jointVelocityFullModel(subModel.getJointMapping().at(idx));
-    }
-
-    for (int idx = 0; idx < subModel.getModel().getNrOfDOFs(); idx++)
-    {
         motorTorque(idx) = motorTorqueFullModel(subModel.getJointMapping().at(idx));
-    }
-
-    for (int idx = 0; idx < subModel.getModel().getNrOfDOFs(); idx++)
-    {
         frictionTorque(idx) = frictionTorqueFullModel(subModel.getJointMapping().at(idx));
     }
 

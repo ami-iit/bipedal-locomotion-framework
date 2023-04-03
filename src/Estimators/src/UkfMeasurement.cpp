@@ -17,13 +17,15 @@
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
+using namespace std::chrono;
+
 struct RDE::UkfMeasurement::Impl
 {
     bool isInitialized{false};
     bool isFinalized{false};
 
-    bfl::VectorDescription measurementDescription_;
-    bfl::VectorDescription inputDescription_;
+    bfl::VectorDescription measurementDescription;
+    bfl::VectorDescription inputDescription;
 
     Eigen::Vector3d gravity{0, 0, -Math::StandardAccelerationOfGravitation}; /**< Gravity vector. */
 
@@ -46,7 +48,8 @@ struct RDE::UkfMeasurement::Impl
     Eigen::VectorXd jointVelocityState; /**< Joint velocity compute by the ukf. */
 
     Eigen::VectorXd currentState; /**< State estimated in the previous step. */
-    Eigen::VectorXd predictedMeasurement; /**< Vector containing the updated measurement. */
+    Eigen::VectorXd tempPredictedMeas;
+    Eigen::MatrixXd predictedMeasurement; /**< Vector containing the updated measurement. */
 
     Eigen::VectorXd measurement; /**< Measurements coming from the sensors. */
 
@@ -126,11 +129,12 @@ bool RDE::UkfMeasurement::finalize(const System::VariablesHandler& handler)
     m_pimpl->currentState.resize(m_pimpl->measurementSize);
     m_pimpl->currentState.setZero();
 
-    m_pimpl->predictedMeasurement.resize(m_pimpl->measurementSize);
-    m_pimpl->predictedMeasurement.setZero();
-
     m_pimpl->measurement.resize(m_pimpl->measurementSize);
     m_pimpl->measurement.setZero();
+
+    m_pimpl->tempPredictedMeas.resize(m_pimpl->measurementSize);
+
+    m_pimpl->measurementDescription = bfl::VectorDescription(m_pimpl->measurementSize);
 
     m_pimpl->isFinalized = true;
 
@@ -243,6 +247,8 @@ std::unique_ptr<RDE::UkfMeasurement> RDE::UkfMeasurement::build(std::weak_ptr<co
         measurement->m_pimpl->dynamicsList.insert({dynamicsName, dynamicsInstance});
     }
 
+    measurement->m_pimpl->inputDescription = bfl::VectorDescription(stateVariableHandler.getNumberOfVariables());
+
     // finalize estimator
     if (!measurement->finalize(measurement->m_pimpl->stateVariableHandler))
     {
@@ -265,17 +271,22 @@ std::pair<bool, Eigen::MatrixXd> RDE::UkfMeasurement::getNoiseCovarianceMatrix()
 
 bfl::VectorDescription RDE::UkfMeasurement::getMeasurementDescription() const
 {
-    return bfl::VectorDescription(m_pimpl->measurementSize);
+    return m_pimpl->measurementDescription;
 }
 
 bfl::VectorDescription RDE::UkfMeasurement::getInputDescription() const
 {
-    return bfl::VectorDescription(m_pimpl->currentState.size(), 0, m_pimpl->measurementSize);
+    return m_pimpl->inputDescription;
 }
 
+// TODO
+// Here the cur_state has size state_size x n_sigma_points
+// this means that the computation can be parallelized
 std::pair<bool, bfl::Data> RDE::UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_states) const
 {
     constexpr auto logPrefix = "[UkfMeasurement::propagate]";
+
+    m_pimpl->predictedMeasurement.resize(m_pimpl->measurementSize, cur_states.cols());
 
     // Check that everything is initialized and set
     if (!m_pimpl->isFinalized)
@@ -293,51 +304,55 @@ std::pair<bool, bfl::Data> RDE::UkfMeasurement::predictedMeasure(const Eigen::Re
     // Get input of ukf from provider
     m_pimpl->ukfInput = m_pimpl->ukfInputProvider->getOutput();
 
-    m_pimpl->currentState = cur_states;
-
-    m_pimpl->jointVelocityState = m_pimpl->currentState.segment(m_pimpl->stateVariableHandler.getVariable("ds").offset,
-                                                                m_pimpl->stateVariableHandler.getVariable("ds").size);
-
-    // Update kindyn full model
-    m_pimpl->kinDynFullModel->setRobotState(m_pimpl->ukfInput.robotBasePose.transform(),
-                                            m_pimpl->ukfInput.robotJointPositions,
-                                            iDynTree::make_span(m_pimpl->ukfInput.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
-                                            m_pimpl->jointVelocityState,
-                                            m_pimpl->gravity);
-
-    // Update kindyn sub-models
-    for (int subModelIdx = 0; subModelIdx < m_pimpl->subModelList.size(); subModelIdx++)
+    for (int index = 0; index < cur_states.cols(); index++)
     {
-        m_pimpl->kinDynWrapperList[subModelIdx]->updateInternalKinDynState();
-    }
+        m_pimpl->currentState = cur_states.block(0, index, cur_states.rows(), 1);;
 
-    // TODO
-    // This could be parallelized
+        m_pimpl->jointVelocityState = m_pimpl->currentState.segment(m_pimpl->stateVariableHandler.getVariable("ds").offset,
+                                                                    m_pimpl->stateVariableHandler.getVariable("ds").size);
 
-    // Update all the dynamics
-    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
-    {
-        dynamics->setState(m_pimpl->currentState);
+        // Update kindyn full model
+        m_pimpl->kinDynFullModel->setRobotState(m_pimpl->ukfInput.robotBasePose.transform(),
+                                                m_pimpl->ukfInput.robotJointPositions,
+                                                iDynTree::make_span(m_pimpl->ukfInput.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
+                                                m_pimpl->jointVelocityState,
+                                                m_pimpl->gravity);
 
-        dynamics->setInput(m_pimpl->ukfInput);
-
-        if (!dynamics->update())
+        // Update kindyn sub-models
+        for (int subModelIdx = 0; subModelIdx < m_pimpl->subModelList.size(); subModelIdx++)
         {
-            BipedalLocomotion::log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
-            throw std::runtime_error("Error");
+            m_pimpl->kinDynWrapperList[subModelIdx]->updateInternalKinDynState(true);
         }
 
-        m_pimpl->predictedMeasurement.segment(m_pimpl->measurementVariableHandler.getVariable(name).offset,
-                                              m_pimpl->measurementVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
+        // TODO
+        // This could be parallelized
+
+        // Update all the dynamics
+        for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+        {
+            dynamics->setState(m_pimpl->currentState);
+
+            dynamics->setInput(m_pimpl->ukfInput);
+
+            if (!dynamics->update())
+            {
+                BipedalLocomotion::log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
+                throw std::runtime_error("Error");
+            }
+
+            m_pimpl->tempPredictedMeas.segment(m_pimpl->measurementVariableHandler.getVariable(name).offset,
+                                                  m_pimpl->measurementVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
+        }
+        m_pimpl->predictedMeasurement.block(0, index, m_pimpl->measurementSize, 1) = m_pimpl->tempPredictedMeas;
+
     }
 
-    return std::make_pair(true, std::move(m_pimpl->predictedMeasurement));
+    return std::make_pair(true, m_pimpl->predictedMeasurement);
 }
 
 std::pair<bool, bfl::Data> RDE::UkfMeasurement::innovation(const bfl::Data& predicted_measurements, const bfl::Data& measurements) const
 {
-    Eigen::MatrixXd innovation = -(bfl::any::any_cast<Eigen::MatrixXd>(predicted_measurements).colwise()
-                                   - bfl::any::any_cast<Eigen::MatrixXd>(measurements).col(0));
+    Eigen::MatrixXd innovation = -(bfl::any::any_cast<Eigen::MatrixXd>(predicted_measurements).colwise() - bfl::any::any_cast<Eigen::VectorXd>(measurements));
 
     return std::make_pair(true, std::move(innovation));
 }
@@ -347,7 +362,7 @@ std::size_t RDE::UkfMeasurement::getMeasurementSize()
     return m_pimpl->measurementSize;
 }
 
-BipedalLocomotion::System::VariablesHandler RDE::UkfMeasurement::getMeasurementVariableHandler()
+BipedalLocomotion::System::VariablesHandler& RDE::UkfMeasurement::getMeasurementVariableHandler()
 {
     return m_pimpl->measurementVariableHandler;
 }
@@ -370,6 +385,8 @@ bool RDE::UkfMeasurement::freeze(const bfl::Data& data)
     {
         m_pimpl->offsetMeasurement = m_pimpl->measurementVariableHandler.getVariable(name).offset;
 
+        // If more sub-models share the same accelerometer or gyroscope sensor, the measurement vector is concatenated
+        // a number of times equal to the number of sub-models using the sensor.
         while(m_pimpl->offsetMeasurement < (m_pimpl->measurementVariableHandler.getVariable(name).offset + m_pimpl->measurementVariableHandler.getVariable(name).size))
         {
             m_pimpl->measurement.segment(m_pimpl->offsetMeasurement, m_pimpl->measurementMap[name].size())

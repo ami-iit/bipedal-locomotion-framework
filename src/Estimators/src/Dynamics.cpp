@@ -72,3 +72,8 @@ bool RDE::Dynamics::checkStateVariableHandler()
 {
     return true;
 }
+
+Eigen::Ref<const Eigen::VectorXd> RDE::Dynamics::getInitialStateCovariance()
+{
+    return m_initialCovariances;
+}

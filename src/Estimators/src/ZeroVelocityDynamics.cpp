@@ -35,6 +35,12 @@ bool RDE::ZeroVelocityDynamics::initialize(std::weak_ptr<const ParametersHandler
         return false;
     }
 
+    // Set the state initial covariance
+    if (!ptr->getParameter("initial_covariance", m_initialCovariances))
+    {
+        log()->debug("{} Variable initial_covariance not found.", errorPrefix);
+    }
+
     // Set the dynamic model type
     if (!ptr->getParameter("dynamic_model", m_dynamicModel))
     {
@@ -45,14 +51,14 @@ bool RDE::ZeroVelocityDynamics::initialize(std::weak_ptr<const ParametersHandler
     // Set the list of elements if it exists
     if (!ptr->getParameter("elements", m_elements))
     {
-        log()->info("{} Variable elements not found.", errorPrefix);
+        log()->debug("{} Variable elements not found.", errorPrefix);
         m_elements = {};
     }
 
     // Set the bias related variables if use_bias is true
     if (!ptr->getParameter("use_bias", m_useBias))
     {
-        log()->info("{} Variable use_bias not found. Set to false by default.", errorPrefix);
+        log()->debug("{} Variable use_bias not found. Set to false by default.", errorPrefix);
     }
     else
     {

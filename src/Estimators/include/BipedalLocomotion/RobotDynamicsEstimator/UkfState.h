@@ -153,7 +153,7 @@ public:
      * @brief getStateVariableHandler access the `System::VariablesHandler` instance created during the initialization phase.
      * @return the state variable handler containing all the state variables and their sizes and offsets.
      */
-    System::VariablesHandler getStateVariableHandler();
+    System::VariablesHandler& getStateVariableHandler();
 
     /**
      * @brief propagate implements the predict of the ukf
@@ -182,10 +182,16 @@ public:
     bfl::VectorDescription getStateDescription() override;
 
     /**
-     * @brief getStateSize access the length of the state vector
-     * @return the length of state vector
+     * @brief getStateSize access the length of the state vector.
+     * @return the length of state vector.
      */
     std::size_t getStateSize();
+
+    /**
+     * @brief getInitialStateCovarianceMatrix access the `Eigen::MatrixXd` representing the initial state covariance matrix.
+     * @return a Eigen reference to the Eigen Matrix covariance.
+     */
+    Eigen::Ref<Eigen::MatrixXd> getInitialStateCovarianceMatrix();
 
 }; // class UKFModel
 

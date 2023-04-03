@@ -157,7 +157,7 @@ public:
      * @brief getMeasurementVariableHandler access the `System::VariablesHandler` instance created during the initialization phase.
      * @return the measurement variable handler containing all the measurement variables and their sizes and offsets.
      */
-    System::VariablesHandler getMeasurementVariableHandler();
+    System::VariablesHandler& getMeasurementVariableHandler();
 
     /**
      * @brief predictedMeasure predict the new measurement depending on the state computed by the predict step.
