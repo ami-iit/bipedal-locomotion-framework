@@ -46,6 +46,10 @@
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Contact
 
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpContact
+#include <BipedalLocomotion/bindings/Contacts/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpContact
+
 @cmakeif FRAMEWORK_COMPILE_Planners
 #include <BipedalLocomotion/bindings/Planners/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Planners
@@ -138,6 +142,10 @@ PYBIND11_MODULE(bindings, m)
     py::module contactsModule = m.def_submodule("contacts");
     bindings::Contacts::CreateModule(contactsModule);
     @endcmakeif FRAMEWORK_COMPILE_Contact
+
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpContact
+    bindings::Contacts::CreateYarpModule(contactsModule);
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpContact
 
     @cmakeif FRAMEWORK_COMPILE_Planners
     py::module plannersModule = m.def_submodule("planners");

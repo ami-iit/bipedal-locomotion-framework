@@ -13,4 +13,14 @@ if(FRAMEWORK_COMPILE_Contact)
     LINK_LIBRARIES BipedalLocomotion::Contacts BipedalLocomotion::ContactDetectors
     TESTS tests/test_contact.py tests/test_schmitt_trigger_detector.py)
 
+  if(FRAMEWORK_COMPILE_YarpImplementation)
+
+    add_bipedal_locomotion_python_module(
+      NAME  ContactsYarpImplementationBindings
+      SOURCES src/ContactsYarpMsg.cpp src/YarpModule.cpp
+      HEADERS ${H_PREFIX}/ContactsYarpMsg.h ${H_PREFIX}/YarpModule.h
+      LINK_LIBRARIES BipedalLocomotion::ContactsYarpImplementation)
+
+  endif()
+
 endif()

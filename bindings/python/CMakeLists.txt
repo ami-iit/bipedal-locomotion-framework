@@ -40,6 +40,14 @@ else ()
 endif()
 mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_RosSystem)
 
+if (FRAMEWORK_COMPILE_Contact AND FRAMEWORK_COMPILE_YarpImplementation)
+  set(FRAMEWORK_COMPILE_BINDINGS_YarpContact ON)
+else ()
+  set(FRAMEWORK_COMPILE_BINDINGS_YarpContact OFF)
+endif()
+mark_as_advanced(FRAMEWORK_COMPILE_BINDINGS_YarpContact)
+
+
 configure_file_with_cmakeif(${CMAKE_CURRENT_SOURCE_DIR}/bipedal_locomotion_framework.cpp.in
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp
   @ONLY)
