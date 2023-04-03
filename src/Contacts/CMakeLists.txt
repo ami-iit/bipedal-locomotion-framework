@@ -7,7 +7,7 @@ if (FRAMEWORK_COMPILE_Contact)
   set(H_PREFIX include/BipedalLocomotion/Contacts)
   add_bipedal_locomotion_library(
     NAME                  Contacts
-    SUBDIRECTORIES        tests/Contacts
+    SUBDIRECTORIES        YarpImplementation tests/Contacts tests/YarpImplementation
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h ${H_PREFIX}/ContactListJsonParser.h
     SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp src/ContactListJsonParser.cpp
     PUBLIC_LINK_LIBRARIES MANIF::manif BipedalLocomotion::Math BipedalLocomotion::TextLogging
@@ -15,7 +15,7 @@ if (FRAMEWORK_COMPILE_Contact)
     INSTALLATION_FOLDER   Contacts)
 
   set(H_PREFIX include/BipedalLocomotion/ContactDetectors)
-    add_bipedal_locomotion_library(
+  add_bipedal_locomotion_library(
     NAME                   ContactDetectors
     SUBDIRECTORIES         tests/ContactDetectors
     SOURCES                src/ContactDetector.cpp src/SchmittTriggerDetector.cpp src/FixedFootDetector.cpp
