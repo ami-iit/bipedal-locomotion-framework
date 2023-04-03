@@ -235,6 +235,20 @@ public:
      * @brief Remove only the last contact.
      */
     void removeLastContact();
+
+    /**
+     * @brief The equality operator.
+     * @param other The other object used for the comparison.
+     * @return True if the contact lists are the same, false otherwise.
+     */
+    [[nodiscard]] bool operator==(const ContactList& other) const;
+
+    /**
+     * @brief The inequality operator.
+     * @param other The other object used for the comparison.
+     * @return True if the contact lists are different, false otherwise.
+     */
+    [[nodiscard]] bool operator!=(const ContactList& other) const;
 };
 
 /**

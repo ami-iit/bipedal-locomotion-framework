@@ -259,3 +259,18 @@ void ContactList::removeLastContact()
 {
     erase(lastContact());
 }
+
+bool ContactList::operator==(const ContactList& other) const
+{
+    bool same = other.size() == this->size();
+    same = same && other.m_defaultName == this->m_defaultName;
+    same = same && other.m_defaultContactType == this->m_defaultContactType;
+    same = same && other.m_defaultIndex == this->m_defaultIndex;
+    same = same && other.m_contacts == this->m_contacts;
+    return same;
+}
+
+bool ContactList::operator!=(const ContactList& other) const
+{
+    return !this->operator==(other);
+}
