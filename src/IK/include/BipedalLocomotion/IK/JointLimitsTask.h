@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_IK_JOINT_LIMITS_TASK_H
 #define BIPEDAL_LOCOMOTION_IK_JOINT_LIMITS_TASK_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -48,7 +49,7 @@ class JointLimitsTask : public IKLinearTask
 
     bool m_isLimitConsideredForAllJoints{false};
 
-    double m_samplingTime;
+    std::chrono::nanoseconds m_samplingTime;
 
     std::string m_robotVelocityVariableName;
 

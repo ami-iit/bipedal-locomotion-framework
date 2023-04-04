@@ -129,7 +129,7 @@ bool FixedBaseDynamics::setMassMatrixRegularization(const Eigen::Ref<const Eigen
     return true;
 }
 
-bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDerivative)
+bool FixedBaseDynamics::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::dynamics]";
 

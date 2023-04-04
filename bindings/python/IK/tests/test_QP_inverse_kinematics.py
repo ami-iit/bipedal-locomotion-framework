@@ -8,6 +8,8 @@ import numpy as np
 import icub_models
 import idyntree.swig as idyn
 
+from datetime import timedelta
+
 def test_custom_task():
     class CustomTask(blf.ik.IKLinearTask):
         def __init__(self):
@@ -183,7 +185,7 @@ def test_joint_limits_task():
     joint_limits_param_handler.set_parameter_bool(name="use_model_limits",value=False)
     joint_limits_param_handler.set_parameter_vector_float(name="upper_limits",value=np.array(joint_values) + 0.01)
     joint_limits_param_handler.set_parameter_vector_float(name="lower_limits",value=np.array(joint_values) - 0.01)
-    joint_limits_param_handler.set_parameter_float(name="sampling_time",value=0.01)
+    joint_limits_param_handler.set_parameter_datetime(name="sampling_time",value=timedelta(milliseconds=10))
 
     # Initialize the task
     joint_limits_task = blf.ik.JointLimitsTask()

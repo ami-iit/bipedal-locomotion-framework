@@ -43,7 +43,7 @@ bool CentroidalDynamics::initialize(std::weak_ptr<const IParametersHandler> hand
     return true;
 }
 
-bool CentroidalDynamics::dynamics(const double& time, StateDerivative& stateDerivative)
+bool CentroidalDynamics::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     using namespace BipedalLocomotion::GenericContainer::literals;
 

@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -145,7 +146,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 
     /**
      * Set the state of the dynamical system.

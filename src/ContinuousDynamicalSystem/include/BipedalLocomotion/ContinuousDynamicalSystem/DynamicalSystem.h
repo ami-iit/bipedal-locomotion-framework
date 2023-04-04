@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_DYNAMICAL_SYSTEM_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_DYNAMICAL_SYSTEM_H
 
+#include <chrono>
 #include <memory>
 #include <tuple>
 
@@ -132,7 +133,7 @@ public:
      * @warning Please implement the function in your custom dynamical system.
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 };
 
 template <class _Derived>
@@ -160,7 +161,7 @@ bool DynamicalSystem<_Derived>::setControlInput(const typename DynamicalSystem<_
 }
 
 template <class _Derived>
-bool DynamicalSystem<_Derived>::dynamics(const double& time, StateDerivative& stateDerivative)
+bool DynamicalSystem<_Derived>::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     return this->derived().dynamics(time, stateDerivative);
 }

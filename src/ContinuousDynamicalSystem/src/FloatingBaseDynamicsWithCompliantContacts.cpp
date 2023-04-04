@@ -143,7 +143,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::setMassMatrixRegularization(
     return true;
 }
 
-bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
+bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const std::chrono::nanoseconds& time,
                                                          StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::dynamics]";

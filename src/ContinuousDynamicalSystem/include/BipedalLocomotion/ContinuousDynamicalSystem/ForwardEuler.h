@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FORWARD_EULER_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FORWARD_EULER_H
 
+#include <chrono>
 #include <tuple>
 #include <type_traits>
 
@@ -63,20 +64,22 @@ private:
 
     template <std::size_t I = 0>
     inline typename std::enable_if<I == std::tuple_size<State>::value, void>::type
-    addArea(const StateDerivative& dx, const double& dT, State& x)
+    addArea(const StateDerivative& dx, const std::chrono::nanoseconds& dT, State& x)
     {
         static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
     }
 
     template <std::size_t I = 0>
     inline typename std::enable_if<(I < std::tuple_size<State>::value), void>::type
-    addArea(const StateDerivative& dx, const double& dT, State& x)
+    addArea(const StateDerivative& dx, const std::chrono::nanoseconds& dT, State& x)
     {
         static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
 
         // the order matters since we assume that all the velocities are left trivialized.
         using std::get;
-        get<I>(x) = (get<I>(dx) * dT) + get<I>(x);
+
+        // convert the dT in seconds
+        get<I>(x) = (get<I>(dx) * std::chrono::duration<double>(dT).count()) + get<I>(x);
         addArea<I + 1>(dx, dT, x);
     }
 
@@ -87,11 +90,12 @@ public:
      * @param dT sampling time.
      * @return true in case of success, false otherwise.
      */
-     bool oneStepIntegration(double t0, double dT);
+    bool oneStepIntegration(const std::chrono::nanoseconds& t0, const std::chrono::nanoseconds& dT);
 };
 
 template <class _DynamicalSystem>
-bool ForwardEuler<_DynamicalSystem>::oneStepIntegration(double t0, double dT)
+bool ForwardEuler<_DynamicalSystem>::oneStepIntegration(const std::chrono::nanoseconds& t0,
+                                                        const std::chrono::nanoseconds& dT)
 {
     constexpr auto errorPrefix = "[ForwardEuler::oneStepIntegration]";
     if (this->m_dynamicalSystem == nullptr)

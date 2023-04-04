@@ -6,25 +6,23 @@
  */
 
 // Catch2
-#include "BipedalLocomotion/System/ConstantWeightProvider.h"
 #include <catch2/catch.hpp>
 
 // std
+#include <chrono>
 #include <memory>
 #include <random>
 
 // BipedalLocomotion
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/System/VariablesHandler.h>
-
-#include <BipedalLocomotion/TSID/JointTrackingTask.h>
-#include <BipedalLocomotion/TSID/SE3Task.h>
-
-#include <BipedalLocomotion/TSID/QPFixedBaseTSID.h>
-
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <BipedalLocomotion/System/ConstantWeightProvider.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/TSID/JointTrackingTask.h>
+#include <BipedalLocomotion/TSID/QPFixedBaseTSID.h>
+#include <BipedalLocomotion/TSID/SE3Task.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/ModelTestUtils.h>
@@ -34,11 +32,12 @@ using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::Conversions;
 using namespace BipedalLocomotion::TSID;
+using namespace std::chrono_literals;
 
 constexpr auto robotAcceleration = "robotAccelration";
 constexpr auto jointTorques = "jointTorques";
 constexpr int maxNumOfContacts = 0;
-constexpr double dT = 0.01;
+constexpr std::chrono::nanoseconds dT = 10ms;
 
 struct TSIDAndTasks
 {
@@ -292,7 +291,7 @@ TEST_CASE("QP-TSID")
 
                 // propagate the dynamical system
                 system.dynamics->setControlInput({tsidAndTasks.tsid->getOutput().jointTorques});
-                system.integrator->integrate(0, dT);
+                system.integrator->integrate(0s, dT);
             }
 
             // Check the end-effector pose error

@@ -8,10 +8,11 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_CENROIDAL_DYNAMICS_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_CENROIDAL_DYNAMICS_H
 
+#include <chrono>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
-#include <unordered_map>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
@@ -29,8 +30,8 @@ namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
 {
 template <> struct traits<CentroidalDynamics>
 {
-    using Contacts = std::unordered_map<std::string, //
-                                        BipedalLocomotion::Contacts::DiscreteGeometryContact>;
+    using Contacts = std::map<std::string, //
+                              BipedalLocomotion::Contacts::DiscreteGeometryContact>;
     using ExternalForce = std::optional<Eigen::Vector3d>;
 
     using State = GenericContainer::named_tuple<BLF_NAMED_PARAM(com_pos, Eigen::Vector3d),
@@ -127,7 +128,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 
     /**
      * Set the state of the dynamical system.

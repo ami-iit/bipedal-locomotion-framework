@@ -30,7 +30,7 @@ bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<const IParametersHan
     return true;
 }
 
-bool FloatingBaseSystemKinematics::dynamics(const double& time,
+bool FloatingBaseSystemKinematics::dynamics(const std::chrono::nanoseconds& time,
                                             StateDerivative& stateDerivative)
 {
     using namespace BipedalLocomotion::GenericContainer::literals;

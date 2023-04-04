@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <types.h>
 #include <vector>
 
@@ -154,9 +155,11 @@ bool JointLimitsTask::initialize(
         return false;
     }
 
-    if (!ptr->getParameter("sampling_time", m_samplingTime) || m_samplingTime < 0)
+    if (!ptr->getParameter("sampling_time", m_samplingTime)
+        || m_samplingTime <= std::chrono::nanoseconds::zero())
     {
-        log()->error("{} Error while retrieving the 'sampling_time'. Please remember that must be a "
+        log()->error("{} Error while retrieving the 'sampling_time'. Please remember that must be "
+                     "a "
                      "positive number",
                      errorPrefix);
         return false;
@@ -202,6 +205,8 @@ bool JointLimitsTask::update()
 
     m_isValid = false;
 
+    const double dT = std::chrono::duration<double>(m_samplingTime).count();
+
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
         log()->error("{} Unable to get the joint position.", errorPrefix);
@@ -211,10 +216,10 @@ bool JointLimitsTask::update()
     if (m_isLimitConsideredForAllJoints)
     {
         m_b.head(m_kinDyn->getNrOfDegreesOfFreedom()).noalias()
-            = m_klim.asDiagonal() * (m_upperLimits - m_jointPosition) / m_samplingTime;
+            = m_klim.asDiagonal() * (m_upperLimits - m_jointPosition) / dT;
 
         m_b.tail(m_kinDyn->getNrOfDegreesOfFreedom()).noalias()
-            = m_klim.asDiagonal() * (-m_lowerLimits + m_jointPosition) / m_samplingTime;
+            = m_klim.asDiagonal() * (-m_lowerLimits + m_jointPosition) / dT;
     } else
     {
         Eigen::DenseBase<Eigen::Matrix<double, -1, 1, 0, -1, 1>>::SegmentReturnType upperLimitPart
@@ -227,7 +232,7 @@ bool JointLimitsTask::update()
             if (m_upperLimits[i] == OsqpEigen::INFTY)
             {
                 upperLimitPart(i) = m_klim(i) * (m_upperLimits(i) - m_jointPosition(i)) //
-                                    / m_samplingTime;
+                                    / dT;
             }
         }
         for (int i = 0; i < m_lowerLimits.size(); i++)
@@ -235,7 +240,7 @@ bool JointLimitsTask::update()
             if (m_lowerLimits[i] == -OsqpEigen::INFTY)
             {
                 lowerLimitPart(i) = m_klim(i) * (m_lowerLimits(i) - m_jointPosition(i)) //
-                                    / m_samplingTime;
+                                    / dT;
             }
         }
     }

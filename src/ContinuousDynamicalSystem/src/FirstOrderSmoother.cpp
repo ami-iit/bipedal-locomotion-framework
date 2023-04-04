@@ -11,6 +11,7 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <Eigen/Dense>
+#include <chrono>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
@@ -32,7 +33,7 @@ bool FirstOrderSmoother::initialize(
         return false;
     }
 
-    double samplingTime{-1};
+    std::chrono::nanoseconds samplingTime;
     if (!ptr->getParameter("sampling_time", samplingTime))
     {
         log()->error("{} Unable to get the 'sampling_time' parameter.", logPrefix);
@@ -105,7 +106,8 @@ bool FirstOrderSmoother::advance()
         return false;
     }
 
-    if (!m_integrator.integrate(0, m_integrator.getIntegrationStep()))
+    using namespace std::chrono_literals;
+    if (!m_integrator.integrate(0s, m_integrator.getIntegrationStep()))
     {
         log()->error("[FirstOrderSmoother::advance] Unable to propagate the dynamical system.");
         return false;

@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_BINDINGS_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 #define BIPEDAL_LOCOMOTION_BINDINGS_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 
+#include <chrono>
 #include <memory>
 #include <string>
 
@@ -15,6 +16,7 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h>
 
+#include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -92,7 +94,7 @@ void CreateFixedStepIntegrator(pybind11::module& module, const std::string& name
         .def("get_integration_step", &FixedStepIntegrator<_Derived>::getIntegrationStep)
         .def_property("integration_step",
                       &FixedStepIntegrator<_Derived>::getIntegrationStep,
-                      [](FixedStepIntegrator<_Derived>& impl, double dt) {
+                      [](FixedStepIntegrator<_Derived>& impl, const std::chrono::nanoseconds& dt) {
                           if (!impl.setIntegrationStep(dt))
                           {
                               throw py::value_error("Invalid integration step.");

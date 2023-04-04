@@ -34,7 +34,7 @@ bool LinearTimeInvariantSystem::setSystemMatrices(const Eigen::Ref<const Eigen::
     return true;
 }
 
-bool LinearTimeInvariantSystem::dynamics(const double& time, StateDerivative& stateDerivative)
+bool LinearTimeInvariantSystem::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     constexpr auto errorPrefix = "[LinearTimeInvariantSystem::dynamics]";
 

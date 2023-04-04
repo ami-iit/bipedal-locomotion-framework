@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 
+#include <chrono>
 #include <memory>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
@@ -81,7 +82,8 @@ public:
      * @param finalTime final time of the integration.
      * @return true in case of success, false otherwise.
      */
-    bool integrate(double initialTime, double finalTime);
+    bool integrate(const std::chrono::nanoseconds& initialTime,
+                   const std::chrono::nanoseconds& finalTime);
 };
 
 template <class _Derived>
@@ -119,7 +121,9 @@ const typename Integrator<_Derived>::State& Integrator<_Derived>::getSolution() 
     return m_dynamicalSystem->getState();
 }
 
-template <class _Derived> bool Integrator<_Derived>::integrate(double initialTime, double finalTime)
+template <class _Derived>
+bool Integrator<_Derived>::integrate(const std::chrono::nanoseconds& initialTime,
+                                     const std::chrono::nanoseconds& finalTime)
 {
     return static_cast<_Derived*>(this)->integrate(initialTime, finalTime);
 }
