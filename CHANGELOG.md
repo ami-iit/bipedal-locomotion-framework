@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Add the support of `std::chrono` in The text logging (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to retrieve and set duration from the `IParametersHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/630)
 - Add the possibility to update the contact list in the swing foot trajectory planner (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
+- Add the possibility to send the PlannedContact, ContactList and ContactListMap as yarp messages (https://github.com/ami-iit/bipedal-locomotion-framework/pull/644)
 
 ### Changed
 - Update the `IK tutorial` to use `QPInverseKinematics::build` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/621)
