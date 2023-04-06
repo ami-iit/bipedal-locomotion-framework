@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FIXED_STEP_INTEGRATOR_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FIXED_STEP_INTEGRATOR_H
 
+#include <chrono>
 #include <cmath>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h>
@@ -43,20 +44,20 @@ public:
     using StateDerivative = typename internal::traits<FixedStepIntegrator<_Derived>>::StateDerivative;
 
 protected:
-    double m_dT{-1}; /**< Fixed step size */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::min()}; /**< Fixed step size */
 
 public:
     /**
      * Set the integration step time
      * @param dT integration step time
      */
-    bool setIntegrationStep(const double& dT);
+    bool setIntegrationStep(const std::chrono::nanoseconds& dT);
 
     /**
      * get the integration step time
      * @return the integration step time
      */
-    double getIntegrationStep() const;
+     const std::chrono::nanoseconds& getIntegrationStep() const;
 
     /**
      * Integrate the dynamical system from initialTime to finalTime.
@@ -65,12 +66,13 @@ public:
      * @param finalTime final time of the integration.
      * @return true in case of success, false otherwise.
      */
-    bool integrate(double initialTime, double finalTime);
+    bool integrate(const std::chrono::nanoseconds& initialTime,
+                   const std::chrono::nanoseconds& finalTime);
 };
 
-template <class _Derived> bool FixedStepIntegrator<_Derived>::setIntegrationStep(const double& dT)
+template <class _Derived> bool FixedStepIntegrator<_Derived>::setIntegrationStep(const std::chrono::nanoseconds& dT)
 {
-    if (dT <= 0)
+    if (dT <= std::chrono::nanoseconds::zero())
     {
         log()->error("[FixedStepIntegrator::setIntegrationStep] The integration must be a strict "
                      "positive number");
@@ -82,13 +84,15 @@ template <class _Derived> bool FixedStepIntegrator<_Derived>::setIntegrationStep
     return true;
 }
 
-template <class _Derived> double FixedStepIntegrator<_Derived>::getIntegrationStep() const
+template <class _Derived>
+const std::chrono::nanoseconds& FixedStepIntegrator<_Derived>::getIntegrationStep() const
 {
     return m_dT;
 }
 
 template <class _Derived>
-bool FixedStepIntegrator<_Derived>::integrate(double initialTime, double finalTime)
+bool FixedStepIntegrator<_Derived>::integrate(const std::chrono::nanoseconds& initialTime,
+                                              const std::chrono::nanoseconds& finalTime)
 {
     constexpr auto errorPrefix = "[FixedStepIntegrator::integrate]";
 
@@ -104,15 +108,14 @@ bool FixedStepIntegrator<_Derived>::integrate(double initialTime, double finalTi
         return false;
     }
 
-    if (m_dT <= 0)
+    if (m_dT <= std::chrono::nanoseconds::zero())
     {
         log()->error("{} Please set the integration step.", errorPrefix);
         return false;
     }
 
-    int iterations = std::ceil((finalTime - initialTime) / m_dT);
-
-    double currentTime = initialTime;
+    const std::size_t iterations = (finalTime - initialTime) / m_dT;
+    std::chrono::nanoseconds currentTime = initialTime;
     for (std::size_t i = 0; i < iterations - 1; i++)
     {
         // advance the current time
@@ -126,7 +129,7 @@ bool FixedStepIntegrator<_Derived>::integrate(double initialTime, double finalTi
     }
 
     // Consider last step separately to be sure that the last solution point is in finalTime
-    const double dT = finalTime - currentTime;
+    const std::chrono::nanoseconds dT = finalTime - currentTime;
     if (!static_cast<_Derived*>(this)->oneStepIntegration(currentTime, dT))
     {
         log()->error("{} Error while integrating the last step.", errorPrefix);

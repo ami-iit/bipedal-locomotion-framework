@@ -163,7 +163,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Unicycle
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
   "Compile System ContinuousDynamicalSystem?" ON
-  "FRAMEWORK_COMPILE_ContactModels;FRAMEWORK_COMPILE_Math" OFF)
+  "FRAMEWORK_COMPILE_ContactModels;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
   "Compile CppAD-Eigen wrapper?" ON

@@ -13,6 +13,7 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 
 #include <Eigen/Dense>
 
@@ -27,11 +28,16 @@ class LinearTimeInvariantSystem;
 }
 }
 
-// Define the internal structure of the System
-BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(LinearTimeInvariantSystem,
-                                                         (Eigen::VectorXd),
-                                                         (Eigen::VectorXd),
-                                                         (Eigen::VectorXd));
+namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
+{
+template <> struct traits<LinearTimeInvariantSystem>
+{
+    using State = GenericContainer::named_tuple<BLF_NAMED_PARAM(x, Eigen::VectorXd)>;
+    using StateDerivative = GenericContainer::named_tuple<BLF_NAMED_PARAM(dx, Eigen::VectorXd)>;
+    using Input = GenericContainer::named_tuple<BLF_NAMED_PARAM(u, Eigen::VectorXd)>;
+    using DynamicalSystem = LinearTimeInvariantSystem;
+};
+} // namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
 
 namespace BipedalLocomotion
 {
@@ -42,13 +48,21 @@ namespace ContinuousDynamicalSystem
  * LinearTimeInvariantSystem describes a MIMO linear time invariant system of the form \f$\dot{x} =
  * Ax + Bu\f$ where \a x is the state and \a u the control input. The state, its derivative and the
  * control input are described by vectors
- * The LinearTimeInvariantSystem inherits from a generic DynamicalSystem where:
- * - DynamicalSystem::State is described by an std::tuple containing:
- *   - Eigen::VectorXd: a generic state.
- * - DynamicalSystem::StateDerivative is described by an std::tuple containing:
- *   - Eigen::VectorXd: a generic state derivative.
- * - DynamicalSystem::Input is described by an std::tuple containing:
- *   - Eigen::VectorXd: a generic control input.
+ * The LinearTimeInvariantSystem inherits from a generic DynamicalSystem where the State is
+ * described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |                     Description                   |
+ * |:----:|:-----------------:|:-------------------------------------------------:|
+ * |  `x` | `Eigen::VectorXd` | A generic vector belonging to \f$\mathbb{R}^n\f$  |
+ *
+ * The `StateDerivative` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |                         Description                        |
+ * |:----:|:-----------------:|:----------------------------------------------------------:|
+ * | `dx` | `Eigen::VectorXd` | A state vector derivative belonging to \f$\mathbb{R}^n\f$  |
+ *
+ * The `Input` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |                     Description                   |
+ * |:----:|:-----------------:|:-------------------------------------------------:|
+ * |  `u` | `Eigen::VectorXd` | A control vector belonging to \f$\mathbb{R}^m\f$  |
  */
 class LinearTimeInvariantSystem : public DynamicalSystem<LinearTimeInvariantSystem>
 {
@@ -75,7 +89,7 @@ public:
      * @param handler pointer to the parameter handler.
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the state of the dynamical system.
@@ -107,7 +121,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 };
 
 } // namespace ContinuousDynamicalSystem

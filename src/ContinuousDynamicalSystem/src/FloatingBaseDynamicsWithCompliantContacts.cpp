@@ -18,7 +18,8 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseDynamicsWithCompliantContacts::initialize(
+    std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::initialize]";
 
@@ -142,7 +143,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::setMassMatrixRegularization(
     return true;
 }
 
-bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
+bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const std::chrono::nanoseconds& time,
                                                          StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::dynamics]";

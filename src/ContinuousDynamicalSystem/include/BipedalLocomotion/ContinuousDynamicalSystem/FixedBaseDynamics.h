@@ -8,10 +8,10 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FIXED_BASE_DYNAMICS_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FIXED_BASE_DYNAMICS_H
 
+#include <chrono>
 #include <memory>
 #include <tuple>
 #include <vector>
-
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
@@ -30,33 +30,44 @@ class FixedBaseDynamics;
 }
 } // namespace BipedalLocomotion
 
+namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
+{
+template <> struct traits<FixedBaseDynamics>
+{
+    using State = GenericContainer::named_tuple<BLF_NAMED_PARAM(s, Eigen::VectorXd),
+                                      BLF_NAMED_PARAM(ds, Eigen::VectorXd)>;
+    using StateDerivative = GenericContainer::named_tuple<BLF_NAMED_PARAM(ds, Eigen::VectorXd),
+                                                BLF_NAMED_PARAM(dds, Eigen::VectorXd)>;
+    using Input = GenericContainer::named_tuple<BLF_NAMED_PARAM(tau, Eigen::VectorXd)>;
+    using DynamicalSystem = FixedBaseDynamics;
+};
+} // namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
 
-// Please read it as
-// BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
-//     FixedBaseDynamics,
-//     (joint velocities, joint positions),
-//     (joint accelerations, joints velocities),
-//     (joint torques)
-BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(FixedBaseDynamics,
-                                                         (Eigen::VectorXd, Eigen::VectorXd),
-                                                         (Eigen::VectorXd, Eigen::VectorXd),
-                                                         (Eigen::VectorXd));
 
 namespace BipedalLocomotion
 {
 namespace ContinuousDynamicalSystem
 {
+
 /**
- * FixedBaseDynamics describes a fixed base dynamical system.
- * The FixedBaseDynamics inherits from a generic DynamicalSystem where:
- * - DynamicalSystem::State is described by an std::tuple containing:
- *   - Eigen::VectorXd: the joint velocities [in rad/s];
- *   - Eigen::VectorXd: the joint positions [in rad].
- * - DynamicalSystem::StateDerivative is described by an std::tuple containing:
- *   - Eigen::VectorXd: the joint accelerations [in rad/s^2];
- *   - Eigen::VectorXd: the joint velocities [in rad/s].
- * - DynamicalSystem::Input is described by an std::tuple containing:
- *   - Eigen::VectorXd: the joint torques [in Nm];
+ * FixedBaseDynamics describes a the dynamics of a fixed base system
+ * The FixedBaseDynamics inherits from a generic DynamicalSystem where the State is
+ * described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |         Description         |
+ * |:----:|:-----------------:|:---------------------------:|
+ * |  `s` | `Eigen::VectorXd` |  Joint positions [in rad]  |
+ * | `ds` | `Eigen::VectorXd` | Joint velocities [in rad/s] |
+ *
+ * The `StateDerivative` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |            Description           |
+ * |:----:|:-----------------:|:--------------------------------:|
+ * | `ds` | `Eigen::VectorXd` |     Joint velocities [in rad]    |
+ * | dds` | `Eigen::VectorXd` | Joint accelerations [in rad/s^2] |
+ *
+ * The `Input` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |            Description           |
+ * |:----:|:-----------------:|:--------------------------------:|
+ * |`tau` | `Eigen::VectorXd` |      Joint torque [in N/m]       |
  */
 class FixedBaseDynamics : public DynamicalSystem<FixedBaseDynamics>
 {
@@ -91,7 +102,7 @@ public:
      * |  `base_link`  | `string` |  Name of the link considered as fixed base in the model. If not defined the default link will be used. Please check [here](https://robotology.github.io/idyntree/master/classiDynTree_1_1Model.html#a1a8dc1c97b99ffc51dbf93ecff20e8c1)    |    No     |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the model of the robot.
@@ -118,7 +129,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 
     /**
      * Set the state of the dynamical system.

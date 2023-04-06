@@ -4,12 +4,14 @@ import bipedal_locomotion_framework.bindings as blf
 import numpy as np
 import manifpy as manif
 
+from datetime import timedelta
+
 def close_form_solution(t, position0, rotation0, joint_position0, twist, joint_velocity):
     return position0 + t * twist[0:3], \
         manif.SO3Tangent(twist[3:6] *t) + rotation0, \
         joint_position0 + t * joint_velocity
 
-def test_linear_system():
+def test_floating_base_system_kinematics():
 
     tolerance = 1e-3
     dt = 0.0001
@@ -31,7 +33,7 @@ def test_linear_system():
 
     integrator = blf.continuous_dynamical_system.FloatingBaseSystemKinematicsForwardEulerIntegrator()
     assert integrator.set_dynamical_system(system)
-    integrator.integration_step = dt
+    integrator.integration_step = timedelta(seconds=dt)
 
 
     for i in range(0, int(simulation_time / dt)):
@@ -43,4 +45,4 @@ def test_linear_system():
         assert base_rotation.rotation() == pytest.approx(base_rotation_exact.rotation(), abs=tolerance)
         assert joint_position == pytest.approx(joint_position_exact, abs=tolerance)
 
-        assert integrator.integrate(0, dt)
+        assert integrator.integrate(timedelta(seconds=0), timedelta(seconds=dt))

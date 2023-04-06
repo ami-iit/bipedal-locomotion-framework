@@ -5,6 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
+
 // Catch2
 #include <catch2/catch.hpp>
 
@@ -24,10 +26,11 @@ using namespace BipedalLocomotion::IK;
 
 TEST_CASE("Joint Regularization task")
 {
+    using namespace std::chrono_literals;
     const std::string robotVelocity = "robotVelocity";
 
     Eigen::VectorXd klim;
-    constexpr double dt = 0.01;
+    constexpr std::chrono::nanoseconds dt = 10ms;
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = std::make_shared<StdImplementation>();
@@ -126,10 +129,10 @@ TEST_CASE("Joint Regularization task")
 
             // check the vector b
             Eigen::VectorXd expectedB;
-            expectedB = klim.asDiagonal() * deltaLimit / dt;
+            expectedB = klim.asDiagonal() * deltaLimit / std::chrono::duration<double>(dt).count();
             REQUIRE(b.head(model.getNrOfDOFs()).isApprox(expectedB));
 
-            expectedB = klim.asDiagonal() * (deltaLimit) / dt;
+            expectedB = klim.asDiagonal() * (deltaLimit) / std::chrono::duration<double>(dt).count();
             REQUIRE(b.tail(model.getNrOfDOFs()).isApprox(expectedB));
 
         }

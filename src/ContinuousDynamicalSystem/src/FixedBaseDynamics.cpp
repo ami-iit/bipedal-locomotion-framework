@@ -17,7 +17,7 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FixedBaseDynamics::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FixedBaseDynamics::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::initialize]";
 
@@ -129,7 +129,7 @@ bool FixedBaseDynamics::setMassMatrixRegularization(const Eigen::Ref<const Eigen
     return true;
 }
 
-bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDerivative)
+bool FixedBaseDynamics::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::dynamics]";
 

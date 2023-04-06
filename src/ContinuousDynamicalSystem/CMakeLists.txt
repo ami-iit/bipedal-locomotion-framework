@@ -12,15 +12,18 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
     NAME                   ContinuousDynamicalSystem
     PUBLIC_HEADERS         ${H_PREFIX}/DynamicalSystem.h ${H_PREFIX}/LinearTimeInvariantSystem.h
                            ${H_PREFIX}/FloatingBaseSystemKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h ${H_PREFIX}/FixedBaseDynamics.h ${H_PREFIX}/FirstOrderSmoother.h
+                           ${H_PREFIX}/CentroidalDynamics.h
                            ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h
                            ${H_PREFIX}/CompliantContactWrench.h
                            ${H_PREFIX}/MultiStateWeightProvider.h
     PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
-    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/CompliantContactWrench.cpp src/FloatingBaseDynamicsWithCompliantContacts.cpp src/FixedBaseDynamics.cpp
+    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/CompliantContactWrench.cpp
+                           src/FloatingBaseDynamicsWithCompliantContacts.cpp src/FixedBaseDynamics.cpp src/CentroidalDynamics.cpp
                            src/FirstOrderSmoother.cpp src/MultiStateWeightProvider.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ContactModels BipedalLocomotion::System
                            iDynTree::idyntree-high-level iDynTree::idyntree-model
-                           Eigen3::Eigen BipedalLocomotion::TextLogging BipedalLocomotion::Math
+                           Eigen3::Eigen BipedalLocomotion::TextLogging BipedalLocomotion::Math BipedalLocomotion::Contacts
+                           BipedalLocomotion::GenericContainer
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::CommonConversions
     SUBDIRECTORIES         tests
     )

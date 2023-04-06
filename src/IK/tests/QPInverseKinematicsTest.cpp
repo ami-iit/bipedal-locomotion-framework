@@ -38,9 +38,10 @@ using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::IK;
 using namespace BipedalLocomotion::Conversions;
+using namespace std::chrono_literals;
 
 constexpr auto robotVelocity = "robotVelocity";
-constexpr double dT = 0.01;
+constexpr std::chrono::nanoseconds dT = 10ms;
 
 struct InverseKinematicsAndTasks
 {
@@ -348,7 +349,7 @@ TEST_CASE("QP-IK")
 
                 // propagate the dynamical system
                 system.dynamics->setControlInput({baseVelocity, jointVelocity});
-                system.integrator->integrate(0, dT);
+                system.integrator->integrate(0s, dT);
             }
 
             // check the CoM position
@@ -454,7 +455,7 @@ TEST_CASE("QP-IK [With strict limits]")
 
         // propagate the dynamical system
         system.dynamics->setControlInput({baseVelocity, jointVelocity});
-        system.integrator->integrate(0, dT);
+        system.integrator->integrate(0s, dT);
     }
 }
 
@@ -554,7 +555,7 @@ TEST_CASE("QP-IK [With builder]")
 
         // propagate the dynamical system
         system.dynamics->setControlInput({baseVelocity, jointVelocity});
-        system.integrator->integrate(0, dT);
+        system.integrator->integrate(0s, dT);
     }
 
     auto weightProvider

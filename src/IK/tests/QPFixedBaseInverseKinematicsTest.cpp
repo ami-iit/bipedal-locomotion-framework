@@ -36,9 +36,10 @@ using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::IK;
 using namespace BipedalLocomotion::Conversions;
+using namespace std::chrono_literals;
 
 constexpr auto robotVelocity = "robotVelocity";
-constexpr double dT = 0.005;
+constexpr std::chrono::nanoseconds dT = 5ms;
 
 struct InverseKinematicsAndTasks
 {
@@ -281,7 +282,7 @@ TEST_CASE("QP-IK")
 
                 // propagate the dynamical system
                 system.dynamics->setControlInput({baseVelocity, jointVelocity});
-                system.integrator->integrate(0, dT);
+                system.integrator->integrate(0s, dT);
             }
 
             // Check the end-effector pose error

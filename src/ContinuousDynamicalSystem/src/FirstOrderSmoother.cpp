@@ -7,7 +7,11 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+
+#include <Eigen/Dense>
+#include <chrono>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
@@ -29,7 +33,7 @@ bool FirstOrderSmoother::initialize(
         return false;
     }
 
-    double samplingTime{-1};
+    std::chrono::nanoseconds samplingTime;
     if (!ptr->getParameter("sampling_time", samplingTime))
     {
         log()->error("{} Unable to get the 'sampling_time' parameter.", logPrefix);
@@ -54,6 +58,8 @@ bool FirstOrderSmoother::initialize(
 
 bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
 {
+    using namespace BipedalLocomotion::GenericContainer::literals;
+
     constexpr auto logPrefix = "[FirstOrderSmoother::reset]";
     m_isInitialStateSet = false;
 
@@ -75,7 +81,8 @@ bool FirstOrderSmoother::reset(Eigen::Ref<const Eigen::VectorXd> initialPoint)
         log()->error("{} Unable to set the linear system matrices.", logPrefix);
         return false;
     }
-    if (!m_linearSystem->setState(initialPoint))
+
+    if (!m_linearSystem->setState({initialPoint}))
     {
         log()->error("{} Unable to initialize the system.", logPrefix);
         return false;
@@ -99,7 +106,8 @@ bool FirstOrderSmoother::advance()
         return false;
     }
 
-    if (!m_integrator.integrate(0, m_integrator.getIntegrationStep()))
+    using namespace std::chrono_literals;
+    if (!m_integrator.integrate(0s, m_integrator.getIntegrationStep()))
     {
         log()->error("[FirstOrderSmoother::advance] Unable to propagate the dynamical system.");
         return false;
@@ -120,7 +128,7 @@ bool FirstOrderSmoother::setInput(const Eigen::VectorXd& input)
         return false;
     }
 
-    return m_linearSystem->setControlInput(input);
+    return m_linearSystem->setControlInput({input});
 }
 
 const Eigen::VectorXd& FirstOrderSmoother::getOutput() const

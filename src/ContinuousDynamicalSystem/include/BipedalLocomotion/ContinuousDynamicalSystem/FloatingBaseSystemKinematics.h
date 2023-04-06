@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
 #include <manif/SO3.h>
@@ -28,17 +29,22 @@ class FloatingBaseSystemKinematics;
 }
 }
 
-// Please read it as
-// BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
-//     FloatingBaseSystemKinematics,
-//     (base position, base orientation, joint positions),
-//     (base linear velocity, base angular velocity, joint velocities),
-//     (base twist expressed in mixed representation, joint velocities))
-BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE(
-    FloatingBaseSystemKinematics,
-    (Eigen::Vector3d, manif::SO3d, Eigen::VectorXd),
-    (Eigen::Vector3d, manif::SO3d::Tangent, Eigen::VectorXd),
-    (Eigen::Matrix<double, 6, 1>, Eigen::VectorXd));
+namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
+{
+template <> struct traits<FloatingBaseSystemKinematics>
+{
+    using Twist = Eigen::Matrix<double, 6, 1>;
+    using State = GenericContainer::named_tuple<BLF_NAMED_PARAM(p, Eigen::Vector3d),
+                                      BLF_NAMED_PARAM(R, manif::SO3d),
+                                      BLF_NAMED_PARAM(s, Eigen::VectorXd)>;
+    using StateDerivative = GenericContainer::named_tuple<BLF_NAMED_PARAM(dp, Eigen::Vector3d),
+                                                BLF_NAMED_PARAM(omega, manif::SO3d::Tangent),
+                                                BLF_NAMED_PARAM(ds, Eigen::VectorXd)>;
+    using Input = GenericContainer::named_tuple<BLF_NAMED_PARAM(twist, Twist),
+                                      BLF_NAMED_PARAM(ds, Eigen::VectorXd)>;
+    using DynamicalSystem = FloatingBaseSystemKinematics;
+};
+} // namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
 
 namespace BipedalLocomotion
 {
@@ -47,20 +53,26 @@ namespace ContinuousDynamicalSystem
 
 /**
  * FloatingBaseSystemKinematics describes a floating base system kinematics.
- * The FloatingBaseSystemKinematics inherits from a generic DynamicalSystem where:
- * - DynamicalSystem::State is described by an std::tuple containing:
- *   - Eigen::Vector3d: position of the base w.r.t. the inertial frame
- *   - manif::SO3d: rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector
- * whose coordinates are expressed in the base frame in the inertial frame;
- *   - Eigen::VectorXd: the joint positions [in rad].
- * - DynamicalSystem::StateDerivative is described by an std::tuple containing:
- *   - Eigen::Vector3d: base linear velocity w.r.t. the inertial frame;
- *   - manif::SO3d::Tangent: base angular velocity w.r.t. the inertial frame; (Left trivialized)
- * whose coordinates are expressed in the base frame in the inertial frame;
- *   - Eigen::VectorXd: the joint velocities [in rad/s].
- * - DynamicalSystem::Input is described by an std::tuple containing:
- *   - Eigen::Vector6d: base twist w.r.t. the inertial frame;
- *   - Eigen::VectorXd: the joint velocities [in rad/s].
+ * The FloatingBaseSystemKinematics inherits from a generic DynamicalSystem where the State is
+ * described by a BipedalLocomotion::GenericContainer::named_tuple
+ * | Name |        Type       |                                                                  Description                                                                 |
+ * |:----:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
+ * |  `p` | `Eigen::Vector3d` |                                                Position of the base w.r.t. the inertial frame                                                |
+ * |  `R` |   `manif::SO3d`   | Rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame |
+ * |  `s` | `Eigen::VectorXd` |                                                           Joint positions [in rad]                                                           |
+ *
+ * The `StateDerivative` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * |   Name  |          Type          |                                                         Description                                                         |
+ * |:-------:|:----------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+ * |  `dp`   |    `Eigen::Vector3d`   | Linear velocity of the origin of the base link whose coordinates are expressed in the Inertial frame (MIXED RERPESENTATION) |
+ * | `omega` | `manif::SO3d::Tangent` |                base angular velocity whose coordinates are expressed in the inertial frame (Left trivialized)               |
+ * |   `ds`  |    `Eigen::VectorXd`   |                                                 Joint velocities [in rad/s]                                                 |
+ *
+ * The `Input` is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * |   Name  |              Type             |                  Description                 |
+ * |:-------:|:-----------------------------:|:--------------------------------------------:|
+ * | `twist` | `Eigen::Matrix<double, 6, 1>` | Base twist expressed in mixed representation |
+ * |   `ds`  |       `Eigen::VectorXd`       |          Joint velocities [in rad/s]         |
  */
 class FloatingBaseSystemKinematics : public DynamicalSystem<FloatingBaseSystemKinematics>
 {
@@ -74,7 +86,7 @@ public:
      * @return true in case of success/false otherwise.
      * @note This function does nothing but it is required for CRTP.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the state of the dynamical system.
@@ -104,7 +116,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 };
 
 } // namespace ContinuousDynamicalSystem

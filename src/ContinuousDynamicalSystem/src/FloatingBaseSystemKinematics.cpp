@@ -11,7 +11,7 @@
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initialize]";
 
@@ -30,21 +30,23 @@ bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<IParametersHandler> 
     return true;
 }
 
-bool FloatingBaseSystemKinematics::dynamics(const double& time,
+bool FloatingBaseSystemKinematics::dynamics(const std::chrono::nanoseconds& time,
                                             StateDerivative& stateDerivative)
 {
+    using namespace BipedalLocomotion::GenericContainer::literals;
+
     // get the state
-    const Eigen::Vector3d& basePosition = std::get<0>(m_state);
-    const manif::SO3d& baseRotation = std::get<1>(m_state);
-    const Eigen::VectorXd& jointPositions = std::get<2>(m_state);
+    const Eigen::Vector3d& basePosition = m_state.get_from_hash<"p"_h>();
+    const manif::SO3d& baseRotation = m_state.get_from_hash<"R"_h>();
+    const Eigen::VectorXd& jointPositions = m_state.get_from_hash<"s"_h>();
 
     // get the state derivative
-    Eigen::Vector3d& baseLinearVelocity = std::get<0>(stateDerivative);
-    manif::SO3d::Tangent& baseAngularVelocity = std::get<1>(stateDerivative);
-    Eigen::VectorXd& jointVelocityOutput = std::get<2>(stateDerivative);
+    Eigen::Vector3d& baseLinearVelocity = stateDerivative.get_from_hash<"dp"_h>();
+    manif::SO3d::Tangent& baseAngularVelocity = stateDerivative.get_from_hash<"omega"_h>();
+    Eigen::VectorXd& jointVelocityOutput = stateDerivative.get_from_hash<"ds"_h>();
 
-    const Eigen::Matrix<double, 6, 1>& baseTwist = std::get<0>(m_controlInput);
-    const Eigen::VectorXd& jointVelocity = std::get<1>(m_controlInput);
+    const Eigen::Matrix<double, 6, 1>& baseTwist = m_controlInput.get_from_hash<"twist"_h>();
+    const Eigen::VectorXd& jointVelocity = m_controlInput.get_from_hash<"ds"_h>();
 
     // check the size of the vectors
     if (jointVelocity.size() != jointPositions.size())

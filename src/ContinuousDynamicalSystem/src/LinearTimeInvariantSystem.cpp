@@ -6,6 +6,7 @@
  */
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
@@ -33,7 +34,7 @@ bool LinearTimeInvariantSystem::setSystemMatrices(const Eigen::Ref<const Eigen::
     return true;
 }
 
-bool LinearTimeInvariantSystem::dynamics(const double& time, StateDerivative& stateDerivative)
+bool LinearTimeInvariantSystem::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     constexpr auto errorPrefix = "[LinearTimeInvariantSystem::dynamics]";
 
@@ -43,9 +44,11 @@ bool LinearTimeInvariantSystem::dynamics(const double& time, StateDerivative& st
         return false;
     }
 
-    const auto& x = std::get<0>(m_state);
-    auto& dx = std::get<0>(stateDerivative);
-    const auto& u = std::get<0>(m_controlInput);
+    using namespace BipedalLocomotion::GenericContainer::literals;
+
+    const Eigen::VectorXd& x = m_state.get_from_hash<"x"_h>();
+    Eigen::VectorXd& dx = stateDerivative.get_from_hash<"dx"_h>();
+    const Eigen::VectorXd& u = m_controlInput.get_from_hash<"u"_h>();
 
     if (x.size() != m_A.rows())
     {
@@ -69,7 +72,7 @@ bool LinearTimeInvariantSystem::dynamics(const double& time, StateDerivative& st
 }
 
 bool LinearTimeInvariantSystem::initialize(
-    std::weak_ptr<ParametersHandler::IParametersHandler> handler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     return true;
 }
