@@ -119,7 +119,7 @@
 <para>Advance the internal state. </para>
         </briefdescription>
         <detaileddescription>
-<para>This may change the value retrievable from get(). <simplesect kind="return"><para>True if the advance is successful. </para>
+<para>This may change the value retrievable from <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref>. <simplesect kind="return"><para>True if the advance is successful. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -134,7 +134,7 @@
         <name>isOutputValid</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with get() </para>
+<para>Determines the validity of the object retrieved with <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref> </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>

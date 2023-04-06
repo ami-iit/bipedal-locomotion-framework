@@ -2,55 +2,76 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="ForwardEuler_8h" kind="file" language="C++">
     <compoundname>ForwardEuler.h</compoundname>
+    <includes local="no">chrono</includes>
     <includes local="no">tuple</includes>
     <includes local="no">type_traits</includes>
     <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
     <includes refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includes>
+    <includes refid="NamedTuple_8h" local="no">BipedalLocomotion/GenericContainer/NamedTuple.h</includes>
     <includedby refid="FirstOrderSmoother_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</includedby>
     <incdepgraph>
-      <node id="4">
-        <label>iDynTree/Core/EigenHelpers.h</label>
-      </node>
-      <node id="9">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
-        <link refid="DynamicalSystem_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>spdlog/fmt/bundled/chrono.h</label>
-      </node>
-      <node id="11">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
-        <link refid="IParametersHandler_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
+      <node id="12">
+        <label>BipedalLocomotion/GenericContainer/NamedTuple.h</label>
+        <link refid="NamedTuple_8h"/>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>cmath</label>
+      <node id="5">
+        <label>iDynTree/Core/EigenHelpers.h</label>
+      </node>
+      <node id="10">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
+        <link refid="DynamicalSystem_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
       <node id="13">
-        <label>string</label>
+        <label>cstdint</label>
       </node>
-      <node id="16">
-        <label>spdlog/fmt/ostr.h</label>
+      <node id="21">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
+      <node id="15">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
       </node>
       <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>spdlog/fmt/ostr.h</label>
+      </node>
+      <node id="8">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
         <link refid="Integrator_8h"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -60,48 +81,55 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-      </node>
-      <node id="10">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</label>
-        <link refid="traits_8h"/>
-        <childnode refid="2" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="11">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</label>
+        <link refid="traits_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
         <label>spdlog/spdlog.h</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>BipedalLocomotion/TextLogging/Logger.h</label>
-        <link refid="Logger_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>tuple</label>
-      </node>
-      <node id="14">
-        <label>vector</label>
-      </node>
-      <node id="12">
-        <label>chrono</label>
+      <node id="18">
+        <label>BipedalLocomotion/TextLogging/Logger.h</label>
+        <link refid="Logger_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
       <node id="3">
+        <label>tuple</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="4">
         <label>type_traits</label>
       </node>
       <node id="1">
@@ -115,8 +143,12 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>memory</label>
       </node>
     </incdepgraph>

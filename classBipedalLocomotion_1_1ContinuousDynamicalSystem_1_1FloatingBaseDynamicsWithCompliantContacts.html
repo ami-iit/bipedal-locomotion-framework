@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -122,7 +122,7 @@ ${} ^ I \dot{R} _ {b}$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3de877c5b63858b8aeafaa538509cca1" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa84de1b19527392fdb63b9189d7c9520" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
             </dt>
             <dd>Initialize the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts.html" class="m-doc">FloatingBaseDynamicsWithCompliantContacts</a> system.</dd>
             <dt>
@@ -134,7 +134,7 @@ ${} ^ I \dot{R} _ {b}$
             </dt>
             <dd>Set the mass matrix regularization term.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a092bf95a160b24b995ca299101cb87e2" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#afc24358b037bfd03f18bcfb40897929e" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative) -&gt; bool</span>
             </dt>
             <dd>Computes the floating based system dynamics.</dd>
@@ -154,9 +154,9 @@ ${} ^ I \dot{R} _ {b}$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a3de877c5b63858b8aeafaa538509cca1"><div>
+          <section class="m-doc-details" id="aa84de1b19527392fdb63b9189d7c9520"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseDynamicsWithCompliantContacts::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3de877c5b63858b8aeafaa538509cca1" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseDynamicsWithCompliantContacts::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa84de1b19527392fdb63b9189d7c9520" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
             </h3>
             <p>Initialize the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts.html" class="m-doc">FloatingBaseDynamicsWithCompliantContacts</a> system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -275,9 +275,9 @@ $M_{reg}$
 </g>
 </svg> is the matrix regularization term.</p>
           </div></section>
-          <section class="m-doc-details" id="a092bf95a160b24b995ca299101cb87e2"><div>
+          <section class="m-doc-details" id="afc24358b037bfd03f18bcfb40897929e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseDynamicsWithCompliantContacts::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a092bf95a160b24b995ca299101cb87e2" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseDynamicsWithCompliantContacts::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afc24358b037bfd03f18bcfb40897929e" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative)</span></span>
             </h3>
             <p>Computes the floating based system dynamics.</p>

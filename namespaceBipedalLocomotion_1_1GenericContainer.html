@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -70,15 +70,36 @@
             <li>
               Reference
               <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1GenericContainer_1_1detail.html" class="m-doc">detail</a></dt>
+            <dd><span></span></dd>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1GenericContainer_1_1literals.html" class="m-doc">literals</a></dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;hash_type hash_, typename Type_&gt;</div>
+              struct <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__param.html" class="m-doc">named_param</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1GenericContainer_1_1named__param.html" class="m-doc">named_<wbr />param</a> is a struct that associate a compile time hash to a value.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... Params&gt;</div>
+              struct <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">named_tuple</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">named_<wbr />tuple</a> is a class that inherits from tuple.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a>
@@ -115,10 +136,24 @@
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
+              using <a href="NamedTuple_8h.html#aeae062fde867d3cef830c1dbfe1e807f" class="m-doc">hash_type</a> = std::uint64_t
+            </dt>
+            <dd><span></span></dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a href="Vector_8h.html#a77a22a0b59a90fc9a928cf625631cf98" class="m-doc">Vector_ptr</a> = std::shared_ptr&lt;<a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a>&lt;T&gt;&gt;
             </dt>
             <dd>Utility alias to a std::shared_ptr of a <a href="classBipedalLocomotion_1_1GenericContainer_1_1Vector.html" class="m-doc">Vector</a>.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="NamedTuple_8h.html#ac322ee615f7d23018c47ef2b3290b2fa" class="m-doc">make_named_tuple</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>Creates a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">named_<wbr />tuple</a> object, deducing the target type from the types of arguments.</dd>
           </dl>
         </section>
       </div>

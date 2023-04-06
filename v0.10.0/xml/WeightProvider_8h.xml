@@ -3,9 +3,9 @@
   <compounddef id="WeightProvider_8h" kind="file" language="C++">
     <compoundname>WeightProvider.h</compoundname>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
-    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <includedby refid="MultiStateWeightProvider_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</includedby>
     <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
+    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <incdepgraph>
       <node id="10">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -70,25 +70,25 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="2">
+      <node id="5">
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="4">
+      <node id="3">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

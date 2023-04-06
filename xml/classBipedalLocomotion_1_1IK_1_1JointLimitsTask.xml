@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="44" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="44" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="45" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a7f351034153c229533a34ff30a0e9680" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="45" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="45" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="46" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ad4a7ce8c40982e36b72196919e49bc93" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="46" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="46" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="47" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a1fbaaa73df7e3316cb86b3f1292e552c" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="47" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="48" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a06979bf85dc07e67b5d9ef15eeb42781" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -73,11 +73,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="49" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="50" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="50" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2409e3d2baa0fc08d0292654418836e0" prot="private" static="no" mutable="no">
-        <type>double</type>
-        <definition>double BipedalLocomotion::IK::JointLimitsTask::m_samplingTime</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a36a5cb4a5488c6a54d41054c557c7f85" prot="private" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::IK::JointLimitsTask::m_samplingTime</definition>
         <argsstring></argsstring>
         <name>m_samplingTime</name>
         <briefdescription>
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="51" column="12" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="51" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="52" column="30" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1afb32151b82fdf936caa25cd3ca3f2977" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -99,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="53" column="17" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="53" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="54" column="17" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a7600bf450540141ae62f78f15f074148" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="55" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="55" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="56" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acd36d02800c203816aee150f76b1916f" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -129,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="56" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="57" column="10" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a20b4df85e26dab2d6817acc3ea885abd" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="58" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="58" bodyend="-1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="59" column="21" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -203,13 +203,13 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>upper_limits</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector containing <formula id="83">$s_{+}$</formula> such that <formula id="84">$ s \le s_{+} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
+</entry><entry thead="no" align='center'><para>Vector containing <formula id="84">$s_{+}$</formula> such that <formula id="85">$ s \le s_{+} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
 </entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>lower_limits</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector containing <formula id="85">$s_{-}$</formula> such that <formula id="86">$ s \ge s_{-} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
+</entry><entry thead="no" align='center'><para>Vector containing <formula id="86">$s_{-}$</formula> such that <formula id="87">$ s \ge s_{-} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
 </entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
@@ -223,7 +223,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="79" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="80" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2d8c474f9fd61b45fb96473caad89d7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -254,7 +254,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="86" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="87" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ae5ed3211d5be44aca3d7081b2f165de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -287,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="99" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="100" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a86d252fae9dda5d1946f86b6983d4aee" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -305,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="105" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="106" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a92feff9d91edcc478f2d7d4d1dc4dde4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -323,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="111" column="17"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="112" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a4547a4d8019070b1ab4f1faf00428290" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -341,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="117" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="118" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a9c7386237ce898446a3afd611f76239b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -359,14 +359,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="124" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask" kindref="compound">JointLimitsTask</ref> is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to ensure that the generated joint velocity will consider the joints position limits. The task represents the following equation <formula id="72">\[ \dot{s}_{-} \preceq \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu \preceq \dot{s}_{+} \]</formula> where <formula id="73">$0_6$</formula> and <formula id="74">$I_n$</formula> are the zero and the identity matrix. <formula id="75">$\dot{s} _{-}$</formula> and <formula id="76">$\dot{s} _{+}$</formula> are chosen such that robot stays within its mechanical range of motion. Following <ulink url="https://ieeexplore.ieee.org/document/6301071">(Kanoun, 2011)</ulink>, we set <formula id="77">$\dot{s}_{-}$</formula> and <formula id="78">$\dot{s}_{+}$</formula> as follows <formula id="79">\[ \dot{s}_{-} = k_{\text{lim}} \frac{s_{-} - s}{dt} \quad \dot{s}_{+} = k_{\text{lim}} \frac{s_{+} - s}{dt} \]</formula> where <formula id="80">${s}_{-}$</formula> and <formula id="81">${s} _{+}$</formula> are the joints mechanical limits, and <formula id="82">$k_{\text{lim}}$</formula> is a proportional postive gain lower than 1. <formula id="82">$k_{\text{lim}}$</formula>, for instance, denotes that a joint angle update will not increase by more than half the distance between the current joint value and its boundaries. </para>
+<para>Please use this element if you want to ensure that the generated joint velocity will consider the joints position limits. The task represents the following equation <formula id="73">\[ \dot{s}_{-} \preceq \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu \preceq \dot{s}_{+} \]</formula> where <formula id="74">$0_6$</formula> and <formula id="75">$I_n$</formula> are the zero and the identity matrix. <formula id="76">$\dot{s} _{-}$</formula> and <formula id="77">$\dot{s} _{+}$</formula> are chosen such that robot stays within its mechanical range of motion. Following <ulink url="https://ieeexplore.ieee.org/document/6301071">(Kanoun, 2011)</ulink>, we set <formula id="78">$\dot{s}_{-}$</formula> and <formula id="79">$\dot{s}_{+}$</formula> as follows <formula id="80">\[ \dot{s}_{-} = k_{\text{lim}} \frac{s_{-} - s}{dt} \quad \dot{s}_{+} = k_{\text{lim}} \frac{s_{+} - s}{dt} \]</formula> where <formula id="81">${s}_{-}$</formula> and <formula id="82">${s} _{+}$</formula> are the joints mechanical limits, and <formula id="83">$k_{\text{lim}}$</formula> is a proportional postive gain lower than 1. <formula id="83">$k_{\text{lim}}$</formula>, for instance, denotes that a joint angle update will not increase by more than half the distance between the current joint value and its boundaries. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -415,7 +415,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="42" column="1" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="43" bodyend="124"/>
+    <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="43" column="1" bodyfile="BipedalLocomotion/IK/JointLimitsTask.h" bodystart="44" bodyend="125"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>getB</name></member>
@@ -434,7 +434,7 @@
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acdd79cc35b1e8e01b4eaafb664863c47" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_klim</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a1fbaaa73df7e3316cb86b3f1292e552c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_lowerLimits</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1afb32151b82fdf936caa25cd3ca3f2977" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_robotVelocityVariableName</name></member>
-      <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2409e3d2baa0fc08d0292654418836e0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_samplingTime</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a36a5cb4a5488c6a54d41054c557c7f85" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_samplingTime</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ad4a7ce8c40982e36b72196919e49bc93" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>m_upperLimits</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2d8c474f9fd61b45fb96473caad89d7a" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ae5ed3211d5be44aca3d7081b2f165de0" prot="public" virt="virtual"><scope>BipedalLocomotion::IK::JointLimitsTask</scope><name>setVariablesHandler</name></member>

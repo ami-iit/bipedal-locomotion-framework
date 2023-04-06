@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -77,7 +77,7 @@
             </li>
           </ul>
         </nav>
-<p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">FloatingBaseSystemKinematics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where:</p><ul><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">DynamicalSystem::<wbr />State</a> is described by an std::tuple containing:<ul><li>Eigen::Vector3d: position of the base w.r.t. the inertial frame</li><li>manif::SO3d: rotation matrix <svg class="m-math" style="width: 1.805em; height: 1.206em; vertical-align: -0.187em;" viewBox="0 -9.784673 17.324483 11.577936">
+<p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">FloatingBaseSystemKinematics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where the State is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>p</code></td><td><code>Eigen::Vector3d</code></td><td>Position of the base w.r.t. the inertial frame</td></tr><tr><td><code>R</code></td><td><code>manif::SO3d</code></td><td>Rotation matrix <svg class="m-math" style="width: 1.805em; height: 1.206em; vertical-align: -0.187em;" viewBox="0 -9.784673 17.324483 11.577936">
 <title>
 ${} ^ I R _ {b}$
 </title>
@@ -91,7 +91,7 @@ ${} ^ I R _ {b}$
 <use x='4.791799' y='0' xlink:href='#eq1-g1-82'/>
 <use x='13.701899' y='1.793263' xlink:href='#eq1-g0-98'/>
 </g>
-</svg>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</li><li>Eigen::VectorXd: the joint positions [in rad].</li></ul></li><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">DynamicalSystem::<wbr />StateDerivative</a> is described by an std::tuple containing:<ul><li>Eigen::Vector3d: base linear velocity w.r.t. the inertial frame;</li><li>manif::SO3d::Tangent: base angular velocity w.r.t. the inertial frame; (Left trivialized) whose coordinates are expressed in the base frame in the inertial frame;</li><li>Eigen::VectorXd: the joint velocities [in rad/s].</li></ul></li><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">DynamicalSystem::<wbr />Input</a> is described by an std::tuple containing:<ul><li>Eigen::Vector6d: base twist w.r.t. the inertial frame;</li><li>Eigen::VectorXd: the joint velocities [in rad/s].</li></ul></li></ul>
+</svg>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame</td></tr><tr><td><code>s</code></td><td><code>Eigen::VectorXd</code></td><td>Joint positions [in rad]</td></tr></tbody></table><p>The <code>StateDerivative</code> is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dp</code></td><td><code>Eigen::Vector3d</code></td><td>Linear velocity of the origin of the base link whose coordinates are expressed in the Inertial frame (MIXED RERPESENTATION)</td></tr><tr><td><code>omega</code></td><td><code>manif::SO3d::Tangent</code></td><td>base angular velocity whose coordinates are expressed in the inertial frame (Left trivialized)</td></tr><tr><td><code>ds</code></td><td><code>Eigen::VectorXd</code></td><td>Joint velocities [in rad/s]</td></tr></tbody></table><p>The <code>Input</code> is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>twist</code></td><td><code>Eigen::Matrix&lt;double, 6, 1&gt;</code></td><td>Base twist expressed in mixed representation</td></tr><tr><td><code>ds</code></td><td><code>Eigen::VectorXd</code></td><td>Joint velocities [in rad/s]</td></tr></tbody></table>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
@@ -106,7 +106,7 @@ ${} ^ I R _ {b}$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a6a7efa3015fe8cf007ede3ec653bff9b" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a492ab8f2ad62641d67bd0aed72ac76f7" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
             </dt>
             <dd>Initialize the Dynamical system.</dd>
             <dt>
@@ -122,7 +122,7 @@ ${} ^ I R _ {b}$
             </dt>
             <dd>Set the control input to the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa38952215adbef47f3c318dc6f03de42" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#a508c5e981607993d35c474a45a91130b" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative) -&gt; bool</span>
             </dt>
             <dd>Computes the floating based system dynamics.</dd>
@@ -130,9 +130,9 @@ ${} ^ I R _ {b}$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a6a7efa3015fe8cf007ede3ec653bff9b"><div>
+          <section class="m-doc-details" id="a492ab8f2ad62641d67bd0aed72ac76f7"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6a7efa3015fe8cf007ede3ec653bff9b" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a492ab8f2ad62641d67bd0aed72ac76f7" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
             </h3>
             <p>Initialize the Dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -214,9 +214,9 @@ ${} ^ I R _ {b}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aa38952215adbef47f3c318dc6f03de42"><div>
+          <section class="m-doc-details" id="a508c5e981607993d35c474a45a91130b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa38952215adbef47f3c318dc6f03de42" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a508c5e981607993d35c474a45a91130b" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative)</span></span>
             </h3>
             <p>Computes the floating based system dynamics.</p>

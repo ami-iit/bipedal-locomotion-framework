@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -155,7 +155,7 @@ $\dot{x}=f(x, u, t)$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acdf502c2b0255825ac578e2d962072b4" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#adea6b2fa40906bbc9198975e620e5ac4" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
             </dt>
             <dd>Initialize the Dynamical system.</dd>
             <dt>
@@ -171,7 +171,7 @@ $\dot{x}=f(x, u, t)$
             </dt>
             <dd>Set the control input to the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8060b3b647f60533e9b822e1164f1933" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#a464077f4f1329cc6a5697f1a874d6c48" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative) -&gt; bool</span>
             </dt>
             <dd>Computes the system dynamics.</dd>
@@ -179,12 +179,12 @@ $\dot{x}=f(x, u, t)$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="acdf502c2b0255825ac578e2d962072b4"><div>
+          <section class="m-doc-details" id="adea6b2fa40906bbc9198975e620e5ac4"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />DynamicalSystem&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acdf502c2b0255825ac578e2d962072b4" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />DynamicalSystem&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adea6b2fa40906bbc9198975e620e5ac4" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
             </h3>
             <p>Initialize the Dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -276,12 +276,12 @@ $\dot{x}=f(x, u, t)$
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>In principle, there is no need to override this method. This value is stored in an internal buffer.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a8060b3b647f60533e9b822e1164f1933"><div>
+          <section class="m-doc-details" id="a464077f4f1329cc6a5697f1a874d6c48"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class _Derived&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />DynamicalSystem&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8060b3b647f60533e9b822e1164f1933" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />DynamicalSystem&lt;_Derived&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a464077f4f1329cc6a5697f1a874d6c48" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative)</span></span>
             </h3>
             <p>Computes the system dynamics.</p>

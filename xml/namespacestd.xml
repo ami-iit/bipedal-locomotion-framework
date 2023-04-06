@@ -100,8 +100,96 @@
     <innerclass refid="classstd_1_1range__error" prot="public">std::range_error</innerclass>
     <innerclass refid="classstd_1_1overflow__error" prot="public">std::overflow_error</innerclass>
     <innerclass refid="classstd_1_1underflow__error" prot="public">std::underflow_error</innerclass>
+    <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</innerclass>
+    <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>std::size_t</type>
+            <declname>I</declname>
+            <defname>I</defname>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>std::tuple_element&lt; I, typename ::<ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref>&lt; Params... &gt;::underlying_tuple &gt;::type &amp;</type>
+        <definition>std::tuple_element&lt; I, typename ::BipedalLocomotion::GenericContainer::named_tuple&lt;Params...&gt;::underlying_tuple&gt;::type&amp; std::get</definition>
+        <argsstring>(::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &amp;t) noexcept</argsstring>
+        <name>get</name>
+        <param>
+          <type>::<ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref>&lt; Params... &gt; &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Extracts the Ith element from the named_tuple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It must be an integer value in <computeroutput>[0, sizeof...(Types))</computeroutput>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the named_tuple </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the selected element of t. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/GenericContainer/NamedTuple.h" line="341" column="1" bodyfile="BipedalLocomotion/GenericContainer/NamedTuple.h" bodystart="341" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="NamedTuple_8h_1a9edd803ba26171a0e7f55d52cb35a6e4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>std::size_t</type>
+            <declname>I</declname>
+            <defname>I</defname>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Params</declname>
+            <defname>Params</defname>
+          </param>
+        </templateparamlist>
+        <type>const tuple_element&lt; I, typename ::<ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref>&lt; Params... &gt;::underlying_tuple &gt;::type &amp;</type>
+        <definition>const tuple_element&lt; I, typename ::BipedalLocomotion::GenericContainer::named_tuple&lt;Params...&gt;::underlying_tuple&gt;::type&amp; std::get</definition>
+        <argsstring>(const ::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &amp;t) noexcept</argsstring>
+        <name>get</name>
+        <param>
+          <type>const ::<ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref>&lt; Params... &gt; &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Extracts the Ith element from the named_tuple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It must be an integer value in <computeroutput>[0, sizeof...(Types))</computeroutput>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the named_tuple </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the selected element of t. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/GenericContainer/NamedTuple.h" line="356" column="1" bodyfile="BipedalLocomotion/GenericContainer/NamedTuple.h" bodystart="356" bodyend="359"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
 <para>STL namespace. </para>
     </briefdescription>

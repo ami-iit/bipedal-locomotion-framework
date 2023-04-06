@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct" language="C++" prot="public">
     <compoundname>std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</basecompoundref>
     <templateparamlist>
       <param>
         <type>size_t</type>
@@ -16,7 +16,7 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</label>
+        <label>std::tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</label>
       </node>
       <node id="1">
         <label>std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</label>
@@ -27,7 +27,7 @@
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</label>
+        <label>std::tuple_element&lt; Index, tuple&lt;::BipedalLocomotion::System::VariablesHandler, unordered_map&lt; string, shared_ptr&lt;::BipedalLocomotion::System::WeightProvider &gt; &gt;, unique_ptr&lt;::BipedalLocomotion::IK::IntegrationBasedIK &gt; &gt; &gt;</label>
       </node>
       <node id="1">
         <label>std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</label>

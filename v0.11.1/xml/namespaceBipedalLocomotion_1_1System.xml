@@ -2,10 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1System" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::System</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public">BipedalLocomotion::System::YarpClock</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClock" prot="public">BipedalLocomotion::System::RosClock</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClockFactory" prot="public">BipedalLocomotion::System::RosClockFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public">BipedalLocomotion::System::YarpClock</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Barrier" prot="public">BipedalLocomotion::System::Barrier</innerclass>
@@ -111,6 +111,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/System/YarpClock.h" line="19" column="1"/>
+    <location file="BipedalLocomotion/System/RosClock.h" line="19" column="1"/>
   </compounddef>
 </doxygen>

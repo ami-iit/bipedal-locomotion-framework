@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="126" column="1" declfile="BipedalLocomotion/IK/JointLimitsTask.h" declline="126" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/JointLimitsTask.h" line="127" column="1" declfile="BipedalLocomotion/IK/JointLimitsTask.h" declline="127" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h_1afa7d7132d613ba9111df5226c147e409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

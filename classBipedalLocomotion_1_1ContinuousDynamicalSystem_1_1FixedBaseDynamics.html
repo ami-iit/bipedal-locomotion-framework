@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -64,7 +64,7 @@
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem.html">ContinuousDynamicalSystem</a>::<wbr/></span>FixedBaseDynamics <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="FixedBaseDynamics_8h.html">&lt;BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h&gt;</a></div>
         </h1>
-        <p><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> describes a fixed base dynamical system.</p>
+        <p><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> describes a the dynamics of a fixed base system The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where the State is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a>.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -77,7 +77,7 @@
             </li>
           </ul>
         </nav>
-<p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where:</p><ul><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">DynamicalSystem::<wbr />State</a> is described by an std::tuple containing:<ul><li>Eigen::VectorXd: the joint velocities [in rad/s];</li><li>Eigen::VectorXd: the joint positions [in rad].</li></ul></li><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">DynamicalSystem::<wbr />StateDerivative</a> is described by an std::tuple containing:<ul><li>Eigen::VectorXd: the joint accelerations [in rad/s^2];</li><li>Eigen::VectorXd: the joint velocities [in rad/s].</li></ul></li><li><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">DynamicalSystem::<wbr />Input</a> is described by an std::tuple containing:<ul><li>Eigen::VectorXd: the joint torques [in Nm];</li></ul></li></ul>
+<table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>s</code></td><td><code>Eigen::VectorXd</code></td><td>Joint positions [in rad]</td></tr><tr><td><code>ds</code></td><td><code>Eigen::VectorXd</code></td><td>Joint velocities [in rad/s]</td></tr></tbody></table><p>The <code>StateDerivative</code> is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>ds</code></td><td><code>Eigen::VectorXd</code></td><td>Joint velocities [in rad]</td></tr><tr><td>dds<code>\ilinebr &lt;/td&gt; &lt;td class=&quot;markdownTableBodyCenter&quot;&gt;</code>Eigen::VectorXd`</td><td>Joint accelerations [in rad/s^2]</td></tr></tbody></table><p>The <code>Input</code> is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>tau</code></td><td><code>Eigen::VectorXd</code></td><td>Joint torque [in N/m]</td></tr></tbody></table>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
@@ -92,7 +92,7 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a47f417380ed5ffa6ad8ce68bdb78b106" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a888cb4a4f138daa08e115272572e1603" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
             </dt>
             <dd>Initialize the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> system.</dd>
             <dt>
@@ -104,7 +104,7 @@
             </dt>
             <dd>Set the mass matrix regularization term.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9ee5f109eba56b40efef1975da341ccc" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#acdccff38d978985beacaa73e8f8c2d00" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative) -&gt; bool</span>
             </dt>
             <dd>Computes the floating based system dynamics.</dd>
@@ -124,9 +124,9 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a47f417380ed5ffa6ad8ce68bdb78b106"><div>
+          <section class="m-doc-details" id="a888cb4a4f138daa08e115272572e1603"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FixedBaseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a47f417380ed5ffa6ad8ce68bdb78b106" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FixedBaseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a888cb4a4f138daa08e115272572e1603" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
             </h3>
             <p>Initialize the <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics.html" class="m-doc">FixedBaseDynamics</a> system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -245,9 +245,9 @@ $M_{reg}$
 </g>
 </svg> is the matrix regularization term.</p>
           </div></section>
-          <section class="m-doc-details" id="a9ee5f109eba56b40efef1975da341ccc"><div>
+          <section class="m-doc-details" id="acdccff38d978985beacaa73e8f8c2d00"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FixedBaseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9ee5f109eba56b40efef1975da341ccc" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const double&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FixedBaseDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acdccff38d978985beacaa73e8f8c2d00" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative)</span></span>
             </h3>
             <p>Computes the floating based system dynamics.</p>

@@ -22,7 +22,7 @@
 <para>Initial rotation from the inertial frame to the body frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Namely <formula id="100">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
+<para>Namely <formula id="14">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -132,7 +132,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="101">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="15">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -140,7 +140,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="102">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="16">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -245,7 +245,7 @@
 <parametername>rotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><formula id="100">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
+<para><formula id="14">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -332,7 +332,7 @@
         <name>isOutputValid</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with get() </para>
+<para>Determines the validity of the object retrieved with <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref> </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
@@ -355,7 +355,7 @@
 <para>Advance the internal state. </para>
         </briefdescription>
         <detaileddescription>
-<para>This may change the value retrievable from get(). <simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
+<para>This may change the value retrievable from <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref>. <simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
 </simplesect>
 <simplesect kind="return"><para>True if the advance is successfull. </para>
 </simplesect>

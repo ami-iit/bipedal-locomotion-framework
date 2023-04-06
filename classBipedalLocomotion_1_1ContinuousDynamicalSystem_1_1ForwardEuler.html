@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
-                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
                 <li><a href="./v0.11.1/index.html">v0.11.1</a></li>
+                <li><a href="./v0.12.0/index.html">v0.12.0</a></li>
+                <li><a href="./v0.10.0/index.html">v0.10.0</a></li>
               </ol>
             </li>
             <li>
@@ -85,6 +85,7 @@
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
@@ -166,6 +167,50 @@ $\psi$
             </dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a327ae91a49792ef50315363408e74053" class="m-doc">oneStepIntegration</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t0,
+              const std::chrono::nanoseconds&amp; dT) -&gt; bool</span>
+            </dt>
+            <dd>Integrate one step.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a327ae91a49792ef50315363408e74053"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class _DynamicalSystem&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />ForwardEuler&lt;_DynamicalSystem&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a327ae91a49792ef50315363408e74053" class="m-doc-self">oneStepIntegration</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t0,
+              const std::chrono::nanoseconds&amp; dT)</span></span>
+            </h3>
+            <p>Integrate one step.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">t0</td>
+                  <td>initial time.</td>
+                </tr>
+                <tr>
+                  <td>dT</td>
+                  <td>sampling time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>

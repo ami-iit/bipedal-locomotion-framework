@@ -767,7 +767,7 @@
         <name>isOutputValid</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with get() </para>
+<para>Determines the validity of the object retrieved with <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref> </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True in case of success, false otherwise. </para>

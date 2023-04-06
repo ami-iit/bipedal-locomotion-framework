@@ -21,7 +21,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="43" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="44" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6faac6e30bf7310bf3b2692f00c544e7" prot="public" static="no">
         <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref>&lt; _Derived &gt; &gt;::State</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="44" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="44" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="45" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad1d1bb0fc15d18e7db541e5ee04a327e" prot="public" static="no">
         <type>typename <ref refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kindref="compound">internal::traits</ref>&lt; <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kindref="compound">Integrator</ref>&lt; _Derived &gt; &gt;::StateDerivative</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="45" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="45" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="46" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-attrib">
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="54" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="50" bodyend="-1"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="55" column="21" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -97,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="63" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="88" bodyend="108"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="64" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="90" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::weak_ptr&lt; DynamicalSystem &gt;</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="69" column="19" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="111" bodyend="114"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="70" column="19" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="113" bodyend="116"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const State &amp;</type>
@@ -131,19 +131,19 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="75" column="17" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="117" bodyend="120"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="76" column="17" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="119" bodyend="122"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a8916aae4ea7dcbf75e728c6051cab04a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad2c63846cd440f0a9de4c13973dae7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; _Derived &gt;::integrate</definition>
-        <argsstring>(double initialTime, double finalTime)</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;initialTime, const std::chrono::nanoseconds &amp;finalTime)</argsstring>
         <name>integrate</name>
         <param>
-          <type>double</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>initialTime</declname>
         </param>
         <param>
-          <type>double</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>finalTime</declname>
         </param>
         <briefdescription>
@@ -175,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="84" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="122" bodyend="125"/>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="85" column="10" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="125" bodyend="129"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -251,12 +251,12 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="40" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="41" bodyend="85"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" line="41" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h" bodystart="42" bodyend="87"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6725719c887fd9702ca0529d73c219e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>DynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>getSolution</name></member>
-      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a8916aae4ea7dcbf75e728c6051cab04a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>integrate</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad2c63846cd440f0a9de4c13973dae7e3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>integrate</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a46b112d6863d23df09e3814fe24c62a3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>m_dynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a5451a664b250c963ad16ded761e7fd1b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>setDynamicalSystem</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a6faac6e30bf7310bf3b2692f00c544e7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</scope><name>State</name></member>

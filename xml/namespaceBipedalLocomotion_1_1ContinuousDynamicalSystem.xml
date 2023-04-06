@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CompliantContactWrench</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</innerclass>
@@ -36,6 +37,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h" line="19" column="1"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="24" column="1"/>
   </compounddef>
 </doxygen>

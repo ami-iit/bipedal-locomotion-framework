@@ -138,6 +138,17 @@
   <compound refid="structEigen_1_1internal_1_1cast__impl_3_01CppAD_1_1AD_3_01Scalar_01_4_00_01Scalar_01_4" kind="struct"><name>Eigen::internal::cast_impl&lt; CppAD::AD&lt; Scalar &gt;, Scalar &gt;</name>
     <member refid="structEigen_1_1internal_1_1cast__impl_3_01CppAD_1_1AD_3_01Scalar_01_4_00_01Scalar_01_4_1a6cab4c37aaea55a47c360e99501768d5" kind="function"><name>run</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1aca4d5760108b992da024dce2d66033fd" kind="variable"><name>m_gravity</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1ad2f84f5b210068f38e0abd7d322c4bfb" kind="variable"><name>m_mass</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a592a719d8efe8e1eb67909a2a8efb52b" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a796d98caf8c6c8eaf7822b51eaaed68d" kind="variable"><name>m_controlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a688c5f09f185bda1047a65443ab41023" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1ad941e8bf871aa451ddcbb86f825cf161" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1add8efa82e13a7e4c010bba3192b06029" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1adcdb4257da331bad9af2a94ce9551b9e" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a60fa86d3a8a46ac3055203c1973a826c" kind="function"><name>setControlInput</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" kind="class"><name>BipedalLocomotion::System::ClockBuilder</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1aaeba0c51ba3f7e4efada474492533d32" kind="variable"><name>m_factory</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockBuilder_1ad31de193cbf85a1427ec04e982cc1114" kind="variable"><name>m_clockAlreadyCalledOnce</name></member>
@@ -494,11 +505,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a4c2a4bbac36e26c14571f79bfd6e4fa7" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a9db00a84b6f839cffe896d25deb145d7" kind="function"><name>derived</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1ad30d63f14c420d4c83a816cee4217966" kind="function"><name>derived</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1acdf502c2b0255825ac578e2d962072b4" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1adea6b2fa40906bbc9198975e620e5ac4" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1acafa2d1ec7a13c58736990e678e4ba47" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a9f413dff797cbc805417478d3519a640" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a141c1d0475b59777195c3e02a12cd0bb" kind="function"><name>setControlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a8060b3b647f60533e9b822e1164f1933" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a464077f4f1329cc6a5697f1a874d6c48" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kind="struct"><name>BipedalLocomotion::Contacts::EstimatedContact</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1afe72997e9101e4f602330ba825b7a46e" kind="variable"><name>switchTime</name></member>
@@ -557,10 +568,10 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a35d7c2ed068f83d1e47114b9b759df28" kind="variable"><name>m_massMatrixReglarizationTerm</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a5e7127550078cb160c8542f5f517142c" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a5e7c20e9277cb4142fe8472528d9325e" kind="variable"><name>m_controlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a47f417380ed5ffa6ad8ce68bdb78b106" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a888cb4a4f138daa08e115272572e1603" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a1c9d50c33a6e1476ac05a40b9fe8a025" kind="function"><name>setRobotModel</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1ab7c97c7e5aaf7bb504db08932a6f32b8" kind="function"><name>setMassMatrixRegularization</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a9ee5f109eba56b40efef1975da341ccc" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1acdccff38d978985beacaa73e8f8c2d00" kind="function"><name>dynamics</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1a14ec9a9d11edde6ef2eb4b979820975a" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1af5182cd7a52710b2780aa6f12b3ec545" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics_1aa9057a03d97318828a07971b083917cb" kind="function"><name>setControlInput</name></member>
@@ -581,10 +592,10 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a36710acd36e8981454d189b94c4a82c6" kind="typedef"><name>DynamicalSystem</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aa161bef36bfe0269101b546ce1faf986" kind="typedef"><name>State</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a09ee7311ce7327f0e334bd089c948b45" kind="typedef"><name>StateDerivative</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a0e7c63f41a63c4945fddf1219cb25632" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1ac280ef326a7990da7f071ab017a09be0" kind="function"><name>setIntegrationStep</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1aba2da45951b8666480904b057bb9f7c8" kind="function"><name>getIntegrationStep</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a57e3eb0f7cdcf33de88056df74b63697" kind="function"><name>integrate</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a865139e9df376f36002aa583a6b808b6" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a776a713f984cf23a5869285444e4a18d" kind="function"><name>setIntegrationStep</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a1222b64cb5d84f0c8f76f91f59a3586d" kind="function"><name>getIntegrationStep</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator_1a9597b90a5fd1c146b9c9bd01098c92f9" kind="function"><name>integrate</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseDynamicsWithCompliantContacts</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1af1df499b338f4977df8c75c8e16740f9" kind="variable"><name>m_baseDoFs</name></member>
@@ -601,10 +612,10 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a66943abec9358949babea31c4d847c32" kind="variable"><name>m_rho</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a3a86c0199df393ed0ff37dc44bc3878f" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1aca3ac725797470470c1e91217a5cde9d" kind="variable"><name>m_controlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a3de877c5b63858b8aeafaa538509cca1" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1aa84de1b19527392fdb63b9189d7c9520" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a6900ac52fdcf446ff813a6e0f8879d49" kind="function"><name>setRobotModel</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1af58b1f2a90f15d7d7ba19c00e6e6430c" kind="function"><name>setMassMatrixRegularization</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a092bf95a160b24b995ca299101cb87e2" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1afc24358b037bfd03f18bcfb40897929e" kind="function"><name>dynamics</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a064aab26bdad75880e872cf67f656cc1" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a92f1e01702673cb8244a2a50b979d257" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts_1a4ed1098708551f632bf7e6677f10c091" kind="function"><name>setControlInput</name></member>
@@ -660,11 +671,11 @@
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa40da49ea837569d7d19423b8674fbbc" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8efc2ecfd6577b8f024a97bba794a819" kind="variable"><name>m_controlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a6a7efa3015fe8cf007ede3ec653bff9b" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a492ab8f2ad62641d67bd0aed72ac76f7" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8ead6c79af9d3473733179976ee59304" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1ab94a2ca52a4c1ef7b69a94131b3a3629" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a813ab32725b95f0e7680eb004bd6b554" kind="function"><name>setControlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa38952215adbef47f3c318dc6f03de42" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a508c5e981607993d35c474a45a91130b" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1aa26271c83b32e174a8fea487a2dafc4a" kind="typedef"><name>DynamicalSystem</name></member>
@@ -672,7 +683,9 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a6d16666e106b95c9c22e9728f296784f" kind="typedef"><name>StateDerivative</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1abfc3632b0828ed814cd2b66cdcc69b8a" kind="variable"><name>m_computationalBufferStateDerivative</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a491a5deca0f05011b06196f4d6327355" kind="variable"><name>m_computationalBufferState</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1af0988afc85089293f8b6e92fb4011b55" kind="function"><name>addArea</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1ad1da96262f79ea761b2150abd93e0a13" kind="function"><name>addArea</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a74718ab81961704a7d07228fc7d7ed36" kind="function"><name>addArea</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a327ae91a49792ef50315363408e74053" kind="function"><name>oneStepIntegration</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386d" kind="enum"><name>Direction</name></member>
@@ -833,7 +846,7 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a5451a664b250c963ad16ded761e7fd1b" kind="function"><name>setDynamicalSystem</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a074cbee339717f65f76b4120dc3df05a" kind="function"><name>dynamicalSystem</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ae6265b4cb4bfece95a6c46358ac5ab52" kind="function"><name>getSolution</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1a8916aae4ea7dcbf75e728c6051cab04a" kind="function"><name>integrate</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator_1ad2c63846cd440f0a9de4c13973dae7e3" kind="function"><name>integrate</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState" kind="struct"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators::InternalState</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1InternalState_1ad8e27d7cf89c47035f2870b89af4c015" kind="variable"><name>imuOrientation</name></member>
@@ -1021,7 +1034,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1ad4a7ce8c40982e36b72196919e49bc93" kind="variable"><name>m_upperLimits</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a1fbaaa73df7e3316cb86b3f1292e552c" kind="variable"><name>m_lowerLimits</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a06979bf85dc07e67b5d9ef15eeb42781" kind="variable"><name>m_isLimitConsideredForAllJoints</name></member>
-    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2409e3d2baa0fc08d0292654418836e0" kind="variable"><name>m_samplingTime</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a36a5cb4a5488c6a54d41054c557c7f85" kind="variable"><name>m_samplingTime</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1afb32151b82fdf936caa25cd3ca3f2977" kind="variable"><name>m_robotVelocityVariableName</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a7600bf450540141ae62f78f15f074148" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1acd36d02800c203816aee150f76b1916f" kind="variable"><name>m_isValid</name></member>
@@ -1130,11 +1143,11 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a7f72e48dbb9ec8003189be3d2afa89f1" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a9ee59ea42cc3851f572235c00853476d" kind="variable"><name>m_controlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a236443ad6a25804da5c4f5ddc4388e8d" kind="function"><name>setSystemMatrices</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a45f3477e8e10d477ef03de8556ff1923" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a19ca5e91b1b2e4fbf5ffb5e2be303ffe" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a6c9ad2e9e462c31335610b3ddbac7f98" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a5edc5d29741f54e3e466d47e93798201" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1acc615712887f6f1eb060de6f95c994ab" kind="function"><name>setControlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a947e70ca578b2b9220de02012f03c440" kind="function"><name>dynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem_1a0307d4b9547fffebdcd6184ee8edeb29" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder" kind="class"><name>BipedalLocomotion::TextLogging::LoggerBuilder</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder_1a1d6ee23c6232b5712fc20fd7d1c65f46" kind="variable"><name>m_factory</name></member>
@@ -1203,6 +1216,34 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a7d971ca498c751ee6a24bb27b0edbb8a" kind="function"><name>reset</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a0957336abdfda330e80aec47c2d5429b" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a2de5cc8fedca73e0a615ba3f505534be" kind="function"><name>isOutputValid</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param" kind="struct"><name>BipedalLocomotion::GenericContainer::named_param</name>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1a8a0929e8b49290a44d0e5090706995e8" kind="typedef"><name>Type</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1a96d9b25feeef377c1cd25147773db1cb" kind="variable"><name>hash</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1a39206e1c9f4aac5028ec0452bfb7e5a0" kind="variable"><name>param</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1a65a522d7aa56072d212e4ffaf994ac39" kind="function"><name>named_param</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1ad8873e93cbed40f8ed07f1668c48bc29" kind="function"><name>named_param</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__param_1ab4c69bb22c57af73fc3d38cdc2d1ef2c" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kind="struct"><name>BipedalLocomotion::GenericContainer::named_tuple</name>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1ae0678a6ed65835895dc29fc28b5ff9d0" kind="typedef"><name>underlying_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a695fe9ef7bf4ac9a9b3e80a822d2044a" kind="variable"><name>error</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1ae0998b1c3455b0663ce8ba685a73fb8c" kind="function"><name>named_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1aab715eb5e81fbe7a8eb30b74767e2c3b" kind="function"><name>named_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a639718fa237c24ba9865876e449f7202" kind="function"><name>named_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a64bba5aa718265896658eb2e0411c8b8" kind="function"><name>named_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a97abdf681a3aecdc7277984412910b21" kind="function"><name>operator=</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a95a086685c1ad77b94464fb6d7f49ae5" kind="function"><name>get</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a0e6ab3315e814585124ff6bb1952ace5" kind="function"><name>get</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a915b403920de6dc9408df99dd0aff863" kind="function"><name>get_from_hash</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a5a4d6b22b3f493abfba148d977e04b25" kind="function"><name>get_from_hash</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1ac18226129c902c1daeea6f5dd59b8be4" kind="function"><name>to_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a0d096e7d209a199be7b4db9c1643545c" kind="function"><name>copy_to_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1ac06ffb307e2dd77980ff6589c78d8cbc" kind="function"><name>copy_to_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a8c513521fb117d766b521c64c637fd93" kind="function"><name>copy_from_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1ae801887c1b19e6dd87ae0b4a832acb09" kind="function"><name>copy_from_tuple</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a8bb79073debf1e24d032bb031e301651" kind="function"><name>get_element_index</name></member>
+    <member refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple_1a4f9541d54e9f949a34e08ba7eb1ca77b" kind="function"><name>get_element_index</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options" kind="struct"><name>BipedalLocomotion::Estimators::FloatingBaseEstimators::Options</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1Options_1a47215fa1057791f8e403f2e9f8bdb4db" kind="variable"><name>imuBiasEstimationEnabled</name></member>
@@ -1938,7 +1979,34 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits</name>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a3df6f5ac079f0010c22c01cca5709e67" kind="typedef"><name>Contacts</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a591c23b38391b2cce826284f3548f1fb" kind="typedef"><name>ExternalForce</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a07827264ac141dc5936ff67000bd60b0" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a73ad643100c564c88e357e85bf356e91" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1accea5b62991680eb681fa6ebd0139fb6" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aaaf39ecefe07a78b052c60e9760d1508" kind="typedef"><name>DynamicalSystem</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01const_01T_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; const T &gt;</name>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FixedBaseDynamics &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1a69e97d938e6a4e430b4d7734b9a1ac47" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1aff47f2ecaf7b842acb361fcb34b35e9f" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1af25dcec36cbc628365c770f4786df64c" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1a748ccba8596505afc224edbb20b3be2c" kind="typedef"><name>DynamicalSystem</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemKinematics &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1aeb47d2c21f6e62b36e7f8b73ff6cc203" kind="typedef"><name>Twist</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1a1feead60eb59a1d51dd8feeb59cb7f75" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1adf3551f97661d6b6e447a50e48d5b491" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1ab47c2652d605e278b438ef26ab81eb15" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1a16778e45b544ad400c5af343fd3b3318" kind="typedef"><name>DynamicalSystem</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; LinearTimeInvariantSystem &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4_1a2c28cb16cc6eeb8da878e1a80af735f7" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4_1ab28a86e30a89a783c01852c731b26383" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4_1a53cbf9cc4ad281786aef7cd1ee6f17d5" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4_1ac8ee65fabbd1bc8b1d479d97f465728b" kind="typedef"><name>DynamicalSystem</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kind="struct"><name>BipedalLocomotion::TSID::TSIDLinearTask</name>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1a7ba94cb320d7b4c367ed01c14ef29d73" kind="function"><name>~TSIDLinearTask</name></member>
@@ -1949,7 +2017,11 @@
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1a4ceb073d81987f718c5f29784e199bbd" kind="variable"><name>jointTorques</name></member>
     <member refid="structBipedalLocomotion_1_1TSID_1_1TSIDState_1aff5d8065eea618abc03017e1b629cdb5" kind="variable"><name>contactWrenches</name></member>
   </compound>
+  <compound refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" kind="struct"><name>std::tuple_element&lt; Index, ::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</name>
+  </compound>
   <compound refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct"><name>std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</name>
+  </compound>
+  <compound refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" kind="struct"><name>std::tuple_size&lt;::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</name>
   </compound>
   <compound refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct"><name>std::tuple_size&lt;::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</name>
   </compound>
@@ -2253,8 +2325,8 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1a47a754ca24dc3823a1817831ae49b06e" kind="function"><name>flush_</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
-    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
     <member refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1AutoDiff" kind="namespace"><name>BipedalLocomotion::AutoDiff</name>
   </compound>
@@ -2310,7 +2382,17 @@
   <compound refid="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator" kind="namespace"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1GenericContainer" kind="namespace"><name>BipedalLocomotion::GenericContainer</name>
+    <member refid="NamedTuple_8h_1aeae062fde867d3cef830c1dbfe1e807f" kind="typedef"><name>hash_type</name></member>
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
+    <member refid="NamedTuple_8h_1ac322ee615f7d23018c47ef2b3290b2fa" kind="function"><name>make_named_tuple</name></member>
+  </compound>
+  <compound refid="namespaceBipedalLocomotion_1_1GenericContainer_1_1detail" kind="namespace"><name>BipedalLocomotion::GenericContainer::detail</name>
+    <member refid="NamedTuple_8h_1a1fef8fa8f5b2a174c4aa0143ac6d38e4" kind="variable"><name>fnv_basis</name></member>
+    <member refid="NamedTuple_8h_1abe2a8fa6b5391ef105f921739638ddc2" kind="variable"><name>fnv_prime</name></member>
+    <member refid="NamedTuple_8h_1a55ff57492466984d38bf67e302d26189" kind="function"><name>sid_hash</name></member>
+  </compound>
+  <compound refid="namespaceBipedalLocomotion_1_1GenericContainer_1_1literals" kind="namespace"><name>BipedalLocomotion::GenericContainer::literals</name>
+    <member refid="NamedTuple_8h_1ae7307e277e474f3dbb9f95f3e0e2b758" kind="function"><name>operator&quot;&quot;_h</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1IK" kind="namespace"><name>BipedalLocomotion::IK</name>
     <member refid="IKLinearTask_8h_1a8c62c5d64e69c728eecbee447e1e6ae5" kind="typedef"><name>IKLinearTaskFactory</name></member>
@@ -2330,8 +2412,8 @@
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
-    <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
     <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Perception" kind="namespace"><name>BipedalLocomotion::Perception</name>
   </compound>
@@ -2376,8 +2458,8 @@
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
-    <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
     <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
+    <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
   </compound>
@@ -2405,6 +2487,8 @@
   <compound refid="namespacespdlog_1_1sinks" kind="namespace"><name>spdlog::sinks</name>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
+    <member refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kind="function"><name>get</name></member>
+    <member refid="NamedTuple_8h_1a9edd803ba26171a0e7f55d52cb35a6e4" kind="function"><name>get</name></member>
   </compound>
   <compound refid="main-page_8dox" kind="file"><name>main-page.dox</name>
   </compound>
@@ -2442,6 +2526,8 @@
   </compound>
   <compound refid="ContactPhaseList_8h" kind="file"><name>ContactPhaseList.h</name>
   </compound>
+  <compound refid="CentroidalDynamics_8h" kind="file"><name>CentroidalDynamics.h</name>
+  </compound>
   <compound refid="CompliantContactWrench_8h" kind="file"><name>CompliantContactWrench.h</name>
   </compound>
   <compound refid="DynamicalSystem_8h" kind="file"><name>DynamicalSystem.h</name>
@@ -2449,7 +2535,6 @@
   <compound refid="FirstOrderSmoother_8h" kind="file"><name>FirstOrderSmoother.h</name>
   </compound>
   <compound refid="FixedBaseDynamics_8h" kind="file"><name>FixedBaseDynamics.h</name>
-    <member refid="FixedBaseDynamics_8h_1a6400691b2dcaf8686f528b48e4246b44" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="FixedStepIntegrator_8h" kind="file"><name>FixedStepIntegrator.h</name>
   </compound>
@@ -2457,7 +2542,6 @@
     <member refid="FloatingBaseDynamicsWithCompliantContacts_8h_1a323b0e91d1928b89317a3bafe45fe8ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="FloatingBaseSystemKinematics_8h" kind="file"><name>FloatingBaseSystemKinematics.h</name>
-    <member refid="FloatingBaseSystemKinematics_8h_1aad1c4b5fb5912142d95052d983879e7f" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="ForwardEuler_8h" kind="file"><name>ForwardEuler.h</name>
   </compound>
@@ -2471,7 +2555,6 @@
   <compound refid="Integrator_8h" kind="file"><name>Integrator.h</name>
   </compound>
   <compound refid="LinearTimeInvariantSystem_8h" kind="file"><name>LinearTimeInvariantSystem.h</name>
-    <member refid="LinearTimeInvariantSystem_8h_1a65e67fed4641f8d1a11ce7a01e0197ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
   <compound refid="MultiStateWeightProvider_8h" kind="file"><name>MultiStateWeightProvider.h</name>
     <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
@@ -2521,6 +2604,18 @@
   <compound refid="SubModel_8h" kind="file"><name>SubModel.h</name>
   </compound>
   <compound refid="SubModelKinDynWrapper_8h" kind="file"><name>SubModelKinDynWrapper.h</name>
+  </compound>
+  <compound refid="NamedTuple_8h" kind="file"><name>NamedTuple.h</name>
+    <member refid="NamedTuple_8h_1a43d83ea376e1a1fa734900f0fa4b9529" kind="define"><name>BLF_STRING_TO_HASH</name></member>
+    <member refid="NamedTuple_8h_1ada076b998fea094893fd04f260e52c83" kind="define"><name>BLF_NAMED_PARAM</name></member>
+    <member refid="NamedTuple_8h_1aeae062fde867d3cef830c1dbfe1e807f" kind="typedef"><name>hash_type</name></member>
+    <member refid="NamedTuple_8h_1a1fef8fa8f5b2a174c4aa0143ac6d38e4" kind="variable"><name>fnv_basis</name></member>
+    <member refid="NamedTuple_8h_1abe2a8fa6b5391ef105f921739638ddc2" kind="variable"><name>fnv_prime</name></member>
+    <member refid="NamedTuple_8h_1a55ff57492466984d38bf67e302d26189" kind="function"><name>sid_hash</name></member>
+    <member refid="NamedTuple_8h_1ac322ee615f7d23018c47ef2b3290b2fa" kind="function"><name>make_named_tuple</name></member>
+    <member refid="NamedTuple_8h_1ae7307e277e474f3dbb9f95f3e0e2b758" kind="function"><name>operator&quot;&quot;_h</name></member>
+    <member refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kind="function"><name>get</name></member>
+    <member refid="NamedTuple_8h_1a9edd803ba26171a0e7f55d52cb35a6e4" kind="function"><name>get</name></member>
   </compound>
   <compound refid="TemplateHelpers_8h" kind="file"><name>TemplateHelpers.h</name>
   </compound>

@@ -105,7 +105,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="105">$\dot{\omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="20">$\dot{\omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -117,7 +117,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_rate_of_change_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="105">$\dot{\omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="20">$\dot{\omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -229,7 +229,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>The number of columns should be coherent with the contactPhaseList. In details the number of samples <formula id="106">$s$</formula> is equal to <formula id="107">\[ s = \left\lceil {\frac{t_f - t_i}{dT}} \right\rceil \]</formula> where <formula id="108">$dT$</formula> is the sampling time of the planner, <formula id="109">$t_f$</formula> and <formula id="110">$t_i$</formula> are the end time of the last contact and the initial time of the first contact. </para>
+<simplesect kind="note"><para>The number of columns should be coherent with the contactPhaseList. In details the number of samples <formula id="21">$s$</formula> is equal to <formula id="22">\[ s = \left\lceil {\frac{t_f - t_i}{dT}} \right\rceil \]</formula> where <formula id="23">$dT$</formula> is the sampling time of the planner, <formula id="24">$t_f$</formula> and <formula id="25">$t_i$</formula> are the end time of the last contact and the initial time of the first contact. </para>
 </simplesect>
 <simplesect kind="return"><para>true in case of success, false otherwise. </para>
 </simplesect>
@@ -293,7 +293,7 @@
         <name>isOutputValid</name>
         <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with get() </para>
+<para>Determines the validity of the object retrieved with <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref> </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
@@ -314,7 +314,7 @@
 <para>Advance the internal state. </para>
         </briefdescription>
         <detaileddescription>
-<para>This may change the value retrievable from get(). <simplesect kind="return"><para>True if the advance is successfull. </para>
+<para>This may change the value retrievable from <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref>. <simplesect kind="return"><para>True if the advance is successfull. </para>
 </simplesect>
 </para>
         </detaileddescription>
