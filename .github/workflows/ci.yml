@@ -31,6 +31,9 @@ env:
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
 
+  # Default number of cores set to one
+  NUM_CORES_FOR_CMAKE_BUILD: 1
+
 jobs:
   check-style:
     name: Find Trailing Whitespace
@@ -137,6 +140,20 @@ jobs:
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
 
+    # Get the number of cores
+    - name: Get number of cores to speed up cmake build [Windows]
+      if: matrix.os == 'windows-2019'
+      run: |
+         echo "NUM_CORES_FOR_CMAKE_BUILD=$((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors)" >> $env:GITHUB_ENV
+
+    - name: Get number of cores to speed up cmake build [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+
+    - name: Get number of cores to speed up cmake build [macOS]
+      if: matrix.os == 'macos-latest'
+      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`sysctl -n hw.logicalcpu`" >> $GITHUB_ENV
+
     - name: Cache Source-based Dependencies
       id: cache-source-deps
       uses: actions/cache@v3
@@ -158,7 +175,7 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
 
         # YARP
@@ -170,7 +187,7 @@ jobs:
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
         # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
         export IPOPT_DIR=${VCPKG_INSTALLATION_ROOT}/installed/x64-windows
 
@@ -186,7 +203,7 @@ jobs:
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp
         cd ${GITHUB_WORKSPACE}
@@ -198,7 +215,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp-eigen
         cd ${GITHUB_WORKSPACE}
@@ -211,7 +228,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
 
         # CasADi
@@ -233,7 +250,7 @@ jobs:
                      -DBIN_PREFIX:PATH="bin" \
                      -DWITH_IPOPT=BOOL:ON \
                      -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # manif
         cd ${GITHUB_WORKSPACE}
@@ -246,7 +263,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
@@ -259,7 +276,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
@@ -272,7 +289,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # UnicycleFootstepPlanner
         cd ${GITHUB_WORKSPACE}
@@ -285,7 +302,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
 
         # icub-models
@@ -300,7 +317,7 @@ jobs:
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                      -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # robometry
         cd ${GITHUB_WORKSPACE}
@@ -313,7 +330,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
@@ -328,7 +345,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # YCM
         cd ${GITHUB_WORKSPACE}
@@ -337,7 +354,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # YARP
         cd ${GITHUB_WORKSPACE}
@@ -347,7 +364,7 @@ jobs:
         mkdir -p build
         cd build
         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # iDynTree
         cd ${GITHUB_WORKSPACE}
@@ -361,7 +378,7 @@ jobs:
               -DIDYNTREE_USES_PYTHON:BOOL=ON \
               -DIDYNTREE_USES_ASSIMP:BOOL=ON \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp
         cd ${GITHUB_WORKSPACE}
@@ -371,7 +388,7 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp-eigen
         cd ${GITHUB_WORKSPACE}
@@ -382,7 +399,7 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # CasADi
         cd ${GITHUB_WORKSPACE}
@@ -392,7 +409,7 @@ jobs:
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON \
               -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # manif
         cd ${GITHUB_WORKSPACE}
@@ -402,7 +419,7 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
@@ -412,7 +429,7 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
@@ -422,7 +439,7 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # UnicycleFootstepPlanner
         cd ${GITHUB_WORKSPACE}
@@ -432,7 +449,7 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # icub-models
         cd ${GITHUB_WORKSPACE}
@@ -442,7 +459,7 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # robometry
         cd ${GITHUB_WORKSPACE}
@@ -451,7 +468,7 @@ jobs:
         git checkout ${telemetry_TAG}
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Catch2 Dependency [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
@@ -466,7 +483,7 @@ jobs:
                -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                -DBUILD_TESTING=OFF ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Catch2 Dependency [Windows]
       if: matrix.os == 'windows-2019'
@@ -483,7 +500,7 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
                      -DBUILD_TESTING=OFF ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Source-based Dependencies [Ubuntu]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
@@ -499,7 +516,7 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # CppAD
         git clone https://github.com/coin-or/CppAD.git
@@ -511,7 +528,7 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DBUILD_TESTING=OFF ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Install manifpy [Ubuntu/macOS]
       if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
@@ -588,7 +605,7 @@ jobs:
             echo "Testing ${missing_dep} as missing dependency."
             # Deselect missing dependency and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
-            cmake --build . --config ${{ matrix.build_type }}
+            cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
             # Enable again dependency
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
         done
@@ -600,11 +617,11 @@ jobs:
         # Attempt of fix for using YARP idl generators (that link ACE) in Windows
         # See https://github.com/robotology/idyntree/issues/569
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        cmake --build . --config ${{ matrix.build_type }}
+        cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Test
       shell: bash
       run: |
         cd build
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        ctest --output-on-failure -C ${{ matrix.build_type }} .
+        ctest --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
