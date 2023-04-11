@@ -158,10 +158,11 @@ struct CentroidalMPC::Impl
 
     struct OptimizationSettings
     {
-        unsigned long solverVerbosity{1}; /**< Verbosity of ipopt */
+        int solverVerbosity{0}; /**< Verbosity of ipopt */
         std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
         double ipoptTolerance{1e-8}; /**< Tolerance of ipopt
                                         (https://coin-or.github.io/Ipopt/OPTIONS.html) */
+        int ipoptMaxIteration{3000}; /**< Maximum number of iteration */
 
         int horizon; /**<Number of samples used in the horizon */
         std::chrono::nanoseconds samplingTime; /**< Sampling time of the planner */
@@ -344,17 +345,33 @@ struct CentroidalMPC::Impl
 
         if (!ptr->getParameter("linear_solver", this->optiSettings.ipoptLinearSolver))
         {
-            log()->info("{} The default linear solver will be used: {}.",
+            log()->info("{} 'linear_solver' not found. The default parameter will be used: {}.",
                         errorPrefix,
                         this->optiSettings.ipoptLinearSolver);
         }
 
         if (!ptr->getParameter("ipopt_tolerance", this->optiSettings.ipoptTolerance))
         {
-            log()->info("{} The default ipopt tolerance will be used: {}.",
+            log()->info("{} 'ipopt_tolerance' not found. The default parameter will be used: {}.",
                         errorPrefix,
                         this->optiSettings.ipoptTolerance);
         }
+
+        if (!ptr->getParameter("ipopt_max_iteration", this->optiSettings.ipoptMaxIteration))
+        {
+            log()->info("{} 'ipopt_max_iteration' not found. The default parameter will be used: "
+                        "{}.",
+                        errorPrefix,
+                        this->optiSettings.ipoptMaxIteration);
+        }
+
+        if (!ptr->getParameter("solver_verbosity", this->optiSettings.solverVerbosity))
+        {
+            log()->info("{} 'solver_verbosity' not found. The default parameter will be used: {}.",
+                        errorPrefix,
+                        this->optiSettings.solverVerbosity);
+        }
+
 
         bool ok = true;
         ok = ok && ptr->getParameter("com_weight", this->weights.com);
@@ -596,6 +613,7 @@ struct CentroidalMPC::Impl
             casadiOptions["print_time"] = false;
         }
 
+        ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
         casadiOptions["expand"] = true;
 
@@ -767,6 +785,7 @@ struct CentroidalMPC::Impl
         }
 
         this->opti.minimize(cost);
+
 
         this->setupOptiOptions();
 
@@ -1012,12 +1031,11 @@ bool CentroidalMPC::advance()
             //             nextPlannedContactTime,
             //             index);
 
-            m_pimpl->state.nextPlannedContact[key].activationTime
-                = nextPlannedContact->activationTime;
-            m_pimpl->state.nextPlannedContact[key].deactivationTime
-                = nextPlannedContact->deactivationTime;
-            m_pimpl->state.nextPlannedContact[key].index = nextPlannedContact->index;
-            m_pimpl->state.nextPlannedContact[key].type = nextPlannedContact->type;
+            auto& contact = m_pimpl->state.nextPlannedContact[key];
+            contact.activationTime = nextPlannedContact->activationTime;
+            contact.deactivationTime = nextPlannedContact->deactivationTime;
+            contact.index = nextPlannedContact->index;
+            contact.type = nextPlannedContact->type;
         }
 
         std::advance(it, 1);
@@ -1184,8 +1202,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         const std::chrono::nanoseconds tInitial = std::max(m_pimpl->currentTime, it->beginTime);
         const std::chrono::nanoseconds tFinal = std::min(absoluteTimeHorizon, it->endTime);
 
-        const int numberOfSamples
-            = std::round((tFinal - tInitial) / m_pimpl->optiSettings.samplingTime);
+        const int numberOfSamples = (tFinal - tInitial) / m_pimpl->optiSettings.samplingTime;
 
         for (const auto& [key, contact] : it->activeContacts)
         {

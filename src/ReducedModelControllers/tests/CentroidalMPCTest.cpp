@@ -41,14 +41,16 @@ void updateContactPhaseList(
 TEST_CASE("CentroidalMPC")
 {
     using namespace std::chrono_literals;
-    std::chrono::nanoseconds dT = 100ms;
+    std::chrono::nanoseconds dT = 50ms;
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("controller_sampling_time", dT);
-    handler->setParameter("controller_horizon", 15);
+    handler->setParameter("controller_horizon", 10);
     handler->setParameter("number_of_maximum_contacts", 2);
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
+    handler->setParameter("solver_verbosity", 4);
+    handler->setParameter("ipopt_max_iteration", 5);
     handler->setParameter("linear_solver", "ma97");
 
     auto contact0Handler = std::make_shared<StdImplementation>();
@@ -88,10 +90,7 @@ TEST_CASE("CentroidalMPC")
     BipedalLocomotion::Contacts::ContactPhaseList phaseList;
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
 
-
     BipedalLocomotion::Planners::QuinticSpline comSpline;
-    std::vector<Eigen::VectorXd> knots;
-    std::vector<double> time;
 
 
     constexpr int scaling = 1;
@@ -273,8 +272,6 @@ TEST_CASE("CentroidalMPC")
             auto newPhaseIt = phaseList.getPresentPhase(currentTime);
             if(newPhaseIt != phaseIt)
             {
-                std::cout << "neww phase" << std::endl;
-
                 // check if new contact is established
                 if (phaseIt->activeContacts.size() == 1 && newPhaseIt->activeContacts.size() == 2)
                 {
@@ -356,7 +353,9 @@ TEST_CASE("CentroidalMPC")
 
         controllerIndex++;
         if (controllerIndex == int(dT / integratorStepTime))
+        {
             controllerIndex = 0;
+        }
     }
 
     myFile.close();
