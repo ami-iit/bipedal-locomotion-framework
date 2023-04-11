@@ -74,8 +74,17 @@ struct CentroidalMPC::Impl
         casadi::DM position;
         casadi::MX force;
 
+        std::string cornerName;
+
+        CasadiCorner(const std::string& cornerName)
+            : cornerName(cornerName)
+        {
+        }
+
         CasadiCorner() = default;
-        CasadiCorner(const Corner& other)
+
+        CasadiCorner(const std::string& cornerName, const Corner& other)
+            : cornerName(cornerName)
         {
             this->operator=(other);
         }
@@ -87,7 +96,7 @@ struct CentroidalMPC::Impl
             this->position(1, 0) = other.position(1);
             this->position(2, 0) = other.position(2);
 
-            this->force = casadi::MX::sym("force", other.force.size(), 1);
+            this->force = casadi::MX::sym(cornerName + "_force", other.force.size(), 1);
 
             return *this;
         }
@@ -101,7 +110,12 @@ struct CentroidalMPC::Impl
         casadi::MX isEnable;
         std::vector<CasadiCorner> corners;
 
-        CasadiContact() = default;
+        std::string contactName;
+
+        CasadiContact(const std::string& contactName)
+            : contactName(contactName)
+        {
+        }
 
         CasadiContact& operator=(const DiscreteGeometryContact& other)
         {
@@ -109,18 +123,20 @@ struct CentroidalMPC::Impl
 
             for (int i = 0; i < other.corners.size(); i++)
             {
+                this->corners[i].cornerName = contactName + "_" + std::to_string(i);
                 this->corners[i] = other.corners[i];
             }
 
-            this->orientation = casadi::MX::sym("orientation", 3 * 3);
-            this->position = casadi::MX::sym("position", 3);
-            this->linearVelocity = casadi::MX::sym("linear_velocity", 3);
-            this->isEnable = casadi::MX::sym("is_enable");
+            this->orientation = casadi::MX::sym(contactName + "_orientation", 3 * 3);
+            this->position = casadi::MX::sym(contactName + "_position", 3);
+            this->linearVelocity = casadi::MX::sym(contactName + "_linear_velocity", 3);
+            this->isEnable = casadi::MX::sym(contactName + "_is_enable");
 
             return *this;
         }
 
-        CasadiContact(const DiscreteGeometryContact& other)
+        CasadiContact(const std::string& contactName, const DiscreteGeometryContact& other)
+            : contactName(contactName)
         {
             this->operator=(other);
         }
@@ -128,6 +144,12 @@ struct CentroidalMPC::Impl
 
     struct CasadiContactWithConstraints : CasadiContact
     {
+
+        CasadiContactWithConstraints(const std::string& contactName)
+            : CasadiContact(contactName)
+        {
+        }
+
         casadi::MX currentPosition;
         casadi::MX nominalPosition;
         casadi::MX upperLimitPosition;
@@ -356,15 +378,21 @@ struct CentroidalMPC::Impl
     casadi::Function ode()
     {
         // Convert DiscreteGeometryContact into a casadiContact object
-        std::map<std::string, CasadiContact> casadiContacts(this->state.contacts.begin(),
-                                                            this->state.contacts.end());
+        std::map<std::string, CasadiContact> casadiContacts;
+
+        for (const auto& [key, contact] : this->state.contacts)
+        {
+            CasadiContact temp(key);
+            temp = contact;
+            auto [contactIt, outcome] = casadiContacts.emplace(key, temp);
+        }
 
         // we assume mass equal to 1
         constexpr double mass = 1;
 
-        casadi::MX com = casadi::MX::sym("com", 3);
-        casadi::MX dcom = casadi::MX::sym("dcom", 3);
-        casadi::MX angularMomentum = casadi::MX::sym("angular_momentum", 3);
+        casadi::MX com = casadi::MX::sym("com_in", 3);
+        casadi::MX dcom = casadi::MX::sym("dcom_in", 3);
+        casadi::MX angularMomentum = casadi::MX::sym("angular_momentum_in", 3);
 
         casadi::MX externalForce = casadi::MX::sym("external_force", 3);
 
@@ -499,7 +527,7 @@ struct CentroidalMPC::Impl
         {
             auto [contactIt, outcome]
                 = this->optiVariables.contacts.insert_or_assign(key,
-                                                                CasadiContactWithConstraints());
+                                                                CasadiContactWithConstraints(key));
 
             auto& c = contactIt->second;
 
@@ -688,16 +716,13 @@ struct CentroidalMPC::Impl
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
 
+        // (max - mix) * expo + mi n
         casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
         double min = this->weights.com(2) / 2;
         for (int i = 0; i < com.columns(); i++)
         {
             weightCoMZ(Sl(), i) = (this->weights.com(2) - min) * std::exp(-i) + min;
         }
-
-        std::cerr << "------------------_>>> " << weightCoMZ << std::endl;
-
-        // (max - mix) * expo + min
 
         casadi::MX cost
             = this->weights.angularMomentum * 10 * casadi::MX::sumsqr(angularMomentum(0, Sl()))
@@ -774,8 +799,8 @@ struct CentroidalMPC::Impl
 
             inputName.push_back("contact_" + key + "_current_position");
             inputName.push_back("contact_" + key + "_nominal_position");
-            inputName.push_back("contact_" + key + "_orientation");
-            inputName.push_back("contact_" + key + "_is_enable");
+            inputName.push_back("contact_" + key + "_orientation_in");
+            inputName.push_back("contact_" + key + "_is_enable_in");
             inputName.push_back("contact_" + key + "_upper_limit_position");
             inputName.push_back("contact_" + key + "_lower_limit_position");
 
@@ -812,6 +837,17 @@ struct CentroidalMPC::Impl
         // contact_right_foot_is_enable[1x15], contact_right_foot_corner_0_force[3x15],
         // contact_right_foot_corner_1_force[3x15], contact_right_foot_corner_2_force[3x15],
         // contact_right_foot_corner_3_force[3x15])
+
+        // casadi::Dict options;
+        // options["jit"] = true;
+        // options["compiler"] = "shell";
+
+        // casadi::Dict jit_options;
+        // jit_options["flags"] = {"-O3"};
+        // jit_options["verbose"] = true;
+
+        // options["jit_options"] = jit_options;
+
         return this->opti.to_function("controller", input, output, inputName, outputName);
     }
 };
@@ -920,9 +956,6 @@ bool CentroidalMPC::advance()
     m_pimpl->state.nextPlannedContact.clear();
     for (auto& [key, contact] : m_pimpl->state.contacts)
     {
-        // the first output tell us if a contact is enabled
-        log()->info("actovation sequence {}", toEigen(*it));
-
         int index = toEigen(*it).size();
         const int size = toEigen(*it).size();
         for (int i = 0; i < size; i++)
@@ -970,14 +1003,14 @@ bool CentroidalMPC::advance()
                 return false;
             }
 
-            log()->warn("[CentroidalMPC] key {} next planned contact pose {} activation time {} "
-                        "deactivation time {} next planned contact time {} index {}",
-                        key,
-                        m_pimpl->state.nextPlannedContact[key].pose.translation().transpose(),
-                        nextPlannedContact->activationTime,
-                        nextPlannedContact->deactivationTime,
-                        nextPlannedContactTime,
-                        index);
+            // log()->warn("[CentroidalMPC] key {} next planned contact pose {} activation time {} "
+            //             "deactivation time {} next planned contact time {} index {}",
+            //             key,
+            //             m_pimpl->state.nextPlannedContact[key].pose.translation().transpose(),
+            //             nextPlannedContact->activationTime,
+            //             nextPlannedContact->deactivationTime,
+            //             nextPlannedContactTime,
+            //             index);
 
             m_pimpl->state.nextPlannedContact[key].activationTime
                 = nextPlannedContact->activationTime;
@@ -1071,8 +1104,6 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
         m_pimpl->state.externalWrench = externalWrench.value();
     }
 
-    std::cerr << "external wrench" << std::endl << inputs.externalWrench << std::endl;
-
     return true;
 }
 
@@ -1143,7 +1174,6 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     if (finalPhase == contactPhaseList.end())
     {
         finalPhase = std::prev(contactPhaseList.end());
-        std::cerr << "error" << std::endl;
         return false;
     }
 
