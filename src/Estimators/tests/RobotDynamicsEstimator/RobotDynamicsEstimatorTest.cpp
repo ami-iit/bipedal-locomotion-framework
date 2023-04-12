@@ -22,7 +22,7 @@
 #include <iDynTree/ModelIO/ModelLoader.h>
 #include <iDynTree/KinDynComputations.h>
 
-//LIBRARYTOTEST
+// RDE
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h>
@@ -83,7 +83,7 @@ void createInitialState(std::shared_ptr<iDynTree::KinDynComputations> kinDynFull
                         Eigen::Ref<Eigen::VectorXd> jointTorques,
                         IParametersHandler::weak_ptr modelHandler,
                         const std::vector<SubModel>& subModelList,
-                        Output& initialState)
+                        RobotDynamicsEstimatorOutput& initialState)
 {
     // All the values set here come from an experiment on the real robot
 
@@ -135,7 +135,7 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
                  Eigen::Ref<Eigen::VectorXd> jointTorques,
                  IParametersHandler::weak_ptr modelHandler,
                  const std::vector<SubModel>& subModelList,
-                 Input& input)
+                 RobotDynamicsEstimatorInput& input)
 {
     // All the values set here come from an experiment on the real robot
 
@@ -262,7 +262,7 @@ TEST_CASE("RobotDynamicsEstimator")
                             extWrench,
                             jointTorques);
 
-    Output initialState;
+    RobotDynamicsEstimatorOutput initialState;
     createInitialState(kinDyn,
                        iDynTree::toEigen(jointTorques.jointTorques()),
                        modelHandler,
@@ -271,7 +271,7 @@ TEST_CASE("RobotDynamicsEstimator")
 
     REQUIRE(estimator->setInitialState(initialState));
 
-    Input measurement;
+    RobotDynamicsEstimatorInput measurement;
     createInput(kinDyn,
                 iDynTree::toEigen(jointTorques.jointTorques()),
                 modelHandler,
@@ -285,5 +285,5 @@ TEST_CASE("RobotDynamicsEstimator")
 
     BipedalLocomotion::log()->error("{}", toc - tic);
 
-    Output result = estimator->getOutput();
+    RobotDynamicsEstimatorOutput result = estimator->getOutput();
 }

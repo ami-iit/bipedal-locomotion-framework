@@ -16,6 +16,7 @@ add_subdirectory(TextLogging)
 add_subdirectory(Conversions)
 add_subdirectory(YarpUtilities)
 add_subdirectory(ContinuousDynamicalSystem)
+add_subdirectory(RobotDynamicsEstimator)
 
 include(ConfigureFileWithCMakeIf)
 

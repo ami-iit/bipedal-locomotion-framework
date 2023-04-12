@@ -82,6 +82,10 @@
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
 
+@cmakeif FRAMEWORK_COMPILE_RobotDynamicsEstimator
+#include <BipedalLocomotion/bindings/RobotDynamicsEstimator/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_RobotDynamicsEstimator
+
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
 {
@@ -182,4 +186,9 @@ PYBIND11_MODULE(bindings, m)
     py::module continuousDynamicalSystemModule = m.def_submodule("continuous_dynamical_system");
     bindings::ContinuousDynamicalSystem::CreateModule(continuousDynamicalSystemModule);
     @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+
+    @cmakeif FRAMEWORK_COMPILE_RobotDynamicsEstimator
+    py::module robotDynamicsEstimatorModule = m.def_submodule("robot_dynamics_estimator");
+    bindings::RobotDynamicsEstimator::CreateModule(robotDynamicsEstimatorModule);
+    @endcmakeif FRAMEWORK_COMPILE_RobotDynamicsEstimator
 }

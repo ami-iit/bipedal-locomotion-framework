@@ -27,10 +27,10 @@ namespace RobotDynamicsEstimator
 {
 
 /**
- * Input of the RobotDynamicsEstimator containing both the inputs and the
+ * RobotDynamicsEstimatorInput of the RobotDynamicsEstimator containing both the inputs and the
  * measurements for the Unscented Kalman Filter
  */
-struct Input
+struct RobotDynamicsEstimatorInput
 {
     manif::SE3d basePose; /**< Pose describing the robot base position and orientation. */
     manif::SE3d::Tangent baseVelocity; /**< Velocity of the robot base. */
@@ -44,10 +44,10 @@ struct Input
 };
 
 /**
- * Output of the RobotDynamicsEstimator which represents the estimation of the
+ * RobotDynamicsEstimatorOutput of the RobotDynamicsEstimator which represents the estimation of the
  * Unscented Kalman Filter
  */
-struct Output
+struct RobotDynamicsEstimatorOutput
 {
     Eigen::VectorXd ds; /**< Joints velocities in rad per sec. */
     Eigen::VectorXd tau_m; /**< Motor toruqes in Nm. */
@@ -67,7 +67,7 @@ struct Output
  * input using `setInput`, call the `advance` method to perform an estimation step, use `getOutput`
  * to get the estimation result.
  */
-class RobotDynamicsEstimator : public System::Advanceable<Input, Output>
+class RobotDynamicsEstimator : public System::Advanceable<RobotDynamicsEstimatorInput, RobotDynamicsEstimatorOutput>
 {
     /**
      * Private implementation
@@ -135,7 +135,7 @@ public:
      * @param initialState a reference to an `Output` object.
      * @return true in case of success, false otherwise.
      */
-    bool setInitialState(const Output& initialState);
+    bool setInitialState(const RobotDynamicsEstimatorOutput& initialState);
 
     /**
      * @brief Determines the validity of the object retrieved with getOutput()
@@ -153,13 +153,13 @@ public:
      * Set the input for the estimator.
      * @param input is a struct containing the input of the estimator.
      */
-    bool setInput(const Input& input) override;
+    bool setInput(const RobotDynamicsEstimatorInput& input) override;
 
     /**
      * Get the output of the ukf
      * @return A struct containing the ukf estimation result.
      */
-    const Output& getOutput() const override;
+    const RobotDynamicsEstimatorOutput& getOutput() const override;
 
 }; // class RobotDynamicsEstimator
 

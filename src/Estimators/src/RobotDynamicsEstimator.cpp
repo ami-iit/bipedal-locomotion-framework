@@ -21,7 +21,7 @@ using namespace BipedalLocomotion;
 
 struct RobotDynamicsEstimator::Impl
 {
-    Output estimatorOutput; /**< Output of the estimator. */
+    RobotDynamicsEstimatorOutput estimatorOutput; /**< Output of the estimator. */
 
     UKFInput ukfInput; /**< Object to set the provider. */
     std::shared_ptr<UkfInputProvider> inputProvider; /**< Shared pointer used by all the dynamics. It needs to be updated here. */
@@ -262,7 +262,7 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
     return estimator;
 }
 
-bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
+bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput& initialState)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimator::setInitialState]";
 
@@ -405,7 +405,7 @@ bool RobotDynamicsEstimator::advance()
     return true;
 }
 
-bool RobotDynamicsEstimator::setInput(const Input & input)
+bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput & input)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimator::setInput]";
 
@@ -441,7 +441,7 @@ bool RobotDynamicsEstimator::setInput(const Input & input)
     return true;
 }
 
-const Output& RobotDynamicsEstimator::getOutput() const
+const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
 {
      constexpr auto logPrefix = "[RobotDynamicsEstimator::getOutput]";
 
