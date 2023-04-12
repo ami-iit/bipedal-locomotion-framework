@@ -9,17 +9,11 @@
 #define BIPEDAL_LOCOMOTION_BINDINGS_REDUCED_MODEL_CONTROLLERS_CENTROIDAL_MPC_H
 
 #include <pybind11/pybind11.h>
-#include <pybind11/chrono>
 #include <pybind11/stl.h>
-#include <unordered_map>
 
-#include <casadi/casadi.hpp>
 
-#include <BipedalLocomotion/Contacts/Contact.h>
-#include <BipedalLocomotion/Math/Constants.h>
-#include <BipedalLocomotion/Math/LinearizedFrictionCone.h>
 #include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
-#include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -27,18 +21,18 @@ namespace bindings
 {
 namespace ReducedModelControllers
 {
-
 void CreateCentroidalMPC(pybind11::module& module)
 {   
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Contacts;
+    using namespace BipedalLocomotion::ReducedModelControllers;
     using namespace BipedalLocomotion::System;
     using namespace BipedalLocomotion::ParametersHandler;
+
     BipedalLocomotion::bindings::System::CreateSource<CentroidalMPCState>(module,
                                                                         "CentroidalMPCState");
-    py::class_ <CentroidalMPC, CentroidalMPCState>(module, "CentroidalMPC")
-        .def(py.init())
-        .def("initialize", py::overload_cast<std::weak_ptr<const ParametersHandler::IParametersHandler>(&CentroidalMPC::initialize), 
+    py::class_<CentroidalMPC, Source<CentroidalMPCState>>(module, "CentroidalMPC")
+        .def(py::init())
+        .def("initialize", py::overload_cast<std::weak_ptr<const ParametersHandler::IParametersHandler>>(&CentroidalMPC::initialize), 
             py::arg("handler"))
         .def("set_contact_phase_list", py::overload_cast<const Contacts::ContactPhaseList&>(&CentroidalMPC::setContactPhaseList),
             py::arg("contactPhaseList") )
@@ -51,7 +45,7 @@ void CreateCentroidalMPC(pybind11::module& module)
             py::arg("com"))
         .def("get_output", &CentroidalMPC::getOutput)
         .def("is_output_valid", &CentroidalMPC::isOutputValid)
-        .def("advance", &CentroidalMPC::advance)
+        .def("advance", &CentroidalMPC::advance);
 }
 
 } // namespace ReducedModelControllers

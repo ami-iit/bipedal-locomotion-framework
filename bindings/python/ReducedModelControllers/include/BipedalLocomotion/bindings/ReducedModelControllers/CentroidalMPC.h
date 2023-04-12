@@ -18,7 +18,6 @@ namespace ReducedModelControllers
 {
 
 void CreateCentroidalMPC(pybind11::module& module);
-void CreateCentroidalMPCState(pybind11::module& module);
 
 } // namespace ReducedModelControllers
 } // namespace bindings
