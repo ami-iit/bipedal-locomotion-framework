@@ -19,6 +19,7 @@
 #include <BipedalLocomotion/System/LinearTask.h>
 #include <BipedalLocomotion/System/OutputPort.h>
 #include <BipedalLocomotion/System/Source.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 namespace BipedalLocomotion
@@ -145,7 +146,87 @@ public:
      */
     virtual ~ILinearTaskSolver() = default;
 };
+
+/**
+ * LinearTaskSolverProblem store all the ingredients to run and modfy at runtime an
+ * ILinearTaskSolver
+ */
+template <class _Solver> struct LinearTaskSolverProblem
+{
+    static_assert(BipedalLocomotion::is_base_of_template<System::ILinearTaskSolver, _Solver>::value,
+                  "The _Solver template argument of LinearTaskSolverProblem must inherits from "
+                  "System::ILinearTaskSolver.");
+
+    using Solver =_Solver;
+
+    VariablesHandler variablesHandler; /**< Container of the variables considered by the problem */
+
+    /** Map containing the weight associated to each task stored considering the task name */
+    std::unordered_map<std::string, std::shared_ptr<WeightProvider>> weights;
+    std::unique_ptr<_Solver> solver; /**< Pointer to the solver */
+
+    /**
+     * Check if the problem is valid.
+     * @return true if the problem is valid.
+     */
+    [[nodiscard]] bool isValid() const
+    {
+        return this->solver != nullptr;
+    }
+
+    /**
+     * Get the element of the problem from a given index.
+     * @tparam index a positive number from 0 to 2.
+     * @note 0 is associated to the variablesHandler, 1 to the weights and 2 to the solver. Thanks
+     * to this method the IntegrationBasedIKProblem behaves as a tuple. I.e., the
+     * [`std::tie()`](https://en.cppreference.com/w/cpp/utility/tuple/tie) or
+     * [Structured binding declaration](https://en.cppreference.com/w/cpp/language/structured_binding)
+     * are supported by IntegrationBasedIKProblem.
+     * @note the implementation of this method was taken from
+     * https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
+     */
+    template <std::size_t index> std::tuple_element_t<index, LinearTaskSolverProblem>& get()
+    {
+        if constexpr (index == 0)
+        {
+            return variablesHandler;
+        }
+        if constexpr (index == 1)
+        {
+            return weights;
+        }
+        if constexpr (index == 2)
+        {
+            return solver;
+        }
+    }
+};
+
 } // namespace System
 } // namespace BipedalLocomotion
+
+namespace std
+{
+
+// The following methods are required to make ::BipedalLocomotion::System::LinearTaskSolverProblem
+// behaving as a tuple. Please check here:
+// https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
+template <class _Solver>
+struct tuple_size<::BipedalLocomotion::System::LinearTaskSolverProblem<_Solver>>
+    : integral_constant<size_t, 3>
+{
+};
+
+template <size_t Index, class _Solver>
+struct tuple_element<Index, ::BipedalLocomotion::System::LinearTaskSolverProblem<_Solver>>
+    : tuple_element<
+          Index,
+          tuple<::BipedalLocomotion::System::VariablesHandler,
+                unordered_map<string, shared_ptr<::BipedalLocomotion::System::WeightProvider>>,
+                unique_ptr<_Solver>>>
+{
+};
+
+} // namespace std
 
 #endif // BIPEDAL_LOCOMOTION_SYSTEM_ILINEAR_TASK_SOLVER_H

@@ -17,8 +17,6 @@
 #include <BipedalLocomotion/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
-
-
 namespace BipedalLocomotion
 {
 
@@ -48,12 +46,18 @@ struct TSIDState
 class TaskSpaceInverseDynamics : public System::ILinearTaskSolver<TSIDLinearTask, TSIDState>
 {
 public:
-
     /**
      * Destructor.
      */
     virtual ~TaskSpaceInverseDynamics() = default;
 };
+
+/**
+ * TaskSpaceInverseDynamicsProblem stores all the ingredients to run and modfy at runtime an TSID
+ * problem.
+ */
+using TaskSpaceInverseDynamicsProblem
+    = ::BipedalLocomotion::System::LinearTaskSolverProblem<TaskSpaceInverseDynamics>;
 
 } // namespace TSID
 } // namespace BipedalLocomotion

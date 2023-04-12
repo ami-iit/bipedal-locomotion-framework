@@ -786,7 +786,7 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
     }
 
     IntegrationBasedIKProblem problem;
-    problem.ik = std::move(solver);
+    problem.solver = std::move(solver);
     problem.variablesHandler = std::move(variablesHandler);
     problem.weights = std::move(weights);
 

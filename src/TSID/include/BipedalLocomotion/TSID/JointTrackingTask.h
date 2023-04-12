@@ -139,6 +139,8 @@ public:
     bool isValid() const override;
 };
 
+BLF_REGISTER_TSID_TASK(JointTrackingTask);
+
 } // namespace TSID
 } // namespace BipedalLocomotion
 

@@ -14,7 +14,8 @@ if(FRAMEWORK_COMPILE_TSID)
                            ${H_PREFIX}/FeasibleContactWrenchTask.h
                            ${H_PREFIX}/VariableRegularizationTask.h
                            ${H_PREFIX}/QPFixedBaseTSID.h ${H_PREFIX}/QPTSID.h
-    SOURCES                src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp
+    SOURCES                src/TSIDLinearTask.cpp
+                           src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp
                            src/BaseDynamicsTask.cpp src/JointDynamicsTask.cpp
                            src/FeasibleContactWrenchTask.cpp
                            src/VariableRegularizationTask.cpp
