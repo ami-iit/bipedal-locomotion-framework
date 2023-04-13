@@ -151,12 +151,16 @@ TEST_CASE("Friction Torque Dynamics")
     std::vector<std::shared_ptr<SubModelKinDynWrapper>> kinDynWrapperList;
     const auto & subModelList = subModelCreator.getSubModelList();
 
+    manif::SE3d::Tangent baseVelocity, baseAcceleration;
+    baseVelocity.setZero();
+    baseAcceleration.setZero();
+
     for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
     {
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(baseAcceleration, Eigen::VectorXd(subModelList[idx].getModel().getNrOfDOFs()).setZero(), true));
     }
 
     FrictionTorqueStateDynamics tau_F_dynamics;
@@ -194,22 +198,6 @@ TEST_CASE("Friction Torque Dynamics")
         state[offset+jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
 
-    tau_F_dynamics.setState(state);
-    REQUIRE(tau_F_dynamics.update());
-    for (int idx = 0; idx < tau_F_dynamics.getUpdatedVariable().size(); idx++)
-    {
-        REQUIRE(std::abs(tau_F_dynamics.getUpdatedVariable()(idx)) < 0.1);
-    }
-
-    // Set random friction torque
-    Eigen::VectorXd currentStateTauF(covariance.size());
-    for (int index = 0; index < currentStateTauF.size(); index++)
-    {
-        currentStateTauF(index) = GENERATE(take(1, random(-30, 30)));
-    }
-
-    state.segment(variableHandler.getVariable("tau_F").offset, variableHandler.getVariable("tau_F").size) = currentStateTauF;
-
     // Create an input for the ukf state
     UKFInput input;
 
@@ -225,11 +213,40 @@ TEST_CASE("Friction Torque Dynamics")
     input.robotBasePose = basePose;
 
     // Define base velocity and acceleration
-    manif::SE3d::Tangent baseVelocity, baseAcceleration;
-    baseVelocity.setZero();
-    baseAcceleration.setZero();
     input.robotBaseVelocity = baseVelocity;
     input.robotBaseAcceleration = baseAcceleration;
+
+    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
+
+    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
+
+    for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(input.robotBaseAcceleration, input.robotJointAccelerations, true));
+    }
+
+    tau_F_dynamics.setInput(input);
+    tau_F_dynamics.setState(state);
+
+    REQUIRE(tau_F_dynamics.update());
+    for (int idx = 0; idx < tau_F_dynamics.getUpdatedVariable().size(); idx++)
+    {
+        REQUIRE(std::abs(tau_F_dynamics.getUpdatedVariable()(idx)) < 0.1);
+    }
+
+    // Set random friction torque
+    Eigen::VectorXd currentStateTauF(covariance.size());
+    for (int index = 0; index < currentStateTauF.size(); index++)
+    {
+        currentStateTauF(index) = GENERATE(take(1, random(-30, 30)));
+    }
+
+    state.segment(variableHandler.getVariable("tau_F").offset, variableHandler.getVariable("tau_F").size) = currentStateTauF;
+
+    for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(input.robotBaseAcceleration, input.robotJointAccelerations, true));
+    }
 
     tau_F_dynamics.setInput(input);
 

@@ -15,55 +15,14 @@ RDE::JointVelocityStateDynamics::JointVelocityStateDynamics() = default;
 
 RDE::JointVelocityStateDynamics::~JointVelocityStateDynamics() = default;
 
-bool RDE::JointVelocityStateDynamics::setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList)
+bool RDE::JointVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& subModelList, const std::vector<std::shared_ptr<RDE::SubModelKinDynWrapper>>& kinDynWrapperList)
 {
-    constexpr auto errorPrefix = "[JointVelocityStateDynamics::setSubModels]";
-
-    for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
-    {
-        if (subModelList[subModelIdx].getModel().getNrOfDOFs() > 0)
-        {
-            m_subDynamics.emplace_back(std::make_unique<RDE::SubModelDynamics>());
-
-            if(!m_subDynamics[subModelIdx]->setSubModel(subModelList[subModelIdx]))
-            {
-                log()->error("{} The submodel at index {} is not valid.", errorPrefix, subModelIdx);
-                return false;
-            }
-
-            if(!m_subDynamics[subModelIdx]->setKinDynWrapper(kinDynWrapperList[subModelIdx]))
-            {
-                log()->error("{} The submodel kindyn wrapper at index {} is not valid.", errorPrefix, subModelIdx);
-                return false;
-            }
-        }
-    }
-
-    m_nrOfSubDynamics = m_subDynamics.size();
-
-    m_isSubModelListSet = true;
-
-    for (int subModelIdx = 0; subModelIdx < m_nrOfSubDynamics; subModelIdx++)
-    {
-        if (!m_subDynamics.at(subModelIdx)->initialize())
-        {
-            log()->error("{} Cannot initialize the joint velocity dynamics of the sub-model {}.", errorPrefix, subModelIdx);
-            return false;
-        }
-    }
-
     return true;
 }
 
 bool RDE::JointVelocityStateDynamics::checkStateVariableHandler()
 {
     constexpr auto errorPrefix = "[JointVelocityStateDynamics::checkStateVariableHandler]";
-
-    if (!m_isSubModelListSet)
-    {
-        log()->error("{} Set the sub-model list before setting the variable handler", errorPrefix);
-        return false;
-    }
 
     // Check if the variable handler contains the variables used by this dynamics
     if (!m_stateVariableHandler.getVariable("tau_m").isValid())
@@ -76,27 +35,6 @@ bool RDE::JointVelocityStateDynamics::checkStateVariableHandler()
     {
         log()->error("{} The variable handler does not contain the expected state with name `tau_F`.", errorPrefix);
         return false;
-    }
-
-    for (int subModelIdx = 0; subModelIdx < m_nrOfSubDynamics; subModelIdx++)
-    {
-        for (int ftIdx = 0; ftIdx < m_subDynamics.at(subModelIdx)->subModel.getNrOfFTSensor(); ftIdx++)
-        {
-            if (!m_stateVariableHandler.getVariable(m_subDynamics.at(subModelIdx)->subModel.getFTSensor(ftIdx).name).isValid())
-            {
-                log()->error("{} The variable handler does not contain the expected state with name `{}`.", errorPrefix, m_subDynamics.at(subModelIdx)->subModel.getFTSensor(ftIdx).name);
-                return false;
-            }
-        }
-
-        for (int contactIdx = 0; contactIdx < m_subDynamics.at(subModelIdx)->subModel.getNrOfExternalContact(); contactIdx++)
-        {
-            if (!m_stateVariableHandler.getVariable(m_subDynamics.at(subModelIdx)->subModel.getExternalContact(contactIdx)).isValid())
-            {
-                log()->error("{} The variable handler does not contain the expected state with name `{}`.", errorPrefix, m_subDynamics.at(subModelIdx)->subModel.getExternalContact(contactIdx));
-                return false;
-            }
-        }
     }
 
     return true;
@@ -187,32 +125,11 @@ bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &s
 
     m_size = m_covariances.size();
 
-    m_motorTorqueFullModel.resize(m_stateVariableHandler.getVariable("tau_m").size);
-    m_motorTorqueFullModel.setZero();
-
-    m_frictionTorqueFullModel.resize(m_stateVariableHandler.getVariable("tau_F").size);
-    m_frictionTorqueFullModel.setZero();
-
     m_jointVelocityFullModel.resize(m_stateVariableHandler.getVariable("ds").size);
     m_jointVelocityFullModel.setZero();
 
-    m_jointAccelerationFullModel.resize(m_stateVariableHandler.getVariable("ds").size);
-    m_jointAccelerationFullModel.setZero();
-
     m_updatedVariable.resize(m_stateVariableHandler.getVariable("ds").size);
     m_updatedVariable.setZero();
-
-    m_subModelUpdatedJointVelocity.resize(m_nrOfSubDynamics);
-    m_subModelUpdatedJointAcceleration.resize(m_nrOfSubDynamics);
-
-    for (int idx = 0; idx < m_nrOfSubDynamics; idx++)
-    {
-        m_subModelUpdatedJointVelocity[idx].resize(m_subDynamics[idx]->subModel.getJointMapping().size());
-        m_subModelUpdatedJointVelocity[idx].setZero();
-
-        m_subModelUpdatedJointAcceleration[idx].resize(m_subDynamics[idx]->subModel.getJointMapping().size());
-        m_subModelUpdatedJointAcceleration[idx].setZero();
-    }
 
     return true;
 }
@@ -220,26 +137,7 @@ bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &s
 
 bool RDE::JointVelocityStateDynamics::update()
 {
-    constexpr auto errorPrefix = "[JointVelocityStateDynamics::update]";
-
-    // compute joint acceleration per each sub-model
-    for (int subDynamicsIdx = 0; subDynamicsIdx < m_subDynamics.size(); subDynamicsIdx++)
-    {
-        if (!m_subDynamics[subDynamicsIdx]->update(m_ukfInput.robotBaseAcceleration, m_jointAccelerationFullModel, m_subModelUpdatedJointAcceleration[subDynamicsIdx]))
-        {
-            log()->error("{} Error updating the joint velocity dynamics for the sub-model {}.", errorPrefix, subDynamicsIdx);
-            return false;
-        }
-
-        m_subModelUpdatedJointVelocity[subDynamicsIdx] = m_subModelUpdatedJointVelocity[subDynamicsIdx] + m_dT * m_subModelUpdatedJointAcceleration[subDynamicsIdx];
-
-        for (int jointIdx = 0; jointIdx < m_subDynamics[subDynamicsIdx]->subModel.getJointMapping().size(); jointIdx++)
-        {
-            m_jointAccelerationFullModel[m_subDynamics[subDynamicsIdx]->subModel.getJointMapping()[jointIdx]] = m_subModelUpdatedJointAcceleration[subDynamicsIdx][jointIdx];
-
-            m_updatedVariable[m_subDynamics[subDynamicsIdx]->subModel.getJointMapping()[jointIdx]] = m_subModelUpdatedJointVelocity[subDynamicsIdx][jointIdx];
-        }
-    }
+    m_updatedVariable = m_jointVelocityFullModel + m_dT * m_ukfInput.robotJointAccelerations;
 
     return true;
 }
@@ -248,21 +146,6 @@ void RDE::JointVelocityStateDynamics::setState(const Eigen::Ref<const Eigen::Vec
 {
     m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable("ds").offset,
                                                 m_stateVariableHandler.getVariable("ds").size);
-
-    m_motorTorqueFullModel = ukfState.segment(m_stateVariableHandler.getVariable("tau_m").offset,
-                                              m_stateVariableHandler.getVariable("tau_m").size);
-
-    m_frictionTorqueFullModel = ukfState.segment(m_stateVariableHandler.getVariable("tau_F").offset,
-                                                 m_stateVariableHandler.getVariable("tau_F").size);
-
-    for (int subDynamicsIdx = 0; subDynamicsIdx < m_subDynamics.size(); subDynamicsIdx++)
-    {
-        m_subDynamics.at(subDynamicsIdx)->setState(ukfState,
-                                                   m_jointVelocityFullModel,
-                                                   m_motorTorqueFullModel,
-                                                   m_frictionTorqueFullModel,
-                                                   m_stateVariableHandler);
-    }
 }
 
 void RDE::JointVelocityStateDynamics::setInput(const UKFInput& ukfInput)

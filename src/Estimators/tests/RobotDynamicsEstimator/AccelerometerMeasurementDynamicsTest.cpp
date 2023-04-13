@@ -160,7 +160,6 @@ TEST_CASE("Friction Torque Dynamics")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     AccelerometerMeasurementDynamics accDynamics;
@@ -217,6 +216,15 @@ TEST_CASE("Friction Torque Dynamics")
     baseAcceleration.setZero();
     input.robotBaseVelocity = baseVelocity;
     input.robotBaseAcceleration = baseAcceleration;
+
+    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
+
+    for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(baseAcceleration,
+                                                       input.robotJointAccelerations,
+                                                       true));
+    }
 
     accDynamics.setInput(input);
     accDynamics.setState(state);

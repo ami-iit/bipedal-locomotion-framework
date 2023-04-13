@@ -69,6 +69,8 @@ bool RDE::SubModelKinDynWrapper::initialize(const RDE::SubModel& subModel)
     m_FTBaseAcc.resize(m_numOfJoints);
     m_totalTorques.resize(m_numOfJoints);
 
+    m_subModelBaseAcceleration.setZero();
+
     // Initialize attributes with correct sizes
     m_massMatrix.resize(6 + m_subModel.getModel().getNrOfDOFs(),
                         6 + m_subModel.getModel().getNrOfDOFs());
@@ -97,6 +99,10 @@ bool RDE::SubModelKinDynWrapper::initialize(const RDE::SubModel& subModel)
         manif::SO3d rotMatrix;
         rotMatrix.coeffs().setZero();
         m_accRworldList[m_subModel.getAccelerometerList()[idx].name] = std::move(rotMatrix);
+
+        manif::SE3d::Tangent vel;
+        vel.coeffs().setZero();
+        m_accVelList[m_subModel.getAccelerometerList()[idx].name] = std::move(vel);
     }
 
     for (int idx = 0; idx < m_subModel.getGyroscopeList().size(); idx++)
@@ -116,7 +122,9 @@ bool RDE::SubModelKinDynWrapper::initialize(const RDE::SubModel& subModel)
     return true;
 }
 
-bool RDE::SubModelKinDynWrapper::updateInternalKinDynState(bool isCorrectStep)
+bool RDE::SubModelKinDynWrapper::updateState(manif::SE3d::Tangent& robotBaseAcceleration,
+                                             Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
+                                             bool isCorrectStep)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
                                "updateKinDynState]";
@@ -145,6 +153,19 @@ bool RDE::SubModelKinDynWrapper::updateInternalKinDynState(bool isCorrectStep)
                                 m_worldGravity))
     {
         blf::log()->error("{} Unable to set the robot state.", logPrefix);
+        return false;
+    }
+
+    if (!m_kinDynFullModel->getFrameAcc(m_baseFrame,
+                                        iDynTree::make_span(robotBaseAcceleration.data(),
+                                                            manif::SE3d::Tangent::DoF),
+                                        robotJointAcceleration,
+                                        iDynTree::make_span(m_subModelBaseAcceleration.data(),
+                                                            manif::SE3d::Tangent::DoF)))
+    {
+        blf::log()->error("{} Unable to get the acceleration of the frame {}.",
+                          logPrefix,
+                          m_baseFrame);
         return false;
     }
 
@@ -212,6 +233,10 @@ bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState(bool isCorrectStep)
                         m_kinDyn.getWorldTransform(m_subModel.getAccelerometerList()[idx].frame)
                         .getRotation()
                         .inverse());
+
+            // Update accelerometer velocity
+            m_accVelList[m_subModel.getAccelerometerList()[idx].name] =  iDynTree::toEigen(
+                        m_kinDyn.getFrameVel(m_subModel.getAccelerometerList()[idx].frame));
         }
 
         // Update gyroscope jacobians
@@ -287,28 +312,9 @@ bool RDE::SubModelKinDynWrapper::forwardDynamics(Eigen::Ref<Eigen::VectorXd> mot
     return true;
 }
 
-bool RDE::SubModelKinDynWrapper::getBaseAcceleration(
-        manif::SE3d::Tangent& robotBaseAcceleration,
-        Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
-        manif::SE3d::Tangent& subModelBaseAcceleration)
+const manif::SE3d::Tangent& RDE::SubModelKinDynWrapper::getBaseAcceleration()
 {
-    constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
-                               "getBaseAcceleration]";
-
-    if (!m_kinDynFullModel->getFrameAcc(m_baseFrame,
-                                        iDynTree::make_span(robotBaseAcceleration.data(),
-                                                            manif::SE3d::Tangent::DoF),
-                                        robotJointAcceleration,
-                                        iDynTree::make_span(subModelBaseAcceleration.data(),
-                                                            manif::SE3d::Tangent::DoF)))
-    {
-        blf::log()->error("{} Unable to get the acceleration of the frame {}.",
-                          logPrefix,
-                          m_baseFrame);
-        return false;
-    }
-
-    return true;
+    return m_subModelBaseAcceleration;
 }
 
 const manif::SE3d::Tangent& RDE::SubModelKinDynWrapper::getBaseVelocity()
@@ -366,4 +372,10 @@ const manif::SO3d&
 RDE::SubModelKinDynWrapper::getAccelerometerRotation(const std::string& accName) const
 {
     return m_accRworldList.at(accName);
+}
+
+const manif::SE3d::Tangent&
+RDE::SubModelKinDynWrapper::getAccelerometerVelocity(const std::string& accName)
+{
+    return m_accVelList[accName];
 }

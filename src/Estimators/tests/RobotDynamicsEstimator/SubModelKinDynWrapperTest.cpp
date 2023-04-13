@@ -219,7 +219,9 @@ TEST_CASE("SubModelKinDynWrapper")
 
         REQUIRE(kinDynSubModel.initialize(subModelList[idx]));
 
-        REQUIRE(kinDynSubModel.updateInternalKinDynState(true));
+        REQUIRE(kinDynSubModel.updateState(robotBaseAcceleration,
+                                           robotJointAcceleration,
+                                           true));
 
         int numberOfJoints = subModelList[idx].getModel().getNrOfDOFs();
 
@@ -236,9 +238,7 @@ TEST_CASE("SubModelKinDynWrapper")
             const std::string baseFrame = kinDynSubModel.getBaseFrameName();
 
             manif::SE3d::Tangent baseAcceleration;
-            REQUIRE(kinDynSubModel.getBaseAcceleration(robotBaseAcceleration,
-                                                       robotJointAcceleration,
-                                                       baseAcceleration));
+            baseAcceleration = kinDynSubModel.getBaseAcceleration();
 
             manif::SE3d::Tangent baseAccelerationFromFullModel;
             REQUIRE(kinDyn->getFrameAcc(baseFrame,

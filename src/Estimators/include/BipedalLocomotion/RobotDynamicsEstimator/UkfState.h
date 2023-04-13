@@ -44,6 +44,9 @@ class UkfState : public bfl::AdditiveStateModel
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;
 
+//    void unpackState();
+//    void updateJointAccelerationState();
+
 public:
     /**
      * Constructor.

@@ -234,7 +234,6 @@ TEST_CASE("RobotDynamicsEstimator")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     // automatic build the Estimator from parameter handler
@@ -246,6 +245,13 @@ TEST_CASE("RobotDynamicsEstimator")
 
     Eigen::VectorXd robotJointAcceleration(kinDyn->model().getNrOfDOFs());
     robotJointAcceleration.setZero();
+
+    for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(robotBaseAcceleration,
+                                                       robotJointAcceleration,
+                                                       true));
+    }
 
     iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
     extWrench.zero();

@@ -53,10 +53,14 @@ class SubModelKinDynWrapper
                                                               */
     std::map<const std::string, manif::SO3d> m_accRworldList; /**< Rotation matrix of the
                                                                  accelerometer frame wrt world */
+    std::map<const std::string, manif::SE3d::Tangent> m_accVelList; /**< Acceleration of the
+                                                                 accelerometers */
     manif::SE3d::Tangent m_baseVelocity; /**< Velocity of the base of the sub-model */
     std::string m_baseFrame; /**< Name of the base frame of the sub-model */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDynFullModel;
+
+    manif::SE3d::Tangent m_subModelBaseAcceleration; /** Acceleration of the sub-model base. */
 
 protected:
     int m_numOfJoints; /**< Number of joints in the sub-model */
@@ -83,6 +87,11 @@ protected:
      */
     bool updateDynamicsVariableState(bool isCorrectStep);
 
+    /**
+     * @brief Compute the contribution of external contacts on the joint torques.
+     */
+    void computeTotalTorqueFromContacts();
+
 public:
     /**
      * @brief set kinDyn
@@ -102,10 +111,15 @@ public:
     initialize(const SubModel& subModel);
 
     /**
-     * @brief updateInternalKinDynState updates the state of the KinDynWrapper object.
+     * @brief updateState updates the state of the KinDynWrapper object.
+     * @param robotBaseAcceleration is a manif::SE3d::Tangent representing the robot base acceleration.
+     * @param robotJointAcceleration is a Eigen reference to a Eigen::VectorXd containing the joint accelerations.
+     * @param isCorrectStep is a boolean saying if the method is called during the predict step or the correct step.
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool updateInternalKinDynState(bool isCorrectStep);
+    bool updateState(manif::SE3d::Tangent& robotBaseAcceleration,
+                     Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
+                     bool isCorrectStep);
 
     /**
      * @brief forwardDynamics computes the free floaing forward dynamics
@@ -125,18 +139,13 @@ public:
 
     /**
      * @brief getBaseAcceleration gets the acceleration of the sub-model base.
-     * @param robotBaseAcceleration the acceleration of the robot base.
-     * @param robotJointAcceleration the acceleration of the robot joints.
-     * @param subModelBaseAcceleration the base acceleration of the sub-model.
-     * @return a boolean value.
+     * @return subModelBaseAcceleration the acceleration of the sub-model base.
      */
-    bool getBaseAcceleration(manif::SE3d::Tangent& robotBaseAcceleration,
-                             Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
-                             manif::SE3d::Tangent& subModelBaseAcceleration);
+    const manif::SE3d::Tangent& getBaseAcceleration();
 
     /**
      * @brief getBaseVelocity gets the acceleration of the sub-model base.
-     * @return baseVelocity the the base velocity of the sub-model.
+     * @return baseVelocity the velocity of the sub-model base.
      */
     const manif::SE3d::Tangent&
     getBaseVelocity();
@@ -204,6 +213,13 @@ public:
      * @return a boolean value saying if the rotation matrix is found.
      */
     const manif::SO3d& getAccelerometerRotation(const std::string& accName) const;
+
+    /**
+     * @brief getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.
+     * @param accName is the name of the accelerometer.
+     * @return the velocity of the accelerometer.
+     */
+    const manif::SE3d::Tangent& getAccelerometerVelocity(const std::string& accName);
 };
 
 } // namespace RobotDynamicsEstimator

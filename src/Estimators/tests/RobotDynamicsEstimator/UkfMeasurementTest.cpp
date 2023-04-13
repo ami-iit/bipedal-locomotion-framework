@@ -108,7 +108,6 @@ TEST_CASE("UkfMeasurement")
         kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelList[idx]));
-        REQUIRE(kinDynWrapperList.at(idx)->updateInternalKinDynState(true));
     }
 
     // Build the UkfState
@@ -170,6 +169,13 @@ TEST_CASE("UkfMeasurement")
     baseAcceleration.setZero();
     input.robotBaseVelocity = baseVelocity;
     input.robotBaseAcceleration = baseAcceleration;
+
+    for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(baseAcceleration,
+                                                       Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero(),
+                                                       true));
+    }
 
     std::shared_ptr<UkfInputProvider> inputProvider = std::make_shared<UkfInputProvider>();
 

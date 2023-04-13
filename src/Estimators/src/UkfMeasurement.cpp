@@ -9,6 +9,7 @@
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/Math/Constants.h>
+#include <BipedalLocomotion/Math/Wrench.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h>
@@ -16,6 +17,7 @@
 #include <BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityDynamics.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
+using namespace BipedalLocomotion;
 
 using namespace std::chrono;
 
@@ -45,17 +47,135 @@ struct RDE::UkfMeasurement::Impl
     std::shared_ptr<const UkfInputProvider> ukfInputProvider; /**< Provider containing the updated robot state. */
     UKFInput ukfInput; /**< Struct containing the inputs for the ukf populated by the ukfInputProvider. */
 
-    Eigen::VectorXd jointVelocityState; /**< Joint velocity compute by the ukf. */
+    Eigen::VectorXd jointVelocityState; /**< Joint velocity computed by the ukf. */
+    Eigen::VectorXd jointAccelerationState; /**< Joint acceleration computed from forward dynamics which depends on the current ukf state. */
 
     Eigen::VectorXd currentState; /**< State estimated in the previous step. */
     Eigen::VectorXd tempPredictedMeas;
     Eigen::MatrixXd predictedMeasurement; /**< Vector containing the updated measurement. */
+
+    std::vector<Eigen::VectorXd> subModelJointVel; /**< List of sub-model joint velocities. */
+    std::vector<Eigen::VectorXd> subModelJointAcc; /**< List of sub-model joint accelerations. */
+    std::vector<Eigen::VectorXd> subModelJointMotorTorque; /**< List of sub-model joint velocities. */
+    std::vector<Eigen::VectorXd> subModelFrictionTorque; /**< List of sub-model joint velocities. */
+    std::map<std::string, Math::Wrenchd> FTMap; /**< The map contains names of the ft sensors and values of the wrench */
+    std::map<std::string, Math::Wrenchd> extContactMap; /**< The map contains names of the ft sensors and values of the wrench */
+    manif::SE3d::Tangent tempSubModelBaseAcc; /**< Acceleration of the base of the sub-model. */
+
+    // Support variables
+    std::vector<Eigen::VectorXd> totalTorqueFromContacts; /**< Joint torques due to known and unknown contacts on the sub-model. */
+    std::vector<Eigen::VectorXd> torqueFromContact; /**< Joint torques due to a specific contact. */
+    Math::Wrenchd wrench; /**< Joint torques due to a specific contact. */
+
 
     Eigen::VectorXd measurement; /**< Measurements coming from the sensors. */
 
     std::map<std::string, Eigen::VectorXd> measurementMap; /**< Measurement map <measurement name, measurement value>. */
 
     int offsetMeasurement; /**< Offset used to fill the measurement vector. */
+
+    void unpackState()
+    {
+        jointVelocityState = currentState.segment(stateVariableHandler.getVariable("ds").offset,
+                                                  stateVariableHandler.getVariable("ds").size);
+
+        for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
+        {
+            // Take sub-model joint velocities, motor torques, friction torques, ft wrenches, ext contact wrenches
+            for (int jointIdx = 0; jointIdx < subModelList[subModelIdx].getModel().getNrOfDOFs(); jointIdx++)
+            {
+                subModelJointVel[subModelIdx](jointIdx) =
+                        jointVelocityState(subModelList[subModelIdx].getJointMapping()[jointIdx]);
+
+                subModelJointMotorTorque[subModelIdx](jointIdx) =
+                        currentState[stateVariableHandler.getVariable("tau_m").offset +
+                        subModelList[subModelIdx].getJointMapping()[jointIdx]];
+
+                subModelFrictionTorque[subModelIdx](jointIdx) =
+                        currentState[stateVariableHandler.getVariable("tau_F").offset +
+                        subModelList[subModelIdx].getJointMapping()[jointIdx]];
+            }
+
+            for (int idx = 0; idx < subModelList[subModelIdx].getNrOfFTSensor(); idx++)
+            {
+                FTMap[subModelList[subModelIdx].getFTSensor(idx).name] =
+                        currentState.segment(stateVariableHandler.getVariable(subModelList[subModelIdx].getFTSensor(idx).name).offset,
+                                             stateVariableHandler.getVariable(subModelList[subModelIdx].getFTSensor(idx).name).size);
+            }
+
+            for (int idx = 0; idx < subModelList[subModelIdx].getNrOfExternalContact(); idx++)
+            {
+                extContactMap[subModelList[subModelIdx].getExternalContact(idx)] =
+                        currentState.segment(stateVariableHandler.getVariable(subModelList[subModelIdx].getExternalContact(idx)).offset,
+                                             stateVariableHandler.getVariable(subModelList[subModelIdx].getExternalContact(idx)).size);
+            }
+        }
+    }
+
+    bool updateState()
+    {
+        // Update kindyn full model
+        kinDynFullModel->setRobotState(ukfInput.robotBasePose.transform(),
+                                       ukfInput.robotJointPositions,
+                                       iDynTree::make_span(ukfInput.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
+                                       jointVelocityState,
+                                       gravity);
+
+        // compute joint acceleration per each sub-model containing the accelerometer
+        for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
+        {
+            if (subModelList[subModelIdx].getModel().getNrOfDOFs() > 0)
+            {
+                // Update the kindyn wrapper object of the submodel
+                kinDynWrapperList[subModelIdx]->updateState(ukfInput.robotBaseAcceleration,
+                                                            jointAccelerationState,
+                                                            false);
+
+                totalTorqueFromContacts[subModelIdx].setZero();
+
+                // Contribution of FT measurements
+                for (int idx = 0; idx < subModelList[subModelIdx].getNrOfFTSensor(); idx++)
+                {
+                    wrench = (int)subModelList[subModelIdx].getFTSensor(idx).forceDirection *
+                            FTMap[subModelList[subModelIdx].getFTSensor(idx).name].array();
+
+                    torqueFromContact[subModelIdx] = kinDynWrapperList[subModelIdx]->
+                            getFTJacobian(subModelList[subModelIdx].getFTSensor(idx).name).
+                            block(0, 6, 6, subModelList[subModelIdx].getModel().getNrOfDOFs()).transpose() * wrench;
+
+                    totalTorqueFromContacts[subModelIdx] = totalTorqueFromContacts[subModelIdx].array() + torqueFromContact[subModelIdx].array();
+                }
+
+                // Contribution of unknown external contacts
+                for (int idx = 0; idx < subModelList[subModelIdx].getNrOfExternalContact(); idx++)
+                {
+                    torqueFromContact[subModelIdx] = kinDynWrapperList[subModelIdx]->getExtContactJacobian(subModelList[subModelIdx].getExternalContact(idx)).block(0, 6, 6, subModelList[subModelIdx].getModel().getNrOfDOFs()).transpose() * extContactMap[subModelList[subModelIdx].getExternalContact(idx)];
+
+                    totalTorqueFromContacts[subModelIdx] = totalTorqueFromContacts[subModelIdx].array() + torqueFromContact[subModelIdx].array();
+                }
+
+                tempSubModelBaseAcc = kinDynWrapperList[subModelIdx]->getBaseAcceleration();
+
+                if (!kinDynWrapperList[subModelIdx]->forwardDynamics(subModelJointMotorTorque[subModelIdx],
+                                                                     subModelFrictionTorque[subModelIdx],
+                                                                     totalTorqueFromContacts[subModelIdx],
+                                                                     tempSubModelBaseAcc.coeffs(),
+                                                                     subModelJointAcc[subModelIdx]))
+                {
+                    BipedalLocomotion::log()->error("Cannot compute the inverse dynamics.");
+                    return false;
+                }
+
+                // Assign joint acceleration using the correct indeces
+                for (int jointIdx = 0; jointIdx < subModelList[subModelIdx].getJointMapping().size(); jointIdx++)
+                {
+                    jointAccelerationState[subModelList[subModelIdx].getJointMapping()[jointIdx]] = subModelJointAcc[subModelIdx][jointIdx];
+                }
+            }
+        }
+
+        return true;
+    }
 };
 
 RDE::UkfMeasurement::UkfMeasurement()
@@ -125,6 +245,17 @@ bool RDE::UkfMeasurement::finalize(const System::VariablesHandler& handler)
     }
 
     m_pimpl->jointVelocityState.resize(m_pimpl->kinDynFullModel->model().getNrOfDOFs());
+    m_pimpl->jointAccelerationState.resize(m_pimpl->kinDynFullModel->model().getNrOfDOFs());
+
+    for (int idx = 0; idx < m_pimpl->subModelList.size(); idx++)
+    {
+        m_pimpl->subModelJointVel.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+        m_pimpl->subModelJointAcc.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+        m_pimpl->subModelJointMotorTorque.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+        m_pimpl->subModelFrictionTorque.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+        m_pimpl->totalTorqueFromContacts.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+        m_pimpl->torqueFromContact.emplace_back(Eigen::VectorXd(m_pimpl->subModelList[idx].getModel().getNrOfDOFs()));
+    }
 
     m_pimpl->currentState.resize(m_pimpl->measurementSize);
     m_pimpl->currentState.setZero();
@@ -308,8 +439,7 @@ std::pair<bool, bfl::Data> RDE::UkfMeasurement::predictedMeasure(const Eigen::Re
     {
         m_pimpl->currentState = cur_states.block(0, index, cur_states.rows(), 1);;
 
-        m_pimpl->jointVelocityState = m_pimpl->currentState.segment(m_pimpl->stateVariableHandler.getVariable("ds").offset,
-                                                                    m_pimpl->stateVariableHandler.getVariable("ds").size);
+        m_pimpl->unpackState();
 
         // Update kindyn full model
         m_pimpl->kinDynFullModel->setRobotState(m_pimpl->ukfInput.robotBasePose.transform(),
@@ -318,11 +448,15 @@ std::pair<bool, bfl::Data> RDE::UkfMeasurement::predictedMeasure(const Eigen::Re
                                                 m_pimpl->jointVelocityState,
                                                 m_pimpl->gravity);
 
-        // Update kindyn sub-models
-        for (int subModelIdx = 0; subModelIdx < m_pimpl->subModelList.size(); subModelIdx++)
+        m_pimpl->unpackState();
+
+        if (!m_pimpl->updateState())
         {
-            m_pimpl->kinDynWrapperList[subModelIdx]->updateInternalKinDynState(true);
+            BipedalLocomotion::log()->error("{} The joint accelerations are not updated.", logPrefix);
+            throw std::runtime_error("Error");
         }
+
+        m_pimpl->ukfInput.robotJointAccelerations = m_pimpl->jointAccelerationState;
 
         // TODO
         // This could be parallelized

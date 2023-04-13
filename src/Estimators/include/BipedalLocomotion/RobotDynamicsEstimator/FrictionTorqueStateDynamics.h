@@ -32,29 +32,21 @@ namespace RobotDynamicsEstimator
  * \f]
  * In the discrete time the dynamics is defined as:
  * \f[
- * \tau_{F,k+1} = \tau_{F,k} + \Delta T ( k_{2} + k_{0} k_{1} (1 - tanh^{2} (k_{1} \dot{s,k})) ) \ddot{s}
+ * \tau_{F,k+1} = \tau_{F,k} + \Delta T \ddot{s} ( k_{2} + k_{0} k_{1} / cosh^{2}(k_{1} \dot{s,k}) )
  * \f]
  */
 
 class FrictionTorqueStateDynamics : public Dynamics
 {
     Eigen::VectorXd m_jointVelocityFullModel; /**< Vector of joint velocities. */
-    Eigen::VectorXd m_currentFrictionTorque; /**< Vector of friction torques. */
     Eigen::VectorXd m_k0, m_k1, m_k2; /**< Friction parameters (see class description). */
     double m_dT; /**< Sampling time. */
-    int m_nrOfSubDynamics; /**< Number of sub-dynamics which corresponds to the number of sub-models. */
-    std::vector<std::unique_ptr<SubModelDynamics>> m_subDynamics; /**< Vector of SubModelInversDynamics objects. */
-    Eigen::VectorXd m_motorTorqueFullModel; /**< Motor torque vector of full-model. */
     Eigen::VectorXd m_frictionTorqueFullModel; /**< Friction torque vector of full-model. */
-    std::vector<Eigen::VectorXd> m_subModelUpdatedJointAcceleration; /**< Updated joint acceleration of each sub-model. */
-    Eigen::VectorXd m_jointAccelerationFullModel; /**< Vector of joint accelerations. */
-    bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
 
 protected:
-    Eigen::VectorXd m_tanhArgument;
-    Eigen::VectorXd m_tanh;
+    Eigen::VectorXd m_coshArgument;
+    Eigen::VectorXd m_coshsquared;
     Eigen::VectorXd m_k0k1;
-    Eigen::VectorXd m_argParenthesis;
     Eigen::VectorXd m_dotTauF;
 
 public:

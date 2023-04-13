@@ -198,15 +198,14 @@ TEST_CASE("Joint Velocity Dynamics Without FT")
     SubModelCreator subModelCreatorWithFT;
     createSubModels(modelLoader, kinDyn, handlerFromConfig, useFT, subModelCreatorWithFT);
 
-    std::vector<std::shared_ptr<SubModelKinDynWrapper>> kinDynWrapperListWithFT;
+    std::vector<std::shared_ptr<SubModelKinDynWrapper>> kinDynWrapperList;
     const auto & subModelListWithFT = subModelCreatorWithFT.getSubModelList();
 
     for (int idx = 0; idx < subModelCreatorWithFT.getSubModelList().size(); idx++)
     {
-        kinDynWrapperListWithFT.emplace_back(std::make_shared<SubModelKinDynWrapper>());
-        REQUIRE(kinDynWrapperListWithFT.at(idx)->setKinDyn(kinDyn));
-        REQUIRE(kinDynWrapperListWithFT.at(idx)->initialize(subModelListWithFT[idx]));
-        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateInternalKinDynState(true));
+        kinDynWrapperList.emplace_back(std::make_shared<SubModelKinDynWrapper>());
+        REQUIRE(kinDynWrapperList.at(idx)->setKinDyn(kinDyn));
+        REQUIRE(kinDynWrapperList.at(idx)->initialize(subModelListWithFT[idx]));
     }
 
     manif::SE3d::Tangent robotBaseAcceleration;
@@ -230,7 +229,7 @@ TEST_CASE("Joint Velocity Dynamics Without FT")
     JointVelocityStateDynamics ds;
     model = "JointVelocityStateDynamics";
     parameterHandler->setParameter("dynamic_model", model);
-    REQUIRE(ds.setSubModels(subModelListWithFT, kinDynWrapperListWithFT));
+    REQUIRE(ds.setSubModels(subModelListWithFT, kinDynWrapperList));
     REQUIRE(ds.initialize(parameterHandler));
     REQUIRE(ds.finalize(variableHandler));
 
@@ -265,6 +264,14 @@ TEST_CASE("Joint Velocity Dynamics Without FT")
     baseAcceleration.setZero();
     input.robotBaseVelocity = baseVelocity;
     input.robotBaseAcceleration = baseAcceleration;
+    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
+
+    for (int idx = 0; idx < subModelCreatorWithFT.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperList.at(idx)->updateState(baseAcceleration,
+                                                       input.robotJointAccelerations,
+                                                       true));
+    }
 
     ds.setInput(input);
 
@@ -334,7 +341,6 @@ TEST_CASE("Joint Velocity Dynamics With FT")
         kinDynWrapperListWithFT.emplace_back(std::make_shared<SubModelKinDynWrapper>());
         REQUIRE(kinDynWrapperListWithFT.at(idx)->setKinDyn(kinDyn));
         REQUIRE(kinDynWrapperListWithFT.at(idx)->initialize(subModelListWithFT[idx]));
-        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateInternalKinDynState(true));
     }
 
     manif::SE3d::Tangent robotBaseAcceleration;
@@ -396,6 +402,15 @@ TEST_CASE("Joint Velocity Dynamics With FT")
     baseAcceleration.setZero();
     input.robotBaseVelocity = baseVelocity;
     input.robotBaseAcceleration = baseAcceleration;
+
+    for (int idx = 0; idx < subModelCreatorWithFT.getSubModelList().size(); idx++)
+    {
+        REQUIRE(kinDynWrapperListWithFT.at(idx)->updateState(baseAcceleration,
+                                                             Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero(),
+                                                             true));
+    }
+
+    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
 
     dsSplit.setInput(input);
 

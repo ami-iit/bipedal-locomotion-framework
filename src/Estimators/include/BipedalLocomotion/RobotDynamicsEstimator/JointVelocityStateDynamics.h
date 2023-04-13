@@ -36,16 +36,8 @@ namespace RobotDynamicsEstimator
 
 class JointVelocityStateDynamics : public Dynamics
 {
-    int m_nrOfSubDynamics; /**< Number of sub-dynamics which corresponds to the number of sub-models. */
-    std::vector<std::unique_ptr<SubModelDynamics>> m_subDynamics; /**< Vector of SubModelInversDynamics objects. */
     double m_dT; /**< Sampling time. */
-    bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
     Eigen::VectorXd m_jointVelocityFullModel; /**< Joint velocities of full-model. */
-    Eigen::VectorXd m_motorTorqueFullModel; /**< Motor torque vector of full-model. */
-    Eigen::VectorXd m_frictionTorqueFullModel; /**< Friction torque vector of full-model. */
-    std::vector<Eigen::VectorXd> m_subModelUpdatedJointVelocity; /**< Updated joint velocity of each sub-model. */
-    Eigen::VectorXd m_jointAccelerationFullModel; /**< Vector of joint accelerations. */
-    std::vector<Eigen::VectorXd> m_subModelUpdatedJointAcceleration; /**< Updated joint acceleration of each sub-model. */
 
 public:
     /*

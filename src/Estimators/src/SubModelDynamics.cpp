@@ -7,7 +7,6 @@
 
 #include <map>
 #include <numeric>
-#include <execution>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModelDynamics.h>
 
@@ -119,8 +118,8 @@ void RDE::SubModelDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukf
 
     for (int idx = 0; idx < subModel.getNrOfExternalContact(); idx++)
     {
-        FTMap[subModel.getExternalContact(idx)] = ukfState.segment(variableHandler.getVariable(subModel.getExternalContact(idx)).offset,
-                                                                   variableHandler.getVariable(subModel.getExternalContact(idx)).size);
+        extContactMap[subModel.getExternalContact(idx)] = ukfState.segment(variableHandler.getVariable(subModel.getExternalContact(idx)).offset,
+                                                                           variableHandler.getVariable(subModel.getExternalContact(idx)).size);
     }
 }
 
@@ -168,7 +167,7 @@ void RDE::SubModelDynamics::computeTotalTorqueFromContacts()
     // Contribution of unknown external contacts
     for (int idx = 0; idx < subModel.getNrOfExternalContact(); idx++)
     {
-        torqueFromContact = kinDynWrapper->getFTJacobian(subModel.getFTSensor(idx).name).block(0, 6, 6, subModel.getModel().getNrOfDOFs()).transpose() * FTMap[subModel.getExternalContact(idx)];
+        torqueFromContact = kinDynWrapper->getExtContactJacobian(subModel.getExternalContact(idx)).block(0, 6, 6, subModel.getModel().getNrOfDOFs()).transpose() * extContactMap[subModel.getExternalContact(idx)];
 
         totalTorqueFromContacts = totalTorqueFromContacts.array() + torqueFromContact.array();
     }

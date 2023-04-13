@@ -38,25 +38,24 @@ class AccelerometerMeasurementDynamics : public Dynamics
     bool m_useBias{false}; /**< If true the dynamics depends on a bias additively. */
     Eigen::VectorXd m_bias; /**< The bias is initialized and used only if m_useBias is true. False if not specified. */
     std::string m_biasVariableName; /**< Name of the variable containing the bias in the variable handler. */
+    std::vector<SubModel> m_subModelList; /** List of SubModel objects. */
+    std::vector<std::shared_ptr<SubModelKinDynWrapper>> m_kinDynWrapperList; /**< List of pointers to SubModelKinDynWrapper objects. */
     bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
     double m_dT; /**< Sampling time. */
-    int m_nrOfSubDynamics; /**< Number of sub-dynamics which corresponds to the number of sub-models. */
-    std::vector<std::unique_ptr<SubModelDynamics>> m_subDynamics; /**< Vector of SubModelInversDynamics objects. */
-    Eigen::VectorXd m_jointVelocityFullModel; /**< Vector of joint velocities. */
-    Eigen::VectorXd m_motorTorqueFullModel; /**< Motor torque vector of full-model. */
-    Eigen::VectorXd m_frictionTorqueFullModel; /**< Friction torque vector of full-model. */
     std::vector<Eigen::VectorXd> m_subModelJointAcc; /**< Updated joint acceleration of each sub-model. */
-    Eigen::VectorXd m_jointAccelerationFullModel; /**< Vector of joint accelerations. */
     Eigen::Vector3d m_gravity; /**< Gravitational acceleration. */
-    std::vector<std::size_t> m_subModelsWithAcc; /**< List of indeces saying which sub-model in the m_subDynamics list containa the accelerometer. */
+    std::vector<std::size_t> m_subModelsWithAccelerometer; /**< List of indeces saying which sub-model in the m_subDynamics list containa the accelerometer. */
+    manif::SE3d::Tangent m_accFrameVel; /**< Velocity at the accelerometer frame. */
 
 protected:
     Eigen::VectorXd m_covSingleVar;
-    manif::SE3d::Tangent m_subModelBaseAcc;
     Eigen::VectorXd m_JdotNu;
     Eigen::VectorXd m_JvdotBase;
     Eigen::VectorXd m_Jsdotdot;
     Eigen::Vector3d m_accRg;
+    Eigen::Vector3d m_vCrossW;
+    Eigen::Vector3d linVel;
+    Eigen::Vector3d angVel;
 
 public:
     /*

@@ -49,6 +49,7 @@ namespace RobotDynamicsEstimator
 struct UKFInput
 {
     Eigen::VectorXd robotJointPositions; /**< Vector of joint positions. */
+    Eigen::VectorXd robotJointAccelerations; /**< Vector of joint accelerations. */
     manif::SE3d robotBasePose; /**< Robot base position and orientation. */
     manif::SE3d::Tangent robotBaseVelocity; /**< Robot base velocity. */
     manif::SE3d::Tangent robotBaseAcceleration; /**< Robot base acceleration. */
