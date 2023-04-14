@@ -21,12 +21,12 @@ namespace bindings
 {
 namespace ReducedModelControllers
 {
+
 void CreateCentroidalMPC(pybind11::module& module)
 {   
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::ReducedModelControllers;
     using namespace BipedalLocomotion::System;
-    using namespace BipedalLocomotion::ParametersHandler;
 
     BipedalLocomotion::bindings::System::CreateSource<CentroidalMPCState>(module,
                                                                         "CentroidalMPCState");
