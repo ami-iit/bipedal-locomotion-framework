@@ -115,15 +115,15 @@ TEST_CASE("SO3 Task")
 
             // check the vector b
             LieGroupControllers::ProportionalDerivativeControllerSO3d SO3Controller;
-            SO3Controller.setGains({kp, kd});
+            SO3Controller.setGains(kp, kd);
 
             SO3Controller.setFeedForward(desiredAcceleration);
-            SO3Controller.setDesiredState({desiredOrientation, desiredVelocity});
+            SO3Controller.setDesiredState(desiredOrientation, desiredVelocity);
 
-            SO3Controller.setState(
-                {BipedalLocomotion::Conversions::toManifRot(
-                     kinDyn->getWorldTransform(controlledFrame).getRotation()),
-                 iDynTree::toEigen(kinDyn->getFrameVel(controlledFrame).getAngularVec3())});
+            SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                       kinDyn->getWorldTransform(controlledFrame).getRotation()),
+                                   iDynTree::toEigen(
+                                       kinDyn->getFrameVel(controlledFrame).getAngularVec3()));
 
             SO3Controller.computeControlLaw();
 

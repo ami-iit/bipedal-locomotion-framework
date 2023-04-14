@@ -136,7 +136,7 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    m_SO3Controller.setGains({kpAngular, kdAngular});
+    m_SO3Controller.setGains(kpAngular, kdAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";
@@ -156,11 +156,10 @@ bool SO3Task::update()
         return m_isValid;
     }
 
-
-    m_SO3Controller.setState(
-        {BipedalLocomotion::Conversions::toManifRot(
-             m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3())});
+    m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                 m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
+                             iDynTree::toEigen(
+                                 m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3()));
 
     m_SO3Controller.computeControlLaw();
 
@@ -186,7 +185,7 @@ bool SO3Task::setSetPoint(const manif::SO3d& I_R_F,
 {
     bool ok = true;
 
-    ok = ok && m_SO3Controller.setDesiredState({I_R_F, angularVelocity});
+    ok = ok && m_SO3Controller.setDesiredState(I_R_F, angularVelocity);
     ok = ok && m_SO3Controller.setFeedForward(angularAcceleration);
 
     return ok;
