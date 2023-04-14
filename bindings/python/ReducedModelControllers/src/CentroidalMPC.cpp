@@ -10,8 +10,6 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-
-
 #include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
 
@@ -32,7 +30,9 @@ void CreateCentroidalMPC(pybind11::module& module)
                                                                         "CentroidalMPCState");
     py::class_<CentroidalMPC, Source<CentroidalMPCState>>(module, "CentroidalMPC")
         .def(py::init())
-        .def("initialize", py::overload_cast<std::weak_ptr<const ParametersHandler::IParametersHandler>>(&CentroidalMPC::initialize), 
+        .def("initialize", [](CentroidalMPC& impl,
+               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler);}, 
             py::arg("handler"))
         .def("set_contact_phase_list", py::overload_cast<const Contacts::ContactPhaseList&>(&CentroidalMPC::setContactPhaseList),
             py::arg("contactPhaseList") )
