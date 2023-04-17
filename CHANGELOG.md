@@ -26,6 +26,8 @@ All notable changes to this project are documented in this file.
 - Robustify SubModelCreator and SubModelKinDynWrapper tests (https://github.com/ami-iit/bipedal-locomotion-framework/pull/631)
 - `SwingFootTrajectoryPlanner::advance()` must be called before getting the output (https://github.com/ami-iit/bipedal-locomotion-framework/pull/637)
 - Update the already existing classes in `ContinuousDynamicalSystem`to be compatible with the `System::NamedTuple` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/642)
+- Update the code to be compatible with LieGroupControllers v0.2.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/653)
+
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)

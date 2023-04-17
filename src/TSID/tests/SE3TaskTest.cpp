@@ -119,21 +119,23 @@ TEST_CASE("SE3 Task")
             // check the vector b
             LieGroupControllers::ProportionalDerivativeControllerSO3d SO3Controller;
             LieGroupControllers::ProportionalDerivativeControllerR3d R3Controller;
-            SO3Controller.setGains({kp, kd});
-            R3Controller.setGains({kp, kd});
+            SO3Controller.setGains(kp, kd);
+            R3Controller.setGains(kp, kd);
 
             SO3Controller.setFeedForward(desiredAcceleration.ang());
             R3Controller.setFeedForward(desiredAcceleration.lin());
-            SO3Controller.setDesiredState({desiredPose.quat(), desiredVelocity.ang()});
-            R3Controller.setDesiredState({desiredPose.translation(), desiredVelocity.lin()});
+            SO3Controller.setDesiredState(desiredPose.quat(), desiredVelocity.ang());;
+            R3Controller.setDesiredState(desiredPose.translation(), desiredVelocity.lin());
 
-            SO3Controller.setState({BipedalLocomotion::Conversions::toManifRot(
-                        kinDyn->getWorldTransform(controlledFrame).getRotation()),
-                        iDynTree::toEigen(kinDyn->getFrameVel(controlledFrame).getAngularVec3())});
+            SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                       kinDyn->getWorldTransform(controlledFrame).getRotation()),
+                                   iDynTree::toEigen(
+                                       kinDyn->getFrameVel(controlledFrame).getAngularVec3()));
 
-            R3Controller.setState(
-                {iDynTree::toEigen(kinDyn->getWorldTransform(controlledFrame).getPosition()),
-                        iDynTree::toEigen(kinDyn->getFrameVel(controlledFrame).getLinearVec3())});
+            R3Controller.setState(iDynTree::toEigen(
+                                      kinDyn->getWorldTransform(controlledFrame).getPosition()),
+                                  iDynTree::toEigen(
+                                      kinDyn->getFrameVel(controlledFrame).getLinearVec3()));
 
             SO3Controller.computeControlLaw();
             R3Controller.computeControlLaw();

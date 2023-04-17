@@ -114,7 +114,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    m_R3Controller.setGains({kpLinear, kdLinear});
+    m_R3Controller.setGains(kpLinear, kdLinear);
 
     m_isInitialized = true;
 
@@ -129,8 +129,8 @@ bool CoMTask::update()
     m_isValid = false;
 
     // set the state
-    m_R3Controller.setState({toEigen(m_kinDyn->getCenterOfMassPosition()),
-                             toEigen(m_kinDyn->getCenterOfMassVelocity())});
+    m_R3Controller.setState(toEigen(m_kinDyn->getCenterOfMassPosition()),
+                            toEigen(m_kinDyn->getCenterOfMassVelocity()));
 
     // update the controller
     m_R3Controller.computeControlLaw();
@@ -155,7 +155,7 @@ bool CoMTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
                           Eigen::Ref<const Eigen::Vector3d> acceleration)
 {
     bool ok = true;
-    ok = ok && m_R3Controller.setDesiredState({position, velocity});
+    ok = ok && m_R3Controller.setDesiredState(position, velocity);
     ok = ok && m_R3Controller.setFeedForward(acceleration);
     return ok;
 }

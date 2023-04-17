@@ -107,7 +107,7 @@ bool AngularMomentumTask::initialize(
         log()->error("{} Unable to load the proportional gain.", errorPrefix);
         return false;
     }
-    m_R3Controller.setGains({kp});
+    m_R3Controller.setGains(kp);
 
     int numberOfContacts = 0;
     ptr->getParameter("max_number_of_contacts", numberOfContacts);
@@ -184,7 +184,7 @@ bool AngularMomentumTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> angularM
                                       Eigen::Ref<const Eigen::Vector3d> angularMomentumDerivative)
 {
     bool ok = m_R3Controller.setFeedForward(angularMomentumDerivative);
-    ok = ok && m_R3Controller.setDesiredState({angularMomentum});
+    ok = ok && m_R3Controller.setDesiredState(angularMomentum);
     return ok;
 }
 

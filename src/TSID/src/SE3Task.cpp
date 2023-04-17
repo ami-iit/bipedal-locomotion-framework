@@ -144,8 +144,8 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    m_R3Controller.setGains({kpLinear, kdLinear});
-    m_SO3Controller.setGains({kpAngular, kdAngular});
+    m_R3Controller.setGains(kpLinear, kdLinear);
+    m_SO3Controller.setGains(kpAngular, kdAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";
@@ -174,14 +174,14 @@ bool SE3Task::update()
 
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
 
-    m_SO3Controller.setState(
-        {BipedalLocomotion::Conversions::toManifRot(
-             m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3())});
+    m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                 m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
+                             iDynTree::toEigen(
+                                 m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3()));
 
-    m_R3Controller.setState(
-        {iDynTree::toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3())});
+    m_R3Controller.setState(iDynTree::toEigen(
+                                m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
+                            iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3()));
 
     // update the controller ouptut
     m_SO3Controller.computeControlLaw();
@@ -207,10 +207,10 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F,
                           const manif::SE3d::Tangent& mixedAcceleration)
 {
     bool ok = true;
-    ok = ok && m_R3Controller.setDesiredState({I_H_F.translation(), mixedVelocity.lin()});
+    ok = ok && m_R3Controller.setDesiredState(I_H_F.translation(), mixedVelocity.lin());
     ok = ok && m_R3Controller.setFeedForward(mixedAcceleration.lin());
 
-    ok = ok && m_SO3Controller.setDesiredState({I_H_F.quat(), mixedVelocity.ang()});
+    ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat(), mixedVelocity.ang());
     ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.ang());
 
     return ok;

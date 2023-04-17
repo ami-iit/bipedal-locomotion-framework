@@ -118,13 +118,13 @@ TEST_CASE("CoM Task")
 
             // check the vector b
             LieGroupControllers::ProportionalDerivativeControllerR3d R3Controller;
-            R3Controller.setGains({kp, kd});
+            R3Controller.setGains(kp, kd);
 
             R3Controller.setFeedForward(desiredAcceleration);
-            R3Controller.setDesiredState({desiredPosition, desiredVelocity});
+            R3Controller.setDesiredState(desiredPosition, desiredVelocity);
 
-            R3Controller.setState({toEigen(kinDyn->getCenterOfMassPosition()),
-                                   toEigen(kinDyn->getCenterOfMassVelocity())});
+            R3Controller.setState(toEigen(kinDyn->getCenterOfMassPosition()),
+                                  toEigen(kinDyn->getCenterOfMassVelocity()));
 
             R3Controller.computeControlLaw();
 
