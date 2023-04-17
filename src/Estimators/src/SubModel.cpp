@@ -107,6 +107,8 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 ft.forceDirection = RDE::FT::Direction::Negative;
             }
 
+            log()->error("Creating Ft --> {}", ft.name);
+
             ftList.push_back(ft);
         } else
         {
@@ -153,6 +155,8 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 {
                     ft.forceDirection = RDE::FT::Direction::Negative;
                 }
+
+                log()->error("Creating Ft --> {}", ft.name);
 
                 ftList.push_back(std::move(ft));
             }
@@ -257,23 +261,23 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
     return subModel;
 }
 
-bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::Sensor>& ftSensorList,
+bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorList,
                                            const std::vector<RDE::Sensor>& accList,
                                            const std::vector<RDE::Sensor>& gyroList,
                                            const std::vector<std::string>& externalContacts)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::RobotDynamicsEstimator::SubModelCreator::"
-                               "getSubModels]";
+                               "createSubModels]";
 
     // Split model in submodels
-    std::vector<std::string> ftNameList;
+    std::vector<std::string> ftList;
     for (auto idx = 0; idx < ftSensorList.size(); idx++)
     {
-        ftNameList.push_back(ftSensorList[idx].frame);
+        ftList.push_back(ftSensorList[idx].associatedJoint);
     }
 
     std::vector<iDynTree::Model> idynSubModels;
-    if (!this->splitModel(ftNameList, idynSubModels))
+    if (!this->splitModel(ftList, idynSubModels))
     {
         blf::log()->error("{} Unable to split the model in submodels.", logPrefix);
         return false;
@@ -318,8 +322,8 @@ bool RDE::SubModelCreator::createSubModels(
     }
 
     auto populateSensorParameters = [&ptr, logPrefix](const std::string& groupName,
-                                                      std::vector<std::string>& names,
-                                                      std::vector<std::string>& frames) -> bool {
+            std::vector<std::string>& names,
+            std::vector<std::string>& frames) -> bool {
         auto group = ptr->getGroup(groupName).lock();
         if (group == nullptr)
         {
@@ -362,15 +366,24 @@ bool RDE::SubModelCreator::createSubModels(
                          logPrefix);
     }
 
-    std::vector<std::string> ftNames, ftFrames;
+    std::vector<std::string> ftNames, ftFrames, ftAssociatedJoints;
     bool ok = populateSensorParameters("FT", ftNames, ftFrames);
 
-    std::vector<RDE::Sensor> ftList;
+    auto ftGroup = ptr->getGroup("FT").lock();
+    if (ftGroup == nullptr)
+    {
+        blf::log()->error("{} Unable to get the group names 'FT'.", logPrefix);
+        return false;
+    }
+    ok = ok && ftGroup->getParameter("associated_joints", ftAssociatedJoints);
+
+    std::vector<RDE::FT> ftList;
     for (auto idx = 0; idx < ftNames.size(); idx++)
     {
-        RDE::Sensor ft;
+        RDE::FT ft;
         ft.name = ftNames[idx];
         ft.frame = ftFrames[idx];
+        ft.associatedJoint = ftAssociatedJoints[idx];
         ftList.push_back(std::move(ft));
     }
 
@@ -399,7 +412,7 @@ bool RDE::SubModelCreator::createSubModels(
     }
 
     ok = ok
-         && RDE::SubModelCreator::createSubModels(ftList, accList, gyroList, extContactFrames);
+            && RDE::SubModelCreator::createSubModels(ftList, accList, gyroList, extContactFrames);
 
     return ok;
 }

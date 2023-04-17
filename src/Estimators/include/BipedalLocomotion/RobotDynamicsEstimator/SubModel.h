@@ -56,6 +56,7 @@ struct FT : Sensor
 
     Direction forceDirection = Direction::NotSpecified; /**< Force direction depending on which side
                                                            of the sensor is considered (+1 or -1)*/
+    std::string associatedJoint; /**< Name of the fixd joint used to represent the ft sensor in the model. */
 };
 
 /**
@@ -311,13 +312,13 @@ public:
     /**
      * @brief createSubModels splits the model in SubModel objects cutting the model at the
      * force/torque sensors specified by the parameterHandler.
-     * @param ftSensorList list of Sensor structs.
+     * @param ftSensorList list of FT structs.
      * @param accList list of Sensor structs.
      * @param gyroList list of Sensor structs.
      * @param externalContacts list of strings.
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool createSubModels(const std::vector<Sensor>& ftSensorList,
+    bool createSubModels(const std::vector<FT>& ftSensorList,
                          const std::vector<Sensor>& accList,
                          const std::vector<Sensor>& gyroList,
                          const std::vector<std::string>& externalContacts);
