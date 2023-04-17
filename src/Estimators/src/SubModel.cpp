@@ -107,8 +107,6 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 ft.forceDirection = RDE::FT::Direction::Negative;
             }
 
-            log()->error("Creating Ft --> {}", ft.name);
-
             ftList.push_back(ft);
         } else
         {
@@ -155,8 +153,6 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 {
                     ft.forceDirection = RDE::FT::Direction::Negative;
                 }
-
-                log()->error("Creating Ft --> {}", ft.name);
 
                 ftList.push_back(std::move(ft));
             }

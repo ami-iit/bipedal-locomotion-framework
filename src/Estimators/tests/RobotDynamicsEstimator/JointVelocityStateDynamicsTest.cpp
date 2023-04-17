@@ -76,7 +76,7 @@ void createModelLoader(IParametersHandler::shared_ptr group,
     {
         std::vector<std::string> ftFramesList;
         auto ftGroup = group->getGroup("FT").lock();
-        REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+        REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
         jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
     }
 
@@ -110,6 +110,7 @@ void createSubModels(iDynTree::ModelLoader& mdlLdr,
         std::vector<std::string> emptyVector;
         emptySubGroup->setParameter("names", emptyVector);
         emptySubGroup->setParameter("frames", emptyVector);
+        emptySubGroup->setParameter("associated_joints", emptyVector);
         groupEmpty->setGroup("FT", emptySubGroup);
         groupEmpty->setGroup("ACCELEROMETER", emptySubGroup);
         groupEmpty->setGroup("GYROSCOPE", emptySubGroup);
@@ -305,12 +306,12 @@ TEST_CASE("Joint Velocity Dynamics With FT")
     REQUIRE(variableHandler.addVariable("ds", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor", 6));
-    REQUIRE(variableHandler.addVariable("r_foot_front_ft_sensor", 6));
-    REQUIRE(variableHandler.addVariable("r_foot_rear_ft_sensor", 6));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor_bias", 6));
-    REQUIRE(variableHandler.addVariable("r_foot_front_ft_sensor_bias", 6));
-    REQUIRE(variableHandler.addVariable("r_foot_rear_ft_sensor_bias", 6));
+    REQUIRE(variableHandler.addVariable("r_leg_ft", 6));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft", 6));
+    REQUIRE(variableHandler.addVariable("r_foot_rear_ft", 6));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_bias", 6));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft_bias", 6));
+    REQUIRE(variableHandler.addVariable("r_foot_rear_ft_bias", 6));
     REQUIRE(variableHandler.addVariable("r_leg_ft_acc_bias", 3));
     REQUIRE(variableHandler.addVariable("r_foot_front_ft_acc_bias", 3));
     REQUIRE(variableHandler.addVariable("r_foot_rear_ft_acc_bias", 3));
@@ -380,7 +381,7 @@ TEST_CASE("Joint Velocity Dynamics With FT")
     }
 
     auto massSecondSubModel = subModelListWithFT.at(1).getModel().getTotalMass();
-    state(variableHandler.getVariable("r_leg_ft_sensor").offset+2) = massSecondSubModel * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+    state(variableHandler.getVariable("r_leg_ft").offset+2) = massSecondSubModel * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
     // Create an input for the ukf state
     UKFInput input;

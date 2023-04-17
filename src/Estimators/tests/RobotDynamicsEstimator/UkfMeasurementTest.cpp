@@ -68,7 +68,7 @@ void createModelLoader(IParametersHandler::weak_ptr group,
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group.lock()->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
@@ -128,12 +128,12 @@ TEST_CASE("UkfMeasurement")
     REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_sensor", 6));
-    REQUIRE(stateVariableHandler.addVariable("r_foot_front_ft_sensor", 6));
-    REQUIRE(stateVariableHandler.addVariable("r_foot_rear_ft_sensor", 6));
-    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_sensor_bias", 6));
-    REQUIRE(stateVariableHandler.addVariable("r_foot_front_ft_sensor_bias", 6));
-    REQUIRE(stateVariableHandler.addVariable("r_foot_rear_ft_sensor_bias", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_leg_ft", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_foot_front_ft", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_foot_rear_ft", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_bias", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_foot_front_ft_bias", 6));
+    REQUIRE(stateVariableHandler.addVariable("r_foot_rear_ft_bias", 6));
     REQUIRE(stateVariableHandler.addVariable("r_leg_ft_acc_bias", 3));
     REQUIRE(stateVariableHandler.addVariable("r_foot_front_ft_acc_bias", 3));
     REQUIRE(stateVariableHandler.addVariable("r_foot_rear_ft_acc_bias", 3));
@@ -203,10 +203,10 @@ TEST_CASE("UkfMeasurement")
     wrenchFTFootRear << 0, 0, 1.752, 0.000876, 0.000649, 0;
 
     currentState.segment(stateVariableHandler.getVariable("tau_m").offset, stateVariableHandler.getVariable("tau_m").size) = motorTorques;
-    currentState.segment(stateVariableHandler.getVariable("r_leg_ft_sensor").offset, stateVariableHandler.getVariable("r_leg_ft_sensor").size) = wrenchFTtLeg;
-    currentState.segment(stateVariableHandler.getVariable("r_foot_front_ft_sensor").offset, stateVariableHandler.getVariable("r_foot_front_ft_sensor").size) = wrenchFTFootFront;
-    currentState.segment(stateVariableHandler.getVariable("r_foot_rear_ft_sensor").offset, stateVariableHandler.getVariable("r_foot_rear_ft_sensor").size) = wrenchFTFootRear;
-    currentState.segment(stateVariableHandler.getVariable("r_foot_rear_ft_sensor").offset, stateVariableHandler.getVariable("r_foot_rear_ft_sensor").size) = wrenchFTFootRear;
+    currentState.segment(stateVariableHandler.getVariable("r_leg_ft").offset, stateVariableHandler.getVariable("r_leg_ft").size) = wrenchFTtLeg;
+    currentState.segment(stateVariableHandler.getVariable("r_foot_front_ft").offset, stateVariableHandler.getVariable("r_foot_front_ft").size) = wrenchFTFootFront;
+    currentState.segment(stateVariableHandler.getVariable("r_foot_rear_ft").offset, stateVariableHandler.getVariable("r_foot_rear_ft").size) = wrenchFTFootRear;
+    currentState.segment(stateVariableHandler.getVariable("r_foot_rear_ft").offset, stateVariableHandler.getVariable("r_foot_rear_ft").size) = wrenchFTFootRear;
 
     REQUIRE(inputProvider->setInput(input));
 
@@ -216,9 +216,9 @@ TEST_CASE("UkfMeasurement")
     i_m.resize(kinDyn->model().getNrOfDOFs());
     i_m << -0.1468, 0.2345, 0, -0.0667, 0.008, -0.000692;
     measurement["i_m"] = i_m;
-    measurement["r_leg_ft_sensor"] = wrenchFTtLeg;
-    measurement["r_foot_front_ft_sensor"] = wrenchFTFootFront;
-    measurement["r_foot_rear_ft_sensor"] = wrenchFTFootRear;
+    measurement["r_leg_ft"] = wrenchFTtLeg;
+    measurement["r_foot_front_ft"] = wrenchFTFootFront;
+    measurement["r_foot_rear_ft"] = wrenchFTFootRear;
 
     Eigen::Vector3d zeroVec3;
     zeroVec3.setZero();

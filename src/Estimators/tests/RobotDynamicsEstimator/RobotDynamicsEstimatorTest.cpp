@@ -70,7 +70,7 @@ void createModelLoader(IParametersHandler::weak_ptr group,
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group.lock()->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
@@ -123,12 +123,12 @@ void createInitialState(std::shared_ptr<iDynTree::KinDynComputations> kinDynFull
     initialState.ds.setZero();
     initialState.tau_m << -1.24764e+01, 1.03400e-01, -4.70000e-03, -3.16350e+00, 4.21800e-01, 4.85000e-01;
     initialState.tau_F.setZero();
-    initialState.ftWrenches["r_leg_ft_sensor"] << -3.83709731e+01, -8.45653659e+00,  9.25208925e+01,  3.12676978e+00, -9.79714657e+00,  4.01285264e-01;
-    initialState.ftWrenches["r_foot_front_ft_sensor"] << 5.22305136e-01, -4.88067107e-01, 1.61011089e+00, -9.13330381e-03, -8.39265034e-03,  4.18725767e-04;
-    initialState.ftWrenches["r_foot_rear_ft_sensor"] << 5.19688377e-01, -4.85621881e-01,  1.60204420e+00, -8.32204636e-03, -9.16952530e-03, -7.99299795e-05;
-    initialState.ftWrenchesBiases["r_leg_ft_sensor_bias"] << -1.89410386e+01,  7.33674253e+01, -6.04774355e+01,  1.34890092e-02, -3.02023625e+00,  7.01925185e-01;
-    initialState.ftWrenchesBiases["r_foot_front_ft_sensor_bias"] << -4.85874907e+01, -3.90627141e+01, -3.89636265e+01, -1.83127438e-01,  9.51385814e-01,  2.97127661e-01;
-    initialState.ftWrenchesBiases["r_foot_rear_ft_sensor_bias"] << -3.75985458e+01, -6.87282453e+01, -1.41893873e+00, -2.24845286e+00, 1.18104453e+00,  3.75446141e-01;
+    initialState.ftWrenches["r_leg_ft"] << -3.83709731e+01, -8.45653659e+00,  9.25208925e+01,  3.12676978e+00, -9.79714657e+00,  4.01285264e-01;
+    initialState.ftWrenches["r_foot_front_ft"] << 5.22305136e-01, -4.88067107e-01, 1.61011089e+00, -9.13330381e-03, -8.39265034e-03,  4.18725767e-04;
+    initialState.ftWrenches["r_foot_rear_ft"] << 5.19688377e-01, -4.85621881e-01,  1.60204420e+00, -8.32204636e-03, -9.16952530e-03, -7.99299795e-05;
+    initialState.ftWrenchesBiases["r_leg_ft_bias"] << -1.89410386e+01,  7.33674253e+01, -6.04774355e+01,  1.34890092e-02, -3.02023625e+00,  7.01925185e-01;
+    initialState.ftWrenchesBiases["r_foot_front_ft_bias"] << -4.85874907e+01, -3.90627141e+01, -3.89636265e+01, -1.83127438e-01,  9.51385814e-01,  2.97127661e-01;
+    initialState.ftWrenchesBiases["r_foot_rear_ft_bias"] << -3.75985458e+01, -6.87282453e+01, -1.41893873e+00, -2.24845286e+00, 1.18104453e+00,  3.75446141e-01;
 }
 
 void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
@@ -168,17 +168,14 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
     input.motorCurrents.resize(kinDynFullModel->model().getNrOfDOFs());
     input.motorCurrents << -1.124e+00, -2.200e-02, -1.000e-03, -2.850e-01,  3.800e-02, 1.940e-01;
 
-    input.ftWrenches["r_leg_ft_sensor"] = Eigen::VectorXd(6).setZero();
-//    input.ftWrenches["r_leg_ft_sensor"](2) = subModelList.at(1).getModel().getTotalMass() * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    input.ftWrenches["r_leg_ft_sensor"] << -57.31201172, 64.91088867, 32.04345703, 3.14025879, -12.81738281, 1.10321045;
+    input.ftWrenches["r_leg_ft"] = Eigen::VectorXd(6).setZero();
+    input.ftWrenches["r_leg_ft"] << -57.31201172, 64.91088867, 32.04345703, 3.14025879, -12.81738281, 1.10321045;
 
-    input.ftWrenches["r_foot_front_ft_sensor"] = Eigen::VectorXd(6).setZero();
-//    input.ftWrenches["r_foot_front_ft_sensor"](2) = subModelList.at(2).getModel().getTotalMass() * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    input.ftWrenches["r_foot_front_ft_sensor"] << -48.06518555, -39.55078125, -37.35351562, -0.19226074, 0.94299316, 0.29754639;
+    input.ftWrenches["r_foot_front_ft"] = Eigen::VectorXd(6).setZero();
+    input.ftWrenches["r_foot_front_ft"] << -48.06518555, -39.55078125, -37.35351562, -0.19226074, 0.94299316, 0.29754639;
 
-    input.ftWrenches["r_foot_rear_ft_sensor"] = Eigen::VectorXd(6).setZero();
-//    input.ftWrenches["r_foot_rear_ft_sensor"](2) = subModelList.at(3).getModel().getTotalMass() * BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    input.ftWrenches["r_foot_rear_ft_sensor"] << -37.07885742, -69.21386719, 0.18310547, -2.2567749, 1.171875, 0.37536621;
+    input.ftWrenches["r_foot_rear_ft"] = Eigen::VectorXd(6).setZero();
+    input.ftWrenches["r_foot_rear_ft"] << -37.07885742, -69.21386719, 0.18310547, -2.2567749, 1.171875, 0.37536621;
 
     std::vector<std::string> accList;
     auto accGroup = modelHandler.lock()->getGroup("ACCELEROMETER").lock();

@@ -68,7 +68,7 @@ void createModelLoader(IParametersHandler::weak_ptr group,
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group.lock()->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
@@ -180,9 +180,9 @@ TEST_CASE("UkfState")
     wrenchFTFootRear << 0, 0, 1.752, 0.000876, 0.000649, 0;
 
     currentState.segment(stateHandler.getVariable("tau_m").offset, stateHandler.getVariable("tau_m").size) = motorTorques;
-    currentState.segment(stateHandler.getVariable("r_leg_ft_sensor").offset, stateHandler.getVariable("r_leg_ft_sensor").size) = wrenchFTtLeg;
-    currentState.segment(stateHandler.getVariable("r_foot_front_ft_sensor").offset, stateHandler.getVariable("r_foot_front_ft_sensor").size) = wrenchFTFootFront;
-    currentState.segment(stateHandler.getVariable("r_foot_rear_ft_sensor").offset, stateHandler.getVariable("r_foot_rear_ft_sensor").size) = wrenchFTFootRear;
+    currentState.segment(stateHandler.getVariable("r_leg_ft").offset, stateHandler.getVariable("r_leg_ft").size) = wrenchFTtLeg;
+    currentState.segment(stateHandler.getVariable("r_foot_front_ft").offset, stateHandler.getVariable("r_foot_front_ft").size) = wrenchFTFootFront;
+    currentState.segment(stateHandler.getVariable("r_foot_rear_ft").offset, stateHandler.getVariable("r_foot_rear_ft").size) = wrenchFTFootRear;
 
     Eigen::VectorXd updatedState;
     updatedState.resize(stateSize);

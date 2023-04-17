@@ -36,7 +36,7 @@ void createModelLoader(IParametersHandler::shared_ptr group,
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
@@ -123,6 +123,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
+    emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
 

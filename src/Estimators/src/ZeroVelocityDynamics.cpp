@@ -122,7 +122,7 @@ bool RDE::ZeroVelocityDynamics::setSubModels(const std::vector<RDE::SubModel>& s
 
 bool RDE::ZeroVelocityDynamics::checkStateVariableHandler()
 {
-    constexpr auto errorPrefix = "[FrictionTorqueStateDynamics::checkStateVariableHandler]";
+    constexpr auto errorPrefix = "[ZeroVelocityDynamics::checkStateVariableHandler]";
 
     // Check if the variable handler contains the variables used by this dynamics
     if (!m_stateVariableHandler.getVariable(m_name).isValid())

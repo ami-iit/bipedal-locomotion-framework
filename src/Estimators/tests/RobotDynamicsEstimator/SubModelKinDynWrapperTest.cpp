@@ -156,7 +156,7 @@ TEST_CASE("SubModelKinDynWrapper")
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
