@@ -133,10 +133,18 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpLinear;
-    double kpAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+    // set the gains for the R3 controller
+    double kpLinearScalar;
+    Eigen::Vector3d kpLinearVector;
+    if(ptr->getParameter("kp_linear", kpLinearScalar))
+    {
+        m_R3Controller.setGains(kpLinearScalar);
+    }
+    else if(ptr->getParameter("kp_linear", kpLinearVector))
+    {
+        m_R3Controller.setGains(kpLinearVector);
+    }
+    else
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -145,7 +153,18 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    if (!ptr->getParameter("kp_angular", kpAngular))
+    // set gains for the SO3 controller
+    double kpAngularScalar;
+    Eigen::Vector3d kpAngularVector;
+    if(ptr->getParameter("kp_angular", kpAngularScalar))
+    {
+        m_SO3Controller.setGains(kpAngularScalar);
+    }
+    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    {
+        m_SO3Controller.setGains(kpAngularVector);
+    }
+    else
     {
         log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -153,9 +172,6 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                      frameName);
         return false;
     }
-
-    m_R3Controller.setGains(kpLinear);
-    m_SO3Controller.setGains(kpAngular);
 
     std::vector<bool> mask;
     if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))

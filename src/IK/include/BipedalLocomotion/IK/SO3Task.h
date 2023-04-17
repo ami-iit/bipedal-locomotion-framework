@@ -71,7 +71,7 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |    `robot_velocity_variable_name`  | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SO3Task                      |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.

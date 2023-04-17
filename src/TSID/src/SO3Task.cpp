@@ -125,11 +125,30 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpAngular, kdAngular;
-    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
+    // set the gains for the SO3 controller
+    Eigen::Vector3d kpAngular, kdAngular;
+    double scalarBuffer;
+
+    if (ptr->getParameter("kp_angular", scalarBuffer))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative angular gain.",
+        kpAngular.setConstant(scalarBuffer);
+    }
+    else if(!ptr->getParameter("kp_angular", kpAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if (ptr->getParameter("kd_angular", scalarBuffer))
+    {
+        kdAngular.setConstant(scalarBuffer);
+    }
+    else if(!ptr->getParameter("kd_angular", kdAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative angular gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);

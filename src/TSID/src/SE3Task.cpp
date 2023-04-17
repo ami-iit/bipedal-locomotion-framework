@@ -123,21 +123,30 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpLinear, kdLinear;
-    double kpAngular, kdAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear) || !ptr->getParameter("kd_linear", kdLinear))
+    // set the gains for the R3 controller
+    Eigen::Vector3d kpLinear, kdLinear;
+    double bufferLinearScalar;
+
+    if(ptr->getParameter("kp_linear", bufferLinearScalar))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative linear gain.",
+        kpLinear.setConstant(bufferLinearScalar);
+    }
+    else if(!ptr->getParameter("kp_linear", kpLinear))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
         return false;
     }
 
-    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
+    if(ptr->getParameter("kd_linear", bufferLinearScalar))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative angular gain.",
+        kdLinear.setConstant(bufferLinearScalar);
+    }
+    else if(!ptr->getParameter("kd_linear", kdLinear))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
@@ -145,6 +154,37 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     m_R3Controller.setGains(kpLinear, kdLinear);
+
+    // set the gains for the SO3 controller
+    Eigen::Vector3d kpAngular, kdAngular;
+    double bufferAngularScalar;
+
+    if(ptr->getParameter("kp_angular", bufferAngularScalar))
+    {
+        kpAngular.setConstant(bufferAngularScalar);
+    }
+    else if(!ptr->getParameter("kp_angular", kpAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if(ptr->getParameter("kd_angular", bufferAngularScalar))
+    {
+        kdAngular.setConstant(bufferAngularScalar);
+    }
+    else if(!ptr->getParameter("kd_angular", kdAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
     m_SO3Controller.setGains(kpAngular, kdAngular);
 
     // set the description

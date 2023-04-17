@@ -96,9 +96,8 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |   `robot_velocity_variable_name`   | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
-     * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
      * |  `use_position_exogenous_feedback` |  `bool`  |    If true the task will consider the frame position provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |
      * |  `use_orientation_exogenous_feedback` |  `bool`  |    If true the task will consider the frame orientation provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |

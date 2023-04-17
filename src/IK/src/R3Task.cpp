@@ -132,8 +132,13 @@ bool R3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
     }
 
     // set the gains for the controllers
-    double kpLinear;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+    Eigen::Vector3d kpLinear;
+    double scalarBuffer;
+    if (ptr->getParameter("kp_linear", scalarBuffer))
+    {
+        kpLinear.setConstant(scalarBuffer);
+    }
+    else if(!ptr->getParameter("kp_linear", kpLinear))
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
