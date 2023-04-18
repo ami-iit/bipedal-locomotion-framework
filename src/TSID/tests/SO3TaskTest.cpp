@@ -24,6 +24,7 @@ using namespace BipedalLocomotion::TSID;
 TEST_CASE("SO3 Task")
 {
     constexpr double kp = 1.0;
+    std::vector<double> kpVector{kp, kp, kp};
     constexpr double kd = 0.5;
     const std::string robotAcceleration = "robotAcceleration";
 
@@ -32,7 +33,7 @@ TEST_CASE("SO3 Task")
 
     parameterHandler->setParameter("robot_acceleration_variable_name", robotAcceleration);
 
-    parameterHandler->setParameter("kp_angular", kp);
+    parameterHandler->setParameter("kp_angular", kpVector);
     parameterHandler->setParameter("kd_angular", kd);
 
     // set the velocity representation

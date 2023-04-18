@@ -82,10 +82,10 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |             `kd_linear`            | `double` |                         Gain of the linear velocity controller                         |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
-     * |            `kd_angular`            | `double` |                         Gain of the angular velocity controller                        |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gains of the position controller                            |    Yes    |
+     * |             `kd_linear`            | `double` or `vector<double>` |                         Gains of the linear velocity controller                         |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
+     * |            `kd_angular`            | `double` or `vector<double>` |                         Gain of the angular velocity controller                        |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;

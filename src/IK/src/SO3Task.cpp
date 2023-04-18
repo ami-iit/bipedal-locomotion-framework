@@ -127,9 +127,18 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     // set the gains for the controllers
-    double kpAngular;
+    double kpAngularScalar;
+    Eigen::Vector3d kpAngularVector;
 
-    if (!ptr->getParameter("kp_angular", kpAngular))
+    if (ptr->getParameter("kp_angular", kpAngularScalar))
+    {
+        m_SO3Controller.setGains(kpAngularScalar);
+    }
+    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    {
+        m_SO3Controller.setGains(kpAngularVector);
+    }
+    else
     {
         log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -137,8 +146,6 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                      frameName);
         return false;
     }
-
-    m_SO3Controller.setGains(kpAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";

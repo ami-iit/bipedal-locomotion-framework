@@ -24,6 +24,7 @@ using namespace BipedalLocomotion::IK;
 TEST_CASE("SE3 Task")
 {
     constexpr double kp = 1.0;
+    const std::vector<double> kpVector{kp, kp, kp};
     const std::string robotVelocity = "robotVelocity";
 
 
@@ -33,7 +34,7 @@ TEST_CASE("SE3 Task")
     parameterHandler->setParameter("robot_velocity_variable_name",
                                    robotVelocity);
 
-    parameterHandler->setParameter("kp_linear", kp);
+    parameterHandler->setParameter("kp_linear", kpVector);
     parameterHandler->setParameter("kp_angular", kp);
 
     // set the velocity representation
