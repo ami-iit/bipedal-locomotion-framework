@@ -264,20 +264,37 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
 
 bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
 {
+    constexpr auto logPrefix = "[RobotDynamicsEstimator::setInitialState]";
+
     System::VariablesHandler::VariableDescription variable;
 
     if (m_pimpl->stateHandler.getVariable("ds", variable))
     {
+        if (initialState.ds.size() != variable.size)
+        {
+            log()->error("{} Wrong size of variable `ds`. Found {}, expected {}.", logPrefix, initialState.ds.size(), variable.size);
+            return false;
+        }
         m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.ds;
     }
 
     if (m_pimpl->stateHandler.getVariable("tau_m", variable))
     {
+        if (initialState.tau_m.size() != variable.size)
+        {
+            log()->error("{} Wrong size of variable `tau_m`. Found {}, expected {}.", logPrefix, initialState.tau_m.size(), variable.size);
+            return false;
+        }
         m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_m;
     }
 
     if (m_pimpl->stateHandler.getVariable("tau_F", variable))
     {
+        if (initialState.tau_F.size() != variable.size)
+        {
+            log()->error("{} Wrong size of variable `tau_F`. Found {}, expected {}.", logPrefix, initialState.tau_F.size(), variable.size);
+            return false;
+        }
         m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_F;
     }
 
@@ -285,6 +302,11 @@ bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
     {
         if (m_pimpl->stateHandler.getVariable(key, variable))
         {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
     }
@@ -293,6 +315,11 @@ bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
     {
         if (m_pimpl->stateHandler.getVariable(key, variable))
         {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
     }
@@ -301,6 +328,11 @@ bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
     {
         if (m_pimpl->stateHandler.getVariable(key, variable))
         {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
     }
@@ -309,6 +341,11 @@ bool RobotDynamicsEstimator::setInitialState(const Output& initialState)
     {
         if (m_pimpl->stateHandler.getVariable(key, variable))
         {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
     }
@@ -406,7 +443,9 @@ bool RobotDynamicsEstimator::setInput(const Input & input)
 
 const Output& RobotDynamicsEstimator::getOutput() const
 {
-    if (m_pimpl->isInitialStateSet)
+     constexpr auto logPrefix = "[RobotDynamicsEstimator::getOutput]";
+
+    if (m_pimpl->isValid)
     {
         m_pimpl->estimatorOutput.ds = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable("ds").offset,
                                                                              m_pimpl->stateHandler.getVariable("ds").size);
@@ -419,26 +458,54 @@ const Output& RobotDynamicsEstimator::getOutput() const
 
         for (auto & [key, value] : m_pimpl->estimatorOutput.ftWrenches)
         {
-            m_pimpl->estimatorOutput.ftWrenches[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                              m_pimpl->stateHandler.getVariable(key).size);
+            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            {
+                m_pimpl->estimatorOutput.ftWrenches[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
+                                                                                                  m_pimpl->stateHandler.getVariable(key).size);
+            }
+            else
+            {
+                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+            }
         }
 
         for (auto & [key, value] : m_pimpl->estimatorOutput.ftWrenchesBiases)
         {
-            m_pimpl->estimatorOutput.ftWrenchesBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                    m_pimpl->stateHandler.getVariable(key).size);
+            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            {
+                m_pimpl->estimatorOutput.ftWrenchesBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
+                                                                                                        m_pimpl->stateHandler.getVariable(key).size);
+            }
+            else
+            {
+                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+            }
         }
 
         for (auto & [key, value] : m_pimpl->estimatorOutput.accelerometerBiases)
         {
-            m_pimpl->estimatorOutput.accelerometerBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                       m_pimpl->stateHandler.getVariable(key).size);
+            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            {
+                m_pimpl->estimatorOutput.accelerometerBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
+                                                                                                           m_pimpl->stateHandler.getVariable(key).size);
+            }
+            else
+            {
+                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+            }
         }
 
         for (auto & [key, value] : m_pimpl->estimatorOutput.gyroscopeBiases)
         {
-            m_pimpl->estimatorOutput.gyroscopeBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                   m_pimpl->stateHandler.getVariable(key).size);
+            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            {
+                m_pimpl->estimatorOutput.gyroscopeBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
+                                                                                                       m_pimpl->stateHandler.getVariable(key).size);
+            }
+            else
+            {
+                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+            }
         }
     }
 

@@ -513,15 +513,24 @@ std::pair<bool, bfl::Data> RDE::UkfMeasurement::measure(const bfl::Data& data) c
 
 bool RDE::UkfMeasurement::freeze(const bfl::Data& data)
 {
+    constexpr auto logPrefix = "[UkfMeasurement::freeze]";
+
     m_pimpl->measurementMap = bfl::any::any_cast<std::map<std::string, Eigen::VectorXd>>(data);
 
     for (auto& [name, dynamics] : m_pimpl->dynamicsList)
     {
         m_pimpl->offsetMeasurement = m_pimpl->measurementVariableHandler.getVariable(name).offset;
 
+        if(m_pimpl->measurementMap.count(name) == 0)
+        {
+            BipedalLocomotion::log()->error("{} Measurement with name `{}` not found.", logPrefix, name);
+            return false;
+        }
+
         // If more sub-models share the same accelerometer or gyroscope sensor, the measurement vector is concatenated
         // a number of times equal to the number of sub-models using the sensor.
-        while(m_pimpl->offsetMeasurement < (m_pimpl->measurementVariableHandler.getVariable(name).offset + m_pimpl->measurementVariableHandler.getVariable(name).size))
+        while(m_pimpl->offsetMeasurement <
+              (m_pimpl->measurementVariableHandler.getVariable(name).offset + m_pimpl->measurementVariableHandler.getVariable(name).size))
         {
             m_pimpl->measurement.segment(m_pimpl->offsetMeasurement, m_pimpl->measurementMap[name].size())
                     = m_pimpl->measurementMap[name];
