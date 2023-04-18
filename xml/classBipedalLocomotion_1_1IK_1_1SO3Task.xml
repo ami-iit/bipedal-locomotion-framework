@@ -181,7 +181,7 @@
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>kp_angular</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput> or <computeroutput>vector&lt;double&gt;</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para>Gain of the orientation controller   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
