@@ -5,6 +5,23 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license. See the accompanying LICENSE file for details.
 
+# This software may be modified and distributed under the terms of the
+# GNU Lesser General Public License v2.1 or any later version.
+
+# Fetch catch2 only if the testing are built
+if (BUILD_TESTING)
+  include(FetchContent)
+  FetchContent_Declare(Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v2.13.8)
+
+  FetchContent_GetProperties(Catch2)
+  if(NOT Catch2_POPULATED)
+    message(STATUS "Fetching Catch2...")
+    FetchContent_MakeAvailable(Catch2)
+  endif()
+endif()
+
 if (FRAMEWORK_RUN_Valgrind_tests)
     set(CTEST_MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
     set(MEMORYCHECK_COMMAND ${VALGRIND_PROGRAM})
@@ -21,7 +38,7 @@ if (FRAMEWORK_RUN_Valgrind_tests)
     separate_arguments(MEMCHECK_COMMAND_COMPLETE)
 endif()
 
-if (FRAMEWORK_COMPILE_tests)
+if (BUILD_TESTING)
     configure_file(cmake/Catch2Main.cpp.in ${CMAKE_BINARY_DIR}/Testing/Catch2Main.cpp)
     add_library(CatchTestMain ${CMAKE_BINARY_DIR}/Testing/Catch2Main.cpp)
     target_link_libraries(CatchTestMain PUBLIC Catch2::Catch2)
@@ -30,7 +47,7 @@ endif()
 
 function(add_bipedal_test)
 
-    if(FRAMEWORK_COMPILE_tests)
+    if(BUILD_TESTING)
 
       set(options )
       set(oneValueArgs NAME)

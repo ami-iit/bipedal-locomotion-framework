@@ -99,9 +99,6 @@ dependency_classifier(robometry MINIMUM_VERSION 1.1.0 IS_USED ${FRAMEWORK_USE_ro
 find_package(icub-models 1.23.3 QUIET)
 checkandset_dependency(icub-models)
 
-find_package(Catch2 QUIET)
-checkandset_dependency(Catch2)
-
 find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
 
@@ -109,10 +106,6 @@ find_package(UnicyclePlanner QUIET)
 checkandset_dependency(UnicyclePlanner)
 
 ##########################      Components       ##############################
-framework_dependent_option(FRAMEWORK_COMPILE_tests
-  "Compile tests?" ON
-  "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
-
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
   "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)
