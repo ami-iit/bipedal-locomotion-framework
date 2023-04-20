@@ -9,7 +9,7 @@
 #include <Eigen/Geometry> // Required because of https://github.com/artivis/manif/issues/162
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Planners/SO3Planner.h>
 

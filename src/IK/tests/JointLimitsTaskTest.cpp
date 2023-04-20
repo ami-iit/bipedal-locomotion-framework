@@ -8,7 +8,7 @@
 #include <chrono>
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // BipedalLocomotion
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
