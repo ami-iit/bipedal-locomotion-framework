@@ -7,7 +7,7 @@
  */
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>

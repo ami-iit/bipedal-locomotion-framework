@@ -5,7 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <Eigen/Dense>
 

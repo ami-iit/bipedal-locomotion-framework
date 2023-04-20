@@ -28,6 +28,7 @@ All notable changes to this project are documented in this file.
 - Update the already existing classes in `ContinuousDynamicalSystem`to be compatible with the `System::NamedTuple` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/642)
 - Update the code to be compatible with LieGroupControllers v0.2.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/653)
 - Allow use of vectors for task gains (https://github.com/ami-iit/bipedal-locomotion-framework/pull/654)
+- `Catch2` is now downloaded with `FetchContent` if `BUILD_TESTING` is set to `ON` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)

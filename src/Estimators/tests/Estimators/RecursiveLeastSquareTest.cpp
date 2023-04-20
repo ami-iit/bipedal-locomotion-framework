@@ -12,7 +12,7 @@
 #include <Eigen/Dense>
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Estimators/RecursiveLeastSquare.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
