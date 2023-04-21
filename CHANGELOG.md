@@ -29,6 +29,7 @@ All notable changes to this project are documented in this file.
 - Update the code to be compatible with LieGroupControllers v0.2.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/653)
 - Allow use of vectors for task gains (https://github.com/ami-iit/bipedal-locomotion-framework/pull/654)
 - `Catch2` is now downloaded with `FetchContent` if `BUILD_TESTING` is set to `ON` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
+- Add the possibility to set vectorial gains in CoM IK and TSID tasks (https://github.com/ami-iit/bipedal-locomotion-framework/pull/656)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
