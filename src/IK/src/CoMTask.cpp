@@ -114,14 +114,21 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     // set the gains for the controllers
-    double kpLinear;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+    double kpLinearScalar;
+    Eigen::Vector3d kpLinearVector;
+    if (ptr->getParameter("kp_linear", kpLinearScalar))
     {
-        log()->error("{} [{}] to get the proportional linear gain.", errorPrefix, m_description);
+        m_R3Controller.setGains(kpLinearScalar);
+    } else if (ptr->getParameter("kp_linear", kpLinearVector))
+    {
+        m_R3Controller.setGains(kpLinearVector);
+    } else
+    {
+        log()->error("{} [{}] Unable to get the proportional linear gain.",
+                     errorPrefix,
+                     m_description);
         return false;
     }
-
-    m_R3Controller.setGains(kpLinear);
 
     std::vector<bool> mask;
     if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
