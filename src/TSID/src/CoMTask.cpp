@@ -105,17 +105,27 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    double kpLinear, kdLinear;
-    if (!ptr->getParameter("kp_linear", kpLinear) || !ptr->getParameter("kd_linear", kdLinear))
+    double scalarBuffer;
+    Eigen::Vector3d kpLinear, kdLinear;
+    if (ptr->getParameter("kp_linear", scalarBuffer))
     {
-        log()->error("{} [{}] Unable to get the proportional and derivative linear gain.",
-                     errorPrefix,
-                     m_description);
+        kpLinear.setConstant(scalarBuffer);
+    } else if (!ptr->getParameter("kp_linear", kpLinear))
+    {
+        log()->error("{}, [{}] Unable to get the proportional gain.", errorPrefix, m_description);
         return false;
     }
 
-    m_R3Controller.setGains(kpLinear, kdLinear);
+    if (ptr->getParameter("kd_linear", scalarBuffer))
+    {
+        kdLinear.setConstant(scalarBuffer);
+    } else if (!ptr->getParameter("kd_linear", kdLinear))
+    {
+        log()->error("{}, [{}] Unable to get the derivative gain.", errorPrefix, m_description);
+        return false;
+    }
 
+    m_R3Controller.setGains(std::move(kpLinear), std::move(kdLinear));
     m_isInitialized = true;
 
     return true;

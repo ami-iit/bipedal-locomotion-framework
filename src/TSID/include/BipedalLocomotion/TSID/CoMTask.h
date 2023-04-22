@@ -63,11 +63,11 @@ public:
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
-     * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
-     * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |             `kd_linear`            | `double` |                         Gain of the linear velocity controller                         |    Yes    |
+     * |           Parameter Name           |               Type           |                                       Description                                      | Mandatory |
+     * |:----------------------------------:|:----------------------------:|:--------------------------------------------------------------------------------------:|:---------:|
+     * | `robot_acceleration_variable_name` |            `string`          | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
+     * |             `kd_linear`            | `double` or `vector<double>` |                         Gain of the linear velocity controller                         |    Yes    |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
