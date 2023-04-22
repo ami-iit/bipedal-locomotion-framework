@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="SubModelKinDynWrapper_8h" kind="file" language="C++">
+    <compoundname>SubModelKinDynWrapper.h</compoundname>
+    <includes local="no">map</includes>
+    <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
+    <includes local="no">iDynTree/KinDynComputations.h</includes>
+    <includes local="no">iDynTree/Model/FreeFloatingState.h</includes>
+    <includes local="no">iDynTree/Model/Model.h</includes>
+    <includes local="no">Eigen/Dense</includes>
+    <includes refid="ManifConversions_8h" local="no">BipedalLocomotion/Conversions/ManifConversions.h</includes>
+    <includes refid="SubModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>iDynTree/Core/EigenHelpers.h</label>
+      </node>
+      <node id="11">
+        <label>manif/manif.h</label>
+      </node>
+      <node id="17">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>iDynTree/ModelIO/ModelLoader.h</label>
+      </node>
+      <node id="5">
+        <label>iDynTree/Model/FreeFloatingState.h</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="4">
+        <label>iDynTree/KinDynComputations.h</label>
+      </node>
+      <node id="6">
+        <label>iDynTree/Model/Model.h</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
+        <link refid="ManifConversions_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>iDynTree/Core/Twist.h</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</label>
+        <link refid="SubModelKinDynWrapper_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>iDynTree/Core/Transform.h</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</label>
+        <link refid="SubModel_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator">BipedalLocomotion::Estimators::RobotDynamicsEstimator</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Ines Sorrentino </para>
+</simplesect>
+<simplesect kind="copyright"><para>2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h"/>
+  </compounddef>
+</doxygen>

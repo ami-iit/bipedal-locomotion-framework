@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</compoundname>
+    <includes local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ad77beb1b5c9bd0cbb8215e099ce993a5" prot="private" static="no" mutable="no">
+        <type>iDynTree::Model</type>
+        <definition>iDynTree::Model BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_model</definition>
+        <argsstring></argsstring>
+        <name>m_model</name>
+        <briefdescription>
+<para>iDynTree Model object describing the submodel </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="67" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1acf3049575bfe0fe01fabc39dfb723c27" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_jointListMapping</definition>
+        <argsstring></argsstring>
+        <name>m_jointListMapping</name>
+        <briefdescription>
+<para>Each element contains an index describing the joint position in the full model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="68" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aa0b3411471dce7877d144e638664e93e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> &gt;</type>
+        <definition>std::vector&lt;FT&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_ftList</definition>
+        <argsstring></argsstring>
+        <name>m_ftList</name>
+        <briefdescription>
+<para>List of force/torque sensors in the submodel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="70" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4a7691da5c3466c12e1365598d6aba79" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
+        <definition>std::vector&lt;Sensor&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_accelerometerList</definition>
+        <argsstring></argsstring>
+        <name>m_accelerometerList</name>
+        <briefdescription>
+<para>List of accelerometers in the submodel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="71" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4bdde544b61b9185f3372f9326720993" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
+        <definition>std::vector&lt;Sensor&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_gyroscopeList</definition>
+        <argsstring></argsstring>
+        <name>m_gyroscopeList</name>
+        <briefdescription>
+<para>List of gyroscopes in the submodel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="72" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a0e3206156ba3c65b8fc1ef079ede036b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::m_externalContactList</definition>
+        <argsstring></argsstring>
+        <name>m_externalContactList</name>
+        <briefdescription>
+<para>List of the additional external contacts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="73" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a631b7dd2a01d2b749f8d1b1e427b1a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class SubModelCreator</definition>
+        <argsstring></argsstring>
+        <name>SubModelCreator</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" kindref="compound">SubModelCreator</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="172" column="5" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead0e458da931e51b0bb0fc55399f235" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <briefdescription>
+<para>Determines the validity of the object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="80" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a16545efe66c509e286b1639b606f6dec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const iDynTree::Model &amp;</type>
+        <definition>const iDynTree::Model&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getModel</definition>
+        <argsstring>() const</argsstring>
+        <name>getModel</name>
+        <briefdescription>
+<para>Getters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the <computeroutput>iDynTree::Model</computeroutput> instance. <simplesect kind="note"><para>The actual implementation of the Model is currently stored in an <computeroutput>iDynTree::Model</computeroutput> </para>
+</simplesect>
+<simplesect kind="return"><para>The model of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="91" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead9415962e3ff1d3baf8cb891b95ad5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; int &gt; &amp;</type>
+        <definition>const std::vector&lt;int&gt;&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getJointMapping</definition>
+        <argsstring>() const</argsstring>
+        <name>getJointMapping</name>
+        <briefdescription>
+<para>Access the <computeroutput>std::vectot&lt;int&gt;</computeroutput> list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the mapping between the joint indeces in the sub-model and the joint indeces in the full-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="98" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a2a71e231bb39a442455b6a95b3b8848c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;FT&gt;&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getFTList</definition>
+        <argsstring>() const</argsstring>
+        <name>getFTList</name>
+        <briefdescription>
+<para>Access the <computeroutput>std::vector&lt;<ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref>&gt;</computeroutput> list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the list of <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> objects which is the list of force/torque sensors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="104" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a46972e7860abcfecf813e2e39b0dfbfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;Sensor&gt;&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getAccelerometerList</definition>
+        <argsstring>() const</argsstring>
+        <name>getAccelerometerList</name>
+        <briefdescription>
+<para>Access the <computeroutput>std::vector&lt;<ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref>&gt;</computeroutput> list of acceletometer sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a list of <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> objects describing the accelerometers contained in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="110" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7ca478d2c18afbb8b0bebda6bdc310eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;Sensor&gt;&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getGyroscopeList</definition>
+        <argsstring>() const</argsstring>
+        <name>getGyroscopeList</name>
+        <briefdescription>
+<para>Access the <computeroutput>std::vector&lt;<ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref>&gt;</computeroutput> list of gyroscope sensors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a list of <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> objects describing the gyroscope contained in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="116" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a94610f026cd8fa5b0ae69057c145f594" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt;std::string&gt;&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getExternalContactList</definition>
+        <argsstring>() const</argsstring>
+        <name>getExternalContactList</name>
+        <briefdescription>
+<para>Access the <computeroutput>std::vector&lt;std::string&gt;</computeroutput> list of frame names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a list of strings describing frame names of the external contacts for the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="122" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae55c8a6dc07fd3ea5c2e4989c62f16d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getNrOfFTSensor</definition>
+        <argsstring>() const</argsstring>
+        <name>getNrOfFTSensor</name>
+        <briefdescription>
+<para>access the length of force/torque sensor list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the number of force/torque sensors in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="128" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7f4e3ce93704646cdb8fb64aa3d20778" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getNrOfAccelerometer</definition>
+        <argsstring>() const</argsstring>
+        <name>getNrOfAccelerometer</name>
+        <briefdescription>
+<para>access the length of accelerometer list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the number of accelerometer sensors in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="134" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae0a76dc6a0ceb46f9074eb42de449bc3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getNrOfGyroscope</definition>
+        <argsstring>() const</argsstring>
+        <name>getNrOfGyroscope</name>
+        <briefdescription>
+<para>access the length of gyroscope list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the number of gyroscope sensors in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="140" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ab800e1de48dfa3e279bda5d7007516bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getNrOfExternalContact</definition>
+        <argsstring>() const</argsstring>
+        <name>getNrOfExternalContact</name>
+        <briefdescription>
+<para>access the length of the contact frame list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the number of gyroscope sensors in the sub-model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="146" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a96fc51a0eb44951bc5c78094a6fcd074" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> &amp;</type>
+        <definition>const FT&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getFTSensor</definition>
+        <argsstring>(const int index) const</argsstring>
+        <name>getFTSensor</name>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Access an element of the force/torque sensor list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> object associated with the specified index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="152" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aee1808a83fdd95fdf405bc79303ba4dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &amp;</type>
+        <definition>const Sensor&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getAccelerometer</definition>
+        <argsstring>(const int index) const</argsstring>
+        <name>getAccelerometer</name>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Access an element of the accelerometer list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> object corresponding to the accelerometer associated with the specified index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="158" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aca94dfe65c5c6da4b09e364f0d2c1b87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &amp;</type>
+        <definition>const Sensor&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getGyroscope</definition>
+        <argsstring>(const int index) const</argsstring>
+        <name>getGyroscope</name>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Access an element of the gyroscope list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> object corresponding to the gyroscope associated with the specified index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="164" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a86c3ef09affb0e03dbfe232f388b0fd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel::getExternalContact</definition>
+        <argsstring>(const int index) const</argsstring>
+        <name>getExternalContact</name>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>access an element of the contact frame list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a string corresponding to the external contact frame associated with the specified index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="170" column="23"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> is a concrete class describing the sub-model object, its model, the list of sensors and the mapping between its joints and the same joints in the full model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="65" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="66" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aee1808a83fdd95fdf405bc79303ba4dd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getAccelerometer</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a46972e7860abcfecf813e2e39b0dfbfe" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getAccelerometerList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a86c3ef09affb0e03dbfe232f388b0fd2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getExternalContact</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a94610f026cd8fa5b0ae69057c145f594" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getExternalContactList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a2a71e231bb39a442455b6a95b3b8848c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getFTList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a96fc51a0eb44951bc5c78094a6fcd074" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getFTSensor</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aca94dfe65c5c6da4b09e364f0d2c1b87" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getGyroscope</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7ca478d2c18afbb8b0bebda6bdc310eb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getGyroscopeList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead9415962e3ff1d3baf8cb891b95ad5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getJointMapping</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a16545efe66c509e286b1639b606f6dec" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getModel</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a7f4e3ce93704646cdb8fb64aa3d20778" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getNrOfAccelerometer</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ab800e1de48dfa3e279bda5d7007516bb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getNrOfExternalContact</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae55c8a6dc07fd3ea5c2e4989c62f16d5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getNrOfFTSensor</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ae0a76dc6a0ceb46f9074eb42de449bc3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>getNrOfGyroscope</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aead0e458da931e51b0bb0fc55399f235" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4a7691da5c3466c12e1365598d6aba79" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_accelerometerList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a0e3206156ba3c65b8fc1ef079ede036b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_externalContactList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1aa0b3411471dce7877d144e638664e93e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_ftList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1a4bdde544b61b9185f3372f9326720993" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_gyroscopeList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1acf3049575bfe0fe01fabc39dfb723c27" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_jointListMapping</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ad77beb1b5c9bd0cbb8215e099ce993a5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</scope><name>m_model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="Constants_8h" kind="file" language="C++">
+    <compoundname>Constants.h</compoundname>
+    <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
+    <includedby refid="FixedBaseDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</includedby>
+    <includedby refid="FloatingBaseDynamicsWithCompliantContacts_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</includedby>
+    <includedby refid="SchmittTrigger_8h" local="no">BipedalLocomotion/Math/SchmittTrigger.h</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
+        <link refid="CentroidalDynamics_8h"/>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
+        <link refid="FixedBaseDynamics_8h"/>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
+        <link refid="SchmittTriggerDetector_8h"/>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
+        <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Math/Constants.h</label>
+        <link refid="Constants_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/Math/SchmittTrigger.h</label>
+        <link refid="SchmittTrigger_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="Constants_8h_1a8dc72d6e2ec8af58271cf20db8ec00b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double BipedalLocomotion::Math::StandardAccelerationOfGravitation</definition>
+        <argsstring></argsstring>
+        <name>StandardAccelerationOfGravitation</name>
+        <initializer>= 9.80665</initializer>
+        <briefdescription>
+<para>The standard acceleration due to gravity (or standard acceleration of free fall), sometimes abbreviated as standard gravity, is the nominal gravitational acceleration of an object in a vacuum near the surface of the Earth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/Constants.h" line="20" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Constants_8h_1ae61a7ae0cd848f41a7f2d9dfa1e84000" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double BipedalLocomotion::Math::AbsoluteEqualityDoubleTolerance</definition>
+        <argsstring></argsstring>
+        <name>AbsoluteEqualityDoubleTolerance</name>
+        <initializer>= 1e-8</initializer>
+        <briefdescription>
+<para>The Absolute tolerance used to consider two double equal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Math/Constants.h" line="25" column="18" bodyfile="BipedalLocomotion/Math/Constants.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="authors"><para>Giulio Romualdi </para>
+</simplesect>
+<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Math/Constants.h"/>
+  </compounddef>
+</doxygen>

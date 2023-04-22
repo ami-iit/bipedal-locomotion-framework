@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespaceBipedalLocomotion_1_1Planners" kind="namespace" language="C++">
+    <compoundname>BipedalLocomotion::Planners</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" prot="public">BipedalLocomotion::Planners::ConvexHullHelper</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline" prot="public">BipedalLocomotion::Planners::CubicSpline</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState" prot="public">BipedalLocomotion::Planners::DCMPlannerState</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner" prot="public">BipedalLocomotion::Planners::DCMPlanner</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" prot="public">BipedalLocomotion::Planners::QuinticSpline</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState" prot="public">BipedalLocomotion::Planners::SO3PlannerState</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" prot="public">BipedalLocomotion::Planners::SO3Planner</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SplineState" prot="public">BipedalLocomotion::Planners::SplineState</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1Spline" prot="public">BipedalLocomotion::Planners::Spline</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" prot="public">BipedalLocomotion::Planners::SwingFootPlannerState</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" prot="public">BipedalLocomotion::Planners::SwingFootPlanner</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner" prot="public">BipedalLocomotion::Planners::TimeVaryingDCMPlanner</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" prot="public">BipedalLocomotion::Planners::UnicycleKnot</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput" prot="public">BipedalLocomotion::Planners::UnicyclePlannerInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput" prot="public">BipedalLocomotion::Planners::UnicyclePlannerOutput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner" prot="public">BipedalLocomotion::Planners::UnicyclePlanner</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LieGroupTrivialization</name>
+        <enumvalue id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a945d5e233cf7d6240f6b783b36a374ff" prot="public">
+          <name>Left</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" prot="public">
+          <name>Right</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Trivialization used in the <ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="24" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="25" bodyend="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref>&lt; LieGroupTrivialization::Right &gt;</type>
+        <definition>using BipedalLocomotion::Planners::SO3PlannerInertial = typedef SO3Planner&lt;LieGroupTrivialization::Right&gt;</definition>
+        <argsstring></argsstring>
+        <name>SO3PlannerInertial</name>
+        <briefdescription>
+<para>The right trivialization planner generates a velocity and an acceleration expressed in the inertial frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="151" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref>&lt; LieGroupTrivialization::Left &gt;</type>
+        <definition>using BipedalLocomotion::Planners::SO3PlannerBody = typedef SO3Planner&lt;LieGroupTrivialization::Left&gt;</definition>
+        <argsstring></argsstring>
+        <name>SO3PlannerBody</name>
+        <briefdescription>
+<para>The left trivialization planner generates a velocity and an acceleration expressed in the body-fixed frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="157" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Planners/ConvexHullHelper.h" line="18" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1Planners_1_1CubicSpline" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Planners::CubicSpline</compoundname>
+    <basecompoundref refid="classBipedalLocomotion_1_1Planners_1_1Spline" prot="public" virt="non-virtual">BipedalLocomotion::Planners::Spline</basecompoundref>
+    <includes local="no">BipedalLocomotion/Planners/CubicSpline.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; BipedalLocomotion::Planners::CubicSpline::m_pimpl</definition>
+        <argsstring></argsstring>
+        <name>m_pimpl</name>
+        <briefdescription>
+<para>Private implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="32" column="21" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Planners::CubicSpline::CubicSpline</definition>
+        <argsstring>()</argsstring>
+        <name>CubicSpline</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Planners::CubicSpline::~CubicSpline</definition>
+        <argsstring>()</argsstring>
+        <name>~CubicSpline</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>It is required by the PIMPL idiom. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a6c988b07cd8c38cce071c07f2625ff9f" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setAdvanceTimeStep</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt) final</argsstring>
+        <name>setAdvanceTimeStep</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a248e4fa5abcb7d4530baa9bb8ca20a90">setAdvanceTimeStep</reimplements>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Set the time step of the advance interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>if the the time step is not set the user cannot use the advance features. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the time step of the advance block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="52" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1aacd3caaf95c23581662af37e630cb0da" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setKnots</definition>
+        <argsstring>(const std::vector&lt; Eigen::VectorXd &gt; &amp;position, const std::vector&lt; std::chrono::nanoseconds &gt; &amp;time) final</argsstring>
+        <name>setKnots</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ad7e193a8a3416130f9546f7dff47be41">setKnots</reimplements>
+        <param>
+          <type>const std::vector&lt; Eigen::VectorXd &gt; &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::chrono::nanoseconds &gt; &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Set the knots of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position of the knots in $f\mathbb{R}^n$f. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector containing the time instant of the knots. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="60" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setInitialConditions</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; const Eigen::VectorXd &gt; acceleration) final</argsstring>
+        <name>setInitialConditions</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a2551f619b85dfd0f728e9b03cf789f8c">setInitialConditions</reimplements>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>velocity</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>acceleration</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial condition of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial velocity (i.e. first derivative). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>acceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial acceleration (i.e. second derivative). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>the acceleration is not considered in the spline evaluation </para>
+</simplesect>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="70" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setFinalConditions</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; const Eigen::VectorXd &gt; acceleration) final</argsstring>
+        <name>setFinalConditions</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1a65f6e6d2c5294b562c9aa8e491acd1ef">setFinalConditions</reimplements>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>velocity</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>acceleration</declname>
+        </param>
+        <briefdescription>
+<para>Set the final condition of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final velocity (i.e. first derivative). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>acceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final acceleration (i.e. second derivative). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>the acceleration is not considered in the spline evaluation </para>
+</simplesect>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="80" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setInitialConditions</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; velocity)</argsstring>
+        <name>setInitialConditions</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>velocity</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial condition of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial velocity (i.e. first derivative). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="88" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::setFinalConditions</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; velocity)</argsstring>
+        <name>setFinalConditions</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>velocity</declname>
+        </param>
+        <briefdescription>
+<para>Set the final condition of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final velocity (i.e. first derivative). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="95" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9cef867a04d379368454f8a2313b2219" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::evaluatePoint</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, Eigen::Ref&lt; Eigen::VectorXd &gt; position, Eigen::Ref&lt; Eigen::VectorXd &gt; velocity, Eigen::Ref&lt; Eigen::VectorXd &gt; acceleration) final</argsstring>
+        <name>evaluatePoint</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1aabd0871236edf2d8db86a4fba7454e2a">evaluatePoint</reimplements>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>velocity</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>acceleration</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the spline at a given point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instant time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position at time t </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>velocity at time t </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>acceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>acceleration at time t </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="105" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ab4dc6d518863a1ce552a92f3886aa783" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::evaluatePoint</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;t, SplineState &amp;state) final</argsstring>
+        <name>evaluatePoint</name>
+        <reimplements refid="classBipedalLocomotion_1_1Planners_1_1Spline_1affa6da8e66f27c6f43bea9d9e694724b">evaluatePoint</reimplements>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kindref="compound">SplineState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the spline at a given point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instant time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SplineState" kindref="compound">SplineState</ref> &amp;</type>
+        <definition>const SplineState&amp; BipedalLocomotion::Planners::CubicSpline::getOutput</definition>
+        <argsstring>() const final</argsstring>
+        <name>getOutput</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac">getOutput</reimplements>
+        <briefdescription>
+<para>Get the state of the system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
+</simplesect>
+<simplesect kind="return"><para>a const reference of the requested object. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="124" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::isOutputValid</definition>
+        <argsstring>() const final</argsstring>
+        <name>isOutputValid</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a">isOutputValid</reimplements>
+        <briefdescription>
+<para>Determines the validity of the object retrieved with <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
+</simplesect>
+<simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="132" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::CubicSpline::advance</definition>
+        <argsstring>() final</argsstring>
+        <name>advance</name>
+        <reimplements refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2">advance</reimplements>
+        <briefdescription>
+<para>Advance the internal state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This may change the value retrievable from <ref refid="NamedTuple_8h_1ab70c8bf5efee8eb732d3dfa7d05efa58" kindref="member">get()</ref>. <simplesect kind="warning"><para>if the the time step of the advance is not set the user cannot use the advance features. </para>
+</simplesect>
+<simplesect kind="return"><para>True if the advance is successfull. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="140" column="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Cubic spline implement a 3-rd order polynomial spline in $f\mathbb{R}^n$f. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Planners::CubicSpline</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::Planners::Spline</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1Spline"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Source&lt; SplineState &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="template-instance">
+          <edgelabel>&lt; SplineState &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Planners::CubicSpline</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::Planners::Spline</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1Spline"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Source&lt; SplineState &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="template-instance">
+          <edgelabel>&lt; SplineState &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/Planners/CubicSpline.h" line="26" column="1" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="27" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9af3abe5caf25faa64356c6f8c3a3a70" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>CubicSpline</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a9cef867a04d379368454f8a2313b2219" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ab4dc6d518863a1ce552a92f3886aa783" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a002da0f215ba10ca204e84de2e1080de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ac09c1790195dc45acfb5838072e8d6e7" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>isOutputValid</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a8ce6f186f1b9fed68ecae463d5a3866f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>m_pimpl</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a6c988b07cd8c38cce071c07f2625ff9f" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setAdvanceTimeStep</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1ae4c21ccbd97d190d54cd9aafc7df2109" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a0b92ae99ec2a87af4046ae963b3ca7cb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setFinalConditions</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a3ffc62e16b2197e769d0fcbea22300f6" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a39e3e52dc8604119856bc319593972aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInitialConditions</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1aacd3caaf95c23581662af37e630cb0da" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>setKnots</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a356f153c295d5c215e3bdb16c126b733" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~CubicSpline</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~OutputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Source</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1Spline_1ac8126ebdc66359175dac9597c3bd1830" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::CubicSpline</scope><name>~Spline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

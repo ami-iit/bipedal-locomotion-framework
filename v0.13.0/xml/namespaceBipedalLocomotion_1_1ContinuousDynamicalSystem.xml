@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace" language="C++">
+    <compoundname>BipedalLocomotion::ContinuousDynamicalSystem</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CompliantContactWrench</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseDynamicsWithCompliantContacts</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::Integrator</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider</innerclass>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal">BipedalLocomotion::ContinuousDynamicalSystem::internal</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::ContinuousDynamicalSystem::BLF_REGISTER_WEIGHT_PROVIDER</definition>
+        <argsstring>(MultiStateWeightProvider)</argsstring>
+        <name>BLF_REGISTER_WEIGHT_PROVIDER</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider" kindref="compound">MultiStateWeightProvider</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h" line="95" column="1" declfile="BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h" declline="95" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>
