@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::InputPort class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::ML::MANNOutput struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,125 +61,73 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="InputPort_8h.html">&lt;BipedalLocomotion/System/InputPort.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;class _Input&gt;</div>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>InputPort <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ML.html">ML</a>::<wbr/></span>MANNOutput <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="MANN_8h.html">&lt;BipedalLocomotion/ML/MANN.h&gt;</a></div>
         </h1>
-        <p>Basic class that represents an input port.</p>
+        <p><a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a> contains the output to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
-                <li><a href="#pub-types">Public types</a></li>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>The interface contains method to set inputs.</p>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
+<p>The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed. At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector).</p>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              Eigen::Matrix2Xd <a href="#a3fdedda9b78f87c9982408712eb7ab61" class="m-doc">futureBasePositionTrajectory</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd>Matrix containing the future base position trajectory.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              Eigen::Matrix2Xd <a href="#ac577075173a91cd704833d1f79b04786" class="m-doc">futureFacingDirectionTrajectory</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd>Matrix containing the future base facing direction.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              Eigen::Matrix2Xd <a href="#ae3e0d85582f7e63049f29a0073388e88" class="m-doc">futureBaseVelocitiesTrajectory</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            <dd>Matrix containing the future base velocity trajectory.</dd>
+            <dt id="ab9d45f4b1903bace0492b87e6fc05b4b">
+              Eigen::VectorXd <a href="#ab9d45f4b1903bace0492b87e6fc05b4b" class="m-doc-self">jointPositions</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            <dd>Vector containing the next joint position in radians.</dd>
+            <dt id="a7b1428e7e29484c448463dfe45598cdd">
+              Eigen::VectorXd <a href="#a7b1428e7e29484c448463dfe45598cdd" class="m-doc-self">jointVelocities</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+            <dd>Vector containing the next joint velocity in radians per seconds.</dd>
+            <dt id="ae60858cb64d8f46635ad9141d75ab0d9">
+              manif::SE2Tangentd <a href="#ae60858cb64d8f46635ad9141d75ab0d9" class="m-doc-self">projectedBaseVelocity</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-          </dl>
-        </section>
-        <section id="pub-types">
-          <h2><a href="#pub-types">Public types</a></h2>
-          <dl class="m-doc">
-            <dt id="adc7e6f59dd13c49f34ec04c1a4550a5a">
-              using <a href="#adc7e6f59dd13c49f34ec04c1a4550a5a" class="m-doc-self">Input</a> = _Input
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
-          <dl class="m-doc">
-            <dt id="ac9b58b0d2f6ae8821b873ed6f9817ccb">
-              <span class="m-doc-wrap-bumper"><a href="#ac9b58b0d2f6ae8821b873ed6f9817ccb" class="m-doc-self">~InputPort</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad2637be5c9075a2d8f09fedc6a42d808" class="m-doc">setInput</a>(</span><span class="m-doc-wrap">const Input&amp; input) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the input of the port.</dd>
+            <dd>Velocity of the base projected on the ground.</dd>
           </dl>
         </section>
         <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ad2637be5c9075a2d8f09fedc6a42d808"><div>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a3fdedda9b78f87c9982408712eb7ab61"><div>
             <h3>
-              <div class="m-doc-template">
-                template&lt;class _Input&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />InputPort&lt;_Input&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad2637be5c9075a2d8f09fedc6a42d808" class="m-doc-self">setInput</a>(</span><span class="m-doc-wrap">const Input&amp; input) <span class="m-label m-warning">pure virtual</span></span></span>
+              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNOutput::<wbr /><a href="#a3fdedda9b78f87c9982408712eb7ab61" class="m-doc-self">futureBasePositionTrajectory</a>
             </h3>
-            <p>Set the input of the port.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">input</td>
-                  <td>the input of the port</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success and false otherwise</td>
-                </tr>
-              </tfoot>
-            </table>
+            <p>Matrix containing the future base position trajectory.</p>
+<p>The rows contains the x and y position projected into the ground while the columns the position at each time instant.</p>
+          </div></section>
+          <section class="m-doc-details" id="ac577075173a91cd704833d1f79b04786"><div>
+            <h3>
+              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNOutput::<wbr /><a href="#ac577075173a91cd704833d1f79b04786" class="m-doc-self">futureFacingDirectionTrajectory</a>
+            </h3>
+            <p>Matrix containing the future base facing direction.</p>
+<p>The rows contains the x and y direction projected into the ground while the columns the position at each time instant.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae3e0d85582f7e63049f29a0073388e88"><div>
+            <h3>
+              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNOutput::<wbr /><a href="#ae3e0d85582f7e63049f29a0073388e88" class="m-doc-self">futureBaseVelocitiesTrajectory</a>
+            </h3>
+            <p>Matrix containing the future base velocity trajectory.</p>
+<p>The rows contains the x and y velocity projected into the ground while the columns the position at each time instant.</p>
           </div></section>
         </section>
       </div>

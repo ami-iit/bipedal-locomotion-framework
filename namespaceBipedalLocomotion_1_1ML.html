@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::System::InputPort class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::ML namespace | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,126 +61,36 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="InputPort_8h.html">&lt;BipedalLocomotion/System/InputPort.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;class _Input&gt;</div>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1System.html">System</a>::<wbr/></span>InputPort <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span>ML <span class="m-thin">namespace</span>
         </h1>
-        <p>Basic class that represents an input port.</p>
+        <p><span></span></p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
-                <li><a href="#pub-types">Public types</a></li>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>The interface contains method to set inputs.</p>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> contains the input to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a> contains the output to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
+              class <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">Advanceable</a>
-            </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> is a class that allows to perform the inference of an <code>onnx</code> implementing Mode-Adaptive Neural Networks (<a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>).</dd>
           </dl>
-        </section>
-        <section id="pub-types">
-          <h2><a href="#pub-types">Public types</a></h2>
-          <dl class="m-doc">
-            <dt id="adc7e6f59dd13c49f34ec04c1a4550a5a">
-              using <a href="#adc7e6f59dd13c49f34ec04c1a4550a5a" class="m-doc-self">Input</a> = _Input
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
-          <dl class="m-doc">
-            <dt id="ac9b58b0d2f6ae8821b873ed6f9817ccb">
-              <span class="m-doc-wrap-bumper"><a href="#ac9b58b0d2f6ae8821b873ed6f9817ccb" class="m-doc-self">~InputPort</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad2637be5c9075a2d8f09fedc6a42d808" class="m-doc">setInput</a>(</span><span class="m-doc-wrap">const Input&amp; input) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Set the input of the port.</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ad2637be5c9075a2d8f09fedc6a42d808"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;class _Input&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />System::<wbr />InputPort&lt;_Input&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad2637be5c9075a2d8f09fedc6a42d808" class="m-doc-self">setInput</a>(</span><span class="m-doc-wrap">const Input&amp; input) <span class="m-label m-warning">pure virtual</span></span></span>
-            </h3>
-            <p>Set the input of the port.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">input</td>
-                  <td>the input of the port</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True in case of success and false otherwise</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

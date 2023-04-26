@@ -11,6 +11,7 @@
     <innernamespace refid="namespaceBipedalLocomotion_1_1GenericContainer">BipedalLocomotion::GenericContainer</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1ML">BipedalLocomotion::ML</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ParametersHandler">BipedalLocomotion::ParametersHandler</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Perception">BipedalLocomotion::Perception</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
