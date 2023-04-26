@@ -120,12 +120,12 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
         return estimator;
     },
     py::arg("handler"),
-            py::arg("kinDynFullModel"),
-            py::arg("subModelList"),
-            py::arg("kinDynWrapperList"))
-            .def("setInitialState",
-                 [](BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator& obj,
-                 const BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput& state) -> bool
+    py::arg("kinDynFullModel"),
+    py::arg("subModelList"),
+    py::arg("kinDynWrapperList"))
+    .def("setInitialState",
+         [](BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator& obj,
+         const BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput& state) -> bool
     {
         return obj.setInitialState(state);
     },
