@@ -129,7 +129,7 @@ TEST_CASE("Friction Torque Dynamics")
 
     auto accGroup = std::make_shared<StdImplementation>();
     std::vector<std::string> accNameList = {"r_leg_ft_acc"};
-    std::vector<std::string> accFrameList = {"r_leg_ft_sensor"};
+    std::vector<std::string> accFrameList = {"r_leg_ft"};
     accGroup->setParameter("names", accNameList);
     accGroup->setParameter("frames", accFrameList);
     REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));

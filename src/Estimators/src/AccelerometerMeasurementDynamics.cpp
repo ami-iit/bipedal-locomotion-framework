@@ -150,6 +150,9 @@ bool RDE::AccelerometerMeasurementDynamics::finalize(const System::VariablesHand
 
     m_accFrameVel.setZero();
 
+    m_linVel.setZero();
+    m_angVel.setZero();
+
     return true;
 }
 
@@ -248,17 +251,38 @@ bool RDE::AccelerometerMeasurementDynamics::update()
     // J_dot nu + base_J v_dot_base + joint_J s_dotdot - acc_Rot_world gravity + bias
     for (int index = 0; index < m_subModelsWithAccelerometer.size(); index++)
     {
+//        std::cout << "------------------------------------------------------- Submodel index " << m_subModelsWithAccelerometer[index] << ", acc name " << m_name << std::endl;
+
         m_JdotNu = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerBiasAcceleration(m_name);
+
+//        std::cout << "m_JdotNu" << std::endl;
+//        std::cout << m_JdotNu << std::endl;
 
         m_JvdotBase = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerJacobian(m_name).block(0, 0, 6, 6) *
                 m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getBaseAcceleration().coeffs();
 
+//        std::cout << "m_JvdotBase" << std::endl;
+//        std::cout << m_JvdotBase << std::endl;
+
         m_accRg = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerRotation(m_name).rotation() * m_gravity;
 
-        linVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerVelocity(m_name).coeffs().segment(0, 3);
-        angVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerVelocity(m_name).coeffs().segment(3, 6);
+//        std::cout << "m_accRg" << std::endl;
+//        std::cout << m_accRg << std::endl;
 
-        m_vCrossW = linVel.cross(angVel);
+//        std::cout << "accelerometer velocity\n" << m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerVelocity(m_name).coeffs() << std::endl;
+
+        m_linVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerVelocity(m_name).coeffs().segment(0, 3);
+        m_angVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getAccelerometerVelocity(m_name).coeffs().segment(3, 3);
+
+//        std::cout << "Lin vel" << std::endl;
+//        std::cout << m_linVel << std::endl;
+//        std::cout << "Ang vel" << std::endl;
+//        std::cout << m_angVel << std::endl;
+
+        m_vCrossW = m_linVel.cross(m_angVel);
+
+//        std::cout << "m_vCrossW" << std::endl;
+//        std::cout << m_vCrossW << std::endl;
 
         m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_JdotNu.segment(0, 3) + m_JvdotBase.segment(0, 3) - m_vCrossW - m_accRg + m_bias;
 

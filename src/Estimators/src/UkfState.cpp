@@ -34,7 +34,7 @@ struct RDE::UkfState::Impl
     std::size_t stateSize; /**< Length of the state vector. */
     double dT; /**< Sampling time */
 
-    std::map<std::string, std::shared_ptr<Dynamics>> dynamicsList; /**< List of the dynamics composing the process model. */
+    std::vector<std::pair<std::string, std::shared_ptr<Dynamics>>> dynamicsList; /**< List of the dynamics composing the process model. */
 
     System::VariablesHandler stateVariableHandler; /**< Variable handler describing the state vector. */
 
@@ -62,6 +62,8 @@ struct RDE::UkfState::Impl
     std::vector<Eigen::VectorXd> totalTorqueFromContacts; /**< Joint torques due to known and unknown contacts on the sub-model. */
     std::vector<Eigen::VectorXd> torqueFromContact; /**< Joint torques due to a specific contact. */
     Math::Wrenchd wrench; /**< Joint torques due to a specific contact. */
+
+    bool updateRobotDynamicsOnly{true};
 
     void unpackState()
     {
@@ -110,16 +112,16 @@ struct RDE::UkfState::Impl
                                        jointVelocityState,
                                        gravity);
 
-        // compute joint acceleration per each sub-model containing the accelerometer
+        // compute joint acceleration per each sub-model
         for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
         {
+            // Update the kindyn wrapper object of the submodel
+            kinDynWrapperList[subModelIdx]->updateState(ukfInput.robotBaseAcceleration,
+                                                        jointAccelerationState,
+                                                        updateRobotDynamicsOnly);
+
             if (subModelList[subModelIdx].getModel().getNrOfDOFs() > 0)
             {
-                // Update the kindyn wrapper object of the submodel
-                kinDynWrapperList[subModelIdx]->updateState(ukfInput.robotBaseAcceleration,
-                                                            jointAccelerationState,
-                                                            false);
-
                 totalTorqueFromContacts[subModelIdx].setZero();
 
                 // Contribution of FT measurements
@@ -211,15 +213,25 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
     m_pimpl->stateSize = 0;
 
     // finalize all the dynamics
-    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+//    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+//    {
+//        if(!dynamics->finalize(handler))
+//        {
+//            log()->error("{} Error while finalizing the dynamics named {}", logPrefix, name);
+//            return false;
+//        }
+
+//        m_pimpl->stateSize += dynamics->size();
+//    }
+    for (int indexDyn1 = 0; indexDyn1 < m_pimpl->dynamicsList.size(); indexDyn1++)
     {
-        if(!dynamics->finalize(handler))
+        if(!m_pimpl->dynamicsList[indexDyn1].second->finalize(handler))
         {
-            log()->error("{} Error while finalizing the dynamics named {}", logPrefix, name);
+            log()->error("{} Error while finalizing the dynamics named {}", logPrefix, m_pimpl->dynamicsList[indexDyn1].first);
             return false;
         }
 
-        m_pimpl->stateSize += dynamics->size();
+        m_pimpl->stateSize += m_pimpl->dynamicsList[indexDyn1].second->size();
     }
 
 
@@ -230,13 +242,22 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
     m_pimpl->initialCovariance.resize(m_pimpl->stateSize, m_pimpl->stateSize);
     m_pimpl->initialCovariance.setZero();
 
-    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
-    {
-        m_pimpl->covarianceQ.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
-                                   handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getCovariance().asDiagonal();
+//    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+//    {
+//        m_pimpl->covarianceQ.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
+//                                   handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getCovariance().asDiagonal();
 
-        m_pimpl->initialCovariance.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
-                                   handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getInitialStateCovariance().asDiagonal();
+//        m_pimpl->initialCovariance.block(handler.getVariable(name).offset, handler.getVariable(name).offset,
+//                                   handler.getVariable(name).size, handler.getVariable(name).size) = dynamics->getInitialStateCovariance().asDiagonal();
+
+//    }
+    for (int indexDyn2 = 0; indexDyn2 < m_pimpl->dynamicsList.size(); indexDyn2++)
+    {
+        m_pimpl->covarianceQ.block(handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).offset, handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).offset,
+                                   handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).size, handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).size) = m_pimpl->dynamicsList[indexDyn2].second->getCovariance().asDiagonal();
+
+        m_pimpl->initialCovariance.block(handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).offset, handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).offset,
+                                   handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).size, handler.getVariable(m_pimpl->dynamicsList[indexDyn2].first).size) = m_pimpl->dynamicsList[indexDyn2].second->getInitialStateCovariance().asDiagonal();
 
     }
 
@@ -370,7 +391,8 @@ std::unique_ptr<RDE::UkfState> RDE::UkfState::build(std::weak_ptr<const Paramete
         dynamicsInstance->initialize(dynamicsGroup);
 
         // add dynamics to the list
-        state->m_pimpl->dynamicsList.insert({dynamicsName, dynamicsInstance});
+        state->m_pimpl->dynamicsList.emplace_back(dynamicsName, dynamicsInstance);
+//        state->m_pimpl->dynamicsList.insert({dynamicsName, dynamicsInstance});
     }
 
     // finalize estimator
@@ -423,9 +445,9 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
 
     prop_states.resize(cur_states.rows(), cur_states.cols());
 
-    for (int index = 0; index < cur_states.cols(); index++)
+    for (int sample = 0; sample < cur_states.cols(); sample++)
     {
-        m_pimpl->currentState = cur_states.block(0, index, cur_states.rows(), 1);
+        m_pimpl->currentState = cur_states.block(0, sample, cur_states.rows(), 1);
 
         m_pimpl->unpackState();
 
@@ -441,23 +463,39 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
         // This could be parallelized
 
         // Update all the dynamics
-        for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+//        for (auto& [name, dynamics] : m_pimpl->dynamicsList)
+//        {
+//            dynamics->setState(m_pimpl->currentState);
+
+//            dynamics->setInput(m_pimpl->ukfInput);
+
+//            if (!dynamics->update())
+//            {
+//                log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
+//                throw std::runtime_error("Error");
+//            }
+
+//            m_pimpl->nextState.segment(m_pimpl->stateVariableHandler.getVariable(name).offset,
+//                                       m_pimpl->stateVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
+//        }
+
+        for (int indexDyn = 0; indexDyn < m_pimpl->dynamicsList.size(); indexDyn++)
         {
-            dynamics->setState(m_pimpl->currentState);
+            m_pimpl->dynamicsList[indexDyn].second->setState(m_pimpl->currentState);
 
-            dynamics->setInput(m_pimpl->ukfInput);
+            m_pimpl->dynamicsList[indexDyn].second->setInput(m_pimpl->ukfInput);
 
-            if (!dynamics->update())
+            if (!m_pimpl->dynamicsList[indexDyn].second->update())
             {
-                log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, name);
+                log()->error("{} Cannot update the dynamics with name `{}`.", logPrefix, m_pimpl->dynamicsList[indexDyn].first);
                 throw std::runtime_error("Error");
             }
 
-            m_pimpl->nextState.segment(m_pimpl->stateVariableHandler.getVariable(name).offset,
-                                       m_pimpl->stateVariableHandler.getVariable(name).size) = dynamics->getUpdatedVariable();
+            m_pimpl->nextState.segment(m_pimpl->stateVariableHandler.getVariable(m_pimpl->dynamicsList[indexDyn].first).offset,
+                                       m_pimpl->stateVariableHandler.getVariable(m_pimpl->dynamicsList[indexDyn].first).size) = m_pimpl->dynamicsList[indexDyn].second->getUpdatedVariable();
         }
 
-        prop_states.block(0, index, cur_states.rows(), 1) = m_pimpl->nextState;
+        prop_states.block(0, sample, cur_states.rows(), 1) = m_pimpl->nextState;
     }
 }
 

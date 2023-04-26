@@ -121,14 +121,19 @@ void createInitialState(std::shared_ptr<iDynTree::KinDynComputations> kinDynFull
 
     // Set values
     initialState.ds.setZero();
-    initialState.tau_m << -1.24764e+01, 1.03400e-01, -4.70000e-03, -3.16350e+00, 4.21800e-01, 4.85000e-01;
+//    initialState.tau_m << -1.24764e+01, 1.03400e-01, -4.70000e-03, -3.16350e+00, 4.21800e-01, 4.85000e-01;
+    initialState.tau_m << 22.644 ,  13.5454,  -7.6093,  19.3029, -15.0072,  -0.805;
     initialState.tau_F.setZero();
-    initialState.ftWrenches["r_leg_ft"] << -3.83709731e+01, -8.45653659e+00,  9.25208925e+01,  3.12676978e+00, -9.79714657e+00,  4.01285264e-01;
-    initialState.ftWrenches["r_foot_front_ft"] << 5.22305136e-01, -4.88067107e-01, 1.61011089e+00, -9.13330381e-03, -8.39265034e-03,  4.18725767e-04;
-    initialState.ftWrenches["r_foot_rear_ft"] << 5.19688377e-01, -4.85621881e-01,  1.60204420e+00, -8.32204636e-03, -9.16952530e-03, -7.99299795e-05;
-    initialState.ftWrenchesBiases["r_leg_ft_bias"] << -1.89410386e+01,  7.33674253e+01, -6.04774355e+01,  1.34890092e-02, -3.02023625e+00,  7.01925185e-01;
-    initialState.ftWrenchesBiases["r_foot_front_ft_bias"] << -4.85874907e+01, -3.90627141e+01, -3.89636265e+01, -1.83127438e-01,  9.51385814e-01,  2.97127661e-01;
-    initialState.ftWrenchesBiases["r_foot_rear_ft_bias"] << -3.75985458e+01, -6.87282453e+01, -1.41893873e+00, -2.24845286e+00, 1.18104453e+00,  3.75446141e-01;
+//    initialState.ftWrenches["r_leg_ft"] << -3.83709731e+01, -8.45653659e+00,  9.25208925e+01,  3.12676978e+00, -9.79714657e+00,  4.01285264e-01;
+//    initialState.ftWrenches["r_foot_front_ft"] << 5.22305136e-01, -4.88067107e-01, 1.61011089e+00, -9.13330381e-03, -8.39265034e-03,  4.18725767e-04;
+//    initialState.ftWrenches["r_foot_rear_ft"] << 5.19688377e-01, -4.85621881e-01,  1.60204420e+00, -8.32204636e-03, -9.16952530e-03, -7.99299795e-05;
+//    initialState.ftWrenchesBiases["r_leg_ft_bias"] << -1.89410386e+01,  7.33674253e+01, -6.04774355e+01,  1.34890092e-02, -3.02023625e+00,  7.01925185e-01;
+//    initialState.ftWrenchesBiases["r_foot_front_ft_bias"] << -4.85874907e+01, -3.90627141e+01, -3.89636265e+01, -1.83127438e-01,  9.51385814e-01,  2.97127661e-01;
+//    initialState.ftWrenchesBiases["r_foot_rear_ft_bias"] << -3.75985458e+01, -6.87282453e+01, -1.41893873e+00, -2.24845286e+00, 1.18104453e+00,  3.75446141e-01;
+
+    initialState.ftWrenches["r_leg_ft"] << 49.45480758,  73.91349929,  46.85057916, -15.38562865, 9.04317083, 1.97395434;
+    initialState.ftWrenches["r_foot_front_ft"] << 1.38697938e-01,  8.71035288e-01, 1.52496873e+00,  1.36409975e-02, -1.99708849e-03, -9.99651158e-05;
+    initialState.ftWrenches["r_foot_rear_ft"] << 1.38003059e-01,  8.66671384e-01,  1.51732861e+00,  1.70397864e-02, -2.03056058e-03, -3.89970831e-04;
 }
 
 void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
@@ -152,7 +157,8 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
     input.baseAcceleration = baseAcc;
 
     input.jointPositions.resize(kinDynFullModel->model().getNrOfDOFs());
-    input.jointPositions << -3.81866275e-01, 1.27512464e-01, 3.83496133e-04, -2.67488553e-02, -9.77915140e-03, 9.58740333e-05;
+//    input.jointPositions << -3.81866275e-01, 1.27512464e-01, 3.83496133e-04, -2.67488553e-02, -9.77915140e-03, 9.58740333e-05;
+    input.jointPositions << 0.91693925,  0.69777121,  0.00249272, -0.68166438, -0.07698685, -0.08628663;
 
     input.jointVelocities.resize(kinDynFullModel->model().getNrOfDOFs());
     input.jointVelocities.setZero();
@@ -166,16 +172,20 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
 
 //    input.motorCurrents = jointTorques.array() / (gearRatio.array() * torqueConstant.array());
     input.motorCurrents.resize(kinDynFullModel->model().getNrOfDOFs());
-    input.motorCurrents << -1.124e+00, -2.200e-02, -1.000e-03, -2.850e-01,  3.800e-02, 1.940e-01;
+//    input.motorCurrents << -1.124e+00, -2.200e-02, -1.000e-03, -2.850e-01,  3.800e-02, 1.940e-01;
+    input.motorCurrents << 2.04 , -2.882, -1.619,  1.739, -1.352, -0.322;
 
     input.ftWrenches["r_leg_ft"] = Eigen::VectorXd(6).setZero();
-    input.ftWrenches["r_leg_ft"] << -57.31201172, 64.91088867, 32.04345703, 3.14025879, -12.81738281, 1.10321045;
+//    input.ftWrenches["r_leg_ft"] << -57.31201172, 64.91088867, 32.04345703, 3.14025879, -12.81738281, 1.10321045;
+    input.ftWrenches["r_leg_ft"] << 49.45480758,  73.91349929,  46.85057916, -15.38562865, 9.04317083,   1.97395434;
 
     input.ftWrenches["r_foot_front_ft"] = Eigen::VectorXd(6).setZero();
-    input.ftWrenches["r_foot_front_ft"] << -48.06518555, -39.55078125, -37.35351562, -0.19226074, 0.94299316, 0.29754639;
+//    input.ftWrenches["r_foot_front_ft"] << -48.06518555, -39.55078125, -37.35351562, -0.19226074, 0.94299316, 0.29754639;
+    input.ftWrenches["r_foot_front_ft"] << 1.38697938e-01,  8.71035288e-01,  1.52496873e+00,  1.36409975e-02, -1.99708849e-03, -9.99651158e-05;
 
     input.ftWrenches["r_foot_rear_ft"] = Eigen::VectorXd(6).setZero();
-    input.ftWrenches["r_foot_rear_ft"] << -37.07885742, -69.21386719, 0.18310547, -2.2567749, 1.171875, 0.37536621;
+//    input.ftWrenches["r_foot_rear_ft"] << -37.07885742, -69.21386719, 0.18310547, -2.2567749, 1.171875, 0.37536621;
+    input.ftWrenches["r_foot_rear_ft"] << 1.38003059e-01,  8.66671384e-01,  1.51732861e+00,  1.70397864e-02, -2.03056058e-03, -3.89970831e-04;
 
     std::vector<std::string> accList;
     auto accGroup = modelHandler.lock()->getGroup("ACCELEROMETER").lock();
@@ -185,9 +195,12 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
         input.linearAccelerations[acc] = Eigen::VectorXd(3).setZero();
         input.linearAccelerations[acc](2) = - BipedalLocomotion::Math::StandardAccelerationOfGravitation;
     }
-    input.linearAccelerations["r_leg_ft_acc"] << 3.72, 0.8, -9.33;
-    input.linearAccelerations["r_foot_front_ft_acc"] << 4.01, -2.38, 8.74;
-    input.linearAccelerations["r_foot_rear_ft_acc"] << 3.77, -2.39, 8.94;
+//    input.linearAccelerations["r_leg_ft_acc"] << 3.72, 0.8, -9.33;
+//    input.linearAccelerations["r_foot_front_ft_acc"] << 4.01, -2.38, 8.74;
+//    input.linearAccelerations["r_foot_rear_ft_acc"] << 3.77, -2.39, 8.94;
+    input.linearAccelerations["r_leg_ft_acc"] << -3.76, -7.65, -4.32;
+    input.linearAccelerations["r_foot_front_ft_acc"] << 1.44, 5.08, 8.11;
+    input.linearAccelerations["r_foot_rear_ft_acc"] << 2.12, 5.23, 8.13;
 
     std::vector<std::string> gyroList;
     auto gyroGroup = modelHandler.lock()->getGroup("GYROSCOPE").lock();
@@ -196,9 +209,12 @@ void createInput(std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
     {
         input.angularVelocities[gyro] = Eigen::VectorXd(3).setZero();
     }
-    input.angularVelocities["r_leg_ft_gyro"] << 0.03708825, -0.06654068, -0.00109083;
-    input.angularVelocities["r_foot_front_ft_gyro"] << 0.0567232 ,  0.04799655, -0.01308997;
-    input.angularVelocities["r_foot_rear_ft_gyro"] << 0.06108652,  0.04690572, -0.01090831;
+//    input.angularVelocities["r_leg_ft_gyro"] << 0.03708825, -0.06654068, -0.00109083;
+//    input.angularVelocities["r_foot_front_ft_gyro"] << 0.0567232 ,  0.04799655, -0.01308997;
+//    input.angularVelocities["r_foot_rear_ft_gyro"] << 0.06108652,  0.04690572, -0.01090831;
+    input.angularVelocities["r_leg_ft_gyro"] << -0.00654498,  0.0,  0.00109083;
+    input.angularVelocities["r_foot_front_ft_gyro"] << -0.00327249,  0.0,  0.00218166;
+    input.angularVelocities["r_foot_rear_ft_gyro"] << -0.00545415,  0.00109083,  0.00218166;
 }
 
 TEST_CASE("RobotDynamicsEstimator")
@@ -278,12 +294,16 @@ TEST_CASE("RobotDynamicsEstimator")
                 subModelList,
                 measurement);
 
-    auto tic = BipedalLocomotion::clock().now();
-    REQUIRE(estimator->setInput(measurement));
-    REQUIRE(estimator->advance());
-    auto toc = BipedalLocomotion::clock().now();
+//    for (int i = 0; i<700; i++)
+//    {
+//        std::cout << "index = " << i << std::endl;
+        auto tic = BipedalLocomotion::clock().now();
+        REQUIRE(estimator->setInput(measurement));
+        REQUIRE(estimator->advance());
+        auto toc = BipedalLocomotion::clock().now();
 
-    BipedalLocomotion::log()->error("{}", toc - tic);
+        BipedalLocomotion::log()->error("{}", toc - tic);
 
-    RobotDynamicsEstimatorOutput result = estimator->getOutput();
+        RobotDynamicsEstimatorOutput result = estimator->getOutput();
+//    }
 }

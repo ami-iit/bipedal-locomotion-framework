@@ -54,8 +54,8 @@ protected:
     Eigen::VectorXd m_Jsdotdot;
     Eigen::Vector3d m_accRg;
     Eigen::Vector3d m_vCrossW;
-    Eigen::Vector3d linVel;
-    Eigen::Vector3d angVel;
+    Eigen::Vector3d m_linVel;
+    Eigen::Vector3d m_angVel;
 
 public:
     /*

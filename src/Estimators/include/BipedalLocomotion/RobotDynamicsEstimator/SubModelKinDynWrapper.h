@@ -85,7 +85,7 @@ protected:
      * updateDynamicsVariableState updates the value of all the member variables containing
      * information about the robot kinematics and dynamics
      */
-    bool updateDynamicsVariableState(bool isCorrectStep);
+    bool updateDynamicsVariableState(bool updateRobotDynamicsOnly);
 
     /**
      * @brief Compute the contribution of external contacts on the joint torques.

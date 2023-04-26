@@ -124,7 +124,7 @@ bool RDE::SubModelKinDynWrapper::initialize(const RDE::SubModel& subModel)
 
 bool RDE::SubModelKinDynWrapper::updateState(manif::SE3d::Tangent& robotBaseAcceleration,
                                              Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
-                                             bool isCorrectStep)
+                                             bool updateRobotDynamicsOnly)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
                                "updateKinDynState]";
@@ -169,10 +169,10 @@ bool RDE::SubModelKinDynWrapper::updateState(manif::SE3d::Tangent& robotBaseAcce
         return false;
     }
 
-    return updateDynamicsVariableState(isCorrectStep);
+    return updateDynamicsVariableState(updateRobotDynamicsOnly);
 }
 
-bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState(bool isCorrectStep)
+bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState(bool updateRobotDynamicsOnly)
 {
     constexpr auto logPrefix = "[BipedalLocomotion::Estimators::SubModelKinDynWrapper::"
                                "updateDynamicsVariableState]";
@@ -206,7 +206,7 @@ bool RDE::SubModelKinDynWrapper::updateDynamicsVariableState(bool isCorrectStep)
         }
     }
 
-    if (isCorrectStep)
+    if (!updateRobotDynamicsOnly)
     {
         // Update accelerometer jacobians, dJnu, rotMatrix
         for (int idx = 0; idx < m_subModel.getAccelerometerList().size(); idx++)

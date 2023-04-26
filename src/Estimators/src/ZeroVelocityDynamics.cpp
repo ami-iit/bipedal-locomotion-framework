@@ -62,7 +62,6 @@ bool RDE::ZeroVelocityDynamics::initialize(std::weak_ptr<const ParametersHandler
     }
     else
     {
-        m_useBias = true;
         m_biasVariableName = m_name + "_bias";
     }
 
