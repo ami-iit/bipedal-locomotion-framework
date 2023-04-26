@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Implement a class to perform inference with the [MANN network](https://github.com/ami-iit/mann-pytorch) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/652)
 
 ### Changed
 

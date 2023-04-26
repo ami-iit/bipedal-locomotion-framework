@@ -105,6 +105,9 @@ checkandset_dependency(VALGRIND)
 find_package(UnicyclePlanner QUIET)
 checkandset_dependency(UnicyclePlanner)
 
+find_package(onnxruntime QUIET)
+checkandset_dependency(onnxruntime)
+
 ##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
@@ -189,6 +192,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_TSID
 framework_dependent_option(FRAMEWORK_COMPILE_IK
   "Compile IK library?" ON
   "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_OsqpEigen" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ML
+  "Compile machine learning libraries?" ON
+  "FRAMEWORK_USE_onnxruntime;FRAMEWORK_USE_manif" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_SimplifiedModelControllers
   "Compile SimplifiedModelControllers library?" ON
