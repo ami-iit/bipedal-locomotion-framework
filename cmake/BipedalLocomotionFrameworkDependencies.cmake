@@ -111,7 +111,7 @@ checkandset_dependency(onnxruntime)
 ##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
-  "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)
+  "BUILD_TESTING;VALGRIND_FOUND" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
@@ -211,7 +211,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
 
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
-  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS" OFF)
+  "BUILD_TESTING;FRAMEWORK_COMPILE_PYTHON_BINDINGS" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
