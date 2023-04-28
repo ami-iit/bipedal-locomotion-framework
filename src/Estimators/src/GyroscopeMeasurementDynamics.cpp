@@ -69,7 +69,6 @@ bool RDE::GyroscopeMeasurementDynamics::initialize(std::weak_ptr<const Parameter
     }
     else
     {
-        m_useBias = true;
         m_biasVariableName = m_name + "_bias";
     }
 
@@ -200,7 +199,12 @@ bool RDE::GyroscopeMeasurementDynamics::update()
 
         m_JvBase = m_subModelKinDynList[m_subModelWithGyro[index]]->getGyroscopeJacobian(m_name).block(0, 0, 6, 6) * m_subModelBaseVel.coeffs();
 
-        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_JvBase.segment(3, 3) + m_bias;
+        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_JvBase.segment(3, 3);
+
+        if (m_useBias)
+        {
+            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) += m_bias;
+        }
 
         if (m_subModelList[m_subModelWithGyro[index]].getJointMapping().size() > 0)
         {
@@ -228,8 +232,11 @@ void RDE::GyroscopeMeasurementDynamics::setState(const Eigen::Ref<const Eigen::V
         }
     }
 
-    m_bias = ukfState.segment(m_stateVariableHandler.getVariable(m_biasVariableName).offset,
-                              m_stateVariableHandler.getVariable(m_biasVariableName).size);
+    if (m_useBias)
+    {
+        m_bias = ukfState.segment(m_stateVariableHandler.getVariable(m_biasVariableName).offset,
+                                  m_stateVariableHandler.getVariable(m_biasVariableName).size);
+    }
 }
 
 void RDE::GyroscopeMeasurementDynamics::setInput(const UKFInput& ukfInput)

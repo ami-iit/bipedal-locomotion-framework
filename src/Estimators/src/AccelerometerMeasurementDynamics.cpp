@@ -69,7 +69,6 @@ bool RDE::AccelerometerMeasurementDynamics::initialize(std::weak_ptr<const Param
     }
     else
     {
-        m_useBias = true;
         m_biasVariableName = m_name + "_bias";
     }
 
@@ -284,7 +283,12 @@ bool RDE::AccelerometerMeasurementDynamics::update()
 //        std::cout << "m_vCrossW" << std::endl;
 //        std::cout << m_vCrossW << std::endl;
 
-        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_JdotNu.segment(0, 3) + m_JvdotBase.segment(0, 3) - m_vCrossW - m_accRg + m_bias;
+        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_JdotNu.segment(0, 3) + m_JvdotBase.segment(0, 3) - m_vCrossW - m_accRg;
+
+        if (m_useBias)
+        {
+            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) + m_bias;
+        }
 
         if (m_subModelList[m_subModelsWithAccelerometer[index]].getJointMapping().size() > 0)
         {
@@ -301,8 +305,11 @@ bool RDE::AccelerometerMeasurementDynamics::update()
 
 void RDE::AccelerometerMeasurementDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_bias = ukfState.segment(m_stateVariableHandler.getVariable(m_biasVariableName).offset,
-                              m_stateVariableHandler.getVariable(m_biasVariableName).size);
+    if (m_useBias)
+    {
+        m_bias = ukfState.segment(m_stateVariableHandler.getVariable(m_biasVariableName).offset,
+                                  m_stateVariableHandler.getVariable(m_biasVariableName).size);
+    }
 }
 
 void RDE::AccelerometerMeasurementDynamics::setInput(const UKFInput& ukfInput)

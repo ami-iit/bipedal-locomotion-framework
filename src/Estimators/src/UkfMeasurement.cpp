@@ -225,16 +225,6 @@ bool RDE::UkfMeasurement::finalize(const System::VariablesHandler& handler)
     m_pimpl->measurementSize = 0;
 
     // finalize all the dynamics
-//    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
-//    {
-//        if(!dynamics->finalize(handler))
-//        {
-//            BipedalLocomotion::log()->error("{} Error while finalizing the dynamics named {}", logPrefix, name);
-//            return false;
-//        }
-
-//        m_pimpl->measurementSize += dynamics->size();
-//    }
     for (int indexDyn1 = 0; indexDyn1 <  m_pimpl->dynamicsList.size(); indexDyn1++)
     {
         if(!m_pimpl->dynamicsList[indexDyn1].second->finalize(handler))
@@ -250,13 +240,6 @@ bool RDE::UkfMeasurement::finalize(const System::VariablesHandler& handler)
     m_pimpl->covarianceR.resize(m_pimpl->measurementSize, m_pimpl->measurementSize);
     m_pimpl->covarianceR.setZero();
 
-//    for (auto& [name, dynamics] : m_pimpl->dynamicsList)
-//    {
-//        m_pimpl->measurementVariableHandler.addVariable(name, dynamics->getCovariance().size());
-
-//        m_pimpl->covarianceR.block(m_pimpl->measurementVariableHandler.getVariable(name).offset, m_pimpl->measurementVariableHandler.getVariable(name).offset,
-//                                   m_pimpl->measurementVariableHandler.getVariable(name).size, m_pimpl->measurementVariableHandler.getVariable(name).size) = dynamics->getCovariance().asDiagonal();
-//    }
     for (int indexDyn2 = 0; indexDyn2 < m_pimpl->dynamicsList.size(); indexDyn2++)
     {
         m_pimpl->measurementVariableHandler.addVariable(m_pimpl->dynamicsList[indexDyn2].first, m_pimpl->dynamicsList[indexDyn2].second->getCovariance().size());
