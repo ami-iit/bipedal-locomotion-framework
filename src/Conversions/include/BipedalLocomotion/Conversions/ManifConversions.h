@@ -112,6 +112,17 @@ inline manif::SE3Tangentd toManifTwist(const iDynTree::Twist& twist)
     return manifTwist;
 }
 
+/**
+ * @brief Convert a manif SE3 object into and iDynTree::Transform
+ *
+ * @param se3 a manif SE3 object
+ * @return pose as iDynTree::Transform
+ */
+inline iDynTree::Transform toiDynTreePose(const manif::SE3d& se3)
+{
+    return iDynTree::Transform(iDynTree::make_matrix_view(se3.transform()));
+}
+
 } // namespace Conversions
 } // namespace BipedalLocomotion
 
