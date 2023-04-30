@@ -9,6 +9,7 @@
 ':hammer: component: Estimators': src/Estimators/**/*
 ':hammer: component: GenericContainer': src/GenericContainer/**/*
 ':hammer: component: IK': src/IK/**/*
+':hammer: component: ML': src/ML/**/*
 ':hammer: component: Math': src/Math/**/*
 ':hammer: component: ParametersHandler': src/ParametersHandler/**/*
 ':hammer: component: Perception': src/Perception/**/*
