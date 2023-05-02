@@ -10,6 +10,7 @@
 #include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
+#include <map>
 
 // BLF
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -156,7 +157,7 @@ TEST_CASE("SubModelKinDynWrapper")
 
     std::vector<std::string> ftFramesList;
     auto ftGroup = group->getGroup("FT").lock();
-    REQUIRE(ftGroup->getParameter("frames", ftFramesList));
+    REQUIRE(ftGroup->getParameter("associated_joints", ftFramesList));
 
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
@@ -219,7 +220,9 @@ TEST_CASE("SubModelKinDynWrapper")
 
         REQUIRE(kinDynSubModel.initialize(subModelList[idx]));
 
-        REQUIRE(kinDynSubModel.updateInternalKinDynState());
+        REQUIRE(kinDynSubModel.updateState(robotBaseAcceleration,
+                                           robotJointAcceleration,
+                                           BipedalLocomotion::Estimators::RobotDynamicsEstimator::UpdateMode::Full));
 
         int numberOfJoints = subModelList[idx].getModel().getNrOfDOFs();
 
@@ -236,9 +239,7 @@ TEST_CASE("SubModelKinDynWrapper")
             const std::string baseFrame = kinDynSubModel.getBaseFrameName();
 
             manif::SE3d::Tangent baseAcceleration;
-            REQUIRE(kinDynSubModel.getBaseAcceleration(robotBaseAcceleration,
-                                                       robotJointAcceleration,
-                                                       baseAcceleration));
+            baseAcceleration = kinDynSubModel.getBaseAcceleration();
 
             manif::SE3d::Tangent baseAccelerationFromFullModel;
             REQUIRE(kinDyn->getFrameAcc(baseFrame,
@@ -264,11 +265,11 @@ TEST_CASE("SubModelKinDynWrapper")
 
                     Eigen::MatrixXd jac = jacobian.block(0, 6, 6, subModelList[idx].getModel().getNrOfDOFs());
 
-                    for (int ftIndex = 0; ftIndex < subModelList[idx].getNrOfFTSensor(); ftIndex++)
+                    for (auto & [ftName, ftObj] : subModelList[idx].getFTList())
                     {
-                        if (subModelList[idx].getFTSensor(ftIndex).name == key)
+                        if (ftName == key)
                         {
-                            contactTorques.noalias() += (int)subModelList[idx].getFTSensor(ftIndex).forceDirection * jac.transpose() * val;
+                            contactTorques.noalias() += static_cast<int>(ftObj.forceDirection) * jac.transpose() * val;
                         }
                     }
                 }
@@ -304,7 +305,7 @@ TEST_CASE("SubModelKinDynWrapper")
 
         if (subModelList[idx].getFTList().size() > 0)
         {
-            const std::string ftname = subModelList[idx].getFTList()[0].name;
+            const std::string ftname = subModelList[idx].getFTList().begin()->first;
             auto jacobianFT = kinDynSubModel.getFTJacobian(ftname);
             REQUIRE(jacobianFT.rows() == 6);
             REQUIRE(jacobianFT.cols() == 6 + numberOfJoints);
@@ -312,7 +313,7 @@ TEST_CASE("SubModelKinDynWrapper")
 
         if (subModelList[idx].getAccelerometerList().size())
         {
-            const std::string accName = subModelList[idx].getAccelerometerList()[0].name;
+            const std::string accName = subModelList[idx].getAccelerometerList().begin()->first;
             auto jacobianAcc = kinDynSubModel.getAccelerometerJacobian(accName);
             REQUIRE(jacobianAcc.rows() == 6);
             REQUIRE(jacobianAcc.cols() == 6 + numberOfJoints);

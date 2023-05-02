@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
@@ -56,6 +57,7 @@ struct FT : Sensor
 
     Direction forceDirection = Direction::NotSpecified; /**< Force direction depending on which side
                                                            of the sensor is considered (+1 or -1)*/
+    std::string associatedJoint; /**< Name of the fixed joint used to represent the ft sensor in the model. */
 };
 
 /**
@@ -67,9 +69,9 @@ class SubModel
     iDynTree::Model m_model; /**< iDynTree Model object describing the submodel */
     std::vector<int> m_jointListMapping; /**< Each element contains an index describing the joint
                                             position in the full model*/
-    std::vector<FT> m_ftList; /**< List of force/torque sensors in the submodel */
-    std::vector<Sensor> m_accelerometerList; /**< List of accelerometers in the submodel */
-    std::vector<Sensor> m_gyroscopeList; /**< List of gyroscopes in the submodel */
+    std::unordered_map<std::string, FT> m_ftList; /**< List of force/torque sensors in the submodel */
+    std::unordered_map<std::string, Sensor> m_accelerometerList; /**< List of accelerometers in the submodel */
+    std::unordered_map<std::string, Sensor> m_gyroscopeList; /**< List of gyroscopes in the submodel */
     std::vector<std::string> m_externalContactList; /**< List of the additional external contacts */
 
 public:
@@ -99,21 +101,21 @@ public:
 
     /**
      * @brief Access the `std::vector<FT>` list.
-     * @return the list of FT objects which is the list of force/torque sensors.
+     * @return a map of (string, FT) objects which is the list of force/torque sensors.
      */
-    const std::vector<FT>& getFTList() const;
+    const std::unordered_map<std::string, FT>& getFTList() const;
 
     /**
      * @brief Access the `std::vector<Sensor>` list of acceletometer sensors.
-     * @return a list of Sensor objects describing the accelerometers contained in the sub-model.
+     * @return a map of (string, Sensor) objects describing the accelerometers contained in the sub-model.
      */
-    const std::vector<Sensor>& getAccelerometerList() const;
+    const std::unordered_map<std::string, Sensor>& getAccelerometerList() const;
 
     /**
      * @brief Access the `std::vector<Sensor>` list of gyroscope sensors.
-     * @return a list of Sensor objects describing the gyroscope contained in the sub-model.
+     * @return a map of (string, Sensor) objects describing the gyroscope contained in the sub-model.
      */
-    const std::vector<Sensor>& getGyroscopeList() const;
+    const std::unordered_map<std::string, Sensor>& getGyroscopeList() const;
 
     /**
      * @brief Access the `std::vector<std::string>` list of frame names.
@@ -147,24 +149,49 @@ public:
 
     /**
      * @brief Access an element of the force/torque sensor list.
-     * @return FT object associated with the specified index.
+     * @param is the name of the force/torque sensor.
+     * @return FT object associated with the specified name.
      */
-    const FT& getFTSensor(const int index) const;
+    const FT& getFTSensor(const std::string& name);
+
+    /**
+     * @brief hasFTSensor check if the force/torque sensor is part of the sub-model
+     * @param name is the name of the ft sensor
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasFTSensor(const std::string& name) const;
 
     /**
      * @brief Access an element of the accelerometer list.
-     * @return a Sensor object corresponding to the accelerometer associated with the specified index.
+     * @param is the name of the accelerometer.
+     * @return a Sensor object corresponding to the accelerometer associated with the specified name.
      */
-    const Sensor& getAccelerometer(const int index) const;
+    const Sensor& getAccelerometer(const std::string& name);
+
+    /**
+     * @brief hasAccelerometer check if the accelerometer is part of the sub-model
+     * @param name is the name of the accelerometer
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasAccelerometer(const std::string& name) const;
 
     /**
      * @brief Access an element of the gyroscope list.
-     * @return a Sensor object corresponding to the gyroscope associated with the specified index.
+     * @param is the name of the gyroscope.
+     * @return a Sensor object corresponding to the gyroscope associated with the specified name.
      */
-    const Sensor& getGyroscope(const int index) const;
+    const Sensor& getGyroscope(const std::string& name);
+
+    /**
+     * @brief hasAccelerometer check if the gyroscope is part of the sub-model
+     * @param name is the name of the gyroscope
+     * @return true if the sensor is found, false otherwise
+     */
+    bool hasGyroscope(const std::string& name) const;
 
     /**
      * @brief access an element of the contact frame list.
+     * @param index is the index of the external contact in the submodel.
      * @return a string corresponding to the external contact frame associated with the specified index.
      */
     const std::string& getExternalContact(const int index) const;
@@ -214,10 +241,10 @@ class SubModelCreator
      * @brief attachFTsToSubModel finds all the ft sensors connected to the specified model
      * analyzing the sensorList from the full model. Per each FT sensor creates a FT struct.
      * @param idynSubModel iDynTree Model describing one of the sub-models.
-     * @return a vector of FT structs where each FT is connected to the model (idynSubModel input
+     * @return an unordered map containing the FT structs where each FT is connected to the model (idynSubModel input
      * param)
      */
-    std::vector<FT> attachFTsToSubModel(iDynTree::Model& idynSubModel);
+    std::unordered_map<std::string, FT> attachFTsToSubModel(iDynTree::Model& idynSubModel);
 
     /**
      * @brief attachAccelerometersToSubModel finds all the accelerometer sensors connected to the
@@ -225,10 +252,10 @@ class SubModelCreator
      * Sensor struct.
      * @param accListFromConfig list of Sensor structs.
      * @param subModel iDynTree Model object describing one of the sub-models.
-     * @return a vector of Sensor structs.
+     * @return an unordered map of Sensor structs.
      */
-    std::vector<Sensor> attachAccelerometersToSubModel(const std::vector<Sensor>& accListFromConfig,
-                                                       const iDynTree::Model& subModel);
+    std::unordered_map<std::string, Sensor> attachAccelerometersToSubModel(const std::vector<Sensor>& accListFromConfig,
+                                                                           const iDynTree::Model& subModel);
 
     /**
      * @brief attachGyroscopesToSubModel finds all the gyroscope sensors connected to the specified
@@ -236,10 +263,10 @@ class SubModelCreator
      * struct.
      * @param gyroListFromConfig list of Sensor structs.
      * @param subModel iDynTree Model object describing one of the sub-models.
-     * @return a vector of Sensor structs.
+     * @return an unordered map of Sensor structs.
      */
-    std::vector<Sensor> attachGyroscopesToSubModel(const std::vector<Sensor>& gyroListFromConfig,
-                                                   const iDynTree::Model& subModel);
+    std::unordered_map<std::string, Sensor> attachGyroscopesToSubModel(const std::vector<Sensor>& gyroListFromConfig,
+                                                                       const iDynTree::Model& subModel);
 
     /**
      * @brief attachExternalContactsToSubModel finds all the contact frames on the specified model
@@ -265,13 +292,13 @@ public:
     /**
      * @brief createSubModels splits the model in SubModel objects cutting the model at the
      * force/torque sensors specified by the parameterHandler.
-     * @param ftSensorList list of Sensor structs.
+     * @param ftSensorList list of FT structs.
      * @param accList list of Sensor structs.
      * @param gyroList list of Sensor structs.
      * @param externalContacts list of strings.
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool createSubModels(const std::vector<Sensor>& ftSensorList,
+    bool createSubModels(const std::vector<FT>& ftSensorList,
                          const std::vector<Sensor>& accList,
                          const std::vector<Sensor>& gyroList,
                          const std::vector<std::string>& externalContacts);

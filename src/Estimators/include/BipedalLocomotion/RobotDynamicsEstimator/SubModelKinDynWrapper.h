@@ -8,7 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_SUB_MODEL_KINDYN_WRAPPER_H
 #define BIPEDAL_LOCOMOTION_ESTIMATORS_SUB_MODEL_KINDYN_WRAPPER_H
 
-#include <map>
+#include <unordered_map>
 
 // iDynTree
 #include <iDynTree/Core/EigenHelpers.h>
@@ -31,6 +31,20 @@ namespace RobotDynamicsEstimator
 {
 
 /**
+ * The enum class UpdateMode says if the updateState method should update only the
+ * information related to the robot dynamics used to compute the forward dynamics
+ * (i.e. mass matrix, generalized forces, KinDynComputation objects, jacobians
+ * associated to force/torque sensors and external contacts) or also additional
+ * objects like jacobiand associated to accelerometers, gyroscopes,
+ * bias accelerations, rotation matrices of the sensors, robot base velocity,
+ * robot base acceleration.
+ */
+enum class UpdateMode {
+    Full,
+    RobotDynamicsOnly
+};
+
+/**
  * SubModelKinDynWrapper is a concrete class and implements a wrapper of the KinDynComputation class
  * from iDynTree. The class is used to take updated the sub-model kinematics and dynamics
  */
@@ -42,21 +56,25 @@ class SubModelKinDynWrapper
                                             kinematic and dynamic information */
     Eigen::MatrixXd m_massMatrix; /**< Mass matrix of the sub-model */
     Eigen::VectorXd m_genForces; /**< Generalized force vector */
-    std::map<const std::string, Eigen::MatrixXd> m_jacFTList; /**< Jacobians of the FT sensors */
-    std::map<const std::string, Eigen::MatrixXd> m_jacAccList; /**< Jacobians of the accelerometer
+    std::unordered_map<std::string, Eigen::MatrixXd> m_jacFTList; /**< Jacobians of the FT sensors */
+    std::unordered_map<std::string, Eigen::MatrixXd> m_jacAccList; /**< Jacobians of the accelerometer
                                                                   sensors */
-    std::map<const std::string, Eigen::MatrixXd> m_jacGyroList; /**< Jacobians of the gyroscope
+    std::unordered_map<std::string, Eigen::MatrixXd> m_jacGyroList; /**< Jacobians of the gyroscope
                                                                    sensors */
-    std::map<const std::string, Eigen::MatrixXd> m_jacContactList; /**< Jacobians of the external
+    std::unordered_map<std::string, Eigen::MatrixXd> m_jacContactList; /**< Jacobians of the external
                                                                       contacts */
-    std::map<const std::string, Eigen::VectorXd> m_dJnuList; /**< Accelerometer bias accelerations
+    std::unordered_map<std::string, Eigen::VectorXd> m_dJnuList; /**< Accelerometer bias accelerations
                                                               */
-    std::map<const std::string, manif::SO3d> m_accRworldList; /**< Rotation matrix of the
+    std::unordered_map<std::string, manif::SO3d> m_accRworldList; /**< Rotation matrix of the
                                                                  accelerometer frame wrt world */
+    std::unordered_map<std::string, manif::SE3d::Tangent> m_accVelList; /**< Acceleration of the
+                                                                 accelerometers */
     manif::SE3d::Tangent m_baseVelocity; /**< Velocity of the base of the sub-model */
     std::string m_baseFrame; /**< Name of the base frame of the sub-model */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDynFullModel;
+
+    manif::SE3d::Tangent m_subModelBaseAcceleration; /** Acceleration of the sub-model base. */
 
 protected:
     int m_numOfJoints; /**< Number of joints in the sub-model */
@@ -80,8 +98,15 @@ protected:
     /**
      * updateDynamicsVariableState updates the value of all the member variables containing
      * information about the robot kinematics and dynamics
+     * @param updateMode says if update only objects for computing the forward dynamics or also information
+     * associated to additional sensors like accelerometers/gyroscopes
      */
-    bool updateDynamicsVariableState();
+    bool updateDynamicsVariableState(UpdateMode updateMode);
+
+    /**
+     * @brief Compute the contribution of external contacts on the joint torques.
+     */
+    void computeTotalTorqueFromContacts();
 
 public:
     /**
@@ -102,10 +127,16 @@ public:
     initialize(const SubModel& subModel);
 
     /**
-     * @brief updateInternalKinDynState updates the state of the KinDynWrapper object.
+     * @brief updateState updates the state of the KinDynWrapper object.
+     * @param robotBaseAcceleration is a manif::SE3d::Tangent representing the robot base acceleration.
+     * @param robotJointAcceleration is a Eigen reference to a Eigen::VectorXd containing the joint accelerations.
+     * @param updateMode says if update only objects for computing the forward dynamics or also information
+     * associated to additional sensors like accelerometers/gyroscopes
      * @return a boolean value saying if the subModelList has been created correctly.
      */
-    bool updateInternalKinDynState();
+    bool updateState(const manif::SE3d::Tangent& robotBaseAcceleration,
+                     Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
+                     UpdateMode updateMode);
 
     /**
      * @brief forwardDynamics computes the free floaing forward dynamics
@@ -125,18 +156,13 @@ public:
 
     /**
      * @brief getBaseAcceleration gets the acceleration of the sub-model base.
-     * @param robotBaseAcceleration the acceleration of the robot base.
-     * @param robotJointAcceleration the acceleration of the robot joints.
-     * @param subModelBaseAcceleration the base acceleration of the sub-model.
-     * @return a boolean value.
+     * @return subModelBaseAcceleration the acceleration of the sub-model base.
      */
-    bool getBaseAcceleration(manif::SE3d::Tangent& robotBaseAcceleration,
-                             Eigen::Ref<const Eigen::VectorXd> robotJointAcceleration,
-                             manif::SE3d::Tangent& subModelBaseAcceleration);
+    const manif::SE3d::Tangent& getBaseAcceleration();
 
     /**
      * @brief getBaseVelocity gets the acceleration of the sub-model base.
-     * @return baseVelocity the the base velocity of the sub-model.
+     * @return baseVelocity the velocity of the sub-model base.
      */
     const manif::SE3d::Tangent&
     getBaseVelocity();
@@ -204,6 +230,13 @@ public:
      * @return a boolean value saying if the rotation matrix is found.
      */
     const manif::SO3d& getAccelerometerRotation(const std::string& accName) const;
+
+    /**
+     * @brief getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.
+     * @param accName is the name of the accelerometer.
+     * @return the velocity of the accelerometer.
+     */
+    const manif::SE3d::Tangent& getAccelerometerVelocity(const std::string& accName);
 };
 
 } // namespace RobotDynamicsEstimator
