@@ -91,9 +91,11 @@
             </dt>
             <dd>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9a7fdcfce7f381e8556f09fd38c3cf09" class="m-doc">updateInternalKinDynState</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a15e33582b2b0b95e9d79797f0c5f2549" class="m-doc">updateState</a>(</span><span class="m-doc-wrap">const manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
+              <a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) -&gt; bool</span>
             </dt>
-            <dd>updateInternalKinDynState updates the state of the KinDynWrapper object.</dd>
+            <dd>updateState updates the state of the KinDynWrapper object.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#abb4f098caf9ada04ee1f2ea30dd15bbd" class="m-doc">forwardDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
               Eigen::Ref&lt;Eigen::VectorXd&gt; frictionTorques,
@@ -103,9 +105,7 @@
             </dt>
             <dd>forwardDynamics computes the free floaing forward dynamics</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae7cccc5fd696ab8637b87e846464bb0a" class="m-doc">getBaseAcceleration</a>(</span><span class="m-doc-wrap">manif::SE3d::Tangent&amp; robotBaseAcceleration,
-              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
-              manif::SE3d::Tangent&amp; subModelBaseAcceleration) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a44c41944a6da405005b614deefb0e054" class="m-doc">getBaseAcceleration</a>(</span><span class="m-doc-wrap">) -&gt; const manif::SE3d::Tangent&amp;</span>
             </dt>
             <dd>getBaseAcceleration gets the acceleration of the sub-model base.</dd>
             <dt>
@@ -148,24 +148,32 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a2d8a900dc3403b539eb107174994011b" class="m-doc">getAccelerometerRotation</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const -&gt; const manif::SO3d&amp;</span>
             </dt>
             <dd>Access the rotation matrix between the senosr accName and the world.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f699e8521cfd79e494e29235e843373" class="m-doc">getAccelerometerVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) -&gt; const manif::SE3d::Tangent&amp;</span>
+            </dt>
+            <dd>getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.</dd>
           </dl>
         </section>
         <section id="pro-methods">
           <h2><a href="#pro-methods">Protected functions</a></h2>
           <dl class="m-doc">
-            <dt id="a7a872ffbb51bfa6f9d2491088573265c">
-              <span class="m-doc-wrap-bumper">auto <a href="#a7a872ffbb51bfa6f9d2491088573265c" class="m-doc-self">updateDynamicsVariableState</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad79581c5d49443c46d54b1e19faa2ebf" class="m-doc">updateDynamicsVariableState</a>(</span><span class="m-doc-wrap"><a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) -&gt; bool</span>
             </dt>
             <dd>updateDynamicsVariableState updates the value of all the member variables containing information about the robot kinematics and dynamics</dd>
+            <dt id="a436f7385a4b66952245fee53677958b6">
+              <span class="m-doc-wrap-bumper">void <a href="#a436f7385a4b66952245fee53677958b6" class="m-doc-self">computeTotalTorqueFromContacts</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Compute the contribution of external contacts on the joint torques.</dd>
           </dl>
         </section>
         <section id="pro-attribs">
           <h2><a href="#pro-attribs">Protected variables</a></h2>
           <dl class="m-doc">
-            <dt id="af5d50bef865206c8699d2c4255c6c4d7">
-              int <a href="#af5d50bef865206c8699d2c4255c6c4d7" class="m-doc-self">m_numOfJoints</a>
+            <dt>
+              int <a href="#af5d50bef865206c8699d2c4255c6c4d7" class="m-doc">m_numOfJoints</a>
             </dt>
-            <dd>Number of joints in the sub-model.</dd>
+            <dd>Acceleration of the sub-model base.</dd>
             <dt id="abfc548a6ca8486e08aafdec5ace12959">
               Eigen::MatrixXd <a href="#abfc548a6ca8486e08aafdec5ace12959" class="m-doc-self">m_FTranspose</a>
             </dt>
@@ -264,15 +272,34 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9a7fdcfce7f381e8556f09fd38c3cf09"><div>
+          <section class="m-doc-details" id="a15e33582b2b0b95e9d79797f0c5f2549"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9a7fdcfce7f381e8556f09fd38c3cf09" class="m-doc-self">updateInternalKinDynState</a>(</span><span class="m-doc-wrap">)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a15e33582b2b0b95e9d79797f0c5f2549" class="m-doc-self">updateState</a>(</span><span class="m-doc-wrap">const manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
+              <a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode)</span></span>
             </h3>
-            <p>updateInternalKinDynState updates the state of the KinDynWrapper object.</p>
+            <p>updateState updates the state of the KinDynWrapper object.</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">robotBaseAcceleration</td>
+                  <td>is a manif::SE3d::Tangent representing the robot base acceleration.</td>
+                </tr>
+                <tr>
+                  <td>robotJointAcceleration</td>
+                  <td>is a Eigen reference to a Eigen::VectorXd containing the joint accelerations.</td>
+                </tr>
+                <tr>
+                  <td>updateMode</td>
+                  <td>says if update only objects for computing the forward dynamics or also information associated to additional sensors like accelerometers/gyroscopes</td>
+                </tr>
+              </tbody>
               <tfoot>
                 <tr>
-                  <th style="width: 1%">Returns</th>
+                  <th>Returns</th>
                   <td>a boolean value saying if the subModelList has been created correctly.</td>
                 </tr>
               </tfoot>
@@ -321,35 +348,16 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ae7cccc5fd696ab8637b87e846464bb0a"><div>
+          <section class="m-doc-details" id="a44c41944a6da405005b614deefb0e054"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae7cccc5fd696ab8637b87e846464bb0a" class="m-doc-self">getBaseAcceleration</a>(</span><span class="m-doc-wrap">manif::SE3d::Tangent&amp; robotBaseAcceleration,
-              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
-              manif::SE3d::Tangent&amp; subModelBaseAcceleration)</span></span>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a44c41944a6da405005b614deefb0e054" class="m-doc-self">getBaseAcceleration</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
             <p>getBaseAcceleration gets the acceleration of the sub-model base.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">robotBaseAcceleration</td>
-                  <td>the acceleration of the robot base.</td>
-                </tr>
-                <tr>
-                  <td>robotJointAcceleration</td>
-                  <td>the acceleration of the robot joints.</td>
-                </tr>
-                <tr>
-                  <td>subModelBaseAcceleration</td>
-                  <td>the base acceleration of the sub-model.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
-                  <td>a boolean value.</td>
+                  <th style="width: 1%">Returns</th>
+                  <td>subModelBaseAcceleration the acceleration of the sub-model base.</td>
                 </tr>
               </tfoot>
             </table>
@@ -363,7 +371,7 @@
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>baseVelocity the the base velocity of the sub-model.</td>
+                  <td>baseVelocity the velocity of the sub-model base.</td>
                 </tr>
               </tfoot>
             </table>
@@ -548,6 +556,56 @@
                 </tr>
               </tbody>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a8f699e8521cfd79e494e29235e843373"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8f699e8521cfd79e494e29235e843373" class="m-doc-self">getAccelerometerVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; accName)</span></span>
+            </h3>
+            <p>getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">accName</td>
+                  <td>is the name of the accelerometer.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>the velocity of the accelerometer.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad79581c5d49443c46d54b1e19faa2ebf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad79581c5d49443c46d54b1e19faa2ebf" class="m-doc-self">updateDynamicsVariableState</a>(</span><span class="m-doc-wrap"><a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>updateDynamicsVariableState updates the value of all the member variables containing information about the robot kinematics and dynamics</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">updateMode</td>
+                  <td>says if update only objects for computing the forward dynamics or also information associated to additional sensors like accelerometers/gyroscopes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="af5d50bef865206c8699d2c4255c6c4d7"><div>
+            <h3>
+              int BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /><a href="#af5d50bef865206c8699d2c4255c6c4d7" class="m-doc-self">m_numOfJoints</a> <span class="m-label m-warning">protected</span>
+            </h3>
+            <p>Acceleration of the sub-model base.</p>
+<p>Number of joints in the sub-model</p>
           </div></section>
         </section>
       </div>

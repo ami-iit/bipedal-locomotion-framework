@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="SubModelKinDynWrapper_8h" kind="file" language="C++">
     <compoundname>SubModelKinDynWrapper.h</compoundname>
-    <includes local="no">map</includes>
+    <includes local="no">unordered_map</includes>
     <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
     <includes local="no">iDynTree/Model/FreeFloatingState.h</includes>
@@ -19,6 +19,8 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -55,9 +57,6 @@
       </node>
       <node id="14">
         <label>string</label>
-      </node>
-      <node id="2">
-        <label>map</label>
       </node>
       <node id="7">
         <label>Eigen/Dense</label>
@@ -109,6 +108,9 @@
       <node id="9">
         <label>iDynTree/Core/Transform.h</label>
       </node>
+      <node id="2">
+        <label>unordered_map</label>
+      </node>
       <node id="18">
         <label>chrono</label>
       </node>
@@ -120,6 +122,35 @@
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator">BipedalLocomotion::Estimators::RobotDynamicsEstimator</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UpdateMode</name>
+        <enumvalue id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" prot="public">
+          <name>Full</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" prot="public">
+          <name>RobotDynamicsOnly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The enum class UpdateMode says if the updateState method should update only the information related to the robot dynamics used to compute the forward dynamics (i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>mass matrix, generalized forces, KinDynComputation objects, jacobians associated to force/torque sensors and external contacts) or also additional objects like jacobiand associated to accelerometers, gyroscopes, bias accelerations, rotation matrices of the sensors, robot base velocity, robot base acceleration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="42" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

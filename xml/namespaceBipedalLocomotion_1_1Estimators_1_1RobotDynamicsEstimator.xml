@@ -7,10 +7,39 @@
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UpdateMode</name>
+        <enumvalue id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" prot="public">
+          <name>Full</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" prot="public">
+          <name>RobotDynamicsOnly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The enum class UpdateMode says if the updateState method should update only the information related to the robot dynamics used to compute the forward dynamics (i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>mass matrix, generalized forces, KinDynComputation objects, jacobians associated to force/torque sensors and external contacts) or also additional objects like jacobiand associated to accelerometers, gyroscopes, bias accelerations, rotation matrices of the sensors, robot base velocity, robot base acceleration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="42" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="27" column="1"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="28" column="1"/>
   </compounddef>
 </doxygen>
