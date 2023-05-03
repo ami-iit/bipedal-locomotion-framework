@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 
 ### Fixed
+- Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
 
 ## [0.13.0] - 2023-04-22
 ### Added
