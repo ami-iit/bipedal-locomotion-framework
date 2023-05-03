@@ -82,6 +82,10 @@
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
 
+@cmakeif FRAMEWORK_COMPILE_ML
+#include <BipedalLocomotion/bindings/ML/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ML
+
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
 {
@@ -182,4 +186,9 @@ PYBIND11_MODULE(bindings, m)
     py::module continuousDynamicalSystemModule = m.def_submodule("continuous_dynamical_system");
     bindings::ContinuousDynamicalSystem::CreateModule(continuousDynamicalSystemModule);
     @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+
+    @cmakeif FRAMEWORK_COMPILE_ML
+    py::module mlModule = m.def_submodule("ml");
+    bindings::ML::CreateModule(mlModule);
+    @endcmakeif FRAMEWORK_COMPILE_ML
 }
