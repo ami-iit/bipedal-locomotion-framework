@@ -27,19 +27,13 @@ if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
   set(H_PREFIX include/BipedalLocomotion/RobotDynamicsEstimator)
   add_bipedal_locomotion_library(
     NAME                    RobotDynamicsEstimator
-    SOURCES                 src/SubModel.cpp
-                            src/SubModelKinDynWrapper.cpp
+    SOURCES                 src/SubModel.cpp src/SubModelKinDynWrapper.cpp src/Dynamics.cpp src/ZeroVelocityStateDynamics.cpp src/JointVelocityStateDynamics.cpp
+                            src/ConstantMeasurementModel.cpp
     SUBDIRECTORIES          tests/RobotDynamicsEstimator
-    PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h
-                            ${H_PREFIX}/SubModelKinDynWrapper.h
-    PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler
-                            BipedalLocomotion::TextLogging
-                            BipedalLocomotion::ManifConversions
-                            iDynTree::idyntree-high-level
-                            iDynTree::idyntree-core
-                            iDynTree::idyntree-model
-                            iDynTree::idyntree-modelio
-                            Eigen3::Eigen
-                            MANIF::manif
+    PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h ${H_PREFIX}/SubModelKinDynWrapper.h ${H_PREFIX}/Dynamics.h ${H_PREFIX}/ZeroVelocityStateDynamics.h
+                            ${H_PREFIX}/JointVelocityStateDynamics.h ${H_PREFIX}/ConstantMeasurementModel.h
+    PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler MANIF::manif BipedalLocomotion::System BipedalLocomotion::Math iDynTree::idyntree-high-level
+                                iDynTree::idyntree-core iDynTree::idyntree-model iDynTree::idyntree-modelio Eigen3::Eigen
+    PRIVATE_LINK_LIBRARIES  BipedalLocomotion::TextLogging BipedalLocomotion::ManifConversions
 )
 endif()
